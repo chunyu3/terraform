@@ -15,24 +15,29 @@ RUN apt-get update
 RUN apt-get install -y apt-transport-https libcurl3 libicu55
 RUN apt-get install -y dotnet-runtime-2.0.5
 RUN apt-get install -y dotnet-sdk-2.1.4
-ADD autorest.cli /autorest.cli
-ADD magic-modules /magic-modules
-ADD run.sh /run.sh
-RUN cd /autorest.cli; npm install
+#ADD autorest.cli /autorest.cli
+#ADD magic-modules /magic-modules
+#ADD terraform/run.sh /run.sh
+#RUN cd /autorest.cli; npm install
 
 #install ruby 2.6.0
 RUN apt update
-RUN apt install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
-RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-RUN echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-RUN source ~/.bashrc
+RUN apt install -y autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev
+#RUN apt install  libgdbm5 libgdbm-dev
+# Install rbenv and ruby-build
+RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
+RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
+RUN /root/.rbenv/plugins/ruby-build/install.sh
+ENV PATH /root/.rbenv/bin:$PATH
+RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh # or /etc/profile
+RUN echo 'eval "$(rbenv init -)"' >> /root/.bashrc
 RUN type rbenv
-RUN git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 RUN rbenv install -l
 RUN rbenv install 2.6.0
 RUN rbenv global 2.6.0
 RUN ruby -v
+RUN gem install bundler:2.0.1
+#RUN cd /magic-modules; bundler
 
 
 #RUN apt-get install -y software-properties-common build-essential
