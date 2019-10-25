@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $1
 cp -rf --verbose /source/dist /autorest.cli
 cp -rf --verbose /source/input /autorest.cli
 #cd /magic-modules; bundle update --bundler; bundle
@@ -12,7 +13,10 @@ else
   src="/generated/magic-modules-input"
 fi
 echo $src
-cd /magic-modules; 
+cd /magic-modules;
+export PATH=/root/.rbenv/shims:$PATH
+echo $PWD
+echo $PATH
 for resource in $src/*; do
   echo $resource
   bundle exec compiler.rb -e terraform -c azure -p $resource -o /mmoutput
