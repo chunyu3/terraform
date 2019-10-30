@@ -1,4 +1,7 @@
-FROM zikalino/autorest.cli.base
+#FROM zikalino/autorest.cli.base
+#FROM ${DOCKERSERVER}/autorest.cli.base
+FROM terraformbuild.azurecr.io/autorest.cli.base
+
 MAINTAINER zikalino
 
 #ADD . /autorest.cli

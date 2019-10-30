@@ -16,17 +16,22 @@ steps:
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-- bash: |
-    #git clone https://github.com/Azure/autorest.cli.git ~/autorest.cli
     git clone https://github.com/chunyu3/autorest.cli.git ~/autorest.cli
     git clone -b azure_backend https://github.com/VSChina/magic-modules/ ~/magic-modules
     git clone https://chunyu3:${TF_TOKEN}@github.com/chunyu3/terraform.git ~/terraform
+  displayName: 'clone git repo'
+- bash: |
+    #git clone https://github.com/Azure/autorest.cli.git ~/autorest.cli
     echo $(pwd)
     cd ~
-    docker build --tag zikalino/autorest.cli.base -f ~/terraform/Dockerfile-base .
-    docker build --tag zikalino/autorest.cli -f ~/terraform/Dockerfile .
+    #export DOCKER_ACR_SERVER=terraformbuild.azurecr.io
+    docker login ${DOCKER_ACR_SERVER} -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
+    docker build --tag ${DOCKER_ACR_SERVER}/autorest.cli.base -f ~/terraform/Dockerfile-base .
+    docker push ${DOCKER_ACR_SERVER}/autorest.cli.base
+    docker build --tag ${DOCKER_ACR_SERVER}/autorest.cli --build-arg DOCKERSERVER=${DOCKER_ACR_SERVER} -f ~/terraform/Dockerfile .
+    docker push ${DOCKER_ACR_SERVER}/autorest.cli
   displayName: 'build docker image'
+  condition: eq(variables['build_image'], 'true')
 - bash: |
     git clone https://github.com/Azure/azure-rest-api-specs.git ~/azure-rest-api-specs
     git clone https://audevbot:${GH_TOKEN}@github.com/audevbot/autorest.cli.debug.git ~/autorest.cli.debug
@@ -62,7 +67,8 @@ steps:
     #   break;
     # done
     echo "docker run start"
-    docker run -i -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput zikalino/autorest.cli /autorest.cli/input
+    docker login ${DOCKER_ACR_SERVER} -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
+    docker run -i -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /autorest.cli/input
   displayName: 'build magic-module input files'
 - bash: |
     echo "success"
