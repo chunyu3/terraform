@@ -1,4 +1,5 @@
 #!/bin/bash
+echo $1
 cp -rf --verbose /source/dist /autorest.cli
 cp -rf --verbose /source/input /autorest.cli
 #cd /magic-modules; bundle update --bundler; bundle
@@ -29,13 +30,10 @@ else
   src="/generated/magic-modules-input"
 fi
 echo $src
-cd /magic-modules
-#gem install bundler:2.0.1; bundle update --bundler; bundle install
-#source /root/.bashrc
+cd /magic-modules;
 export PATH=/root/.rbenv/shims:$PATH
 echo $PWD
 echo $PATH
-which rake
 for resource in $src/*; do
   echo $resource
   f=$(basename -- $resource)

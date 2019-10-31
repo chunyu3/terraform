@@ -1,4 +1,7 @@
-FROM zikalino/autorest.cli.base
+#FROM zikalino/autorest.cli.base
+#FROM ${DOCKERSERVER}/autorest.cli.base
+FROM terraformbuild.azurecr.io/autorest.cli.base
+
 MAINTAINER zikalino
 
 #ADD . /autorest.cli
@@ -6,6 +9,7 @@ MAINTAINER zikalino
 ADD autorest.cli /autorest.cli
 RUN cd /autorest.cli; npm install
 ADD magic-modules /magic-modules
-RUN bash -l -c 'cd /magic-modules;gem install bundler:2.0.1; bundle update --bundler; bundle'
+RUN bash -l -c 'cd /magic-modules;gem install bundler:2.0.1; bundle update --bundler; bundle install'
 ADD terraform/run.sh /run.sh
-ENTRYPOINT ["bash"]
+RUN chmod +x /run.sh
+ENTRYPOINT ["bash", "/run.sh"]
