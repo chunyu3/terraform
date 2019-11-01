@@ -31,6 +31,8 @@ for i in ${RESULT_FOO}; do
         continue;
     fi
 	echo $i;
+    python3 ~/cli-input-tools/add_snippets_for_readme.py $i
+
 	#s = $i;
 	#echo $s
 	#TAGS=`python -c 'import sys; import get_tags_from_readme; print get_tags_from_readme.get_tags_from_readme(sys.argv[1])', "$i"`
