@@ -19,6 +19,7 @@ steps:
     git clone https://github.com/chunyu3/autorest.cli.git ~/autorest.cli
     git clone -b azure_backend https://github.com/VSChina/magic-modules/ ~/magic-modules
     git clone https://chunyu3:${TF_TOKEN}@github.com/chunyu3/terraform.git ~/terraform
+    git clone https://github.com/houkms/cli-input-tools.git ~/cli-input-tools
   displayName: 'clone git repo'
 - bash: |
     #git clone https://github.com/Azure/autorest.cli.git ~/autorest.cli
@@ -68,7 +69,7 @@ steps:
     # done
     echo "docker run start"
     docker login ${DOCKER_ACR_SERVER} -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
-    docker run -i -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /autorest.cli/input
+    docker run -i -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification
   displayName: 'build magic-module input files'
 - bash: |
     echo "success"

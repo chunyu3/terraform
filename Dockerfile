@@ -8,6 +8,7 @@ MAINTAINER zikalino
 # RUN cd /autorest.cli; npm install
 ADD autorest.cli /autorest.cli
 RUN cd /autorest.cli; npm install
+ADD cli-input-tools /cli-input-tools
 ADD magic-modules /magic-modules
 RUN bash -l -c 'cd /magic-modules;gem install bundler:2.0.1; bundle update --bundler; bundle install'
 ADD terraform/run.sh /run.sh
