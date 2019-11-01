@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_machinelearningcompute
+  description: Update a AKS Compute
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    compute_name: myCompute
+    location: eastus
+    description: some compute
+    resource_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.ContainerService/managedClusters/{{
+      managed_cluster_name }}
+  

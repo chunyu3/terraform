@@ -1,0 +1,179 @@
+--- !ruby/object:Api::Product
+name: Azure Suppression Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Suppression
+    api_name: Advisor
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Advisor
+      go_client_namespace: 
+      go_client: suppressionsClient
+      python_client_namespace: 
+      python_client: AdvisorManagementClient.suppressions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'recommendationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recommendations
+            go_variable_name: recommendationID
+            python_parameter_name: recommendation_id
+            python_variable_name: recommendation_id
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: suppressions
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: suppressionContract
+            go_type_name: SuppressionContract
+            python_parameter_name: suppression_contract
+            python_variable_name: suppression_contract
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/suppressionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SuppressionID
+            python_field_name: suppression_id
+          '/ttl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Ttl
+            python_field_name: ttl
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'recommendationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recommendations
+            go_variable_name: recommendationID
+            python_parameter_name: recommendation_id
+            python_variable_name: recommendation_id
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: suppressions
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'recommendationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recommendations
+            go_variable_name: recommendationID
+            python_parameter_name: recommendation_id
+            python_variable_name: recommendation_id
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: suppressions
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: suppressions
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/suppressionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SuppressionID
+            python_field_name: suppression_id
+          '/ttl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Ttl
+            python_field_name: ttl
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Suppression instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'recommendationId'
+        description: 'The recommendation ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['recommendationId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the suppression.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource. This cannot be changed after the resource is created.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'suppressionId'
+        description: 'The GUID of the suppression.'
+        required: false
+        input: true
+        azure_sdk_references: ['/suppressionId']
+      - !ruby/object:Api::Type::String
+        name: 'ttl'
+        description: 'The duration for which the suppression is valid.'
+        required: false
+        input: true
+        azure_sdk_references: ['/ttl']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

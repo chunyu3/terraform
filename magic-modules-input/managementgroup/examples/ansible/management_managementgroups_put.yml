@@ -5,13 +5,8 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     group_id: myManagementGroup
     create_management_group_request:
-      id: /providers/Microsoft.Management/managementGroups/ChildGroup
-      type: /providers/Microsoft.Management/managementGroups
-      name: ChildGroup
-      properties:
-        tenantId: 20000000-0000-0000-0000-000000000000
-        displayName: ChildGroup
-        details:
-          parent:
-            id: /providers/Microsoft.Management/managementGroups/RootGroup
+      'properties ':
+        displayName: Group Name 2
+        parentGroupId: >-
+          /providers/Microsoft.Management/managementGroups/00000000-0000-0000-0000-000000000001
   

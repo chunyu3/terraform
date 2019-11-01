@@ -1,0 +1,307 @@
+--- !ruby/object:Api::Product
+name: Azure RouteFilterRule Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RouteFilterRule
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: 
+      go_client: routeFilterRulesClient
+      python_client_namespace: 
+      python_client: NetworkManagementClient.route_filter_rules
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'routeFilterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilters
+            go_variable_name: routeFilterName
+            python_parameter_name: route_filter_name
+            python_variable_name: route_filter_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilterRules
+            go_variable_name: ruleName
+            python_parameter_name: rule_name
+            python_variable_name: rule_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: routeFilterRuleParameters
+            go_type_name: RouteFilterRule
+            python_parameter_name: route_filter_rule_parameters
+            python_variable_name: route_filter_rule_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RouteFilterRulePropertiesFormat
+            go_type_name: RouteFilterRulePropertiesFormat
+          '/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access
+          '/properties/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Access
+            go_enum_type_name: Access
+          '/routeFilterRuleType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: route_filter_rule_type
+          '/properties/routeFilterRuleType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RouteFilterRuleType
+          '/communities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: communities
+          '/properties/communities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Communities
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'routeFilterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilters
+            go_variable_name: routeFilterName
+            python_parameter_name: route_filter_name
+            python_variable_name: route_filter_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilterRules
+            go_variable_name: ruleName
+            python_parameter_name: rule_name
+            python_variable_name: rule_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: routeFilterRuleParameters
+            go_type_name: RouteFilterRule
+            python_parameter_name: route_filter_rule_parameters
+            python_variable_name: route_filter_rule_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RouteFilterRulePropertiesFormat
+            go_type_name: RouteFilterRulePropertiesFormat
+          '/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access
+          '/properties/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Access
+            go_enum_type_name: Access
+          '/routeFilterRuleType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: route_filter_rule_type
+          '/properties/routeFilterRuleType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RouteFilterRuleType
+          '/communities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: communities
+          '/properties/communities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Communities
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'routeFilterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilters
+            go_variable_name: routeFilterName
+            python_parameter_name: route_filter_name
+            python_variable_name: route_filter_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilterRules
+            go_variable_name: ruleName
+            python_parameter_name: rule_name
+            python_variable_name: rule_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'routeFilterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilters
+            go_variable_name: routeFilterName
+            python_parameter_name: route_filter_name
+            python_variable_name: route_filter_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilterRules
+            go_variable_name: ruleName
+            python_parameter_name: rule_name
+            python_variable_name: rule_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RouteFilterRulePropertiesFormat
+            go_type_name: RouteFilterRulePropertiesFormat
+          '/properties/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Access
+            go_enum_type_name: Access
+          '/access': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access
+          '/properties/routeFilterRuleType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RouteFilterRuleType
+          '/routeFilterRuleType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: route_filter_rule_type
+          '/properties/communities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Communities
+          '/communities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: communities
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByRouteFilter
+        python_func_name: list_by_route_filter
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'routeFilterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: routeFilters
+            go_variable_name: routeFilterName
+            python_parameter_name: route_filter_name
+            python_variable_name: route_filter_name
+
+    description: |
+      Manage Azure RouteFilterRule instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'routeFilterName'
+        description: 'The name of the route filter.'
+        required: true
+        input: true
+        azure_sdk_references: ['routeFilterName']
+      - !ruby/object:Api::Type::String
+        name: 'ruleName'
+        description: 'The name of the route filter rule.'
+        required: true
+        input: true
+        azure_sdk_references: ['ruleName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::Enum
+        name: 'access'
+        description: 'The access type of the rule. Valid values are: ''Allow'', ''Deny'''
+        required: true
+        azure_sdk_references: ['/access', '/properties/access']
+        values:
+          - :Allow
+          - :Deny
+      - !ruby/object:Api::Type::String
+        name: 'routeFilterRuleType'
+        description: 'The rule type of the rule. Valid value is: ''Community'''
+        required: true
+        azure_sdk_references: ['/routeFilterRuleType', '/properties/routeFilterRuleType']
+      - !ruby/object:Api::Type::Array
+        name: 'communities'
+        description: 'The collection for bgp community values to filter on. e.g. [''12076:5010'',''12076:5020'']'
+        required: true
+        azure_sdk_references: ['/communities', '/properties/communities']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource. Possible values are: ''Updating'', ''Deleting'', ''Succeeded'' and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

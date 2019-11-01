@@ -1,0 +1,217 @@
+--- !ruby/object:Api::Product
+name: Azure DataConnection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DataConnection
+    api_name: Kusto
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Kusto
+      go_client_namespace: 
+      go_client: dataConnectionsClient
+      python_client_namespace: 
+      python_client: KustoManagementClient.data_connections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'dataConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataConnections
+            go_variable_name: dataConnectionName
+            python_parameter_name: data_connection_name
+            python_variable_name: data_connection_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DataConnection
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'dataConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataConnections
+            go_variable_name: dataConnectionName
+            python_parameter_name: data_connection_name
+            python_variable_name: data_connection_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DataConnection
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'dataConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataConnections
+            go_variable_name: dataConnectionName
+            python_parameter_name: data_connection_name
+            python_variable_name: data_connection_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'dataConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataConnections
+            go_variable_name: dataConnectionName
+            python_parameter_name: data_connection_name
+            python_variable_name: data_connection_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabase
+        python_func_name: list_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+
+    description: |
+      Manage Azure DataConnection instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group containing the Kusto cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'clusterName'
+        description: 'The name of the Kusto cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['clusterName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database in the Kusto cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'dataConnectionName'
+        description: 'The name of the data connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['dataConnectionName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

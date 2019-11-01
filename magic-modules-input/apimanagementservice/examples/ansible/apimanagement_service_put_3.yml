@@ -10,12 +10,15 @@ task: !ruby/object:Provider::Ansible::Task
       tag2: value2
       tag3: value3
     certificates:
-      - encoded_certificate: '*******Base64 encoded Certificate******************'
-        certificate_password: Password
+      - encoded_certificate: '************Base 64 Encoded Pfx Certificate************************'
+        certificate_password: >-
+          **************Password of the
+          Certificate************************************************
         store_name: CertificateAuthority
     publisher_email: apim@autorestsdk.com
     publisher_name: autorestsdk
-    sku_name: Basic
-    sku_capacity: '1'
+    sku:
+      name: Basic
+      capacity: '1'
     location: Central US
   

@@ -1,0 +1,78 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_loadbalancer
+  description: Create load balancer with outbound rules
+  code:
+    resource_group: myResourceGroup
+    load_balancer_name: myLoadBalancer
+    location: eastus
+    sku:
+      name: Standard
+    frontend_ipconfigurations:
+      - public_ip_address:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/publicIPAddresses/{{
+            public_ip_address_name }}
+        name: fe-lb
+    backend_address_pools:
+      - name: be-lb
+    load_balancing_rules:
+      - frontend_ipconfiguration:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/loadBalancers/{{ load_balancer_name
+            }}/frontendIPConfigurations/{{ frontend_ipconfiguration_name }}
+        backend_address_pool:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/loadBalancers/{{ load_balancer_name
+            }}/backendAddressPools/{{ backend_address_pool_name }}
+        probe:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/loadBalancers/{{ load_balancer_name
+            }}/probes/{{ probe_name }}
+        protocol: Tcp
+        load_distribution: Default
+        frontend_port: '80'
+        backend_port: '80'
+        idle_timeout_in_minutes: '15'
+        enable_floating_ip: true
+        disable_outbound_snat: true
+        name: rulelb
+    probes:
+      - protocol: Http
+        port: '80'
+        interval_in_seconds: '15'
+        number_of_probes: '2'
+        request_path: healthcheck.aspx
+        name: probe-lb
+    inbound_nat_rules:
+      - frontend_ipconfiguration:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/loadBalancers/{{ load_balancer_name
+            }}/frontendIPConfigurations/{{ frontend_ipconfiguration_name }}
+        protocol: Tcp
+        frontend_port: '3389'
+        backend_port: '3389'
+        idle_timeout_in_minutes: '15'
+        enable_floating_ip: true
+        name: in-nat-rule
+    inbound_nat_pools: []
+    outbound_rules:
+      - frontend_ipconfigurations:
+          - id: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group }}/providers/Microsoft.Network/loadBalancers/{{
+              load_balancer_name }}/frontendIPConfigurations/{{
+              frontend_ipconfiguration_name }}
+        backend_address_pool:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/loadBalancers/{{ load_balancer_name
+            }}/backendAddressPools/{{ backend_address_pool_name }}
+        protocol: All
+        name: rule1
+  

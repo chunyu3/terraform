@@ -1,0 +1,229 @@
+--- !ruby/object:Api::Product
+name: Azure ServiceEndpointPolicyDefinition Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServiceEndpointPolicyDefinition
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: 
+      go_client: serviceEndpointPolicyDefinitionsClient
+      python_client_namespace: 
+      python_client: NetworkManagementClient.service_endpoint_policy_definitions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceEndpointPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicies
+            go_variable_name: serviceEndpointPolicyName
+            python_parameter_name: service_endpoint_policy_name
+            python_variable_name: service_endpoint_policy_name
+          'serviceEndpointPolicyDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicyDefinitions
+            go_variable_name: serviceEndpointPolicyDefinitionName
+            python_parameter_name: service_endpoint_policy_definition_name
+            python_variable_name: service_endpoint_policy_definition_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: serviceEndpointPolicyDefinitions
+            go_type_name: ServiceEndpointPolicyDefinition
+            python_parameter_name: service_endpoint_policy_definitions
+            python_variable_name: service_endpoint_policy_definitions
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceEndpointPolicyDefinitionPropertiesFormat
+            go_type_name: ServiceEndpointPolicyDefinitionPropertiesFormat
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service
+          '/properties/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Service
+          '/serviceResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: service_resources
+          '/properties/serviceResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: ServiceResources
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceEndpointPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicies
+            go_variable_name: serviceEndpointPolicyName
+            python_parameter_name: service_endpoint_policy_name
+            python_variable_name: service_endpoint_policy_name
+          'serviceEndpointPolicyDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicyDefinitions
+            go_variable_name: serviceEndpointPolicyDefinitionName
+            python_parameter_name: service_endpoint_policy_definition_name
+            python_variable_name: service_endpoint_policy_definition_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceEndpointPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicies
+            go_variable_name: serviceEndpointPolicyName
+            python_parameter_name: service_endpoint_policy_name
+            python_variable_name: service_endpoint_policy_name
+          'serviceEndpointPolicyDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicyDefinitions
+            go_variable_name: serviceEndpointPolicyDefinitionName
+            python_parameter_name: service_endpoint_policy_definition_name
+            python_variable_name: service_endpoint_policy_definition_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceEndpointPolicyDefinitionPropertiesFormat
+            go_type_name: ServiceEndpointPolicyDefinitionPropertiesFormat
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Service
+          '/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service
+          '/properties/serviceResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: ServiceResources
+          '/serviceResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: service_resources
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceEndpointPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceEndpointPolicies
+            go_variable_name: serviceEndpointPolicyName
+            python_parameter_name: service_endpoint_policy_name
+            python_variable_name: service_endpoint_policy_name
+
+    description: |
+      Manage Azure ServiceEndpointPolicyDefinition instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceEndpointPolicyName'
+        description: 'The name of the service endpoint policy.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceEndpointPolicyName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceEndpointPolicyDefinitionName'
+        description: 'The name of the service endpoint policy definition name.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceEndpointPolicyDefinitionName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'A description for this rule. Restricted to 140 chars.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'service'
+        description: 'Service endpoint name.'
+        required: false
+        azure_sdk_references: ['/service', '/properties/service']
+      - !ruby/object:Api::Type::Array
+        name: 'serviceResources'
+        description: 'A list of service resources.'
+        required: false
+        azure_sdk_references: ['/serviceResources', '/properties/serviceResources']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state of the service end point policy definition. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']

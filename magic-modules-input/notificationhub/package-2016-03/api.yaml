@@ -1,0 +1,824 @@
+--- !ruby/object:Api::Product
+name: Azure NotificationHub Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: NotificationHub
+    api_name: NotificationHubs
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.NotificationHubs
+      go_client_namespace: 
+      go_client: notificationHubsClient
+      python_client_namespace: 
+      python_client: NotificationHubsManagementClient.notification_hubs
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'notificationHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: notificationHubs
+            go_variable_name: notificationHubName
+            python_parameter_name: notification_hub_name
+            python_variable_name: notification_hub_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: NotificationHubCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationHubProperties
+            go_type_name: NotificationHubProperties
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/registrationTtl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_ttl
+          '/properties/registrationTtl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationTtl
+          '/authorizationRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: authorization_rules
+          '/authorizationRules/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: rights
+          '/properties/authorizationRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AuthorizationRules
+            go_type_name: SharedAccessAuthorizationRuleProperties
+          '/properties/authorizationRules/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Rights
+          '/apnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: apns_credential
+          '/apnsCredential/apnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: apns_certificate
+          '/apnsCredential/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_key
+          '/apnsCredential/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/apnsCredential/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/properties/apnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApnsCredential
+            go_type_name: ApnsCredential
+          '/properties/apnsCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApnsCredentialProperties
+            go_type_name: ApnsCredentialProperties
+          '/properties/apnsCredential/properties/apnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApnsCertificate
+          '/properties/apnsCredential/properties/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateKey
+          '/properties/apnsCredential/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/apnsCredential/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/wnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: wns_credential
+          '/wnsCredential/packageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: package_sid
+          '/wnsCredential/secretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_key
+          '/wnsCredential/windowsLiveEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: windows_live_endpoint
+          '/properties/wnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WnsCredential
+            go_type_name: WnsCredential
+          '/properties/wnsCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WnsCredentialProperties
+            go_type_name: WnsCredentialProperties
+          '/properties/wnsCredential/properties/packageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PackageSid
+          '/properties/wnsCredential/properties/secretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretKey
+          '/properties/wnsCredential/properties/windowsLiveEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WindowsLiveEndpoint
+          '/gcmCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: gcm_credential
+          '/gcmCredential/gcmEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gcm_endpoint
+          '/gcmCredential/googleApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: google_api_key
+          '/properties/gcmCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GcmCredential
+            go_type_name: GcmCredential
+          '/properties/gcmCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GcmCredentialProperties
+            go_type_name: GcmCredentialProperties
+          '/properties/gcmCredential/properties/gcmEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GcmEndpoint
+          '/properties/gcmCredential/properties/googleApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GoogleApiKey
+          '/mpnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: mpns_credential
+          '/mpnsCredential/mpnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mpns_certificate
+          '/mpnsCredential/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_key
+          '/mpnsCredential/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/properties/mpnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MpnsCredential
+            go_type_name: MpnsCredential
+          '/properties/mpnsCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MpnsCredentialProperties
+            go_type_name: MpnsCredentialProperties
+          '/properties/mpnsCredential/properties/mpnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MpnsCertificate
+          '/properties/mpnsCredential/properties/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateKey
+          '/properties/mpnsCredential/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/admCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: adm_credential
+          '/admCredential/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_id
+          '/admCredential/clientSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_secret
+          '/admCredential/authTokenUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: auth_token_url
+          '/properties/admCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdmCredential
+            go_type_name: AdmCredential
+          '/properties/admCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdmCredentialProperties
+            go_type_name: AdmCredentialProperties
+          '/properties/admCredential/properties/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientID
+          '/properties/admCredential/properties/clientSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientSecret
+          '/properties/admCredential/properties/authTokenUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthTokenURL
+          '/baiduCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: baidu_credential
+          '/baiduCredential/baiduApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: baidu_api_key
+          '/baiduCredential/baiduEndPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: baidu_end_point
+          '/baiduCredential/baiduSecretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: baidu_secret_key
+          '/properties/baiduCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BaiduCredential
+            go_type_name: BaiduCredential
+          '/properties/baiduCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BaiduCredentialProperties
+            go_type_name: BaiduCredentialProperties
+          '/properties/baiduCredential/properties/baiduApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BaiduApiKey
+          '/properties/baiduCredential/properties/baiduEndPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BaiduEndPoint
+          '/properties/baiduCredential/properties/baiduSecretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BaiduSecretKey
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'notificationHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: notificationHubs
+            go_variable_name: notificationHubName
+            python_parameter_name: notification_hub_name
+            python_variable_name: notification_hub_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'notificationHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: notificationHubs
+            go_variable_name: notificationHubName
+            python_parameter_name: notification_hub_name
+            python_variable_name: notification_hub_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationHubProperties
+            go_type_name: NotificationHubProperties
+          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/registrationTtl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationTtl
+          '/registrationTtl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_ttl
+          '/properties/authorizationRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AuthorizationRules
+            go_type_name: SharedAccessAuthorizationRuleProperties
+          '/properties/authorizationRules/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Rights
+          '/authorizationRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: authorization_rules
+          '/authorizationRules/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: rights
+          '/properties/apnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApnsCredential
+            go_type_name: ApnsCredential
+          '/properties/apnsCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApnsCredentialProperties
+            go_type_name: ApnsCredentialProperties
+          '/properties/apnsCredential/properties/apnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApnsCertificate
+          '/properties/apnsCredential/properties/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateKey
+          '/properties/apnsCredential/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/apnsCredential/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/apnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: apns_credential
+          '/apnsCredential/apnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: apns_certificate
+          '/apnsCredential/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_key
+          '/apnsCredential/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/apnsCredential/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/properties/wnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WnsCredential
+            go_type_name: WnsCredential
+          '/properties/wnsCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WnsCredentialProperties
+            go_type_name: WnsCredentialProperties
+          '/properties/wnsCredential/properties/packageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PackageSid
+          '/properties/wnsCredential/properties/secretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretKey
+          '/properties/wnsCredential/properties/windowsLiveEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WindowsLiveEndpoint
+          '/wnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: wns_credential
+          '/wnsCredential/packageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: package_sid
+          '/wnsCredential/secretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_key
+          '/wnsCredential/windowsLiveEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: windows_live_endpoint
+          '/properties/gcmCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GcmCredential
+            go_type_name: GcmCredential
+          '/properties/gcmCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GcmCredentialProperties
+            go_type_name: GcmCredentialProperties
+          '/properties/gcmCredential/properties/gcmEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GcmEndpoint
+          '/properties/gcmCredential/properties/googleApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GoogleApiKey
+          '/gcmCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: gcm_credential
+          '/gcmCredential/gcmEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gcm_endpoint
+          '/gcmCredential/googleApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: google_api_key
+          '/properties/mpnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MpnsCredential
+            go_type_name: MpnsCredential
+          '/properties/mpnsCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MpnsCredentialProperties
+            go_type_name: MpnsCredentialProperties
+          '/properties/mpnsCredential/properties/mpnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MpnsCertificate
+          '/properties/mpnsCredential/properties/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateKey
+          '/properties/mpnsCredential/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Thumbprint
+          '/mpnsCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: mpns_credential
+          '/mpnsCredential/mpnsCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mpns_certificate
+          '/mpnsCredential/certificateKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_key
+          '/mpnsCredential/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: thumbprint
+          '/properties/admCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdmCredential
+            go_type_name: AdmCredential
+          '/properties/admCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdmCredentialProperties
+            go_type_name: AdmCredentialProperties
+          '/properties/admCredential/properties/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientID
+          '/properties/admCredential/properties/clientSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientSecret
+          '/properties/admCredential/properties/authTokenUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthTokenURL
+          '/admCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: adm_credential
+          '/admCredential/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_id
+          '/admCredential/clientSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_secret
+          '/admCredential/authTokenUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: auth_token_url
+          '/properties/baiduCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BaiduCredential
+            go_type_name: BaiduCredential
+          '/properties/baiduCredential/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BaiduCredentialProperties
+            go_type_name: BaiduCredentialProperties
+          '/properties/baiduCredential/properties/baiduApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BaiduApiKey
+          '/properties/baiduCredential/properties/baiduEndPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BaiduEndPoint
+          '/properties/baiduCredential/properties/baiduSecretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BaiduSecretKey
+          '/baiduCredential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: baidu_credential
+          '/baiduCredential/baiduApiKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: baidu_api_key
+          '/baiduCredential/baiduEndPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: baidu_end_point
+          '/baiduCredential/baiduSecretKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: baidu_secret_key
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAuthorizationRules
+        python_func_name: list_authorization_rules
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'notificationHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: notificationHubs
+            go_variable_name: notificationHubName
+            python_parameter_name: notification_hub_name
+            python_variable_name: notification_hub_name
+
+    description: |
+      Manage Azure NotificationHub instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'The namespace name.'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'notificationHubName'
+        description: 'The notification hub name.'
+        required: true
+        input: true
+        azure_sdk_references: ['notificationHubName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The sku of the created namespace'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'Name of the notification hub sku'
+            required: true
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :Free
+              - :Basic
+              - :Standard
+          - !ruby/object:Api::Type::String
+            name: 'tier'
+            description: 'The tier of particular sku'
+            required: false
+            azure_sdk_references: ['/sku/tier']
+          - !ruby/object:Api::Type::String
+            name: 'size'
+            description: 'The Sku size'
+            required: false
+            azure_sdk_references: ['/sku/size']
+          - !ruby/object:Api::Type::String
+            name: 'family'
+            description: 'The Sku Family'
+            required: false
+            azure_sdk_references: ['/sku/family']
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'The capacity of the resource'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The NotificationHub name.'
+        required: false
+        azure_sdk_references: ['/name', '/properties/name']
+      - !ruby/object:Api::Type::String
+        name: 'registrationTtl'
+        description: 'The RegistrationTtl of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/registrationTtl', '/properties/registrationTtl']
+      - !ruby/object:Api::Type::Array
+        name: 'authorizationRules'
+        description: 'The AuthorizationRules of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/authorizationRules', '/properties/authorizationRules']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Array
+              name: 'rights'
+              description: 'The rights associated with the rule.'
+              required: false
+              azure_sdk_references: ['/authorizationRules/rights', '/properties/authorizationRules/rights']
+              item_type: !ruby/object:Api::Type::Enum
+                name: 'TBD'
+                description: 'TBD'
+                values:
+                  - :Manage
+                  - :Send
+                  - :Listen
+                default_value: :Manage
+      - !ruby/object:Api::Type::NestedObject
+        name: 'apnsCredential'
+        description: 'The ApnsCredential of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/apnsCredential', '/properties/apnsCredential']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'apnsCertificate'
+            description: 'The APNS certificate.'
+            required: false
+            azure_sdk_references: ['/apnsCredential/apnsCertificate', '/properties/apnsCredential/properties/apnsCertificate']
+          - !ruby/object:Api::Type::String
+            name: 'certificateKey'
+            description: 'The certificate key.'
+            required: false
+            azure_sdk_references: ['/apnsCredential/certificateKey', '/properties/apnsCredential/properties/certificateKey']
+          - !ruby/object:Api::Type::String
+            name: 'endpoint'
+            description: 'The endpoint of this credential.'
+            required: false
+            azure_sdk_references: ['/apnsCredential/endpoint', '/properties/apnsCredential/properties/endpoint']
+          - !ruby/object:Api::Type::String
+            name: 'thumbprint'
+            description: 'The APNS certificate Thumbprint'
+            required: false
+            azure_sdk_references: ['/apnsCredential/thumbprint', '/properties/apnsCredential/properties/thumbprint']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'wnsCredential'
+        description: 'The WnsCredential of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/wnsCredential', '/properties/wnsCredential']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'packageSid'
+            description: 'The package ID for this credential.'
+            required: false
+            azure_sdk_references: ['/wnsCredential/packageSid', '/properties/wnsCredential/properties/packageSid']
+          - !ruby/object:Api::Type::String
+            name: 'secretKey'
+            description: 'The secret key.'
+            required: false
+            azure_sdk_references: ['/wnsCredential/secretKey', '/properties/wnsCredential/properties/secretKey']
+          - !ruby/object:Api::Type::String
+            name: 'windowsLiveEndpoint'
+            description: 'The Windows Live endpoint.'
+            required: false
+            azure_sdk_references: ['/wnsCredential/windowsLiveEndpoint', '/properties/wnsCredential/properties/windowsLiveEndpoint']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'gcmCredential'
+        description: 'The GcmCredential of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/gcmCredential', '/properties/gcmCredential']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'gcmEndpoint'
+            description: 'The GCM endpoint.'
+            required: false
+            azure_sdk_references: ['/gcmCredential/gcmEndpoint', '/properties/gcmCredential/properties/gcmEndpoint']
+          - !ruby/object:Api::Type::String
+            name: 'googleApiKey'
+            description: 'The Google API key.'
+            required: false
+            azure_sdk_references: ['/gcmCredential/googleApiKey', '/properties/gcmCredential/properties/googleApiKey']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'mpnsCredential'
+        description: 'The MpnsCredential of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/mpnsCredential', '/properties/mpnsCredential']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'mpnsCertificate'
+            description: 'The MPNS certificate.'
+            required: false
+            azure_sdk_references: ['/mpnsCredential/mpnsCertificate', '/properties/mpnsCredential/properties/mpnsCertificate']
+          - !ruby/object:Api::Type::String
+            name: 'certificateKey'
+            description: 'The certificate key for this credential.'
+            required: false
+            azure_sdk_references: ['/mpnsCredential/certificateKey', '/properties/mpnsCredential/properties/certificateKey']
+          - !ruby/object:Api::Type::String
+            name: 'thumbprint'
+            description: 'The MPNS certificate Thumbprint'
+            required: false
+            azure_sdk_references: ['/mpnsCredential/thumbprint', '/properties/mpnsCredential/properties/thumbprint']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'admCredential'
+        description: 'The AdmCredential of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/admCredential', '/properties/admCredential']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'clientId'
+            description: 'The client identifier.'
+            required: false
+            azure_sdk_references: ['/admCredential/clientId', '/properties/admCredential/properties/clientId']
+          - !ruby/object:Api::Type::String
+            name: 'clientSecret'
+            description: 'The credential secret access key.'
+            required: false
+            azure_sdk_references: ['/admCredential/clientSecret', '/properties/admCredential/properties/clientSecret']
+          - !ruby/object:Api::Type::String
+            name: 'authTokenUrl'
+            description: 'The URL of the authorization token.'
+            required: false
+            azure_sdk_references: ['/admCredential/authTokenUrl', '/properties/admCredential/properties/authTokenUrl']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'baiduCredential'
+        description: 'The BaiduCredential of the created NotificationHub'
+        required: false
+        azure_sdk_references: ['/baiduCredential', '/properties/baiduCredential']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'baiduApiKey'
+            description: 'Baidu Api Key.'
+            required: false
+            azure_sdk_references: ['/baiduCredential/baiduApiKey', '/properties/baiduCredential/properties/baiduApiKey']
+          - !ruby/object:Api::Type::String
+            name: 'baiduEndPoint'
+            description: 'Baidu Endpoint.'
+            required: false
+            azure_sdk_references: ['/baiduCredential/baiduEndPoint', '/properties/baiduCredential/properties/baiduEndPoint']
+          - !ruby/object:Api::Type::String
+            name: 'baiduSecretKey'
+            description: 'Baidu Secret Key'
+            required: false
+            azure_sdk_references: ['/baiduCredential/baiduSecretKey', '/properties/baiduCredential/properties/baiduSecretKey']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

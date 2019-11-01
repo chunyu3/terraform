@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_routefilter
+  description: RouteFilterCreate
+  code:
+    resource_group: myResourceGroup
+    route_filter_name: myRouteFilter
+    route_filter_parameters:
+      location: West US
+      tags:
+        key1: value1
+      properties:
+        rules:
+          - properties:
+              access: Allow
+              routeFilterRuleType: Community
+              communities:
+                - '12076:5030'
+                - '12076:5040'
+  

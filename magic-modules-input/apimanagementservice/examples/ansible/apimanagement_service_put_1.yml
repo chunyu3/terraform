@@ -31,7 +31,7 @@ task: !ruby/object:Provider::Ansible::Task
         }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
         }}/subnets/{{ subnet_name }}
     additional_locations:
-      - location: North Europe
+      - location: West US
         sku:
           name: Premium
           capacity: '1'
@@ -43,7 +43,8 @@ task: !ruby/object:Provider::Ansible::Task
     virtual_network_type: External
     publisher_email: admin@live.com
     publisher_name: contoso
-    sku_name: Premium
-    sku_capacity: '1'
+    sku:
+      name: Premium
+      capacity: '1'
     location: Central US
   

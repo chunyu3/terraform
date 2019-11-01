@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networksecuritygroup
+  description: Create network security group with rule
+  code:
+    resource_group: myResourceGroup
+    network_security_group_name: myNetworkSecurityGroup
+    location: eastus
+    security_rules:
+      - protocol: '*'
+        source_port_range: '*'
+        destination_port_range: '80'
+        source_address_prefix: '*'
+        destination_address_prefix: '*'
+        access: Allow
+        priority: '130'
+        direction: Inbound
+        name: rule1
+  

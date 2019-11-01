@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_endpoint
+  description: Endpoints_Create
+  code:
+    resource_group: myResourceGroup
+    profile_name: myProfile
+    endpoint_name: myEndpoint
+    endpoint:
+      location: WestCentralUs
+      properties:
+        origins:
+          - name: www-bing-com
+            properties:
+              hostName: www.bing.com
+              httpPort: '80'
+              httpsPort: '443'
+  

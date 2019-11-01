@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_replicationvcenter
+  description: Add vCenter.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    v_center_name: myReplicationvCenter
+    add_vcenter_request:
+      properties:
+        friendlyName: esx-78
+        ipAddress: inmtest78
+        processServerId: 5A720CAB-39CB-F445-BD1662B0B33164B5
+        port: '443'
+        runAsAccountId: '2'
+  
