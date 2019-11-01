@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_managedinstance
+  description: Create managed instance with minimal properties
+  code:
+    resource_group: myResourceGroup
+    managed_instance_name: myManagedInstance
+    location: Japan East
+    sku:
+      name: GP_Gen4
+      tier: GeneralPurpose
+    administrator_login: dummylogin
+    administrator_login_password: Un53cuRE!
+    subnet_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+      }}/subnets/{{ subnet_name }}
+    license_type: LicenseIncluded
+    v_cores: '8'
+    storage_size_in_gb: '1024'
+  

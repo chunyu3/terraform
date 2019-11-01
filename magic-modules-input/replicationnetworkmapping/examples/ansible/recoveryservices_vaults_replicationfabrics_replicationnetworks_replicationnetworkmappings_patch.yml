@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_replicationnetworkmapping
+  description: Updates network mapping.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    network_name: myReplicationNetwork
+    network_mapping_name: myReplicationNetworkMapping
+    input:
+      properties:
+        recoveryFabricName: Microsoft Azure
+        recoveryNetworkId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+          }}
+        fabricSpecificDetails:
+          instanceType: VmmToAzure
+  

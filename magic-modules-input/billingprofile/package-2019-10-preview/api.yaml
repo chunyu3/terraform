@@ -1,0 +1,742 @@
+--- !ruby/object:Api::Product
+name: Azure BillingProfile Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BillingProfile
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: 
+      go_client: billingProfilesClient
+      python_client_namespace: 
+      python_client: BillingManagementClient.billing_profiles
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: BillingProfileCreationRequest
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+          '/poNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PoNumber
+            python_field_name: po_number
+          '/address': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Address
+            go_type_name: AddressDetails
+            python_field_name: address
+          '/address/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FirstName
+            python_field_name: first_name
+          '/address/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastName
+            python_field_name: last_name
+          '/address/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: CompanyName
+            python_field_name: company_name
+          '/address/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AddressLine1
+            python_field_name: address_line1
+          '/address/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AddressLine2
+            python_field_name: address_line2
+          '/address/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AddressLine3
+            python_field_name: address_line3
+          '/address/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: City
+            python_field_name: city
+          '/address/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Region
+            python_field_name: region
+          '/address/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Country
+            python_field_name: country
+          '/address/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PostalCode
+            python_field_name: postal_code
+          '/invoiceEmailOptIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: InvoiceEmailOptIn
+            python_field_name: invoice_email_opt_in
+          '/enabledAzurePlans': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: EnabledAzurePlans
+            go_type_name: AzurePlan
+            python_field_name: enabled_azure_plans
+          '/enabledAzurePlans/skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SkuID
+            python_field_name: sku_id
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/poNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: po_number
+          '/properties/poNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PoNumber
+          '/address': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: address
+          '/address/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: first_name
+          '/address/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_name
+          '/address/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: company_name
+          '/address/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line1
+          '/address/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line2
+          '/address/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line3
+          '/address/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: city
+          '/address/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/address/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country
+          '/address/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: postal_code
+          '/properties/address': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Address
+            go_type_name: AddressDetails
+          '/properties/address/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FirstName
+          '/properties/address/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastName
+          '/properties/address/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CompanyName
+          '/properties/address/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine1
+          '/properties/address/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine2
+          '/properties/address/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine3
+          '/properties/address/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: City
+          '/properties/address/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/properties/address/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Country
+          '/properties/address/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PostalCode
+          '/invoiceEmailOptIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: invoice_email_opt_in
+          '/properties/invoiceEmailOptIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: InvoiceEmailOptIn
+          '/invoiceDay': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: invoice_day
+          '/properties/invoiceDay': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: InvoiceDay
+          '/currency': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: currency
+          '/properties/currency': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Currency
+          '/enabledAzurePlans': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: enabled_azure_plans
+          '/enabledAzurePlans/skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku_id
+          '/enabledAzurePlans/skuDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku_description
+          '/properties/enabledAzurePlans': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EnabledAzurePlans
+            go_type_name: AzurePlan
+          '/properties/enabledAzurePlans/skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SkuID
+          '/properties/enabledAzurePlans/skuDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SkuDescription
+          '/invoiceSections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: invoice_sections
+          '/invoiceSections/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/invoiceSections/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/invoiceSections/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/invoiceSections/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/invoiceSections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: InvoiceSections
+            go_type_name: InvoiceSection
+          '/properties/invoiceSections/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/invoiceSections/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/invoiceSections/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/invoiceSections/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InvoiceSectionProperties
+            go_type_name: InvoiceSectionProperties
+          '/properties/invoiceSections/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: BillingProfileCreationRequest
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+          '/poNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PoNumber
+            python_field_name: po_number
+          '/address': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Address
+            go_type_name: AddressDetails
+            python_field_name: address
+          '/address/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FirstName
+            python_field_name: first_name
+          '/address/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastName
+            python_field_name: last_name
+          '/address/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: CompanyName
+            python_field_name: company_name
+          '/address/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AddressLine1
+            python_field_name: address_line1
+          '/address/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AddressLine2
+            python_field_name: address_line2
+          '/address/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AddressLine3
+            python_field_name: address_line3
+          '/address/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: City
+            python_field_name: city
+          '/address/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Region
+            python_field_name: region
+          '/address/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Country
+            python_field_name: country
+          '/address/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PostalCode
+            python_field_name: postal_code
+          '/invoiceEmailOptIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: InvoiceEmailOptIn
+            python_field_name: invoice_email_opt_in
+          '/enabledAzurePlans': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: EnabledAzurePlans
+            go_type_name: AzurePlan
+            python_field_name: enabled_azure_plans
+          '/enabledAzurePlans/skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SkuID
+            python_field_name: sku_id
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/poNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: po_number
+          '/properties/poNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PoNumber
+          '/address': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: address
+          '/address/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: first_name
+          '/address/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_name
+          '/address/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: company_name
+          '/address/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line1
+          '/address/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line2
+          '/address/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line3
+          '/address/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: city
+          '/address/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/address/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country
+          '/address/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: postal_code
+          '/properties/address': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Address
+            go_type_name: AddressDetails
+          '/properties/address/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FirstName
+          '/properties/address/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastName
+          '/properties/address/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CompanyName
+          '/properties/address/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine1
+          '/properties/address/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine2
+          '/properties/address/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine3
+          '/properties/address/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: City
+          '/properties/address/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/properties/address/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Country
+          '/properties/address/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PostalCode
+          '/invoiceEmailOptIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: invoice_email_opt_in
+          '/properties/invoiceEmailOptIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: InvoiceEmailOptIn
+          '/invoiceDay': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: invoice_day
+          '/properties/invoiceDay': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: InvoiceDay
+          '/currency': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: currency
+          '/properties/currency': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Currency
+          '/enabledAzurePlans': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: enabled_azure_plans
+          '/enabledAzurePlans/skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku_id
+          '/enabledAzurePlans/skuDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku_description
+          '/properties/enabledAzurePlans': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EnabledAzurePlans
+            go_type_name: AzurePlan
+          '/properties/enabledAzurePlans/skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SkuID
+          '/properties/enabledAzurePlans/skuDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SkuDescription
+          '/invoiceSections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: invoice_sections
+          '/invoiceSections/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/invoiceSections/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/invoiceSections/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/invoiceSections/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/invoiceSections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: InvoiceSections
+            go_type_name: InvoiceSection
+          '/properties/invoiceSections/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/invoiceSections/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/invoiceSections/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/invoiceSections/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InvoiceSectionProperties
+            go_type_name: InvoiceSectionProperties
+          '/properties/invoiceSections/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BillingProfileProperties
+            go_type_name: BillingProfileProperties
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByBillingAccount
+        python_func_name: list_by_billing_account
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+
+    description: |
+      Manage Azure BillingProfile instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountName'
+        description: 'billing Account Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileName'
+        description: 'Billing Profile Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingProfileName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The billing profile name.'
+        required: false
+        input: true
+        azure_sdk_references: ['/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'poNumber'
+        description: 'Purchase order number.'
+        required: false
+        input: true
+        azure_sdk_references: ['/poNumber']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'address'
+        description: 'Billing address.'
+        required: false
+        azure_sdk_references: ['/address']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'firstName'
+            description: 'First Name.'
+            required: false
+            azure_sdk_references: ['/address/firstName']
+          - !ruby/object:Api::Type::String
+            name: 'lastName'
+            description: 'Last Name.'
+            required: false
+            azure_sdk_references: ['/address/lastName']
+          - !ruby/object:Api::Type::String
+            name: 'companyName'
+            description: 'Company Name.'
+            required: false
+            azure_sdk_references: ['/address/companyName']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine1'
+            description: 'Address Line1.'
+            required: false
+            azure_sdk_references: ['/address/addressLine1']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine2'
+            description: 'Address Line2.'
+            required: false
+            azure_sdk_references: ['/address/addressLine2']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine3'
+            description: 'Address Line3.'
+            required: false
+            azure_sdk_references: ['/address/addressLine3']
+          - !ruby/object:Api::Type::String
+            name: 'city'
+            description: 'Address City.'
+            required: false
+            azure_sdk_references: ['/address/city']
+          - !ruby/object:Api::Type::String
+            name: 'region'
+            description: 'Address Region.'
+            required: false
+            azure_sdk_references: ['/address/region']
+          - !ruby/object:Api::Type::String
+            name: 'country'
+            description: 'Country code uses ISO2, 2-digit format.'
+            required: false
+            azure_sdk_references: ['/address/country']
+          - !ruby/object:Api::Type::String
+            name: 'postalCode'
+            description: 'Address Postal Code.'
+            required: false
+            azure_sdk_references: ['/address/postalCode']
+      - !ruby/object:Api::Type::Boolean
+        name: 'invoiceEmailOptIn'
+        description: 'If the billing profile is opted in to receive invoices via email.'
+        required: false
+        input: true
+        azure_sdk_references: ['/invoiceEmailOptIn']
+      - !ruby/object:Api::Type::Array
+        name: 'enabledAzurePlans'
+        description: 'Enabled azure plans for this billing profile.'
+        required: false
+        azure_sdk_references: ['/enabledAzurePlans']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'skuId'
+              description: 'The sku id.'
+              required: false
+              azure_sdk_references: ['/enabledAzurePlans/skuId']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'The billing profile name.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'poNumber'
+        description: 'Purchase order number.'
+        required: false
+        azure_sdk_references: ['/poNumber', '/properties/poNumber']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'address'
+        description: 'Billing address.'
+        required: false
+        azure_sdk_references: ['/address', '/properties/address']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'firstName'
+            description: 'First Name.'
+            required: false
+            azure_sdk_references: ['/address/firstName', '/properties/address/firstName']
+          - !ruby/object:Api::Type::String
+            name: 'lastName'
+            description: 'Last Name.'
+            required: false
+            azure_sdk_references: ['/address/lastName', '/properties/address/lastName']
+          - !ruby/object:Api::Type::String
+            name: 'companyName'
+            description: 'Company Name.'
+            required: false
+            azure_sdk_references: ['/address/companyName', '/properties/address/companyName']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine1'
+            description: 'Address Line1.'
+            required: false
+            azure_sdk_references: ['/address/addressLine1', '/properties/address/addressLine1']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine2'
+            description: 'Address Line2.'
+            required: false
+            azure_sdk_references: ['/address/addressLine2', '/properties/address/addressLine2']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine3'
+            description: 'Address Line3.'
+            required: false
+            azure_sdk_references: ['/address/addressLine3', '/properties/address/addressLine3']
+          - !ruby/object:Api::Type::String
+            name: 'city'
+            description: 'Address City.'
+            required: false
+            azure_sdk_references: ['/address/city', '/properties/address/city']
+          - !ruby/object:Api::Type::String
+            name: 'region'
+            description: 'Address Region.'
+            required: false
+            azure_sdk_references: ['/address/region', '/properties/address/region']
+          - !ruby/object:Api::Type::String
+            name: 'country'
+            description: 'Country code uses ISO2, 2-digit format.'
+            required: false
+            azure_sdk_references: ['/address/country', '/properties/address/country']
+          - !ruby/object:Api::Type::String
+            name: 'postalCode'
+            description: 'Address Postal Code.'
+            required: false
+            azure_sdk_references: ['/address/postalCode', '/properties/address/postalCode']
+      - !ruby/object:Api::Type::Boolean
+        name: 'invoiceEmailOptIn'
+        description: 'If the billing profile is opted in to receive invoices via email.'
+        required: false
+        azure_sdk_references: ['/invoiceEmailOptIn', '/properties/invoiceEmailOptIn']
+      - !ruby/object:Api::Type::Integer
+        name: 'invoiceDay'
+        description: 'Invoice day.'
+        required: false
+        azure_sdk_references: ['/invoiceDay', '/properties/invoiceDay']
+      - !ruby/object:Api::Type::String
+        name: 'currency'
+        description: 'The currency associated with the billing profile.'
+        required: false
+        azure_sdk_references: ['/currency', '/properties/currency']
+      - !ruby/object:Api::Type::Array
+        name: 'enabledAzurePlans'
+        description: 'Information about the enabled azure plans.'
+        required: false
+        azure_sdk_references: ['/enabledAzurePlans', '/properties/enabledAzurePlans']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'skuId'
+              description: 'The sku id.'
+              required: false
+              azure_sdk_references: ['/enabledAzurePlans/skuId', '/properties/enabledAzurePlans/skuId']
+            - !ruby/object:Api::Type::String
+              name: 'skuDescription'
+              description: 'The sku description.'
+              required: false
+              azure_sdk_references: ['/enabledAzurePlans/skuDescription', '/properties/enabledAzurePlans/skuDescription']
+      - !ruby/object:Api::Type::Array
+        name: 'invoiceSections'
+        description: 'The invoice sections associated to the billing profile.'
+        required: false
+        azure_sdk_references: ['/invoiceSections', '/properties/invoiceSections']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/invoiceSections/id', '/properties/invoiceSections/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/invoiceSections/name', '/properties/invoiceSections/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/invoiceSections/type', '/properties/invoiceSections/type']
+            - !ruby/object:Api::Type::String
+              name: 'displayName'
+              description: 'The name of the InvoiceSection.'
+              required: false
+              azure_sdk_references: ['/invoiceSections/displayName', '/properties/invoiceSections/properties/displayName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,485 @@
+--- !ruby/object:Api::Product
+name: Azure Account Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Account
+    api_name: CognitiveServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CognitiveServices
+      go_client_namespace: 
+      go_client: accountsClient
+      python_client_namespace: 
+      python_client: CognitiveServicesManagementClient.accounts
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: account
+            go_type_name: CognitiveServicesAccount
+            python_parameter_name: account
+            python_variable_name: account
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CognitiveServicesAccountProperties
+            go_type_name: CognitiveServicesAccountProperties
+          '/customSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_sub_domain_name
+          '/properties/customSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomSubDomainName
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/networkAcls/virtualNetworkRules/ignoreMissingVnetServiceEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: ignore_missing_vnet_service_endpoint
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: NetworkRuleAction
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IpRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/properties/networkAcls/virtualNetworkRules/ignoreMissingVnetServiceEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IgnoreMissingVnetServiceEndpoint
+          '/apiProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: api_properties
+          '/apiProperties/qnaRuntimeEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: qna_runtime_endpoint
+          '/apiProperties/statisticsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: statistics_enabled
+          '/apiProperties/eventHubConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_connection_string
+          '/apiProperties/storageAccountConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_connection_string
+          '/properties/apiProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApiProperties
+            go_type_name: CognitiveServicesAccountApiProperties
+          '/properties/apiProperties/qnaRuntimeEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QnaRuntimeEndpoint
+          '/properties/apiProperties/statisticsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: StatisticsEnabled
+          '/properties/apiProperties/eventHubConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubConnectionString
+          '/properties/apiProperties/storageAccountConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountConnectionString
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: account
+            go_type_name: CognitiveServicesAccount
+            python_parameter_name: account
+            python_variable_name: account
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CognitiveServicesAccountProperties
+            go_type_name: CognitiveServicesAccountProperties
+          '/customSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_sub_domain_name
+          '/properties/customSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomSubDomainName
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/networkAcls/virtualNetworkRules/ignoreMissingVnetServiceEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: ignore_missing_vnet_service_endpoint
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: NetworkRuleAction
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IpRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/properties/networkAcls/virtualNetworkRules/ignoreMissingVnetServiceEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IgnoreMissingVnetServiceEndpoint
+          '/apiProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: api_properties
+          '/apiProperties/qnaRuntimeEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: qna_runtime_endpoint
+          '/apiProperties/statisticsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: statistics_enabled
+          '/apiProperties/eventHubConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_connection_string
+          '/apiProperties/storageAccountConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_connection_string
+          '/properties/apiProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApiProperties
+            go_type_name: CognitiveServicesAccountApiProperties
+          '/properties/apiProperties/qnaRuntimeEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QnaRuntimeEndpoint
+          '/properties/apiProperties/statisticsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: StatisticsEnabled
+          '/properties/apiProperties/eventHubConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubConnectionString
+          '/properties/apiProperties/storageAccountConnectionString': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountConnectionString
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSkus
+        python_func_name: list_skus
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+
+    description: |
+      Manage Azure Account instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of Cognitive Services account.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'The Kind of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'customSubDomainName'
+        description: 'Optional subdomain name used for token-based authentication.'
+        required: false
+        azure_sdk_references: ['/customSubDomainName', '/properties/customSubDomainName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'networkAcls'
+        description: 'A collection of rules governing the accessibility from specific network locations.'
+        required: false
+        azure_sdk_references: ['/networkAcls', '/properties/networkAcls']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'defaultAction'
+            description: 'The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.'
+            required: false
+            azure_sdk_references: ['/networkAcls/defaultAction', '/properties/networkAcls/defaultAction']
+            values:
+              - :Allow
+              - :Deny
+            default_value: :Allow
+          - !ruby/object:Api::Type::Array
+            name: 'ipRules'
+            description: 'The list of IP address rules.'
+            required: false
+            azure_sdk_references: ['/networkAcls/ipRules', '/properties/networkAcls/ipRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'An IPv4 address range in CIDR notation, such as ''124.56.78.91'' (simple IP address) or ''124.56.78.0/24'' (all addresses that start with 124.56.78).'
+                  required: true
+                  azure_sdk_references: ['/networkAcls/ipRules/value', '/properties/networkAcls/ipRules/value']
+          - !ruby/object:Api::Type::Array
+            name: 'virtualNetworkRules'
+            description: 'The list of virtual network rules.'
+            required: false
+            azure_sdk_references: ['/networkAcls/virtualNetworkRules', '/properties/networkAcls/virtualNetworkRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Full resource id of a vnet subnet, such as ''/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1''.'
+                  required: true
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/id', '/properties/networkAcls/virtualNetworkRules/id']
+                - !ruby/object:Api::Type::String
+                  name: 'state'
+                  description: 'Gets the state of virtual network rule.'
+                  required: false
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/state', '/properties/networkAcls/virtualNetworkRules/state']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'ignoreMissingVnetServiceEndpoint'
+                  description: 'Ignore missing vnet service endpoint or not.'
+                  required: false
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/ignoreMissingVnetServiceEndpoint', '/properties/networkAcls/virtualNetworkRules/ignoreMissingVnetServiceEndpoint']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'apiProperties'
+        description: 'The api properties for special APIs.'
+        required: false
+        azure_sdk_references: ['/apiProperties', '/properties/apiProperties']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'qnaRuntimeEndpoint'
+            description: '(QnAMaker Only) The runtime endpoint of QnAMaker.'
+            required: false
+            azure_sdk_references: ['/apiProperties/qnaRuntimeEndpoint', '/properties/apiProperties/qnaRuntimeEndpoint']
+          - !ruby/object:Api::Type::Boolean
+            name: 'statisticsEnabled'
+            description: '(Bing Search Only) The flag to enable statistics of Bing Search.'
+            required: false
+            azure_sdk_references: ['/apiProperties/statisticsEnabled', '/properties/apiProperties/statisticsEnabled']
+          - !ruby/object:Api::Type::String
+            name: 'eventHubConnectionString'
+            description: '(Personalization Only) The flag to enable statistics of Bing Search.'
+            required: false
+            azure_sdk_references: ['/apiProperties/eventHubConnectionString', '/properties/apiProperties/eventHubConnectionString']
+          - !ruby/object:Api::Type::String
+            name: 'storageAccountConnectionString'
+            description: '(Personalization Only) The storage account connection string.'
+            required: false
+            azure_sdk_references: ['/apiProperties/storageAccountConnectionString', '/properties/apiProperties/storageAccountConnectionString']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The SKU of Cognitive Services account.'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Gets or sets the sku name. Required for account creation, optional for update.'
+            required: true
+            azure_sdk_references: ['/sku/name']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Gets the status of the cognitive services account at the time the operation was called.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :ResolvingDNS
+          - :Moving
+          - :Deleting
+          - :Succeeded
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'endpoint'
+        description: 'Endpoint of the created account.'
+        output: true
+        azure_sdk_references: ['/endpoint', '/properties/endpoint']
+      - !ruby/object:Api::Type::String
+        name: 'internalId'
+        description: 'The internal identifier.'
+        output: true
+        azure_sdk_references: ['/internalId', '/properties/internalId']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Entity Tag'
+        output: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The id of the created account'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the created account'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

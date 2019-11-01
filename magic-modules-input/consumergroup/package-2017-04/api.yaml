@@ -1,0 +1,217 @@
+--- !ruby/object:Api::Product
+name: Azure ConsumerGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ConsumerGroup
+    api_name: EventHub
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.EventHub
+      go_client_namespace: 
+      go_client: consumerGroupsClient
+      python_client_namespace: 
+      python_client: EventHubManagementClient.consumer_groups
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubs
+            go_variable_name: eventHubName
+            python_parameter_name: event_hub_name
+            python_variable_name: event_hub_name
+          'consumerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: consumergroups
+            go_variable_name: consumerGroupName
+            python_parameter_name: consumer_group_name
+            python_variable_name: consumer_group_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ConsumerGroup
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConsumerGroup_properties
+            go_type_name: ConsumerGroup_properties
+          '/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_metadata
+          '/properties/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserMetadata
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubs
+            go_variable_name: eventHubName
+            python_parameter_name: event_hub_name
+            python_variable_name: event_hub_name
+          'consumerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: consumergroups
+            go_variable_name: consumerGroupName
+            python_parameter_name: consumer_group_name
+            python_variable_name: consumer_group_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubs
+            go_variable_name: eventHubName
+            python_parameter_name: event_hub_name
+            python_variable_name: event_hub_name
+          'consumerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: consumergroups
+            go_variable_name: consumerGroupName
+            python_parameter_name: consumer_group_name
+            python_variable_name: consumer_group_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConsumerGroup_properties
+            go_type_name: ConsumerGroup_properties
+          '/properties/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserMetadata
+          '/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_metadata
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_at
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByEventHub
+        python_func_name: list_by_event_hub
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubs
+            go_variable_name: eventHubName
+            python_parameter_name: event_hub_name
+            python_variable_name: event_hub_name
+
+    description: |
+      Manage Azure ConsumerGroup instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group within the azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'The Namespace name'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'eventHubName'
+        description: 'The Event Hub name'
+        required: true
+        input: true
+        azure_sdk_references: ['eventHubName']
+      - !ruby/object:Api::Type::String
+        name: 'consumerGroupName'
+        description: 'The consumer group name'
+        required: true
+        input: true
+        azure_sdk_references: ['consumerGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'userMetadata'
+        description: 'User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.'
+        required: false
+        azure_sdk_references: ['/userMetadata', '/properties/userMetadata']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAt'
+        description: 'Exact time the message was created.'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedAt'
+        description: 'The exact time the message was updated.'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

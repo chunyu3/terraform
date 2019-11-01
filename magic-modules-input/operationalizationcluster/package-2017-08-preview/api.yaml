@@ -1,0 +1,1250 @@
+--- !ruby/object:Api::Product
+name: Azure OperationalizationCluster Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: OperationalizationCluster
+    api_name: MachineLearningCompute
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.MachineLearningCompute
+      go_client_namespace: 
+      go_client: operationalizationClustersClient
+      python_client_namespace: 
+      python_client: MachineLearningComputeManagementClient.operationalization_clusters
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationalizationClusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: OperationalizationCluster
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OperationalizationClusterProperties
+            go_type_name: OperationalizationClusterProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/clusterType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cluster_type
+          '/properties/clusterType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ClusterType
+            go_enum_type_name: ClusterType
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccountProperties
+          '/properties/storageAccount/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: container_registry
+          '/containerRegistry/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerRegistry
+            go_type_name: ContainerRegistryProperties
+          '/properties/containerRegistry/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/containerService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: container_service
+          '/containerService/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: orchestrator_type
+          '/containerService/orchestratorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: orchestrator_properties
+          '/containerService/orchestratorProperties/servicePrincipal': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: service_principal
+          '/containerService/orchestratorProperties/servicePrincipal/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_id
+          '/containerService/orchestratorProperties/servicePrincipal/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret
+          '/containerService/systemServices': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: system_services
+          '/containerService/systemServices/systemServiceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: system_service_type
+          '/containerService/masterCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: master_count
+          '/containerService/agentCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: agent_count
+          '/containerService/agentVmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: agent_vm_size
+          '/properties/containerService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerService
+            go_type_name: AcsClusterProperties
+          '/properties/containerService/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OrchestratorType
+            go_enum_type_name: OrchestratorType
+          '/properties/containerService/orchestratorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OrchestratorProperties
+            go_type_name: Kubernetes
+          '/properties/containerService/orchestratorProperties/servicePrincipal': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipal
+            go_type_name: ServicePrincipalProperties
+          '/properties/containerService/orchestratorProperties/servicePrincipal/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientID
+          '/properties/containerService/orchestratorProperties/servicePrincipal/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Secret
+          '/properties/containerService/systemServices': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SystemServices
+            go_type_name: SystemService
+          '/properties/containerService/systemServices/systemServiceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SystemServiceType
+            go_enum_type_name: SystemServiceType
+          '/properties/containerService/masterCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MasterCount
+          '/properties/containerService/agentCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: AgentCount
+          '/properties/containerService/agentVmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AgentVmSize
+            go_enum_type_name: AgentVMSizeTypes
+          '/appInsights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: app_insights
+          '/appInsights/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/appInsights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AppInsights
+            go_type_name: AppInsightsProperties
+          '/properties/appInsights/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/globalServiceConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: global_service_configuration
+          '/globalServiceConfiguration/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: additional_properties
+          '/globalServiceConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/globalServiceConfiguration/ssl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssl
+          '/globalServiceConfiguration/ssl/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/globalServiceConfiguration/ssl/cert': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cert
+          '/globalServiceConfiguration/ssl/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/globalServiceConfiguration/ssl/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cname
+          '/globalServiceConfiguration/serviceAuth': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: service_auth
+          '/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_auth_key_hash
+          '/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_auth_key_hash
+          '/globalServiceConfiguration/autoScale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_scale
+          '/globalServiceConfiguration/autoScale/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/globalServiceConfiguration/autoScale/minReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: min_replicas
+          '/globalServiceConfiguration/autoScale/maxReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_replicas
+          '/globalServiceConfiguration/autoScale/targetUtilization': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: target_utilization
+          '/globalServiceConfiguration/autoScale/refreshPeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: refresh_period_in_seconds
+          '/properties/globalServiceConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GlobalServiceConfiguration
+            go_type_name: GlobalServiceConfiguration
+          '/properties/globalServiceConfiguration/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: AdditionalProperties
+          '/properties/globalServiceConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/globalServiceConfiguration/ssl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Ssl
+            go_type_name: SslConfiguration
+          '/properties/globalServiceConfiguration/ssl/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/globalServiceConfiguration/ssl/cert': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cert
+          '/properties/globalServiceConfiguration/ssl/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/properties/globalServiceConfiguration/ssl/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cname
+          '/properties/globalServiceConfiguration/serviceAuth': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceAuth
+            go_type_name: ServiceAuthConfiguration
+          '/properties/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryAuthKeyHash
+          '/properties/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryAuthKeyHash
+          '/properties/globalServiceConfiguration/autoScale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoScale
+            go_type_name: AutoScaleConfiguration
+          '/properties/globalServiceConfiguration/autoScale/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/globalServiceConfiguration/autoScale/minReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MinReplicas
+          '/properties/globalServiceConfiguration/autoScale/maxReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxReplicas
+          '/properties/globalServiceConfiguration/autoScale/targetUtilization': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TargetUtilization
+          '/properties/globalServiceConfiguration/autoScale/refreshPeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RefreshPeriodInSeconds
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationalizationClusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: OperationalizationCluster
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OperationalizationClusterProperties
+            go_type_name: OperationalizationClusterProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/clusterType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cluster_type
+          '/properties/clusterType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ClusterType
+            go_enum_type_name: ClusterType
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccountProperties
+          '/properties/storageAccount/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: container_registry
+          '/containerRegistry/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerRegistry
+            go_type_name: ContainerRegistryProperties
+          '/properties/containerRegistry/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/containerService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: container_service
+          '/containerService/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: orchestrator_type
+          '/containerService/orchestratorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: orchestrator_properties
+          '/containerService/orchestratorProperties/servicePrincipal': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: service_principal
+          '/containerService/orchestratorProperties/servicePrincipal/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_id
+          '/containerService/orchestratorProperties/servicePrincipal/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret
+          '/containerService/systemServices': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: system_services
+          '/containerService/systemServices/systemServiceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: system_service_type
+          '/containerService/masterCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: master_count
+          '/containerService/agentCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: agent_count
+          '/containerService/agentVmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: agent_vm_size
+          '/properties/containerService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerService
+            go_type_name: AcsClusterProperties
+          '/properties/containerService/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OrchestratorType
+            go_enum_type_name: OrchestratorType
+          '/properties/containerService/orchestratorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OrchestratorProperties
+            go_type_name: Kubernetes
+          '/properties/containerService/orchestratorProperties/servicePrincipal': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipal
+            go_type_name: ServicePrincipalProperties
+          '/properties/containerService/orchestratorProperties/servicePrincipal/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientID
+          '/properties/containerService/orchestratorProperties/servicePrincipal/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Secret
+          '/properties/containerService/systemServices': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SystemServices
+            go_type_name: SystemService
+          '/properties/containerService/systemServices/systemServiceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SystemServiceType
+            go_enum_type_name: SystemServiceType
+          '/properties/containerService/masterCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MasterCount
+          '/properties/containerService/agentCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: AgentCount
+          '/properties/containerService/agentVmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AgentVmSize
+            go_enum_type_name: AgentVMSizeTypes
+          '/appInsights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: app_insights
+          '/appInsights/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/appInsights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AppInsights
+            go_type_name: AppInsightsProperties
+          '/properties/appInsights/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/globalServiceConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: global_service_configuration
+          '/globalServiceConfiguration/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: additional_properties
+          '/globalServiceConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/globalServiceConfiguration/ssl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssl
+          '/globalServiceConfiguration/ssl/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/globalServiceConfiguration/ssl/cert': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cert
+          '/globalServiceConfiguration/ssl/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/globalServiceConfiguration/ssl/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cname
+          '/globalServiceConfiguration/serviceAuth': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: service_auth
+          '/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_auth_key_hash
+          '/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_auth_key_hash
+          '/globalServiceConfiguration/autoScale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_scale
+          '/globalServiceConfiguration/autoScale/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/globalServiceConfiguration/autoScale/minReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: min_replicas
+          '/globalServiceConfiguration/autoScale/maxReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_replicas
+          '/globalServiceConfiguration/autoScale/targetUtilization': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: target_utilization
+          '/globalServiceConfiguration/autoScale/refreshPeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: refresh_period_in_seconds
+          '/properties/globalServiceConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GlobalServiceConfiguration
+            go_type_name: GlobalServiceConfiguration
+          '/properties/globalServiceConfiguration/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: AdditionalProperties
+          '/properties/globalServiceConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/globalServiceConfiguration/ssl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Ssl
+            go_type_name: SslConfiguration
+          '/properties/globalServiceConfiguration/ssl/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/globalServiceConfiguration/ssl/cert': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cert
+          '/properties/globalServiceConfiguration/ssl/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/properties/globalServiceConfiguration/ssl/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cname
+          '/properties/globalServiceConfiguration/serviceAuth': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceAuth
+            go_type_name: ServiceAuthConfiguration
+          '/properties/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryAuthKeyHash
+          '/properties/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryAuthKeyHash
+          '/properties/globalServiceConfiguration/autoScale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoScale
+            go_type_name: AutoScaleConfiguration
+          '/properties/globalServiceConfiguration/autoScale/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/globalServiceConfiguration/autoScale/minReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MinReplicas
+          '/properties/globalServiceConfiguration/autoScale/maxReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxReplicas
+          '/properties/globalServiceConfiguration/autoScale/targetUtilization': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TargetUtilization
+          '/properties/globalServiceConfiguration/autoScale/refreshPeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RefreshPeriodInSeconds
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationalizationClusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationalizationClusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OperationalizationClusterProperties
+            go_type_name: OperationalizationClusterProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/clusterType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ClusterType
+            go_enum_type_name: ClusterType
+          '/clusterType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cluster_type
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccountProperties
+          '/properties/storageAccount/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerRegistry
+            go_type_name: ContainerRegistryProperties
+          '/properties/containerRegistry/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: container_registry
+          '/containerRegistry/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/containerService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContainerService
+            go_type_name: AcsClusterProperties
+          '/properties/containerService/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OrchestratorType
+            go_enum_type_name: OrchestratorType
+          '/properties/containerService/orchestratorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OrchestratorProperties
+            go_type_name: Kubernetes
+          '/properties/containerService/orchestratorProperties/servicePrincipal': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipal
+            go_type_name: ServicePrincipalProperties
+          '/properties/containerService/orchestratorProperties/servicePrincipal/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientID
+          '/properties/containerService/orchestratorProperties/servicePrincipal/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Secret
+          '/properties/containerService/systemServices': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SystemServices
+            go_type_name: SystemService
+          '/properties/containerService/systemServices/systemServiceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SystemServiceType
+            go_enum_type_name: SystemServiceType
+          '/properties/containerService/systemServices/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddress
+          '/properties/containerService/systemServices/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/containerService/masterCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MasterCount
+          '/properties/containerService/agentCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: AgentCount
+          '/properties/containerService/agentVmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AgentVmSize
+            go_enum_type_name: AgentVMSizeTypes
+          '/properties/containerService/clusterFqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterFqdn
+          '/containerService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: container_service
+          '/containerService/orchestratorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: orchestrator_type
+          '/containerService/orchestratorProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: orchestrator_properties
+          '/containerService/orchestratorProperties/servicePrincipal': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: service_principal
+          '/containerService/orchestratorProperties/servicePrincipal/clientId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_id
+          '/containerService/orchestratorProperties/servicePrincipal/secret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret
+          '/containerService/systemServices': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: system_services
+          '/containerService/systemServices/systemServiceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: system_service_type
+          '/containerService/systemServices/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/containerService/systemServices/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/containerService/masterCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: master_count
+          '/containerService/agentCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: agent_count
+          '/containerService/agentVmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: agent_vm_size
+          '/containerService/clusterFqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_fqdn
+          '/properties/appInsights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AppInsights
+            go_type_name: AppInsightsProperties
+          '/properties/appInsights/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/appInsights': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: app_insights
+          '/appInsights/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/globalServiceConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GlobalServiceConfiguration
+            go_type_name: GlobalServiceConfiguration
+          '/properties/globalServiceConfiguration/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: AdditionalProperties
+          '/properties/globalServiceConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/globalServiceConfiguration/ssl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Ssl
+            go_type_name: SslConfiguration
+          '/properties/globalServiceConfiguration/ssl/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/globalServiceConfiguration/ssl/cert': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cert
+          '/properties/globalServiceConfiguration/ssl/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/properties/globalServiceConfiguration/ssl/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cname
+          '/properties/globalServiceConfiguration/serviceAuth': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceAuth
+            go_type_name: ServiceAuthConfiguration
+          '/properties/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryAuthKeyHash
+          '/properties/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryAuthKeyHash
+          '/properties/globalServiceConfiguration/autoScale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoScale
+            go_type_name: AutoScaleConfiguration
+          '/properties/globalServiceConfiguration/autoScale/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/globalServiceConfiguration/autoScale/minReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MinReplicas
+          '/properties/globalServiceConfiguration/autoScale/maxReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxReplicas
+          '/properties/globalServiceConfiguration/autoScale/targetUtilization': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TargetUtilization
+          '/properties/globalServiceConfiguration/autoScale/refreshPeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RefreshPeriodInSeconds
+          '/globalServiceConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: global_service_configuration
+          '/globalServiceConfiguration/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: additional_properties
+          '/globalServiceConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/globalServiceConfiguration/ssl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssl
+          '/globalServiceConfiguration/ssl/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/globalServiceConfiguration/ssl/cert': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cert
+          '/globalServiceConfiguration/ssl/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/globalServiceConfiguration/ssl/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cname
+          '/globalServiceConfiguration/serviceAuth': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: service_auth
+          '/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_auth_key_hash
+          '/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_auth_key_hash
+          '/globalServiceConfiguration/autoScale': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_scale
+          '/globalServiceConfiguration/autoScale/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/globalServiceConfiguration/autoScale/minReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: min_replicas
+          '/globalServiceConfiguration/autoScale/maxReplicas': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_replicas
+          '/globalServiceConfiguration/autoScale/targetUtilization': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: target_utilization
+          '/globalServiceConfiguration/autoScale/refreshPeriodInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: refresh_period_in_seconds
+          '/properties/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedOn
+          '/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_on
+          '/properties/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ModifiedOn
+          '/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: modified_on
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: OperationStatus
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/provisioningErrors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ProvisioningErrors
+            go_type_name: ErrorResponseWrapper
+          '/provisioningErrors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: provisioning_errors
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscriptionId
+        python_func_name: list_by_subscription_id
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure OperationalizationCluster instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group in which the cluster is located.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'clusterName'
+        description: 'The name of the cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['clusterName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Specifies the location of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Contains resource tags defined as key/value pairs.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the cluster.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Enum
+        name: 'clusterType'
+        description: 'The cluster type.'
+        required: true
+        azure_sdk_references: ['/clusterType', '/properties/clusterType']
+        values:
+          - :ACS
+          - :Local
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageAccount'
+        description: 'Storage Account properties.'
+        required: false
+        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'resourceId'
+            description: 'ARM resource ID of the Azure Storage Account to store CLI specific files. If not provided one will be created. This cannot be changed once the cluster is created.'
+            required: false
+            azure_sdk_references: ['/storageAccount/resourceId', '/properties/storageAccount/resourceId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'containerRegistry'
+        description: 'Container Registry properties.'
+        required: false
+        azure_sdk_references: ['/containerRegistry', '/properties/containerRegistry']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'resourceId'
+            description: 'ARM resource ID of the Azure Container Registry used to store Docker images for web services in the cluster. If not provided one will be created. This cannot be changed once the cluster is created.'
+            required: false
+            azure_sdk_references: ['/containerRegistry/resourceId', '/properties/containerRegistry/resourceId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'containerService'
+        description: 'Parameters for the Azure Container Service cluster.'
+        required: false
+        azure_sdk_references: ['/containerService', '/properties/containerService']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'orchestratorType'
+            description: 'Type of orchestrator. It cannot be changed once the cluster is created.'
+            required: true
+            azure_sdk_references: ['/containerService/orchestratorType', '/properties/containerService/orchestratorType']
+            values:
+              - :Kubernetes
+              - :None
+          - !ruby/object:Api::Type::NestedObject
+            name: 'orchestratorProperties'
+            description: 'Orchestrator specific properties'
+            required: false
+            azure_sdk_references: ['/containerService/orchestratorProperties', '/properties/containerService/orchestratorProperties']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'servicePrincipal'
+                description: 'The Azure Service Principal used by Kubernetes'
+                required: false
+                azure_sdk_references: ['/containerService/orchestratorProperties/servicePrincipal', '/properties/containerService/orchestratorProperties/servicePrincipal']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'clientId'
+                    description: 'The service principal client ID'
+                    required: true
+                    azure_sdk_references: ['/containerService/orchestratorProperties/servicePrincipal/clientId', '/properties/containerService/orchestratorProperties/servicePrincipal/clientId']
+                  - !ruby/object:Api::Type::String
+                    name: 'secret'
+                    description: 'The service principal secret. This is not returned in response of GET/PUT on the resource. To see this please call listKeys.'
+                    required: true
+                    azure_sdk_references: ['/containerService/orchestratorProperties/servicePrincipal/secret', '/properties/containerService/orchestratorProperties/servicePrincipal/secret']
+          - !ruby/object:Api::Type::Array
+            name: 'systemServices'
+            description: 'The system services deployed to the cluster'
+            required: false
+            azure_sdk_references: ['/containerService/systemServices', '/properties/containerService/systemServices']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'systemServiceType'
+                  description: 'The system service type'
+                  required: true
+                  azure_sdk_references: ['/containerService/systemServices/systemServiceType', '/properties/containerService/systemServices/systemServiceType']
+                  values:
+                    - :None
+                    - :ScoringFrontEnd
+                    - :BatchFrontEnd
+          - !ruby/object:Api::Type::Integer
+            name: 'masterCount'
+            description: 'The number of master nodes in the container service.'
+            required: false
+            azure_sdk_references: ['/containerService/masterCount', '/properties/containerService/masterCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'agentCount'
+            description: 'The number of agent nodes in the Container Service. This can be changed to scale the cluster.'
+            required: false
+            azure_sdk_references: ['/containerService/agentCount', '/properties/containerService/agentCount']
+          - !ruby/object:Api::Type::Enum
+            name: 'agentVmSize'
+            description: 'The Azure VM size of the agent VM nodes. This cannot be changed once the cluster is created. This list is non exhaustive; refer to https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes for the possible VM sizes.'
+            required: false
+            azure_sdk_references: ['/containerService/agentVmSize', '/properties/containerService/agentVmSize']
+            values:
+              - :Standard_A0
+              - :Standard_A1
+              - :Standard_A2
+              - :Standard_A3
+              - :Standard_A4
+              - :Standard_A5
+              - :Standard_A6
+              - :Standard_A7
+              - :Standard_A8
+              - :Standard_A9
+              - :Standard_A10
+              - :Standard_A11
+              - :Standard_D1
+              - :Standard_D2
+              - :Standard_D3
+              - :Standard_D4
+              - :Standard_D11
+              - :Standard_D12
+              - :Standard_D13
+              - :Standard_D14
+              - :Standard_D1_v2
+              - :Standard_D2_v2
+              - :Standard_D3_v2
+              - :Standard_D4_v2
+              - :Standard_D5_v2
+              - :Standard_D11_v2
+              - :Standard_D12_v2
+              - :Standard_D13_v2
+              - :Standard_D14_v2
+              - :Standard_G1
+              - :Standard_G2
+              - :Standard_G3
+              - :Standard_G4
+              - :Standard_G5
+              - :Standard_DS1
+              - :Standard_DS2
+              - :Standard_DS3
+              - :Standard_DS4
+              - :Standard_DS11
+              - :Standard_DS12
+              - :Standard_DS13
+              - :Standard_DS14
+              - :Standard_GS1
+              - :Standard_GS2
+              - :Standard_GS3
+              - :Standard_GS4
+              - :Standard_GS5
+            default_value: :Standard_A0
+      - !ruby/object:Api::Type::NestedObject
+        name: 'appInsights'
+        description: 'AppInsights configuration.'
+        required: false
+        azure_sdk_references: ['/appInsights', '/properties/appInsights']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'resourceId'
+            description: 'ARM resource ID of the App Insights.'
+            required: false
+            azure_sdk_references: ['/appInsights/resourceId', '/properties/appInsights/resourceId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'globalServiceConfiguration'
+        description: 'Contains global configuration for the web services in the cluster.'
+        required: false
+        azure_sdk_references: ['/globalServiceConfiguration', '/properties/globalServiceConfiguration']
+        properties:
+          - !ruby/object:Api::Type::KeyValuePairs
+            name: 'additionalProperties'
+            description: 'Unmatched properties from the message are deserialized this collection'
+            required: false
+            azure_sdk_references: ['/globalServiceConfiguration/additionalProperties', '/properties/globalServiceConfiguration/additionalProperties']
+          - !ruby/object:Api::Type::String
+            name: 'etag'
+            description: 'The configuration ETag for updates.'
+            required: false
+            azure_sdk_references: ['/globalServiceConfiguration/etag', '/properties/globalServiceConfiguration/etag']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'ssl'
+            description: 'The SSL configuration properties'
+            required: false
+            azure_sdk_references: ['/globalServiceConfiguration/ssl', '/properties/globalServiceConfiguration/ssl']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'status'
+                description: 'SSL status. Allowed values are Enabled and Disabled.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/ssl/status', '/properties/globalServiceConfiguration/ssl/status']
+                values:
+                  - :Enabled
+                  - :Disabled
+                default_value: :Enabled
+              - !ruby/object:Api::Type::String
+                name: 'cert'
+                description: 'The SSL cert data in PEM format.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/ssl/cert', '/properties/globalServiceConfiguration/ssl/cert']
+              - !ruby/object:Api::Type::String
+                name: 'key'
+                description: 'The SSL key data in PEM format. This is not returned in response of GET/PUT on the resource. To see this please call listKeys API.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/ssl/key', '/properties/globalServiceConfiguration/ssl/key']
+              - !ruby/object:Api::Type::String
+                name: 'cname'
+                description: 'The CName of the certificate.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/ssl/cname', '/properties/globalServiceConfiguration/ssl/cname']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'serviceAuth'
+            description: 'Optional global authorization keys for all user services deployed in cluster. These are used if the service does not have auth keys.'
+            required: false
+            azure_sdk_references: ['/globalServiceConfiguration/serviceAuth', '/properties/globalServiceConfiguration/serviceAuth']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'primaryAuthKeyHash'
+                description: 'The primary auth key hash. This is not returned in response of GET/PUT on the resource.. To see this please call listKeys API.'
+                required: true
+                azure_sdk_references: ['/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash', '/properties/globalServiceConfiguration/serviceAuth/primaryAuthKeyHash']
+              - !ruby/object:Api::Type::String
+                name: 'secondaryAuthKeyHash'
+                description: 'The secondary auth key hash. This is not returned in response of GET/PUT on the resource.. To see this please call listKeys API.'
+                required: true
+                azure_sdk_references: ['/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash', '/properties/globalServiceConfiguration/serviceAuth/secondaryAuthKeyHash']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'autoScale'
+            description: 'The auto-scale configuration'
+            required: false
+            azure_sdk_references: ['/globalServiceConfiguration/autoScale', '/properties/globalServiceConfiguration/autoScale']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'status'
+                description: 'If auto-scale is enabled for all services. Each service can turn it off individually.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/autoScale/status', '/properties/globalServiceConfiguration/autoScale/status']
+                values:
+                  - :Enabled
+                  - :Disabled
+                default_value: :Enabled
+              - !ruby/object:Api::Type::Integer
+                name: 'minReplicas'
+                description: 'The minimum number of replicas for each service.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/autoScale/minReplicas', '/properties/globalServiceConfiguration/autoScale/minReplicas']
+              - !ruby/object:Api::Type::Integer
+                name: 'maxReplicas'
+                description: 'The maximum number of replicas for each service.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/autoScale/maxReplicas', '/properties/globalServiceConfiguration/autoScale/maxReplicas']
+              - !ruby/object:Api::Type::Integer
+                name: 'targetUtilization'
+                description: 'The target utilization.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/autoScale/targetUtilization', '/properties/globalServiceConfiguration/autoScale/targetUtilization']
+              - !ruby/object:Api::Type::Integer
+                name: 'refreshPeriodInSeconds'
+                description: 'Refresh period in seconds.'
+                required: false
+                azure_sdk_references: ['/globalServiceConfiguration/autoScale/refreshPeriodInSeconds', '/properties/globalServiceConfiguration/autoScale/refreshPeriodInSeconds']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdOn'
+        description: 'The date and time when the cluster was created.'
+        output: true
+        azure_sdk_references: ['/createdOn', '/properties/createdOn']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'modifiedOn'
+        description: 'The date and time when the cluster was last modified.'
+        output: true
+        azure_sdk_references: ['/modifiedOn', '/properties/modifiedOn']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Unknown
+          - :Updating
+          - :Creating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
+      - !ruby/object:Api::Type::Array
+        name: 'provisioningErrors'
+        description: 'List of provisioning errors reported by the resource provider.'
+        output: true
+        azure_sdk_references: ['/provisioningErrors', '/properties/provisioningErrors']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::NestedObject
+              name: 'error'
+              description: 'The error response.'
+              required: false
+              azure_sdk_references: ['/provisioningErrors/error', '/properties/provisioningErrors/error']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'code'
+                  description: 'Error code.'
+                  required: true
+                  azure_sdk_references: ['/provisioningErrors/error/code', '/properties/provisioningErrors/error/code']
+                - !ruby/object:Api::Type::String
+                  name: 'message'
+                  description: 'Error message.'
+                  required: true
+                  azure_sdk_references: ['/provisioningErrors/error/message', '/properties/provisioningErrors/error/message']
+                - !ruby/object:Api::Type::Array
+                  name: 'details'
+                  description: 'An array of error detail objects.'
+                  required: false
+                  azure_sdk_references: ['/provisioningErrors/error/details', '/properties/provisioningErrors/error/details']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'Error code.'
+                        required: true
+                        azure_sdk_references: ['/provisioningErrors/error/details/code', '/properties/provisioningErrors/error/details/code']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'Error message.'
+                        required: true
+                        azure_sdk_references: ['/provisioningErrors/error/details/message', '/properties/provisioningErrors/error/details/message']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Specifies the resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Specifies the name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Specifies the type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

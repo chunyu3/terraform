@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_connector
+  description: Connectors_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    hub_name: myHub
+    connector_name: myConnector
+    connector_type: AzureBlob
+    display_name: testConnector
+    description: Test connector
+    connector_properties:
+      connectionKeyVaultUrl:
+        organizationId: XXX
+        organizationUrl: 'https://XXX.crmlivetie.com/'
+  

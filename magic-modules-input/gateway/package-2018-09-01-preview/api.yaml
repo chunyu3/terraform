@@ -1,0 +1,658 @@
+--- !ruby/object:Api::Product
+name: Azure Gateway Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Gateway
+    api_name: ServiceFabricMesh
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ServiceFabricMesh
+      go_client_namespace: 
+      go_client: gatewayClient
+      python_client_namespace: 
+      python_client: ServiceFabricMeshManagementClient.gateway
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: gateways
+            go_variable_name: gatewayResourceName
+            python_parameter_name: gateway_resource_name
+            python_variable_name: gateway_resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: gatewayResourceDescription
+            go_type_name: GatewayResourceDescription
+            python_parameter_name: gateway_resource_description
+            python_variable_name: gateway_resource_description
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GatewayResourceProperties
+            go_type_name: GatewayResourceProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/sourceNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_network
+          '/sourceNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/sourceNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: endpoint_refs
+          '/sourceNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sourceNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceNetwork
+            go_type_name: NetworkRef
+          '/properties/sourceNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/sourceNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EndpointRefs
+            go_type_name: EndpointRef
+          '/properties/sourceNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/destinationNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination_network
+          '/destinationNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: endpoint_refs
+          '/destinationNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/destinationNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DestinationNetwork
+            go_type_name: NetworkRef
+          '/properties/destinationNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EndpointRefs
+            go_type_name: EndpointRef
+          '/properties/destinationNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/tcp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tcp
+          '/tcp/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/tcp/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: port
+          '/tcp/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/tcp/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_name
+          '/tcp/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/tcp/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint_name
+          '/properties/tcp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tcp
+            go_type_name: TcpConfig
+          '/properties/tcp/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/tcp/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/tcp/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: GatewayDestination
+          '/properties/tcp/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationName
+          '/properties/tcp/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/properties/tcp/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndpointName
+          '/http': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: http
+          '/http/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: port
+          '/http/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hosts
+          '/http/hosts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/hosts/routes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: routes
+          '/http/hosts/routes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/hosts/routes/match': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: match
+          '/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/properties/http': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Http
+            go_type_name: HttpConfig
+          '/properties/http/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/http/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Hosts
+            go_type_name: HttpHostConfig
+          '/properties/http/hosts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/hosts/routes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Routes
+            go_type_name: HttpRouteConfig
+          '/properties/http/hosts/routes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/hosts/routes/match': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Match
+            go_type_name: HttpRouteMatchRule
+          '/properties/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: GatewayDestination
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: gateways
+            go_variable_name: gatewayResourceName
+            python_parameter_name: gateway_resource_name
+            python_variable_name: gateway_resource_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: gateways
+            go_variable_name: gatewayResourceName
+            python_parameter_name: gateway_resource_name
+            python_variable_name: gateway_resource_name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GatewayResourceProperties
+            go_type_name: GatewayResourceProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/sourceNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceNetwork
+            go_type_name: NetworkRef
+          '/properties/sourceNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/sourceNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EndpointRefs
+            go_type_name: EndpointRef
+          '/properties/sourceNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/sourceNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_network
+          '/sourceNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/sourceNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: endpoint_refs
+          '/sourceNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/destinationNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DestinationNetwork
+            go_type_name: NetworkRef
+          '/properties/destinationNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EndpointRefs
+            go_type_name: EndpointRef
+          '/properties/destinationNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/destinationNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination_network
+          '/destinationNetwork/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetwork/endpointRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: endpoint_refs
+          '/destinationNetwork/endpointRefs/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/tcp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tcp
+            go_type_name: TcpConfig
+          '/properties/tcp/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/tcp/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/tcp/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: GatewayDestination
+          '/properties/tcp/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationName
+          '/properties/tcp/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/properties/tcp/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndpointName
+          '/tcp': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tcp
+          '/tcp/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/tcp/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: port
+          '/tcp/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/tcp/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_name
+          '/tcp/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/tcp/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint_name
+          '/properties/http': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Http
+            go_type_name: HttpConfig
+          '/properties/http/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/http/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Hosts
+            go_type_name: HttpHostConfig
+          '/properties/http/hosts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/hosts/routes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Routes
+            go_type_name: HttpRouteConfig
+          '/properties/http/hosts/routes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/hosts/routes/match': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Match
+            go_type_name: HttpRouteMatchRule
+          '/properties/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: GatewayDestination
+          '/http': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: http
+          '/http/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/port': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: port
+          '/http/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hosts
+          '/http/hosts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/hosts/routes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: routes
+          '/http/hosts/routes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/hosts/routes/match': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: match
+          '/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: ResourceStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/statusDetails': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StatusDetails
+          '/statusDetails': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status_details
+          '/properties/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Gateway instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Azure resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'gatewayResourceName'
+        description: 'The identity of the gateway.'
+        required: true
+        input: true
+        azure_sdk_references: ['gatewayResourceName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The geo-location where the resource lives'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'User readable description of the gateway.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sourceNetwork'
+        description: 'Network the gateway should listen on for requests.'
+        required: true
+        azure_sdk_references: ['/sourceNetwork', '/properties/sourceNetwork']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the network'
+            required: false
+            azure_sdk_references: ['/sourceNetwork/name', '/properties/sourceNetwork/name']
+          - !ruby/object:Api::Type::Array
+            name: 'endpointRefs'
+            description: 'A list of endpoints that are exposed on this network.'
+            required: false
+            azure_sdk_references: ['/sourceNetwork/endpointRefs', '/properties/sourceNetwork/endpointRefs']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Name of the endpoint.'
+                  required: false
+                  azure_sdk_references: ['/sourceNetwork/endpointRefs/name', '/properties/sourceNetwork/endpointRefs/name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'destinationNetwork'
+        description: 'Network that the Application is using.'
+        required: true
+        azure_sdk_references: ['/destinationNetwork', '/properties/destinationNetwork']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the network'
+            required: false
+            azure_sdk_references: ['/destinationNetwork/name', '/properties/destinationNetwork/name']
+          - !ruby/object:Api::Type::Array
+            name: 'endpointRefs'
+            description: 'A list of endpoints that are exposed on this network.'
+            required: false
+            azure_sdk_references: ['/destinationNetwork/endpointRefs', '/properties/destinationNetwork/endpointRefs']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Name of the endpoint.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetwork/endpointRefs/name', '/properties/destinationNetwork/endpointRefs/name']
+      - !ruby/object:Api::Type::Array
+        name: 'tcp'
+        description: 'Configuration for tcp connectivity for this gateway.'
+        required: false
+        azure_sdk_references: ['/tcp', '/properties/tcp']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'tcp gateway config name.'
+              required: true
+              azure_sdk_references: ['/tcp/name', '/properties/tcp/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'port'
+              description: 'Specifies the port at which the service endpoint below needs to be exposed.'
+              required: true
+              azure_sdk_references: ['/tcp/port', '/properties/tcp/port']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'destination'
+              description: 'Describes destination endpoint for routing traffic.'
+              required: true
+              azure_sdk_references: ['/tcp/destination', '/properties/tcp/destination']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'applicationName'
+                  description: 'Name of the service fabric Mesh application.'
+                  required: true
+                  azure_sdk_references: ['/tcp/destination/applicationName', '/properties/tcp/destination/applicationName']
+                - !ruby/object:Api::Type::String
+                  name: 'serviceName'
+                  description: 'service that contains the endpoint.'
+                  required: true
+                  azure_sdk_references: ['/tcp/destination/serviceName', '/properties/tcp/destination/serviceName']
+                - !ruby/object:Api::Type::String
+                  name: 'endpointName'
+                  description: 'name of the endpoint in the service.'
+                  required: true
+                  azure_sdk_references: ['/tcp/destination/endpointName', '/properties/tcp/destination/endpointName']
+      - !ruby/object:Api::Type::Array
+        name: 'http'
+        description: 'Configuration for http connectivity for this gateway.'
+        required: false
+        azure_sdk_references: ['/http', '/properties/http']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'http gateway config name.'
+              required: true
+              azure_sdk_references: ['/http/name', '/properties/http/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'port'
+              description: 'Specifies the port at which the service endpoint below needs to be exposed.'
+              required: true
+              azure_sdk_references: ['/http/port', '/properties/http/port']
+            - !ruby/object:Api::Type::Array
+              name: 'hosts'
+              description: 'description for routing.'
+              required: true
+              azure_sdk_references: ['/http/hosts', '/properties/http/hosts']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'http hostname config name.'
+                    required: true
+                    azure_sdk_references: ['/http/hosts/name', '/properties/http/hosts/name']
+                  - !ruby/object:Api::Type::Array
+                    name: 'routes'
+                    description: 'Route information to use for routing. Routes are processed in the order they are specified. Specify routes that are more specific before routes that can handle general cases.'
+                    required: true
+                    azure_sdk_references: ['/http/hosts/routes', '/properties/http/hosts/routes']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'name'
+                          description: 'http route name.'
+                          required: true
+                          azure_sdk_references: ['/http/hosts/routes/name', '/properties/http/hosts/routes/name']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'State of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Status of the resource.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Unknown
+          - :Ready
+          - :Upgrading
+          - :Creating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'statusDetails'
+        description: 'Gives additional information about the current status of the gateway.'
+        output: true
+        azure_sdk_references: ['/statusDetails', '/properties/statusDetails']
+      - !ruby/object:Api::Type::String
+        name: 'ipAddress'
+        description: 'IP address of the gateway. This is populated in the response and is ignored for incoming requests.'
+        output: true
+        azure_sdk_references: ['/ipAddress', '/properties/ipAddress']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified identifier for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

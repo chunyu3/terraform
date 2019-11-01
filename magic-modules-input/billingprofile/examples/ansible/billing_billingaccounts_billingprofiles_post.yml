@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_billingprofile
+  description: CreateBillingProfile
+  code:
+    billing_account_name: myBillingAccount
+    name: Finance
+    po_number: ABC12345
+    address:
+      first_name: Test
+      last_name: User
+      address_line1: 1 Microsoft Way
+      city: Redmond
+      region: WA
+      country: US
+      postal_code: '98052'
+    invoice_email_opt_in: true
+    enable_azure_skus:
+      - sku_id: '0001'
+      - sku_id: '0002'
+  

@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_manageddatabase
+  description: Creates a new managed database using point in time restore
+  code:
+    resource_group: myResourceGroup
+    managed_instance_name: myManagedInstance
+    database_name: myDatabase
+    location: southeastasia
+    restore_point_in_time: '2017-07-14T05:35:31.503Z'
+    create_mode: PointInTimeRestore
+    source_database_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Sql/managedInstances/{{ managed_instance_name
+      }}/databases/{{ database_name }}
+  

@@ -1,0 +1,743 @@
+--- !ruby/object:Api::Product
+name: Azure IotHubResource Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: IotHubResource
+    api_name: Devices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Devices
+      go_client_namespace: 
+      go_client: iotHubResourceClient
+      python_client_namespace: 
+      python_client: IotHubClient.iot_hub_resource
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: IotHubs
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: iotHubDescription
+            go_type_name: IotHubDescription
+            python_parameter_name: iot_hub_description
+            python_variable_name: iot_hub_description
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/subscriptionid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Subscriptionid
+            python_field_name: subscriptionid
+          '/resourcegroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Resourcegroup
+            python_field_name: resourcegroup
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IotHubProperties
+            go_type_name: IotHubProperties
+          '/authorizationPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: authorization_policies
+          '/authorizationPolicies/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_name
+          '/authorizationPolicies/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_key
+          '/authorizationPolicies/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_key
+          '/authorizationPolicies/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: rights
+          '/properties/authorizationPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AuthorizationPolicies
+            go_type_name: SharedAccessSignatureAuthorizationRule
+          '/properties/authorizationPolicies/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyName
+          '/properties/authorizationPolicies/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryKey
+          '/properties/authorizationPolicies/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryKey
+          '/properties/authorizationPolicies/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Rights
+            go_enum_type_name: AccessRights
+          '/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_filter_rules
+          '/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: filter_name
+          '/ipFilterRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_mask
+          '/properties/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpFilterRules
+            go_type_name: IpFilterRule
+          '/properties/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FilterName
+          '/properties/ipFilterRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: IpFilterActionType
+          '/properties/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpMask
+          '/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: event_hub_endpoints
+          '/properties/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: EventHubEndpoints
+          '/storageEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: storage_endpoints
+          '/properties/storageEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: StorageEndpoints
+          '/messagingEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: messaging_endpoints
+          '/properties/messagingEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: MessagingEndpoints
+          '/enableFileUploadNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_file_upload_notifications
+          '/properties/enableFileUploadNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableFileUploadNotifications
+          '/cloudToDevice': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cloud_to_device
+          '/cloudToDevice/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_count
+          '/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: default_ttl_as_iso8601
+          '/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: feedback
+          '/cloudToDevice/feedback/lockDurationAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: lock_duration_as_iso8601
+          '/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: ttl_as_iso8601
+          '/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_count
+          '/properties/cloudToDevice': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CloudToDevice
+            go_type_name: CloudToDeviceProperties
+          '/properties/cloudToDevice/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryCount
+          '/properties/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: DefaultTtlAsIso8601
+          '/properties/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Feedback
+            go_type_name: FeedbackProperties
+          '/properties/cloudToDevice/feedback/lockDurationAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: LockDurationAsIso8601
+          '/properties/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: TtlAsIso8601
+          '/properties/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryCount
+          '/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: comments
+          '/properties/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Comments
+          '/operationsMonitoringProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: operations_monitoring_properties
+          '/operationsMonitoringProperties/events': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: events
+          '/properties/operationsMonitoringProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OperationsMonitoringProperties
+            go_type_name: OperationsMonitoringProperties
+          '/properties/operationsMonitoringProperties/events': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Events
+          '/features': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: features
+          '/properties/features': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Features
+            go_enum_type_name: Capabilities
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: IotHubSkuInfo
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: IotHubSku
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: Capacity
+            python_field_name: capacity
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: IotHubs
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: IotHubs
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/subscriptionid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Subscriptionid
+            python_field_name: subscriptionid
+          '/resourcegroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Resourcegroup
+            python_field_name: resourcegroup
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IotHubProperties
+            go_type_name: IotHubProperties
+          '/properties/authorizationPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AuthorizationPolicies
+            go_type_name: SharedAccessSignatureAuthorizationRule
+          '/properties/authorizationPolicies/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyName
+          '/properties/authorizationPolicies/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryKey
+          '/properties/authorizationPolicies/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryKey
+          '/properties/authorizationPolicies/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Rights
+            go_enum_type_name: AccessRights
+          '/authorizationPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: authorization_policies
+          '/authorizationPolicies/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_name
+          '/authorizationPolicies/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_key
+          '/authorizationPolicies/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_key
+          '/authorizationPolicies/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: rights
+          '/properties/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpFilterRules
+            go_type_name: IpFilterRule
+          '/properties/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FilterName
+          '/properties/ipFilterRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: IpFilterActionType
+          '/properties/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpMask
+          '/ipFilterRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_filter_rules
+          '/ipFilterRules/filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: filter_name
+          '/ipFilterRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/ipFilterRules/ipMask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_mask
+          '/properties/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: EventHubEndpoints
+          '/eventHubEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: event_hub_endpoints
+          '/properties/storageEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: StorageEndpoints
+          '/storageEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: storage_endpoints
+          '/properties/messagingEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: MessagingEndpoints
+          '/messagingEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: messaging_endpoints
+          '/properties/enableFileUploadNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableFileUploadNotifications
+          '/enableFileUploadNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_file_upload_notifications
+          '/properties/cloudToDevice': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CloudToDevice
+            go_type_name: CloudToDeviceProperties
+          '/properties/cloudToDevice/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryCount
+          '/properties/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: DefaultTtlAsIso8601
+          '/properties/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Feedback
+            go_type_name: FeedbackProperties
+          '/properties/cloudToDevice/feedback/lockDurationAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: LockDurationAsIso8601
+          '/properties/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: TtlAsIso8601
+          '/properties/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryCount
+          '/cloudToDevice': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cloud_to_device
+          '/cloudToDevice/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_count
+          '/cloudToDevice/defaultTtlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: default_ttl_as_iso8601
+          '/cloudToDevice/feedback': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: feedback
+          '/cloudToDevice/feedback/lockDurationAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: lock_duration_as_iso8601
+          '/cloudToDevice/feedback/ttlAsIso8601': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: ttl_as_iso8601
+          '/cloudToDevice/feedback/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_count
+          '/properties/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Comments
+          '/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: comments
+          '/properties/operationsMonitoringProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OperationsMonitoringProperties
+            go_type_name: OperationsMonitoringProperties
+          '/properties/operationsMonitoringProperties/events': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Events
+          '/operationsMonitoringProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: operations_monitoring_properties
+          '/operationsMonitoringProperties/events': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: events
+          '/properties/features': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Features
+            go_enum_type_name: Capabilities
+          '/features': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: features
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: IotHubSkuInfo
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: IotHubSku
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Tier
+            go_enum_type_name: IotHubSkuTier
+            python_field_name: tier
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListJobs
+        python_func_name: list_jobs
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: IotHubs
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListEventHubConsumerGroups
+        python_func_name: list_event_hub_consumer_groups
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: IotHubs
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+
+    description: |
+      Manage Azure IotHubResource instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the IoT hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the IoT hub to create or update.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionid'
+        description: 'The subscription identifier.'
+        required: true
+        input: true
+        azure_sdk_references: ['/subscriptionid']
+      - !ruby/object:Api::Type::String
+        name: 'resourcegroup'
+        description: 'The name of the resource group that contains the IoT hub. A resource group name uniquely identifies the resource group within the subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['/resourcegroup']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::Array
+        name: 'authorizationPolicies'
+        description: 'The shared access policies you can use to secure a connection to the IoT hub.'
+        required: false
+        azure_sdk_references: ['/authorizationPolicies', '/properties/authorizationPolicies']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'keyName'
+              description: 'The name of the shared access policy.'
+              required: true
+              azure_sdk_references: ['/authorizationPolicies/keyName', '/properties/authorizationPolicies/keyName']
+            - !ruby/object:Api::Type::String
+              name: 'primaryKey'
+              description: 'The primary key.'
+              required: false
+              azure_sdk_references: ['/authorizationPolicies/primaryKey', '/properties/authorizationPolicies/primaryKey']
+            - !ruby/object:Api::Type::String
+              name: 'secondaryKey'
+              description: 'The secondary key.'
+              required: false
+              azure_sdk_references: ['/authorizationPolicies/secondaryKey', '/properties/authorizationPolicies/secondaryKey']
+            - !ruby/object:Api::Type::Enum
+              name: 'rights'
+              description: 'The permissions assigned to the shared access policy.'
+              required: true
+              azure_sdk_references: ['/authorizationPolicies/rights', '/properties/authorizationPolicies/rights']
+              values:
+                - :RegistryRead
+                - :RegistryWrite
+                - :ServiceConnect
+                - :DeviceConnect
+                - :RegistryRead, RegistryWrite
+                - :RegistryRead, ServiceConnect
+                - :RegistryRead, DeviceConnect
+                - :RegistryWrite, ServiceConnect
+                - :RegistryWrite, DeviceConnect
+                - :ServiceConnect, DeviceConnect
+                - :RegistryRead, RegistryWrite, ServiceConnect
+                - :RegistryRead, RegistryWrite, DeviceConnect
+                - :RegistryRead, ServiceConnect, DeviceConnect
+                - :RegistryWrite, ServiceConnect, DeviceConnect
+                - :RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect
+      - !ruby/object:Api::Type::Array
+        name: 'ipFilterRules'
+        description: 'The IP filter rules.'
+        required: false
+        azure_sdk_references: ['/ipFilterRules', '/properties/ipFilterRules']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'filterName'
+              description: 'The name of the IP filter rule.'
+              required: true
+              azure_sdk_references: ['/ipFilterRules/filterName', '/properties/ipFilterRules/filterName']
+            - !ruby/object:Api::Type::Enum
+              name: 'action'
+              description: 'The desired action for requests captured by this rule.'
+              required: true
+              azure_sdk_references: ['/ipFilterRules/action', '/properties/ipFilterRules/action']
+              values:
+                - :Accept
+                - :Reject
+            - !ruby/object:Api::Type::String
+              name: 'ipMask'
+              description: 'A string that contains the IP address range in CIDR notation for the rule.'
+              required: true
+              azure_sdk_references: ['/ipFilterRules/ipMask', '/properties/ipFilterRules/ipMask']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'eventHubEndpoints'
+        description: 'The Event Hub-compatible endpoint properties. The possible keys to this dictionary are events and operationsMonitoringEvents. Both of these keys have to be present in the dictionary while making create or update calls for the IoT hub.'
+        required: false
+        azure_sdk_references: ['/eventHubEndpoints', '/properties/eventHubEndpoints']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'storageEndpoints'
+        description: 'The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown.'
+        required: false
+        azure_sdk_references: ['/storageEndpoints', '/properties/storageEndpoints']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'messagingEndpoints'
+        description: 'The messaging endpoint properties for the file upload notification queue.'
+        required: false
+        azure_sdk_references: ['/messagingEndpoints', '/properties/messagingEndpoints']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableFileUploadNotifications'
+        description: 'If True, file upload notifications are enabled.'
+        required: false
+        azure_sdk_references: ['/enableFileUploadNotifications', '/properties/enableFileUploadNotifications']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'cloudToDevice'
+        description: ''
+        required: false
+        azure_sdk_references: ['/cloudToDevice', '/properties/cloudToDevice']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'maxDeliveryCount'
+            description: 'The max delivery count for cloud-to-device messages in the device queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages.'
+            required: false
+            azure_sdk_references: ['/cloudToDevice/maxDeliveryCount', '/properties/cloudToDevice/maxDeliveryCount']
+          - !ruby/object:Api::Azure::Type::ISO8601Duration
+            name: 'defaultTtlAsIso8601'
+            description: 'The default time to live for cloud-to-device messages in the device queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages.'
+            required: false
+            azure_sdk_references: ['/cloudToDevice/defaultTtlAsIso8601', '/properties/cloudToDevice/defaultTtlAsIso8601']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'feedback'
+            description: ''
+            required: false
+            azure_sdk_references: ['/cloudToDevice/feedback', '/properties/cloudToDevice/feedback']
+            properties:
+              - !ruby/object:Api::Azure::Type::ISO8601Duration
+                name: 'lockDurationAsIso8601'
+                description: 'The lock duration for the feedback queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages.'
+                required: false
+                azure_sdk_references: ['/cloudToDevice/feedback/lockDurationAsIso8601', '/properties/cloudToDevice/feedback/lockDurationAsIso8601']
+              - !ruby/object:Api::Azure::Type::ISO8601Duration
+                name: 'ttlAsIso8601'
+                description: 'The period of time for which a message is available to consume before it is expired by the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages.'
+                required: false
+                azure_sdk_references: ['/cloudToDevice/feedback/ttlAsIso8601', '/properties/cloudToDevice/feedback/ttlAsIso8601']
+              - !ruby/object:Api::Type::Integer
+                name: 'maxDeliveryCount'
+                description: 'The number of times the IoT hub attempts to deliver a message on the feedback queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages.'
+                required: false
+                azure_sdk_references: ['/cloudToDevice/feedback/maxDeliveryCount', '/properties/cloudToDevice/feedback/maxDeliveryCount']
+      - !ruby/object:Api::Type::String
+        name: 'comments'
+        description: 'Comments.'
+        required: false
+        azure_sdk_references: ['/comments', '/properties/comments']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'operationsMonitoringProperties'
+        description: ''
+        required: false
+        azure_sdk_references: ['/operationsMonitoringProperties', '/properties/operationsMonitoringProperties']
+        properties:
+          - !ruby/object:Api::Type::KeyValuePairs
+            name: 'events'
+            description: ''
+            required: false
+            azure_sdk_references: ['/operationsMonitoringProperties/events', '/properties/operationsMonitoringProperties/events']
+      - !ruby/object:Api::Type::Enum
+        name: 'features'
+        description: 'The capabilities and features enabled for the IoT hub.'
+        required: false
+        azure_sdk_references: ['/features', '/properties/features']
+        values:
+          - :None
+          - :DeviceManagement
+        default_value: :None
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: ''
+        required: true
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'The name of the SKU.'
+            required: true
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :F1
+              - :S1
+              - :S2
+              - :S3
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'The number of provisioned IoT Hub units. See: https://docs.microsoft.com/azure/azure-subscription-service-limits#iot-hub-limits.'
+            required: true
+            azure_sdk_references: ['/sku/capacity']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'hostName'
+        description: 'The name of the host.'
+        output: true
+        azure_sdk_references: ['/hostName', '/properties/hostName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The resource type.'
+        output: true
+        azure_sdk_references: ['/type']

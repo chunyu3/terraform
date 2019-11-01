@@ -1,0 +1,37 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_application
+  description: Put an application with maximum parameters
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    application_name: myApplication
+    location: eastus
+    type_version: '1.0'
+    upgrade_policy:
+      upgrade_replica_set_check_timeout: '01:00:00'
+      force_restart: false
+      rolling_upgrade_monitoring_policy:
+        failure_action: Rollback
+        health_check_wait_duration: '00:02:00'
+        health_check_stable_duration: '00:05:00'
+        health_check_retry_timeout: '00:10:00'
+        upgrade_timeout: '01:00:00'
+        upgrade_domain_timeout: '1.06:00:00'
+      application_health_policy:
+        consider_warning_as_error: true
+        max_percent_unhealthy_deployed_applications: '0'
+        default_service_type_health_policy:
+          max_percent_unhealthy_services: '0'
+          max_percent_unhealthy_partitions_per_service: '0'
+          max_percent_unhealthy_replicas_per_partition: '0'
+    minimum_nodes: '1'
+    maximum_nodes: '3'
+    remove_application_capacity: false
+    metrics:
+      - name: metric1
+        maximum_capacity: '3'
+        reservation_capacity: '1'
+        total_application_capacity: '5'
+    type_name: myAppType
+  

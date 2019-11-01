@@ -1,0 +1,549 @@
+--- !ruby/object:Api::Product
+name: Azure Application Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Application
+    api_name: ServiceFabric
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ServiceFabric
+      go_client_namespace: 
+      go_client: applicationsClient
+      python_client_namespace: 
+      python_client: ServiceFabricManagementClient.applications
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationName
+            python_parameter_name: application_name
+            python_variable_name: application_name
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationName
+            python_parameter_name: application_name
+            python_variable_name: application_name
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationName
+            python_parameter_name: application_name
+            python_variable_name: application_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationName
+            python_parameter_name: application_name
+            python_variable_name: application_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationProperties
+            go_type_name: ApplicationResourceProperties
+          '/properties/typeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TypeVersion
+          '/typeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type_version
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/upgradePolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UpgradePolicy
+            go_type_name: ApplicationUpgradePolicy
+          '/properties/upgradePolicy/upgradeReplicaSetCheckTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UpgradeReplicaSetCheckTimeout
+          '/properties/upgradePolicy/forceRestart': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ForceRestart
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RollingUpgradeMonitoringPolicy
+            go_type_name: ArmRollingUpgradeMonitoringPolicy
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/failureAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FailureAction
+            go_enum_type_name: ArmUpgradeFailureAction
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckWaitDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HealthCheckWaitDuration
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckStableDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HealthCheckStableDuration
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckRetryTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HealthCheckRetryTimeout
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UpgradeTimeout
+          '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeDomainTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UpgradeDomainTimeout
+          '/properties/upgradePolicy/applicationHealthPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationHealthPolicy
+            go_type_name: ArmApplicationHealthPolicy
+          '/properties/upgradePolicy/applicationHealthPolicy/considerWarningAsError': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ConsiderWarningAsError
+          '/properties/upgradePolicy/applicationHealthPolicy/maxPercentUnhealthyDeployedApplications': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxPercentUnhealthyDeployedApplications
+          '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DefaultServiceTypeHealthPolicy
+            go_type_name: ArmServiceTypeHealthPolicy
+          '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyServices': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxPercentUnhealthyServices
+          '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyPartitionsPerService': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxPercentUnhealthyPartitionsPerService
+          '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyReplicasPerPartition': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxPercentUnhealthyReplicasPerPartition
+          '/properties/upgradePolicy/applicationHealthPolicy/serviceTypeHealthPolicyMap': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ServiceTypeHealthPolicyMap
+          '/upgradePolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: upgrade_policy
+          '/upgradePolicy/upgradeReplicaSetCheckTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: upgrade_replica_set_check_timeout
+          '/upgradePolicy/forceRestart': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: force_restart
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: rolling_upgrade_monitoring_policy
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy/failureAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: failure_action
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckWaitDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: health_check_wait_duration
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckStableDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: health_check_stable_duration
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckRetryTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: health_check_retry_timeout
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: upgrade_timeout
+          '/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeDomainTimeout': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: upgrade_domain_timeout
+          '/upgradePolicy/applicationHealthPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: application_health_policy
+          '/upgradePolicy/applicationHealthPolicy/considerWarningAsError': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: consider_warning_as_error
+          '/upgradePolicy/applicationHealthPolicy/maxPercentUnhealthyDeployedApplications': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_percent_unhealthy_deployed_applications
+          '/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: default_service_type_health_policy
+          '/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyServices': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_percent_unhealthy_services
+          '/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyPartitionsPerService': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_percent_unhealthy_partitions_per_service
+          '/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyReplicasPerPartition': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_percent_unhealthy_replicas_per_partition
+          '/upgradePolicy/applicationHealthPolicy/serviceTypeHealthPolicyMap': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: service_type_health_policy_map
+          '/properties/minimumNodes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MinimumNodes
+          '/minimumNodes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: minimum_nodes
+          '/properties/maximumNodes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaximumNodes
+          '/maximumNodes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: maximum_nodes
+          '/properties/removeApplicationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RemoveApplicationCapacity
+          '/removeApplicationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: remove_application_capacity
+          '/properties/metrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Metrics
+            go_type_name: ApplicationMetricDescription
+          '/properties/metrics/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/metrics/maximumCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaximumCapacity
+          '/properties/metrics/reservationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ReservationCapacity
+          '/properties/metrics/totalApplicationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TotalApplicationCapacity
+          '/metrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: metrics
+          '/metrics/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/metrics/maximumCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: maximum_capacity
+          '/metrics/reservationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: reservation_capacity
+          '/metrics/totalApplicationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: total_application_capacity
+          '/properties/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TypeName
+          '/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type_name
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+
+    description: |
+      Manage Azure Application instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'clusterName'
+        description: 'The name of the cluster resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['clusterName']
+      - !ruby/object:Api::Type::String
+        name: 'applicationName'
+        description: 'The name of the application resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['applicationName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'It will be deprecated in New API, resource location depends on the parent resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Azure resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'typeVersion'
+        description: 'The version of the application type as defined in the application manifest.'
+        required: false
+        azure_sdk_references: ['/typeVersion', '/properties/typeVersion']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'parameters'
+        description: 'List of application parameters with overridden values from their default values specified in the application manifest.'
+        required: false
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'upgradePolicy'
+        description: 'Describes the policy for a monitored application upgrade.'
+        required: false
+        azure_sdk_references: ['/upgradePolicy', '/properties/upgradePolicy']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'upgradeReplicaSetCheckTimeout'
+            description: 'The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer).'
+            required: false
+            azure_sdk_references: ['/upgradePolicy/upgradeReplicaSetCheckTimeout', '/properties/upgradePolicy/upgradeReplicaSetCheckTimeout']
+          - !ruby/object:Api::Type::Boolean
+            name: 'forceRestart'
+            description: 'If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data).'
+            required: false
+            azure_sdk_references: ['/upgradePolicy/forceRestart', '/properties/upgradePolicy/forceRestart']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'rollingUpgradeMonitoringPolicy'
+            description: 'The policy used for monitoring the application upgrade'
+            required: false
+            azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'failureAction'
+                description: 'The activation Mode of the service package'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy/failureAction', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/failureAction']
+                values:
+                  - :Rollback
+                  - :Manual
+                default_value: :Rollback
+              - !ruby/object:Api::Type::String
+                name: 'healthCheckWaitDuration'
+                description: 'The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckWaitDuration', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckWaitDuration']
+              - !ruby/object:Api::Type::String
+                name: 'healthCheckStableDuration'
+                description: 'The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckStableDuration', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckStableDuration']
+              - !ruby/object:Api::Type::String
+                name: 'healthCheckRetryTimeout'
+                description: 'The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckRetryTimeout', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/healthCheckRetryTimeout']
+              - !ruby/object:Api::Type::String
+                name: 'upgradeTimeout'
+                description: 'The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeTimeout', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeTimeout']
+              - !ruby/object:Api::Type::String
+                name: 'upgradeDomainTimeout'
+                description: 'The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeDomainTimeout', '/properties/upgradePolicy/rollingUpgradeMonitoringPolicy/upgradeDomainTimeout']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'applicationHealthPolicy'
+            description: 'Defines a health policy used to evaluate the health of an application or one of its children entities.<br>'
+            required: false
+            azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy', '/properties/upgradePolicy/applicationHealthPolicy']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'considerWarningAsError'
+                description: 'Indicates whether warnings are treated with the same severity as errors.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/considerWarningAsError', '/properties/upgradePolicy/applicationHealthPolicy/considerWarningAsError']
+              - !ruby/object:Api::Type::Integer
+                name: 'maxPercentUnhealthyDeployedApplications'
+                description: 'The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.<br>The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.<br>This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.<br>The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.<br>'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/maxPercentUnhealthyDeployedApplications', '/properties/upgradePolicy/applicationHealthPolicy/maxPercentUnhealthyDeployedApplications']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'defaultServiceTypeHealthPolicy'
+                description: 'The health policy used by default to evaluate the health of a service type.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy', '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy']
+                properties:
+                  - !ruby/object:Api::Type::Integer
+                    name: 'maxPercentUnhealthyServices'
+                    description: 'The maximum percentage of services allowed to be unhealthy before your application is considered in error.<br>'
+                    required: false
+                    azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyServices', '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyServices']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'maxPercentUnhealthyPartitionsPerService'
+                    description: 'The maximum percentage of partitions per service allowed to be unhealthy before your application is considered in error.<br>'
+                    required: false
+                    azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyPartitionsPerService', '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyPartitionsPerService']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'maxPercentUnhealthyReplicasPerPartition'
+                    description: 'The maximum percentage of replicas per partition allowed to be unhealthy before your application is considered in error.<br>'
+                    required: false
+                    azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyReplicasPerPartition', '/properties/upgradePolicy/applicationHealthPolicy/defaultServiceTypeHealthPolicy/maxPercentUnhealthyReplicasPerPartition']
+              - !ruby/object:Api::Type::KeyValuePairs
+                name: 'serviceTypeHealthPolicyMap'
+                description: 'The map with service type health policy per service type name. The map is empty by default.'
+                required: false
+                azure_sdk_references: ['/upgradePolicy/applicationHealthPolicy/serviceTypeHealthPolicyMap', '/properties/upgradePolicy/applicationHealthPolicy/serviceTypeHealthPolicyMap']
+      - !ruby/object:Api::Type::Integer
+        name: 'minimumNodes'
+        description: 'The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property.'
+        required: false
+        azure_sdk_references: ['/minimumNodes', '/properties/minimumNodes']
+      - !ruby/object:Api::Type::Integer
+        name: 'maximumNodes'
+        description: 'The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node.'
+        required: false
+        azure_sdk_references: ['/maximumNodes', '/properties/maximumNodes']
+      - !ruby/object:Api::Type::Boolean
+        name: 'removeApplicationCapacity'
+        description: 'Remove the current application capacity settings.'
+        required: false
+        azure_sdk_references: ['/removeApplicationCapacity', '/properties/removeApplicationCapacity']
+      - !ruby/object:Api::Type::Array
+        name: 'metrics'
+        description: 'List of application capacity metric description.'
+        required: false
+        azure_sdk_references: ['/metrics', '/properties/metrics']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the metric.'
+              required: false
+              azure_sdk_references: ['/metrics/name', '/properties/metrics/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'maximumCapacity'
+              description: 'The maximum node capacity for Service Fabric application.<br>This is the maximum Load for an instance of this application on a single node. Even if the capacity of node is greater than this value, Service Fabric will limit the total load of services within the application on each node to this value.<br>If set to zero, capacity for this metric is unlimited on each node.<br>When creating a new application with application capacity defined, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity.<br>When updating existing application with application capacity, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity.<br>'
+              required: false
+              azure_sdk_references: ['/metrics/maximumCapacity', '/properties/metrics/maximumCapacity']
+            - !ruby/object:Api::Type::Integer
+              name: 'reservationCapacity'
+              description: 'The node reservation capacity for Service Fabric application.<br>This is the amount of load which is reserved on nodes which have instances of this application.<br>If MinimumNodes is specified, then the product of these values will be the capacity reserved in the cluster for the application.<br>If set to zero, no capacity is reserved for this metric.<br>When setting application capacity or when updating application capacity; this value must be smaller than or equal to MaximumCapacity for each metric.<br>'
+              required: false
+              azure_sdk_references: ['/metrics/reservationCapacity', '/properties/metrics/reservationCapacity']
+            - !ruby/object:Api::Type::Integer
+              name: 'totalApplicationCapacity'
+              description: 'The total metric capacity for Service Fabric application.<br>This is the total metric capacity for this application in the cluster. Service Fabric will try to limit the sum of loads of services within the application to this value.<br>When creating a new application with application capacity defined, the product of MaximumNodes and MaximumCapacity must always be smaller than or equal to this value.<br>'
+              required: false
+              azure_sdk_references: ['/metrics/totalApplicationCapacity', '/properties/metrics/totalApplicationCapacity']
+      - !ruby/object:Api::Type::String
+        name: 'typeName'
+        description: 'The application type name as defined in the application manifest.'
+        required: false
+        azure_sdk_references: ['/typeName', '/properties/typeName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The current deployment or provisioning state, which only appears in the response'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Azure resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Azure resource etag.'
+        output: true
+        azure_sdk_references: ['/etag']

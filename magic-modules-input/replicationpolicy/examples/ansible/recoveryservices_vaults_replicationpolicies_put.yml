@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_replicationpolicy
+  description: Creates the policy.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    policy_name: myReplicationPolicy
+    input:
+      properties:
+        providerSpecificInput:
+          instanceType: HyperVReplicaAzure
+  

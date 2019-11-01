@@ -1,0 +1,23 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_streamingpolicy
+  description: Creates a Streaming Policy with commonEncryptionCbcs only
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaService
+    streaming_policy_name: myStreamingPolicy
+    default_content_key_policy_name: PolicyWithMultipleOptions
+    common_encryption_cbcs:
+      enabled_protocols:
+        download: false
+        dash: false
+        hls: true
+        smooth_streaming: false
+      content_keys:
+        default_key:
+          label: cbcsDefaultKey
+      drm:
+        fair_play:
+          custom_license_acquisition_url_template: 'https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}'
+          allow_persistent_license: true
+  

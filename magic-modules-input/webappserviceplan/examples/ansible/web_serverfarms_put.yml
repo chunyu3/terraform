@@ -1,0 +1,24 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_webappserviceplan
+  description: Create Or Update App Service plan
+  code:
+    resource_group: myResourceGroup
+    name: myServerfarm
+    app_service_plan:
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Web/serverfarms/{{ serverfarm_name }}
+      name: testsf6141
+      type: Microsoft.Web/serverfarms
+      kind: app
+      location: East US
+      properties:
+        name: testsf6141
+      sku:
+        name: P1
+        tier: Premium
+        size: P1
+        family: P
+        capacity: '1'
+  

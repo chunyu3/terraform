@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_machinegroup
+  description: SMMachineGroupsUpdatePut
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    machine_group:
+      kind: machineGroup
+      properties:
+        displayName: Foo
+        count: '1'
+        machines:
+          - kind: 'ref:machinewithhints'
+            id: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group
+              }}/providers/Microsoft.OperationalInsights/workspaces/{{
+              workspace_name }}/machines/{{ machine_name }}
+      etag: 8cd3a8a1-4b1f-43fc-ae3c-b2c092561444
+  

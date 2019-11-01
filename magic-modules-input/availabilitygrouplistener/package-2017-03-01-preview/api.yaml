@@ -1,0 +1,360 @@
+--- !ruby/object:Api::Product
+name: Azure AvailabilityGroupListener Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AvailabilityGroupListener
+    api_name: SqlVirtualMachine
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.SqlVirtualMachine
+      go_client_namespace: 
+      go_client: availabilityGroupListenersClient
+      python_client_namespace: 
+      python_client: SqlVirtualMachineManagementClient.availability_group_listeners
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachineGroups
+            go_variable_name: sqlVirtualMachineGroupName
+            python_parameter_name: sql_virtual_machine_group_name
+            python_variable_name: sql_virtual_machine_group_name
+          'availabilityGroupListenerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: availabilityGroupListeners
+            go_variable_name: availabilityGroupListenerName
+            python_parameter_name: availability_group_listener_name
+            python_variable_name: availability_group_listener_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: AvailabilityGroupListener
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AvailabilityGroupListenerProperties
+            go_type_name: AvailabilityGroupListenerProperties
+          '/availabilityGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: availability_group_name
+          '/properties/availabilityGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AvailabilityGroupName
+          '/loadBalancerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancer_configurations
+          '/loadBalancerConfigurations/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/loadBalancerConfigurations/privateIpAddress/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/loadBalancerConfigurations/privateIpAddress/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/loadBalancerConfigurations/publicIpAddressResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address_resource_id
+          '/loadBalancerConfigurations/loadBalancerResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: load_balancer_resource_id
+          '/loadBalancerConfigurations/probePort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: probe_port
+          '/loadBalancerConfigurations/sqlVirtualMachineInstances': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: sql_virtual_machine_instances
+          '/properties/loadBalancerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerConfigurations
+            go_type_name: LoadBalancerConfiguration
+          '/properties/loadBalancerConfigurations/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+            go_type_name: PrivateIPAddress
+          '/properties/loadBalancerConfigurations/privateIpAddress/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/properties/loadBalancerConfigurations/privateIpAddress/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/properties/loadBalancerConfigurations/publicIpAddressResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddressResourceID
+          '/properties/loadBalancerConfigurations/loadBalancerResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerResourceID
+          '/properties/loadBalancerConfigurations/probePort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ProbePort
+          '/properties/loadBalancerConfigurations/sqlVirtualMachineInstances': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineInstances
+          '/createDefaultAvailabilityGroupIfNotExist': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: create_default_availability_group_if_not_exist
+          '/properties/createDefaultAvailabilityGroupIfNotExist': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: CreateDefaultAvailabilityGroupIfNotExist
+          '/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/properties/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachineGroups
+            go_variable_name: sqlVirtualMachineGroupName
+            python_parameter_name: sql_virtual_machine_group_name
+            python_variable_name: sql_virtual_machine_group_name
+          'availabilityGroupListenerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: availabilityGroupListeners
+            go_variable_name: availabilityGroupListenerName
+            python_parameter_name: availability_group_listener_name
+            python_variable_name: availability_group_listener_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachineGroups
+            go_variable_name: sqlVirtualMachineGroupName
+            python_parameter_name: sql_virtual_machine_group_name
+            python_variable_name: sql_virtual_machine_group_name
+          'availabilityGroupListenerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: availabilityGroupListeners
+            go_variable_name: availabilityGroupListenerName
+            python_parameter_name: availability_group_listener_name
+            python_variable_name: availability_group_listener_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AvailabilityGroupListenerProperties
+            go_type_name: AvailabilityGroupListenerProperties
+          '/properties/availabilityGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AvailabilityGroupName
+          '/availabilityGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: availability_group_name
+          '/properties/loadBalancerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerConfigurations
+            go_type_name: LoadBalancerConfiguration
+          '/properties/loadBalancerConfigurations/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+            go_type_name: PrivateIPAddress
+          '/properties/loadBalancerConfigurations/privateIpAddress/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/properties/loadBalancerConfigurations/privateIpAddress/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/properties/loadBalancerConfigurations/publicIpAddressResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddressResourceID
+          '/properties/loadBalancerConfigurations/loadBalancerResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerResourceID
+          '/properties/loadBalancerConfigurations/probePort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ProbePort
+          '/properties/loadBalancerConfigurations/sqlVirtualMachineInstances': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineInstances
+          '/loadBalancerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancer_configurations
+          '/loadBalancerConfigurations/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/loadBalancerConfigurations/privateIpAddress/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/loadBalancerConfigurations/privateIpAddress/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/loadBalancerConfigurations/publicIpAddressResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address_resource_id
+          '/loadBalancerConfigurations/loadBalancerResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: load_balancer_resource_id
+          '/loadBalancerConfigurations/probePort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: probe_port
+          '/loadBalancerConfigurations/sqlVirtualMachineInstances': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: sql_virtual_machine_instances
+          '/properties/createDefaultAvailabilityGroupIfNotExist': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: CreateDefaultAvailabilityGroupIfNotExist
+          '/createDefaultAvailabilityGroupIfNotExist': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: create_default_availability_group_if_not_exist
+          '/properties/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+          '/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByGroup
+        python_func_name: list_by_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachineGroups
+            go_variable_name: sqlVirtualMachineGroupName
+            python_parameter_name: sql_virtual_machine_group_name
+            python_variable_name: sql_virtual_machine_group_name
+
+    description: |
+      Manage Azure AvailabilityGroupListener instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'sqlVirtualMachineGroupName'
+        description: 'Name of the SQL virtual machine group.'
+        required: true
+        input: true
+        azure_sdk_references: ['sqlVirtualMachineGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'availabilityGroupListenerName'
+        description: 'Name of the availability group listener.'
+        required: true
+        input: true
+        azure_sdk_references: ['availabilityGroupListenerName']
+      - !ruby/object:Api::Type::String
+        name: 'availabilityGroupName'
+        description: 'Name of the availability group.'
+        required: false
+        azure_sdk_references: ['/availabilityGroupName', '/properties/availabilityGroupName']
+      - !ruby/object:Api::Type::Array
+        name: 'loadBalancerConfigurations'
+        description: 'List of load balancer configurations for an availability group listener.'
+        required: false
+        azure_sdk_references: ['/loadBalancerConfigurations', '/properties/loadBalancerConfigurations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::NestedObject
+              name: 'privateIpAddress'
+              description: 'Private IP address.'
+              required: false
+              azure_sdk_references: ['/loadBalancerConfigurations/privateIpAddress', '/properties/loadBalancerConfigurations/privateIpAddress']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'ipAddress'
+                  description: 'Private IP address bound to the availability group listener.'
+                  required: false
+                  azure_sdk_references: ['/loadBalancerConfigurations/privateIpAddress/ipAddress', '/properties/loadBalancerConfigurations/privateIpAddress/ipAddress']
+                - !ruby/object:Api::Type::String
+                  name: 'subnetResourceId'
+                  description: 'Subnet used to include private IP.'
+                  required: false
+                  azure_sdk_references: ['/loadBalancerConfigurations/privateIpAddress/subnetResourceId', '/properties/loadBalancerConfigurations/privateIpAddress/subnetResourceId']
+            - !ruby/object:Api::Type::String
+              name: 'publicIpAddressResourceId'
+              description: 'Resource id of the public IP.'
+              required: false
+              azure_sdk_references: ['/loadBalancerConfigurations/publicIpAddressResourceId', '/properties/loadBalancerConfigurations/publicIpAddressResourceId']
+            - !ruby/object:Api::Type::String
+              name: 'loadBalancerResourceId'
+              description: 'Resource id of the load balancer.'
+              required: false
+              azure_sdk_references: ['/loadBalancerConfigurations/loadBalancerResourceId', '/properties/loadBalancerConfigurations/loadBalancerResourceId']
+            - !ruby/object:Api::Type::Integer
+              name: 'probePort'
+              description: 'Probe port.'
+              required: false
+              azure_sdk_references: ['/loadBalancerConfigurations/probePort', '/properties/loadBalancerConfigurations/probePort']
+            - !ruby/object:Api::Type::Array
+              name: 'sqlVirtualMachineInstances'
+              description: 'List of the SQL virtual machine instance resource id''s that are enrolled into the availability group listener.'
+              required: false
+              azure_sdk_references: ['/loadBalancerConfigurations/sqlVirtualMachineInstances', '/properties/loadBalancerConfigurations/sqlVirtualMachineInstances']
+              item_type: Api::Type::String
+      - !ruby/object:Api::Type::Boolean
+        name: 'createDefaultAvailabilityGroupIfNotExist'
+        description: 'Create a default availability group if it does not exist.'
+        required: false
+        azure_sdk_references: ['/createDefaultAvailabilityGroupIfNotExist', '/properties/createDefaultAvailabilityGroupIfNotExist']
+      - !ruby/object:Api::Type::Integer
+        name: 'port'
+        description: 'Listener port.'
+        required: false
+        azure_sdk_references: ['/port', '/properties/port']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Provisioning state to track the async operation status.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

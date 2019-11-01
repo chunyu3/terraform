@@ -1,0 +1,144 @@
+--- !ruby/object:Api::Product
+name: Azure Artifact Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Artifact
+    api_name: Blueprint
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Blueprint
+      go_client_namespace: 
+      go_client: artifactsClient
+      python_client_namespace: 
+      python_client: BlueprintManagementClient.artifacts
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blueprints
+            go_variable_name: blueprintName
+            python_parameter_name: blueprint_name
+            python_variable_name: blueprint_name
+          'artifactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: artifacts
+            go_variable_name: artifactName
+            python_parameter_name: artifact_name
+            python_variable_name: artifact_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: artifact
+            go_type_name: Artifact
+            python_parameter_name: artifact
+            python_variable_name: artifact
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blueprints
+            go_variable_name: blueprintName
+            python_parameter_name: blueprint_name
+            python_variable_name: blueprint_name
+          'artifactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: artifacts
+            go_variable_name: artifactName
+            python_parameter_name: artifact_name
+            python_variable_name: artifact_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blueprints
+            go_variable_name: blueprintName
+            python_parameter_name: blueprint_name
+            python_variable_name: blueprint_name
+          'artifactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: artifacts
+            go_variable_name: artifactName
+            python_parameter_name: artifact_name
+            python_variable_name: artifact_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blueprints
+            go_variable_name: blueprintName
+            python_parameter_name: blueprint_name
+            python_variable_name: blueprint_name
+
+    description: |
+      Manage Azure Artifact instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of the resource. Valid scopes are: management group (format: ''/providers/Microsoft.Management/managementGroups/{managementGroup}''), subscription (format: ''/subscriptions/{subscriptionId}''). For blueprint assignments management group scope is reserved for future use.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'blueprintName'
+        description: 'Name of the blueprint definition.'
+        required: true
+        input: true
+        azure_sdk_references: ['blueprintName']
+      - !ruby/object:Api::Type::String
+        name: 'artifactName'
+        description: 'Name of the blueprint artifact.'
+        required: true
+        input: true
+        azure_sdk_references: ['artifactName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'String Id used to locate any resource on Azure.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of this resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of this resource.'
+        output: true
+        azure_sdk_references: ['/name']

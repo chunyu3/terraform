@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_dedicatedhost
+  description: Create or update a dedicated host .
+  code:
+    resource_group: myResourceGroup
+    host_group_name: myHostGroup
+    host_name: myHost
+    location: westus
+    tags:
+      department: HR
+    platform_fault_domain: '1'
+    sku:
+      name: DSv3-Type1
+  

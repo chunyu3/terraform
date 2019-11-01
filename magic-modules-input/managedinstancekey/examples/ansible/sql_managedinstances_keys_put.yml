@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_managedinstancekey
+  description: Creates or updates a managed instance key
+  code:
+    resource_group: myResourceGroup
+    managed_instance_name: myManagedInstance
+    key_name: myKey
+    server_key_type: AzureKeyVault
+    uri: >-
+      https://someVault.vault.azure.net/keys/someKey/01234567890123456789012345678901
+  

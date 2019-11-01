@@ -1,0 +1,386 @@
+--- !ruby/object:Api::Product
+name: Azure Cache Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Cache
+    api_name: StorageCache
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorageCache
+      go_client_namespace: 
+      go_client: cachesClient
+      python_client_namespace: 
+      python_client: StorageCacheManagementClient.caches
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: caches
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: cache
+            go_type_name: Cache
+            python_parameter_name: cache
+            python_variable_name: cache
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Cache_properties
+            go_type_name: Cache_properties
+          '/cacheSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: cache_size_gb
+          '/properties/cacheSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CacheSizeGb
+          '/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subnet
+          '/upgradeStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: upgrade_status
+          '/properties/upgradeStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UpgradeStatus
+            go_type_name: CacheUpgradeStatus
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Cache_sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: caches
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: cache
+            go_type_name: Cache
+            python_parameter_name: cache
+            python_variable_name: cache
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Cache_properties
+            go_type_name: Cache_properties
+          '/cacheSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: cache_size_gb
+          '/properties/cacheSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CacheSizeGb
+          '/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subnet
+          '/upgradeStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: upgrade_status
+          '/properties/upgradeStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UpgradeStatus
+            go_type_name: CacheUpgradeStatus
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Cache_sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: caches
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: caches
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Cache_properties
+            go_type_name: Cache_properties
+          '/properties/cacheSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CacheSizeGb
+          '/cacheSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: cache_size_gb
+          '/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subnet
+          '/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/properties/upgradeStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UpgradeStatus
+            go_type_name: CacheUpgradeStatus
+          '/properties/upgradeStatus/currentFirmwareVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CurrentFirmwareVersion
+          '/properties/upgradeStatus/firmwareUpdateStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FirmwareUpdateStatus
+            go_enum_type_name: FirmwareStatusType
+          '/properties/upgradeStatus/firmwareUpdateDeadline': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: FirmwareUpdateDeadline
+          '/properties/upgradeStatus/lastFirmwareUpdate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastFirmwareUpdate
+          '/properties/upgradeStatus/pendingFirmwareVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PendingFirmwareVersion
+          '/upgradeStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: upgrade_status
+          '/upgradeStatus/currentFirmwareVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: current_firmware_version
+          '/upgradeStatus/firmwareUpdateStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: firmware_update_status
+          '/upgradeStatus/firmwareUpdateDeadline': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: firmware_update_deadline
+          '/upgradeStatus/lastFirmwareUpdate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_firmware_update
+          '/upgradeStatus/pendingFirmwareVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: pending_firmware_version
+          '/properties/health': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Health
+            go_type_name: CacheHealth
+          '/health': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: health
+          '/properties/mountAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MountAddresses
+          '/mountAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mount_addresses
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningStateType
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Cache_sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Cache instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Target resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'cacheName'
+        description: 'Name of Cache.'
+        required: true
+        input: true
+        azure_sdk_references: ['cacheName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'ARM tags as name/value pairs.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Region name string.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Integer
+        name: 'cacheSizeGb'
+        description: 'The size of this Cache, in GB.'
+        required: false
+        azure_sdk_references: ['/cacheSizeGB', '/properties/cacheSizeGB']
+      - !ruby/object:Api::Type::String
+        name: 'subnet'
+        description: 'Subnet used for the Cache.'
+        required: false
+        azure_sdk_references: ['/subnet', '/properties/subnet']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'upgradeStatus'
+        description: 'Upgrade status of the Cache.'
+        required: false
+        azure_sdk_references: ['/upgradeStatus', '/properties/upgradeStatus']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'SKU for the Cache.'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'SKU name for this Cache.'
+            required: false
+            azure_sdk_references: ['/sku/name']
+      # read only values included only in response
+      - !ruby/object:Api::Type::NestedObject
+        name: 'health'
+        description: 'Health of the Cache.'
+        output: true
+        azure_sdk_references: ['/health', '/properties/health']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'state'
+            description: 'List of Cache health states.'
+            required: false
+            azure_sdk_references: ['/health/state', '/properties/health/state']
+            values:
+              - :Unknown
+              - :Healthy
+              - :Degraded
+              - :Down
+              - :Transitioning
+              - :Stopping
+              - :Stopped
+              - :Upgrading
+              - :Flushing
+            default_value: :Unknown
+          - !ruby/object:Api::Type::String
+            name: 'statusDescription'
+            description: 'Describes explanation of state.'
+            required: false
+            azure_sdk_references: ['/health/statusDescription', '/properties/health/statusDescription']
+      - !ruby/object:Api::Type::Array
+        name: 'mountAddresses'
+        description: 'Array of IP addresses that can be used by clients mounting this Cache.'
+        output: true
+        azure_sdk_references: ['/mountAddresses', '/properties/mountAddresses']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Failed
+          - :Cancelled
+          - :Creating
+          - :Deleting
+          - :Updating
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID of the Cache.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of Cache.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the Cache; Microsoft.StorageCache/Cache'
+        output: true
+        azure_sdk_references: ['/type']

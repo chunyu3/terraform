@@ -1,0 +1,235 @@
+--- !ruby/object:Api::Product
+name: Azure ApiDiagnosticLogger Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ApiDiagnosticLogger
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: 
+      go_client: apiDiagnosticLoggerClient
+      python_client_namespace: 
+      python_client: ApiManagementClient.api_diagnostic_logger
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apis
+            go_variable_name: apiID
+            python_parameter_name: api_id
+            python_variable_name: api_id
+          'diagnosticId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticID
+            python_parameter_name: diagnostic_id
+            python_variable_name: diagnostic_id
+          'loggerid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loggers
+            go_variable_name: loggerid
+            python_parameter_name: loggerid
+            python_variable_name: loggerid
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apis
+            go_variable_name: apiID
+            python_parameter_name: api_id
+            python_variable_name: api_id
+          'diagnosticId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticID
+            python_parameter_name: diagnostic_id
+            python_variable_name: diagnostic_id
+          'loggerid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loggers
+            go_variable_name: loggerid
+            python_parameter_name: loggerid
+            python_variable_name: loggerid
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByService
+        python_func_name: list_by_service
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apis
+            go_variable_name: apiID
+            python_parameter_name: api_id
+            python_variable_name: api_id
+          'diagnosticId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticID
+            python_parameter_name: diagnostic_id
+            python_variable_name: diagnostic_id
+
+    description: |
+      Manage Azure ApiDiagnosticLogger instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'apiId'
+        description: 'API identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['apiId']
+      - !ruby/object:Api::Type::String
+        name: 'diagnosticId'
+        description: 'Diagnostic identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['diagnosticId']
+      - !ruby/object:Api::Type::String
+        name: 'loggerid'
+        description: 'Logger identifier. Must be unique in the API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['loggerid']
+      - !ruby/object:Api::Type::Enum
+        name: 'loggerType'
+        description: 'Logger type.'
+        required: true
+        azure_sdk_references: ['/loggerType', '/properties/loggerType']
+        values:
+          - :azureEventHub
+          - :applicationInsights
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Logger description.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'credentials'
+        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
+        required: true
+        azure_sdk_references: ['/credentials', '/properties/credentials']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isBuffered'
+        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
+        required: false
+        azure_sdk_references: ['/isBuffered', '/properties/isBuffered']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sampling'
+        description: 'Sampling settings for an ApplicationInsights logger.'
+        required: false
+        azure_sdk_references: ['/sampling', '/properties/sampling']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'samplingType'
+            description: 'Sampling type.'
+            required: false
+            azure_sdk_references: ['/sampling/samplingType', '/properties/sampling/properties/samplingType']
+            values:
+              - :fixed
+              - :adaptive
+            default_value: :fixed
+          - !ruby/object:Api::Type::Double
+            name: 'percentage'
+            description: 'Rate of sampling for fixed-rate sampling.'
+            required: false
+            azure_sdk_references: ['/sampling/percentage', '/properties/sampling/properties/percentage']
+          - !ruby/object:Api::Type::Integer
+            name: 'maxTelemetryItemsPerSecond'
+            description: 'Target rate of telemetry items per second.'
+            required: false
+            azure_sdk_references: ['/sampling/maxTelemetryItemsPerSecond', '/properties/sampling/properties/maxTelemetryItemsPerSecond']
+          - !ruby/object:Api::Azure::Type::ISO8601Duration
+            name: 'evaluationInterval'
+            description: 'Rate re-evaluation interval in ISO8601 format.'
+            required: false
+            azure_sdk_references: ['/sampling/evaluationInterval', '/properties/sampling/properties/evaluationInterval']
+          - !ruby/object:Api::Azure::Type::ISO8601Duration
+            name: 'percentageDecreaseTimeout'
+            description: 'Duration in ISO8601 format after which it''s allowed to lower the sampling rate.'
+            required: false
+            azure_sdk_references: ['/sampling/percentageDecreaseTimeout', '/properties/sampling/properties/percentageDecreaseTimeout']
+          - !ruby/object:Api::Azure::Type::ISO8601Duration
+            name: 'percentageIncreaseTimeout'
+            description: 'Duration in ISO8601 format after which it''s allowed to increase the sampling rate.'
+            required: false
+            azure_sdk_references: ['/sampling/percentageIncreaseTimeout', '/properties/sampling/properties/percentageIncreaseTimeout']
+          - !ruby/object:Api::Type::Double
+            name: 'minPercentage'
+            description: 'Minimum allowed rate of sampling.'
+            required: false
+            azure_sdk_references: ['/sampling/minPercentage', '/properties/sampling/properties/minPercentage']
+          - !ruby/object:Api::Type::Double
+            name: 'maxPercentage'
+            description: 'Maximum allowed rate of sampling.'
+            required: false
+            azure_sdk_references: ['/sampling/maxPercentage', '/properties/sampling/properties/maxPercentage']
+          - !ruby/object:Api::Type::Double
+            name: 'movingAverageRatio'
+            description: 'Moving average ration assigned to most recent value.'
+            required: false
+            azure_sdk_references: ['/sampling/movingAverageRatio', '/properties/sampling/properties/movingAverageRatio']
+          - !ruby/object:Api::Type::Double
+            name: 'initialPercentage'
+            description: 'Initial sampling rate.'
+            required: false
+            azure_sdk_references: ['/sampling/initialPercentage', '/properties/sampling/properties/initialPercentage']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type for API Management resource.'
+        output: true
+        azure_sdk_references: ['/type']

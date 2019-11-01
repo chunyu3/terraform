@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_origin
+  description: Origins_Create
+  code:
+    resource_group: myResourceGroup
+    profile_name: myProfile
+    endpoint_name: myEndpoint
+    origin_name: myOrigin
+    origin:
+      location: WestUs
+      tags:
+        key1: value1
+      properties:
+        hostName: www.someDomain.net
+        httpPort: '80'
+        httpsPort: '443'
+        originHostHeader: www.someDomain.net
+        priority: '1'
+        weight: '50'
+        enabled: true
+  

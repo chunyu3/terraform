@@ -1,0 +1,462 @@
+--- !ruby/object:Api::Product
+name: Azure RelationshipLink Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RelationshipLink
+    api_name: CustomerInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CustomerInsights
+      go_client_namespace: 
+      go_client: relationshipLinksClient
+      python_client_namespace: 
+      python_client: CustomerInsightsManagementClient.relationship_links
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'relationshipLinkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: relationshipLinks
+            go_variable_name: relationshipLinkName
+            python_parameter_name: relationship_link_name
+            python_variable_name: relationship_link_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: RelationshipLinkResourceFormat
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RelationshipLinkDefinition
+            go_type_name: RelationshipLinkDefinition
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/interactionType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_type
+          '/properties/interactionType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionType
+          '/mappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: mappings
+          '/mappings/interactionFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_field_name
+          '/mappings/linkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: link_type
+          '/mappings/relationshipFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: relationship_field_name
+          '/properties/mappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Mappings
+            go_type_name: RelationshipLinkFieldMapping
+          '/properties/mappings/interactionFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionFieldName
+          '/properties/mappings/linkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LinkType
+            go_enum_type_name: LinkTypes
+          '/properties/mappings/relationshipFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RelationshipFieldName
+          '/profilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: profile_property_references
+          '/profilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_property_name
+          '/profilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: profile_property_name
+          '/properties/profilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ProfilePropertyReferences
+            go_type_name: ParticipantProfilePropertyReference
+          '/properties/profilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionPropertyName
+          '/properties/profilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProfilePropertyName
+          '/relatedProfilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: related_profile_property_references
+          '/relatedProfilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_property_name
+          '/relatedProfilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: profile_property_name
+          '/properties/relatedProfilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RelatedProfilePropertyReferences
+            go_type_name: ParticipantProfilePropertyReference
+          '/properties/relatedProfilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionPropertyName
+          '/properties/relatedProfilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProfilePropertyName
+          '/relationshipName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: relationship_name
+          '/properties/relationshipName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RelationshipName
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'relationshipLinkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: relationshipLinks
+            go_variable_name: relationshipLinkName
+            python_parameter_name: relationship_link_name
+            python_variable_name: relationship_link_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'relationshipLinkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: relationshipLinks
+            go_variable_name: relationshipLinkName
+            python_parameter_name: relationship_link_name
+            python_variable_name: relationship_link_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RelationshipLinkDefinition
+            go_type_name: RelationshipLinkDefinition
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/interactionType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionType
+          '/interactionType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_type
+          '/properties/mappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Mappings
+            go_type_name: RelationshipLinkFieldMapping
+          '/properties/mappings/interactionFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionFieldName
+          '/properties/mappings/linkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LinkType
+            go_enum_type_name: LinkTypes
+          '/properties/mappings/relationshipFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RelationshipFieldName
+          '/mappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: mappings
+          '/mappings/interactionFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_field_name
+          '/mappings/linkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: link_type
+          '/mappings/relationshipFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: relationship_field_name
+          '/properties/profilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ProfilePropertyReferences
+            go_type_name: ParticipantProfilePropertyReference
+          '/properties/profilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionPropertyName
+          '/properties/profilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProfilePropertyName
+          '/profilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: profile_property_references
+          '/profilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_property_name
+          '/profilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: profile_property_name
+          '/properties/relatedProfilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RelatedProfilePropertyReferences
+            go_type_name: ParticipantProfilePropertyReference
+          '/properties/relatedProfilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InteractionPropertyName
+          '/properties/relatedProfilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProfilePropertyName
+          '/relatedProfilePropertyReferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: related_profile_property_references
+          '/relatedProfilePropertyReferences/interactionPropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interaction_property_name
+          '/relatedProfilePropertyReferences/profilePropertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: profile_property_name
+          '/properties/relationshipName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RelationshipName
+          '/relationshipName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: relationship_name
+          '/properties/linkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LinkName
+          '/linkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: link_name
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningStates
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/relationshipGuidId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RelationshipGuidID
+          '/relationshipGuidId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: relationship_guid_id
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByHub
+        python_func_name: list_by_hub
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+
+    description: |
+      Manage Azure RelationshipLink instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'hubName'
+        description: 'The name of the hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['hubName']
+      - !ruby/object:Api::Type::String
+        name: 'relationshipLinkName'
+        description: 'The name of the relationship link.'
+        required: true
+        input: true
+        azure_sdk_references: ['relationshipLinkName']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'displayName'
+        description: 'Localized display name for the Relationship Link.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'description'
+        description: 'Localized descriptions for the Relationship Link.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'interactionType'
+        description: 'The InteractionType associated with the Relationship Link.'
+        required: true
+        azure_sdk_references: ['/interactionType', '/properties/interactionType']
+      - !ruby/object:Api::Type::Array
+        name: 'mappings'
+        description: 'The mappings between Interaction and Relationship fields.'
+        required: false
+        azure_sdk_references: ['/mappings', '/properties/mappings']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'interactionFieldName'
+              description: 'The field name on the Interaction Type.'
+              required: true
+              azure_sdk_references: ['/mappings/interactionFieldName', '/properties/mappings/interactionFieldName']
+            - !ruby/object:Api::Type::Enum
+              name: 'linkType'
+              description: 'Link type.'
+              required: false
+              azure_sdk_references: ['/mappings/linkType', '/properties/mappings/linkType']
+              values:
+                - :UpdateAlways
+                - :CopyIfNull
+              default_value: :UpdateAlways
+            - !ruby/object:Api::Type::String
+              name: 'relationshipFieldName'
+              description: 'The field name on the Relationship metadata.'
+              required: true
+              azure_sdk_references: ['/mappings/relationshipFieldName', '/properties/mappings/relationshipFieldName']
+      - !ruby/object:Api::Type::Array
+        name: 'profilePropertyReferences'
+        description: 'The property references for the Profile of the Relationship.'
+        required: true
+        azure_sdk_references: ['/profilePropertyReferences', '/properties/profilePropertyReferences']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'interactionPropertyName'
+              description: 'The source interaction property that maps to the target profile property.'
+              required: true
+              azure_sdk_references: ['/profilePropertyReferences/interactionPropertyName', '/properties/profilePropertyReferences/interactionPropertyName']
+            - !ruby/object:Api::Type::String
+              name: 'profilePropertyName'
+              description: 'The target profile property that maps to the source interaction property.'
+              required: true
+              azure_sdk_references: ['/profilePropertyReferences/profilePropertyName', '/properties/profilePropertyReferences/profilePropertyName']
+      - !ruby/object:Api::Type::Array
+        name: 'relatedProfilePropertyReferences'
+        description: 'The property references for the Related Profile of the Relationship.'
+        required: true
+        azure_sdk_references: ['/relatedProfilePropertyReferences', '/properties/relatedProfilePropertyReferences']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'interactionPropertyName'
+              description: 'The source interaction property that maps to the target profile property.'
+              required: true
+              azure_sdk_references: ['/relatedProfilePropertyReferences/interactionPropertyName', '/properties/relatedProfilePropertyReferences/interactionPropertyName']
+            - !ruby/object:Api::Type::String
+              name: 'profilePropertyName'
+              description: 'The target profile property that maps to the source interaction property.'
+              required: true
+              azure_sdk_references: ['/relatedProfilePropertyReferences/profilePropertyName', '/properties/relatedProfilePropertyReferences/profilePropertyName']
+      - !ruby/object:Api::Type::String
+        name: 'relationshipName'
+        description: 'The Relationship associated with the Link.'
+        required: true
+        azure_sdk_references: ['/relationshipName', '/properties/relationshipName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'linkName'
+        description: 'The name of the Relationship Link.'
+        output: true
+        azure_sdk_references: ['/linkName', '/properties/linkName']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Provisioning
+          - :Succeeded
+          - :Expiring
+          - :Deleting
+          - :HumanIntervention
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'relationshipGuidId'
+        description: 'The relationship guid id.'
+        output: true
+        azure_sdk_references: ['/relationshipGuidId', '/properties/relationshipGuidId']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The hub name.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

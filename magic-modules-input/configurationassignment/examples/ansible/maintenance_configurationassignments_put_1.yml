@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_configurationassignment
+  description: ConfigurationAssignments_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    provider_name: Microsoft.Compute
+    resource_type: virtualMachineScaleSets
+    resource_name: myResourceType
+    configuration_assignment_name: myConfigurationAssignment
+    configuration_assignment:
+      properties:
+        maintenanceConfigurationId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Maintenance/maintenanceConfigurations/{{
+          maintenance_configuration_name }}
+  
