@@ -1,0 +1,70 @@
+--- !ruby/object:Api::Product
+name: Azure TrafficManagerUserMetricsKey Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: TrafficManagerUserMetricsKey
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: 
+      go_client: trafficManagerUserMetricsKeysClient
+      python_client_namespace: 
+      python_client: TrafficManagerManagementClient.traffic_manager_user_metrics_keys
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Key
+            python_field_name: key
+
+    description: |
+      Manage Azure TrafficManagerUserMetricsKey instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'key'
+        description: 'The key returned by the Real User Metrics operation.'
+        output: true
+        azure_sdk_references: ['/key']

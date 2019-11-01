@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_service
+  description: SearchUpdateServiceToRemoveIdentity
+  code:
+    resource_group: myResourceGroup
+    search_service_name: mySearchService
+    service:
+      sku:
+        name: standard
+      identity:
+        type: None
+  
