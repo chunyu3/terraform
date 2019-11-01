@@ -6,9 +6,15 @@ cp -rf --verbose /source/input /autorest.cli
 echo $1
 whoami
 if [ -z "$2" ]; then
-  n=10
+  start=0
 else
-  n=$2
+  start=$2
+fi
+
+if [ -z "$3" ]; then
+  num=0
+else
+  num=$3
 fi
 
 cd /cli-input-tools
@@ -19,6 +25,11 @@ cd /cli-input-tools
 RESULT_FOO=$(python3 list_readme_path_of_all_services.py $1)
 #echo $RESULT_FOO
 for i in ${RESULT_FOO}; do
+    (( start-- ))
+    if [ $start -gt 0 ]; then
+        echo "skip"
+        continue;
+    fi
 	echo $i;
 	#s = $i;
 	#echo $s
@@ -30,8 +41,8 @@ for i in ${RESULT_FOO}; do
 	done
 
     #trage the number of resource to generate
-    (( n-- ))
-    if [ $n -eq 0 ]; then
+    (( num-- ))
+    if [ $num -eq 0 ]; then
       break
     fi
 done

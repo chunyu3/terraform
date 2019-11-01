@@ -69,7 +69,8 @@ steps:
     # done
     echo "docker run start"
     docker login ${DOCKER_ACR_SERVER} -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
-    docker run -i -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification
+    docker run -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification 0 30
+    docker run -v ~/azure-rest-api-specs:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification 31 30
   displayName: 'build magic-module input files'
 - bash: |
     echo "success"
