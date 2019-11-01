@@ -9,15 +9,15 @@ scopes:
 objects:
   - !ruby/object:Api::Resource
     name: Server
-    api_name: DBforMySQL
+    api_name: DBforPostgreSQL
     base_url: NotUsedInAzure
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
-      provider_name: Microsoft.DBforMySQL
+      provider_name: Microsoft.DBforPostgreSQL
       go_client_namespace: 
       go_client: serversClient
       python_client_namespace: 
-      python_client: MySQLManagementClient.servers
+      python_client: PostgreSQLManagementClient.servers
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Create
@@ -442,9 +442,13 @@ objects:
         required: false
         azure_sdk_references: ['/version', '/properties/version']
         values:
-          - :5.6
-          - :5.7
-        default_value: :5.6
+          - :9.5
+          - :9.6
+          - :10
+          - :10.0
+          - :10.2
+          - :11
+        default_value: :9.5
       - !ruby/object:Api::Type::Enum
         name: 'sslEnforcement'
         description: 'Enable ssl enforcement or not when connect to server.'

@@ -9,15 +9,15 @@ scopes:
 objects:
   - !ruby/object:Api::Resource
     name: ServerSecurityAlertPolicy
-    api_name: DBforMySQL
+    api_name: DBforPostgreSQL
     base_url: NotUsedInAzure
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
-      provider_name: Microsoft.DBforMySQL
+      provider_name: Microsoft.DBforPostgreSQL
       go_client_namespace: 
       go_client: serverSecurityAlertPoliciesClient
       python_client_namespace: 
-      python_client: MySQLManagementClient.server_security_alert_policies
+      python_client: PostgreSQLManagementClient.server_security_alert_policies
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: CreateOrUpdate
