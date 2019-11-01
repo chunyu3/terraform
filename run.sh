@@ -5,6 +5,12 @@ cp -rf --verbose /source/input /autorest.cli
 #cd /magic-modules; bundle update --bundler; bundle
 echo $1
 whoami
+if [ -z "$2" ]; then
+  n=10
+else
+  n=$2
+fi
+
 cd /cli-input-tools
 #for d in $1/*.md; do
  # autorest --cli --use=/autorest.cli --mm --intermediate --python-sdks-folder=/generated --output-folder=/generated $di
@@ -22,6 +28,12 @@ for i in ${RESULT_FOO}; do
 	for t in ${TAGS}; do
   		autorest --cli --use=/autorest.cli --mm --intermediate --tag=$t --python-sdks-folder=/generated --output-folder=/generated $i
 	done
+
+    #trage the number of resource to generate
+    (( n-- ))
+    if [ $n -eq 0 ]; then
+      break
+    fi
 done
 src="/generated"
 if [ ! -d "/generated/magic-modules-input" ];then
