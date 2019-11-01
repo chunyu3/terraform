@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_dedicatedcloudservice
+  description: CreateDedicatedCloudService
+  code:
+    resource_group: myResourceGroup
+    dedicated_cloud_service_name: myDedicatedCloudService
+    dedicated_cloud_service_request:
+      location: westus
+      properties:
+        gatewaySubnet: 10.0.0.0
+  

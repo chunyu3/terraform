@@ -1,0 +1,154 @@
+--- !ruby/object:Api::Product
+name: Azure SubscriptionDefinition Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SubscriptionDefinition
+    api_name: Subscription
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Subscription
+      go_client_namespace: 
+      go_client: subscriptionDefinitionsClient
+      python_client_namespace: 
+      python_client: SubscriptionDefinitionsClient.subscription_definitions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'subscriptionDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subscriptionDefinitions
+            go_variable_name: subscriptionDefinitionName
+            python_parameter_name: subscription_definition_name
+            python_variable_name: subscription_definition_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: SubscriptionDefinition
+            python_parameter_name: body
+            python_variable_name: body
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubscriptionDefinitionProperties
+            go_type_name: SubscriptionDefinitionProperties
+          '/subscriptionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_display_name
+          '/properties/subscriptionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionDisplayName
+          '/offerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer_type
+          '/properties/offerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfferType
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'subscriptionDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subscriptionDefinitions
+            go_variable_name: subscriptionDefinitionName
+            python_parameter_name: subscription_definition_name
+            python_variable_name: subscription_definition_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubscriptionDefinitionProperties
+            go_type_name: SubscriptionDefinitionProperties
+          '/properties/subscriptionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionDisplayName
+          '/subscriptionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_display_name
+          '/properties/offerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfferType
+          '/offerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer_type
+          '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure SubscriptionDefinition instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionDefinitionName'
+        description: 'The name of the Azure subscription definition.'
+        required: true
+        input: true
+        azure_sdk_references: ['subscriptionDefinitionName']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionDisplayName'
+        description: 'The display name of the subscription.'
+        required: false
+        azure_sdk_references: ['/subscriptionDisplayName', '/properties/subscriptionDisplayName']
+      - !ruby/object:Api::Type::String
+        name: 'offerType'
+        description: 'The offer type of the subscription. For example, MS-AZR-0017P (EnterpriseAgreement) and MS-AZR-0148P (EnterpriseAgreement devTest) are available.'
+        required: false
+        azure_sdk_references: ['/offerType', '/properties/offerType']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The etag the subscription definition.'
+        required: false
+        azure_sdk_references: ['/etag', '/properties/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'The ID of the subscription.'
+        output: true
+        azure_sdk_references: ['/subscriptionId', '/properties/subscriptionId']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

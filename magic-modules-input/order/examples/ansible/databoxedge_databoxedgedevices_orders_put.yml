@@ -1,0 +1,24 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_order
+  description: OrderPut
+  code:
+    device_name: myDataBoxEdgeDevice
+    order:
+      properties:
+        contactInformation:
+          contactPerson: John Mcclane
+          companyName: Microsoft
+          phone: (800) 426-9400
+          emailList:
+            - john@microsoft.com
+        shippingAddress:
+          addressLine1: Microsoft Corporation
+          addressLine2: One Microsoft Way
+          addressLine3: Redmond
+          postalCode: '98052'
+          city: WA
+          state: WA
+          country: USA
+    resource_group: myResourceGroup
+  

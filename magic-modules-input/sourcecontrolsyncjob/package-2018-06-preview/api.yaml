@@ -1,0 +1,235 @@
+--- !ruby/object:Api::Product
+name: Azure SourceControlSyncJob Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SourceControlSyncJob
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: 
+      go_client: sourceControlSyncJobClient
+      python_client_namespace: 
+      python_client: AutomationClient.source_control_sync_job
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: sourceControlName
+            python_parameter_name: source_control_name
+            python_variable_name: source_control_name
+          'sourceControlSyncJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControlSyncJobs
+            go_variable_name: sourceControlSyncJobID
+            python_parameter_name: source_control_sync_job_id
+            python_variable_name: source_control_sync_job_id
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SourceControlSyncJobCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceControlSyncJobCreateProperties
+            go_type_name: SourceControlSyncJobCreateProperties
+          '/commitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: commit_id
+          '/properties/commitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CommitID
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: sourceControlName
+            python_parameter_name: source_control_name
+            python_variable_name: source_control_name
+          'sourceControlSyncJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControlSyncJobs
+            go_variable_name: sourceControlSyncJobID
+            python_parameter_name: source_control_sync_job_id
+            python_variable_name: source_control_sync_job_id
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceControlSyncJobCreateProperties
+            go_type_name: SourceControlSyncJobCreateProperties
+          '/properties/sourceControlSyncJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceControlSyncJobID
+          '/sourceControlSyncJobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_control_sync_job_id
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/syncType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncType
+            go_enum_type_name: SyncType
+          '/syncType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_type
+          '/properties/exception': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Exception
+          '/exception': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: exception
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAutomationAccount
+        python_func_name: list_by_automation_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: sourceControlName
+            python_parameter_name: source_control_name
+            python_variable_name: source_control_name
+
+    description: |
+      Manage Azure SourceControlSyncJob instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'automationAccountName'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'sourceControlName'
+        description: 'The source control name.'
+        required: true
+        input: true
+        azure_sdk_references: ['sourceControlName']
+      - !ruby/object:Api::Type::String
+        name: 'sourceControlSyncJobId'
+        description: 'The source control sync job id.'
+        required: true
+        input: true
+        azure_sdk_references: ['sourceControlSyncJobId']
+      - !ruby/object:Api::Type::String
+        name: 'commitId'
+        description: 'The commit id of the source control sync job. If not syncing to a commitId, enter an empty string.'
+        required: true
+        azure_sdk_references: ['/commitId', '/properties/commitId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'sourceControlSyncJobId'
+        description: 'The source control sync job id.'
+        output: true
+        azure_sdk_references: ['/sourceControlSyncJobId', '/properties/sourceControlSyncJobId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'The creation time of the job.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the job.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Completed
+          - :Failed
+          - :Running
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The start time of the job.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'The end time of the job.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'syncType'
+        description: 'The sync type.'
+        output: true
+        azure_sdk_references: ['/syncType', '/properties/syncType']
+        values:
+          - :PartialSync
+          - :FullSync
+      - !ruby/object:Api::Type::String
+        name: 'exception'
+        description: 'The exceptions that occurred while running the sync job.'
+        output: true
+        azure_sdk_references: ['/exception', '/properties/exception']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The id of the job.'
+        output: true
+        azure_sdk_references: ['/id']

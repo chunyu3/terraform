@@ -1,0 +1,2110 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualMachine Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualMachine
+    api_name: Compute
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Compute
+      go_client_namespace: 
+      go_client: virtualMachinesClient
+      python_client_namespace: 
+      python_client: ComputeManagementClient.virtual_machines
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: vmName
+            python_parameter_name: vm_name
+            python_variable_name: vm_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: VirtualMachine
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Plan
+            go_type_name: Plan
+            python_field_name: plan
+          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Publisher
+            python_field_name: publisher
+          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Product
+            python_field_name: product
+          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PromotionCode
+            python_field_name: promotion_code
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineProperties
+            go_type_name: VirtualMachineProperties
+          '/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hardware_profile
+          '/hardwareProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: vm_size
+          '/properties/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HardwareProfile
+            go_type_name: HardwareProfile
+          '/properties/hardwareProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VmSize
+            go_enum_type_name: VirtualMachineSizeTypes
+          '/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_profile
+          '/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image_reference
+          '/storageProfile/imageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/storageProfile/imageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer
+          '/storageProfile/imageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/storageProfile/imageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: os_disk
+          '/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/storageProfile/osDisk/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encryption_settings
+          '/storageProfile/osDisk/encryptionSettings/diskEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: disk_encryption_key
+          '/storageProfile/osDisk/encryptionSettings/keyEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_encryption_key
+          '/storageProfile/osDisk/encryptionSettings/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageProfile/osDisk/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vhd
+          '/storageProfile/osDisk/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image
+          '/storageProfile/osDisk/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: caching
+          '/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_option
+          '/storageProfile/osDisk/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gb
+          '/storageProfile/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: data_disks
+          '/storageProfile/dataDisks/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: lun
+          '/storageProfile/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageProfile/dataDisks/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vhd
+          '/storageProfile/dataDisks/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/dataDisks/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image
+          '/storageProfile/dataDisks/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/dataDisks/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: caching
+          '/storageProfile/dataDisks/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_option
+          '/storageProfile/dataDisks/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gb
+          '/properties/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageProfile
+            go_type_name: StorageProfile
+          '/properties/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImageReference
+            go_type_name: ImageReference
+          '/properties/storageProfile/imageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/properties/storageProfile/imageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Offer
+          '/properties/storageProfile/imageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sku
+          '/properties/storageProfile/imageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OsDisk
+            go_type_name: OSDisk
+          '/properties/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OsType
+            go_enum_type_name: OperatingSystemTypes
+          '/properties/storageProfile/osDisk/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptionSettings
+            go_type_name: DiskEncryptionSettings
+          '/properties/storageProfile/osDisk/encryptionSettings/diskEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiskEncryptionKey
+            go_type_name: KeyVaultSecretReference
+          '/properties/storageProfile/osDisk/encryptionSettings/keyEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyEncryptionKey
+            go_type_name: KeyVaultKeyReference
+          '/properties/storageProfile/osDisk/encryptionSettings/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageProfile/osDisk/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Vhd
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/osDisk/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Image
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/osDisk/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Caching
+            go_enum_type_name: CachingTypes
+          '/properties/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateOption
+            go_enum_type_name: DiskCreateOptionTypes
+          '/properties/storageProfile/osDisk/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGb
+          '/properties/storageProfile/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DataDisks
+            go_type_name: DataDisk
+          '/properties/storageProfile/dataDisks/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Lun
+          '/properties/storageProfile/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageProfile/dataDisks/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Vhd
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/dataDisks/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/dataDisks/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Image
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/dataDisks/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/dataDisks/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Caching
+            go_enum_type_name: CachingTypes
+          '/properties/storageProfile/dataDisks/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateOption
+            go_enum_type_name: DiskCreateOptionTypes
+          '/properties/storageProfile/dataDisks/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGb
+          '/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: os_profile
+          '/osProfile/computerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: computer_name
+          '/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_username
+          '/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_password
+          '/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_data
+          '/osProfile/windowsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: windows_configuration
+          '/osProfile/windowsConfiguration/provisionVMAgent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: provision_vmagent
+          '/osProfile/windowsConfiguration/enableAutomaticUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_automatic_updates
+          '/osProfile/windowsConfiguration/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone
+          '/osProfile/windowsConfiguration/additionalUnattendContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: additional_unattend_content
+          '/osProfile/windowsConfiguration/additionalUnattendContent/passName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pass_name
+          '/osProfile/windowsConfiguration/additionalUnattendContent/componentName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: component_name
+          '/osProfile/windowsConfiguration/additionalUnattendContent/settingName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: setting_name
+          '/osProfile/windowsConfiguration/additionalUnattendContent/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content
+          '/osProfile/windowsConfiguration/winRM': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: win_rm
+          '/osProfile/windowsConfiguration/winRM/listeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: listeners
+          '/osProfile/linuxConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: linux_configuration
+          '/osProfile/linuxConfiguration/disablePasswordAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disable_password_authentication
+          '/osProfile/linuxConfiguration/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh
+          '/osProfile/linuxConfiguration/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: public_keys
+          '/osProfile/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: secrets
+          '/osProfile/secrets/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/osProfile/secrets/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/osProfile/secrets/vaultCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vault_certificates
+          '/osProfile/secrets/vaultCertificates/certificateUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_url
+          '/osProfile/secrets/vaultCertificates/certificateStore': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_store
+          '/properties/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OsProfile
+            go_type_name: OSProfile
+          '/properties/osProfile/computerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ComputerName
+          '/properties/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUsername
+          '/properties/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminPassword
+          '/properties/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomData
+          '/properties/osProfile/windowsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WindowsConfiguration
+            go_type_name: WindowsConfiguration
+          '/properties/osProfile/windowsConfiguration/provisionVMAgent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ProvisionVmagent
+          '/properties/osProfile/windowsConfiguration/enableAutomaticUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableAutomaticUpdates
+          '/properties/osProfile/windowsConfiguration/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZone
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AdditionalUnattendContent
+            go_type_name: AdditionalUnattendContent
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/passName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PassName
+            go_enum_type_name: PassNames
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/componentName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ComponentName
+            go_enum_type_name: ComponentNames
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/settingName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SettingName
+            go_enum_type_name: SettingNames
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Content
+          '/properties/osProfile/windowsConfiguration/winRM': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WinRm
+            go_type_name: WinRMConfiguration
+          '/properties/osProfile/windowsConfiguration/winRM/listeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Listeners
+            go_type_name: WinRMListener
+          '/properties/osProfile/linuxConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LinuxConfiguration
+            go_type_name: LinuxConfiguration
+          '/properties/osProfile/linuxConfiguration/disablePasswordAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisablePasswordAuthentication
+          '/properties/osProfile/linuxConfiguration/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Ssh
+            go_type_name: SshConfiguration
+          '/properties/osProfile/linuxConfiguration/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PublicKeys
+            go_type_name: SshPublicKey
+          '/properties/osProfile/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Secrets
+            go_type_name: VaultSecretGroup
+          '/properties/osProfile/secrets/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: SubResource
+          '/properties/osProfile/secrets/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/osProfile/secrets/vaultCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VaultCertificates
+            go_type_name: VaultCertificate
+          '/properties/osProfile/secrets/vaultCertificates/certificateUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateURL
+          '/properties/osProfile/secrets/vaultCertificates/certificateStore': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateStore
+          '/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_profile
+          '/networkProfile/networkInterfaces': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: network_interfaces
+          '/networkProfile/networkInterfaces/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkProfile/networkInterfaces/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: primary
+          '/properties/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkProfile
+            go_type_name: NetworkProfile
+          '/properties/networkProfile/networkInterfaces': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NetworkInterfaces
+            go_type_name: NetworkInterfaceReference
+          '/properties/networkProfile/networkInterfaces/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkProfile/networkInterfaces/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkInterfaceReferenceProperties
+            go_type_name: NetworkInterfaceReferenceProperties
+          '/properties/networkProfile/networkInterfaces/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Primary
+          '/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: diagnostics_profile
+          '/diagnosticsProfile/bootDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: boot_diagnostics
+          '/diagnosticsProfile/bootDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/diagnosticsProfile/bootDiagnostics/storageUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_uri
+          '/properties/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiagnosticsProfile
+            go_type_name: DiagnosticsProfile
+          '/properties/diagnosticsProfile/bootDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BootDiagnostics
+            go_type_name: BootDiagnostics
+          '/properties/diagnosticsProfile/bootDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/diagnosticsProfile/bootDiagnostics/storageUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageUri
+          '/availabilitySet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: availability_set
+          '/availabilitySet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/availabilitySet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AvailabilitySet
+            go_type_name: SubResource
+          '/properties/availabilitySet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: VirtualMachineIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: ResourceIdentityType
+            python_field_name: type
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: vmName
+            python_parameter_name: vm_name
+            python_variable_name: vm_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: vmName
+            python_parameter_name: vm_name
+            python_variable_name: vm_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Plan
+            go_type_name: Plan
+            python_field_name: plan
+          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Publisher
+            python_field_name: publisher
+          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Product
+            python_field_name: product
+          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PromotionCode
+            python_field_name: promotion_code
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineProperties
+            go_type_name: VirtualMachineProperties
+          '/properties/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HardwareProfile
+            go_type_name: HardwareProfile
+          '/properties/hardwareProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VmSize
+            go_enum_type_name: VirtualMachineSizeTypes
+          '/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hardware_profile
+          '/hardwareProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: vm_size
+          '/properties/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageProfile
+            go_type_name: StorageProfile
+          '/properties/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImageReference
+            go_type_name: ImageReference
+          '/properties/storageProfile/imageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/properties/storageProfile/imageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Offer
+          '/properties/storageProfile/imageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sku
+          '/properties/storageProfile/imageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OsDisk
+            go_type_name: OSDisk
+          '/properties/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OsType
+            go_enum_type_name: OperatingSystemTypes
+          '/properties/storageProfile/osDisk/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptionSettings
+            go_type_name: DiskEncryptionSettings
+          '/properties/storageProfile/osDisk/encryptionSettings/diskEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiskEncryptionKey
+            go_type_name: KeyVaultSecretReference
+          '/properties/storageProfile/osDisk/encryptionSettings/keyEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyEncryptionKey
+            go_type_name: KeyVaultKeyReference
+          '/properties/storageProfile/osDisk/encryptionSettings/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageProfile/osDisk/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Vhd
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/osDisk/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Image
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/osDisk/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Caching
+            go_enum_type_name: CachingTypes
+          '/properties/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateOption
+            go_enum_type_name: DiskCreateOptionTypes
+          '/properties/storageProfile/osDisk/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGb
+          '/properties/storageProfile/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DataDisks
+            go_type_name: DataDisk
+          '/properties/storageProfile/dataDisks/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Lun
+          '/properties/storageProfile/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageProfile/dataDisks/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Vhd
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/dataDisks/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/dataDisks/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Image
+            go_type_name: VirtualHardDisk
+          '/properties/storageProfile/dataDisks/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/storageProfile/dataDisks/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Caching
+            go_enum_type_name: CachingTypes
+          '/properties/storageProfile/dataDisks/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateOption
+            go_enum_type_name: DiskCreateOptionTypes
+          '/properties/storageProfile/dataDisks/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGb
+          '/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_profile
+          '/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image_reference
+          '/storageProfile/imageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/storageProfile/imageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer
+          '/storageProfile/imageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/storageProfile/imageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: os_disk
+          '/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/storageProfile/osDisk/encryptionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encryption_settings
+          '/storageProfile/osDisk/encryptionSettings/diskEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: disk_encryption_key
+          '/storageProfile/osDisk/encryptionSettings/keyEncryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_encryption_key
+          '/storageProfile/osDisk/encryptionSettings/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageProfile/osDisk/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vhd
+          '/storageProfile/osDisk/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image
+          '/storageProfile/osDisk/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: caching
+          '/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_option
+          '/storageProfile/osDisk/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gb
+          '/storageProfile/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: data_disks
+          '/storageProfile/dataDisks/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: lun
+          '/storageProfile/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageProfile/dataDisks/vhd': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vhd
+          '/storageProfile/dataDisks/vhd/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/dataDisks/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image
+          '/storageProfile/dataDisks/image/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/storageProfile/dataDisks/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: caching
+          '/storageProfile/dataDisks/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_option
+          '/storageProfile/dataDisks/diskSizeGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gb
+          '/properties/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OsProfile
+            go_type_name: OSProfile
+          '/properties/osProfile/computerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ComputerName
+          '/properties/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUsername
+          '/properties/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminPassword
+          '/properties/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomData
+          '/properties/osProfile/windowsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WindowsConfiguration
+            go_type_name: WindowsConfiguration
+          '/properties/osProfile/windowsConfiguration/provisionVMAgent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ProvisionVmagent
+          '/properties/osProfile/windowsConfiguration/enableAutomaticUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableAutomaticUpdates
+          '/properties/osProfile/windowsConfiguration/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZone
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AdditionalUnattendContent
+            go_type_name: AdditionalUnattendContent
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/passName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PassName
+            go_enum_type_name: PassNames
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/componentName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ComponentName
+            go_enum_type_name: ComponentNames
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/settingName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SettingName
+            go_enum_type_name: SettingNames
+          '/properties/osProfile/windowsConfiguration/additionalUnattendContent/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Content
+          '/properties/osProfile/windowsConfiguration/winRM': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WinRm
+            go_type_name: WinRMConfiguration
+          '/properties/osProfile/windowsConfiguration/winRM/listeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Listeners
+            go_type_name: WinRMListener
+          '/properties/osProfile/linuxConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LinuxConfiguration
+            go_type_name: LinuxConfiguration
+          '/properties/osProfile/linuxConfiguration/disablePasswordAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisablePasswordAuthentication
+          '/properties/osProfile/linuxConfiguration/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Ssh
+            go_type_name: SshConfiguration
+          '/properties/osProfile/linuxConfiguration/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PublicKeys
+            go_type_name: SshPublicKey
+          '/properties/osProfile/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Secrets
+            go_type_name: VaultSecretGroup
+          '/properties/osProfile/secrets/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: SubResource
+          '/properties/osProfile/secrets/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/osProfile/secrets/vaultCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VaultCertificates
+            go_type_name: VaultCertificate
+          '/properties/osProfile/secrets/vaultCertificates/certificateUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateURL
+          '/properties/osProfile/secrets/vaultCertificates/certificateStore': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateStore
+          '/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: os_profile
+          '/osProfile/computerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: computer_name
+          '/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_username
+          '/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_password
+          '/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_data
+          '/osProfile/windowsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: windows_configuration
+          '/osProfile/windowsConfiguration/provisionVMAgent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: provision_vmagent
+          '/osProfile/windowsConfiguration/enableAutomaticUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_automatic_updates
+          '/osProfile/windowsConfiguration/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone
+          '/osProfile/windowsConfiguration/additionalUnattendContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: additional_unattend_content
+          '/osProfile/windowsConfiguration/additionalUnattendContent/passName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pass_name
+          '/osProfile/windowsConfiguration/additionalUnattendContent/componentName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: component_name
+          '/osProfile/windowsConfiguration/additionalUnattendContent/settingName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: setting_name
+          '/osProfile/windowsConfiguration/additionalUnattendContent/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content
+          '/osProfile/windowsConfiguration/winRM': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: win_rm
+          '/osProfile/windowsConfiguration/winRM/listeners': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: listeners
+          '/osProfile/linuxConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: linux_configuration
+          '/osProfile/linuxConfiguration/disablePasswordAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disable_password_authentication
+          '/osProfile/linuxConfiguration/ssh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh
+          '/osProfile/linuxConfiguration/ssh/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: public_keys
+          '/osProfile/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: secrets
+          '/osProfile/secrets/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/osProfile/secrets/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/osProfile/secrets/vaultCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vault_certificates
+          '/osProfile/secrets/vaultCertificates/certificateUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_url
+          '/osProfile/secrets/vaultCertificates/certificateStore': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_store
+          '/properties/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkProfile
+            go_type_name: NetworkProfile
+          '/properties/networkProfile/networkInterfaces': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NetworkInterfaces
+            go_type_name: NetworkInterfaceReference
+          '/properties/networkProfile/networkInterfaces/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkProfile/networkInterfaces/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkInterfaceReferenceProperties
+            go_type_name: NetworkInterfaceReferenceProperties
+          '/properties/networkProfile/networkInterfaces/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Primary
+          '/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_profile
+          '/networkProfile/networkInterfaces': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: network_interfaces
+          '/networkProfile/networkInterfaces/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkProfile/networkInterfaces/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: primary
+          '/properties/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiagnosticsProfile
+            go_type_name: DiagnosticsProfile
+          '/properties/diagnosticsProfile/bootDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BootDiagnostics
+            go_type_name: BootDiagnostics
+          '/properties/diagnosticsProfile/bootDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/diagnosticsProfile/bootDiagnostics/storageUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageUri
+          '/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: diagnostics_profile
+          '/diagnosticsProfile/bootDiagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: boot_diagnostics
+          '/diagnosticsProfile/bootDiagnostics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/diagnosticsProfile/bootDiagnostics/storageUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_uri
+          '/properties/availabilitySet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AvailabilitySet
+            go_type_name: SubResource
+          '/properties/availabilitySet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/availabilitySet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: availability_set
+          '/availabilitySet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InstanceView
+            go_type_name: VirtualMachineInstanceView
+          '/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: instance_view
+          '/properties/vmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmID
+          '/vmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_id
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: VirtualMachineIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: ResourceIdentityType
+            python_field_name: type
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Resources
+            go_type_name: VirtualMachineExtension
+            python_field_name: resources
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAvailableSizes
+        python_func_name: list_available_sizes
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: vmName
+            python_parameter_name: vm_name
+            python_variable_name: vm_name
+
+    description: |
+      Manage Azure VirtualMachine instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'vmName'
+        description: 'The name of the virtual machine.'
+        required: true
+        input: true
+        azure_sdk_references: ['vmName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'plan'
+        description: 'Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**.'
+        required: false
+        azure_sdk_references: ['/plan']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The plan ID.'
+            required: false
+            azure_sdk_references: ['/plan/name']
+          - !ruby/object:Api::Type::String
+            name: 'publisher'
+            description: 'The publisher ID.'
+            required: false
+            azure_sdk_references: ['/plan/publisher']
+          - !ruby/object:Api::Type::String
+            name: 'product'
+            description: 'Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.'
+            required: false
+            azure_sdk_references: ['/plan/product']
+          - !ruby/object:Api::Type::String
+            name: 'promotionCode'
+            description: 'The promotion code.'
+            required: false
+            azure_sdk_references: ['/plan/promotionCode']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'hardwareProfile'
+        description: 'Specifies the hardware settings for the virtual machine.'
+        required: false
+        azure_sdk_references: ['/hardwareProfile', '/properties/hardwareProfile']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'vmSize'
+            description: 'Specifies the size of the virtual machine. For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-sizes?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> The available VM sizes depend on region and availability set. For a list of available sizes use these APIs:  <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region](https://docs.microsoft.com/rest/api/compute/virtualmachinesizes/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes)'
+            required: false
+            azure_sdk_references: ['/hardwareProfile/vmSize', '/properties/hardwareProfile/vmSize']
+            values:
+              - :Basic_A0
+              - :Basic_A1
+              - :Basic_A2
+              - :Basic_A3
+              - :Basic_A4
+              - :Standard_A0
+              - :Standard_A1
+              - :Standard_A2
+              - :Standard_A3
+              - :Standard_A4
+              - :Standard_A5
+              - :Standard_A6
+              - :Standard_A7
+              - :Standard_A8
+              - :Standard_A9
+              - :Standard_A10
+              - :Standard_A11
+              - :Standard_D1
+              - :Standard_D2
+              - :Standard_D3
+              - :Standard_D4
+              - :Standard_D11
+              - :Standard_D12
+              - :Standard_D13
+              - :Standard_D14
+              - :Standard_D1_v2
+              - :Standard_D2_v2
+              - :Standard_D3_v2
+              - :Standard_D4_v2
+              - :Standard_D5_v2
+              - :Standard_D11_v2
+              - :Standard_D12_v2
+              - :Standard_D13_v2
+              - :Standard_D14_v2
+              - :Standard_D15_v2
+              - :Standard_DS1
+              - :Standard_DS2
+              - :Standard_DS3
+              - :Standard_DS4
+              - :Standard_DS11
+              - :Standard_DS12
+              - :Standard_DS13
+              - :Standard_DS14
+              - :Standard_DS1_v2
+              - :Standard_DS2_v2
+              - :Standard_DS3_v2
+              - :Standard_DS4_v2
+              - :Standard_DS5_v2
+              - :Standard_DS11_v2
+              - :Standard_DS12_v2
+              - :Standard_DS13_v2
+              - :Standard_DS14_v2
+              - :Standard_DS15_v2
+              - :Standard_G1
+              - :Standard_G2
+              - :Standard_G3
+              - :Standard_G4
+              - :Standard_G5
+              - :Standard_GS1
+              - :Standard_GS2
+              - :Standard_GS3
+              - :Standard_GS4
+              - :Standard_GS5
+            default_value: :Basic_A0
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageProfile'
+        description: 'Specifies the storage settings for the virtual machine disks.'
+        required: false
+        azure_sdk_references: ['/storageProfile', '/properties/storageProfile']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'imageReference'
+            description: 'Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.'
+            required: false
+            azure_sdk_references: ['/storageProfile/imageReference', '/properties/storageProfile/imageReference']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'publisher'
+                description: 'The image publisher.'
+                required: false
+                azure_sdk_references: ['/storageProfile/imageReference/publisher', '/properties/storageProfile/imageReference/publisher']
+              - !ruby/object:Api::Type::String
+                name: 'offer'
+                description: 'Specifies the offer of the platform image or marketplace image used to create the virtual machine.'
+                required: false
+                azure_sdk_references: ['/storageProfile/imageReference/offer', '/properties/storageProfile/imageReference/offer']
+              - !ruby/object:Api::Type::String
+                name: 'sku'
+                description: 'The image SKU.'
+                required: false
+                azure_sdk_references: ['/storageProfile/imageReference/sku', '/properties/storageProfile/imageReference/sku']
+              - !ruby/object:Api::Type::String
+                name: 'version'
+                description: 'Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or ''latest''. Major, Minor, and Build are decimal numbers. Specify ''latest'' to use the latest version of an image available at deploy time. Even if you use ''latest'', the VM image will not automatically update after deploy time even if a new version becomes available.'
+                required: false
+                azure_sdk_references: ['/storageProfile/imageReference/version', '/properties/storageProfile/imageReference/version']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'osDisk'
+            description: 'Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).'
+            required: false
+            azure_sdk_references: ['/storageProfile/osDisk', '/properties/storageProfile/osDisk']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'osType'
+                description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
+                required: false
+                azure_sdk_references: ['/storageProfile/osDisk/osType', '/properties/storageProfile/osDisk/osType']
+                values:
+                  - :Windows
+                  - :Linux
+                default_value: :Windows
+              - !ruby/object:Api::Type::NestedObject
+                name: 'encryptionSettings'
+                description: 'Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15'
+                required: false
+                azure_sdk_references: ['/storageProfile/osDisk/encryptionSettings', '/properties/storageProfile/osDisk/encryptionSettings']
+                properties:
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'enabled'
+                    description: 'Specifies whether disk encryption should be enabled on the virtual machine.'
+                    required: false
+                    azure_sdk_references: ['/storageProfile/osDisk/encryptionSettings/enabled', '/properties/storageProfile/osDisk/encryptionSettings/enabled']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The disk name.'
+                required: true
+                azure_sdk_references: ['/storageProfile/osDisk/name', '/properties/storageProfile/osDisk/name']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'vhd'
+                description: 'The virtual hard disk.'
+                required: true
+                azure_sdk_references: ['/storageProfile/osDisk/vhd', '/properties/storageProfile/osDisk/vhd']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'uri'
+                    description: 'Specifies the virtual hard disk''s uri.'
+                    required: false
+                    azure_sdk_references: ['/storageProfile/osDisk/vhd/uri', '/properties/storageProfile/osDisk/vhd/uri']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'image'
+                description: 'The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.'
+                required: false
+                azure_sdk_references: ['/storageProfile/osDisk/image', '/properties/storageProfile/osDisk/image']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'uri'
+                    description: 'Specifies the virtual hard disk''s uri.'
+                    required: false
+                    azure_sdk_references: ['/storageProfile/osDisk/image/uri', '/properties/storageProfile/osDisk/image/uri']
+              - !ruby/object:Api::Type::Enum
+                name: 'caching'
+                description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+                required: false
+                azure_sdk_references: ['/storageProfile/osDisk/caching', '/properties/storageProfile/osDisk/caching']
+                values:
+                  - :None
+                  - :ReadOnly
+                  - :ReadWrite
+                default_value: :None
+              - !ruby/object:Api::Type::Enum
+                name: 'createOption'
+                description: 'Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
+                required: true
+                azure_sdk_references: ['/storageProfile/osDisk/createOption', '/properties/storageProfile/osDisk/createOption']
+                values:
+                  - :FromImage
+                  - :Empty
+                  - :Attach
+              - !ruby/object:Api::Type::Integer
+                name: 'diskSizeGb'
+                description: 'Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB'
+                required: false
+                azure_sdk_references: ['/storageProfile/osDisk/diskSizeGB', '/properties/storageProfile/osDisk/diskSizeGB']
+          - !ruby/object:Api::Type::Array
+            name: 'dataDisks'
+            description: 'Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).'
+            required: false
+            azure_sdk_references: ['/storageProfile/dataDisks', '/properties/storageProfile/dataDisks']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Integer
+                  name: 'lun'
+                  description: 'Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.'
+                  required: true
+                  azure_sdk_references: ['/storageProfile/dataDisks/lun', '/properties/storageProfile/dataDisks/lun']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'The disk name.'
+                  required: true
+                  azure_sdk_references: ['/storageProfile/dataDisks/name', '/properties/storageProfile/dataDisks/name']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'vhd'
+                  description: 'The virtual hard disk.'
+                  required: true
+                  azure_sdk_references: ['/storageProfile/dataDisks/vhd', '/properties/storageProfile/dataDisks/vhd']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'uri'
+                      description: 'Specifies the virtual hard disk''s uri.'
+                      required: false
+                      azure_sdk_references: ['/storageProfile/dataDisks/vhd/uri', '/properties/storageProfile/dataDisks/vhd/uri']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'image'
+                  description: 'The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.'
+                  required: false
+                  azure_sdk_references: ['/storageProfile/dataDisks/image', '/properties/storageProfile/dataDisks/image']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'uri'
+                      description: 'Specifies the virtual hard disk''s uri.'
+                      required: false
+                      azure_sdk_references: ['/storageProfile/dataDisks/image/uri', '/properties/storageProfile/dataDisks/image/uri']
+                - !ruby/object:Api::Type::Enum
+                  name: 'caching'
+                  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+                  required: false
+                  azure_sdk_references: ['/storageProfile/dataDisks/caching', '/properties/storageProfile/dataDisks/caching']
+                  values:
+                    - :None
+                    - :ReadOnly
+                    - :ReadWrite
+                  default_value: :None
+                - !ruby/object:Api::Type::Enum
+                  name: 'createOption'
+                  description: 'Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
+                  required: true
+                  azure_sdk_references: ['/storageProfile/dataDisks/createOption', '/properties/storageProfile/dataDisks/createOption']
+                  values:
+                    - :FromImage
+                    - :Empty
+                    - :Attach
+                - !ruby/object:Api::Type::Integer
+                  name: 'diskSizeGb'
+                  description: 'Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB'
+                  required: false
+                  azure_sdk_references: ['/storageProfile/dataDisks/diskSizeGB', '/properties/storageProfile/dataDisks/diskSizeGB']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'osProfile'
+        description: 'Specifies the operating system settings for the virtual machine.'
+        required: false
+        azure_sdk_references: ['/osProfile', '/properties/osProfile']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'computerName'
+            description: 'Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).'
+            required: false
+            azure_sdk_references: ['/osProfile/computerName', '/properties/osProfile/computerName']
+          - !ruby/object:Api::Type::String
+            name: 'adminUsername'
+            description: 'Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)'
+            required: false
+            azure_sdk_references: ['/osProfile/adminUsername', '/properties/osProfile/adminUsername']
+          - !ruby/object:Api::Type::String
+            name: 'adminPassword'
+            description: 'Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)'
+            required: false
+            azure_sdk_references: ['/osProfile/adminPassword', '/properties/osProfile/adminPassword']
+          - !ruby/object:Api::Type::String
+            name: 'customData'
+            description: 'Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)'
+            required: false
+            azure_sdk_references: ['/osProfile/customData', '/properties/osProfile/customData']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'windowsConfiguration'
+            description: 'Specifies Windows operating system settings on the virtual machine.'
+            required: false
+            azure_sdk_references: ['/osProfile/windowsConfiguration', '/properties/osProfile/windowsConfiguration']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'provisionVmagent'
+                description: 'Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br> When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.'
+                required: false
+                azure_sdk_references: ['/osProfile/windowsConfiguration/provisionVMAgent', '/properties/osProfile/windowsConfiguration/provisionVMAgent']
+              - !ruby/object:Api::Type::Boolean
+                name: 'enableAutomaticUpdates'
+                description: 'Indicates whether virtual machine is enabled for automatic updates.'
+                required: false
+                azure_sdk_references: ['/osProfile/windowsConfiguration/enableAutomaticUpdates', '/properties/osProfile/windowsConfiguration/enableAutomaticUpdates']
+              - !ruby/object:Api::Type::String
+                name: 'timeZone'
+                description: 'Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time"'
+                required: false
+                azure_sdk_references: ['/osProfile/windowsConfiguration/timeZone', '/properties/osProfile/windowsConfiguration/timeZone']
+              - !ruby/object:Api::Type::Array
+                name: 'additionalUnattendContent'
+                description: 'Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup.'
+                required: false
+                azure_sdk_references: ['/osProfile/windowsConfiguration/additionalUnattendContent', '/properties/osProfile/windowsConfiguration/additionalUnattendContent']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'passName'
+                      description: 'The pass name. Currently, the only allowable value is OobeSystem.'
+                      required: false
+                      azure_sdk_references: ['/osProfile/windowsConfiguration/additionalUnattendContent/passName', '/properties/osProfile/windowsConfiguration/additionalUnattendContent/passName']
+                      values:
+                        - :OobeSystem
+                      default_value: :OobeSystem
+                    - !ruby/object:Api::Type::Enum
+                      name: 'componentName'
+                      description: 'The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.'
+                      required: false
+                      azure_sdk_references: ['/osProfile/windowsConfiguration/additionalUnattendContent/componentName', '/properties/osProfile/windowsConfiguration/additionalUnattendContent/componentName']
+                      values:
+                        - :Microsoft-Windows-Shell-Setup
+                      default_value: :Microsoft-Windows-Shell-Setup
+                    - !ruby/object:Api::Type::Enum
+                      name: 'settingName'
+                      description: 'Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and AutoLogon.'
+                      required: false
+                      azure_sdk_references: ['/osProfile/windowsConfiguration/additionalUnattendContent/settingName', '/properties/osProfile/windowsConfiguration/additionalUnattendContent/settingName']
+                      values:
+                        - :AutoLogon
+                        - :FirstLogonCommands
+                      default_value: :AutoLogon
+                    - !ruby/object:Api::Type::String
+                      name: 'content'
+                      description: 'Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.'
+                      required: false
+                      azure_sdk_references: ['/osProfile/windowsConfiguration/additionalUnattendContent/content', '/properties/osProfile/windowsConfiguration/additionalUnattendContent/content']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'winRm'
+                description: 'Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.'
+                required: false
+                azure_sdk_references: ['/osProfile/windowsConfiguration/winRM', '/properties/osProfile/windowsConfiguration/winRM']
+                properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'linuxConfiguration'
+            description: 'Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).'
+            required: false
+            azure_sdk_references: ['/osProfile/linuxConfiguration', '/properties/osProfile/linuxConfiguration']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'disablePasswordAuthentication'
+                description: 'Specifies whether password authentication should be disabled.'
+                required: false
+                azure_sdk_references: ['/osProfile/linuxConfiguration/disablePasswordAuthentication', '/properties/osProfile/linuxConfiguration/disablePasswordAuthentication']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'ssh'
+                description: 'Specifies the ssh key configuration for a Linux OS.'
+                required: false
+                azure_sdk_references: ['/osProfile/linuxConfiguration/ssh', '/properties/osProfile/linuxConfiguration/ssh']
+                properties:
+          - !ruby/object:Api::Type::Array
+            name: 'secrets'
+            description: 'Specifies set of certificates that should be installed onto the virtual machine.'
+            required: false
+            azure_sdk_references: ['/osProfile/secrets', '/properties/osProfile/secrets']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'sourceVault'
+                  description: 'The relative URL of the Key Vault containing all of the certificates in VaultCertificates.'
+                  required: false
+                  azure_sdk_references: ['/osProfile/secrets/sourceVault', '/properties/osProfile/secrets/sourceVault']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'id'
+                      description: 'Resource Id'
+                      required: false
+                      azure_sdk_references: ['/osProfile/secrets/sourceVault/id', '/properties/osProfile/secrets/sourceVault/id']
+                - !ruby/object:Api::Type::Array
+                  name: 'vaultCertificates'
+                  description: 'The list of key vault references in SourceVault which contain certificates.'
+                  required: false
+                  azure_sdk_references: ['/osProfile/secrets/vaultCertificates', '/properties/osProfile/secrets/vaultCertificates']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'certificateUrl'
+                        description: 'This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>}'
+                        required: false
+                        azure_sdk_references: ['/osProfile/secrets/vaultCertificates/certificateUrl', '/properties/osProfile/secrets/vaultCertificates/certificateUrl']
+                      - !ruby/object:Api::Type::String
+                        name: 'certificateStore'
+                        description: 'For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.'
+                        required: false
+                        azure_sdk_references: ['/osProfile/secrets/vaultCertificates/certificateStore', '/properties/osProfile/secrets/vaultCertificates/certificateStore']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'networkProfile'
+        description: 'Specifies the network interfaces of the virtual machine.'
+        required: false
+        azure_sdk_references: ['/networkProfile', '/properties/networkProfile']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'networkInterfaces'
+            description: 'Specifies the list of resource Ids for the network interfaces associated with the virtual machine.'
+            required: false
+            azure_sdk_references: ['/networkProfile/networkInterfaces', '/properties/networkProfile/networkInterfaces']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/networkProfile/networkInterfaces/id', '/properties/networkProfile/networkInterfaces/id']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'primary'
+                  description: 'Specifies the primary network interface in case the virtual machine has more than 1 network interface.'
+                  required: false
+                  azure_sdk_references: ['/networkProfile/networkInterfaces/primary', '/properties/networkProfile/networkInterfaces/properties/primary']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'diagnosticsProfile'
+        description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
+        required: false
+        azure_sdk_references: ['/diagnosticsProfile', '/properties/diagnosticsProfile']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'bootDiagnostics'
+            description: 'Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor.'
+            required: false
+            azure_sdk_references: ['/diagnosticsProfile/bootDiagnostics', '/properties/diagnosticsProfile/bootDiagnostics']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'enabled'
+                description: 'Whether boot diagnostics should be enabled on the Virtual Machine.'
+                required: false
+                azure_sdk_references: ['/diagnosticsProfile/bootDiagnostics/enabled', '/properties/diagnosticsProfile/bootDiagnostics/enabled']
+              - !ruby/object:Api::Type::String
+                name: 'storageUri'
+                description: 'Uri of the storage account to use for placing the console output and screenshot.'
+                required: false
+                azure_sdk_references: ['/diagnosticsProfile/bootDiagnostics/storageUri', '/properties/diagnosticsProfile/bootDiagnostics/storageUri']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'availabilitySet'
+        description: 'Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.'
+        required: false
+        azure_sdk_references: ['/availabilitySet', '/properties/availabilitySet']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource Id'
+            required: false
+            azure_sdk_references: ['/availabilitySet/id', '/properties/availabilitySet/id']
+      - !ruby/object:Api::Type::String
+        name: 'licenseType'
+        description: 'Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15'
+        required: false
+        azure_sdk_references: ['/licenseType', '/properties/licenseType']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'The identity of the virtual machine, if configured.'
+        required: false
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The type of identity used for the virtual machine. Currently, the only supported type is ''SystemAssigned'', which implicitly creates an identity.'
+            required: false
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+            default_value: :SystemAssigned
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state, which only appears in the response.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'instanceView'
+        description: 'The virtual machine instance view.'
+        output: true
+        azure_sdk_references: ['/instanceView', '/properties/instanceView']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'platformUpdateDomain'
+            description: 'Specifies the update domain of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/instanceView/platformUpdateDomain', '/properties/instanceView/platformUpdateDomain']
+          - !ruby/object:Api::Type::Integer
+            name: 'platformFaultDomain'
+            description: 'Specifies the fault domain of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/instanceView/platformFaultDomain', '/properties/instanceView/platformFaultDomain']
+          - !ruby/object:Api::Type::String
+            name: 'rdpThumbPrint'
+            description: 'The Remote desktop certificate thumbprint.'
+            required: false
+            azure_sdk_references: ['/instanceView/rdpThumbPrint', '/properties/instanceView/rdpThumbPrint']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'vmAgent'
+            description: 'The VM Agent running on the virtual machine.'
+            required: false
+            azure_sdk_references: ['/instanceView/vmAgent', '/properties/instanceView/vmAgent']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'vmAgentVersion'
+                description: 'The VM Agent full version.'
+                required: false
+                azure_sdk_references: ['/instanceView/vmAgent/vmAgentVersion', '/properties/instanceView/vmAgent/vmAgentVersion']
+              - !ruby/object:Api::Type::Array
+                name: 'extensionHandlers'
+                description: 'The virtual machine extension handler instance view.'
+                required: false
+                azure_sdk_references: ['/instanceView/vmAgent/extensionHandlers', '/properties/instanceView/vmAgent/extensionHandlers']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'type'
+                      description: 'Specifies the type of the extension; an example is "CustomScriptExtension".'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/extensionHandlers/type', '/properties/instanceView/vmAgent/extensionHandlers/type']
+                    - !ruby/object:Api::Type::String
+                      name: 'typeHandlerVersion'
+                      description: 'Specifies the version of the script handler.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/extensionHandlers/typeHandlerVersion', '/properties/instanceView/vmAgent/extensionHandlers/typeHandlerVersion']
+              - !ruby/object:Api::Type::Array
+                name: 'statuses'
+                description: 'The resource status information.'
+                required: false
+                azure_sdk_references: ['/instanceView/vmAgent/statuses', '/properties/instanceView/vmAgent/statuses']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'code'
+                      description: 'The status code.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/statuses/code', '/properties/instanceView/vmAgent/statuses/code']
+                    - !ruby/object:Api::Type::Enum
+                      name: 'level'
+                      description: 'The level code.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/statuses/level', '/properties/instanceView/vmAgent/statuses/level']
+                      values:
+                        - :Info
+                        - :Warning
+                        - :Error
+                      default_value: :Info
+                    - !ruby/object:Api::Type::String
+                      name: 'displayStatus'
+                      description: 'The short localizable label for the status.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/statuses/displayStatus', '/properties/instanceView/vmAgent/statuses/displayStatus']
+                    - !ruby/object:Api::Type::String
+                      name: 'message'
+                      description: 'The detailed status message, including for alerts and error messages.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/statuses/message', '/properties/instanceView/vmAgent/statuses/message']
+                    - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                      name: 'time'
+                      description: 'The time of the status.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/vmAgent/statuses/time', '/properties/instanceView/vmAgent/statuses/time']
+          - !ruby/object:Api::Type::Array
+            name: 'disks'
+            description: 'The virtual machine disk information.'
+            required: false
+            azure_sdk_references: ['/instanceView/disks', '/properties/instanceView/disks']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'The disk name.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/disks/name', '/properties/instanceView/disks/name']
+                - !ruby/object:Api::Type::Array
+                  name: 'statuses'
+                  description: 'The resource status information.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/disks/statuses', '/properties/instanceView/disks/statuses']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'The status code.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/disks/statuses/code', '/properties/instanceView/disks/statuses/code']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'level'
+                        description: 'The level code.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/disks/statuses/level', '/properties/instanceView/disks/statuses/level']
+                        values:
+                          - :Info
+                          - :Warning
+                          - :Error
+                        default_value: :Info
+                      - !ruby/object:Api::Type::String
+                        name: 'displayStatus'
+                        description: 'The short localizable label for the status.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/disks/statuses/displayStatus', '/properties/instanceView/disks/statuses/displayStatus']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'The detailed status message, including for alerts and error messages.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/disks/statuses/message', '/properties/instanceView/disks/statuses/message']
+                      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                        name: 'time'
+                        description: 'The time of the status.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/disks/statuses/time', '/properties/instanceView/disks/statuses/time']
+          - !ruby/object:Api::Type::Array
+            name: 'extensions'
+            description: 'The extensions information.'
+            required: false
+            azure_sdk_references: ['/instanceView/extensions', '/properties/instanceView/extensions']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'The virtual machine extension name.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/extensions/name', '/properties/instanceView/extensions/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Specifies the type of the extension; an example is "CustomScriptExtension".'
+                  required: false
+                  azure_sdk_references: ['/instanceView/extensions/type', '/properties/instanceView/extensions/type']
+                - !ruby/object:Api::Type::String
+                  name: 'typeHandlerVersion'
+                  description: 'Specifies the version of the script handler.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/extensions/typeHandlerVersion', '/properties/instanceView/extensions/typeHandlerVersion']
+                - !ruby/object:Api::Type::Array
+                  name: 'substatuses'
+                  description: 'The resource status information.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/extensions/substatuses', '/properties/instanceView/extensions/substatuses']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'The status code.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/substatuses/code', '/properties/instanceView/extensions/substatuses/code']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'level'
+                        description: 'The level code.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/substatuses/level', '/properties/instanceView/extensions/substatuses/level']
+                        values:
+                          - :Info
+                          - :Warning
+                          - :Error
+                        default_value: :Info
+                      - !ruby/object:Api::Type::String
+                        name: 'displayStatus'
+                        description: 'The short localizable label for the status.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/substatuses/displayStatus', '/properties/instanceView/extensions/substatuses/displayStatus']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'The detailed status message, including for alerts and error messages.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/substatuses/message', '/properties/instanceView/extensions/substatuses/message']
+                      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                        name: 'time'
+                        description: 'The time of the status.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/substatuses/time', '/properties/instanceView/extensions/substatuses/time']
+                - !ruby/object:Api::Type::Array
+                  name: 'statuses'
+                  description: 'The resource status information.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/extensions/statuses', '/properties/instanceView/extensions/statuses']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'The status code.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/statuses/code', '/properties/instanceView/extensions/statuses/code']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'level'
+                        description: 'The level code.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/statuses/level', '/properties/instanceView/extensions/statuses/level']
+                        values:
+                          - :Info
+                          - :Warning
+                          - :Error
+                        default_value: :Info
+                      - !ruby/object:Api::Type::String
+                        name: 'displayStatus'
+                        description: 'The short localizable label for the status.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/statuses/displayStatus', '/properties/instanceView/extensions/statuses/displayStatus']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'The detailed status message, including for alerts and error messages.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/statuses/message', '/properties/instanceView/extensions/statuses/message']
+                      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                        name: 'time'
+                        description: 'The time of the status.'
+                        required: false
+                        azure_sdk_references: ['/instanceView/extensions/statuses/time', '/properties/instanceView/extensions/statuses/time']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'bootDiagnostics'
+            description: 'Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor.'
+            required: false
+            azure_sdk_references: ['/instanceView/bootDiagnostics', '/properties/instanceView/bootDiagnostics']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'consoleScreenshotBlobUri'
+                description: 'The console screenshot blob URI.'
+                required: false
+                azure_sdk_references: ['/instanceView/bootDiagnostics/consoleScreenshotBlobUri', '/properties/instanceView/bootDiagnostics/consoleScreenshotBlobUri']
+              - !ruby/object:Api::Type::String
+                name: 'serialConsoleLogBlobUri'
+                description: 'The Linux serial console log blob Uri.'
+                required: false
+                azure_sdk_references: ['/instanceView/bootDiagnostics/serialConsoleLogBlobUri', '/properties/instanceView/bootDiagnostics/serialConsoleLogBlobUri']
+          - !ruby/object:Api::Type::Array
+            name: 'statuses'
+            description: 'The resource status information.'
+            required: false
+            azure_sdk_references: ['/instanceView/statuses', '/properties/instanceView/statuses']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'code'
+                  description: 'The status code.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/code', '/properties/instanceView/statuses/code']
+                - !ruby/object:Api::Type::Enum
+                  name: 'level'
+                  description: 'The level code.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/level', '/properties/instanceView/statuses/level']
+                  values:
+                    - :Info
+                    - :Warning
+                    - :Error
+                  default_value: :Info
+                - !ruby/object:Api::Type::String
+                  name: 'displayStatus'
+                  description: 'The short localizable label for the status.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/displayStatus', '/properties/instanceView/statuses/displayStatus']
+                - !ruby/object:Api::Type::String
+                  name: 'message'
+                  description: 'The detailed status message, including for alerts and error messages.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/message', '/properties/instanceView/statuses/message']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'time'
+                  description: 'The time of the status.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/time', '/properties/instanceView/statuses/time']
+      - !ruby/object:Api::Type::String
+        name: 'vmId'
+        description: 'Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS and can be read using platform BIOS commands.'
+        output: true
+        azure_sdk_references: ['/vmId', '/properties/vmId']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Array
+        name: 'resources'
+        description: 'The virtual machine child extension resources.'
+        output: true
+        azure_sdk_references: ['/resources']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              required: false
+              azure_sdk_references: ['/resources/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name'
+              required: false
+              azure_sdk_references: ['/resources/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type'
+              required: false
+              azure_sdk_references: ['/resources/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location'
+              required: true
+              input: true
+              azure_sdk_references: ['/resources/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags'
+              required: false
+              azure_sdk_references: ['/resources/tags']
+            - !ruby/object:Api::Type::String
+              name: 'forceUpdateTag'
+              description: 'How the extension handler should be forced to update even if the extension configuration has not changed.'
+              required: false
+              azure_sdk_references: ['/resources/forceUpdateTag', '/resources/properties/forceUpdateTag']
+            - !ruby/object:Api::Type::String
+              name: 'publisher'
+              description: 'The name of the extension handler publisher.'
+              required: false
+              azure_sdk_references: ['/resources/publisher', '/resources/properties/publisher']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Specifies the type of the extension; an example is "CustomScriptExtension".'
+              required: false
+              azure_sdk_references: ['/resources/type', '/resources/properties/type']
+            - !ruby/object:Api::Type::String
+              name: 'typeHandlerVersion'
+              description: 'Specifies the version of the script handler.'
+              required: false
+              azure_sdk_references: ['/resources/typeHandlerVersion', '/resources/properties/typeHandlerVersion']
+            - !ruby/object:Api::Type::Boolean
+              name: 'autoUpgradeMinorVersion'
+              description: 'Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.'
+              required: false
+              azure_sdk_references: ['/resources/autoUpgradeMinorVersion', '/resources/properties/autoUpgradeMinorVersion']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'settings'
+              description: 'Json formatted public settings for the extension.'
+              required: false
+              azure_sdk_references: ['/resources/settings', '/resources/properties/settings']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'protectedSettings'
+              description: 'The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.'
+              required: false
+              azure_sdk_references: ['/resources/protectedSettings', '/resources/properties/protectedSettings']
+            - !ruby/object:Api::Type::String
+              name: 'provisioningState'
+              description: 'The provisioning state, which only appears in the response.'
+              required: false
+              azure_sdk_references: ['/resources/provisioningState', '/resources/properties/provisioningState']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'instanceView'
+              description: 'The virtual machine extension instance view.'
+              required: false
+              azure_sdk_references: ['/resources/instanceView', '/resources/properties/instanceView']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'The virtual machine extension name.'
+                  required: false
+                  azure_sdk_references: ['/resources/instanceView/name', '/resources/properties/instanceView/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Specifies the type of the extension; an example is "CustomScriptExtension".'
+                  required: false
+                  azure_sdk_references: ['/resources/instanceView/type', '/resources/properties/instanceView/type']
+                - !ruby/object:Api::Type::String
+                  name: 'typeHandlerVersion'
+                  description: 'Specifies the version of the script handler.'
+                  required: false
+                  azure_sdk_references: ['/resources/instanceView/typeHandlerVersion', '/resources/properties/instanceView/typeHandlerVersion']
+                - !ruby/object:Api::Type::Array
+                  name: 'substatuses'
+                  description: 'The resource status information.'
+                  required: false
+                  azure_sdk_references: ['/resources/instanceView/substatuses', '/resources/properties/instanceView/substatuses']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'The status code.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/substatuses/code', '/resources/properties/instanceView/substatuses/code']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'level'
+                        description: 'The level code.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/substatuses/level', '/resources/properties/instanceView/substatuses/level']
+                        values:
+                          - :Info
+                          - :Warning
+                          - :Error
+                        default_value: :Info
+                      - !ruby/object:Api::Type::String
+                        name: 'displayStatus'
+                        description: 'The short localizable label for the status.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/substatuses/displayStatus', '/resources/properties/instanceView/substatuses/displayStatus']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'The detailed status message, including for alerts and error messages.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/substatuses/message', '/resources/properties/instanceView/substatuses/message']
+                      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                        name: 'time'
+                        description: 'The time of the status.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/substatuses/time', '/resources/properties/instanceView/substatuses/time']
+                - !ruby/object:Api::Type::Array
+                  name: 'statuses'
+                  description: 'The resource status information.'
+                  required: false
+                  azure_sdk_references: ['/resources/instanceView/statuses', '/resources/properties/instanceView/statuses']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'The status code.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/statuses/code', '/resources/properties/instanceView/statuses/code']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'level'
+                        description: 'The level code.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/statuses/level', '/resources/properties/instanceView/statuses/level']
+                        values:
+                          - :Info
+                          - :Warning
+                          - :Error
+                        default_value: :Info
+                      - !ruby/object:Api::Type::String
+                        name: 'displayStatus'
+                        description: 'The short localizable label for the status.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/statuses/displayStatus', '/resources/properties/instanceView/statuses/displayStatus']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'The detailed status message, including for alerts and error messages.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/statuses/message', '/resources/properties/instanceView/statuses/message']
+                      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                        name: 'time'
+                        description: 'The time of the status.'
+                        required: false
+                        azure_sdk_references: ['/resources/instanceView/statuses/time', '/resources/properties/instanceView/statuses/time']

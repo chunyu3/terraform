@@ -1,0 +1,36 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_cluster
+  description: Patch a cluster
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    tags:
+      a: b
+    node_types:
+      - name: nt1vm
+        client_connection_endpoint_port: '19000'
+        http_gateway_endpoint_port: '19007'
+        durability_level: Bronze
+        application_ports:
+          start_port: '20000'
+          end_port: '30000'
+        ephemeral_ports:
+          start_port: '49000'
+          end_port: '64000'
+        is_primary: true
+        vm_instance_count: '5'
+      - name: testnt1
+        client_connection_endpoint_port: '0'
+        http_gateway_endpoint_port: '0'
+        durability_level: Bronze
+        application_ports:
+          start_port: '1000'
+          end_port: '2000'
+        ephemeral_ports:
+          start_port: '3000'
+          end_port: '4000'
+        is_primary: false
+        vm_instance_count: '3'
+    reliability_level: Bronze
+  

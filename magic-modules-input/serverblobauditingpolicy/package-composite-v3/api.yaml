@@ -1,0 +1,276 @@
+--- !ruby/object:Api::Product
+name: Azure ServerBlobAuditingPolicy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServerBlobAuditingPolicy
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: 
+      go_client: serverBlobAuditingPoliciesClient
+      python_client_namespace: 
+      python_client: SqlManagementClient.server_blob_auditing_policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'blobAuditingPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: auditingSettings
+            go_variable_name: blobAuditingPolicyName
+            python_parameter_name: blob_auditing_policy_name
+            python_variable_name: blob_auditing_policy_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerBlobAuditingPolicy
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerBlobAuditingPolicyProperties
+            go_type_name: ServerBlobAuditingPolicyProperties
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: BlobAuditingPolicyState
+          '/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_endpoint
+          '/properties/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageEndpoint
+          '/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_access_key
+          '/properties/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountAccessKey
+          '/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_days
+          '/properties/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionDays
+          '/auditActionsAndGroups': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: audit_actions_and_groups
+          '/properties/auditActionsAndGroups': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AuditActionsAndGroups
+          '/storageAccountSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_subscription_id
+          '/properties/storageAccountSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountSubscriptionID
+          '/isStorageSecondaryKeyInUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_storage_secondary_key_in_use
+          '/properties/isStorageSecondaryKeyInUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsStorageSecondaryKeyInUse
+          '/isAzureMonitorTargetEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_azure_monitor_target_enabled
+          '/properties/isAzureMonitorTargetEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsAzureMonitorTargetEnabled
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'blobAuditingPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: auditingSettings
+            go_variable_name: blobAuditingPolicyName
+            python_parameter_name: blob_auditing_policy_name
+            python_variable_name: blob_auditing_policy_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerBlobAuditingPolicyProperties
+            go_type_name: ServerBlobAuditingPolicyProperties
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: BlobAuditingPolicyState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageEndpoint
+          '/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_endpoint
+          '/properties/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountAccessKey
+          '/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_access_key
+          '/properties/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionDays
+          '/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_days
+          '/properties/auditActionsAndGroups': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AuditActionsAndGroups
+          '/auditActionsAndGroups': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: audit_actions_and_groups
+          '/properties/storageAccountSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountSubscriptionID
+          '/storageAccountSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_subscription_id
+          '/properties/isStorageSecondaryKeyInUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsStorageSecondaryKeyInUse
+          '/isStorageSecondaryKeyInUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_storage_secondary_key_in_use
+          '/properties/isAzureMonitorTargetEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsAzureMonitorTargetEnabled
+          '/isAzureMonitorTargetEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_azure_monitor_target_enabled
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByServer
+        python_func_name: list_by_server
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+
+    description: |
+      Manage Azure ServerBlobAuditingPolicy instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'blobAuditingPolicyName'
+        description: 'The name of the blob auditing policy.'
+        required: true
+        input: true
+        azure_sdk_references: ['blobAuditingPolicyName']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.'
+        required: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Enabled
+          - :Disabled
+      - !ruby/object:Api::Type::String
+        name: 'storageEndpoint'
+        description: 'Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required.'
+        required: false
+        azure_sdk_references: ['/storageEndpoint', '/properties/storageEndpoint']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountAccessKey'
+        description: 'Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required.'
+        required: false
+        azure_sdk_references: ['/storageAccountAccessKey', '/properties/storageAccountAccessKey']
+      - !ruby/object:Api::Type::Integer
+        name: 'retentionDays'
+        description: 'Specifies the number of days to keep in the audit logs in the storage account.'
+        required: false
+        azure_sdk_references: ['/retentionDays', '/properties/retentionDays']
+      - !ruby/object:Api::Type::Array
+        name: 'auditActionsAndGroups'
+        description: 'Specifies the Actions-Groups and Actions to audit.<br>The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins:<br>BATCH_COMPLETED_GROUP,<br>SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,<br>FAILED_DATABASE_AUTHENTICATION_GROUP.<br>This above combination is also the set that is configured by default when enabling auditing from the Azure portal.<br>The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records):<br>APPLICATION_ROLE_CHANGE_PASSWORD_GROUP<br>BACKUP_RESTORE_GROUP<br>DATABASE_LOGOUT_GROUP<br>DATABASE_OBJECT_CHANGE_GROUP<br>DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP<br>DATABASE_OBJECT_PERMISSION_CHANGE_GROUP<br>DATABASE_OPERATION_GROUP<br>DATABASE_PERMISSION_CHANGE_GROUP<br>DATABASE_PRINCIPAL_CHANGE_GROUP<br>DATABASE_PRINCIPAL_IMPERSONATION_GROUP<br>DATABASE_ROLE_MEMBER_CHANGE_GROUP<br>FAILED_DATABASE_AUTHENTICATION_GROUP<br>SCHEMA_OBJECT_ACCESS_GROUP<br>SCHEMA_OBJECT_CHANGE_GROUP<br>SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP<br>SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP<br>SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP<br>USER_CHANGE_PASSWORD_GROUP<br>BATCH_STARTED_GROUP<br>BATCH_COMPLETED_GROUP<br>These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs.<br>For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).<br>For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are:<br>SELECT<br>UPDATE<br>INSERT<br>DELETE<br>EXECUTE<br>RECEIVE<br>REFERENCES<br>The general form for defining an action to be audited is:<br>{action} ON {object} BY {principal}<br>Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively.<br>For example:<br>SELECT on dbo.myTable by public<br>SELECT on DATABASE::myDatabase by public<br>SELECT on SCHEMA::mySchema by public<br>For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)'
+        required: false
+        azure_sdk_references: ['/auditActionsAndGroups', '/properties/auditActionsAndGroups']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountSubscriptionId'
+        description: 'Specifies the blob storage subscription Id.'
+        required: false
+        azure_sdk_references: ['/storageAccountSubscriptionId', '/properties/storageAccountSubscriptionId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isStorageSecondaryKeyInUse'
+        description: 'Specifies whether storageAccountAccessKey value is the storage''s secondary key.'
+        required: false
+        azure_sdk_references: ['/isStorageSecondaryKeyInUse', '/properties/isStorageSecondaryKeyInUse']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isAzureMonitorTargetEnabled'
+        description: 'Specifies whether audit events are sent to Azure Monitor. <br>In order to send the events to Azure Monitor, specify ''state'' as ''Enabled'' and ''isAzureMonitorTargetEnabled'' as true.<br>When using REST API to configure auditing, Diagnostic Settings with ''SQLSecurityAuditEvents'' diagnostic logs category on the database should be also created.<br>Note that for server level audit you should use the ''master'' database as {databaseName}.<br>Diagnostic Settings URI format:<br>PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview<br>For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207)<br>or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)<br>'
+        required: false
+        azure_sdk_references: ['/isAzureMonitorTargetEnabled', '/properties/isAzureMonitorTargetEnabled']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

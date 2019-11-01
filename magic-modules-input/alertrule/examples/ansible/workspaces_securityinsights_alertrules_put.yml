@@ -1,0 +1,30 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_alertrule
+  description: Creates or updates a Scheduled alert rule.
+  code:
+    resource_group: myResourceGroup
+    operational_insights_resource_provider: Microsoft.OperationalInsights
+    workspace_name: myWorkspace
+    rule_id: myAlertRule
+    alert_rule:
+      kind: Scheduled
+      etag: '"0300bf09-0000-0000-0000-5c37296e0000"'
+      properties:
+        displayName: Rule2
+        description: ''
+        severity: High
+        enabled: true
+        tactics:
+          - Persistence
+          - LateralMovement
+        query: >-
+          ProtectionStatus | extend HostCustomEntity = Computer | extend
+          IPCustomEntity = ComputerIP_Hidden
+        queryFrequency: PT1H
+        queryPeriod: P2DT1H30M
+        triggerOperator: GreaterThan
+        triggerThreshold: '0'
+        suppressionDuration: PT1H
+        suppressionEnabled: false
+  

@@ -1,0 +1,288 @@
+--- !ruby/object:Api::Product
+name: Azure ReferenceDataSet Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ReferenceDataSet
+    api_name: TimeSeriesInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.TimeSeriesInsights
+      go_client_namespace: 
+      go_client: referenceDataSetsClient
+      python_client_namespace: 
+      python_client: TimeSeriesInsightsClient.reference_data_sets
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'environmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: environments
+            go_variable_name: environmentName
+            python_parameter_name: environment_name
+            python_variable_name: environment_name
+          'referenceDataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: referenceDataSets
+            go_variable_name: referenceDataSetName
+            python_parameter_name: reference_data_set_name
+            python_variable_name: reference_data_set_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ReferenceDataSetCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ReferenceDataSetCreationProperties
+            go_type_name: ReferenceDataSetCreationProperties
+          '/keyProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: key_properties
+          '/keyProperties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/keyProperties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/keyProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: KeyProperties
+            go_type_name: ReferenceDataSetKeyProperty
+          '/properties/keyProperties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/keyProperties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: ReferenceDataKeyPropertyType
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'environmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: environments
+            go_variable_name: environmentName
+            python_parameter_name: environment_name
+            python_variable_name: environment_name
+          'referenceDataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: referenceDataSets
+            go_variable_name: referenceDataSetName
+            python_parameter_name: reference_data_set_name
+            python_variable_name: reference_data_set_name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'environmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: environments
+            go_variable_name: environmentName
+            python_parameter_name: environment_name
+            python_variable_name: environment_name
+          'referenceDataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: referenceDataSets
+            go_variable_name: referenceDataSetName
+            python_parameter_name: reference_data_set_name
+            python_variable_name: reference_data_set_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'environmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: environments
+            go_variable_name: environmentName
+            python_parameter_name: environment_name
+            python_variable_name: environment_name
+          'referenceDataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: referenceDataSets
+            go_variable_name: referenceDataSetName
+            python_parameter_name: reference_data_set_name
+            python_variable_name: reference_data_set_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ReferenceDataSetCreationProperties
+            go_type_name: ReferenceDataSetCreationProperties
+          '/properties/keyProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: KeyProperties
+            go_type_name: ReferenceDataSetKeyProperty
+          '/properties/keyProperties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/keyProperties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: ReferenceDataKeyPropertyType
+          '/keyProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: key_properties
+          '/keyProperties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/keyProperties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByEnvironment
+        python_func_name: list_by_environment
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'environmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: environments
+            go_variable_name: environmentName
+            python_parameter_name: environment_name
+            python_variable_name: environment_name
+
+    description: |
+      Manage Azure ReferenceDataSet instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'environmentName'
+        description: 'The name of the Time Series Insights environment associated with the specified resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['environmentName']
+      - !ruby/object:Api::Type::String
+        name: 'referenceDataSetName'
+        description: 'Name of the reference data set.'
+        required: true
+        input: true
+        azure_sdk_references: ['referenceDataSetName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Key-value pairs of additional properties for the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Array
+        name: 'keyProperties'
+        description: 'The list of key properties for the reference data set.'
+        required: true
+        azure_sdk_references: ['/keyProperties', '/properties/keyProperties']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the key property.'
+              required: false
+              azure_sdk_references: ['/keyProperties/name', '/properties/keyProperties/name']
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'The type of the key property.'
+              required: false
+              azure_sdk_references: ['/keyProperties/type', '/properties/keyProperties/type']
+              values:
+                - :String
+                - :Double
+                - :Bool
+                - :DateTime
+              default_value: :String
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Accepted
+          - :Creating
+          - :Updating
+          - :Succeeded
+          - :Failed
+          - :Deleting
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'The time the resource was created.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

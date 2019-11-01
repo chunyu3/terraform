@@ -1,0 +1,212 @@
+--- !ruby/object:Api::Product
+name: Azure Logger Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Logger
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: 
+      go_client: loggersClient
+      python_client_namespace: 
+      python_client: ApiManagementClient.loggers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'loggerid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loggers
+            go_variable_name: loggerid
+            python_parameter_name: loggerid
+            python_variable_name: loggerid
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: LoggerCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Description
+            python_field_name: description
+          '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Credentials
+            python_field_name: credentials
+          '/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsBuffered
+            python_field_name: is_buffered
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'loggerid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loggers
+            go_variable_name: loggerid
+            python_parameter_name: loggerid
+            python_variable_name: loggerid
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: LoggerCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Description
+            python_field_name: description
+          '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Credentials
+            python_field_name: credentials
+          '/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsBuffered
+            python_field_name: is_buffered
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'loggerid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loggers
+            go_variable_name: loggerid
+            python_parameter_name: loggerid
+            python_variable_name: loggerid
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'loggerid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loggers
+            go_variable_name: loggerid
+            python_parameter_name: loggerid
+            python_variable_name: loggerid
+        response:
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Description
+            python_field_name: description
+          '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Credentials
+            python_field_name: credentials
+          '/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsBuffered
+            python_field_name: is_buffered
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByService
+        python_func_name: list_by_service
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+
+    description: |
+      Manage Azure Logger instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'loggerid'
+        description: 'Identifier of the logger.'
+        required: true
+        input: true
+        azure_sdk_references: ['loggerid']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Logger type.'
+        required: true
+        input: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Logger description.'
+        required: false
+        input: true
+        azure_sdk_references: ['/description']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'credentials'
+        description: 'The name and SendRule connection string of the event hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['/credentials']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isBuffered'
+        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
+        required: false
+        input: true
+        azure_sdk_references: ['/isBuffered']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Uniquely identifies the logger within the current API Management service instance. The value is a valid relative URL in the format of /loggers/{loggerId} where {loggerId} is a logger identifier.'
+        output: true
+        azure_sdk_references: ['/id']

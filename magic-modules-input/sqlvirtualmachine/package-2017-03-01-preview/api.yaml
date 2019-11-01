@@ -1,0 +1,1776 @@
+--- !ruby/object:Api::Product
+name: Azure SqlVirtualMachine Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SqlVirtualMachine
+    api_name: SqlVirtualMachine
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.SqlVirtualMachine
+      go_client_namespace: 
+      go_client: sqlVirtualMachinesClient
+      python_client_namespace: 
+      python_client: SqlVirtualMachineManagementClient.sql_virtual_machines
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachines
+            go_variable_name: sqlVirtualMachineName
+            python_parameter_name: sql_virtual_machine_name
+            python_variable_name: sql_virtual_machine_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SqlVirtualMachine
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineProperties
+            go_type_name: SqlVirtualMachineProperties
+          '/virtualMachineResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_machine_resource_id
+          '/properties/virtualMachineResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineResourceID
+          '/sqlImageOffer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_image_offer
+          '/properties/sqlImageOffer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlImageOffer
+          '/sqlServerLicenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_server_license_type
+          '/properties/sqlServerLicenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlServerLicenseType
+            go_enum_type_name: SqlServerLicenseType
+          '/sqlManagement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_management
+          '/properties/sqlManagement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlManagement
+            go_enum_type_name: SqlManagementMode
+          '/sqlImageSku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_image_sku
+          '/properties/sqlImageSku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlImageSku
+            go_enum_type_name: SqlImageSku
+          '/sqlVirtualMachineGroupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_virtual_machine_group_resource_id
+          '/properties/sqlVirtualMachineGroupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineGroupResourceID
+          '/wsfcDomainCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: wsfc_domain_credentials
+          '/wsfcDomainCredentials/clusterBootstrapAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_bootstrap_account_password
+          '/wsfcDomainCredentials/clusterOperatorAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_operator_account_password
+          '/wsfcDomainCredentials/sqlServiceAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_service_account_password
+          '/properties/wsfcDomainCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WsfcDomainCredentials
+            go_type_name: WsfcDomainCredentials
+          '/properties/wsfcDomainCredentials/clusterBootstrapAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterBootstrapAccountPassword
+          '/properties/wsfcDomainCredentials/clusterOperatorAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterOperatorAccountPassword
+          '/properties/wsfcDomainCredentials/sqlServiceAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlServiceAccountPassword
+          '/autoPatchingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_patching_settings
+          '/autoPatchingSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/autoPatchingSettings/dayOfWeek': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: day_of_week
+          '/autoPatchingSettings/maintenanceWindowStartingHour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maintenance_window_starting_hour
+          '/autoPatchingSettings/maintenanceWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maintenance_window_duration
+          '/properties/autoPatchingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoPatchingSettings
+            go_type_name: AutoPatchingSettings
+          '/properties/autoPatchingSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/autoPatchingSettings/dayOfWeek': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DayOfWeek
+            go_enum_type_name: DayOfWeek
+          '/properties/autoPatchingSettings/maintenanceWindowStartingHour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaintenanceWindowStartingHour
+          '/properties/autoPatchingSettings/maintenanceWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaintenanceWindowDuration
+          '/autoBackupSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_backup_settings
+          '/autoBackupSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/autoBackupSettings/enableEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_encryption
+          '/autoBackupSettings/retentionPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_period
+          '/autoBackupSettings/storageAccountUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_url
+          '/autoBackupSettings/storageAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_access_key
+          '/autoBackupSettings/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/autoBackupSettings/backupSystemDbs': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: backup_system_dbs
+          '/autoBackupSettings/backupScheduleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_schedule_type
+          '/autoBackupSettings/fullBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: full_backup_frequency
+          '/autoBackupSettings/fullBackupStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: full_backup_start_time
+          '/autoBackupSettings/fullBackupWindowHours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: full_backup_window_hours
+          '/autoBackupSettings/logBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: log_backup_frequency
+          '/properties/autoBackupSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoBackupSettings
+            go_type_name: AutoBackupSettings
+          '/properties/autoBackupSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/autoBackupSettings/enableEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableEncryption
+          '/properties/autoBackupSettings/retentionPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionPeriod
+          '/properties/autoBackupSettings/storageAccountUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountURL
+          '/properties/autoBackupSettings/storageAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccessKey
+          '/properties/autoBackupSettings/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/autoBackupSettings/backupSystemDbs': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BackupSystemDbs
+          '/properties/autoBackupSettings/backupScheduleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleType
+            go_enum_type_name: BackupScheduleType
+          '/properties/autoBackupSettings/fullBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FullBackupFrequency
+            go_enum_type_name: FullBackupFrequencyType
+          '/properties/autoBackupSettings/fullBackupStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FullBackupStartTime
+          '/properties/autoBackupSettings/fullBackupWindowHours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FullBackupWindowHours
+          '/properties/autoBackupSettings/logBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LogBackupFrequency
+          '/keyVaultCredentialSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_credential_settings
+          '/keyVaultCredentialSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/keyVaultCredentialSettings/credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential_name
+          '/keyVaultCredentialSettings/azureKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_key_vault_url
+          '/keyVaultCredentialSettings/servicePrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_principal_name
+          '/keyVaultCredentialSettings/servicePrincipalSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_principal_secret
+          '/properties/keyVaultCredentialSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultCredentialSettings
+            go_type_name: KeyVaultCredentialSettings
+          '/properties/keyVaultCredentialSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/keyVaultCredentialSettings/credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialName
+          '/properties/keyVaultCredentialSettings/azureKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureKeyVaultURL
+          '/properties/keyVaultCredentialSettings/servicePrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipalName
+          '/properties/keyVaultCredentialSettings/servicePrincipalSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipalSecret
+          '/serverConfigurationsManagementSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: server_configurations_management_settings
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_connectivity_update_settings
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connectivity_type
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_auth_update_user_name
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_auth_update_password
+          '/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_workload_type_update_settings
+          '/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_workload_type
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_storage_update_settings
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_count
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: starting_device_id
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_configuration_type
+          '/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: additional_features_server_configurations
+          '/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_rservices_enabled
+          '/properties/serverConfigurationsManagementSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerConfigurationsManagementSettings
+            go_type_name: ServerConfigurationsManagementSettings
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlConnectivityUpdateSettings
+            go_type_name: SqlConnectivityUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectivityType
+            go_enum_type_name: ConnectivityType
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlAuthUpdateUserName
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlAuthUpdatePassword
+          '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlWorkloadTypeUpdateSettings
+            go_type_name: SqlWorkloadTypeUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlWorkloadType
+            go_enum_type_name: SqlWorkloadType
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlStorageUpdateSettings
+            go_type_name: SqlStorageUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskCount
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: StartingDeviceID
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskConfigurationType
+            go_enum_type_name: DiskConfigurationType
+          '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdditionalFeaturesServerConfigurations
+            go_type_name: AdditionalFeaturesServerConfigurations
+          '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsRservicesEnabled
+          '/storageConfigurationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_configuration_settings
+          '/storageConfigurationSettings/sqlDataSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_data_settings
+          '/storageConfigurationSettings/sqlDataSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlDataSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/sqlLogSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_log_settings
+          '/storageConfigurationSettings/sqlLogSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlLogSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/sqlTempDbSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_temp_db_settings
+          '/storageConfigurationSettings/sqlTempDbSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_configuration_type
+          '/storageConfigurationSettings/storageWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: storage_workload_type
+          '/properties/storageConfigurationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageConfigurationSettings
+            go_type_name: StorageConfigurationSettings
+          '/properties/storageConfigurationSettings/sqlDataSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlDataSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlDataSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlDataSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/sqlLogSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlLogSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlLogSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlLogSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/sqlTempDbSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlTempDbSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlTempDbSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskConfigurationType
+            go_enum_type_name: DiskConfigurationType
+          '/properties/storageConfigurationSettings/storageWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StorageWorkloadType
+            go_enum_type_name: StorageWorkloadType
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachines
+            go_variable_name: sqlVirtualMachineName
+            python_parameter_name: sql_virtual_machine_name
+            python_variable_name: sql_virtual_machine_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SqlVirtualMachine
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineProperties
+            go_type_name: SqlVirtualMachineProperties
+          '/virtualMachineResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_machine_resource_id
+          '/properties/virtualMachineResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineResourceID
+          '/sqlImageOffer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_image_offer
+          '/properties/sqlImageOffer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlImageOffer
+          '/sqlServerLicenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_server_license_type
+          '/properties/sqlServerLicenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlServerLicenseType
+            go_enum_type_name: SqlServerLicenseType
+          '/sqlManagement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_management
+          '/properties/sqlManagement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlManagement
+            go_enum_type_name: SqlManagementMode
+          '/sqlImageSku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_image_sku
+          '/properties/sqlImageSku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlImageSku
+            go_enum_type_name: SqlImageSku
+          '/sqlVirtualMachineGroupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_virtual_machine_group_resource_id
+          '/properties/sqlVirtualMachineGroupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineGroupResourceID
+          '/wsfcDomainCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: wsfc_domain_credentials
+          '/wsfcDomainCredentials/clusterBootstrapAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_bootstrap_account_password
+          '/wsfcDomainCredentials/clusterOperatorAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_operator_account_password
+          '/wsfcDomainCredentials/sqlServiceAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_service_account_password
+          '/properties/wsfcDomainCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WsfcDomainCredentials
+            go_type_name: WsfcDomainCredentials
+          '/properties/wsfcDomainCredentials/clusterBootstrapAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterBootstrapAccountPassword
+          '/properties/wsfcDomainCredentials/clusterOperatorAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterOperatorAccountPassword
+          '/properties/wsfcDomainCredentials/sqlServiceAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlServiceAccountPassword
+          '/autoPatchingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_patching_settings
+          '/autoPatchingSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/autoPatchingSettings/dayOfWeek': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: day_of_week
+          '/autoPatchingSettings/maintenanceWindowStartingHour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maintenance_window_starting_hour
+          '/autoPatchingSettings/maintenanceWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maintenance_window_duration
+          '/properties/autoPatchingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoPatchingSettings
+            go_type_name: AutoPatchingSettings
+          '/properties/autoPatchingSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/autoPatchingSettings/dayOfWeek': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DayOfWeek
+            go_enum_type_name: DayOfWeek
+          '/properties/autoPatchingSettings/maintenanceWindowStartingHour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaintenanceWindowStartingHour
+          '/properties/autoPatchingSettings/maintenanceWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaintenanceWindowDuration
+          '/autoBackupSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_backup_settings
+          '/autoBackupSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/autoBackupSettings/enableEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_encryption
+          '/autoBackupSettings/retentionPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_period
+          '/autoBackupSettings/storageAccountUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_url
+          '/autoBackupSettings/storageAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_access_key
+          '/autoBackupSettings/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/autoBackupSettings/backupSystemDbs': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: backup_system_dbs
+          '/autoBackupSettings/backupScheduleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_schedule_type
+          '/autoBackupSettings/fullBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: full_backup_frequency
+          '/autoBackupSettings/fullBackupStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: full_backup_start_time
+          '/autoBackupSettings/fullBackupWindowHours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: full_backup_window_hours
+          '/autoBackupSettings/logBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: log_backup_frequency
+          '/properties/autoBackupSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoBackupSettings
+            go_type_name: AutoBackupSettings
+          '/properties/autoBackupSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/autoBackupSettings/enableEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableEncryption
+          '/properties/autoBackupSettings/retentionPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionPeriod
+          '/properties/autoBackupSettings/storageAccountUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountURL
+          '/properties/autoBackupSettings/storageAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccessKey
+          '/properties/autoBackupSettings/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/autoBackupSettings/backupSystemDbs': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BackupSystemDbs
+          '/properties/autoBackupSettings/backupScheduleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleType
+            go_enum_type_name: BackupScheduleType
+          '/properties/autoBackupSettings/fullBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FullBackupFrequency
+            go_enum_type_name: FullBackupFrequencyType
+          '/properties/autoBackupSettings/fullBackupStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FullBackupStartTime
+          '/properties/autoBackupSettings/fullBackupWindowHours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FullBackupWindowHours
+          '/properties/autoBackupSettings/logBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LogBackupFrequency
+          '/keyVaultCredentialSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_credential_settings
+          '/keyVaultCredentialSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/keyVaultCredentialSettings/credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential_name
+          '/keyVaultCredentialSettings/azureKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_key_vault_url
+          '/keyVaultCredentialSettings/servicePrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_principal_name
+          '/keyVaultCredentialSettings/servicePrincipalSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_principal_secret
+          '/properties/keyVaultCredentialSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultCredentialSettings
+            go_type_name: KeyVaultCredentialSettings
+          '/properties/keyVaultCredentialSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/keyVaultCredentialSettings/credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialName
+          '/properties/keyVaultCredentialSettings/azureKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureKeyVaultURL
+          '/properties/keyVaultCredentialSettings/servicePrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipalName
+          '/properties/keyVaultCredentialSettings/servicePrincipalSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipalSecret
+          '/serverConfigurationsManagementSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: server_configurations_management_settings
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_connectivity_update_settings
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connectivity_type
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_auth_update_user_name
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_auth_update_password
+          '/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_workload_type_update_settings
+          '/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_workload_type
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_storage_update_settings
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_count
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: starting_device_id
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_configuration_type
+          '/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: additional_features_server_configurations
+          '/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_rservices_enabled
+          '/properties/serverConfigurationsManagementSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerConfigurationsManagementSettings
+            go_type_name: ServerConfigurationsManagementSettings
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlConnectivityUpdateSettings
+            go_type_name: SqlConnectivityUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectivityType
+            go_enum_type_name: ConnectivityType
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlAuthUpdateUserName
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlAuthUpdatePassword
+          '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlWorkloadTypeUpdateSettings
+            go_type_name: SqlWorkloadTypeUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlWorkloadType
+            go_enum_type_name: SqlWorkloadType
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlStorageUpdateSettings
+            go_type_name: SqlStorageUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskCount
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: StartingDeviceID
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskConfigurationType
+            go_enum_type_name: DiskConfigurationType
+          '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdditionalFeaturesServerConfigurations
+            go_type_name: AdditionalFeaturesServerConfigurations
+          '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsRservicesEnabled
+          '/storageConfigurationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_configuration_settings
+          '/storageConfigurationSettings/sqlDataSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_data_settings
+          '/storageConfigurationSettings/sqlDataSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlDataSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/sqlLogSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_log_settings
+          '/storageConfigurationSettings/sqlLogSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlLogSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/sqlTempDbSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_temp_db_settings
+          '/storageConfigurationSettings/sqlTempDbSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_configuration_type
+          '/storageConfigurationSettings/storageWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: storage_workload_type
+          '/properties/storageConfigurationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageConfigurationSettings
+            go_type_name: StorageConfigurationSettings
+          '/properties/storageConfigurationSettings/sqlDataSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlDataSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlDataSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlDataSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/sqlLogSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlLogSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlLogSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlLogSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/sqlTempDbSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlTempDbSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlTempDbSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskConfigurationType
+            go_enum_type_name: DiskConfigurationType
+          '/properties/storageConfigurationSettings/storageWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StorageWorkloadType
+            go_enum_type_name: StorageWorkloadType
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachines
+            go_variable_name: sqlVirtualMachineName
+            python_parameter_name: sql_virtual_machine_name
+            python_variable_name: sql_virtual_machine_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachines
+            go_variable_name: sqlVirtualMachineName
+            python_parameter_name: sql_virtual_machine_name
+            python_variable_name: sql_virtual_machine_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ResourceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: IdentityType
+            python_field_name: type
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineProperties
+            go_type_name: SqlVirtualMachineProperties
+          '/properties/virtualMachineResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineResourceID
+          '/virtualMachineResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_machine_resource_id
+          '/properties/sqlImageOffer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlImageOffer
+          '/sqlImageOffer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_image_offer
+          '/properties/sqlServerLicenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlServerLicenseType
+            go_enum_type_name: SqlServerLicenseType
+          '/sqlServerLicenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_server_license_type
+          '/properties/sqlManagement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlManagement
+            go_enum_type_name: SqlManagementMode
+          '/sqlManagement': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_management
+          '/properties/sqlImageSku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlImageSku
+            go_enum_type_name: SqlImageSku
+          '/sqlImageSku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_image_sku
+          '/properties/sqlVirtualMachineGroupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlVirtualMachineGroupResourceID
+          '/sqlVirtualMachineGroupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_virtual_machine_group_resource_id
+          '/properties/wsfcDomainCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WsfcDomainCredentials
+            go_type_name: WsfcDomainCredentials
+          '/properties/wsfcDomainCredentials/clusterBootstrapAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterBootstrapAccountPassword
+          '/properties/wsfcDomainCredentials/clusterOperatorAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterOperatorAccountPassword
+          '/properties/wsfcDomainCredentials/sqlServiceAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlServiceAccountPassword
+          '/wsfcDomainCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: wsfc_domain_credentials
+          '/wsfcDomainCredentials/clusterBootstrapAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_bootstrap_account_password
+          '/wsfcDomainCredentials/clusterOperatorAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_operator_account_password
+          '/wsfcDomainCredentials/sqlServiceAccountPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_service_account_password
+          '/properties/autoPatchingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoPatchingSettings
+            go_type_name: AutoPatchingSettings
+          '/properties/autoPatchingSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/autoPatchingSettings/dayOfWeek': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DayOfWeek
+            go_enum_type_name: DayOfWeek
+          '/properties/autoPatchingSettings/maintenanceWindowStartingHour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaintenanceWindowStartingHour
+          '/properties/autoPatchingSettings/maintenanceWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaintenanceWindowDuration
+          '/autoPatchingSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_patching_settings
+          '/autoPatchingSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/autoPatchingSettings/dayOfWeek': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: day_of_week
+          '/autoPatchingSettings/maintenanceWindowStartingHour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maintenance_window_starting_hour
+          '/autoPatchingSettings/maintenanceWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maintenance_window_duration
+          '/properties/autoBackupSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoBackupSettings
+            go_type_name: AutoBackupSettings
+          '/properties/autoBackupSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/autoBackupSettings/enableEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableEncryption
+          '/properties/autoBackupSettings/retentionPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionPeriod
+          '/properties/autoBackupSettings/storageAccountUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountURL
+          '/properties/autoBackupSettings/storageAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccessKey
+          '/properties/autoBackupSettings/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/autoBackupSettings/backupSystemDbs': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BackupSystemDbs
+          '/properties/autoBackupSettings/backupScheduleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleType
+            go_enum_type_name: BackupScheduleType
+          '/properties/autoBackupSettings/fullBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FullBackupFrequency
+            go_enum_type_name: FullBackupFrequencyType
+          '/properties/autoBackupSettings/fullBackupStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FullBackupStartTime
+          '/properties/autoBackupSettings/fullBackupWindowHours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FullBackupWindowHours
+          '/properties/autoBackupSettings/logBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LogBackupFrequency
+          '/autoBackupSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_backup_settings
+          '/autoBackupSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/autoBackupSettings/enableEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_encryption
+          '/autoBackupSettings/retentionPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_period
+          '/autoBackupSettings/storageAccountUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_url
+          '/autoBackupSettings/storageAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_access_key
+          '/autoBackupSettings/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/autoBackupSettings/backupSystemDbs': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: backup_system_dbs
+          '/autoBackupSettings/backupScheduleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_schedule_type
+          '/autoBackupSettings/fullBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: full_backup_frequency
+          '/autoBackupSettings/fullBackupStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: full_backup_start_time
+          '/autoBackupSettings/fullBackupWindowHours': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: full_backup_window_hours
+          '/autoBackupSettings/logBackupFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: log_backup_frequency
+          '/properties/keyVaultCredentialSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultCredentialSettings
+            go_type_name: KeyVaultCredentialSettings
+          '/properties/keyVaultCredentialSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enable
+          '/properties/keyVaultCredentialSettings/credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialName
+          '/properties/keyVaultCredentialSettings/azureKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureKeyVaultURL
+          '/properties/keyVaultCredentialSettings/servicePrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipalName
+          '/properties/keyVaultCredentialSettings/servicePrincipalSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServicePrincipalSecret
+          '/keyVaultCredentialSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_credential_settings
+          '/keyVaultCredentialSettings/enable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable
+          '/keyVaultCredentialSettings/credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential_name
+          '/keyVaultCredentialSettings/azureKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_key_vault_url
+          '/keyVaultCredentialSettings/servicePrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_principal_name
+          '/keyVaultCredentialSettings/servicePrincipalSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_principal_secret
+          '/properties/serverConfigurationsManagementSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerConfigurationsManagementSettings
+            go_type_name: ServerConfigurationsManagementSettings
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlConnectivityUpdateSettings
+            go_type_name: SqlConnectivityUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectivityType
+            go_enum_type_name: ConnectivityType
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlAuthUpdateUserName
+          '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SqlAuthUpdatePassword
+          '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlWorkloadTypeUpdateSettings
+            go_type_name: SqlWorkloadTypeUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SqlWorkloadType
+            go_enum_type_name: SqlWorkloadType
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlStorageUpdateSettings
+            go_type_name: SqlStorageUpdateSettings
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskCount
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: StartingDeviceID
+          '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskConfigurationType
+            go_enum_type_name: DiskConfigurationType
+          '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdditionalFeaturesServerConfigurations
+            go_type_name: AdditionalFeaturesServerConfigurations
+          '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsRservicesEnabled
+          '/serverConfigurationsManagementSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: server_configurations_management_settings
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_connectivity_update_settings
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connectivity_type
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_auth_update_user_name
+          '/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sql_auth_update_password
+          '/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_workload_type_update_settings
+          '/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sql_workload_type
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_storage_update_settings
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_count
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: starting_device_id
+          '/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_configuration_type
+          '/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: additional_features_server_configurations
+          '/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_rservices_enabled
+          '/properties/storageConfigurationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageConfigurationSettings
+            go_type_name: StorageConfigurationSettings
+          '/properties/storageConfigurationSettings/sqlDataSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlDataSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlDataSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlDataSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/sqlLogSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlLogSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlLogSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlLogSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/sqlTempDbSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SqlTempDbSettings
+            go_type_name: SQLStorageSettings
+          '/properties/storageConfigurationSettings/sqlTempDbSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [go]
+            go_field_name: Luns
+          '/properties/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultFilePath
+          '/properties/storageConfigurationSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskConfigurationType
+            go_enum_type_name: DiskConfigurationType
+          '/properties/storageConfigurationSettings/storageWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StorageWorkloadType
+            go_enum_type_name: StorageWorkloadType
+          '/storageConfigurationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_configuration_settings
+          '/storageConfigurationSettings/sqlDataSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_data_settings
+          '/storageConfigurationSettings/sqlDataSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlDataSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/sqlLogSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_log_settings
+          '/storageConfigurationSettings/sqlLogSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlLogSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/sqlTempDbSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sql_temp_db_settings
+          '/storageConfigurationSettings/sqlTempDbSettings/luns': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32ArrayObject
+            applicable_to: [python]
+            python_field_name: luns
+          '/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_file_path
+          '/storageConfigurationSettings/diskConfigurationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_configuration_type
+          '/storageConfigurationSettings/storageWorkloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: storage_workload_type
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySqlVmGroup
+        python_func_name: list_by_sql_vm_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure SqlVirtualMachine instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'sqlVirtualMachineName'
+        description: 'Name of the SQL virtual machine.'
+        required: true
+        input: true
+        azure_sdk_references: ['sqlVirtualMachineName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'Azure Active Directory identity of the server.'
+        required: false
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The identity type. Set this to ''SystemAssigned'' in order to automatically create and assign an Azure Active Directory principal for the resource.'
+            required: false
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+            default_value: :SystemAssigned
+      - !ruby/object:Api::Type::String
+        name: 'virtualMachineResourceId'
+        description: 'ARM Resource id of underlying virtual machine created from SQL marketplace image.'
+        required: false
+        azure_sdk_references: ['/virtualMachineResourceId', '/properties/virtualMachineResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'sqlImageOffer'
+        description: 'SQL image offer. Examples include SQL2016-WS2016, SQL2017-WS2016.'
+        required: false
+        azure_sdk_references: ['/sqlImageOffer', '/properties/sqlImageOffer']
+      - !ruby/object:Api::Type::Enum
+        name: 'sqlServerLicenseType'
+        description: 'SQL Server license type.'
+        required: false
+        azure_sdk_references: ['/sqlServerLicenseType', '/properties/sqlServerLicenseType']
+        values:
+          - :PAYG
+          - :AHUB
+        default_value: :PAYG
+      - !ruby/object:Api::Type::Enum
+        name: 'sqlManagement'
+        description: 'SQL Server Management type.'
+        required: false
+        azure_sdk_references: ['/sqlManagement', '/properties/sqlManagement']
+        values:
+          - :Full
+          - :LightWeight
+          - :NoAgent
+        default_value: :Full
+      - !ruby/object:Api::Type::Enum
+        name: 'sqlImageSku'
+        description: 'SQL Server edition type.'
+        required: false
+        azure_sdk_references: ['/sqlImageSku', '/properties/sqlImageSku']
+        values:
+          - :Developer
+          - :Express
+          - :Standard
+          - :Enterprise
+          - :Web
+        default_value: :Developer
+      - !ruby/object:Api::Type::String
+        name: 'sqlVirtualMachineGroupResourceId'
+        description: 'ARM resource id of the SQL virtual machine group this SQL virtual machine is or will be part of.'
+        required: false
+        azure_sdk_references: ['/sqlVirtualMachineGroupResourceId', '/properties/sqlVirtualMachineGroupResourceId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'wsfcDomainCredentials'
+        description: 'Domain credentials for setting up Windows Server Failover Cluster for SQL availability group.'
+        required: false
+        azure_sdk_references: ['/wsfcDomainCredentials', '/properties/wsfcDomainCredentials']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'clusterBootstrapAccountPassword'
+            description: 'Cluster bootstrap account password.'
+            required: false
+            azure_sdk_references: ['/wsfcDomainCredentials/clusterBootstrapAccountPassword', '/properties/wsfcDomainCredentials/clusterBootstrapAccountPassword']
+          - !ruby/object:Api::Type::String
+            name: 'clusterOperatorAccountPassword'
+            description: 'Cluster operator account password.'
+            required: false
+            azure_sdk_references: ['/wsfcDomainCredentials/clusterOperatorAccountPassword', '/properties/wsfcDomainCredentials/clusterOperatorAccountPassword']
+          - !ruby/object:Api::Type::String
+            name: 'sqlServiceAccountPassword'
+            description: 'SQL service account password.'
+            required: false
+            azure_sdk_references: ['/wsfcDomainCredentials/sqlServiceAccountPassword', '/properties/wsfcDomainCredentials/sqlServiceAccountPassword']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'autoPatchingSettings'
+        description: 'Auto patching settings for applying critical security updates to SQL virtual machine.'
+        required: false
+        azure_sdk_references: ['/autoPatchingSettings', '/properties/autoPatchingSettings']
+        properties:
+          - !ruby/object:Api::Type::Boolean
+            name: 'enable'
+            description: 'Enable or disable autopatching on SQL virtual machine.'
+            required: false
+            azure_sdk_references: ['/autoPatchingSettings/enable', '/properties/autoPatchingSettings/enable']
+          - !ruby/object:Api::Type::Enum
+            name: 'dayOfWeek'
+            description: 'Day of week to apply the patch on.'
+            required: false
+            azure_sdk_references: ['/autoPatchingSettings/dayOfWeek', '/properties/autoPatchingSettings/dayOfWeek']
+            values:
+              - :Monday
+              - :Tuesday
+              - :Wednesday
+              - :Thursday
+              - :Friday
+              - :Saturday
+              - :Sunday
+            default_value: :Monday
+          - !ruby/object:Api::Type::Integer
+            name: 'maintenanceWindowStartingHour'
+            description: 'Hour of the day when patching is initiated. Local VM time.'
+            required: false
+            azure_sdk_references: ['/autoPatchingSettings/maintenanceWindowStartingHour', '/properties/autoPatchingSettings/maintenanceWindowStartingHour']
+          - !ruby/object:Api::Type::Integer
+            name: 'maintenanceWindowDuration'
+            description: 'Duration of patching.'
+            required: false
+            azure_sdk_references: ['/autoPatchingSettings/maintenanceWindowDuration', '/properties/autoPatchingSettings/maintenanceWindowDuration']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'autoBackupSettings'
+        description: 'Auto backup settings for SQL Server.'
+        required: false
+        azure_sdk_references: ['/autoBackupSettings', '/properties/autoBackupSettings']
+        properties:
+          - !ruby/object:Api::Type::Boolean
+            name: 'enable'
+            description: 'Enable or disable autobackup on SQL virtual machine.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/enable', '/properties/autoBackupSettings/enable']
+          - !ruby/object:Api::Type::Boolean
+            name: 'enableEncryption'
+            description: 'Enable or disable encryption for backup on SQL virtual machine.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/enableEncryption', '/properties/autoBackupSettings/enableEncryption']
+          - !ruby/object:Api::Type::Integer
+            name: 'retentionPeriod'
+            description: 'Retention period of backup: 1-30 days.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/retentionPeriod', '/properties/autoBackupSettings/retentionPeriod']
+          - !ruby/object:Api::Type::String
+            name: 'storageAccountUrl'
+            description: 'Storage account url where backup will be taken to.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/storageAccountUrl', '/properties/autoBackupSettings/storageAccountUrl']
+          - !ruby/object:Api::Type::String
+            name: 'storageAccessKey'
+            description: 'Storage account key where backup will be taken to.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/storageAccessKey', '/properties/autoBackupSettings/storageAccessKey']
+          - !ruby/object:Api::Type::String
+            name: 'password'
+            description: 'Password for encryption on backup.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/password', '/properties/autoBackupSettings/password']
+          - !ruby/object:Api::Type::Boolean
+            name: 'backupSystemDbs'
+            description: 'Include or exclude system databases from auto backup.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/backupSystemDbs', '/properties/autoBackupSettings/backupSystemDbs']
+          - !ruby/object:Api::Type::Enum
+            name: 'backupScheduleType'
+            description: 'Backup schedule type.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/backupScheduleType', '/properties/autoBackupSettings/backupScheduleType']
+            values:
+              - :Manual
+              - :Automated
+            default_value: :Manual
+          - !ruby/object:Api::Type::Enum
+            name: 'fullBackupFrequency'
+            description: 'Frequency of full backups. In both cases, full backups begin during the next scheduled time window.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/fullBackupFrequency', '/properties/autoBackupSettings/fullBackupFrequency']
+            values:
+              - :Daily
+              - :Weekly
+            default_value: :Daily
+          - !ruby/object:Api::Type::Integer
+            name: 'fullBackupStartTime'
+            description: 'Start time of a given day during which full backups can take place. 0-23 hours.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/fullBackupStartTime', '/properties/autoBackupSettings/fullBackupStartTime']
+          - !ruby/object:Api::Type::Integer
+            name: 'fullBackupWindowHours'
+            description: 'Duration of the time window of a given day during which full backups can take place. 1-23 hours.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/fullBackupWindowHours', '/properties/autoBackupSettings/fullBackupWindowHours']
+          - !ruby/object:Api::Type::Integer
+            name: 'logBackupFrequency'
+            description: 'Frequency of log backups. 5-60 minutes.'
+            required: false
+            azure_sdk_references: ['/autoBackupSettings/logBackupFrequency', '/properties/autoBackupSettings/logBackupFrequency']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'keyVaultCredentialSettings'
+        description: 'Key vault credential settings.'
+        required: false
+        azure_sdk_references: ['/keyVaultCredentialSettings', '/properties/keyVaultCredentialSettings']
+        properties:
+          - !ruby/object:Api::Type::Boolean
+            name: 'enable'
+            description: 'Enable or disable key vault credential setting.'
+            required: false
+            azure_sdk_references: ['/keyVaultCredentialSettings/enable', '/properties/keyVaultCredentialSettings/enable']
+          - !ruby/object:Api::Type::String
+            name: 'credentialName'
+            description: 'Credential name.'
+            required: false
+            azure_sdk_references: ['/keyVaultCredentialSettings/credentialName', '/properties/keyVaultCredentialSettings/credentialName']
+          - !ruby/object:Api::Type::String
+            name: 'azureKeyVaultUrl'
+            description: 'Azure Key Vault url.'
+            required: false
+            azure_sdk_references: ['/keyVaultCredentialSettings/azureKeyVaultUrl', '/properties/keyVaultCredentialSettings/azureKeyVaultUrl']
+          - !ruby/object:Api::Type::String
+            name: 'servicePrincipalName'
+            description: 'Service principal name to access key vault.'
+            required: false
+            azure_sdk_references: ['/keyVaultCredentialSettings/servicePrincipalName', '/properties/keyVaultCredentialSettings/servicePrincipalName']
+          - !ruby/object:Api::Type::String
+            name: 'servicePrincipalSecret'
+            description: 'Service principal name secret to access key vault.'
+            required: false
+            azure_sdk_references: ['/keyVaultCredentialSettings/servicePrincipalSecret', '/properties/keyVaultCredentialSettings/servicePrincipalSecret']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'serverConfigurationsManagementSettings'
+        description: 'SQL Server configuration management settings.'
+        required: false
+        azure_sdk_references: ['/serverConfigurationsManagementSettings', '/properties/serverConfigurationsManagementSettings']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'sqlConnectivityUpdateSettings'
+            description: 'SQL connectivity type settings.'
+            required: false
+            azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings', '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'connectivityType'
+                description: 'SQL Server connectivity option.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType', '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/connectivityType']
+                values:
+                  - :LOCAL
+                  - :PRIVATE
+                  - :PUBLIC
+                default_value: :LOCAL
+              - !ruby/object:Api::Type::Integer
+                name: 'port'
+                description: 'SQL Server port.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port', '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/port']
+              - !ruby/object:Api::Type::String
+                name: 'sqlAuthUpdateUserName'
+                description: 'SQL Server sysadmin login to create.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName', '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdateUserName']
+              - !ruby/object:Api::Type::String
+                name: 'sqlAuthUpdatePassword'
+                description: 'SQL Server sysadmin login password.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword', '/properties/serverConfigurationsManagementSettings/sqlConnectivityUpdateSettings/sqlAuthUpdatePassword']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'sqlWorkloadTypeUpdateSettings'
+            description: 'SQL workload type settings.'
+            required: false
+            azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings', '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'sqlWorkloadType'
+                description: 'SQL Server workload type.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType', '/properties/serverConfigurationsManagementSettings/sqlWorkloadTypeUpdateSettings/sqlWorkloadType']
+                values:
+                  - :GENERAL
+                  - :OLTP
+                  - :DW
+                default_value: :GENERAL
+          - !ruby/object:Api::Type::NestedObject
+            name: 'sqlStorageUpdateSettings'
+            description: 'SQL storage update settings.'
+            required: false
+            azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlStorageUpdateSettings', '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings']
+            properties:
+              - !ruby/object:Api::Type::Integer
+                name: 'diskCount'
+                description: 'Virtual machine disk count.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount', '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskCount']
+              - !ruby/object:Api::Type::Integer
+                name: 'startingDeviceId'
+                description: 'Device id of the first disk to be updated.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId', '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/startingDeviceId']
+              - !ruby/object:Api::Type::Enum
+                name: 'diskConfigurationType'
+                description: 'Disk configuration to apply to SQL Server.'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType', '/properties/serverConfigurationsManagementSettings/sqlStorageUpdateSettings/diskConfigurationType']
+                values:
+                  - :NEW
+                  - :EXTEND
+                  - :ADD
+                default_value: :NEW
+          - !ruby/object:Api::Type::NestedObject
+            name: 'additionalFeaturesServerConfigurations'
+            description: 'Additional SQL feature settings.'
+            required: false
+            azure_sdk_references: ['/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations', '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'isRservicesEnabled'
+                description: 'Enable or disable R services (SQL 2016 onwards).'
+                required: false
+                azure_sdk_references: ['/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled', '/properties/serverConfigurationsManagementSettings/additionalFeaturesServerConfigurations/isRServicesEnabled']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageConfigurationSettings'
+        description: 'Storage Configuration Settings.'
+        required: false
+        azure_sdk_references: ['/storageConfigurationSettings', '/properties/storageConfigurationSettings']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'sqlDataSettings'
+            description: 'SQL Server Data Storage Settings.'
+            required: false
+            azure_sdk_references: ['/storageConfigurationSettings/sqlDataSettings', '/properties/storageConfigurationSettings/sqlDataSettings']
+            properties:
+              - !ruby/object:Api::Type::Array
+                name: 'luns'
+                description: 'Logical Unit Numbers for the disks.'
+                required: false
+                azure_sdk_references: ['/storageConfigurationSettings/sqlDataSettings/luns', '/properties/storageConfigurationSettings/sqlDataSettings/luns']
+                item_type: Api::Type::Integer
+              - !ruby/object:Api::Type::String
+                name: 'defaultFilePath'
+                description: 'SQL Server default file path'
+                required: false
+                azure_sdk_references: ['/storageConfigurationSettings/sqlDataSettings/defaultFilePath', '/properties/storageConfigurationSettings/sqlDataSettings/defaultFilePath']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'sqlLogSettings'
+            description: 'SQL Server Log Storage Settings.'
+            required: false
+            azure_sdk_references: ['/storageConfigurationSettings/sqlLogSettings', '/properties/storageConfigurationSettings/sqlLogSettings']
+            properties:
+              - !ruby/object:Api::Type::Array
+                name: 'luns'
+                description: 'Logical Unit Numbers for the disks.'
+                required: false
+                azure_sdk_references: ['/storageConfigurationSettings/sqlLogSettings/luns', '/properties/storageConfigurationSettings/sqlLogSettings/luns']
+                item_type: Api::Type::Integer
+              - !ruby/object:Api::Type::String
+                name: 'defaultFilePath'
+                description: 'SQL Server default file path'
+                required: false
+                azure_sdk_references: ['/storageConfigurationSettings/sqlLogSettings/defaultFilePath', '/properties/storageConfigurationSettings/sqlLogSettings/defaultFilePath']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'sqlTempDbSettings'
+            description: 'SQL Server TempDb Storage Settings.'
+            required: false
+            azure_sdk_references: ['/storageConfigurationSettings/sqlTempDbSettings', '/properties/storageConfigurationSettings/sqlTempDbSettings']
+            properties:
+              - !ruby/object:Api::Type::Array
+                name: 'luns'
+                description: 'Logical Unit Numbers for the disks.'
+                required: false
+                azure_sdk_references: ['/storageConfigurationSettings/sqlTempDbSettings/luns', '/properties/storageConfigurationSettings/sqlTempDbSettings/luns']
+                item_type: Api::Type::Integer
+              - !ruby/object:Api::Type::String
+                name: 'defaultFilePath'
+                description: 'SQL Server default file path'
+                required: false
+                azure_sdk_references: ['/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath', '/properties/storageConfigurationSettings/sqlTempDbSettings/defaultFilePath']
+          - !ruby/object:Api::Type::Enum
+            name: 'diskConfigurationType'
+            description: 'Disk configuration to apply to SQL Server.'
+            required: false
+            azure_sdk_references: ['/storageConfigurationSettings/diskConfigurationType', '/properties/storageConfigurationSettings/diskConfigurationType']
+            values:
+              - :NEW
+              - :EXTEND
+              - :ADD
+            default_value: :NEW
+          - !ruby/object:Api::Type::Enum
+            name: 'storageWorkloadType'
+            description: 'Storage workload type.'
+            required: false
+            azure_sdk_references: ['/storageConfigurationSettings/storageWorkloadType', '/properties/storageConfigurationSettings/storageWorkloadType']
+            values:
+              - :GENERAL
+              - :OLTP
+              - :DW
+            default_value: :GENERAL
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Provisioning state to track the async operation status.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

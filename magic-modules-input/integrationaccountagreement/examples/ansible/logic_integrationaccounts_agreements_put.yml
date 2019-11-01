@@ -1,0 +1,136 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_integrationaccountagreement
+  description: Create or update an agreement
+  code:
+    resource_group: myResourceGroup
+    integration_account_name: myIntegrationAccount
+    agreement_name: myAgreement
+    agreement:
+      properties:
+        metadata: {}
+        agreementType: AS2
+        hostPartner: HostPartner
+        guestPartner: GuestPartner
+        hostIdentity:
+          qualifier: ZZ
+          value: ZZ
+        guestIdentity:
+          qualifier: AA
+          value: AA
+        content:
+          aS2:
+            receiveAgreement:
+              protocolSettings:
+                messageConnectionSettings:
+                  ignoreCertificateNameMismatch: true
+                  supportHttpStatusCodeContinue: true
+                  keepHttpConnectionAlive: true
+                  unfoldHttpHeaders: true
+                acknowledgementConnectionSettings:
+                  ignoreCertificateNameMismatch: true
+                  supportHttpStatusCodeContinue: true
+                  keepHttpConnectionAlive: true
+                  unfoldHttpHeaders: true
+                mdnSettings:
+                  needMDN: true
+                  signMDN: true
+                  sendMDNAsynchronously: true
+                  receiptDeliveryUrl: 'http://tempuri.org'
+                  dispositionNotificationTo: 'http://tempuri.org'
+                  signOutboundMdnIfOptional: true
+                  mdnText: Sample
+                  sendInboundMdnToMessageBox: true
+                  micHashingAlgorithm: SHA1
+                securitySettings:
+                  overrideGroupSigningCertificate: false
+                  enableNRRForInboundEncodedMessages: true
+                  enableNRRForInboundDecodedMessages: true
+                  enableNRRForOutboundMDN: true
+                  enableNRRForOutboundEncodedMessages: true
+                  enableNRRForOutboundDecodedMessages: true
+                  enableNRRForInboundMDN: true
+                validationSettings:
+                  overrideMessageProperties: true
+                  encryptMessage: false
+                  signMessage: false
+                  compressMessage: true
+                  checkDuplicateMessage: true
+                  interchangeDuplicatesValidityDays: '100'
+                  checkCertificateRevocationListOnSend: true
+                  checkCertificateRevocationListOnReceive: true
+                  encryptionAlgorithm: AES128
+                envelopeSettings:
+                  messageContentType: text/plain
+                  transmitFileNameInMimeHeader: true
+                  fileNameTemplate: Test
+                  suspendMessageOnFileNameGenerationError: true
+                  autogenerateFileName: true
+                errorSettings:
+                  suspendDuplicateMessage: true
+                  resendIfMDNNotReceived: true
+              senderBusinessIdentity:
+                qualifier: AA
+                value: AA
+              receiverBusinessIdentity:
+                qualifier: ZZ
+                value: ZZ
+            sendAgreement:
+              protocolSettings:
+                messageConnectionSettings:
+                  ignoreCertificateNameMismatch: true
+                  supportHttpStatusCodeContinue: true
+                  keepHttpConnectionAlive: true
+                  unfoldHttpHeaders: true
+                acknowledgementConnectionSettings:
+                  ignoreCertificateNameMismatch: true
+                  supportHttpStatusCodeContinue: true
+                  keepHttpConnectionAlive: true
+                  unfoldHttpHeaders: true
+                mdnSettings:
+                  needMDN: true
+                  signMDN: true
+                  sendMDNAsynchronously: true
+                  receiptDeliveryUrl: 'http://tempuri.org'
+                  dispositionNotificationTo: 'http://tempuri.org'
+                  signOutboundMdnIfOptional: true
+                  mdnText: Sample
+                  sendInboundMdnToMessageBox: true
+                  micHashingAlgorithm: SHA1
+                securitySettings:
+                  overrideGroupSigningCertificate: false
+                  enableNRRForInboundEncodedMessages: true
+                  enableNRRForInboundDecodedMessages: true
+                  enableNRRForOutboundMDN: true
+                  enableNRRForOutboundEncodedMessages: true
+                  enableNRRForOutboundDecodedMessages: true
+                  enableNRRForInboundMDN: true
+                validationSettings:
+                  overrideMessageProperties: true
+                  encryptMessage: false
+                  signMessage: false
+                  compressMessage: true
+                  checkDuplicateMessage: true
+                  interchangeDuplicatesValidityDays: '100'
+                  checkCertificateRevocationListOnSend: true
+                  checkCertificateRevocationListOnReceive: true
+                  encryptionAlgorithm: AES128
+                envelopeSettings:
+                  messageContentType: text/plain
+                  transmitFileNameInMimeHeader: true
+                  fileNameTemplate: Test
+                  suspendMessageOnFileNameGenerationError: true
+                  autogenerateFileName: true
+                errorSettings:
+                  suspendDuplicateMessage: true
+                  resendIfMDNNotReceived: true
+              senderBusinessIdentity:
+                qualifier: ZZ
+                value: ZZ
+              receiverBusinessIdentity:
+                qualifier: AA
+                value: AA
+      location: westus
+      tags:
+        IntegrationAccountAgreement: <IntegrationAccountAgreementName>
+  

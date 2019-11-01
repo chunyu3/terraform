@@ -1,0 +1,23 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_liveevent
+  description: Create a LiveEvent
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaservice
+    live_event_name: myLiveEvent
+    tags:
+      tag1: value1
+      tag2: value2
+    location: West US
+    description: test event 1
+    input:
+      streaming_protocol: RTMP
+      key_frame_interval_duration: PT2S
+    preview:
+      access_control:
+        ip:
+          allow:
+            - name: AllowAll
+              address: 0.0.0.0
+  

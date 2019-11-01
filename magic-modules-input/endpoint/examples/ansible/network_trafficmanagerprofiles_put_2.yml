@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_endpoint
+  description: Endpoint-PUT-External-WithCustomHeaders
+  code:
+    resource_group: myResourceGroup
+    profile_name: myTrafficmanagerprofile
+    endpoint_type: ExternalEndpoints
+    endpoint_name: myEndpointType
+    name: azsmnet7187
+    type: Microsoft.network/TrafficManagerProfiles/ExternalEndpoints
+    target: foobar.contoso.com
+    endpoint_status: Enabled
+    endpoint_location: North Europe
+    custom_headers:
+      - name: header-1
+        value: value-1
+      - name: header-2
+        value: value-2
+  

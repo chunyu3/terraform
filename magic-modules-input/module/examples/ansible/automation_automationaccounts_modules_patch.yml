@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_module
+  description: Update a module
+  code:
+    resource_group: myResourceGroup
+    automation_account_name: myAutomationAccount
+    module_name: myModule
+    content_link:
+      uri: 'https://teststorage.blob.core.windows.net/mycontainer/MyModule.zip'
+      content_hash:
+        algorithm: sha265
+        value: 07E108A962B81DD9C9BAA89BB47C0F6EE52B29E83758B07795E408D258B2B87A
+      version: 1.0.0.0
+  

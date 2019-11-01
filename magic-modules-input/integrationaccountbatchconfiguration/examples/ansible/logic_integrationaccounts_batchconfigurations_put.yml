@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_integrationaccountbatchconfiguration
+  description: Create or update a batch configuration
+  code:
+    resource_group: myResourceGroup
+    integration_account_name: myIntegrationAccount
+    batch_configuration_name: myBatchConfiguration
+    batch_configuration:
+      properties:
+        properties:
+          batchGroupName: DEFAULT
+          releaseCriteria:
+            recurrence:
+              frequency: Minute
+              interval: '1'
+              startTime: '2017-03-24T11:43:00'
+              timeZone: India Standard Time
+            messageCount: '10'
+            batchSize: '234567'
+      location: westus
+  

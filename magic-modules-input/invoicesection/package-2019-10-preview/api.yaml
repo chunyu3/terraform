@@ -1,0 +1,184 @@
+--- !ruby/object:Api::Product
+name: Azure InvoiceSection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: InvoiceSection
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: 
+      go_client: invoiceSectionsClient
+      python_client_namespace: 
+      python_client: BillingManagementClient.invoice_sections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+          'invoiceSectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invoiceSections
+            go_variable_name: invoiceSectionName
+            python_parameter_name: invoice_section_name
+            python_variable_name: invoice_section_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: InvoiceSectionCreationRequest
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+          'invoiceSectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invoiceSections
+            go_variable_name: invoiceSectionName
+            python_parameter_name: invoice_section_name
+            python_variable_name: invoice_section_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: InvoiceSectionCreationRequest
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+          'invoiceSectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invoiceSections
+            go_variable_name: invoiceSectionName
+            python_parameter_name: invoice_section_name
+            python_variable_name: invoice_section_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InvoiceSectionProperties
+            go_type_name: InvoiceSectionProperties
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByBillingProfile
+        python_func_name: list_by_billing_profile
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+
+    description: |
+      Manage Azure InvoiceSection instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountName'
+        description: 'billing Account Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileName'
+        description: 'Billing Profile Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingProfileName']
+      - !ruby/object:Api::Type::String
+        name: 'invoiceSectionName'
+        description: 'InvoiceSection Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['invoiceSectionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the InvoiceSection.'
+        required: false
+        input: true
+        azure_sdk_references: ['/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'The name of the InvoiceSection.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

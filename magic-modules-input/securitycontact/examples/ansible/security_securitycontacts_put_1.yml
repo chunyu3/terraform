@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securitycontact
+  description: Create security contact data full
+  code:
+    security_contact_name: mySecurityContact
+    security_contact:
+      id: >-
+        /subscriptions/{{ subscription_id
+        }}/providers/Microsoft.Security/securityContacts/{{ security_contact_name
+        }}
+      name: default1
+      type: Microsoft.Security/securityContacts
+      properties:
+        email: john@contoso.com
+        phone: (214)275-4038
+        alertNotifications: 'On'
+        alertsToAdmins: 'On'
+  

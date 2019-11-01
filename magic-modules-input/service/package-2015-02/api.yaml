@@ -1,0 +1,189 @@
+--- !ruby/object:Api::Product
+name: Azure Service Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Service
+    api_name: Search
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Search
+      go_client_namespace: 
+      go_client: servicesClient
+      python_client_namespace: 
+      python_client: SearchManagementClient.services
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: searchServices
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SearchServiceCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SearchServiceProperties
+            go_type_name: SearchServiceProperties
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: Sku
+          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuType
+          '/replicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: replica_count
+          '/properties/replicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ReplicaCount
+          '/partitionCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: partition_count
+          '/properties/partitionCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PartitionCount
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: searchServices
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Service instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the current subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the Search service to create or update.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The geographic location of the Search service.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Tags to help categorize the Search service in the Azure Portal.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The SKU of the Search Service, which determines price tier and capacity limits.'
+        required: false
+        azure_sdk_references: ['/sku', '/properties/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'The SKU of the Search service.'
+            required: false
+            azure_sdk_references: ['/sku/name', '/properties/sku/name']
+            values:
+              - :free
+              - :standard
+              - :standard2
+            default_value: :free
+      - !ruby/object:Api::Type::Integer
+        name: 'replicaCount'
+        description: 'The number of replicas in the Search service. If specified, it must be a value between 1 and 6 inclusive.'
+        required: false
+        azure_sdk_references: ['/replicaCount', '/properties/replicaCount']
+      - !ruby/object:Api::Type::Integer
+        name: 'partitionCount'
+        description: 'The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12.'
+        required: false
+        azure_sdk_references: ['/partitionCount', '/properties/partitionCount']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the Search service.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :running
+          - :provisioning
+          - :deleting
+          - :degraded
+          - :disabled
+          - :error
+      - !ruby/object:Api::Type::String
+        name: 'statusDetails'
+        description: 'The details of the Search service status.'
+        output: true
+        azure_sdk_references: ['/statusDetails', '/properties/statusDetails']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The state of the last provisioning operation performed on the Search service.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :succeeded
+          - :provisioning
+          - :failed
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource Id of the Azure Search service.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Search service.'
+        output: true
+        azure_sdk_references: ['/name']

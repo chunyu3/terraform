@@ -1,0 +1,1030 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualWan Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualWan
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: 
+      go_client: virtualWansClient
+      python_client_namespace: 
+      python_client: NetworkManagementClient.virtual_wans
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'VirtualWANName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualWans
+            go_variable_name: virtualWanname
+            python_parameter_name: virtual_wanname
+            python_variable_name: virtual_wanname
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: wanparameters
+            go_type_name: VirtualWAN
+            python_parameter_name: wanparameters
+            python_variable_name: wanparameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualWanProperties
+            go_type_name: VirtualWanProperties
+          '/disableVpnEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disable_vpn_encryption
+          '/properties/disableVpnEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisableVpnEncryption
+          '/securityProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: security_provider_name
+          '/properties/securityProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecurityProviderName
+          '/allowBranchToBranchTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_branch_to_branch_traffic
+          '/properties/allowBranchToBranchTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowBranchToBranchTraffic
+          '/allowVnetToVnetTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_vnet_to_vnet_traffic
+          '/properties/allowVnetToVnetTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowVnetToVnetTraffic
+          '/office365LocalBreakoutCategory': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: office365local_breakout_category
+          '/properties/office365LocalBreakoutCategory': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Office365localBreakoutCategory
+            go_enum_type_name: OfficeTrafficCategory
+          '/p2SVpnServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_configurations
+          '/p2SVpnServerConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/vpnProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: vpn_protocols
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_vpn_client_root_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_vpn_client_revoked_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_radius_server_root_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_radius_client_root_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vpn_client_ipsec_policies
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_life_time_seconds
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_data_size_kilobytes
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_encryption
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_integrity
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_encryption
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_integrity
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: dh_group
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pfs_group
+          '/p2SVpnServerConfigurations/radiusServerAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: radius_server_address
+          '/p2SVpnServerConfigurations/radiusServerSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: radius_server_secret
+          '/p2SVpnServerConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/p2SVpnServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigurations
+            go_type_name: P2SVpnServerConfiguration
+          '/properties/p2SVpnServerConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigurationProperties
+            go_type_name: P2SVpnServerConfigurationProperties
+          '/properties/p2SVpnServerConfigurations/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/vpnProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: VpnProtocols
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigVpnClientRootCertificates
+            go_type_name: P2SVpnServerConfigVpnClientRootCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigVpnClientRootCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigVpnClientRootCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigVpnClientRevokedCertificates
+            go_type_name: P2SVpnServerConfigVpnClientRevokedCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigVpnClientRevokedCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigVpnClientRevokedCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigRadiusServerRootCertificates
+            go_type_name: P2SVpnServerConfigRadiusServerRootCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigRadiusServerRootCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigRadiusServerRootCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigRadiusClientRootCertificates
+            go_type_name: P2SVpnServerConfigRadiusClientRootCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigRadiusClientRootCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigRadiusClientRootCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VpnClientIpsecPolicies
+            go_type_name: IpsecPolicy
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaLifeTimeSeconds
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaDataSizeKilobytes
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecEncryption
+            go_enum_type_name: IpsecEncryption
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecIntegrity
+            go_enum_type_name: IpsecIntegrity
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeEncryption
+            go_enum_type_name: IkeEncryption
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeIntegrity
+            go_enum_type_name: IkeIntegrity
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DhGroup
+            go_enum_type_name: DhGroup
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PfsGroup
+            go_enum_type_name: PfsGroup
+          '/properties/p2SVpnServerConfigurations/properties/radiusServerAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RadiusServerAddress
+          '/properties/p2SVpnServerConfigurations/properties/radiusServerSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RadiusServerSecret
+          '/properties/p2SVpnServerConfigurations/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'VirtualWANName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualWans
+            go_variable_name: virtualWanname
+            python_parameter_name: virtual_wanname
+            python_variable_name: virtual_wanname
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'VirtualWANName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualWans
+            go_variable_name: virtualWanname
+            python_parameter_name: virtual_wanname
+            python_variable_name: virtual_wanname
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualWanProperties
+            go_type_name: VirtualWanProperties
+          '/properties/disableVpnEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisableVpnEncryption
+          '/disableVpnEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disable_vpn_encryption
+          '/properties/securityProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecurityProviderName
+          '/securityProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: security_provider_name
+          '/properties/allowBranchToBranchTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowBranchToBranchTraffic
+          '/allowBranchToBranchTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_branch_to_branch_traffic
+          '/properties/allowVnetToVnetTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowVnetToVnetTraffic
+          '/allowVnetToVnetTraffic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_vnet_to_vnet_traffic
+          '/properties/office365LocalBreakoutCategory': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Office365localBreakoutCategory
+            go_enum_type_name: OfficeTrafficCategory
+          '/office365LocalBreakoutCategory': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: office365local_breakout_category
+          '/properties/p2SVpnServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigurations
+            go_type_name: P2SVpnServerConfiguration
+          '/properties/p2SVpnServerConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigurationProperties
+            go_type_name: P2SVpnServerConfigurationProperties
+          '/properties/p2SVpnServerConfigurations/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/vpnProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: VpnProtocols
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigVpnClientRootCertificates
+            go_type_name: P2SVpnServerConfigVpnClientRootCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigVpnClientRootCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigVpnClientRootCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigVpnClientRevokedCertificates
+            go_type_name: P2SVpnServerConfigVpnClientRevokedCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigVpnClientRevokedCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigVpnClientRevokedCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigRadiusServerRootCertificates
+            go_type_name: P2SVpnServerConfigRadiusServerRootCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigRadiusServerRootCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigRadiusServerRootCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnServerConfigRadiusClientRootCertificates
+            go_type_name: P2SVpnServerConfigRadiusClientRootCertificate
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: P2SVpnServerConfigRadiusClientRootCertificatePropertiesFormat
+            go_type_name: P2SVpnServerConfigRadiusClientRootCertificatePropertiesFormat
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VpnClientIpsecPolicies
+            go_type_name: IpsecPolicy
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaLifeTimeSeconds
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaDataSizeKilobytes
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecEncryption
+            go_enum_type_name: IpsecEncryption
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecIntegrity
+            go_enum_type_name: IpsecIntegrity
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeEncryption
+            go_enum_type_name: IkeEncryption
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeIntegrity
+            go_enum_type_name: IkeIntegrity
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DhGroup
+            go_enum_type_name: DhGroup
+          '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PfsGroup
+            go_enum_type_name: PfsGroup
+          '/properties/p2SVpnServerConfigurations/properties/radiusServerAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RadiusServerAddress
+          '/properties/p2SVpnServerConfigurations/properties/radiusServerSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RadiusServerSecret
+          '/properties/p2SVpnServerConfigurations/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/p2SVpnServerConfigurations/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/properties/p2SVpnServerConfigurations/properties/p2SVpnGateways': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: P2svpnGateways
+            go_type_name: SubResource
+          '/properties/p2SVpnServerConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/p2SVpnServerConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/p2SVpnServerConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_configurations
+          '/p2SVpnServerConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/vpnProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: vpn_protocols
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_vpn_client_root_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_vpn_client_revoked_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_radius_server_root_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_server_config_radius_client_root_certificates
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vpn_client_ipsec_policies
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_life_time_seconds
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_data_size_kilobytes
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_encryption
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_integrity
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_encryption
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_integrity
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: dh_group
+          '/p2SVpnServerConfigurations/vpnClientIpsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pfs_group
+          '/p2SVpnServerConfigurations/radiusServerAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: radius_server_address
+          '/p2SVpnServerConfigurations/radiusServerSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: radius_server_secret
+          '/p2SVpnServerConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/p2SVpnServerConfigurations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/p2SVpnServerConfigurations/p2SVpnGateways': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: p2svpn_gateways
+          '/p2SVpnServerConfigurations/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/p2SVpnServerConfigurations/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/virtualHubs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualHubs
+            go_type_name: SubResource
+          '/virtualHubs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_hubs
+          '/properties/vpnSites': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VpnSites
+            go_type_name: SubResource
+          '/vpnSites': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vpn_sites
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure VirtualWan instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name of the VirtualWan.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'virtualWanname'
+        description: 'The name of the VirtualWAN being created or updated.'
+        required: true
+        input: true
+        azure_sdk_references: ['VirtualWANName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Boolean
+        name: 'disableVpnEncryption'
+        description: 'Vpn encryption to be disabled or not.'
+        required: false
+        azure_sdk_references: ['/disableVpnEncryption', '/properties/disableVpnEncryption']
+      - !ruby/object:Api::Type::String
+        name: 'securityProviderName'
+        description: 'The Security Provider name.'
+        required: false
+        azure_sdk_references: ['/securityProviderName', '/properties/securityProviderName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'allowBranchToBranchTraffic'
+        description: 'True if branch to branch traffic is allowed.'
+        required: false
+        azure_sdk_references: ['/allowBranchToBranchTraffic', '/properties/allowBranchToBranchTraffic']
+      - !ruby/object:Api::Type::Boolean
+        name: 'allowVnetToVnetTraffic'
+        description: 'True if Vnet to Vnet traffic is allowed.'
+        required: false
+        azure_sdk_references: ['/allowVnetToVnetTraffic', '/properties/allowVnetToVnetTraffic']
+      - !ruby/object:Api::Type::Enum
+        name: 'office365localBreakoutCategory'
+        description: 'The office local breakout category.'
+        required: false
+        azure_sdk_references: ['/office365LocalBreakoutCategory', '/properties/office365LocalBreakoutCategory']
+        values:
+          - :Optimize
+          - :OptimizeAndAllow
+          - :All
+          - :None
+        default_value: :Optimize
+      - !ruby/object:Api::Type::Array
+        name: 'p2svpnServerConfigurations'
+        description: 'List of all P2SVpnServerConfigurations associated with the virtual wan.'
+        required: false
+        azure_sdk_references: ['/p2SVpnServerConfigurations', '/properties/p2SVpnServerConfigurations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/id', '/properties/p2SVpnServerConfigurations/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the P2SVpnServerConfiguration that is unique within a VirtualWan in a resource group. This name can be used to access the resource along with Paren VirtualWan resource name.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/name', '/properties/p2SVpnServerConfigurations/properties/name']
+            - !ruby/object:Api::Type::Array
+              name: 'vpnProtocols'
+              description: 'VPN protocols for the P2SVpnServerConfiguration.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/vpnProtocols', '/properties/p2SVpnServerConfigurations/properties/vpnProtocols']
+              item_type: !ruby/object:Api::Type::Enum
+                name: 'TBD'
+                description: 'TBD'
+                values:
+                  - :IkeV2
+                  - :OpenVPN
+                default_value: :IkeV2
+            - !ruby/object:Api::Type::Array
+              name: 'p2svpnServerConfigVpnClientRootCertificates'
+              description: 'VPN client root certificate of P2SVpnServerConfiguration.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Resource ID.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/id', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/name', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'etag'
+                    description: 'A unique read-only string that changes whenever the resource is updated.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRootCertificates/etag', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRootCertificates/etag']
+            - !ruby/object:Api::Type::Array
+              name: 'p2svpnServerConfigVpnClientRevokedCertificates'
+              description: 'VPN client revoked certificate of P2SVpnServerConfiguration.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Resource ID.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/id', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/name', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'etag'
+                    description: 'A unique read-only string that changes whenever the resource is updated.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigVpnClientRevokedCertificates/etag', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigVpnClientRevokedCertificates/etag']
+            - !ruby/object:Api::Type::Array
+              name: 'p2svpnServerConfigRadiusServerRootCertificates'
+              description: 'Radius Server root certificate of P2SVpnServerConfiguration.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Resource ID.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/id', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/name', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'etag'
+                    description: 'A unique read-only string that changes whenever the resource is updated.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusServerRootCertificates/etag', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusServerRootCertificates/etag']
+            - !ruby/object:Api::Type::Array
+              name: 'p2svpnServerConfigRadiusClientRootCertificates'
+              description: 'Radius client root certificate of P2SVpnServerConfiguration.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Resource ID.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/id', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/name', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'etag'
+                    description: 'A unique read-only string that changes whenever the resource is updated.'
+                    required: false
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/p2SVpnServerConfigRadiusClientRootCertificates/etag', '/properties/p2SVpnServerConfigurations/properties/p2SVpnServerConfigRadiusClientRootCertificates/etag']
+            - !ruby/object:Api::Type::Array
+              name: 'vpnClientIpsecPolicies'
+              description: 'VpnClientIpsecPolicies for P2SVpnServerConfiguration.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Integer
+                    name: 'saLifeTimeSeconds'
+                    description: 'The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/saLifeTimeSeconds', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/saLifeTimeSeconds']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'saDataSizeKilobytes'
+                    description: 'The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site to site VPN tunnel.'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/saDataSizeKilobytes', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/saDataSizeKilobytes']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'ipsecEncryption'
+                    description: 'The IPSec encryption algorithm (IKE phase 1).'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ipsecEncryption', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ipsecEncryption']
+                    values:
+                      - :None
+                      - :DES
+                      - :DES3
+                      - :AES128
+                      - :AES192
+                      - :AES256
+                      - :GCMAES128
+                      - :GCMAES192
+                      - :GCMAES256
+                  - !ruby/object:Api::Type::Enum
+                    name: 'ipsecIntegrity'
+                    description: 'The IPSec integrity algorithm (IKE phase 1).'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ipsecIntegrity', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ipsecIntegrity']
+                    values:
+                      - :MD5
+                      - :SHA1
+                      - :SHA256
+                      - :GCMAES128
+                      - :GCMAES192
+                      - :GCMAES256
+                  - !ruby/object:Api::Type::Enum
+                    name: 'ikeEncryption'
+                    description: 'The IKE encryption algorithm (IKE phase 2).'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ikeEncryption', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ikeEncryption']
+                    values:
+                      - :DES
+                      - :DES3
+                      - :AES128
+                      - :AES192
+                      - :AES256
+                      - :GCMAES256
+                      - :GCMAES128
+                  - !ruby/object:Api::Type::Enum
+                    name: 'ikeIntegrity'
+                    description: 'The IKE integrity algorithm (IKE phase 2).'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/ikeIntegrity', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/ikeIntegrity']
+                    values:
+                      - :MD5
+                      - :SHA1
+                      - :SHA256
+                      - :SHA384
+                      - :GCMAES256
+                      - :GCMAES128
+                  - !ruby/object:Api::Type::Enum
+                    name: 'dhGroup'
+                    description: 'The DH Groups used in IKE Phase 1 for initial SA.'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/dhGroup', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/dhGroup']
+                    values:
+                      - :None
+                      - :DHGroup1
+                      - :DHGroup2
+                      - :DHGroup14
+                      - :DHGroup2048
+                      - :ECP256
+                      - :ECP384
+                      - :DHGroup24
+                  - !ruby/object:Api::Type::Enum
+                    name: 'pfsGroup'
+                    description: 'The Pfs Groups used in IKE Phase 2 for new child SA.'
+                    required: true
+                    azure_sdk_references: ['/p2SVpnServerConfigurations/vpnClientIpsecPolicies/pfsGroup', '/properties/p2SVpnServerConfigurations/properties/vpnClientIpsecPolicies/pfsGroup']
+                    values:
+                      - :None
+                      - :PFS1
+                      - :PFS2
+                      - :PFS2048
+                      - :ECP256
+                      - :ECP384
+                      - :PFS24
+                      - :PFS14
+                      - :PFSMM
+            - !ruby/object:Api::Type::String
+              name: 'radiusServerAddress'
+              description: 'The radius server address property of the P2SVpnServerConfiguration resource for point to site client connection.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/radiusServerAddress', '/properties/p2SVpnServerConfigurations/properties/radiusServerAddress']
+            - !ruby/object:Api::Type::String
+              name: 'radiusServerSecret'
+              description: 'The radius secret property of the P2SVpnServerConfiguration resource for point to site client connection.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/radiusServerSecret', '/properties/p2SVpnServerConfigurations/properties/radiusServerSecret']
+            - !ruby/object:Api::Type::String
+              name: 'etag'
+              description: 'A unique read-only string that changes whenever the resource is updated.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/etag', '/properties/p2SVpnServerConfigurations/properties/etag']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+              required: false
+              azure_sdk_references: ['/p2SVpnServerConfigurations/name', '/properties/p2SVpnServerConfigurations/name']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'virtualHubs'
+        description: 'List of VirtualHubs in the VirtualWAN.'
+        output: true
+        azure_sdk_references: ['/virtualHubs', '/properties/virtualHubs']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/virtualHubs/id', '/properties/virtualHubs/id']
+      - !ruby/object:Api::Type::Array
+        name: 'vpnSites'
+        description: ''
+        output: true
+        azure_sdk_references: ['/vpnSites', '/properties/vpnSites']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/vpnSites/id', '/properties/vpnSites/id']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

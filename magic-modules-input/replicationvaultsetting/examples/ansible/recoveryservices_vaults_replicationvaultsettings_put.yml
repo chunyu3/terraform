@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_replicationvaultsetting
+  description: >-
+    Updates vault setting. A vault setting object is a singleton per vault and it
+    is always present by default.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    vault_setting_name: myReplicationVaultSetting
+    input:
+      properties:
+        migrationSolutionId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Migrate/MigrateProjects/{{ migrate_project_name
+          }}/Solutions/{{ solution_name }}
+  

@@ -1,0 +1,44 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_profile
+  description: Profiles_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    hub_name: myHub
+    profile_name: myProfile
+    small_image: \\Images\\smallImage
+    medium_image: \\Images\\MediumImage
+    large_image: \\Images\\LargeImage
+    api_entity_set_name: TestProfileType396
+    fields:
+      - field_name: Id
+        field_type: Edm.String
+        is_array: false
+        is_required: true
+      - field_name: ProfileId
+        field_type: Edm.String
+        is_array: false
+        is_required: true
+      - field_name: LastName
+        field_type: Edm.String
+        is_array: false
+        is_required: true
+      - field_name: TestProfileType396
+        field_type: Edm.String
+        is_array: false
+        is_required: true
+      - field_name: SavingAccountBalance
+        field_type: Edm.Int32
+        is_array: false
+        is_required: true
+    schema_item_type_link: SchemaItemTypeLink
+    strong_ids:
+      - key_property_names:
+          - Id
+          - SavingAccountBalance
+        strong_id_name: Id
+      - key_property_names:
+          - ProfileId
+          - LastName
+        strong_id_name: ProfileId
+  

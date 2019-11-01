@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_enterprisechannel
+  description: Create Enterprise Channel
+  code:
+    resource_group: myResourceGroup
+    resource_name: myEnterpriseChannel
+    location: West US
+    tags:
+      tag1: value1
+      tag2: value2
+    sku:
+      name: S1
+    etag: etag1
+    nodes:
+      - name: Node 1
+        azure_sku: Int1
+        azure_location: WestUs
+  

@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_transform
+  description: Update a Transform.
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaService
+    transform_name: myTransform
+    description: Example transform to illustrate update.
+    outputs:
+      - preset:
+          '@odata.type': '#Microsoft.Media.BuiltInStandardEncoderPreset'
+          presetName: H264MultipleBitrate720p
+    created: '0001-01-01T05:00:00+00:00'
+    last_modified: '0001-01-01T05:00:00+00:00'
+  

@@ -1,0 +1,445 @@
+--- !ruby/object:Api::Product
+name: Azure ExpressRoutePort Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ExpressRoutePort
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: 
+      go_client: expressRoutePortsClient
+      python_client_namespace: 
+      python_client: NetworkManagementClient.express_route_ports
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'expressRoutePortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ExpressRoutePorts
+            go_variable_name: expressRoutePortName
+            python_parameter_name: express_route_port_name
+            python_variable_name: express_route_port_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ExpressRoutePort
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRoutePortPropertiesFormat
+            go_type_name: ExpressRoutePortPropertiesFormat
+          '/peeringLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: peering_location
+          '/properties/peeringLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PeeringLocation
+          '/bandwidthInGbps': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: bandwidth_in_gbps
+          '/properties/bandwidthInGbps': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: BandwidthInGbps
+          '/encapsulation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encapsulation
+          '/properties/encapsulation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Encapsulation
+            go_enum_type_name: ExpressRoutePortsEncapsulation
+          '/links': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: links
+          '/links/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/links/adminState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: admin_state
+          '/links/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/links': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Links
+            go_type_name: ExpressRouteLink
+          '/properties/links/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/links/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteLinkPropertiesFormat
+            go_type_name: ExpressRouteLinkPropertiesFormat
+          '/properties/links/properties/adminState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AdminState
+            go_enum_type_name: ExpressRouteLinkAdminState
+          '/properties/links/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_guid
+          '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceGuid
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'expressRoutePortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ExpressRoutePorts
+            go_variable_name: expressRoutePortName
+            python_parameter_name: express_route_port_name
+            python_variable_name: express_route_port_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'expressRoutePortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ExpressRoutePorts
+            go_variable_name: expressRoutePortName
+            python_parameter_name: express_route_port_name
+            python_variable_name: express_route_port_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRoutePortPropertiesFormat
+            go_type_name: ExpressRoutePortPropertiesFormat
+          '/properties/peeringLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PeeringLocation
+          '/peeringLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: peering_location
+          '/properties/bandwidthInGbps': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: BandwidthInGbps
+          '/bandwidthInGbps': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: bandwidth_in_gbps
+          '/properties/encapsulation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Encapsulation
+            go_enum_type_name: ExpressRoutePortsEncapsulation
+          '/encapsulation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encapsulation
+          '/properties/links': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Links
+            go_type_name: ExpressRouteLink
+          '/properties/links/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/links/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteLinkPropertiesFormat
+            go_type_name: ExpressRouteLinkPropertiesFormat
+          '/properties/links/properties/adminState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AdminState
+            go_enum_type_name: ExpressRouteLinkAdminState
+          '/properties/links/properties/routerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RouterName
+          '/properties/links/properties/interfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InterfaceName
+          '/properties/links/properties/patchPanelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PatchPanelID
+          '/properties/links/properties/rackId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RackID
+          '/properties/links/properties/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectorType
+            go_enum_type_name: ExpressRouteLinkConnectorType
+          '/properties/links/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/properties/links/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/links/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/links': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: links
+          '/links/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/links/adminState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: admin_state
+          '/links/routerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: router_name
+          '/links/interfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interface_name
+          '/links/patchPanelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: patch_panel_id
+          '/links/rackId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rack_id
+          '/links/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connector_type
+          '/links/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/links/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/links/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceGuid
+          '/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_guid
+          '/properties/provisionedBandwidthInGbps': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ProvisionedBandwidthInGbps
+          '/provisionedBandwidthInGbps': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: provisioned_bandwidth_in_gbps
+          '/properties/mtu': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Mtu
+          '/mtu': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mtu
+          '/properties/etherType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EtherType
+          '/etherType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ether_type
+          '/properties/allocationDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AllocationDate
+          '/allocationDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: allocation_date
+          '/properties/circuits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Circuits
+            go_type_name: SubResource
+          '/circuits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: circuits
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure ExpressRoutePort instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'expressRoutePortName'
+        description: 'The name of the ExpressRoutePort resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['expressRoutePortName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'peeringLocation'
+        description: 'The name of the peering location that the ExpressRoutePort is mapped to physically.'
+        required: false
+        azure_sdk_references: ['/peeringLocation', '/properties/peeringLocation']
+      - !ruby/object:Api::Type::Integer
+        name: 'bandwidthInGbps'
+        description: 'Bandwidth of procured ports in Gbps'
+        required: false
+        azure_sdk_references: ['/bandwidthInGbps', '/properties/bandwidthInGbps']
+      - !ruby/object:Api::Type::Enum
+        name: 'encapsulation'
+        description: 'Encapsulation method on physical ports.'
+        required: false
+        azure_sdk_references: ['/encapsulation', '/properties/encapsulation']
+        values:
+          - :Dot1Q
+          - :QinQ
+        default_value: :Dot1Q
+      - !ruby/object:Api::Type::Array
+        name: 'links'
+        description: 'The set of physical links of the ExpressRoutePort resource'
+        required: false
+        azure_sdk_references: ['/links', '/properties/links']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/links/id', '/properties/links/id']
+            - !ruby/object:Api::Type::Enum
+              name: 'adminState'
+              description: 'Administrative state of the physical port'
+              required: false
+              azure_sdk_references: ['/links/adminState', '/properties/links/properties/adminState']
+              values:
+                - :Enabled
+                - :Disabled
+              default_value: :Enabled
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of child port resource that is unique among child port resources of the parent.'
+              required: false
+              azure_sdk_references: ['/links/name', '/properties/links/name']
+      - !ruby/object:Api::Type::String
+        name: 'resourceGuid'
+        description: 'The resource GUID property of the ExpressRoutePort resource.'
+        required: false
+        azure_sdk_references: ['/resourceGuid', '/properties/resourceGuid']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'provisionedBandwidthInGbps'
+        description: 'Aggregate Gbps of associated circuit bandwidths.'
+        output: true
+        azure_sdk_references: ['/provisionedBandwidthInGbps', '/properties/provisionedBandwidthInGbps']
+      - !ruby/object:Api::Type::String
+        name: 'mtu'
+        description: 'Maximum transmission unit of the physical port pair(s)'
+        output: true
+        azure_sdk_references: ['/mtu', '/properties/mtu']
+      - !ruby/object:Api::Type::String
+        name: 'etherType'
+        description: 'Ether type of the physical port.'
+        output: true
+        azure_sdk_references: ['/etherType', '/properties/etherType']
+      - !ruby/object:Api::Type::String
+        name: 'allocationDate'
+        description: 'Date of the physical port allocation to be used in Letter of Authorization.'
+        output: true
+        azure_sdk_references: ['/allocationDate', '/properties/allocationDate']
+      - !ruby/object:Api::Type::Array
+        name: 'circuits'
+        description: 'Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource.'
+        output: true
+        azure_sdk_references: ['/circuits', '/properties/circuits']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/circuits/id', '/properties/circuits/id']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state of the ExpressRoutePort resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

@@ -1,0 +1,70 @@
+--- !ruby/object:Api::Product
+name: Azure SubscriptionFactory Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SubscriptionFactory
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: 
+      go_client: subscriptionFactoryClient
+      python_client_namespace: 
+      python_client: SubscriptionClient.subscription_factory
+
+    description: |
+      Manage Azure SubscriptionFactory instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'enrollmentAccountName'
+        description: 'The name of the enrollment account to which the subscription will be billed.'
+        required: true
+        input: true
+        azure_sdk_references: ['enrollmentAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The display name of the subscription.'
+        required: false
+        input: true
+        azure_sdk_references: ['/displayName']
+      - !ruby/object:Api::Type::Array
+        name: 'owners'
+        description: 'The list of principals that should be granted Owner access on the subscription. Principals should be of type User, Service Principal or Security Group.'
+        required: false
+        azure_sdk_references: ['/owners']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'objectId'
+              description: 'Object id of the Principal'
+              required: true
+              azure_sdk_references: ['/owners/objectId']
+      - !ruby/object:Api::Type::Enum
+        name: 'offerType'
+        description: 'The offer type of the subscription. For example, MS-AZR-0017P (EnterpriseAgreement) and MS-AZR-0148P (EnterpriseAgreement devTest) are available. Only valid when creating a subscription in a enrollment account scope.'
+        required: false
+        input: true
+        azure_sdk_references: ['/offerType']
+        values:
+          - :MS-AZR-0017P
+          - :MS-AZR-0148P
+        default_value: :MS-AZR-0017P
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'additionalParameters'
+        description: 'Additional, untyped parameters to support custom subscription creation scenarios.'
+        required: false
+        input: true
+        azure_sdk_references: ['/additionalParameters']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionLink'
+        description: 'The link to the new subscription. Use this link to check the status of subscription creation operation.'
+        output: true
+        azure_sdk_references: ['/subscriptionLink']

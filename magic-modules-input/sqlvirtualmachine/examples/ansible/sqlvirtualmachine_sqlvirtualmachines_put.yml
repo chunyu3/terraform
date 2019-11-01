@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqlvirtualmachine
+  description: Creates or updates a SQL virtual machine with min parameters.
+  code:
+    resource_group: myResourceGroup
+    sql_virtual_machine_name: mySqlVirtualMachine
+    location: northeurope
+    virtual_machine_resource_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Compute/virtualMachines/{{ virtual_machine_name }}
+  

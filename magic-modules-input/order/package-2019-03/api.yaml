@@ -1,0 +1,561 @@
+--- !ruby/object:Api::Product
+name: Azure Order Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Order
+    api_name: DataBoxEdge
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataBoxEdge
+      go_client_namespace: 
+      go_client: ordersClient
+      python_client_namespace: 
+      python_client: DataBoxEdgeManagementClient.orders
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: order
+            go_type_name: Order
+            python_parameter_name: order
+            python_variable_name: order
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OrderProperties
+            go_type_name: OrderProperties
+          '/contactInformation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: contact_information
+          '/contactInformation/contactPerson': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: contact_person
+          '/contactInformation/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: company_name
+          '/contactInformation/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone
+          '/contactInformation/emailList': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: email_list
+          '/properties/contactInformation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContactInformation
+            go_type_name: ContactDetails
+          '/properties/contactInformation/contactPerson': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContactPerson
+          '/properties/contactInformation/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CompanyName
+          '/properties/contactInformation/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Phone
+          '/properties/contactInformation/emailList': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: EmailList
+          '/shippingAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: shipping_address
+          '/shippingAddress/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line1
+          '/shippingAddress/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line2
+          '/shippingAddress/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line3
+          '/shippingAddress/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: postal_code
+          '/shippingAddress/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: city
+          '/shippingAddress/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/shippingAddress/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country
+          '/properties/shippingAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ShippingAddress
+            go_type_name: Address
+          '/properties/shippingAddress/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine1
+          '/properties/shippingAddress/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine2
+          '/properties/shippingAddress/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine3
+          '/properties/shippingAddress/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PostalCode
+          '/properties/shippingAddress/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: City
+          '/properties/shippingAddress/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/properties/shippingAddress/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Country
+          '/currentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: current_status
+          '/currentStatus/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/currentStatus/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: comments
+          '/properties/currentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CurrentStatus
+            go_type_name: OrderStatus
+          '/properties/currentStatus/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: OrderState
+          '/properties/currentStatus/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Comments
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OrderProperties
+            go_type_name: OrderProperties
+          '/properties/contactInformation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContactInformation
+            go_type_name: ContactDetails
+          '/properties/contactInformation/contactPerson': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContactPerson
+          '/properties/contactInformation/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CompanyName
+          '/properties/contactInformation/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Phone
+          '/properties/contactInformation/emailList': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: EmailList
+          '/contactInformation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: contact_information
+          '/contactInformation/contactPerson': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: contact_person
+          '/contactInformation/companyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: company_name
+          '/contactInformation/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone
+          '/contactInformation/emailList': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: email_list
+          '/properties/shippingAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ShippingAddress
+            go_type_name: Address
+          '/properties/shippingAddress/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine1
+          '/properties/shippingAddress/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine2
+          '/properties/shippingAddress/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressLine3
+          '/properties/shippingAddress/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PostalCode
+          '/properties/shippingAddress/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: City
+          '/properties/shippingAddress/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/properties/shippingAddress/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Country
+          '/shippingAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: shipping_address
+          '/shippingAddress/addressLine1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line1
+          '/shippingAddress/addressLine2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line2
+          '/shippingAddress/addressLine3': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_line3
+          '/shippingAddress/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: postal_code
+          '/shippingAddress/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: city
+          '/shippingAddress/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/shippingAddress/country': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country
+          '/properties/currentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CurrentStatus
+            go_type_name: OrderStatus
+          '/properties/currentStatus/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: OrderState
+          '/properties/currentStatus/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Comments
+          '/properties/currentStatus/updateDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdateDateTime
+          '/currentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: current_status
+          '/currentStatus/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/currentStatus/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: comments
+          '/currentStatus/updateDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: update_date_time
+          '/properties/orderHistory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OrderHistory
+            go_type_name: OrderStatus
+          '/orderHistory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: order_history
+          '/properties/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/properties/deliveryTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DeliveryTrackingInfo
+            go_type_name: TrackingInfo
+          '/deliveryTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: delivery_tracking_info
+          '/properties/returnTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ReturnTrackingInfo
+            go_type_name: TrackingInfo
+          '/returnTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: return_tracking_info
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDataBoxEdgeDevice
+        python_func_name: list_by_data_box_edge_device
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Order instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'deviceName'
+        description: 'The device name.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'contactInformation'
+        description: 'The contact details.'
+        required: true
+        azure_sdk_references: ['/contactInformation', '/properties/contactInformation']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'contactPerson'
+            description: 'The contact person name.'
+            required: true
+            azure_sdk_references: ['/contactInformation/contactPerson', '/properties/contactInformation/contactPerson']
+          - !ruby/object:Api::Type::String
+            name: 'companyName'
+            description: 'The name of the company.'
+            required: true
+            azure_sdk_references: ['/contactInformation/companyName', '/properties/contactInformation/companyName']
+          - !ruby/object:Api::Type::String
+            name: 'phone'
+            description: 'The phone number.'
+            required: true
+            azure_sdk_references: ['/contactInformation/phone', '/properties/contactInformation/phone']
+          - !ruby/object:Api::Type::Array
+            name: 'emailList'
+            description: 'The email list.'
+            required: true
+            azure_sdk_references: ['/contactInformation/emailList', '/properties/contactInformation/emailList']
+            item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'shippingAddress'
+        description: 'The shipping address.'
+        required: true
+        azure_sdk_references: ['/shippingAddress', '/properties/shippingAddress']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'addressLine1'
+            description: 'The address line1.'
+            required: true
+            azure_sdk_references: ['/shippingAddress/addressLine1', '/properties/shippingAddress/addressLine1']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine2'
+            description: 'The address line2.'
+            required: false
+            azure_sdk_references: ['/shippingAddress/addressLine2', '/properties/shippingAddress/addressLine2']
+          - !ruby/object:Api::Type::String
+            name: 'addressLine3'
+            description: 'The address line3.'
+            required: false
+            azure_sdk_references: ['/shippingAddress/addressLine3', '/properties/shippingAddress/addressLine3']
+          - !ruby/object:Api::Type::String
+            name: 'postalCode'
+            description: 'The postal code.'
+            required: true
+            azure_sdk_references: ['/shippingAddress/postalCode', '/properties/shippingAddress/postalCode']
+          - !ruby/object:Api::Type::String
+            name: 'city'
+            description: 'The city name.'
+            required: true
+            azure_sdk_references: ['/shippingAddress/city', '/properties/shippingAddress/city']
+          - !ruby/object:Api::Type::String
+            name: 'state'
+            description: 'The state name.'
+            required: true
+            azure_sdk_references: ['/shippingAddress/state', '/properties/shippingAddress/state']
+          - !ruby/object:Api::Type::String
+            name: 'country'
+            description: 'The country name.'
+            required: true
+            azure_sdk_references: ['/shippingAddress/country', '/properties/shippingAddress/country']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'currentStatus'
+        description: 'Current status of the order.'
+        required: false
+        azure_sdk_references: ['/currentStatus', '/properties/currentStatus']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'status'
+            description: 'Status of the order as per the allowed status types.'
+            required: true
+            azure_sdk_references: ['/currentStatus/status', '/properties/currentStatus/status']
+            values:
+              - :Untracked
+              - :AwaitingFulfilment
+              - :AwaitingPreparation
+              - :AwaitingShipment
+              - :Shipped
+              - :Arriving
+              - :Delivered
+              - :ReplacementRequested
+              - :LostDevice
+              - :Declined
+              - :ReturnInitiated
+              - :AwaitingReturnShipment
+              - :ShippedBack
+              - :CollectedAtMicrosoft
+          - !ruby/object:Api::Type::String
+            name: 'comments'
+            description: 'Comments related to this status change.'
+            required: false
+            azure_sdk_references: ['/currentStatus/comments', '/properties/currentStatus/comments']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'orderHistory'
+        description: 'List of status changes in the order.'
+        output: true
+        azure_sdk_references: ['/orderHistory', '/properties/orderHistory']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'status'
+              description: 'Status of the order as per the allowed status types.'
+              required: true
+              azure_sdk_references: ['/orderHistory/status', '/properties/orderHistory/status']
+              values:
+                - :Untracked
+                - :AwaitingFulfilment
+                - :AwaitingPreparation
+                - :AwaitingShipment
+                - :Shipped
+                - :Arriving
+                - :Delivered
+                - :ReplacementRequested
+                - :LostDevice
+                - :Declined
+                - :ReturnInitiated
+                - :AwaitingReturnShipment
+                - :ShippedBack
+                - :CollectedAtMicrosoft
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'updateDateTime'
+              description: 'Time of status update.'
+              required: false
+              azure_sdk_references: ['/orderHistory/updateDateTime', '/properties/orderHistory/updateDateTime']
+            - !ruby/object:Api::Type::String
+              name: 'comments'
+              description: 'Comments related to this status change.'
+              required: false
+              azure_sdk_references: ['/orderHistory/comments', '/properties/orderHistory/comments']
+      - !ruby/object:Api::Type::String
+        name: 'serialNumber'
+        description: 'Serial number of the device.'
+        output: true
+        azure_sdk_references: ['/serialNumber', '/properties/serialNumber']
+      - !ruby/object:Api::Type::Array
+        name: 'deliveryTrackingInfo'
+        description: 'Tracking information for the package delivered to the customer whether it has an original or a replacement device.'
+        output: true
+        azure_sdk_references: ['/deliveryTrackingInfo', '/properties/deliveryTrackingInfo']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'serialNumber'
+              description: 'Serial number of the device being tracked.'
+              required: false
+              azure_sdk_references: ['/deliveryTrackingInfo/serialNumber', '/properties/deliveryTrackingInfo/serialNumber']
+            - !ruby/object:Api::Type::String
+              name: 'carrierName'
+              description: 'Name of the carrier used in the delivery.'
+              required: false
+              azure_sdk_references: ['/deliveryTrackingInfo/carrierName', '/properties/deliveryTrackingInfo/carrierName']
+            - !ruby/object:Api::Type::String
+              name: 'trackingId'
+              description: 'Tracking ID of the shipment.'
+              required: false
+              azure_sdk_references: ['/deliveryTrackingInfo/trackingId', '/properties/deliveryTrackingInfo/trackingId']
+            - !ruby/object:Api::Type::String
+              name: 'trackingUrl'
+              description: 'Tracking URL of the shipment.'
+              required: false
+              azure_sdk_references: ['/deliveryTrackingInfo/trackingUrl', '/properties/deliveryTrackingInfo/trackingUrl']
+      - !ruby/object:Api::Type::Array
+        name: 'returnTrackingInfo'
+        description: 'Tracking information for the package returned from the customer whether it has an original or a replacement device.'
+        output: true
+        azure_sdk_references: ['/returnTrackingInfo', '/properties/returnTrackingInfo']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'serialNumber'
+              description: 'Serial number of the device being tracked.'
+              required: false
+              azure_sdk_references: ['/returnTrackingInfo/serialNumber', '/properties/returnTrackingInfo/serialNumber']
+            - !ruby/object:Api::Type::String
+              name: 'carrierName'
+              description: 'Name of the carrier used in the delivery.'
+              required: false
+              azure_sdk_references: ['/returnTrackingInfo/carrierName', '/properties/returnTrackingInfo/carrierName']
+            - !ruby/object:Api::Type::String
+              name: 'trackingId'
+              description: 'Tracking ID of the shipment.'
+              required: false
+              azure_sdk_references: ['/returnTrackingInfo/trackingId', '/properties/returnTrackingInfo/trackingId']
+            - !ruby/object:Api::Type::String
+              name: 'trackingUrl'
+              description: 'Tracking URL of the shipment.'
+              required: false
+              azure_sdk_references: ['/returnTrackingInfo/trackingUrl', '/properties/returnTrackingInfo/trackingUrl']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The path ID that uniquely identifies the object.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The object name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The hierarchical type of the object.'
+        output: true
+        azure_sdk_references: ['/type']
