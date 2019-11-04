@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_datafactoryv2dataflowdebugsession
+  description: DataFlowDebugSession_Create
+  code:
+    resource_group: myResourceGroup
+    factory_name: myFactory
+    request:
+      timeToLive: '60'
+      integrationRuntime:
+        name: ir1
+        properties:
+          type: Managed
+          typeProperties:
+            computeProperties:
+              location: AutoResolve
+              dataFlowProperties:
+                computeType: General
+                coreCount: '48'
+                timeToLive: '10'
+  

@@ -1,0 +1,638 @@
+--- !ruby/object:Api::Product
+name: Azure Kpi Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Kpi
+    api_name: CustomerInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CustomerInsights
+      go_client_namespace: customerinsights
+      go_client: kpiClient
+      python_client_namespace: azure.mgmt.customerinsights
+      python_client: CustomerInsightsManagementClient.kpi
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'kpiName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: kpi
+            go_variable_name: kpiName
+            python_parameter_name: kpi_name
+            python_variable_name: kpi_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: KpiResourceFormat
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KpiDefinition
+            go_type_name: KpiDefinition
+          '/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: entity_type
+          '/properties/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EntityType
+            go_enum_type_name: EntityTypes
+          '/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: entity_type_name
+          '/properties/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EntityTypeName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/calculationWindow': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: calculation_window
+          '/properties/calculationWindow': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CalculationWindow
+            go_enum_type_name: CalculationWindowTypes
+          '/calculationWindowFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: calculation_window_field_name
+          '/properties/calculationWindowFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CalculationWindowFieldName
+          '/function': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: function
+          '/properties/function': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Function
+            go_enum_type_name: KpiFunctions
+          '/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: expression
+          '/properties/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Expression
+          '/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/properties/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/properties/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Filter
+          '/groupBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: group_by
+          '/properties/groupBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: GroupBy
+          '/thresHolds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: thres_holds
+          '/thresHolds/lowerLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [python]
+            python_field_name: lower_limit
+          '/thresHolds/upperLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [python]
+            python_field_name: upper_limit
+          '/thresHolds/increasingKpi': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: increasing_kpi
+          '/properties/thresHolds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ThresHolds
+            go_type_name: KpiThresholds
+          '/properties/thresHolds/lowerLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [go]
+            go_field_name: LowerLimit
+          '/properties/thresHolds/upperLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [go]
+            go_field_name: UpperLimit
+          '/properties/thresHolds/increasingKpi': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IncreasingKpi
+          '/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: aliases
+          '/aliases/aliasName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: alias_name
+          '/aliases/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: expression
+          '/properties/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Aliases
+            go_type_name: KpiAlias
+          '/properties/aliases/aliasName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AliasName
+          '/properties/aliases/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Expression
+          '/extracts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: extracts
+          '/extracts/extractName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: extract_name
+          '/extracts/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: expression
+          '/properties/extracts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Extracts
+            go_type_name: KpiExtract
+          '/properties/extracts/extractName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExtractName
+          '/properties/extracts/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Expression
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'kpiName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: kpi
+            go_variable_name: kpiName
+            python_parameter_name: kpi_name
+            python_variable_name: kpi_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'kpiName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: kpi
+            go_variable_name: kpiName
+            python_parameter_name: kpi_name
+            python_variable_name: kpi_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KpiDefinition
+            go_type_name: KpiDefinition
+          '/properties/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EntityType
+            go_enum_type_name: EntityTypes
+          '/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: entity_type
+          '/properties/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EntityTypeName
+          '/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: entity_type_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/calculationWindow': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CalculationWindow
+            go_enum_type_name: CalculationWindowTypes
+          '/calculationWindow': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: calculation_window
+          '/properties/calculationWindowFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CalculationWindowFieldName
+          '/calculationWindowFieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: calculation_window_field_name
+          '/properties/function': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Function
+            go_enum_type_name: KpiFunctions
+          '/function': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: function
+          '/properties/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Expression
+          '/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: expression
+          '/properties/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/properties/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Filter
+          '/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/properties/groupBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: GroupBy
+          '/groupBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: group_by
+          '/properties/thresHolds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ThresHolds
+            go_type_name: KpiThresholds
+          '/properties/thresHolds/lowerLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [go]
+            go_field_name: LowerLimit
+          '/properties/thresHolds/upperLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [go]
+            go_field_name: UpperLimit
+          '/properties/thresHolds/increasingKpi': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IncreasingKpi
+          '/thresHolds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: thres_holds
+          '/thresHolds/lowerLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [python]
+            python_field_name: lower_limit
+          '/thresHolds/upperLimit': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [python]
+            python_field_name: upper_limit
+          '/thresHolds/increasingKpi': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: increasing_kpi
+          '/properties/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Aliases
+            go_type_name: KpiAlias
+          '/properties/aliases/aliasName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AliasName
+          '/properties/aliases/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Expression
+          '/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: aliases
+          '/aliases/aliasName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: alias_name
+          '/aliases/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: expression
+          '/properties/extracts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Extracts
+            go_type_name: KpiExtract
+          '/properties/extracts/extractName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExtractName
+          '/properties/extracts/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Expression
+          '/extracts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: extracts
+          '/extracts/extractName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: extract_name
+          '/extracts/expression': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: expression
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/kpiName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KpiName
+          '/kpiName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: kpi_name
+          '/properties/groupByMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: GroupByMetadata
+            go_type_name: KpiGroupByMetadata
+          '/groupByMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: group_by_metadata
+          '/properties/participantProfilesMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ParticipantProfilesMetadata
+            go_type_name: KpiParticipantProfilesMetadata
+          '/participantProfilesMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: participant_profiles_metadata
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningStates
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByHub
+        python_func_name: list_by_hub
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+
+    description: |
+      Manage Azure Kpi instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'hubName'
+        description: 'The name of the hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['hubName']
+      - !ruby/object:Api::Type::String
+        name: 'kpiName'
+        description: 'The name of the KPI.'
+        required: true
+        input: true
+        azure_sdk_references: ['kpiName']
+      - !ruby/object:Api::Type::Enum
+        name: 'entityType'
+        description: 'The mapping entity type.'
+        required: true
+        azure_sdk_references: ['/entityType', '/properties/entityType']
+        values:
+          - :None
+          - :Profile
+          - :Interaction
+          - :Relationship
+      - !ruby/object:Api::Type::String
+        name: 'entityTypeName'
+        description: 'The mapping entity name.'
+        required: true
+        azure_sdk_references: ['/entityTypeName', '/properties/entityTypeName']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'displayName'
+        description: 'Localized display name for the KPI.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'description'
+        description: 'Localized description for the KPI.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Enum
+        name: 'calculationWindow'
+        description: 'The calculation window.'
+        required: true
+        azure_sdk_references: ['/calculationWindow', '/properties/calculationWindow']
+        values:
+          - :Lifetime
+          - :Hour
+          - :Day
+          - :Week
+          - :Month
+      - !ruby/object:Api::Type::String
+        name: 'calculationWindowFieldName'
+        description: 'Name of calculation window field.'
+        required: false
+        azure_sdk_references: ['/calculationWindowFieldName', '/properties/calculationWindowFieldName']
+      - !ruby/object:Api::Type::Enum
+        name: 'function'
+        description: 'The computation function for the KPI.'
+        required: true
+        azure_sdk_references: ['/function', '/properties/function']
+        values:
+          - :Sum
+          - :Avg
+          - :Min
+          - :Max
+          - :Last
+          - :Count
+          - :None
+          - :CountDistinct
+      - !ruby/object:Api::Type::String
+        name: 'expression'
+        description: 'The computation expression for the KPI.'
+        required: true
+        azure_sdk_references: ['/expression', '/properties/expression']
+      - !ruby/object:Api::Type::String
+        name: 'unit'
+        description: 'The unit of measurement for the KPI.'
+        required: false
+        azure_sdk_references: ['/unit', '/properties/unit']
+      - !ruby/object:Api::Type::String
+        name: 'filter'
+        description: 'The filter expression for the KPI.'
+        required: false
+        azure_sdk_references: ['/filter', '/properties/filter']
+      - !ruby/object:Api::Type::Array
+        name: 'groupBy'
+        description: 'the group by properties for the KPI.'
+        required: false
+        azure_sdk_references: ['/groupBy', '/properties/groupBy']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'thresHolds'
+        description: 'The KPI thresholds.'
+        required: false
+        azure_sdk_references: ['/thresHolds', '/properties/thresHolds']
+        properties:
+          - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+            name: 'lowerLimit'
+            description: 'The lower threshold limit.'
+            required: true
+            azure_sdk_references: ['/thresHolds/lowerLimit', '/properties/thresHolds/lowerLimit']
+          - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+            name: 'upperLimit'
+            description: 'The upper threshold limit.'
+            required: true
+            azure_sdk_references: ['/thresHolds/upperLimit', '/properties/thresHolds/upperLimit']
+          - !ruby/object:Api::Type::Boolean
+            name: 'increasingKpi'
+            description: 'Whether or not the KPI is an increasing KPI.'
+            required: true
+            azure_sdk_references: ['/thresHolds/increasingKpi', '/properties/thresHolds/increasingKpi']
+      - !ruby/object:Api::Type::Array
+        name: 'aliases'
+        description: 'The aliases.'
+        required: false
+        azure_sdk_references: ['/aliases', '/properties/aliases']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'aliasName'
+              description: 'KPI alias name.'
+              required: true
+              azure_sdk_references: ['/aliases/aliasName', '/properties/aliases/aliasName']
+            - !ruby/object:Api::Type::String
+              name: 'expression'
+              description: 'The expression.'
+              required: true
+              azure_sdk_references: ['/aliases/expression', '/properties/aliases/expression']
+      - !ruby/object:Api::Type::Array
+        name: 'extracts'
+        description: 'The KPI extracts.'
+        required: false
+        azure_sdk_references: ['/extracts', '/properties/extracts']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'extractName'
+              description: 'KPI extract name.'
+              required: true
+              azure_sdk_references: ['/extracts/extractName', '/properties/extracts/extractName']
+            - !ruby/object:Api::Type::String
+              name: 'expression'
+              description: 'The expression.'
+              required: true
+              azure_sdk_references: ['/extracts/expression', '/properties/extracts/expression']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The hub name.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'kpiName'
+        description: 'The KPI name.'
+        output: true
+        azure_sdk_references: ['/kpiName', '/properties/kpiName']
+      - !ruby/object:Api::Type::Array
+        name: 'groupByMetadata'
+        description: 'The KPI GroupByMetadata.'
+        output: true
+        azure_sdk_references: ['/groupByMetadata', '/properties/groupByMetadata']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'displayName'
+              description: 'The display name.'
+              required: false
+              azure_sdk_references: ['/groupByMetadata/displayName', '/properties/groupByMetadata/displayName']
+            - !ruby/object:Api::Type::String
+              name: 'fieldName'
+              description: 'The name of the field.'
+              required: false
+              azure_sdk_references: ['/groupByMetadata/fieldName', '/properties/groupByMetadata/fieldName']
+            - !ruby/object:Api::Type::String
+              name: 'fieldType'
+              description: 'The type of the field.'
+              required: false
+              azure_sdk_references: ['/groupByMetadata/fieldType', '/properties/groupByMetadata/fieldType']
+      - !ruby/object:Api::Type::Array
+        name: 'participantProfilesMetadata'
+        description: 'The participant profiles.'
+        output: true
+        azure_sdk_references: ['/participantProfilesMetadata', '/properties/participantProfilesMetadata']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'typeName'
+              description: 'Name of the type.'
+              required: true
+              azure_sdk_references: ['/participantProfilesMetadata/typeName', '/properties/participantProfilesMetadata/typeName']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Provisioning
+          - :Succeeded
+          - :Expiring
+          - :Deleting
+          - :HumanIntervention
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

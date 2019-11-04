@@ -1,0 +1,230 @@
+--- !ruby/object:Api::Product
+name: Azure BandwidthSchedule Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BandwidthSchedule
+    api_name: DataBoxEdge
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataBoxEdge
+      go_client_namespace: databoxedge
+      go_client: bandwidthSchedulesClient
+      python_client_namespace: azure.mgmt.databoxedge
+      python_client: DataBoxEdgeManagementClient.bandwidth_schedules
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bandwidthSchedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: BandwidthSchedule
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BandwidthScheduleProperties
+            go_type_name: BandwidthScheduleProperties
+          '/start': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start
+          '/properties/start': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Start
+          '/stop': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: stop
+          '/properties/stop': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Stop
+          '/rateInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: rate_in_mbps
+          '/properties/rateInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RateInMbps
+          '/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: days
+          '/properties/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Days
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bandwidthSchedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bandwidthSchedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bandwidthSchedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BandwidthScheduleProperties
+            go_type_name: BandwidthScheduleProperties
+          '/properties/start': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Start
+          '/start': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start
+          '/properties/stop': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Stop
+          '/stop': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: stop
+          '/properties/rateInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RateInMbps
+          '/rateInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: rate_in_mbps
+          '/properties/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Days
+          '/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: days
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDataBoxEdgeDevice
+        python_func_name: list_by_data_box_edge_device
+        request:
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure BandwidthSchedule instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'deviceName'
+        description: 'The device name.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The bandwidth schedule name which needs to be added/updated.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Type::String
+        name: 'start'
+        description: 'The start time of the schedule in UTC.'
+        required: true
+        azure_sdk_references: ['/start', '/properties/start']
+      - !ruby/object:Api::Type::String
+        name: 'stop'
+        description: 'The stop time of the schedule in UTC.'
+        required: true
+        azure_sdk_references: ['/stop', '/properties/stop']
+      - !ruby/object:Api::Type::Integer
+        name: 'rateInMbps'
+        description: 'The bandwidth rate in Mbps.'
+        required: true
+        azure_sdk_references: ['/rateInMbps', '/properties/rateInMbps']
+      - !ruby/object:Api::Type::Array
+        name: 'days'
+        description: 'The days of the week when this schedule is applicable.'
+        required: true
+        azure_sdk_references: ['/days', '/properties/days']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :Sunday
+            - :Monday
+            - :Tuesday
+            - :Wednesday
+            - :Thursday
+            - :Friday
+            - :Saturday
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The path ID that uniquely identifies the object.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The hierarchical type of the object.'
+        output: true
+        azure_sdk_references: ['/type']

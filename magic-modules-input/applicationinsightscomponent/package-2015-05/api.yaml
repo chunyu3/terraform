@@ -1,0 +1,343 @@
+--- !ruby/object:Api::Product
+name: Azure Component Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Component
+    api_name: Insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Insights
+      go_client_namespace: applicationinsights
+      go_client: componentsClient
+      python_client_namespace: azure.mgmt.applicationinsights
+      python_client: ApplicationInsightsManagementClient.components
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: insightProperties
+            go_type_name: Component
+            python_parameter_name: insight_properties
+            python_variable_name: insight_properties
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ComponentProperties
+            go_type_name: ComponentProperties
+          '/Application_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: application_type
+          '/properties/Application_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ApplicationType
+            go_enum_type_name: ApplicationType
+          '/Flow_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: flow_type
+          '/properties/Flow_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FlowType
+            go_enum_type_name: FlowType
+          '/Request_Source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: request_source
+          '/properties/Request_Source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RequestSource
+            go_enum_type_name: RequestSource
+          '/HockeyAppId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hockey_app_id
+          '/properties/HockeyAppId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HockeyAppID
+          '/SamplingPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: sampling_percentage
+          '/properties/SamplingPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: SamplingPercentage
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ComponentProperties
+            go_type_name: ComponentProperties
+          '/properties/Application_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ApplicationType
+            go_enum_type_name: ApplicationType
+          '/Application_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: application_type
+          '/properties/Flow_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FlowType
+            go_enum_type_name: FlowType
+          '/Flow_Type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: flow_type
+          '/properties/Request_Source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RequestSource
+            go_enum_type_name: RequestSource
+          '/Request_Source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: request_source
+          '/properties/HockeyAppId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HockeyAppID
+          '/HockeyAppId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hockey_app_id
+          '/properties/SamplingPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: SamplingPercentage
+          '/SamplingPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: sampling_percentage
+          '/properties/ApplicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/ApplicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/properties/AppId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AppID
+          '/AppId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: app_id
+          '/properties/InstrumentationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InstrumentationKey
+          '/InstrumentationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: instrumentation_key
+          '/properties/CreationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationDate
+          '/CreationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_date
+          '/properties/TenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/TenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/HockeyAppToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HockeyAppToken
+          '/HockeyAppToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hockey_app_token
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Component instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the Application Insights component resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'The kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone.'
+        required: true
+        input: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Type::Enum
+        name: 'applicationType'
+        description: 'Type of application being monitored.'
+        required: true
+        azure_sdk_references: ['/Application_Type', '/properties/Application_Type']
+        values:
+          - :web
+          - :other
+      - !ruby/object:Api::Type::Enum
+        name: 'flowType'
+        description: 'Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to ''Bluefield'' when creating/updating a component via the REST API.'
+        required: false
+        azure_sdk_references: ['/Flow_Type', '/properties/Flow_Type']
+        values:
+          - :Bluefield
+        default_value: :Bluefield
+      - !ruby/object:Api::Type::Enum
+        name: 'requestSource'
+        description: 'Describes what tool created this Application Insights component. Customers using this API should set this to the default ''rest''.'
+        required: false
+        azure_sdk_references: ['/Request_Source', '/properties/Request_Source']
+        values:
+          - :rest
+        default_value: :rest
+      - !ruby/object:Api::Type::String
+        name: 'hockeyAppId'
+        description: 'The unique application ID created when a new application is added to HockeyApp, used for communications with HockeyApp.'
+        required: false
+        azure_sdk_references: ['/HockeyAppId', '/properties/HockeyAppId']
+      - !ruby/object:Api::Type::Double
+        name: 'samplingPercentage'
+        description: 'Percentage of the data produced by the application being monitored that is being sampled for Application Insights telemetry.'
+        required: false
+        azure_sdk_references: ['/SamplingPercentage', '/properties/SamplingPercentage']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'applicationId'
+        description: 'The unique ID of your application. This field mirrors the ''Name'' field and cannot be changed.'
+        output: true
+        azure_sdk_references: ['/ApplicationId', '/properties/ApplicationId']
+      - !ruby/object:Api::Type::String
+        name: 'appId'
+        description: 'Application Insights Unique ID for your Application.'
+        output: true
+        azure_sdk_references: ['/AppId', '/properties/AppId']
+      - !ruby/object:Api::Type::String
+        name: 'instrumentationKey'
+        description: 'Application Insights Instrumentation key. A read-only value that applications can use to identify the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of each new Application Insights component.'
+        output: true
+        azure_sdk_references: ['/InstrumentationKey', '/properties/InstrumentationKey']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationDate'
+        description: 'Creation Date for the Application Insights component, in ISO 8601 format.'
+        output: true
+        azure_sdk_references: ['/CreationDate', '/properties/CreationDate']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'Azure Tenant Id.'
+        output: true
+        azure_sdk_references: ['/TenantId', '/properties/TenantId']
+      - !ruby/object:Api::Type::String
+        name: 'hockeyAppToken'
+        description: 'Token used to authenticate communications with between Application Insights and HockeyApp.'
+        output: true
+        azure_sdk_references: ['/HockeyAppToken', '/properties/HockeyAppToken']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Current state of this component: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying, Canceled, and Failed.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Azure resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type'
+        output: true
+        azure_sdk_references: ['/type']

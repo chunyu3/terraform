@@ -1,0 +1,344 @@
+--- !ruby/object:Api::Product
+name: Azure Registry Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Registry
+    api_name: ContainerRegistry
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerRegistry
+      go_client_namespace: containerregistry
+      go_client: registriesClient
+      python_client_namespace: azure.mgmt.containerregistry
+      python_client: ContainerRegistryManagementClient.registries
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: registry
+            go_type_name: Registry
+            python_parameter_name: registry
+            python_variable_name: registry
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegistryProperties
+            go_type_name: RegistryProperties
+          '/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: admin_user_enabled
+          '/properties/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AdminUserEnabled
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccountProperties
+          '/properties/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Tier
+            go_enum_type_name: SkuTier
+            python_field_name: tier
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegistryProperties
+            go_type_name: RegistryProperties
+          '/properties/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AdminUserEnabled
+          '/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: admin_user_enabled
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccountProperties
+          '/properties/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/loginServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LoginServer
+          '/loginServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: login_server
+          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationDate
+          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_date
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_type_name: Status
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: status
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListUsages
+        python_func_name: list_usages
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+
+    description: |
+      Manage Azure Registry instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group to which the container registry belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'registryName'
+        description: 'The name of the container registry.'
+        required: true
+        input: true
+        azure_sdk_references: ['registryName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource. This cannot be changed after the resource is created.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The SKU of the container registry.'
+        required: true
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'The SKU name of the container registry. Required for registry creation.'
+            required: true
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :Basic
+              - :Managed_Basic
+              - :Managed_Standard
+              - :Managed_Premium
+      - !ruby/object:Api::Type::Boolean
+        name: 'adminUserEnabled'
+        description: 'The value that indicates whether the admin user is enabled.'
+        required: false
+        azure_sdk_references: ['/adminUserEnabled', '/properties/adminUserEnabled']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageAccount'
+        description: 'The properties of the storage account for the container registry. Only applicable to Basic SKU.'
+        required: false
+        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The resource ID of the storage account.'
+            required: true
+            azure_sdk_references: ['/storageAccount/id', '/properties/storageAccount/id']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'loginServer'
+        description: 'The URL that can be used to log into the container registry.'
+        output: true
+        azure_sdk_references: ['/loginServer', '/properties/loginServer']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationDate'
+        description: 'The creation date of the container registry in ISO8601 format.'
+        output: true
+        azure_sdk_references: ['/creationDate', '/properties/creationDate']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the container registry at the time the operation was called.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
+      - !ruby/object:Api::Type::NestedObject
+        name: 'status'
+        description: 'The status of the container registry at the time the operation was called.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'displayStatus'
+            description: 'The short label for the status.'
+            required: false
+            azure_sdk_references: ['/status/displayStatus', '/properties/status/displayStatus']
+          - !ruby/object:Api::Type::String
+            name: 'message'
+            description: 'The detailed message for the status, including alerts and error messages.'
+            required: false
+            azure_sdk_references: ['/status/message', '/properties/status/message']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'timestamp'
+            description: 'The timestamp when the status was changed to the current value.'
+            required: false
+            azure_sdk_references: ['/status/timestamp', '/properties/status/timestamp']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,30 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_datafactoryv2dataset
+  description: Datasets_Update
+  code:
+    resource_group: myResourceGroup
+    factory_name: myFactory
+    dataset_name: myDataset
+    dataset:
+      properties:
+        type: AzureBlob
+        typeProperties:
+          folderPath:
+            value: '@dataset().MyFolderPath'
+            type: Expression
+          fileName:
+            value: '@dataset().MyFileName'
+            type: Expression
+          format:
+            type: TextFormat
+        description: Example description
+        linkedServiceName:
+          referenceName: exampleLinkedService
+          type: LinkedServiceReference
+        parameters:
+          MyFolderPath:
+            type: String
+          MyFileName:
+            type: String
+  

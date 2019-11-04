@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_customproviderscustomresourceprovider
+  description: Create or update the custom resource provider
+  code:
+    resource_group: myResourceGroup
+    resource_provider_name: myResourceProvider
+    resource_provider:
+      location: eastus
+      properties:
+        actions:
+          - name: TestAction
+            routingType: Proxy
+            endpoint: 'https://mytestendpoint/'
+        resourceTypes:
+          - name: TestResource
+            routingType: 'Proxy,Cache'
+            endpoint: 'https://mytestendpoint2/'
+  

@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.Subscription
-      go_client_namespace: 
+      go_client_namespace: subscription
       go_client: subscriptionDefinitionsClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.subscription
       python_client: SubscriptionDefinitionsClient.subscription_definitions
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
@@ -30,13 +30,13 @@ objects:
             python_variable_name: subscription_definition_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
-            go_type_name: SubscriptionDefinition
+            go_type_name: Definition
             python_parameter_name: body
             python_variable_name: body
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SubscriptionDefinitionProperties
-            go_type_name: SubscriptionDefinitionProperties
+            go_field_name: DefinitionProperties
+            go_type_name: DefinitionProperties
           '/subscriptionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: subscription_display_name
@@ -67,8 +67,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SubscriptionDefinitionProperties
-            go_type_name: SubscriptionDefinitionProperties
+            go_field_name: DefinitionProperties
+            go_type_name: DefinitionProperties
           '/properties/subscriptionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SubscriptionDisplayName

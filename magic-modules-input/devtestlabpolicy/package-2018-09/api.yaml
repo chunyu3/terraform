@@ -1,0 +1,438 @@
+--- !ruby/object:Api::Product
+name: Azure Policy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Policy
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: devtestlab
+      go_client: policiesClient
+      python_client_namespace: azure.mgmt.devtestlab
+      python_client: DevTestLabsClient.policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'policySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policysets
+            go_variable_name: policySetName
+            python_parameter_name: policy_set_name
+            python_variable_name: policy_set_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policies
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: policy
+            go_type_name: Policy
+            python_parameter_name: policy
+            python_variable_name: policy
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicyProperties
+            go_type_name: PolicyProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: PolicyStatus
+          '/factName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: fact_name
+          '/properties/factName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FactName
+            go_enum_type_name: PolicyFactName
+          '/factData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: fact_data
+          '/properties/factData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FactData
+          '/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: threshold
+          '/properties/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Threshold
+          '/evaluatorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: evaluator_type
+          '/properties/evaluatorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EvaluatorType
+            go_enum_type_name: PolicyEvaluatorType
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'policySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policysets
+            go_variable_name: policySetName
+            python_parameter_name: policy_set_name
+            python_variable_name: policy_set_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policies
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: policy
+            go_type_name: Policy
+            python_parameter_name: policy
+            python_variable_name: policy
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicyProperties
+            go_type_name: PolicyProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: PolicyStatus
+          '/factName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: fact_name
+          '/properties/factName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FactName
+            go_enum_type_name: PolicyFactName
+          '/factData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: fact_data
+          '/properties/factData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FactData
+          '/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: threshold
+          '/properties/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Threshold
+          '/evaluatorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: evaluator_type
+          '/properties/evaluatorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EvaluatorType
+            go_enum_type_name: PolicyEvaluatorType
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'policySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policysets
+            go_variable_name: policySetName
+            python_parameter_name: policy_set_name
+            python_variable_name: policy_set_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policies
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'policySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policysets
+            go_variable_name: policySetName
+            python_parameter_name: policy_set_name
+            python_variable_name: policy_set_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policies
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policies
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicyProperties
+            go_type_name: PolicyProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: PolicyStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/factName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FactName
+            go_enum_type_name: PolicyFactName
+          '/factName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: fact_name
+          '/properties/factData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FactData
+          '/factData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: fact_data
+          '/properties/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Threshold
+          '/threshold': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: threshold
+          '/properties/evaluatorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EvaluatorType
+            go_enum_type_name: PolicyEvaluatorType
+          '/evaluatorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: evaluator_type
+          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'policySetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policysets
+            go_variable_name: policySetName
+            python_parameter_name: policy_set_name
+            python_variable_name: policy_set_name
+
+    description: |
+      Manage Azure Policy instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'labName'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      - !ruby/object:Api::Type::String
+        name: 'policySetName'
+        description: 'The name of the policy set.'
+        required: true
+        input: true
+        azure_sdk_references: ['policySetName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the policy.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the policy.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the policy.'
+        required: false
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
+      - !ruby/object:Api::Type::Enum
+        name: 'factName'
+        description: 'The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc.'
+        required: false
+        azure_sdk_references: ['/factName', '/properties/factName']
+        values:
+          - :UserOwnedLabVmCount
+          - :UserOwnedLabPremiumVmCount
+          - :LabVmCount
+          - :LabPremiumVmCount
+          - :LabVmSize
+          - :GalleryImage
+          - :UserOwnedLabVmCountInSubnet
+          - :LabTargetCost
+          - :EnvironmentTemplate
+          - :ScheduleEditPermission
+        default_value: :UserOwnedLabVmCount
+      - !ruby/object:Api::Type::String
+        name: 'factData'
+        description: 'The fact data of the policy.'
+        required: false
+        azure_sdk_references: ['/factData', '/properties/factData']
+      - !ruby/object:Api::Type::String
+        name: 'threshold'
+        description: 'The threshold of the policy (i.e. a number for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy).'
+        required: false
+        azure_sdk_references: ['/threshold', '/properties/threshold']
+      - !ruby/object:Api::Type::Enum
+        name: 'evaluatorType'
+        description: 'The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy).'
+        required: false
+        azure_sdk_references: ['/evaluatorType', '/properties/evaluatorType']
+        values:
+          - :AllowedValuesPolicy
+          - :MaxValuePolicy
+        default_value: :AllowedValuesPolicy
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdDate'
+        description: 'The creation date of the policy.'
+        output: true
+        azure_sdk_references: ['/createdDate', '/properties/createdDate']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning status of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'uniqueIdentifier'
+        description: 'The unique immutable identifier of a resource (Guid).'
+        output: true
+        azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

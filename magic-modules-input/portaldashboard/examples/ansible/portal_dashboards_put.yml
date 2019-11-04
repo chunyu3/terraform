@@ -1,0 +1,39 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_portaldashboard
+  description: Create or update a Dashboard
+  code:
+    resource_group: myResourceGroup
+    dashboard_name: myDashboard
+    dashboard:
+      properties:
+        lenses:
+          aLens:
+            order: '1'
+            parts:
+              aPart:
+                position:
+                  x: '1'
+                  'y': '2'
+                  rowSpan: '4'
+                  colSpan: '3'
+              bPart:
+                position:
+                  x: '5'
+                  'y': '5'
+                  rowSpan: '6'
+                  colSpan: '6'
+          bLens:
+            order: '2'
+            parts: {}
+        metadata:
+          metadata:
+            X: '4'
+            'Y': '3'
+            RowSpan: '1'
+            ColSpan: '2'
+      location: eastus
+      tags:
+        aKey: aValue
+        anotherKey: anotherValue
+  

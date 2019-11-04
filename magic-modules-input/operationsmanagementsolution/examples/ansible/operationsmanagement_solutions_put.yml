@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_operationsmanagementsolution
+  description: SolutionCreate
+  code:
+    resource_group: myResourceGroup
+    solution_name: mySolution
+    location: East US
+    plan:
+      name: name1
+      publisher: publisher1
+      promotion_code: promocode1
+      product: product1
+    workspace_resource_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.OperationalInsights/workspaces/{{ workspace_name }}
+    contained_resources:
+      - >-
+        /subscriptions/sub2/resourceGroups/rg2/providers/provider1/resources/resource1
+      - >-
+        /subscriptions/sub2/resourceGroups/rg2/providers/provider2/resources/resource2
+    referenced_resources:
+      - >-
+        /subscriptions/sub2/resourceGroups/rg2/providers/provider1/resources/resource2
+      - >-
+        /subscriptions/sub2/resourceGroups/rg2/providers/provider2/resources/resource3
+  

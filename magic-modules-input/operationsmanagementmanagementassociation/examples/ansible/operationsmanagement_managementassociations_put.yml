@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_operationsmanagementmanagementassociation
+  description: SolutionCreate
+  code:
+    resource_group: myResourceGroup
+    provider_name: providerName
+    resource_type: resourceType
+    resource_name: myResourceType
+    management_association_name: myManagementAssociation
+    location: East US
+    application_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Appliance/Appliances/{{ appliance_name }}
+  

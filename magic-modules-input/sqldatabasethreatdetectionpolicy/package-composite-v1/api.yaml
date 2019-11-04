@@ -1,0 +1,309 @@
+--- !ruby/object:Api::Product
+name: Azure DatabaseThreatDetectionPolicy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DatabaseThreatDetectionPolicy
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: databaseThreatDetectionPoliciesClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.database_threat_detection_policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'securityAlertPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: securityAlertPolicies
+            go_variable_name: securityAlertPolicyName
+            python_parameter_name: security_alert_policy_name
+            python_variable_name: security_alert_policy_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DatabaseSecurityAlertPolicy
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DatabaseSecurityAlertPolicyProperties
+            go_type_name: DatabaseSecurityAlertPolicyProperties
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: SecurityAlertPolicyState
+          '/disabledAlerts': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disabled_alerts
+          '/properties/disabledAlerts': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisabledAlerts
+          '/emailAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_addresses
+          '/properties/emailAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailAddresses
+          '/emailAccountAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: email_account_admins
+          '/properties/emailAccountAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EmailAccountAdmins
+            go_enum_type_name: SecurityAlertPolicyEmailAccountAdmins
+          '/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_endpoint
+          '/properties/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageEndpoint
+          '/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_access_key
+          '/properties/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountAccessKey
+          '/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_days
+          '/properties/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionDays
+          '/useServerDefault': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: use_server_default
+          '/properties/useServerDefault': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UseServerDefault
+            go_enum_type_name: SecurityAlertPolicyUseServerDefault
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'securityAlertPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: securityAlertPolicies
+            go_variable_name: securityAlertPolicyName
+            python_parameter_name: security_alert_policy_name
+            python_variable_name: security_alert_policy_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DatabaseSecurityAlertPolicyProperties
+            go_type_name: DatabaseSecurityAlertPolicyProperties
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: SecurityAlertPolicyState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/disabledAlerts': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisabledAlerts
+          '/disabledAlerts': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disabled_alerts
+          '/properties/emailAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailAddresses
+          '/emailAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_addresses
+          '/properties/emailAccountAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EmailAccountAdmins
+            go_enum_type_name: SecurityAlertPolicyEmailAccountAdmins
+          '/emailAccountAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: email_account_admins
+          '/properties/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageEndpoint
+          '/storageEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_endpoint
+          '/properties/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountAccessKey
+          '/storageAccountAccessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_access_key
+          '/properties/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetentionDays
+          '/retentionDays': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retention_days
+          '/properties/useServerDefault': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UseServerDefault
+            go_enum_type_name: SecurityAlertPolicyUseServerDefault
+          '/useServerDefault': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: use_server_default
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+
+    description: |
+      Manage Azure DatabaseThreatDetectionPolicy instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database for which database Threat Detection policy is defined.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'securityAlertPolicyName'
+        description: 'The name of the security alert policy.'
+        required: true
+        input: true
+        azure_sdk_references: ['securityAlertPolicyName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The geo-location where the resource lives'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required.'
+        required: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :New
+          - :Enabled
+          - :Disabled
+      - !ruby/object:Api::Type::String
+        name: 'disabledAlerts'
+        description: 'Specifies the semicolon-separated list of alerts that are disabled, or empty string to disable no alerts. Possible values: Sql_Injection; Sql_Injection_Vulnerability; Access_Anomaly; Data_Exfiltration; Unsafe_Action.'
+        required: false
+        azure_sdk_references: ['/disabledAlerts', '/properties/disabledAlerts']
+      - !ruby/object:Api::Type::String
+        name: 'emailAddresses'
+        description: 'Specifies the semicolon-separated list of e-mail addresses to which the alert is sent.'
+        required: false
+        azure_sdk_references: ['/emailAddresses', '/properties/emailAddresses']
+      - !ruby/object:Api::Type::Enum
+        name: 'emailAccountAdmins'
+        description: 'Specifies that the alert is sent to the account administrators.'
+        required: false
+        azure_sdk_references: ['/emailAccountAdmins', '/properties/emailAccountAdmins']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
+      - !ruby/object:Api::Type::String
+        name: 'storageEndpoint'
+        description: 'Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. If state is Enabled, storageEndpoint is required.'
+        required: false
+        azure_sdk_references: ['/storageEndpoint', '/properties/storageEndpoint']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountAccessKey'
+        description: 'Specifies the identifier key of the Threat Detection audit storage account. If state is Enabled, storageAccountAccessKey is required.'
+        required: false
+        azure_sdk_references: ['/storageAccountAccessKey', '/properties/storageAccountAccessKey']
+      - !ruby/object:Api::Type::Integer
+        name: 'retentionDays'
+        description: 'Specifies the number of days to keep in the Threat Detection audit logs.'
+        required: false
+        azure_sdk_references: ['/retentionDays', '/properties/retentionDays']
+      - !ruby/object:Api::Type::Enum
+        name: 'useServerDefault'
+        description: 'Specifies whether to use the default server policy.'
+        required: false
+        azure_sdk_references: ['/useServerDefault', '/properties/useServerDefault']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Resource kind.'
+        output: true
+        azure_sdk_references: ['/kind']

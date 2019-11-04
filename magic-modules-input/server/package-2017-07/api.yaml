@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.AnalysisServices
-      go_client_namespace: 
+      go_client_namespace: analysisservices
       go_client: serversClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.analysisservices
       python_client: AzureAnalysisServicesClient.servers
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
@@ -35,7 +35,7 @@ objects:
             python_variable_name: server_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: serverParameters
-            go_type_name: AnalysisServicesServer
+            go_type_name: Server
             python_parameter_name: server_parameters
             python_variable_name: server_parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -57,8 +57,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AnalysisServicesServerProperties
-            go_type_name: AnalysisServicesServerProperties
+            go_field_name: ServerProperties
+            go_type_name: ServerProperties
           '/asAdministrators': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: as_administrators

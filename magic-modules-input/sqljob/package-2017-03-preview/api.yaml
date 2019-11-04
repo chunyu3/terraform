@@ -1,0 +1,317 @@
+--- !ruby/object:Api::Product
+name: Azure Job Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Job
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: jobsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.jobs
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Job
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobProperties
+            go_type_name: JobProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/schedule/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/schedule/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/schedule/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/schedule/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/schedule/interval': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interval
+          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: JobSchedule
+          '/properties/schedule/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/schedule/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/properties/schedule/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobScheduleType
+          '/properties/schedule/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/schedule/interval': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Interval
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobProperties
+            go_type_name: JobProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: JobSchedule
+          '/properties/schedule/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/schedule/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/properties/schedule/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobScheduleType
+          '/properties/schedule/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/schedule/interval': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Interval
+          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/schedule/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/schedule/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/schedule/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/schedule/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/schedule/interval': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: interval
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Version
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: version
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAgent
+        python_func_name: list_by_agent
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+
+    description: |
+      Manage Azure Job instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'jobAgentName'
+        description: 'The name of the job agent.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobAgentName']
+      - !ruby/object:Api::Type::String
+        name: 'jobName'
+        description: 'The name of the job to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'User-defined description of the job.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'schedule'
+        description: 'Schedule properties of the job.'
+        required: false
+        azure_sdk_references: ['/schedule', '/properties/schedule']
+        properties:
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'startTime'
+            description: 'Schedule start time.'
+            required: false
+            azure_sdk_references: ['/schedule/startTime', '/properties/schedule/startTime']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'endTime'
+            description: 'Schedule end time.'
+            required: false
+            azure_sdk_references: ['/schedule/endTime', '/properties/schedule/endTime']
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'Schedule interval type'
+            required: false
+            azure_sdk_references: ['/schedule/type', '/properties/schedule/type']
+            values:
+              - :Once
+              - :Recurring
+            default_value: :Once
+          - !ruby/object:Api::Type::Boolean
+            name: 'enabled'
+            description: 'Whether or not the schedule is enabled.'
+            required: false
+            azure_sdk_references: ['/schedule/enabled', '/properties/schedule/enabled']
+          - !ruby/object:Api::Type::String
+            name: 'interval'
+            description: 'Value of the schedule''s recurring interval, if the schedule type is recurring. ISO8601 duration format.'
+            required: false
+            azure_sdk_references: ['/schedule/interval', '/properties/schedule/interval']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'version'
+        description: 'The job version number.'
+        output: true
+        azure_sdk_references: ['/version', '/properties/version']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

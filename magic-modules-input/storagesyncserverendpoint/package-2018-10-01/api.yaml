@@ -1,0 +1,632 @@
+--- !ruby/object:Api::Product
+name: Azure ServerEndpoint Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServerEndpoint
+    api_name: StorageSync
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorageSync
+      go_client_namespace: storagesync
+      go_client: serverEndpointsClient
+      python_client_namespace: azure.mgmt.storagesync
+      python_client: MicrosoftStorageSyncClient.server_endpoints
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: serverEndpointName
+            python_parameter_name: server_endpoint_name
+            python_variable_name: server_endpoint_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerEndpointCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointCreateParametersProperties
+            go_type_name: ServerEndpointCreateParametersProperties
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: tier_files_older_than_days
+          '/properties/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TierFilesOlderThanDays
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/offlineDataTransfer': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer
+          '/properties/offlineDataTransfer': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransfer
+            go_enum_type_name: 
+          '/offlineDataTransferShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer_share_name
+          '/properties/offlineDataTransferShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransferShareName
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: serverEndpointName
+            python_parameter_name: server_endpoint_name
+            python_variable_name: server_endpoint_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerEndpointCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointCreateParametersProperties
+            go_type_name: ServerEndpointCreateParametersProperties
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: tier_files_older_than_days
+          '/properties/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TierFilesOlderThanDays
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/offlineDataTransfer': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer
+          '/properties/offlineDataTransfer': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransfer
+            go_enum_type_name: 
+          '/offlineDataTransferShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer_share_name
+          '/properties/offlineDataTransferShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransferShareName
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: serverEndpointName
+            python_parameter_name: server_endpoint_name
+            python_variable_name: server_endpoint_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: serverEndpointName
+            python_parameter_name: server_endpoint_name
+            python_variable_name: server_endpoint_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointCreateParametersProperties
+            go_type_name: ServerEndpointCreateParametersProperties
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TierFilesOlderThanDays
+          '/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: tier_files_older_than_days
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/offlineDataTransfer': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransfer
+            go_enum_type_name: 
+          '/offlineDataTransfer': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer
+          '/properties/offlineDataTransferShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransferShareName
+          '/offlineDataTransferShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer_share_name
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastOperationName
+          '/lastOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_operation_name
+          '/properties/syncStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SyncStatus
+            go_type_name: ServerEndpointHealth
+          '/syncStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sync_status
+          '/properties/offlineDataTransferStorageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransferStorageAccountResourceID
+          '/offlineDataTransferStorageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer_storage_account_resource_id
+          '/properties/offlineDataTransferStorageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfflineDataTransferStorageAccountTenantID
+          '/offlineDataTransferStorageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offline_data_transfer_storage_account_tenant_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySyncGroup
+        python_func_name: list_by_sync_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+
+    description: |
+      Manage Azure ServerEndpoint instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'storageSyncServiceName'
+        description: 'Name of Storage Sync Service resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['storageSyncServiceName']
+      - !ruby/object:Api::Type::String
+        name: 'syncGroupName'
+        description: 'Name of Sync Group resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['syncGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverEndpointName'
+        description: 'Name of Server Endpoint object.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverEndpointName']
+      - !ruby/object:Api::Type::String
+        name: 'serverLocalPath'
+        description: 'Server Local path.'
+        required: false
+        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
+      - !ruby/object:Api::Type::Enum
+        name: 'cloudTiering'
+        description: 'Cloud Tiering.'
+        required: false
+        azure_sdk_references: ['/cloudTiering', '/properties/cloudTiering']
+        values:
+          - :on
+          - :off
+        default_value: :on
+      - !ruby/object:Api::Type::Integer
+        name: 'volumeFreeSpacePercent'
+        description: 'Level of free space to be maintained by Cloud Tiering if it is enabled.'
+        required: false
+        azure_sdk_references: ['/volumeFreeSpacePercent', '/properties/volumeFreeSpacePercent']
+      - !ruby/object:Api::Type::Integer
+        name: 'tierFilesOlderThanDays'
+        description: 'Tier files older than days.'
+        required: false
+        azure_sdk_references: ['/tierFilesOlderThanDays', '/properties/tierFilesOlderThanDays']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly Name'
+        required: false
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::String
+        name: 'serverResourceId'
+        description: 'Server Resource Id.'
+        required: false
+        azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
+      - !ruby/object:Api::Type::Enum
+        name: 'offlineDataTransfer'
+        description: 'Offline data transfer'
+        required: false
+        azure_sdk_references: ['/offlineDataTransfer', '/properties/offlineDataTransfer']
+        values:
+          - :on
+          - :off
+        default_value: :on
+      - !ruby/object:Api::Type::String
+        name: 'offlineDataTransferShareName'
+        description: 'Offline data transfer share name'
+        required: false
+        azure_sdk_references: ['/offlineDataTransferShareName', '/properties/offlineDataTransferShareName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'ServerEndpoint Provisioning State'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'lastWorkflowId'
+        description: 'ServerEndpoint lastWorkflowId'
+        output: true
+        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
+      - !ruby/object:Api::Type::String
+        name: 'lastOperationName'
+        description: 'Resource Last Operation Name'
+        output: true
+        azure_sdk_references: ['/lastOperationName', '/properties/lastOperationName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'syncStatus'
+        description: 'Server Endpoint properties.'
+        output: true
+        azure_sdk_references: ['/syncStatus', '/properties/syncStatus']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'downloadHealth'
+            description: 'Download Health Status.'
+            required: false
+            azure_sdk_references: ['/syncStatus/downloadHealth', '/properties/syncStatus/downloadHealth']
+            values:
+              - :Healthy
+              - :Error
+              - :SyncBlockedForRestore
+              - :SyncBlockedForChangeDetectionPostRestore
+              - :NoActivity
+            default_value: :Healthy
+          - !ruby/object:Api::Type::Enum
+            name: 'uploadHealth'
+            description: 'Upload Health Status.'
+            required: false
+            azure_sdk_references: ['/syncStatus/uploadHealth', '/properties/syncStatus/uploadHealth']
+            values:
+              - :Healthy
+              - :Error
+              - :SyncBlockedForRestore
+              - :SyncBlockedForChangeDetectionPostRestore
+              - :NoActivity
+            default_value: :Healthy
+          - !ruby/object:Api::Type::Enum
+            name: 'combinedHealth'
+            description: 'Combined Health Status.'
+            required: false
+            azure_sdk_references: ['/syncStatus/combinedHealth', '/properties/syncStatus/combinedHealth']
+            values:
+              - :Healthy
+              - :Error
+              - :SyncBlockedForRestore
+              - :SyncBlockedForChangeDetectionPostRestore
+              - :NoActivity
+            default_value: :Healthy
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'lastUpdatedTimestamp'
+            description: 'Last Updated Timestamp'
+            required: false
+            azure_sdk_references: ['/syncStatus/lastUpdatedTimestamp', '/properties/syncStatus/lastUpdatedTimestamp']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'uploadStatus'
+            description: 'Upload Status'
+            required: false
+            azure_sdk_references: ['/syncStatus/uploadStatus', '/properties/syncStatus/uploadStatus']
+            properties:
+              - !ruby/object:Api::Type::Integer
+                name: 'lastSyncResult'
+                description: 'Last sync status'
+                required: false
+                azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncResult', '/properties/syncStatus/uploadStatus/lastSyncResult']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'lastSyncTimestamp'
+                description: 'Last sync timestamp'
+                required: false
+                azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncTimestamp', '/properties/syncStatus/uploadStatus/lastSyncTimestamp']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'lastSyncSuccessTimestamp'
+                description: 'Last sync success timestamp'
+                required: false
+                azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncSuccessTimestamp', '/properties/syncStatus/uploadStatus/lastSyncSuccessTimestamp']
+              - !ruby/object:Api::Type::Integer
+                name: 'lastSyncPerItemErrorCount'
+                description: 'Last sync per item error count.'
+                required: false
+                azure_sdk_references: ['/syncStatus/uploadStatus/lastSyncPerItemErrorCount', '/properties/syncStatus/uploadStatus/lastSyncPerItemErrorCount']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'downloadStatus'
+            description: 'Download Status'
+            required: false
+            azure_sdk_references: ['/syncStatus/downloadStatus', '/properties/syncStatus/downloadStatus']
+            properties:
+              - !ruby/object:Api::Type::Integer
+                name: 'lastSyncResult'
+                description: 'Last sync status'
+                required: false
+                azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncResult', '/properties/syncStatus/downloadStatus/lastSyncResult']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'lastSyncTimestamp'
+                description: 'Last sync timestamp'
+                required: false
+                azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncTimestamp', '/properties/syncStatus/downloadStatus/lastSyncTimestamp']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'lastSyncSuccessTimestamp'
+                description: 'Last sync success timestamp'
+                required: false
+                azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncSuccessTimestamp', '/properties/syncStatus/downloadStatus/lastSyncSuccessTimestamp']
+              - !ruby/object:Api::Type::Integer
+                name: 'lastSyncPerItemErrorCount'
+                description: 'Last sync per item error count.'
+                required: false
+                azure_sdk_references: ['/syncStatus/downloadStatus/lastSyncPerItemErrorCount', '/properties/syncStatus/downloadStatus/lastSyncPerItemErrorCount']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'currentProgress'
+            description: 'Current progress'
+            required: false
+            azure_sdk_references: ['/syncStatus/currentProgress', '/properties/syncStatus/currentProgress']
+            properties:
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'progressTimestamp'
+                description: 'Progress timestamp'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/progressTimestamp', '/properties/syncStatus/currentProgress/progressTimestamp']
+              - !ruby/object:Api::Type::Enum
+                name: 'syncDirection'
+                description: 'Sync direction.'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/syncDirection', '/properties/syncStatus/currentProgress/syncDirection']
+                values:
+                  - :none
+                  - :initialize
+                  - :download
+                  - :upload
+                  - :recall
+                default_value: :none
+              - !ruby/object:Api::Type::Integer
+                name: 'perItemErrorCount'
+                description: 'Per item error count'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/perItemErrorCount', '/properties/syncStatus/currentProgress/perItemErrorCount']
+              - !ruby/object:Api::Type::Integer
+                name: 'appliedItemCount'
+                description: 'Applied item count.'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/appliedItemCount', '/properties/syncStatus/currentProgress/appliedItemCount']
+              - !ruby/object:Api::Type::Integer
+                name: 'totalItemCount'
+                description: 'Total item count'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/totalItemCount', '/properties/syncStatus/currentProgress/totalItemCount']
+              - !ruby/object:Api::Type::Integer
+                name: 'appliedBytes'
+                description: 'Applied bytes'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/appliedBytes', '/properties/syncStatus/currentProgress/appliedBytes']
+              - !ruby/object:Api::Type::Integer
+                name: 'totalBytes'
+                description: 'Total bytes'
+                required: false
+                azure_sdk_references: ['/syncStatus/currentProgress/totalBytes', '/properties/syncStatus/currentProgress/totalBytes']
+          - !ruby/object:Api::Type::Enum
+            name: 'offlineDataTransferStatus'
+            description: 'Offline Data Transfer State'
+            required: false
+            azure_sdk_references: ['/syncStatus/offlineDataTransferStatus', '/properties/syncStatus/offlineDataTransferStatus']
+            values:
+              - :InProgress
+              - :Stopping
+              - :NotRunning
+              - :Complete
+            default_value: :InProgress
+      - !ruby/object:Api::Type::String
+        name: 'offlineDataTransferStorageAccountResourceId'
+        description: 'Offline data transfer storage account resource ID'
+        output: true
+        azure_sdk_references: ['/offlineDataTransferStorageAccountResourceId', '/properties/offlineDataTransferStorageAccountResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'offlineDataTransferStorageAccountTenantId'
+        description: 'Offline data transfer storage account tenant ID'
+        output: true
+        azure_sdk_references: ['/offlineDataTransferStorageAccountTenantId', '/properties/offlineDataTransferStorageAccountTenantId']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

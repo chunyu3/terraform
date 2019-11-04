@@ -1,0 +1,181 @@
+--- !ruby/object:Api::Product
+name: Azure CustomerSubscription Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CustomerSubscription
+    api_name: AzureStack
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AzureStack
+      go_client_namespace: azurestack
+      go_client: customerSubscriptionsClient
+      python_client_namespace: azure.mgmt.azurestack
+      python_client: AzureStackManagementClient.customer_subscriptions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registrations
+            go_variable_name: registrationName
+            python_parameter_name: registration_name
+            python_variable_name: registration_name
+          'customerSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: customerSubscriptions
+            go_variable_name: customerSubscriptionName
+            python_parameter_name: customer_subscription_name
+            python_variable_name: customer_subscription_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: customerCreationParameters
+            go_type_name: CustomerSubscription
+            python_parameter_name: customer_creation_parameters
+            python_variable_name: customer_creation_parameters
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomerSubscriptionProperties
+            go_type_name: CustomerSubscriptionProperties
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registrations
+            go_variable_name: registrationName
+            python_parameter_name: registration_name
+            python_variable_name: registration_name
+          'customerSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: customerSubscriptions
+            go_variable_name: customerSubscriptionName
+            python_parameter_name: customer_subscription_name
+            python_variable_name: customer_subscription_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registrations
+            go_variable_name: registrationName
+            python_parameter_name: registration_name
+            python_variable_name: registration_name
+          'customerSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: customerSubscriptions
+            go_variable_name: customerSubscriptionName
+            python_parameter_name: customer_subscription_name
+            python_variable_name: customer_subscription_name
+        response:
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomerSubscriptionProperties
+            go_type_name: CustomerSubscriptionProperties
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registrations
+            go_variable_name: registrationName
+            python_parameter_name: registration_name
+            python_variable_name: registration_name
+
+    description: |
+      Manage Azure CustomerSubscription instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'Name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'registrationName'
+        description: 'Name of the Azure Stack registration.'
+        required: true
+        input: true
+        azure_sdk_references: ['registrationName']
+      - !ruby/object:Api::Type::String
+        name: 'customerSubscriptionName'
+        description: 'Name of the product.'
+        required: true
+        input: true
+        azure_sdk_references: ['customerSubscriptionName']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The entity tag used for optimistic concurrency when modifying the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'Tenant Id.'
+        required: false
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of Resource.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.Blockchain
-      go_client_namespace: 
+      go_client_namespace: blockchain
       go_client: blockchainMembersClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.blockchain
       python_client: BlockchainManagementClient.blockchain_members
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
@@ -35,7 +35,7 @@ objects:
             python_variable_name: resource_group
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: blockchainMember
-            go_type_name: BlockchainMember
+            go_type_name: Member
             python_parameter_name: blockchain_member
             python_variable_name: blockchain_member
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,15 +46,15 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BlockchainMemberProperties
-            go_type_name: BlockchainMemberProperties
+            go_field_name: MemberProperties
+            go_type_name: MemberProperties
           '/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: protocol
           '/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Protocol
-            go_enum_type_name: BlockchainProtocol
+            go_enum_type_name: Protocol
           '/validatorNodesSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: validator_nodes_sku
@@ -64,7 +64,7 @@ objects:
           '/properties/validatorNodesSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ValidatorNodesSku
-            go_type_name: BlockchainMemberNodesSku
+            go_type_name: MemberNodesSku
           '/properties/validatorNodesSku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Capacity
@@ -149,7 +149,7 @@ objects:
             python_variable_name: resource_group
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: blockchainMember
-            go_type_name: BlockchainMember
+            go_type_name: Member
             python_parameter_name: blockchain_member
             python_variable_name: blockchain_member
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -160,15 +160,15 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BlockchainMemberProperties
-            go_type_name: BlockchainMemberProperties
+            go_field_name: MemberProperties
+            go_type_name: MemberProperties
           '/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: protocol
           '/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Protocol
-            go_enum_type_name: BlockchainProtocol
+            go_enum_type_name: Protocol
           '/validatorNodesSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: validator_nodes_sku
@@ -178,7 +178,7 @@ objects:
           '/properties/validatorNodesSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ValidatorNodesSku
-            go_type_name: BlockchainMemberNodesSku
+            go_type_name: MemberNodesSku
           '/properties/validatorNodesSku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Capacity
@@ -285,19 +285,19 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BlockchainMemberProperties
-            go_type_name: BlockchainMemberProperties
+            go_field_name: MemberProperties
+            go_type_name: MemberProperties
           '/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Protocol
-            go_enum_type_name: BlockchainProtocol
+            go_enum_type_name: Protocol
           '/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: protocol
           '/properties/validatorNodesSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ValidatorNodesSku
-            go_type_name: BlockchainMemberNodesSku
+            go_type_name: MemberNodesSku
           '/properties/validatorNodesSku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Capacity
@@ -365,7 +365,7 @@ objects:
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
-            go_enum_type_name: BlockchainMemberProvisioningState
+            go_enum_type_name: MemberProvisioningState
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state

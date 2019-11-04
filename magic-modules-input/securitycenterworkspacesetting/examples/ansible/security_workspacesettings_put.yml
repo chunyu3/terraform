@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securitycenterworkspacesetting
+  description: Create a workspace setting data for subscription
+  code:
+    workspace_setting_name: myWorkspaceSetting
+    workspace_setting:
+      id: >-
+        /subscriptions/{{ subscription_id
+        }}/providers/Microsoft.Security/workspaceSettings/{{
+        workspace_setting_name }}
+      name: default
+      type: Microsoft.Security/workspaceSettings
+      properties:
+        workspaceId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.OperationalInsights/workspaces/{{ workspace_name
+          }}
+        scope: '/subscriptions/{{ subscription_id }}'
+  

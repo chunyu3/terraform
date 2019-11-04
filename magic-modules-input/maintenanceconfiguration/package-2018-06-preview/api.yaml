@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.Maintenance
-      go_client_namespace: 
+      go_client_namespace: maintenance
       go_client: maintenanceConfigurationsClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.maintenance
       python_client: MaintenanceManagementClient.maintenance_configurations
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: CreateOrUpdate
@@ -34,7 +34,7 @@ objects:
             python_variable_name: resource_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: configuration
-            go_type_name: MaintenanceConfiguration
+            go_type_name: Configuration
             python_parameter_name: configuration
             python_variable_name: configuration
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -45,8 +45,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: MaintenanceConfigurationProperties
-            go_type_name: MaintenanceConfigurationProperties
+            go_field_name: ConfigurationProperties
+            go_type_name: ConfigurationProperties
           '/namespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: namespace
@@ -65,7 +65,7 @@ objects:
           '/properties/maintenanceScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: MaintenanceScope
-            go_enum_type_name: MaintenanceScope
+            go_enum_type_name: Scope
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -103,8 +103,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: MaintenanceConfigurationProperties
-            go_type_name: MaintenanceConfigurationProperties
+            go_field_name: ConfigurationProperties
+            go_type_name: ConfigurationProperties
           '/properties/namespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Namespace
@@ -120,7 +120,7 @@ objects:
           '/properties/maintenanceScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: MaintenanceScope
-            go_enum_type_name: MaintenanceScope
+            go_enum_type_name: Scope
           '/maintenanceScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: maintenance_scope

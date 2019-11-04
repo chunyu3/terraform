@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_containerregistrybuildtask
+  description: BuildTasks_Create
+  code:
+    resource_group: myResourceGroup
+    registry_name: myRegistry
+    build_task_name: myBuildTask
+    build_task_create_parameters:
+      properties:
+        sourceRepository:
+          sourceControlType: Github
+          repositoryUrl: 'https://github.com/Azure/azure-rest-api-specs'
+          sourceControlAuthProperties:
+            tokenType: OAuth
+            token: xxxxxx
+            scope: repo
+          isCommitTriggerEnabled: true
+        platform:
+          osType: Linux
+          cpu: '2'
+        alias: myalias
+        status: Enabled
+      location: eastus
+      tags:
+        testkey: value
+  

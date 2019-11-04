@@ -1,0 +1,241 @@
+--- !ruby/object:Api::Product
+name: Azure Application Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Application
+    api_name: Batch
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Batch
+      go_client_namespace: batch
+      go_client: applicationClient
+      python_client_namespace: azure.mgmt.batch
+      python_client: BatchManagementClient.application
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationID
+            python_parameter_name: application_id
+            python_variable_name: application_id
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ApplicationCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: AllowUpdates
+            python_field_name: allow_updates
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationID
+            python_parameter_name: application_id
+            python_variable_name: application_id
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ApplicationCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: AllowUpdates
+            python_field_name: allow_updates
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationID
+            python_parameter_name: application_id
+            python_variable_name: application_id
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationID
+            python_parameter_name: application_id
+            python_variable_name: application_id
+        response:
+          '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: AllowUpdates
+            python_field_name: allow_updates
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: display_name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/packages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Packages
+            go_type_name: ApplicationPackage
+            python_field_name: packages
+          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DefaultVersion
+            python_field_name: default_version
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+
+    description: |
+      Manage Azure Application instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the Batch account.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of the Batch account.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'applicationId'
+        description: 'The ID of the application.'
+        required: true
+        input: true
+        azure_sdk_references: ['applicationId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'allowUpdates'
+        description: 'A value indicating whether packages within the application may be overwritten using the same version string.'
+        required: false
+        input: true
+        azure_sdk_references: ['/allowUpdates']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The display name for the application.'
+        required: false
+        input: true
+        azure_sdk_references: ['/displayName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'A string that uniquely identifies the application within the account.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::Array
+        name: 'packages'
+        description: 'The list of packages under this application.'
+        output: true
+        azure_sdk_references: ['/packages']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The ID of the application.'
+              required: false
+              azure_sdk_references: ['/packages/id']
+            - !ruby/object:Api::Type::String
+              name: 'version'
+              description: 'The version of the application package.'
+              required: false
+              azure_sdk_references: ['/packages/version']
+            - !ruby/object:Api::Type::Enum
+              name: 'state'
+              description: 'The current state of the application package.'
+              required: false
+              azure_sdk_references: ['/packages/state']
+              values:
+                - :Pending
+                - :Active
+                - :Unmapped
+              default_value: :Pending
+            - !ruby/object:Api::Type::String
+              name: 'format'
+              description: 'The format of the application package, if the package is active.'
+              required: false
+              azure_sdk_references: ['/packages/format']
+            - !ruby/object:Api::Type::String
+              name: 'storageUrl'
+              description: 'The URL for the application package in Azure Storage.'
+              required: false
+              azure_sdk_references: ['/packages/storageUrl']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'storageUrlExpiry'
+              description: 'The UTC time at which the Azure Storage URL will expire.'
+              required: false
+              azure_sdk_references: ['/packages/storageUrlExpiry']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastActivationTime'
+              description: 'The time at which the package was last activated, if the package is active.'
+              required: false
+              azure_sdk_references: ['/packages/lastActivationTime']
+      - !ruby/object:Api::Type::String
+        name: 'defaultVersion'
+        description: 'The package to use if a client requests the application but does not specify a version.'
+        output: true
+        azure_sdk_references: ['/defaultVersion']

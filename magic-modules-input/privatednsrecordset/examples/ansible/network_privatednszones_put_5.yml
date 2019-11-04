@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_privatednsrecordset
+  description: PUT Private DNS Zone PTR Record Set
+  code:
+    resource_group: myResourceGroup
+    private_zone_name: myPrivateDnsZone
+    record_type: PTR
+    relative_record_set_name: myRecordType
+    metadata:
+      key1: value1
+    ttl: '3600'
+    ptr_records:
+      - ptrdname: localhost
+  

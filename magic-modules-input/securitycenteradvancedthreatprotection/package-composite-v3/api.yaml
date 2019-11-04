@@ -1,0 +1,120 @@
+--- !ruby/object:Api::Product
+name: Azure AdvancedThreatProtection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AdvancedThreatProtection
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: advancedThreatProtectionClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.advanced_threat_protection
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceID
+            python_parameter_name: resource_id
+            python_variable_name: resource_id
+          'settingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: advancedThreatProtectionSettings
+            go_variable_name: settingName
+            python_parameter_name: setting_name
+            python_variable_name: setting_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: advancedThreatProtectionSetting
+            go_type_name: AdvancedThreatProtectionSetting
+            python_parameter_name: advanced_threat_protection_setting
+            python_variable_name: advanced_threat_protection_setting
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdvancedThreatProtectionProperties
+            go_type_name: AdvancedThreatProtectionProperties
+          '/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_enabled
+          '/properties/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsEnabled
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceID
+            python_parameter_name: resource_id
+            python_variable_name: resource_id
+          'settingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: advancedThreatProtectionSettings
+            go_variable_name: settingName
+            python_parameter_name: setting_name
+            python_variable_name: setting_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdvancedThreatProtectionProperties
+            go_type_name: AdvancedThreatProtectionProperties
+          '/properties/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsEnabled
+          '/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_enabled
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+
+    description: |
+      Manage Azure AdvancedThreatProtection instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceId'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceId']
+      - !ruby/object:Api::Type::String
+        name: 'settingName'
+        description: 'Advanced Threat Protection setting name.'
+        required: true
+        input: true
+        azure_sdk_references: ['settingName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isEnabled'
+        description: 'Indicates whether Advanced Threat Protection is enabled.'
+        required: false
+        azure_sdk_references: ['/isEnabled', '/properties/isEnabled']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

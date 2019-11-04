@@ -1,0 +1,437 @@
+--- !ruby/object:Api::Product
+name: Azure Workspace Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Workspace
+    api_name: MachineLearningServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.MachineLearningServices
+      go_client_namespace: machinelearningservices
+      go_client: workspacesClient
+      python_client_namespace: azure.mgmt.machinelearningservices
+      python_client: AzureMachineLearningWorkspacesClient.workspaces
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Workspace
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceProperties
+            go_type_name: WorkspaceProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/batchaiWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: batchai_workspace
+          '/properties/batchaiWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BatchaiWorkspace
+          '/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault
+          '/properties/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVault
+          '/applicationInsights': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_insights
+          '/properties/applicationInsights': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationInsights
+          '/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container_registry
+          '/properties/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContainerRegistry
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+          '/discoveryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: discovery_url
+          '/properties/discoveryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiscoveryURL
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Workspace
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceProperties
+            go_type_name: WorkspaceProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/batchaiWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: batchai_workspace
+          '/properties/batchaiWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BatchaiWorkspace
+          '/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault
+          '/properties/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVault
+          '/applicationInsights': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_insights
+          '/properties/applicationInsights': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationInsights
+          '/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container_registry
+          '/properties/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContainerRegistry
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+          '/discoveryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: discovery_url
+          '/properties/discoveryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiscoveryURL
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceProperties
+            go_type_name: WorkspaceProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/batchaiWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BatchaiWorkspace
+          '/batchaiWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: batchai_workspace
+          '/properties/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVault
+          '/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault
+          '/properties/applicationInsights': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationInsights
+          '/applicationInsights': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_insights
+          '/properties/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContainerRegistry
+          '/containerRegistry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container_registry
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/properties/discoveryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiscoveryURL
+          '/discoveryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: discovery_url
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: Identity
+            python_field_name: identity
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Workspace instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group in which workspace is located.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'workspaceName'
+        description: 'Name of Azure Machine Learning workspace.'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Specifies the location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Contains resource tags defined as key/value pairs.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of this workspace.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'The friendly name for this workspace. This name in mutable'
+        required: false
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::String
+        name: 'batchaiWorkspace'
+        description: 'ARM id of the Batch AI workspace associated with this workspace. This cannot be changed once the workspace has been created'
+        required: false
+        azure_sdk_references: ['/batchaiWorkspace', '/properties/batchaiWorkspace']
+      - !ruby/object:Api::Type::String
+        name: 'keyVault'
+        description: 'ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created'
+        required: false
+        azure_sdk_references: ['/keyVault', '/properties/keyVault']
+      - !ruby/object:Api::Type::String
+        name: 'applicationInsights'
+        description: 'ARM id of the application insights associated with this workspace. This cannot be changed once the workspace has been created'
+        required: false
+        azure_sdk_references: ['/applicationInsights', '/properties/applicationInsights']
+      - !ruby/object:Api::Type::String
+        name: 'containerRegistry'
+        description: 'ARM id of the container registry associated with this workspace. This cannot be changed once the workspace has been created'
+        required: false
+        azure_sdk_references: ['/containerRegistry', '/properties/containerRegistry']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccount'
+        description: 'ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created'
+        required: false
+        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
+      - !ruby/object:Api::Type::String
+        name: 'discoveryUrl'
+        description: 'Url for the discovery service to identify regional endpoints for machine learning experimentation services'
+        required: false
+        azure_sdk_references: ['/discoveryUrl', '/properties/discoveryUrl']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'workspaceId'
+        description: 'The immutable id associated with this workspace.'
+        output: true
+        azure_sdk_references: ['/workspaceId', '/properties/workspaceId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'The creation time of the machine learning workspace in ISO8601 format.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Unknown
+          - :Updating
+          - :Creating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Specifies the resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Specifies the name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'The identity of the resource.'
+        output: true
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'principalId'
+            description: 'The principal ID of resource identity.'
+            required: false
+            azure_sdk_references: ['/identity/principalId']
+          - !ruby/object:Api::Type::String
+            name: 'tenantId'
+            description: 'The tenant ID of resource.'
+            required: false
+            azure_sdk_references: ['/identity/tenantId']
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The identity type.'
+            required: false
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+            default_value: :SystemAssigned
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Specifies the type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

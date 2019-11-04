@@ -1,0 +1,301 @@
+--- !ruby/object:Api::Product
+name: Azure Invitation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Invitation
+    api_name: DataShare
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataShare
+      go_client_namespace: datashare
+      go_client: invitationsClient
+      python_client_namespace: azure.mgmt.datashare
+      python_client: DataShareManagementClient.invitations
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+          'invitationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invitations
+            go_variable_name: invitationName
+            python_parameter_name: invitation_name
+            python_variable_name: invitation_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: invitation
+            go_type_name: Invitation
+            python_parameter_name: invitation
+            python_variable_name: invitation
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InvitationProperties
+            go_type_name: InvitationProperties
+          '/targetActiveDirectoryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_active_directory_id
+          '/properties/targetActiveDirectoryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetActiveDirectoryID
+          '/targetEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_email
+          '/properties/targetEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetEmail
+          '/targetObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_object_id
+          '/properties/targetObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetObjectID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+          'invitationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invitations
+            go_variable_name: invitationName
+            python_parameter_name: invitation_name
+            python_variable_name: invitation_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+          'invitationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invitations
+            go_variable_name: invitationName
+            python_parameter_name: invitation_name
+            python_variable_name: invitation_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InvitationProperties
+            go_type_name: InvitationProperties
+          '/properties/targetActiveDirectoryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetActiveDirectoryID
+          '/targetActiveDirectoryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_active_directory_id
+          '/properties/targetEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetEmail
+          '/targetEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_email
+          '/properties/targetObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetObjectID
+          '/targetObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_object_id
+          '/properties/invitationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InvitationID
+          '/invitationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: invitation_id
+          '/properties/invitationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: InvitationStatus
+            go_enum_type_name: InvitationStatus
+          '/invitationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: invitation_status
+          '/properties/respondedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RespondedAt
+          '/respondedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: responded_at
+          '/properties/sentAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SentAt
+          '/sentAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: sent_at
+          '/properties/userEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserEmail
+          '/userEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_email
+          '/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByShare
+        python_func_name: list_by_share
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+
+    description: |
+      Manage Azure Invitation instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of the share account.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'shareName'
+        description: 'The name of the share to send the invitation for.'
+        required: true
+        input: true
+        azure_sdk_references: ['shareName']
+      - !ruby/object:Api::Type::String
+        name: 'invitationName'
+        description: 'The name of the invitation.'
+        required: true
+        input: true
+        azure_sdk_references: ['invitationName']
+      - !ruby/object:Api::Type::String
+        name: 'targetActiveDirectoryId'
+        description: 'The target Azure AD Id. Can''t be combined with email.'
+        required: false
+        azure_sdk_references: ['/targetActiveDirectoryId', '/properties/targetActiveDirectoryId']
+      - !ruby/object:Api::Type::String
+        name: 'targetEmail'
+        description: 'The email the invitation is directed to.'
+        required: false
+        azure_sdk_references: ['/targetEmail', '/properties/targetEmail']
+      - !ruby/object:Api::Type::String
+        name: 'targetObjectId'
+        description: 'The target user or application Id that invitation is being sent to.<br>Must be specified along TargetActiveDirectoryId. This enables sending<br>invitations to specific users or applications in an AD tenant.'
+        required: false
+        azure_sdk_references: ['/targetObjectId', '/properties/targetObjectId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'invitationId'
+        description: 'unique invitation id'
+        output: true
+        azure_sdk_references: ['/invitationId', '/properties/invitationId']
+      - !ruby/object:Api::Type::Enum
+        name: 'invitationStatus'
+        description: 'The status of the invitation.'
+        output: true
+        azure_sdk_references: ['/invitationStatus', '/properties/invitationStatus']
+        values:
+          - :Pending
+          - :Accepted
+          - :Rejected
+          - :Withdrawn
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'respondedAt'
+        description: 'The time the recipient responded to the invitation.'
+        output: true
+        azure_sdk_references: ['/respondedAt', '/properties/respondedAt']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'sentAt'
+        description: 'Gets the time at which the invitation was sent.'
+        output: true
+        azure_sdk_references: ['/sentAt', '/properties/sentAt']
+      - !ruby/object:Api::Type::String
+        name: 'userEmail'
+        description: 'Email of the user who created the resource'
+        output: true
+        azure_sdk_references: ['/userEmail', '/properties/userEmail']
+      - !ruby/object:Api::Type::String
+        name: 'userName'
+        description: 'Name of the user who created the resource'
+        output: true
+        azure_sdk_references: ['/userName', '/properties/userName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id of the azure resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the azure resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the azure resource'
+        output: true
+        azure_sdk_references: ['/type']

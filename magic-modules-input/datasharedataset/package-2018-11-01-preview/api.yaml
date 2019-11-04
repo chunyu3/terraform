@@ -1,0 +1,171 @@
+--- !ruby/object:Api::Product
+name: Azure DataSet Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DataSet
+    api_name: DataShare
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataShare
+      go_client_namespace: datashare
+      go_client: dataSetsClient
+      python_client_namespace: azure.mgmt.datashare
+      python_client: DataShareManagementClient.data_sets
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+          'dataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataSets
+            go_variable_name: dataSetName
+            python_parameter_name: data_set_name
+            python_variable_name: data_set_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: dataSet
+            go_type_name: DataSet
+            python_parameter_name: data_set
+            python_variable_name: data_set
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+          'dataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataSets
+            go_variable_name: dataSetName
+            python_parameter_name: data_set_name
+            python_variable_name: data_set_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+          'dataSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataSets
+            go_variable_name: dataSetName
+            python_parameter_name: data_set_name
+            python_variable_name: data_set_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByShare
+        python_func_name: list_by_share
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: shareName
+            python_parameter_name: share_name
+            python_variable_name: share_name
+
+    description: |
+      Manage Azure DataSet instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of the share account.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'shareName'
+        description: 'The name of the share to add the data set to.'
+        required: true
+        input: true
+        azure_sdk_references: ['shareName']
+      - !ruby/object:Api::Type::String
+        name: 'dataSetName'
+        description: 'The name of the dataSet.'
+        required: true
+        input: true
+        azure_sdk_references: ['dataSetName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id of the azure resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the azure resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the azure resource'
+        output: true
+        azure_sdk_references: ['/type']

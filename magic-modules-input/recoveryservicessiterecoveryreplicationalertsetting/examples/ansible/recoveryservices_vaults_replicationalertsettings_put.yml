@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationalertsetting
+  description: Configures email notifications for this vault.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    alert_setting_name: myReplicationAlertSetting
+    request:
+      properties:
+        sendToOwners: 'false'
+        customEmailAddresses:
+          - ronehr@microsoft.com
+        locale: ''
+  

@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.Billing
-      go_client_namespace: 
+      go_client_namespace: billing
       go_client: billingProfilesClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.billing
       python_client: BillingManagementClient.billing_profiles
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
@@ -30,7 +30,7 @@ objects:
             python_variable_name: billing_account_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BillingProfileCreationParameters
+            go_type_name: ProfileCreationParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -255,7 +255,7 @@ objects:
           '/properties/invoiceSections/properties/billingProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: BillingProfiles
-            go_type_name: BillingProfile
+            go_type_name: Profile
           '/properties/invoiceSections/properties/billingProfiles/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -267,8 +267,8 @@ objects:
             go_field_name: Type
           '/properties/invoiceSections/properties/billingProfiles/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BillingProfileProperties
-            go_type_name: BillingProfileProperties
+            go_field_name: ProfileProperties
+            go_type_name: ProfileProperties
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -281,7 +281,7 @@ objects:
             python_variable_name: billing_account_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BillingProfileCreationParameters
+            go_type_name: ProfileCreationParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -506,7 +506,7 @@ objects:
           '/properties/invoiceSections/properties/billingProfiles': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: BillingProfiles
-            go_type_name: BillingProfile
+            go_type_name: Profile
           '/properties/invoiceSections/properties/billingProfiles/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -518,8 +518,8 @@ objects:
             go_field_name: Type
           '/properties/invoiceSections/properties/billingProfiles/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BillingProfileProperties
-            go_type_name: BillingProfileProperties
+            go_field_name: ProfileProperties
+            go_type_name: ProfileProperties
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -541,8 +541,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BillingProfileProperties
-            go_type_name: BillingProfileProperties
+            go_field_name: ProfileProperties
+            go_type_name: ProfileProperties
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByBillingAccountName
         python_func_name: list_by_billing_account_name

@@ -1,0 +1,359 @@
+--- !ruby/object:Api::Product
+name: Azure Binding Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Binding
+    api_name: AppPlatform
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AppPlatform
+      go_client_namespace: appplatform
+      go_client: bindingsClient
+      python_client_namespace: azure.mgmt.appplatform
+      python_client: AppPlatformManagementClient.bindings
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
+          'bindingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bindings
+            go_variable_name: bindingName
+            python_parameter_name: binding_name
+            python_variable_name: binding_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: bindingResource
+            go_type_name: BindingResource
+            python_parameter_name: binding_resource
+            python_variable_name: binding_resource
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BindingResourceProperties
+            go_type_name: BindingResourceProperties
+          '/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_name
+          '/properties/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceName
+          '/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/properties/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/properties/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/bindingParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: binding_parameters
+          '/properties/bindingParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: BindingParameters
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
+          'bindingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bindings
+            go_variable_name: bindingName
+            python_parameter_name: binding_name
+            python_variable_name: binding_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: bindingResource
+            go_type_name: BindingResource
+            python_parameter_name: binding_resource
+            python_variable_name: binding_resource
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BindingResourceProperties
+            go_type_name: BindingResourceProperties
+          '/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_name
+          '/properties/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceName
+          '/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/properties/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/properties/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/bindingParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: binding_parameters
+          '/properties/bindingParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: BindingParameters
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
+          'bindingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bindings
+            go_variable_name: bindingName
+            python_parameter_name: binding_name
+            python_variable_name: binding_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
+          'bindingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: bindings
+            go_variable_name: bindingName
+            python_parameter_name: binding_name
+            python_variable_name: binding_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BindingResourceProperties
+            go_type_name: BindingResourceProperties
+          '/properties/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceName
+          '/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_name
+          '/properties/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/properties/bindingParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: BindingParameters
+          '/bindingParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: binding_parameters
+          '/properties/generatedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GeneratedProperties
+          '/generatedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: generated_properties
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: updated_at
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: appName
+            python_parameter_name: app_name
+            python_variable_name: app_name
+
+    description: |
+      Manage Azure Binding instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the bound resource'
+        required: false
+        azure_sdk_references: ['/resourceName', '/properties/resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceType'
+        description: 'The standard Azure resource type of the bound resource'
+        required: false
+        azure_sdk_references: ['/resourceType', '/properties/resourceType']
+      - !ruby/object:Api::Type::String
+        name: 'resourceId'
+        description: 'The Azure resource id of the bound resource'
+        required: false
+        azure_sdk_references: ['/resourceId', '/properties/resourceId']
+      - !ruby/object:Api::Type::String
+        name: 'key'
+        description: 'The key of the bound resource'
+        required: false
+        azure_sdk_references: ['/key', '/properties/key']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'bindingParameters'
+        description: 'Binding parameters of the Binding resource'
+        required: false
+        azure_sdk_references: ['/bindingParameters', '/properties/bindingParameters']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the Service resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'appName'
+        description: 'The name of the App resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['appName']
+      - !ruby/object:Api::Type::String
+        name: 'bindingName'
+        description: 'The name of the Binding resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['bindingName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'generatedProperties'
+        description: 'The generated Spring Boot property file for this binding. The secret will be deducted.'
+        output: true
+        azure_sdk_references: ['/generatedProperties', '/properties/generatedProperties']
+      - !ruby/object:Api::Type::String
+        name: 'createdAt'
+        description: 'Creation time of the Binding resource'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Type::String
+        name: 'updatedAt'
+        description: 'Update time of the Binding resource'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

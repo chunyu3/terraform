@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.Billing
-      go_client_namespace: 
+      go_client_namespace: billing
       go_client: billingProfilesClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.billing
       python_client: BillingManagementClient.billing_profiles
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
@@ -35,7 +35,7 @@ objects:
             python_variable_name: billing_profile_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BillingProfileCreationRequest
+            go_type_name: ProfileCreationRequest
             python_parameter_name: parameters
             python_variable_name: parameters
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -256,7 +256,7 @@ objects:
             python_variable_name: billing_profile_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BillingProfileCreationRequest
+            go_type_name: ProfileCreationRequest
             python_parameter_name: parameters
             python_variable_name: parameters
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -486,8 +486,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BillingProfileProperties
-            go_type_name: BillingProfileProperties
+            go_field_name: ProfileProperties
+            go_type_name: ProfileProperties
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByBillingAccount
         python_func_name: list_by_billing_account

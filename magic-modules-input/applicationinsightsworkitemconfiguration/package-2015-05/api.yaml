@@ -1,0 +1,140 @@
+--- !ruby/object:Api::Product
+name: Azure WorkItemConfiguration Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WorkItemConfiguration
+    api_name: Insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Insights
+      go_client_namespace: applicationinsights
+      go_client: workItemConfigurationsClient
+      python_client_namespace: azure.mgmt.applicationinsights
+      python_client: ApplicationInsightsManagementClient.work_item_configurations
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: workItemConfigurationProperties
+            go_type_name: WorkItemCreateConfiguration
+            python_parameter_name: work_item_configuration_properties
+            python_variable_name: work_item_configuration_properties
+          '/ConnectorId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ConnectorID
+            python_field_name: connector_id
+          '/ConnectorDataConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ConnectorDataConfiguration
+            python_field_name: connector_data_configuration
+          '/ValidateOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: ValidateOnly
+            python_field_name: validate_only
+          '/WorkItemProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: WorkItemProperties
+            python_field_name: work_item_properties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+
+    description: |
+      Manage Azure WorkItemConfiguration instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the Application Insights component resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'connectorId'
+        description: 'Unique connector id'
+        required: false
+        input: true
+        azure_sdk_references: ['/ConnectorId']
+      - !ruby/object:Api::Type::String
+        name: 'connectorDataConfiguration'
+        description: 'Serialized JSON object for detailed properties'
+        required: false
+        input: true
+        azure_sdk_references: ['/ConnectorDataConfiguration']
+      - !ruby/object:Api::Type::Boolean
+        name: 'validateOnly'
+        description: 'Boolean indicating validate only'
+        required: false
+        input: true
+        azure_sdk_references: ['/ValidateOnly']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'workItemProperties'
+        description: 'Custom work item properties'
+        required: false
+        input: true
+        azure_sdk_references: ['/WorkItemProperties']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Configuration friendly name'
+        output: true
+        azure_sdk_references: ['/ConfigDisplayName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isDefault'
+        description: 'Boolean value indicating whether configuration is default'
+        output: true
+        azure_sdk_references: ['/IsDefault']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Unique Id for work item'
+        output: true
+        azure_sdk_references: ['/Id']
+      - !ruby/object:Api::Type::String
+        name: 'configProperties'
+        description: 'Serialized JSON object for detailed properties'
+        output: true
+        azure_sdk_references: ['/ConfigProperties']

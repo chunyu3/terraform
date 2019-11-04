@@ -14,9 +14,9 @@ objects:
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.Compute
-      go_client_namespace: 
+      go_client_namespace: guestconfiguration
       go_client: guestConfigurationAssignmentsClient
-      python_client_namespace: 
+      python_client_namespace: azure.mgmt.guestconfiguration
       python_client: GuestConfigurationClient.guest_configuration_assignments
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
@@ -40,13 +40,13 @@ objects:
             python_variable_name: vm_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: GuestConfigurationAssignment
+            go_type_name: Assignment
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: GuestConfigurationAssignmentProperties
-            go_type_name: GuestConfigurationAssignmentProperties
+            go_field_name: AssignmentProperties
+            go_type_name: AssignmentProperties
           '/guestConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: guest_configuration
@@ -62,7 +62,7 @@ objects:
           '/properties/guestConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GuestConfiguration
-            go_type_name: GuestConfigurationNavigation
+            go_type_name: Navigation
           '/properties/guestConfiguration/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Kind
@@ -97,12 +97,12 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: GuestConfigurationAssignmentProperties
-            go_type_name: GuestConfigurationAssignmentProperties
+            go_field_name: AssignmentProperties
+            go_type_name: AssignmentProperties
           '/properties/guestConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GuestConfiguration
-            go_type_name: GuestConfigurationNavigation
+            go_type_name: Navigation
           '/properties/guestConfiguration/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Kind

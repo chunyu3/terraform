@@ -1,0 +1,51 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_containerregistrytask
+  description: Tasks_Create
+  code:
+    resource_group: myResourceGroup
+    registry_name: myRegistry
+    task_name: myTask
+    task_create_parameters:
+      properties:
+        status: Enabled
+        platform:
+          os: Linux
+          architecture: amd64
+        agentConfiguration:
+          cpu: '2'
+        step:
+          type: Docker
+          imageNames:
+            - 'azurerest:testtag'
+          dockerFilePath: subfolder/Dockerfile
+          contextPath: dockerfiles
+          isPushEnabled: true
+          noCache: false
+          arguments:
+            - name: mytestargument
+              value: mytestvalue
+              isSecret: false
+            - name: mysecrettestargument
+              value: mysecrettestvalue
+              isSecret: true
+        trigger:
+          sourceTriggers:
+            - name: mySourceTrigger
+              sourceRepository:
+                sourceControlType: Github
+                repositoryUrl: 'https://github.com/Azure/azure-rest-api-specs'
+                branch: master
+                sourceControlAuthProperties:
+                  tokenType: PAT
+                  token: xxxxx
+              sourceTriggerEvents:
+                - commit
+              status: Enabled
+          baseImageTrigger:
+            name: myBaseImageTrigger
+            baseImageTriggerType: Runtime
+      location: eastus
+      tags:
+        testkey: value
+  

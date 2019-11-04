@@ -1,0 +1,353 @@
+--- !ruby/object:Api::Product
+name: Azure Network Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Network
+    api_name: ServiceFabricMesh
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ServiceFabricMesh
+      go_client_namespace: servicefabricmeshrestapis
+      go_client: networkClient
+      python_client_namespace: azure.mgmt.servicefabricmeshrestapis
+      python_client: ServiceFabricMeshManagementClient.network
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networks
+            go_variable_name: networkName
+            python_parameter_name: network_name
+            python_variable_name: network_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: networkResourceDescription
+            go_type_name: NetworkResourceDescription
+            python_parameter_name: network_resource_description
+            python_variable_name: network_resource_description
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkResourceProperties
+            go_type_name: NetworkResourceProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_prefix
+          '/properties/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressPrefix
+          '/ingressConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ingress_config
+          '/ingressConfig/qosLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: qos_level
+          '/ingressConfig/layer4': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: layer4
+          '/ingressConfig/layer4/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/ingressConfig/layer4/publicPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: public_port
+          '/ingressConfig/layer4/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_name
+          '/ingressConfig/layer4/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/ingressConfig/layer4/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint_name
+          '/properties/ingressConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IngressConfig
+            go_type_name: IngressConfig
+          '/properties/ingressConfig/qosLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: QosLevel
+            go_enum_type_name: IngressQoSLevel
+          '/properties/ingressConfig/layer4': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Layer4
+            go_type_name: Layer4IngressConfig
+          '/properties/ingressConfig/layer4/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/ingressConfig/layer4/publicPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: PublicPort
+          '/properties/ingressConfig/layer4/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationName
+          '/properties/ingressConfig/layer4/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/properties/ingressConfig/layer4/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndpointName
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networks
+            go_variable_name: networkName
+            python_parameter_name: network_name
+            python_variable_name: network_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networks
+            go_variable_name: networkName
+            python_parameter_name: network_name
+            python_variable_name: network_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkResourceProperties
+            go_type_name: NetworkResourceProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressPrefix
+          '/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_prefix
+          '/properties/ingressConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IngressConfig
+            go_type_name: IngressConfig
+          '/properties/ingressConfig/qosLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: QosLevel
+            go_enum_type_name: IngressQoSLevel
+          '/properties/ingressConfig/layer4': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Layer4
+            go_type_name: Layer4IngressConfig
+          '/properties/ingressConfig/layer4/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/ingressConfig/layer4/publicPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: PublicPort
+          '/properties/ingressConfig/layer4/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationName
+          '/properties/ingressConfig/layer4/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/properties/ingressConfig/layer4/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndpointName
+          '/properties/ingressConfig/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddress
+          '/ingressConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ingress_config
+          '/ingressConfig/qosLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: qos_level
+          '/ingressConfig/layer4': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: layer4
+          '/ingressConfig/layer4/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/ingressConfig/layer4/publicPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: public_port
+          '/ingressConfig/layer4/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_name
+          '/ingressConfig/layer4/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/ingressConfig/layer4/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint_name
+          '/ingressConfig/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Network instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Azure resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'networkName'
+        description: 'The identity of the network.'
+        required: true
+        input: true
+        azure_sdk_references: ['networkName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The geo-location where the resource lives'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'User readable description of the network.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'addressPrefix'
+        description: 'the address prefix for this network.'
+        required: true
+        azure_sdk_references: ['/addressPrefix', '/properties/addressPrefix']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'ingressConfig'
+        description: 'Configuration for public connectivity for this network.'
+        required: false
+        azure_sdk_references: ['/ingressConfig', '/properties/ingressConfig']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'qosLevel'
+            description: 'The QoS tier for ingress.'
+            required: false
+            azure_sdk_references: ['/ingressConfig/qosLevel', '/properties/ingressConfig/qosLevel']
+            values:
+              - :Bronze
+            default_value: :Bronze
+          - !ruby/object:Api::Type::Array
+            name: 'layer4'
+            description: 'Configuration for layer4 public connectivity for this network.'
+            required: false
+            azure_sdk_references: ['/ingressConfig/layer4', '/properties/ingressConfig/layer4']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Layer4 ingress config name.'
+                  required: false
+                  azure_sdk_references: ['/ingressConfig/layer4/name', '/properties/ingressConfig/layer4/name']
+                - !ruby/object:Api::Type::Integer
+                  name: 'publicPort'
+                  description: 'Specifies the public port at which the service endpoint below needs to be exposed.'
+                  required: false
+                  azure_sdk_references: ['/ingressConfig/layer4/publicPort', '/properties/ingressConfig/layer4/publicPort']
+                - !ruby/object:Api::Type::String
+                  name: 'applicationName'
+                  description: 'The application name which contains the service to be exposed.'
+                  required: false
+                  azure_sdk_references: ['/ingressConfig/layer4/applicationName', '/properties/ingressConfig/layer4/applicationName']
+                - !ruby/object:Api::Type::String
+                  name: 'serviceName'
+                  description: 'The service whose endpoint needs to be exposed at the public port.'
+                  required: false
+                  azure_sdk_references: ['/ingressConfig/layer4/serviceName', '/properties/ingressConfig/layer4/serviceName']
+                - !ruby/object:Api::Type::String
+                  name: 'endpointName'
+                  description: 'The service endpoint that needs to be exposed.'
+                  required: false
+                  azure_sdk_references: ['/ingressConfig/layer4/endpointName', '/properties/ingressConfig/layer4/endpointName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'State of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified identifier for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

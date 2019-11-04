@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_applicationinsightscomponent
+  description: ComponentUpdate
+  code:
+    resource_group: myResourceGroup
+    resource_name: myComponent
+    insight_properties:
+      location: South Central US
+      kind: web
+      tags:
+        ApplicationGatewayType: Internal-Only
+        BillingEntity: Self
+  

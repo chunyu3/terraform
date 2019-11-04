@@ -1,0 +1,37 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_customerinsightsconnectormapping
+  description: ConnectorMappings_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    hub_name: myHub
+    connector_name: myConnector
+    mapping_name: myMapping
+    entity_type: Interaction
+    entity_type_name: TestInteractionType2967
+    display_name: testMapping12491
+    description: Test mapping
+    mapping_properties:
+      folder_path: 'http://sample.dne/file'
+      file_filter: unknown
+      has_header: false
+      error_management:
+        error_management_type: StopImport
+        error_limit: '10'
+      format:
+        format_type: TextFormat
+        column_delimiter: '|'
+      availability:
+        frequency: Hour
+        interval: '5'
+      structure:
+        - property_name: unknwon1
+          column_name: unknown1
+          is_encrypted: false
+        - property_name: unknwon2
+          column_name: unknown2
+          is_encrypted: true
+      complete_operation:
+        completion_operation_type: DeleteFile
+        destination_folder: fakePath
+  

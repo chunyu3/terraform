@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securitycentersecuritycontact
+  description: Update security contact data minimal
+  code:
+    security_contact_name: mySecurityContact
+    security_contact:
+      id: >-
+        /subscriptions/{{ subscription_id
+        }}/providers/Microsoft.Security/securityContacts/{{ security_contact_name
+        }}
+      name: default2
+      type: Microsoft.Security/securityContacts
+      properties:
+        alertNotifications: 'On'
+  

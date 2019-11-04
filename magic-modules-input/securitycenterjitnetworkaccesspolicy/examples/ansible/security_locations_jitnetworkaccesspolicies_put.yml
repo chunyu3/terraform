@@ -1,0 +1,48 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securitycenterjitnetworkaccesspolicy
+  description: Create JIT network access policy
+  code:
+    resource_group: myResourceGroup
+    asc_location: myLocation
+    jit_network_access_policy_name: myJitNetworkAccessPolicy
+    body:
+      kind: Basic
+      properties:
+        virtualMachines:
+          - id: >-
+              /subscriptions/{{ subscription_id }}/resourceGroups/{{
+              resource_group }}/providers/Microsoft.Compute/virtualMachines/{{
+              virtual_machine_name }}
+            ports:
+              - number: '22'
+                protocol: '*'
+                allowedSourceAddressPrefix: '*'
+                maxRequestAccessDuration: PT3H
+              - number: '3389'
+                protocol: '*'
+                allowedSourceAddressPrefix: '*'
+                maxRequestAccessDuration: PT3H
+        requests:
+          - virtualMachines:
+              - id: >-
+                  /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                  resource_group }}/providers/Microsoft.Compute/virtualMachines/{{
+                  virtual_machine_name }}
+                ports:
+                  - number: '3389'
+                    allowedSourceAddressPrefix: 192.127.0.2
+                    endTimeUtc: '2018-05-17T09:06:45.5691611Z'
+                    status: Initiated
+                    statusReason: UserRequested
+            startTimeUtc: '2018-05-17T08:06:45.5691611Z'
+            requestor: barbara@contoso.com
+        provisioningState: Succeeded
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Security/locations/{{ location_name
+        }}/jitNetworkAccessPolicies/{{ jit_network_access_policy_name }}
+      name: default
+      type: Microsoft.Security/locations/jitNetworkAccessPolicies
+      location: westeurope
+  

@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_customerinsightsprediction
+  description: Predictions_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    hub_name: myHub
+    prediction_name: sdktest
+    description:
+      en-us: sdktest
+    display_name:
+      en-us: sdktest
+    involved_interaction_types: []
+    involved_kpi_types: []
+    involved_relationships: []
+    negative_outcome_expression: Customers.FirstName = 'Mike'
+    positive_outcome_expression: Customers.FirstName = 'David'
+    primary_profile_type: Customers
+    scope_expression: '*'
+    auto_analyze: true
+    mappings:
+      score: sdktest_Score
+      grade: sdktest_Grade
+      reason: sdktest_Reason
+    score_label: score label
+    grades: []
+  

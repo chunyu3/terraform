@@ -1,0 +1,153 @@
+--- !ruby/object:Api::Product
+name: Azure Annotation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Annotation
+    api_name: Insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Insights
+      go_client_namespace: applicationinsights
+      go_client: annotationsClient
+      python_client_namespace: azure.mgmt.applicationinsights
+      python_client: ApplicationInsightsManagementClient.annotations
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: annotationProperties
+            go_type_name: Annotation
+            python_parameter_name: annotation_properties
+            python_variable_name: annotation_properties
+          '/AnnotationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: annotation_name
+          '/Category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Category
+            python_field_name: category
+          '/EventTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EventTime
+            python_field_name: event_time
+          '/Id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/Properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: String
+            python_field_name: properties
+          '/RelatedAnnotation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: RelatedAnnotation
+            python_field_name: related_annotation
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+        response:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+
+    description: |
+      Manage Azure Annotation instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the Application Insights component resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of annotation'
+        required: false
+        input: true
+        azure_sdk_references: ['/AnnotationName']
+      - !ruby/object:Api::Type::String
+        name: 'category'
+        description: 'Category of annotation, free form'
+        required: false
+        input: true
+        azure_sdk_references: ['/Category']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'eventTime'
+        description: 'Time when event occurred'
+        required: false
+        input: true
+        azure_sdk_references: ['/EventTime']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Unique Id for annotation'
+        required: false
+        input: true
+        azure_sdk_references: ['/Id']
+      - !ruby/object:Api::Type::String
+        name: 'properties'
+        description: 'Serialized JSON object for detailed properties'
+        required: false
+        input: true
+        azure_sdk_references: ['/Properties']
+      - !ruby/object:Api::Type::String
+        name: 'relatedAnnotation'
+        description: 'Related parent annotation if any'
+        required: false
+        input: true
+        azure_sdk_references: ['/RelatedAnnotation']
+      # read only values included only in response

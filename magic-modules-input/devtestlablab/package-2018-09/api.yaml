@@ -1,0 +1,717 @@
+--- !ruby/object:Api::Product
+name: Azure Lab Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Lab
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: devtestlab
+      go_client: labsClient
+      python_client_namespace: azure.mgmt.devtestlab
+      python_client: DevTestLabsClient.labs
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: lab
+            go_type_name: Lab
+            python_parameter_name: lab
+            python_variable_name: lab
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabProperties
+            go_type_name: LabProperties
+          '/labStorageType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: lab_storage_type
+          '/properties/labStorageType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LabStorageType
+            go_enum_type_name: StorageType
+          '/mandatoryArtifactsResourceIdsLinux': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mandatory_artifacts_resource_ids_linux
+          '/properties/mandatoryArtifactsResourceIdsLinux': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MandatoryArtifactsResourceIdsLinux
+          '/mandatoryArtifactsResourceIdsWindows': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mandatory_artifacts_resource_ids_windows
+          '/properties/mandatoryArtifactsResourceIdsWindows': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MandatoryArtifactsResourceIdsWindows
+          '/premiumDataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: premium_data_disks
+          '/properties/premiumDataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PremiumDataDisks
+            go_enum_type_name: PremiumDataDisk
+          '/environmentPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: environment_permission
+          '/properties/environmentPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnvironmentPermission
+            go_enum_type_name: EnvironmentPermission
+          '/announcement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: announcement
+          '/announcement/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/announcement/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: markdown
+          '/announcement/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/announcement/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/announcement/expired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: expired
+          '/properties/announcement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Announcement
+            go_type_name: LabAnnouncementProperties
+          '/properties/announcement/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/announcement/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Markdown
+          '/properties/announcement/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: EnableStatus
+          '/properties/announcement/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
+          '/properties/announcement/expired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Expired
+          '/support': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: support
+          '/support/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/support/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: markdown
+          '/properties/support': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Support
+            go_type_name: LabSupportProperties
+          '/properties/support/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: EnableStatus
+          '/properties/support/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Markdown
+          '/extendedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: extended_properties
+          '/properties/extendedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ExtendedProperties
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: lab
+            go_type_name: Lab
+            python_parameter_name: lab
+            python_variable_name: lab
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabProperties
+            go_type_name: LabProperties
+          '/labStorageType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: lab_storage_type
+          '/properties/labStorageType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LabStorageType
+            go_enum_type_name: StorageType
+          '/mandatoryArtifactsResourceIdsLinux': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mandatory_artifacts_resource_ids_linux
+          '/properties/mandatoryArtifactsResourceIdsLinux': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MandatoryArtifactsResourceIdsLinux
+          '/mandatoryArtifactsResourceIdsWindows': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mandatory_artifacts_resource_ids_windows
+          '/properties/mandatoryArtifactsResourceIdsWindows': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MandatoryArtifactsResourceIdsWindows
+          '/premiumDataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: premium_data_disks
+          '/properties/premiumDataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PremiumDataDisks
+            go_enum_type_name: PremiumDataDisk
+          '/environmentPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: environment_permission
+          '/properties/environmentPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnvironmentPermission
+            go_enum_type_name: EnvironmentPermission
+          '/announcement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: announcement
+          '/announcement/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/announcement/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: markdown
+          '/announcement/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/announcement/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/announcement/expired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: expired
+          '/properties/announcement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Announcement
+            go_type_name: LabAnnouncementProperties
+          '/properties/announcement/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/announcement/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Markdown
+          '/properties/announcement/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: EnableStatus
+          '/properties/announcement/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
+          '/properties/announcement/expired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Expired
+          '/support': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: support
+          '/support/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/support/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: markdown
+          '/properties/support': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Support
+            go_type_name: LabSupportProperties
+          '/properties/support/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: EnableStatus
+          '/properties/support/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Markdown
+          '/extendedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: extended_properties
+          '/properties/extendedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ExtendedProperties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabProperties
+            go_type_name: LabProperties
+          '/properties/labStorageType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LabStorageType
+            go_enum_type_name: StorageType
+          '/labStorageType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: lab_storage_type
+          '/properties/mandatoryArtifactsResourceIdsLinux': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MandatoryArtifactsResourceIdsLinux
+          '/mandatoryArtifactsResourceIdsLinux': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mandatory_artifacts_resource_ids_linux
+          '/properties/mandatoryArtifactsResourceIdsWindows': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MandatoryArtifactsResourceIdsWindows
+          '/mandatoryArtifactsResourceIdsWindows': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: mandatory_artifacts_resource_ids_windows
+          '/properties/premiumDataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PremiumDataDisks
+            go_enum_type_name: PremiumDataDisk
+          '/premiumDataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: premium_data_disks
+          '/properties/environmentPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnvironmentPermission
+            go_enum_type_name: EnvironmentPermission
+          '/environmentPermission': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: environment_permission
+          '/properties/announcement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Announcement
+            go_type_name: LabAnnouncementProperties
+          '/properties/announcement/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/announcement/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Markdown
+          '/properties/announcement/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: EnableStatus
+          '/properties/announcement/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
+          '/properties/announcement/expired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Expired
+          '/properties/announcement/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/properties/announcement/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/announcement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: announcement
+          '/announcement/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/announcement/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: markdown
+          '/announcement/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/announcement/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/announcement/expired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: expired
+          '/announcement/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/announcement/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/support': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Support
+            go_type_name: LabSupportProperties
+          '/properties/support/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Enabled
+            go_enum_type_name: EnableStatus
+          '/properties/support/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Markdown
+          '/support': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: support
+          '/support/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/support/markdown': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: markdown
+          '/properties/extendedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ExtendedProperties
+          '/extendedProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: extended_properties
+          '/properties/defaultStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultStorageAccount
+          '/defaultStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_storage_account
+          '/properties/defaultPremiumStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultPremiumStorageAccount
+          '/defaultPremiumStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_premium_storage_account
+          '/properties/artifactsStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArtifactsStorageAccount
+          '/artifactsStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: artifacts_storage_account
+          '/properties/premiumDataDiskStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PremiumDataDiskStorageAccount
+          '/premiumDataDiskStorageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: premium_data_disk_storage_account
+          '/properties/vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VaultName
+          '/vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vault_name
+          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
+          '/properties/vmCreationResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmCreationResourceGroup
+          '/vmCreationResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_creation_resource_group
+          '/properties/publicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIpID
+          '/publicIpId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_id
+          '/properties/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerID
+          '/loadBalancerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: load_balancer_id
+          '/properties/networkSecurityGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NetworkSecurityGroupID
+          '/networkSecurityGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: network_security_group_id
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Lab instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Enum
+        name: 'labStorageType'
+        description: 'Type of storage used by the lab. It can be either Premium or Standard. Default is Premium.'
+        required: false
+        azure_sdk_references: ['/labStorageType', '/properties/labStorageType']
+        values:
+          - :Standard
+          - :Premium
+          - :StandardSSD
+        default_value: :Standard
+      - !ruby/object:Api::Type::Array
+        name: 'mandatoryArtifactsResourceIdsLinux'
+        description: 'The ordered list of artifact resource IDs that should be applied on all Linux VM creations by default, prior to the artifacts specified by the user.'
+        required: false
+        azure_sdk_references: ['/mandatoryArtifactsResourceIdsLinux', '/properties/mandatoryArtifactsResourceIdsLinux']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'mandatoryArtifactsResourceIdsWindows'
+        description: 'The ordered list of artifact resource IDs that should be applied on all Windows VM creations by default, prior to the artifacts specified by the user.'
+        required: false
+        azure_sdk_references: ['/mandatoryArtifactsResourceIdsWindows', '/properties/mandatoryArtifactsResourceIdsWindows']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Enum
+        name: 'premiumDataDisks'
+        description: 'The setting to enable usage of premium data disks.<br>When its value is ''Enabled'', creation of standard or premium data disks is allowed.<br>When its value is ''Disabled'', only creation of standard data disks is allowed.'
+        required: false
+        azure_sdk_references: ['/premiumDataDisks', '/properties/premiumDataDisks']
+        values:
+          - :Disabled
+          - :Enabled
+        default_value: :Disabled
+      - !ruby/object:Api::Type::Enum
+        name: 'environmentPermission'
+        description: 'The access rights to be granted to the user when provisioning an environment'
+        required: false
+        azure_sdk_references: ['/environmentPermission', '/properties/environmentPermission']
+        values:
+          - :Reader
+          - :Contributor
+        default_value: :Reader
+      - !ruby/object:Api::Type::NestedObject
+        name: 'announcement'
+        description: 'The properties of any lab announcement associated with this lab'
+        required: false
+        azure_sdk_references: ['/announcement', '/properties/announcement']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'title'
+            description: 'The plain text title for the lab announcement'
+            required: false
+            azure_sdk_references: ['/announcement/title', '/properties/announcement/title']
+          - !ruby/object:Api::Type::String
+            name: 'markdown'
+            description: 'The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown.'
+            required: false
+            azure_sdk_references: ['/announcement/markdown', '/properties/announcement/markdown']
+          - !ruby/object:Api::Type::Enum
+            name: 'enabled'
+            description: 'Is the lab announcement active/enabled at this time?'
+            required: false
+            azure_sdk_references: ['/announcement/enabled', '/properties/announcement/enabled']
+            values:
+              - :Enabled
+              - :Disabled
+            default_value: :Enabled
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'expirationDate'
+            description: 'The time at which the announcement expires (null for never)'
+            required: false
+            azure_sdk_references: ['/announcement/expirationDate', '/properties/announcement/expirationDate']
+          - !ruby/object:Api::Type::Boolean
+            name: 'expired'
+            description: 'Has this announcement expired?'
+            required: false
+            azure_sdk_references: ['/announcement/expired', '/properties/announcement/expired']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'support'
+        description: 'The properties of any lab support message associated with this lab'
+        required: false
+        azure_sdk_references: ['/support', '/properties/support']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'enabled'
+            description: 'Is the lab support banner active/enabled at this time?'
+            required: false
+            azure_sdk_references: ['/support/enabled', '/properties/support/enabled']
+            values:
+              - :Enabled
+              - :Disabled
+            default_value: :Enabled
+          - !ruby/object:Api::Type::String
+            name: 'markdown'
+            description: 'The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown.'
+            required: false
+            azure_sdk_references: ['/support/markdown', '/properties/support/markdown']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'extendedProperties'
+        description: 'Extended properties of the lab used for experimental features'
+        required: false
+        azure_sdk_references: ['/extendedProperties', '/properties/extendedProperties']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'defaultStorageAccount'
+        description: 'The lab''s default storage account.'
+        output: true
+        azure_sdk_references: ['/defaultStorageAccount', '/properties/defaultStorageAccount']
+      - !ruby/object:Api::Type::String
+        name: 'defaultPremiumStorageAccount'
+        description: 'The lab''s default premium storage account.'
+        output: true
+        azure_sdk_references: ['/defaultPremiumStorageAccount', '/properties/defaultPremiumStorageAccount']
+      - !ruby/object:Api::Type::String
+        name: 'artifactsStorageAccount'
+        description: 'The lab''s artifact storage account.'
+        output: true
+        azure_sdk_references: ['/artifactsStorageAccount', '/properties/artifactsStorageAccount']
+      - !ruby/object:Api::Type::String
+        name: 'premiumDataDiskStorageAccount'
+        description: 'The lab''s premium data disk storage account.'
+        output: true
+        azure_sdk_references: ['/premiumDataDiskStorageAccount', '/properties/premiumDataDiskStorageAccount']
+      - !ruby/object:Api::Type::String
+        name: 'vaultName'
+        description: 'The lab''s Key vault.'
+        output: true
+        azure_sdk_references: ['/vaultName', '/properties/vaultName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdDate'
+        description: 'The creation date of the lab.'
+        output: true
+        azure_sdk_references: ['/createdDate', '/properties/createdDate']
+      - !ruby/object:Api::Type::String
+        name: 'vmCreationResourceGroup'
+        description: 'The resource group in which all new lab virtual machines will be created. To let DevTest Labs manage resource group creation, set this value to null.'
+        output: true
+        azure_sdk_references: ['/vmCreationResourceGroup', '/properties/vmCreationResourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'publicIpId'
+        description: 'The public IP address for the lab''s load balancer.'
+        output: true
+        azure_sdk_references: ['/publicIpId', '/properties/publicIpId']
+      - !ruby/object:Api::Type::String
+        name: 'loadBalancerId'
+        description: 'The load balancer used to for lab VMs that use shared IP address.'
+        output: true
+        azure_sdk_references: ['/loadBalancerId', '/properties/loadBalancerId']
+      - !ruby/object:Api::Type::String
+        name: 'networkSecurityGroupId'
+        description: 'The Network Security Group attached to the lab VMs Network interfaces to restrict open ports.'
+        output: true
+        azure_sdk_references: ['/networkSecurityGroupId', '/properties/networkSecurityGroupId']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning status of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'uniqueIdentifier'
+        description: 'The unique immutable identifier of a resource (Guid).'
+        output: true
+        azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

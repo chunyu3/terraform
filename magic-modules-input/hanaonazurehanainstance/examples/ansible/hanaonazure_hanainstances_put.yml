@@ -1,0 +1,47 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_hanaonazurehanainstance
+  description: Get properties of a HANA instance
+  code:
+    resource_group: myResourceGroup
+    hana_instance_name: myHanaInstance
+    hana_instance_parameter:
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.HanaOnAzure/hanaInstances/{{ hana_instance_name }}
+      name: myHanaInstance
+      type: Microsoft.HanaOnAzure/hanaInstances
+      location: westus
+      tags:
+        key: value
+      properties:
+        hanaInstanceId: 00000000-0000-0000-0000-000000000000
+        powerState: started
+        proximityPlacementGroup: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Compute/proximityPlacementGroups/{{
+          proximity_placement_group_name }}
+        hwRevision: Rev 3
+        hardwareProfile:
+          hardwareType: Cisco_UCS
+          hanaInstanceSize: S72
+        networkProfile:
+          networkInterfaces:
+            - ipAddress: 100.100.100.100
+          circuitId: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/expressRouteCircuit
+        storageProfile:
+          nfsIpAddress: 200.200.200.200
+        osProfile:
+          computerName: myComputerName
+          osType: SUSE
+          version: 12 SP1
+          sshPublicKey: >-
+            AAAAB3NzaC1yc2EAAAABJQAAAQB/nAmOjTmezNUDKYvEeIRf2YnwM9/uUG1d0BYsc8/tRtx+RGi7N2lUbp728MXGwdnL9od4cItzky/zVdLZE2cycOa18xBK9cOWmcKS0A8FYBxEQWJ/q9YVUgZbFKfYGaGQxsER+A0w/fX8ALuk78ktP31K69LcQgxIsl7rNzxsoOQKJ/CIxOGMMxczYTiEoLvQhapFQMs3FL96didKr/QbrfB1WT6s3838SEaXfgZvLef1YB2xmfhbT9OXFE3FXvh2UPBfN+ffE7iiayQf/2XR+8j4N4bW30DiPtOQLGUrH1y5X/rpNZNlWW2+jGIxqZtgWg7lTy3mXy5x836Sj/6L
+        partnerNodeId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.HanaOnAzure/hanaInstances/{{ hana_instance_name
+          }}
+        provisioningState: Succeeded
+  
