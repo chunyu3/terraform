@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_logicintegrationaccountassembly
+  description: Create or update an account assembly
+  code:
+    resource_group: myResourceGroup
+    integration_account_name: myIntegrationAccount
+    assembly_artifact_name: myAssembly
+    assembly_artifact:
+      properties:
+        assemblyName: System.IdentityModel.Tokens.Jwt
+        content: Base64 encoded Assembly Content
+        metadata: {}
+      location: westus
+  

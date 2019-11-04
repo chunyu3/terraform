@@ -1,0 +1,716 @@
+--- !ruby/object:Api::Product
+name: Azure Report Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Report
+    api_name: CostManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CostManagement
+      go_client_namespace: costmanagement
+      go_client: reportsClient
+      python_client_namespace: azure.mgmt.costmanagement
+      python_client: CostManagementClient.reports
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'reportName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportName
+            python_parameter_name: report_name
+            python_variable_name: report_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Report
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ReportProperties
+            go_type_name: ReportProperties
+          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: format
+          '/properties/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Format
+            go_enum_type_name: FormatType
+          '/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: delivery_info
+          '/deliveryInfo/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/deliveryInfo/destination/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/deliveryInfo/destination/container': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container
+          '/deliveryInfo/destination/rootFolderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: root_folder_path
+          '/properties/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeliveryInfo
+            go_type_name: ReportDeliveryInfo
+          '/properties/deliveryInfo/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: ReportDeliveryDestination
+          '/properties/deliveryInfo/destination/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/properties/deliveryInfo/destination/container': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Container
+          '/properties/deliveryInfo/destination/rootFolderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RootFolderPath
+          '/definition': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: definition
+          '/definition/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/definition/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: timeframe
+          '/definition/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_period
+          '/definition/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: from
+          '/definition/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: to
+          '/definition/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dataset
+          '/definition/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: granularity
+          '/definition/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: configuration
+          '/definition/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: columns
+          '/definition/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: aggregation
+          '/definition/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: grouping
+          '/definition/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/definition/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/definition/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/definition/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: and
+          '/definition/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: or
+          '/definition/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: not
+          '/definition/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dimension
+          '/definition/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/properties/definition': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Definition
+            go_type_name: ReportDefinition
+          '/properties/definition/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/definition/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Timeframe
+            go_enum_type_name: TimeframeType
+          '/properties/definition/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimePeriod
+            go_type_name: ReportTimePeriod
+          '/properties/definition/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: From
+          '/properties/definition/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: To
+          '/properties/definition/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dataset
+            go_type_name: ReportDataset
+          '/properties/definition/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Granularity
+            go_enum_type_name: GranularityType
+          '/properties/definition/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Configuration
+            go_type_name: ReportDatasetConfiguration
+          '/properties/definition/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Columns
+          '/properties/definition/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Aggregation
+          '/properties/definition/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Grouping
+            go_type_name: ReportGrouping
+          '/properties/definition/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: ReportColumnType
+          '/properties/definition/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/definition/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Filter
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: And
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Or
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Not
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dimension
+            go_type_name: ReportComparisonExpression
+          '/properties/definition/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Tag
+            go_type_name: ReportComparisonExpression
+          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/schedule/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/schedule/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: recurrence
+          '/schedule/recurrencePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: recurrence_period
+          '/schedule/recurrencePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: from
+          '/schedule/recurrencePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: to
+          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: ReportSchedule
+          '/properties/schedule/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: StatusType
+          '/properties/schedule/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Recurrence
+            go_enum_type_name: RecurrenceType
+          '/properties/schedule/recurrencePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RecurrencePeriod
+            go_type_name: ReportRecurrencePeriod
+          '/properties/schedule/recurrencePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: From
+          '/properties/schedule/recurrencePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: To
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'reportName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportName
+            python_parameter_name: report_name
+            python_variable_name: report_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'reportName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportName
+            python_parameter_name: report_name
+            python_variable_name: report_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ReportProperties
+            go_type_name: ReportProperties
+          '/properties/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Format
+            go_enum_type_name: FormatType
+          '/format': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: format
+          '/properties/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeliveryInfo
+            go_type_name: ReportDeliveryInfo
+          '/properties/deliveryInfo/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Destination
+            go_type_name: ReportDeliveryDestination
+          '/properties/deliveryInfo/destination/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/properties/deliveryInfo/destination/container': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Container
+          '/properties/deliveryInfo/destination/rootFolderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RootFolderPath
+          '/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: delivery_info
+          '/deliveryInfo/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination
+          '/deliveryInfo/destination/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/deliveryInfo/destination/container': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container
+          '/deliveryInfo/destination/rootFolderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: root_folder_path
+          '/properties/definition': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Definition
+            go_type_name: ReportDefinition
+          '/properties/definition/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/definition/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Timeframe
+            go_enum_type_name: TimeframeType
+          '/properties/definition/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimePeriod
+            go_type_name: ReportTimePeriod
+          '/properties/definition/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: From
+          '/properties/definition/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: To
+          '/properties/definition/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dataset
+            go_type_name: ReportDataset
+          '/properties/definition/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Granularity
+            go_enum_type_name: GranularityType
+          '/properties/definition/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Configuration
+            go_type_name: ReportDatasetConfiguration
+          '/properties/definition/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Columns
+          '/properties/definition/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Aggregation
+          '/properties/definition/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Grouping
+            go_type_name: ReportGrouping
+          '/properties/definition/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: ReportColumnType
+          '/properties/definition/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/definition/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Filter
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: And
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Or
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Not
+            go_type_name: ReportFilter
+          '/properties/definition/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dimension
+            go_type_name: ReportComparisonExpression
+          '/properties/definition/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Tag
+            go_type_name: ReportComparisonExpression
+          '/definition': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: definition
+          '/definition/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/definition/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: timeframe
+          '/definition/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_period
+          '/definition/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: from
+          '/definition/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: to
+          '/definition/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dataset
+          '/definition/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: granularity
+          '/definition/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: configuration
+          '/definition/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: columns
+          '/definition/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: aggregation
+          '/definition/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: grouping
+          '/definition/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/definition/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/definition/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/definition/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: and
+          '/definition/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: or
+          '/definition/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: not
+          '/definition/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dimension
+          '/definition/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/properties/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: ReportSchedule
+          '/properties/schedule/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: StatusType
+          '/properties/schedule/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Recurrence
+            go_enum_type_name: RecurrenceType
+          '/properties/schedule/recurrencePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RecurrencePeriod
+            go_type_name: ReportRecurrencePeriod
+          '/properties/schedule/recurrencePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: From
+          '/properties/schedule/recurrencePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: To
+          '/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/schedule/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/schedule/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: recurrence
+          '/schedule/recurrencePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: recurrence_period
+          '/schedule/recurrencePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: from
+          '/schedule/recurrencePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: to
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDepartment
+        python_func_name: list_by_department
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByBillingAccount
+        python_func_name: list_by_billing_account
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroupName
+        python_func_name: list_by_resource_group_name
+        request:
+
+    description: |
+      Manage Azure Report instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'reportName'
+        description: 'Report Name.'
+        required: true
+        input: true
+        azure_sdk_references: ['reportName']
+      - !ruby/object:Api::Type::Enum
+        name: 'format'
+        description: 'The format of the report being delivered.'
+        required: false
+        azure_sdk_references: ['/format', '/properties/format']
+        values:
+          - :Csv
+        default_value: :Csv
+      - !ruby/object:Api::Type::NestedObject
+        name: 'deliveryInfo'
+        description: 'Has delivery information for the report.'
+        required: true
+        azure_sdk_references: ['/deliveryInfo', '/properties/deliveryInfo']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'destination'
+            description: 'Has destination for the report being delivered.'
+            required: true
+            azure_sdk_references: ['/deliveryInfo/destination', '/properties/deliveryInfo/destination']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'resourceId'
+                description: 'The resource id of the storage account where reports will be delivered.'
+                required: true
+                azure_sdk_references: ['/deliveryInfo/destination/resourceId', '/properties/deliveryInfo/destination/resourceId']
+              - !ruby/object:Api::Type::String
+                name: 'container'
+                description: 'The name of the container where reports will be uploaded.'
+                required: true
+                azure_sdk_references: ['/deliveryInfo/destination/container', '/properties/deliveryInfo/destination/container']
+              - !ruby/object:Api::Type::String
+                name: 'rootFolderPath'
+                description: 'The name of the directory where reports will be uploaded.'
+                required: false
+                azure_sdk_references: ['/deliveryInfo/destination/rootFolderPath', '/properties/deliveryInfo/destination/rootFolderPath']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'definition'
+        description: 'Has definition for the report.'
+        required: true
+        azure_sdk_references: ['/definition', '/properties/definition']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The type of the report.'
+            required: true
+            azure_sdk_references: ['/definition/type', '/properties/definition/type']
+          - !ruby/object:Api::Type::Enum
+            name: 'timeframe'
+            description: 'The time frame for pulling data for the report. If custom, then a specific time period must be provided.'
+            required: true
+            azure_sdk_references: ['/definition/timeframe', '/properties/definition/timeframe']
+            values:
+              - :WeekToDate
+              - :MonthToDate
+              - :Custom
+          - !ruby/object:Api::Type::NestedObject
+            name: 'timePeriod'
+            description: 'Has time period for pulling data for the report.'
+            required: false
+            azure_sdk_references: ['/definition/timePeriod', '/properties/definition/timePeriod']
+            properties:
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'from'
+                description: 'The start date to pull data from.'
+                required: true
+                azure_sdk_references: ['/definition/timePeriod/from', '/properties/definition/timePeriod/from']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'to'
+                description: 'The end date to pull data to.'
+                required: true
+                azure_sdk_references: ['/definition/timePeriod/to', '/properties/definition/timePeriod/to']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'dataset'
+            description: 'Has definition for data in this report.'
+            required: false
+            azure_sdk_references: ['/definition/dataset', '/properties/definition/dataset']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'granularity'
+                description: 'The granularity of rows in the report.'
+                required: false
+                azure_sdk_references: ['/definition/dataset/granularity', '/properties/definition/dataset/granularity']
+                values:
+                  - :Daily
+                  - :Hourly
+                default_value: :Daily
+              - !ruby/object:Api::Type::NestedObject
+                name: 'configuration'
+                description: 'Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.'
+                required: false
+                azure_sdk_references: ['/definition/dataset/configuration', '/properties/definition/dataset/configuration']
+                properties:
+                  - !ruby/object:Api::Type::Array
+                    name: 'columns'
+                    description: 'Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.'
+                    required: false
+                    azure_sdk_references: ['/definition/dataset/configuration/columns', '/properties/definition/dataset/configuration/columns']
+                    item_type: Api::Type::String
+              - !ruby/object:Api::Type::KeyValuePairs
+                name: 'aggregation'
+                description: 'Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses.'
+                required: false
+                azure_sdk_references: ['/definition/dataset/aggregation', '/properties/definition/dataset/aggregation']
+              - !ruby/object:Api::Type::Array
+                name: 'grouping'
+                description: 'Array of group by expression to use in the report. Report can have up to 2 group by clauses.'
+                required: false
+                azure_sdk_references: ['/definition/dataset/grouping', '/properties/definition/dataset/grouping']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'type'
+                      description: 'Has type of the column to group.'
+                      required: true
+                      azure_sdk_references: ['/definition/dataset/grouping/type', '/properties/definition/dataset/grouping/type']
+                      values:
+                        - :Tag
+                        - :Dimension
+                    - !ruby/object:Api::Type::String
+                      name: 'name'
+                      description: 'The name of the column to group.'
+                      required: true
+                      azure_sdk_references: ['/definition/dataset/grouping/name', '/properties/definition/dataset/grouping/name']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'filter'
+                description: 'Has filter expression to use in the report.'
+                required: false
+                azure_sdk_references: ['/definition/dataset/filter', '/properties/definition/dataset/filter']
+                properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'schedule'
+        description: 'Has schedule information for the report.'
+        required: false
+        azure_sdk_references: ['/schedule', '/properties/schedule']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'status'
+            description: 'The status of the schedule. Whether active or not. If inactive, the report''s scheduled execution is paused.'
+            required: false
+            azure_sdk_references: ['/schedule/status', '/properties/schedule/status']
+            values:
+              - :Active
+              - :Inactive
+            default_value: :Active
+          - !ruby/object:Api::Type::Enum
+            name: 'recurrence'
+            description: 'The schedule recurrence.'
+            required: true
+            azure_sdk_references: ['/schedule/recurrence', '/properties/schedule/recurrence']
+            values:
+              - :Daily
+              - :Weekly
+              - :Monthly
+              - :Annually
+          - !ruby/object:Api::Type::NestedObject
+            name: 'recurrencePeriod'
+            description: 'Has start and end date of the recurrence. The start date must be in future. If present, the end date must be greater than start date.'
+            required: false
+            azure_sdk_references: ['/schedule/recurrencePeriod', '/properties/schedule/recurrencePeriod']
+            properties:
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'from'
+                description: 'The start date of recurrence.'
+                required: true
+                azure_sdk_references: ['/schedule/recurrencePeriod/from', '/properties/schedule/recurrencePeriod/from']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'to'
+                description: 'The end date of recurrence.'
+                required: false
+                azure_sdk_references: ['/schedule/recurrencePeriod/to', '/properties/schedule/recurrencePeriod/to']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        output: true
+        azure_sdk_references: ['tags', '/tags']

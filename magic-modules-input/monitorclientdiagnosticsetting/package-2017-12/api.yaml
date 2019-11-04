@@ -1,0 +1,460 @@
+--- !ruby/object:Api::Product
+name: Azure DiagnosticSetting Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DiagnosticSetting
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: diagnosticSettingsClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.diagnostic_settings
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnosticSettings
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DiagnosticSettingsResource
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiagnosticSettings
+            go_type_name: DiagnosticSettings
+          '/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_id
+          '/properties/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountID
+          '/serviceBusRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_bus_rule_id
+          '/properties/serviceBusRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceBusRuleID
+          '/eventHubAuthorizationRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_authorization_rule_id
+          '/properties/eventHubAuthorizationRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubAuthorizationRuleID
+          '/eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_name
+          '/properties/eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubName
+          '/metrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: metrics
+          '/metrics/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: time_grain
+          '/metrics/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: category
+          '/metrics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/metrics/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: retention_policy
+          '/metrics/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/metrics/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: days
+          '/properties/metrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Metrics
+            go_type_name: MetricSettings
+          '/properties/metrics/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: TimeGrain
+          '/properties/metrics/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Category
+          '/properties/metrics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/metrics/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RetentionPolicy
+            go_type_name: RetentionPolicy
+          '/properties/metrics/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/metrics/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Days
+          '/logs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: logs
+          '/logs/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: category
+          '/logs/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/logs/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: retention_policy
+          '/logs/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/logs/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: days
+          '/properties/logs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Logs
+            go_type_name: LogSettings
+          '/properties/logs/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Category
+          '/properties/logs/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/logs/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RetentionPolicy
+            go_type_name: RetentionPolicy
+          '/properties/logs/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/logs/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Days
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/logAnalyticsDestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: log_analytics_destination_type
+          '/properties/logAnalyticsDestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsDestinationType
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnosticSettings
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnosticSettings
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiagnosticSettings
+            go_type_name: DiagnosticSettings
+          '/properties/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountID
+          '/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_id
+          '/properties/serviceBusRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceBusRuleID
+          '/serviceBusRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_bus_rule_id
+          '/properties/eventHubAuthorizationRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubAuthorizationRuleID
+          '/eventHubAuthorizationRuleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_authorization_rule_id
+          '/properties/eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubName
+          '/eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_name
+          '/properties/metrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Metrics
+            go_type_name: MetricSettings
+          '/properties/metrics/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: TimeGrain
+          '/properties/metrics/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Category
+          '/properties/metrics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/metrics/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RetentionPolicy
+            go_type_name: RetentionPolicy
+          '/properties/metrics/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/metrics/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Days
+          '/metrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: metrics
+          '/metrics/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: time_grain
+          '/metrics/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: category
+          '/metrics/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/metrics/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: retention_policy
+          '/metrics/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/metrics/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: days
+          '/properties/logs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Logs
+            go_type_name: LogSettings
+          '/properties/logs/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Category
+          '/properties/logs/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/logs/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RetentionPolicy
+            go_type_name: RetentionPolicy
+          '/properties/logs/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/logs/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Days
+          '/logs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: logs
+          '/logs/category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: category
+          '/logs/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/logs/retentionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: retention_policy
+          '/logs/retentionPolicy/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/logs/retentionPolicy/days': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: days
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/logAnalyticsDestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsDestinationType
+          '/logAnalyticsDestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: log_analytics_destination_type
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnosticSettings
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+
+    description: |
+      Manage Azure DiagnosticSetting instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountId'
+        description: 'The resource ID of the storage account to which you would like to send Diagnostic Logs.'
+        required: false
+        azure_sdk_references: ['/storageAccountId', '/properties/storageAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'serviceBusRuleId'
+        description: 'The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility.'
+        required: false
+        azure_sdk_references: ['/serviceBusRuleId', '/properties/serviceBusRuleId']
+      - !ruby/object:Api::Type::String
+        name: 'eventHubAuthorizationRuleId'
+        description: 'The resource Id for the event hub authorization rule.'
+        required: false
+        azure_sdk_references: ['/eventHubAuthorizationRuleId', '/properties/eventHubAuthorizationRuleId']
+      - !ruby/object:Api::Type::String
+        name: 'eventHubName'
+        description: 'The name of the event hub. If none is specified, the default event hub will be selected.'
+        required: false
+        azure_sdk_references: ['/eventHubName', '/properties/eventHubName']
+      - !ruby/object:Api::Type::Array
+        name: 'metrics'
+        description: 'The list of metric settings.'
+        required: false
+        azure_sdk_references: ['/metrics', '/properties/metrics']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Azure::Type::ISO8601Duration
+              name: 'timeGrain'
+              description: 'the timegrain of the metric in ISO8601 format.'
+              required: false
+              azure_sdk_references: ['/metrics/timeGrain', '/properties/metrics/timeGrain']
+            - !ruby/object:Api::Type::String
+              name: 'category'
+              description: 'Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation.'
+              required: false
+              azure_sdk_references: ['/metrics/category', '/properties/metrics/category']
+            - !ruby/object:Api::Type::Boolean
+              name: 'enabled'
+              description: 'a value indicating whether this category is enabled.'
+              required: true
+              azure_sdk_references: ['/metrics/enabled', '/properties/metrics/enabled']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'retentionPolicy'
+              description: 'the retention policy for this category.'
+              required: false
+              azure_sdk_references: ['/metrics/retentionPolicy', '/properties/metrics/retentionPolicy']
+              properties:
+                - !ruby/object:Api::Type::Boolean
+                  name: 'enabled'
+                  description: 'a value indicating whether the retention policy is enabled.'
+                  required: true
+                  azure_sdk_references: ['/metrics/retentionPolicy/enabled', '/properties/metrics/retentionPolicy/enabled']
+                - !ruby/object:Api::Type::Integer
+                  name: 'days'
+                  description: 'the number of days for the retention in days. A value of 0 will retain the events indefinitely.'
+                  required: true
+                  azure_sdk_references: ['/metrics/retentionPolicy/days', '/properties/metrics/retentionPolicy/days']
+      - !ruby/object:Api::Type::Array
+        name: 'logs'
+        description: 'The list of logs settings.'
+        required: false
+        azure_sdk_references: ['/logs', '/properties/logs']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'category'
+              description: 'Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation.'
+              required: false
+              azure_sdk_references: ['/logs/category', '/properties/logs/category']
+            - !ruby/object:Api::Type::Boolean
+              name: 'enabled'
+              description: 'a value indicating whether this log is enabled.'
+              required: true
+              azure_sdk_references: ['/logs/enabled', '/properties/logs/enabled']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'retentionPolicy'
+              description: 'the retention policy for this log.'
+              required: false
+              azure_sdk_references: ['/logs/retentionPolicy', '/properties/logs/retentionPolicy']
+              properties:
+                - !ruby/object:Api::Type::Boolean
+                  name: 'enabled'
+                  description: 'a value indicating whether the retention policy is enabled.'
+                  required: true
+                  azure_sdk_references: ['/logs/retentionPolicy/enabled', '/properties/logs/retentionPolicy/enabled']
+                - !ruby/object:Api::Type::Integer
+                  name: 'days'
+                  description: 'the number of days for the retention in days. A value of 0 will retain the events indefinitely.'
+                  required: true
+                  azure_sdk_references: ['/logs/retentionPolicy/days', '/properties/logs/retentionPolicy/days']
+      - !ruby/object:Api::Type::String
+        name: 'workspaceId'
+        description: 'The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2'
+        required: false
+        azure_sdk_references: ['/workspaceId', '/properties/workspaceId']
+      - !ruby/object:Api::Type::String
+        name: 'logAnalyticsDestinationType'
+        description: 'A string indicating whether the export to Log Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination type constructed as follows: <normalized service identity>_<normalized category name>. Possible values are: Dedicated and null (null is default.)'
+        required: false
+        azure_sdk_references: ['/logAnalyticsDestinationType', '/properties/logAnalyticsDestinationType']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the diagnostic setting.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type'
+        output: true
+        azure_sdk_references: ['/type']

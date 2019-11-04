@@ -1,0 +1,39 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimpleiscsiserver
+  description: IscsiServersCreateOrUpdate
+  code:
+    device_name: myDevice
+    iscsi_server_name: myIscsiserver
+    iscsi_server:
+      Client:
+        BaseUri: 'https://management.azure.com/'
+        SubscriptionId: 9eb689cd-7243-43b4-b6f6-5c65cb296641
+        AcceptLanguage: en-US
+        LongRunningOperationRetryTimeout: '30'
+        GenerateClientRequestId: true
+      ResourceGroupName: ResourceGroupForSDKTest
+      ManagerName: hAzureSDKOperations
+      properties:
+        storageDomainId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.StorSimple/managers/{{ manager_name
+          }}/storageDomains/{{ storage_domain_name }}
+        backupScheduleGroupId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.StorSimple/managers/{{ manager_name }}/devices/{{
+          device_name }}/backupScheduleGroups/{{ backup_schedule_group_name }}
+        chapId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.StorSimple/managers/{{ manager_name }}/devices/{{
+          device_name }}/chapSettings/{{ chap_setting_name }}
+        reverseChapId: ''
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.StorSimple/managers/{{ manager_name }}/devices/{{
+        device_name }}/iscsiServers/{{ iscsi_server_name }}
+      name: HSDK-WSJQERQW3F
+      type: Microsoft.StorSimple/managers/devices/iscsiServers
+    resource_group: myResourceGroup
+    manager_name: myManager
+  

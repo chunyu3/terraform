@@ -1,0 +1,64 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_costmanagementexport
+  description: BillingAccountCreateOrUpdateExport
+  code:
+    scope: 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}'
+    export_name: myExport
+    format: Csv
+    delivery_info:
+      destination:
+        resource_id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Storage/storageAccounts/{{ storage_account_name
+          }}
+        container: exports
+        root_folder_path: ad-hoc
+    definition:
+      type: Usage
+      timeframe: MonthToDate
+      dataset:
+        granularity: Daily
+        configuration:
+          columns:
+            - Date
+            - MeterId
+            - InstanceId
+            - ResourceLocation
+            - PreTaxCost
+        aggregation:
+          costSum:
+            name: PreTaxCost
+            function: Sum
+        grouping:
+          - type: Dimension
+            name: SubscriptionName
+          - type: Tag
+            name: Environment
+        filter:
+          and:
+            - or:
+                - dimension:
+                    name: ResourceLocation
+                    operator: In
+                    values:
+                      - East US
+                      - West Europe
+                - tag:
+                    name: Environment
+                    operator: In
+                    values:
+                      - UAT
+                      - Prod
+            - dimension:
+                name: ResourceGroup
+                operator: In
+                values:
+                  - API
+    schedule:
+      status: Active
+      recurrence: Weekly
+      recurrence_period:
+        from: '2018-06-01T00:00:00Z'
+        to: '2018-10-31T00:00:00Z'
+  

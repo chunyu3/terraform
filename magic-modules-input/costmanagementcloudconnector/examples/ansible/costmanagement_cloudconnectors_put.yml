@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_costmanagementcloudconnector
+  description: CloudConnector_Put
+  code:
+    connector_name: myCloudConnector
+    connector:
+      properties:
+        displayName: AWS-Consolidated-1
+        credentialsKey: 'arn:aws:iam::123456789012:role/AzureCostManagementRole'
+        credentialsSecret: external-id
+        reportId: HourlyWithResources
+  

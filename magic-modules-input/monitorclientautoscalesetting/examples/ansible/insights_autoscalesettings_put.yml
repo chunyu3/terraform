@@ -1,0 +1,124 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_monitorclientautoscalesetting
+  description: Create or update an autoscale setting
+  code:
+    resource_group: myResourceGroup
+    autoscale_setting_name: myAutoscalesetting
+    location: West US
+    tags: {}
+    profiles:
+      - name: adios
+        capacity:
+          minimum: '1'
+          maximum: '10'
+          default: '1'
+        rules:
+          - metric_trigger:
+              metric_name: Percentage CPU
+              metric_resource_uri: >-
+                /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                resource_group
+                }}/providers/Microsoft.Compute/virtualMachineScaleSets/{{
+                virtual_machine_scale_set_name }}
+              time_grain: PT1M
+              statistic: Average
+              time_window: PT5M
+              time_aggregation: Average
+              operator: GreaterThan
+              threshold: '10'
+            scale_action:
+              direction: Increase
+              type: ChangeCount
+              value: '1'
+              cooldown: PT5M
+          - metric_trigger:
+              metric_name: Percentage CPU
+              metric_resource_uri: >-
+                /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                resource_group
+                }}/providers/Microsoft.Compute/virtualMachineScaleSets/{{
+                virtual_machine_scale_set_name }}
+              time_grain: PT2M
+              statistic: Average
+              time_window: PT5M
+              time_aggregation: Average
+              operator: GreaterThan
+              threshold: '15'
+            scale_action:
+              direction: Decrease
+              type: ChangeCount
+              value: '2'
+              cooldown: PT6M
+        fixed_date:
+          time_zone: UTC
+          start: '2015-03-05T14:00:00Z'
+          end: '2015-03-05T14:30:00Z'
+      - name: saludos
+        capacity:
+          minimum: '1'
+          maximum: '10'
+          default: '1'
+        rules:
+          - metric_trigger:
+              metric_name: Percentage CPU
+              metric_resource_uri: >-
+                /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                resource_group
+                }}/providers/Microsoft.Compute/virtualMachineScaleSets/{{
+                virtual_machine_scale_set_name }}
+              time_grain: PT1M
+              statistic: Average
+              time_window: PT5M
+              time_aggregation: Average
+              operator: GreaterThan
+              threshold: '10'
+            scale_action:
+              direction: Increase
+              type: ChangeCount
+              value: '1'
+              cooldown: PT5M
+          - metric_trigger:
+              metric_name: Percentage CPU
+              metric_resource_uri: >-
+                /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                resource_group
+                }}/providers/Microsoft.Compute/virtualMachineScaleSets/{{
+                virtual_machine_scale_set_name }}
+              time_grain: PT2M
+              statistic: Average
+              time_window: PT5M
+              time_aggregation: Average
+              operator: GreaterThan
+              threshold: '15'
+            scale_action:
+              direction: Decrease
+              type: ChangeCount
+              value: '2'
+              cooldown: PT6M
+        recurrence:
+          frequency: Week
+          schedule:
+            time_zone: UTC
+            days:
+              - '1'
+            hours:
+              - '5'
+            minutes:
+              - '15'
+    notifications:
+      - operation: Scale
+        email:
+          send_to_subscription_administrator: true
+          send_to_subscription_co_administrators: true
+          custom_emails:
+            - gu@ms.com
+            - ge@ns.net
+        webhooks:
+          - service_uri: 'http://myservice.com'
+    enabled: true
+    target_resource_uri: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Compute/virtualMachineScaleSets/{{
+      virtual_machine_scale_set_name }}
+  

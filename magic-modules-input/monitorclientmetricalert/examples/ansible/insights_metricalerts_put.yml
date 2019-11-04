@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_monitorclientmetricalert
+  description: Create or update an alert rule for Single Resource
+  code:
+    resource_group: myResourceGroup
+    rule_name: myMetricAlert
+    location: global
+    tags: {}
+    description: This is the description of the rule1
+    severity: '3'
+    enabled: true
+    scopes:
+      - >-
+        /subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme
+    evaluation_frequency: Pt1m
+    window_size: Pt15m
+    criteria: {}
+    auto_mitigate: false
+    actions:
+      - action_group_id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/microsoft.insights/notificationgroups/{{
+          notificationgroup_name }}
+        webhook_properties:
+          key11: value11
+          key12: value12
+  

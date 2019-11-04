@@ -1,0 +1,46 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_monitorclientguestdiagnosticssetting
+  description: Create or update a guest diagnostic settings
+  code:
+    resource_group: myResourceGroup
+    diagnostic_settings_name: myGuestDiagnosticSetting
+    diagnostic_settings:
+      location: Global
+      tags: {}
+      properties:
+        osType: Windows
+        dataSources:
+          - kind: PerformanceCounter
+            configuration:
+              perfCounters:
+                - name: \Process(_Total)\%Processor Time
+                  samplingPeriod: PT1M
+                - name: \Process(_Total)\Working Set
+                  samplingPeriod: PT1M
+            sinks:
+              - kind: LogAnalytics
+          - kind: ETWProviders
+            configuration:
+              providers:
+                - name: AuditLog
+                  id: '1'
+                  filter: filter exp
+                - name: TraceLog
+                  id: '2'
+            sinks:
+              - kind: LogAnalytics
+          - kind: WindowsEventLogs
+            configuration:
+              eventLogs:
+                - logName: Application
+                  filter: >-
+                    SourceName == Xyz AND EventId = "100" AND 
+                    $Xpath/Column="DCName" = "CatWoman"
+                - logName: Application
+                  filter: >-
+                    SourceName == Xyz AND EventId = "100" AND 
+                    $Xpath/Column="DCName" = "BatMan"
+            sinks:
+              - kind: LogAnalytics
+  

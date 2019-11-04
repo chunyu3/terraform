@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourceappliance
+  description: Create or update appliance
+  code:
+    resource_group: myResourceGroup
+    appliance_name: myAppliance
+    location: East US 2
+    managed_resource_group_id: '/subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group }}'
+    appliance_definition_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Solutions/applianceDefinitions/{{
+      appliance_definition_name }}
+    kind: ServiceCatalog
+  
