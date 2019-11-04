@@ -31,7 +31,7 @@ for i in ${RESULT_FOO}; do
         continue;
     fi
 	echo $i;
-    python3 ~/cli-input-tools/add_snippets_for_readme.py $i
+    python3 /cli-input-tools/add_snippets_for_readme.py $i
 
 	#s = $i;
 	#echo $s
