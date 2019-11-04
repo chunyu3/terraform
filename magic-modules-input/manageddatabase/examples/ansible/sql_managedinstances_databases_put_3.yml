@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_manageddatabase
+  description: Creates a new managed database by restoring from an external backup
+  code:
+    resource_group: myResourceGroup
+    managed_instance_name: myManagedInstance
+    database_name: myDatabase
+    location: southeastasia
+    collation: SQL_Latin1_General_CP1_CI_AS
+    create_mode: RestoreExternalBackup
+    storage_container_uri: 'https://myaccountname.blob.core.windows.net/backups'
+    storage_container_sas_token: sv=2015-12-11&sr=c&sp=rl&sig=1234
+  

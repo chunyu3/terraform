@@ -1,0 +1,659 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualMachineSchedule Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualMachineSchedule
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: 
+      go_client: virtualMachineSchedulesClient
+      python_client_namespace: 
+      python_client: DevTestLabsClient.virtual_machine_schedules
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'virtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: virtualMachineName
+            python_parameter_name: virtual_machine_name
+            python_variable_name: virtual_machine_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: schedule
+            go_type_name: Schedule
+            python_parameter_name: schedule
+            python_variable_name: schedule
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ScheduleProperties
+            go_type_name: ScheduleProperties
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: task_type
+          '/properties/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TaskType
+          '/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: weekly_recurrence
+          '/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: weekdays
+          '/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WeeklyRecurrence
+            go_type_name: WeekDetails
+          '/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Weekdays
+          '/properties/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: daily_recurrence
+          '/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DailyRecurrence
+            go_type_name: DayDetails
+          '/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hourly_recurrence
+          '/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HourlyRecurrence
+            go_type_name: HourDetails
+          '/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+          '/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone_id
+          '/properties/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZoneID
+          '/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: notification_settings
+          '/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: time_in_minutes
+          '/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_url
+          '/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationSettings
+            go_type_name: NotificationSettings
+          '/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: NotificationStatus
+          '/properties/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeInMinutes
+          '/properties/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookURL
+          '/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_resource_id
+          '/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetResourceID
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'virtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: virtualMachineName
+            python_parameter_name: virtual_machine_name
+            python_variable_name: virtual_machine_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: schedule
+            go_type_name: Schedule
+            python_parameter_name: schedule
+            python_variable_name: schedule
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ScheduleProperties
+            go_type_name: ScheduleProperties
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: task_type
+          '/properties/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TaskType
+          '/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: weekly_recurrence
+          '/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: weekdays
+          '/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WeeklyRecurrence
+            go_type_name: WeekDetails
+          '/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Weekdays
+          '/properties/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: daily_recurrence
+          '/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DailyRecurrence
+            go_type_name: DayDetails
+          '/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hourly_recurrence
+          '/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HourlyRecurrence
+            go_type_name: HourDetails
+          '/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+          '/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone_id
+          '/properties/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZoneID
+          '/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: notification_settings
+          '/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: time_in_minutes
+          '/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_url
+          '/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationSettings
+            go_type_name: NotificationSettings
+          '/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: NotificationStatus
+          '/properties/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeInMinutes
+          '/properties/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookURL
+          '/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_resource_id
+          '/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetResourceID
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'virtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: virtualMachineName
+            python_parameter_name: virtual_machine_name
+            python_variable_name: virtual_machine_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'virtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: virtualMachineName
+            python_parameter_name: virtual_machine_name
+            python_variable_name: virtual_machine_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schedules
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ScheduleProperties
+            go_type_name: ScheduleProperties
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TaskType
+          '/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: task_type
+          '/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WeeklyRecurrence
+            go_type_name: WeekDetails
+          '/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Weekdays
+          '/properties/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: weekly_recurrence
+          '/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: weekdays
+          '/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DailyRecurrence
+            go_type_name: DayDetails
+          '/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: daily_recurrence
+          '/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HourlyRecurrence
+            go_type_name: HourDetails
+          '/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+          '/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hourly_recurrence
+          '/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/properties/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZoneID
+          '/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone_id
+          '/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationSettings
+            go_type_name: NotificationSettings
+          '/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: NotificationStatus
+          '/properties/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeInMinutes
+          '/properties/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookURL
+          '/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: notification_settings
+          '/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: time_in_minutes
+          '/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_url
+          '/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetResourceID
+          '/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_resource_id
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'virtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: virtualMachineName
+            python_parameter_name: virtual_machine_name
+            python_variable_name: virtual_machine_name
+
+    description: |
+      Manage Azure VirtualMachineSchedule instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'labName'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      - !ruby/object:Api::Type::String
+        name: 'virtualMachineName'
+        description: 'The name of the virtual machine.'
+        required: true
+        input: true
+        azure_sdk_references: ['virtualMachineName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the schedule.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the schedule (i.e. Enabled, Disabled)'
+        required: false
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
+      - !ruby/object:Api::Type::String
+        name: 'taskType'
+        description: 'The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).'
+        required: false
+        azure_sdk_references: ['/taskType', '/properties/taskType']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'weeklyRecurrence'
+        description: 'If the schedule will occur only some days of the week, specify the weekly recurrence.'
+        required: false
+        azure_sdk_references: ['/weeklyRecurrence', '/properties/weeklyRecurrence']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'weekdays'
+            description: 'The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).'
+            required: false
+            azure_sdk_references: ['/weeklyRecurrence/weekdays', '/properties/weeklyRecurrence/weekdays']
+            item_type: Api::Type::String
+          - !ruby/object:Api::Type::String
+            name: 'time'
+            description: 'The time of the day the schedule will occur.'
+            required: false
+            azure_sdk_references: ['/weeklyRecurrence/time', '/properties/weeklyRecurrence/time']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'dailyRecurrence'
+        description: 'If the schedule will occur once each day of the week, specify the daily recurrence.'
+        required: false
+        azure_sdk_references: ['/dailyRecurrence', '/properties/dailyRecurrence']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'time'
+            description: 'The time of day the schedule will occur.'
+            required: false
+            azure_sdk_references: ['/dailyRecurrence/time', '/properties/dailyRecurrence/time']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'hourlyRecurrence'
+        description: 'If the schedule will occur multiple times a day, specify the hourly recurrence.'
+        required: false
+        azure_sdk_references: ['/hourlyRecurrence', '/properties/hourlyRecurrence']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'minute'
+            description: 'Minutes of the hour the schedule will run.'
+            required: false
+            azure_sdk_references: ['/hourlyRecurrence/minute', '/properties/hourlyRecurrence/minute']
+      - !ruby/object:Api::Type::String
+        name: 'timeZoneId'
+        description: 'The time zone ID (e.g. Pacific Standard time).'
+        required: false
+        azure_sdk_references: ['/timeZoneId', '/properties/timeZoneId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'notificationSettings'
+        description: 'Notification settings.'
+        required: false
+        azure_sdk_references: ['/notificationSettings', '/properties/notificationSettings']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'status'
+            description: 'If notifications are enabled for this schedule (i.e. Enabled, Disabled).'
+            required: false
+            azure_sdk_references: ['/notificationSettings/status', '/properties/notificationSettings/status']
+            values:
+              - :Disabled
+              - :Enabled
+            default_value: :Disabled
+          - !ruby/object:Api::Type::Integer
+            name: 'timeInMinutes'
+            description: 'Time in minutes before event at which notification will be sent.'
+            required: false
+            azure_sdk_references: ['/notificationSettings/timeInMinutes', '/properties/notificationSettings/timeInMinutes']
+          - !ruby/object:Api::Type::String
+            name: 'webhookUrl'
+            description: 'The webhook URL to which the notification will be sent.'
+            required: false
+            azure_sdk_references: ['/notificationSettings/webhookUrl', '/properties/notificationSettings/webhookUrl']
+      - !ruby/object:Api::Type::String
+        name: 'targetResourceId'
+        description: 'The resource ID to which the schedule belongs'
+        required: false
+        azure_sdk_references: ['/targetResourceId', '/properties/targetResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'uniqueIdentifier'
+        description: 'The unique immutable identifier of a resource (Guid).'
+        required: false
+        azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdDate'
+        description: 'The creation date of the schedule.'
+        output: true
+        azure_sdk_references: ['/createdDate', '/properties/createdDate']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning status of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

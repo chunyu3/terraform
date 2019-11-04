@@ -1,0 +1,36 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_job
+  description: JobsCreate
+  code:
+    resource_group: myResourceGroup
+    job_name: myJob
+    job_resource:
+      properties:
+        details:
+          jobDetailsType: DataBox
+          contactDetails:
+            contactName: Public SDK Test
+            phone: '1234567890'
+            phoneExtension: '1234'
+            emailList:
+              - testing@microsoft.com
+          shippingAddress:
+            streetAddress1: 16 TOWNSEND ST
+            streetAddress2: Unit 1
+            city: San Francisco
+            stateOrProvince: CA
+            country: US
+            postalCode: '94107'
+            companyName: Microsoft
+            addressType: Commercial
+          destinationAccountDetails:
+            - storageAccountId: >-
+                /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                resource_group }}/providers/Microsoft.Storage/storageAccounts/{{
+                storage_account_name }}
+              dataDestinationType: StorageAccount
+      location: westus
+      sku:
+        name: DataBox
+  

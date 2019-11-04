@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_managednetworkgroup
+  description: ManagementNetworkGroupsPut
+  code:
+    managed_network_group:
+      properties:
+        managementGroups: []
+        subscriptions: []
+        virtualNetworks:
+          - id: >-
+              /subscriptionB/{{ subscription_b_name }}/myResourceGroup/{{
+              my_resource_group_name }}/Microsoft.Network/{{
+              microsoft.network_name }}/VnetA
+          - id: >-
+              /subscriptionB/{{ subscription_b_name }}/myResourceGroup/{{
+              my_resource_group_name }}/Microsoft.Network/{{
+              microsoft.network_name }}/VnetB
+        subnets:
+          - id: >-
+              /subscriptionB/{{ subscription_b_name }}/myResourceGroup/{{
+              my_resource_group_name }}/Microsoft.Network/{{
+              microsoft.network_name }}/VnetA/{{ vnet_a_name }}/subnetA
+    resource_group: myResourceGroup
+    managed_network_name: myManagedNetwork
+    managed_network_group_name: myManagedNetworkGroup
+  

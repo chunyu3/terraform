@@ -1,0 +1,360 @@
+--- !ruby/object:Api::Product
+name: Azure ManagedNetworkGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ManagedNetworkGroup
+    api_name: ManagedNetwork
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ManagedNetwork
+      go_client_namespace: managednetwork
+      go_client: managedNetworkGroupsClient
+      python_client_namespace: azure.mgmt.managednetwork
+      python_client: ManagedNetworkManagementClient.managed_network_groups
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworks
+            go_variable_name: managedNetworkName
+            python_parameter_name: managed_network_name
+            python_variable_name: managed_network_name
+          'managedNetworkGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworkGroups
+            go_variable_name: managedNetworkGroupName
+            python_parameter_name: managed_network_group_name
+            python_variable_name: managed_network_group_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: managedNetworkGroup
+            go_type_name: Group
+            python_parameter_name: managed_network_group
+            python_variable_name: managed_network_group
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: properties
+          '/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_management_groups
+          '/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: management_groups_id
+          '/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_subscriptions
+          '/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscriptions_id
+          '/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_virtual_networks
+          '/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_networks_id
+          '/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_subnets
+          '/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnets_id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupProperties
+            go_type_name: GroupProperties
+          '/properties/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesManagementGroups
+            go_type_name: ResourceId
+          '/properties/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagementGroupsID
+          '/properties/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesSubscriptions
+            go_type_name: ResourceId
+          '/properties/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionsID
+          '/properties/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesVirtualNetworks
+            go_type_name: ResourceId
+          '/properties/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworksID
+          '/properties/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesSubnets
+            go_type_name: ResourceId
+          '/properties/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetsID
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Kind
+            go_enum_type_name: Kind
+            python_field_name: kind
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworks
+            go_variable_name: managedNetworkName
+            python_parameter_name: managed_network_name
+            python_variable_name: managed_network_name
+          'managedNetworkGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworkGroups
+            go_variable_name: managedNetworkGroupName
+            python_parameter_name: managed_network_group_name
+            python_variable_name: managed_network_group_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworks
+            go_variable_name: managedNetworkName
+            python_parameter_name: managed_network_name
+            python_variable_name: managed_network_name
+          'managedNetworkGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworkGroups
+            go_variable_name: managedNetworkGroupName
+            python_parameter_name: managed_network_group_name
+            python_variable_name: managed_network_group_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupProperties
+            go_type_name: GroupProperties
+          '/properties/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesManagementGroups
+            go_type_name: ResourceId
+          '/properties/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagementGroupsID
+          '/properties/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesSubscriptions
+            go_type_name: ResourceId
+          '/properties/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionsID
+          '/properties/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesVirtualNetworks
+            go_type_name: ResourceId
+          '/properties/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworksID
+          '/properties/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PropertiesSubnets
+            go_type_name: ResourceId
+          '/properties/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetsID
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PropertiesProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PropertiesEtag
+          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: properties
+          '/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_management_groups
+          '/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: management_groups_id
+          '/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_subscriptions
+          '/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscriptions_id
+          '/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_virtual_networks
+          '/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_networks_id
+          '/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: properties_subnets
+          '/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnets_id
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: properties_provisioning_state
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: properties_etag
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Kind
+            go_enum_type_name: Kind
+            python_field_name: kind
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByManagedNetwork
+        python_func_name: list_by_managed_network
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedNetworks
+            go_variable_name: managedNetworkName
+            python_parameter_name: managed_network_name
+            python_variable_name: managed_network_name
+
+    description: |
+      Manage Azure ManagedNetworkGroup instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The geo-location where the resource lives'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'properties'
+        description: 'Gets or sets the properties of a network group'
+        required: false
+        azure_sdk_references: ['', '/properties']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'propertiesManagementGroups'
+            description: 'The collection of management groups covered by the Managed Network'
+            required: false
+            azure_sdk_references: ['/managementGroups', '/properties/managementGroups']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'managementGroupsId'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/managementGroups/id', '/properties/managementGroups/id']
+          - !ruby/object:Api::Type::Array
+            name: 'propertiesSubscriptions'
+            description: 'The collection of subscriptions covered by the Managed Network'
+            required: false
+            azure_sdk_references: ['/subscriptions', '/properties/subscriptions']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'subscriptionsId'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/subscriptions/id', '/properties/subscriptions/id']
+          - !ruby/object:Api::Type::Array
+            name: 'propertiesVirtualNetworks'
+            description: 'The collection of virtual nets covered by the Managed Network'
+            required: false
+            azure_sdk_references: ['/virtualNetworks', '/properties/virtualNetworks']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'virtualNetworksId'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/virtualNetworks/id', '/properties/virtualNetworks/id']
+          - !ruby/object:Api::Type::Array
+            name: 'propertiesSubnets'
+            description: 'The collection of  subnets covered by the Managed Network'
+            required: false
+            azure_sdk_references: ['/subnets', '/properties/subnets']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'subnetsId'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/subnets/id', '/properties/subnets/id']
+      - !ruby/object:Api::Type::Enum
+        name: 'kind'
+        description: 'Responsibility role under which this Managed Network Group will be created'
+        required: false
+        input: true
+        azure_sdk_references: ['/kind']
+        values:
+          - :Connectivity
+        default_value: :Connectivity
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'managedNetworkName'
+        description: 'The name of the Managed Network.'
+        required: true
+        input: true
+        azure_sdk_references: ['managedNetworkName']
+      - !ruby/object:Api::Type::String
+        name: 'managedNetworkGroupName'
+        description: 'The name of the Managed Network Group.'
+        required: true
+        input: true
+        azure_sdk_references: ['managedNetworkGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

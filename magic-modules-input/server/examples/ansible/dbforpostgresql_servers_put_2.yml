@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_server
+  description: 'Create a server as a geo restore '
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    sku:
+      name: GP_Gen5_2
+      tier: GeneralPurpose
+      capacity: '2'
+      family: Gen5
+    location: westus
+    tags:
+      ElasticServer: '1'
+  

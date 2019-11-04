@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_trigger
+  description: Triggers_Create
+  code:
+    resource_group: myResourceGroup
+    account_name: myAccount
+    share_subscription_name: myShareSubscription
+    trigger_name: myTrigger
+    trigger:
+      kind: ScheduleBased
+      properties:
+        synchronizationTime: '2018-11-14T04:47:52.9614956Z'
+        recurrenceInterval: Day
+        synchronizationMode: Incremental
+  

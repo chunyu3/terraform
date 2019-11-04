@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_extension
+  description: Update an extension resource
+  code:
+    resource_group: myResourceGroup
+    body:
+      location: Central US
+      tags: {}
+      properties: {}
+      plan:
+        name: ExamplePlan
+        publisher: ExampleExtensionPublisher
+        product: ExampleExtensionName
+        promotionCode: ''
+        version: '1.0'
+    account_resource_name: myAccount
+    extension_resource_name: myExtension
+  

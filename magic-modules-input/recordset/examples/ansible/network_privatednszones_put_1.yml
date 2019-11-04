@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recordset
+  description: PUT Private DNS Zone A Record Set
+  code:
+    resource_group: myResourceGroup
+    private_zone_name: myPrivateDnsZone
+    record_type: A
+    relative_record_set_name: myRecordType
+    metadata:
+      key1: value1
+    ttl: '3600'
+    a_records:
+      - ipv4address: 1.2.3.4
+  

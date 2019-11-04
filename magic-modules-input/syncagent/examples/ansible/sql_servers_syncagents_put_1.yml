@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_syncagent
+  description: Create a new sync agent
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    sync_agent_name: mySyncAgent
+    sync_database_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Sql/servers/{{ server_name }}/databases/{{
+      database_name }}
+  

@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_server
+  description: Create a new server
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    sku:
+      name: B_Gen5_2
+      tier: Basic
+      capacity: '2'
+      family: Gen5
+    ssl_enforcement: Enabled
+    storage_profile:
+      backup_retention_days: '7'
+      geo_redundant_backup: Disabled
+      storage_mb: '128000'
+    administrator_login: cloudsa
+    location: westus
+    tags:
+      ElasticServer: '1'
+  

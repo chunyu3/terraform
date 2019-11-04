@@ -1,0 +1,798 @@
+--- !ruby/object:Api::Product
+name: Azure WebService Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WebService
+    api_name: MachineLearning
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.MachineLearning
+      go_client_namespace: 
+      go_client: webServicesClient
+      python_client_namespace: 
+      python_client: AzureMLWebServicesManagementClient.web_services
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'webServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webServices
+            go_variable_name: webServiceName
+            python_parameter_name: web_service_name
+            python_variable_name: web_service_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: createOrUpdatePayload
+            go_type_name: WebService
+            python_parameter_name: create_or_update_payload
+            python_variable_name: create_or_update_payload
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WebServiceProperties
+            go_type_name: WebServiceProperties
+          '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/properties/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/keys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: keys
+          '/keys/primary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary
+          '/keys/secondary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary
+          '/properties/keys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Keys
+            go_type_name: WebServiceKeys
+          '/properties/keys/primary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Primary
+          '/properties/keys/secondary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Secondary
+          '/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: read_only
+          '/properties/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ReadOnly
+          '/exposeSampleData': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: expose_sample_data
+          '/properties/exposeSampleData': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ExposeSampleData
+          '/realtimeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: realtime_configuration
+          '/realtimeConfiguration/maxConcurrentCalls': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_concurrent_calls
+          '/properties/realtimeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RealtimeConfiguration
+            go_type_name: RealtimeConfiguration
+          '/properties/realtimeConfiguration/maxConcurrentCalls': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxConcurrentCalls
+          '/diagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: diagnostics
+          '/diagnostics/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: level
+          '/diagnostics/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiry
+          '/properties/diagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Diagnostics
+            go_type_name: DiagnosticsConfiguration
+          '/properties/diagnostics/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Level
+            go_enum_type_name: DiagnosticsLevel
+          '/properties/diagnostics/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Expiry
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageAccount/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccount
+          '/properties/storageAccount/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageAccount/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/machineLearningWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: machine_learning_workspace
+          '/machineLearningWorkspace/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/machineLearningWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MachineLearningWorkspace
+            go_type_name: MachineLearningWorkspace
+          '/properties/machineLearningWorkspace/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/commitmentPlan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: commitment_plan
+          '/commitmentPlan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/commitmentPlan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CommitmentPlan
+            go_type_name: CommitmentPlan
+          '/properties/commitmentPlan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/input': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: input
+          '/input/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/input/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/input/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/input': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Input
+            go_type_name: ServiceInputOutputSpecification
+          '/properties/input/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/input/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/input/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/input/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"221","$type":"DictionaryType","valueType":{"$ref":"166"},"supportsAdditionalProperties":false,"name":{"$id":"222","fixed":false},"deprecated":false}
+          '/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: output
+          '/output/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/output/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Output
+            go_type_name: ServiceInputOutputSpecification
+          '/properties/output/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/output/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/output/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"221","$type":"DictionaryType","valueType":{"$ref":"166"},"supportsAdditionalProperties":false,"name":{"$id":"222","fixed":false},"deprecated":false}
+          '/exampleRequest': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: example_request
+          '/exampleRequest/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: inputs
+          '/exampleRequest/globalParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: global_parameters
+          '/properties/exampleRequest': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExampleRequest
+            go_type_name: ExampleRequest
+          '/properties/exampleRequest/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Inputs
+          '/properties/exampleRequest/globalParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: GlobalParameters
+          '/assets': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: assets
+          '/properties/assets': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Assets
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'webServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webServices
+            go_variable_name: webServiceName
+            python_parameter_name: web_service_name
+            python_variable_name: web_service_name
+        response:
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WebServiceProperties
+            go_type_name: WebServiceProperties
+          '/properties/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/keys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Keys
+            go_type_name: WebServiceKeys
+          '/properties/keys/primary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Primary
+          '/properties/keys/secondary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Secondary
+          '/keys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: keys
+          '/keys/primary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary
+          '/keys/secondary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary
+          '/properties/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ReadOnly
+          '/readOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: read_only
+          '/properties/exposeSampleData': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ExposeSampleData
+          '/exposeSampleData': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: expose_sample_data
+          '/properties/realtimeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RealtimeConfiguration
+            go_type_name: RealtimeConfiguration
+          '/properties/realtimeConfiguration/maxConcurrentCalls': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxConcurrentCalls
+          '/realtimeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: realtime_configuration
+          '/realtimeConfiguration/maxConcurrentCalls': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_concurrent_calls
+          '/properties/diagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Diagnostics
+            go_type_name: DiagnosticsConfiguration
+          '/properties/diagnostics/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Level
+            go_enum_type_name: DiagnosticsLevel
+          '/properties/diagnostics/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Expiry
+          '/diagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: diagnostics
+          '/diagnostics/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: level
+          '/diagnostics/expiry': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiry
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccount
+          '/properties/storageAccount/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/storageAccount/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/storageAccount/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
+          '/properties/machineLearningWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MachineLearningWorkspace
+            go_type_name: MachineLearningWorkspace
+          '/properties/machineLearningWorkspace/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/machineLearningWorkspace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: machine_learning_workspace
+          '/machineLearningWorkspace/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/commitmentPlan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CommitmentPlan
+            go_type_name: CommitmentPlan
+          '/properties/commitmentPlan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/commitmentPlan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: commitment_plan
+          '/commitmentPlan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/input': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Input
+            go_type_name: ServiceInputOutputSpecification
+          '/properties/input/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/input/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/input/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/input/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"221","$type":"DictionaryType","valueType":{"$ref":"166"},"supportsAdditionalProperties":false,"name":{"$id":"222","fixed":false},"deprecated":false}
+          '/input': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: input
+          '/input/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/input/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/input/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Output
+            go_type_name: ServiceInputOutputSpecification
+          '/properties/output/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/properties/output/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/output/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"221","$type":"DictionaryType","valueType":{"$ref":"166"},"supportsAdditionalProperties":false,"name":{"$id":"222","fixed":false},"deprecated":false}
+          '/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: output
+          '/output/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/output/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/exampleRequest': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExampleRequest
+            go_type_name: ExampleRequest
+          '/properties/exampleRequest/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Inputs
+          '/properties/exampleRequest/globalParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: GlobalParameters
+          '/exampleRequest': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: example_request
+          '/exampleRequest/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: inputs
+          '/exampleRequest/globalParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: global_parameters
+          '/properties/assets': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Assets
+          '/assets': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: assets
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedOn
+          '/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_on
+          '/properties/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ModifiedOn
+          '/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: modified_on
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/swaggerLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SwaggerLocation
+          '/swaggerLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: swagger_location
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListKeys
+        python_func_name: list_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'webServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webServices
+            go_variable_name: webServiceName
+            python_parameter_name: web_service_name
+            python_variable_name: web_service_name
+
+    description: |
+      Manage Azure WebService instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group in which the web service is located.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'webServiceName'
+        description: 'The name of the web service.'
+        required: true
+        input: true
+        azure_sdk_references: ['webServiceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Specifies the name of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Specifies the location of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Contains resource tags defined as key/value pairs.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'title'
+        description: 'The title of the web service.'
+        required: false
+        azure_sdk_references: ['/title', '/properties/title']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the web service.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'keys'
+        description: 'Contains the web service provisioning keys. If you do not specify provisioning keys, the Azure Machine Learning system generates them for you. Note: The keys are not returned from calls to GET operations.'
+        required: false
+        azure_sdk_references: ['/keys', '/properties/keys']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'primary'
+            description: 'The primary access key.'
+            required: false
+            azure_sdk_references: ['/keys/primary', '/properties/keys/primary']
+          - !ruby/object:Api::Type::String
+            name: 'secondary'
+            description: 'The secondary access key.'
+            required: false
+            azure_sdk_references: ['/keys/secondary', '/properties/keys/secondary']
+      - !ruby/object:Api::Type::Boolean
+        name: 'readOnly'
+        description: 'When set to true, indicates that the web service is read-only and can no longer be updated or patched, only removed. Default, is false. Note: Once set to true, you cannot change its value.'
+        required: false
+        azure_sdk_references: ['/readOnly', '/properties/readOnly']
+      - !ruby/object:Api::Type::Boolean
+        name: 'exposeSampleData'
+        description: 'When set to true, sample data is included in the web service''s swagger definition. The default value is true.'
+        required: false
+        azure_sdk_references: ['/exposeSampleData', '/properties/exposeSampleData']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'realtimeConfiguration'
+        description: 'Contains the configuration settings for the web service endpoint.'
+        required: false
+        azure_sdk_references: ['/realtimeConfiguration', '/properties/realtimeConfiguration']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'maxConcurrentCalls'
+            description: 'Specifies the maximum concurrent calls that can be made to the web service. Minimum value: 4, Maximum value: 200.'
+            required: false
+            azure_sdk_references: ['/realtimeConfiguration/maxConcurrentCalls', '/properties/realtimeConfiguration/maxConcurrentCalls']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'diagnostics'
+        description: 'Settings controlling the diagnostics traces collection for the web service.'
+        required: false
+        azure_sdk_references: ['/diagnostics', '/properties/diagnostics']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'level'
+            description: 'Specifies the verbosity of the diagnostic output. Valid values are: None - disables tracing; Error - collects only error (stderr) traces; All - collects all traces (stdout and stderr).'
+            required: true
+            azure_sdk_references: ['/diagnostics/level', '/properties/diagnostics/level']
+            values:
+              - :None
+              - :Error
+              - :All
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'expiry'
+            description: 'Specifies the date and time when the logging will cease. If null, diagnostic collection is not time limited.'
+            required: false
+            azure_sdk_references: ['/diagnostics/expiry', '/properties/diagnostics/expiry']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageAccount'
+        description: 'Specifies the storage account that Azure Machine Learning uses to store information about the web service. Only the name of the storage account is returned from calls to GET operations. When updating the storage account information, you must ensure that all necessary assets are available in the new storage account or calls to your web service will fail.'
+        required: false
+        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Specifies the name of the storage account.'
+            required: false
+            azure_sdk_references: ['/storageAccount/name', '/properties/storageAccount/name']
+          - !ruby/object:Api::Type::String
+            name: 'key'
+            description: 'Specifies the key used to access the storage account.'
+            required: false
+            azure_sdk_references: ['/storageAccount/key', '/properties/storageAccount/key']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'machineLearningWorkspace'
+        description: 'Specifies the Machine Learning workspace containing the experiment that is source for the web service.'
+        required: false
+        azure_sdk_references: ['/machineLearningWorkspace', '/properties/machineLearningWorkspace']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Specifies the workspace ID of the machine learning workspace associated with the web service'
+            required: true
+            azure_sdk_references: ['/machineLearningWorkspace/id', '/properties/machineLearningWorkspace/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'commitmentPlan'
+        description: 'Contains the commitment plan associated with this web service. Set at creation time. Once set, this value cannot be changed. Note: The commitment plan is not returned from calls to GET operations.'
+        required: false
+        azure_sdk_references: ['/commitmentPlan', '/properties/commitmentPlan']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Specifies the Azure Resource Manager ID of the commitment plan associated with the web service.'
+            required: true
+            azure_sdk_references: ['/commitmentPlan/id', '/properties/commitmentPlan/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'input'
+        description: 'Contains the Swagger 2.0 schema describing one or more of the web service''s inputs. For more information, see the Swagger specification.'
+        required: false
+        azure_sdk_references: ['/input', '/properties/input']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'title'
+            description: 'The title of your Swagger schema.'
+            required: false
+            azure_sdk_references: ['/input/title', '/properties/input/title']
+          - !ruby/object:Api::Type::String
+            name: 'description'
+            description: 'The description of the Swagger schema.'
+            required: false
+            azure_sdk_references: ['/input/description', '/properties/input/description']
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The type of the entity described in swagger. Always ''object''.'
+            required: true
+            azure_sdk_references: ['/input/type', '/properties/input/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'output'
+        description: 'Contains the Swagger 2.0 schema describing one or more of the web service''s outputs. For more information, see the Swagger specification.'
+        required: false
+        azure_sdk_references: ['/output', '/properties/output']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'title'
+            description: 'The title of your Swagger schema.'
+            required: false
+            azure_sdk_references: ['/output/title', '/properties/output/title']
+          - !ruby/object:Api::Type::String
+            name: 'description'
+            description: 'The description of the Swagger schema.'
+            required: false
+            azure_sdk_references: ['/output/description', '/properties/output/description']
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The type of the entity described in swagger. Always ''object''.'
+            required: true
+            azure_sdk_references: ['/output/type', '/properties/output/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'exampleRequest'
+        description: 'Defines sample input data for one or more of the service''s inputs.'
+        required: false
+        azure_sdk_references: ['/exampleRequest', '/properties/exampleRequest']
+        properties:
+          - !ruby/object:Api::Type::KeyValuePairs
+            name: 'inputs'
+            description: 'Sample input data for the web service''s input(s) given as an input name to sample input values matrix map.'
+            required: false
+            azure_sdk_references: ['/exampleRequest/inputs', '/properties/exampleRequest/inputs']
+          - !ruby/object:Api::Type::KeyValuePairs
+            name: 'globalParameters'
+            description: 'Sample input data for the web service''s global parameters'
+            required: false
+            azure_sdk_references: ['/exampleRequest/globalParameters', '/properties/exampleRequest/globalParameters']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'assets'
+        description: 'Contains user defined properties describing web service assets. Properties are expressed as Key/Value pairs.'
+        required: false
+        azure_sdk_references: ['/assets', '/properties/assets']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'parameters'
+        description: 'The set of global parameters values defined for the web service, given as a global parameter name to default value map. If no default value is specified, the parameter is considered to be required.'
+        required: false
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdOn'
+        description: 'Read Only: The date and time when the web service was created.'
+        output: true
+        azure_sdk_references: ['/createdOn', '/properties/createdOn']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'modifiedOn'
+        description: 'Read Only: The date and time when the web service was last modified.'
+        output: true
+        azure_sdk_references: ['/modifiedOn', '/properties/modifiedOn']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Read Only: The provision state of the web service. Valid values are Unknown, Provisioning, Succeeded, and Failed.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Unknown
+          - :Provisioning
+          - :Succeeded
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'swaggerLocation'
+        description: 'Read Only: Contains the URI of the swagger spec associated with this web service.'
+        output: true
+        azure_sdk_references: ['/swaggerLocation', '/properties/swaggerLocation']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Specifies the resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Specifies the type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

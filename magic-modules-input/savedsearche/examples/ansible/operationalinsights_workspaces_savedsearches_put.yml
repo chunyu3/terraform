@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_savedsearche
+  description: SavedSearchCreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    saved_search_id: mySavedSearche
+    category: Saved Search Test Category
+    display_name: Create or Update Saved Search Test
+    query: Heartbeat | summarize Count() by Computer
+    version: '2'
+    tags:
+      - name: Group
+        value: Computer
+  

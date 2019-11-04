@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_replicationmigrationitem
+  description: Updates migration item.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    protection_container_name: myReplicationProtectionContainer
+    migration_item_name: myReplicationMigrationItem
+    input:
+      properties:
+        providerSpecificDetails:
+          instanceType: VMwareCbt
+  

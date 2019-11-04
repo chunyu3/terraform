@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_project
+  description: Create a project resource
+  code:
+    body:
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.VisualStudio/account/{{ account_name }}/project/{{
+        project_name }}
+      name: ExampleProject
+      type: Microsoft.VisualStudio/account/project
+      location: Central US
+      tags: {}
+      properties:
+        ProcessTemplateId: 6B724908-EF14-45CF-84F8-768B5384DA45
+        VersionControlOption: Git
+    resource_group: myResourceGroup
+    root_resource_name: myAccount
+    resource_name: myProject
+  

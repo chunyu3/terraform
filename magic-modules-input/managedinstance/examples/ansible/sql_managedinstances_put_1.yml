@@ -1,0 +1,33 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_managedinstance
+  description: Create managed instance with all properties
+  code:
+    resource_group: myResourceGroup
+    managed_instance_name: myManagedInstance
+    location: Japan East
+    tags:
+      tagKey1: TagValue1
+    sku:
+      name: GP_Gen5
+      tier: GeneralPurpose
+    administrator_login: dummylogin
+    administrator_login_password: Un53cuRE!
+    subnet_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+      }}/subnets/{{ subnet_name }}
+    license_type: LicenseIncluded
+    v_cores: '8'
+    storage_size_in_gb: '1024'
+    collation: SQL_Latin1_General_CP1_CI_AS
+    dns_zone_partner: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Sql/managedInstances/{{ managed_instance_name }}
+    public_data_endpoint_enabled: false
+    proxy_override: Redirect
+    timezone_id: UTC
+    instance_pool_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Sql/instancePools/{{ instance_pool_name }}
+  

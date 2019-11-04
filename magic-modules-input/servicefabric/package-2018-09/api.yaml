@@ -1,0 +1,411 @@
+--- !ruby/object:Api::Product
+name: Azure ServiceFabric Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServiceFabric
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: 
+      go_client: serviceFabricsClient
+      python_client_namespace: 
+      python_client: DevTestLabsClient.service_fabrics
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: userName
+            python_parameter_name: user_name
+            python_variable_name: user_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servicefabrics
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: serviceFabric
+            go_type_name: ServiceFabric
+            python_parameter_name: service_fabric
+            python_variable_name: service_fabric
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceFabricProperties
+            go_type_name: ServiceFabricProperties
+          '/externalServiceFabricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_service_fabric_id
+          '/properties/externalServiceFabricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalServiceFabricID
+          '/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: environment_id
+          '/properties/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EnvironmentID
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: userName
+            python_parameter_name: user_name
+            python_variable_name: user_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servicefabrics
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: serviceFabric
+            go_type_name: ServiceFabric
+            python_parameter_name: service_fabric
+            python_variable_name: service_fabric
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceFabricProperties
+            go_type_name: ServiceFabricProperties
+          '/externalServiceFabricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_service_fabric_id
+          '/properties/externalServiceFabricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalServiceFabricID
+          '/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: environment_id
+          '/properties/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EnvironmentID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: userName
+            python_parameter_name: user_name
+            python_variable_name: user_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servicefabrics
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: userName
+            python_parameter_name: user_name
+            python_variable_name: user_name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servicefabrics
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servicefabrics
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceFabricProperties
+            go_type_name: ServiceFabricProperties
+          '/properties/externalServiceFabricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalServiceFabricID
+          '/externalServiceFabricId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_service_fabric_id
+          '/properties/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EnvironmentID
+          '/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: environment_id
+          '/properties/applicableSchedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicableSchedule
+            go_type_name: ApplicableSchedule
+          '/applicableSchedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: applicable_schedule
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: userName
+            python_parameter_name: user_name
+            python_variable_name: user_name
+
+    description: |
+      Manage Azure ServiceFabric instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'labName'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      - !ruby/object:Api::Type::String
+        name: 'userName'
+        description: 'The name of the user profile.'
+        required: true
+        input: true
+        azure_sdk_references: ['userName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the service fabric.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'externalServiceFabricId'
+        description: 'The backing service fabric resource''s id'
+        required: false
+        azure_sdk_references: ['/externalServiceFabricId', '/properties/externalServiceFabricId']
+      - !ruby/object:Api::Type::String
+        name: 'environmentId'
+        description: 'The resource id of the environment under which the service fabric resource is present'
+        required: false
+        azure_sdk_references: ['/environmentId', '/properties/environmentId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::NestedObject
+        name: 'applicableSchedule'
+        description: 'The applicable schedule for the virtual machine.'
+        output: true
+        azure_sdk_references: ['/applicableSchedule', '/properties/applicableSchedule']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The identifier of the resource.'
+            required: false
+            azure_sdk_references: ['/applicableSchedule/id', '/properties/applicableSchedule/id']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the resource.'
+            required: false
+            azure_sdk_references: ['/applicableSchedule/name', '/properties/applicableSchedule/name']
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The type of the resource.'
+            required: false
+            azure_sdk_references: ['/applicableSchedule/type', '/properties/applicableSchedule/type']
+          - !ruby/object:Api::Azure::Type::Location
+            name: 'location'
+            description: 'The location of the resource.'
+            required: false
+            input: true
+            azure_sdk_references: ['/applicableSchedule/location', '/properties/applicableSchedule/location']
+          - !ruby/object:Api::Azure::Type::Tags
+            name: 'tags'
+            description: 'The tags of the resource.'
+            required: false
+            azure_sdk_references: ['/applicableSchedule/tags', '/properties/applicableSchedule/tags']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'labVmsShutdown'
+            description: 'The auto-shutdown schedule, if one has been set at the lab or lab resource level.'
+            required: false
+            azure_sdk_references: ['/applicableSchedule/labVmsShutdown', '/properties/applicableSchedule/properties/labVmsShutdown']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'The identifier of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsShutdown/id', '/properties/applicableSchedule/properties/labVmsShutdown/id']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The name of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsShutdown/name', '/properties/applicableSchedule/properties/labVmsShutdown/name']
+              - !ruby/object:Api::Type::String
+                name: 'type'
+                description: 'The type of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsShutdown/type', '/properties/applicableSchedule/properties/labVmsShutdown/type']
+              - !ruby/object:Api::Azure::Type::Location
+                name: 'location'
+                description: 'The location of the resource.'
+                required: false
+                input: true
+                azure_sdk_references: ['/applicableSchedule/labVmsShutdown/location', '/properties/applicableSchedule/properties/labVmsShutdown/location']
+              - !ruby/object:Api::Azure::Type::Tags
+                name: 'tags'
+                description: 'The tags of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsShutdown/tags', '/properties/applicableSchedule/properties/labVmsShutdown/tags']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'labVmsStartup'
+            description: 'The auto-startup schedule, if one has been set at the lab or lab resource level.'
+            required: false
+            azure_sdk_references: ['/applicableSchedule/labVmsStartup', '/properties/applicableSchedule/properties/labVmsStartup']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'The identifier of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsStartup/id', '/properties/applicableSchedule/properties/labVmsStartup/id']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The name of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsStartup/name', '/properties/applicableSchedule/properties/labVmsStartup/name']
+              - !ruby/object:Api::Type::String
+                name: 'type'
+                description: 'The type of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsStartup/type', '/properties/applicableSchedule/properties/labVmsStartup/type']
+              - !ruby/object:Api::Azure::Type::Location
+                name: 'location'
+                description: 'The location of the resource.'
+                required: false
+                input: true
+                azure_sdk_references: ['/applicableSchedule/labVmsStartup/location', '/properties/applicableSchedule/properties/labVmsStartup/location']
+              - !ruby/object:Api::Azure::Type::Tags
+                name: 'tags'
+                description: 'The tags of the resource.'
+                required: false
+                azure_sdk_references: ['/applicableSchedule/labVmsStartup/tags', '/properties/applicableSchedule/properties/labVmsStartup/tags']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning status of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'uniqueIdentifier'
+        description: 'The unique immutable identifier of a resource (Guid).'
+        output: true
+        azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

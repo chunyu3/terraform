@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storageinsight
+  description: StorageInsightsCreate
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    storage_insight_name: myStorageInsightConfig
+    containers:
+      - wad-iis-logfiles
+    tables:
+      - WADWindowsEventLogsTable
+      - LinuxSyslogVer2v0
+    storage_account:
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/microsoft.storage/storageaccounts/{{ storageaccount_name }}
+      key: '1234'
+  

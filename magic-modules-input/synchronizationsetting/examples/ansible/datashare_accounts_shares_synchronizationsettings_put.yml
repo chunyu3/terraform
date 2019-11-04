@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_synchronizationsetting
+  description: SynchronizationSettings_Create
+  code:
+    resource_group: myResourceGroup
+    account_name: myAccount
+    share_name: myShare
+    synchronization_setting_name: mySynchronizationSetting
+    synchronization_setting:
+      kind: ScheduleBased
+      properties:
+        synchronizationTime: '2018-11-14T04:47:52.9614956Z'
+        recurrenceInterval: Day
+  

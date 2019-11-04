@@ -1,0 +1,295 @@
+--- !ruby/object:Api::Product
+name: Azure Extension Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Extension
+    api_name: visualstudio
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.visualstudio
+      go_client_namespace: 
+      go_client: extensionsClient
+      python_client_namespace: 
+      python_client: VisualStudioResourceProviderClient.extensions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: accountResourceName
+            python_parameter_name: account_resource_name
+            python_variable_name: account_resource_name
+          'extensionResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: extension
+            go_variable_name: extensionResourceName
+            python_parameter_name: extension_resource_name
+            python_variable_name: extension_resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: ExtensionResourceRequest
+            python_parameter_name: body
+            python_variable_name: body
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Plan
+            go_type_name: ExtensionResourcePlan
+            python_field_name: plan
+          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Product
+            python_field_name: product
+          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PromotionCode
+            python_field_name: promotion_code
+          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Publisher
+            python_field_name: publisher
+          '/plan/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"197","$type":"DictionaryType","valueType":{"$id":"198","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"199","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"200","fixed":false},"deprecated":false}
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: accountResourceName
+            python_parameter_name: account_resource_name
+            python_variable_name: account_resource_name
+          'extensionResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: extension
+            go_variable_name: extensionResourceName
+            python_parameter_name: extension_resource_name
+            python_variable_name: extension_resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: ExtensionResourceRequest
+            python_parameter_name: body
+            python_variable_name: body
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Plan
+            go_type_name: ExtensionResourcePlan
+            python_field_name: plan
+          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Product
+            python_field_name: product
+          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PromotionCode
+            python_field_name: promotion_code
+          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Publisher
+            python_field_name: publisher
+          '/plan/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"197","$type":"DictionaryType","valueType":{"$id":"198","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"199","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"200","fixed":false},"deprecated":false}
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: accountResourceName
+            python_parameter_name: account_resource_name
+            python_variable_name: account_resource_name
+          'extensionResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: extension
+            go_variable_name: extensionResourceName
+            python_parameter_name: extension_resource_name
+            python_variable_name: extension_resource_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: accountResourceName
+            python_parameter_name: account_resource_name
+            python_variable_name: account_resource_name
+          'extensionResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: extension
+            go_variable_name: extensionResourceName
+            python_parameter_name: extension_resource_name
+            python_variable_name: extension_resource_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Plan
+            go_type_name: ExtensionResourcePlan
+            python_field_name: plan
+          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Product
+            python_field_name: product
+          '/plan/promotionCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PromotionCode
+            python_field_name: promotion_code
+          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Publisher
+            python_field_name: publisher
+          '/plan/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"197","$type":"DictionaryType","valueType":{"$id":"198","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"199","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"200","fixed":false},"deprecated":false}
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAccount
+        python_func_name: list_by_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: accountResourceName
+            python_parameter_name: account_resource_name
+            python_variable_name: account_resource_name
+
+    description: |
+      Manage Azure Extension instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The Azure region of the Visual Studio account associated with this request (i.e ''southcentralus''.)'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'plan'
+        description: 'Extended information about the plan being purchased for this extension resource.'
+        required: false
+        azure_sdk_references: ['/plan']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the plan.'
+            required: false
+            azure_sdk_references: ['/plan/name']
+          - !ruby/object:Api::Type::String
+            name: 'product'
+            description: 'Product name.'
+            required: false
+            azure_sdk_references: ['/plan/product']
+          - !ruby/object:Api::Type::String
+            name: 'promotionCode'
+            description: 'Optional: the promotion code associated with the plan.'
+            required: false
+            azure_sdk_references: ['/plan/promotionCode']
+          - !ruby/object:Api::Type::String
+            name: 'publisher'
+            description: 'Name of the extension publisher.'
+            required: false
+            azure_sdk_references: ['/plan/publisher']
+          - !ruby/object:Api::Type::String
+            name: 'version'
+            description: 'A string that uniquely identifies the plan version.'
+            required: false
+            azure_sdk_references: ['/plan/version']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'A dictionary of user-defined tags to be stored with the extension resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'accountResourceName'
+        description: 'The name of the Visual Studio Team Services account resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountResourceName']
+      - !ruby/object:Api::Type::String
+        name: 'extensionResourceName'
+        description: 'The name of the extension.'
+        required: true
+        input: true
+        azure_sdk_references: ['extensionResourceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Unique identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

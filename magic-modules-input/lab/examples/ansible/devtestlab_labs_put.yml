@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_lab
+  description: Labs_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    name: myLab
+    lab:
+      properties:
+        labStorageType: '{Standard|Premium}'
+      location: '{azure-location}'
+      tags:
+        MyTag: MyValue
+  

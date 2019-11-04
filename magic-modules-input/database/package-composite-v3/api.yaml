@@ -1,0 +1,1032 @@
+--- !ruby/object:Api::Product
+name: Azure Database Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Database
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: 
+      go_client: databasesClient
+      python_client_namespace: 
+      python_client: SqlManagementClient.databases
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Database
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DatabaseProperties
+            go_type_name: DatabaseProperties
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: collation
+          '/properties/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Collation
+          '/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_size_bytes
+          '/properties/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxSizeBytes
+          '/sampleName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sample_name
+          '/properties/sampleName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SampleName
+            go_enum_type_name: SampleName
+          '/elasticPoolId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: elastic_pool_id
+          '/properties/elasticPoolId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ElasticPoolID
+          '/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_database_id
+          '/properties/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseID
+          '/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: restore_point_in_time
+          '/properties/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RestorePointInTime
+          '/sourceDatabaseDeletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: source_database_deletion_date
+          '/properties/sourceDatabaseDeletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseDeletionDate
+          '/recoveryServicesRecoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recovery_services_recovery_point_id
+          '/properties/recoveryServicesRecoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecoveryServicesRecoveryPointID
+          '/longTermRetentionBackupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: long_term_retention_backup_resource_id
+          '/properties/longTermRetentionBackupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LongTermRetentionBackupResourceID
+          '/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recoverable_database_id
+          '/properties/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecoverableDatabaseID
+          '/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: restorable_dropped_database_id
+          '/properties/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RestorableDroppedDatabaseID
+          '/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: catalog_collation
+          '/properties/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CatalogCollation
+            go_enum_type_name: CatalogCollationType
+          '/zoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: zone_redundant
+          '/properties/zoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ZoneRedundant
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+            go_enum_type_name: DatabaseLicenseType
+          '/readScale': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: read_scale
+          '/properties/readScale': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ReadScale
+            go_enum_type_name: DatabaseReadScale
+          '/readReplicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: read_replica_count
+          '/properties/readReplicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ReadReplicaCount
+          '/autoPauseDelay': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: auto_pause_delay
+          '/properties/autoPauseDelay': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: AutoPauseDelay
+          '/minCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: min_capacity
+          '/properties/minCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MinCapacity
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Database
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DatabaseProperties
+            go_type_name: DatabaseProperties
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: collation
+          '/properties/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Collation
+          '/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_size_bytes
+          '/properties/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxSizeBytes
+          '/sampleName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sample_name
+          '/properties/sampleName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SampleName
+            go_enum_type_name: SampleName
+          '/elasticPoolId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: elastic_pool_id
+          '/properties/elasticPoolId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ElasticPoolID
+          '/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_database_id
+          '/properties/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseID
+          '/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: restore_point_in_time
+          '/properties/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RestorePointInTime
+          '/sourceDatabaseDeletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: source_database_deletion_date
+          '/properties/sourceDatabaseDeletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseDeletionDate
+          '/recoveryServicesRecoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recovery_services_recovery_point_id
+          '/properties/recoveryServicesRecoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecoveryServicesRecoveryPointID
+          '/longTermRetentionBackupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: long_term_retention_backup_resource_id
+          '/properties/longTermRetentionBackupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LongTermRetentionBackupResourceID
+          '/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recoverable_database_id
+          '/properties/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecoverableDatabaseID
+          '/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: restorable_dropped_database_id
+          '/properties/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RestorableDroppedDatabaseID
+          '/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: catalog_collation
+          '/properties/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CatalogCollation
+            go_enum_type_name: CatalogCollationType
+          '/zoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: zone_redundant
+          '/properties/zoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ZoneRedundant
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+            go_enum_type_name: DatabaseLicenseType
+          '/readScale': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: read_scale
+          '/properties/readScale': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ReadScale
+            go_enum_type_name: DatabaseReadScale
+          '/readReplicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: read_replica_count
+          '/properties/readReplicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ReadReplicaCount
+          '/autoPauseDelay': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: auto_pause_delay
+          '/properties/autoPauseDelay': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: AutoPauseDelay
+          '/minCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: min_capacity
+          '/properties/minCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MinCapacity
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DatabaseProperties
+            go_type_name: DatabaseProperties
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Collation
+          '/collation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: collation
+          '/properties/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxSizeBytes
+          '/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_size_bytes
+          '/properties/sampleName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SampleName
+            go_enum_type_name: SampleName
+          '/sampleName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sample_name
+          '/properties/elasticPoolId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ElasticPoolID
+          '/elasticPoolId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: elastic_pool_id
+          '/properties/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseID
+          '/sourceDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_database_id
+          '/properties/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RestorePointInTime
+          '/restorePointInTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: restore_point_in_time
+          '/properties/sourceDatabaseDeletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseDeletionDate
+          '/sourceDatabaseDeletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: source_database_deletion_date
+          '/properties/recoveryServicesRecoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecoveryServicesRecoveryPointID
+          '/recoveryServicesRecoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recovery_services_recovery_point_id
+          '/properties/longTermRetentionBackupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LongTermRetentionBackupResourceID
+          '/longTermRetentionBackupResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: long_term_retention_backup_resource_id
+          '/properties/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecoverableDatabaseID
+          '/recoverableDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recoverable_database_id
+          '/properties/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RestorableDroppedDatabaseID
+          '/restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: restorable_dropped_database_id
+          '/properties/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CatalogCollation
+            go_enum_type_name: CatalogCollationType
+          '/catalogCollation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: catalog_collation
+          '/properties/zoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ZoneRedundant
+          '/zoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: zone_redundant
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+            go_enum_type_name: DatabaseLicenseType
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/readScale': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ReadScale
+            go_enum_type_name: DatabaseReadScale
+          '/readScale': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: read_scale
+          '/properties/readReplicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ReadReplicaCount
+          '/readReplicaCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: read_replica_count
+          '/properties/autoPauseDelay': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: AutoPauseDelay
+          '/autoPauseDelay': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: auto_pause_delay
+          '/properties/minCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MinCapacity
+          '/minCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: min_capacity
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: DatabaseStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/databaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseID
+          '/databaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_id
+          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationDate
+          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_date
+          '/properties/currentServiceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CurrentServiceObjectiveName
+          '/currentServiceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: current_service_objective_name
+          '/properties/requestedServiceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RequestedServiceObjectiveName
+          '/requestedServiceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: requested_service_objective_name
+          '/properties/defaultSecondaryLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultSecondaryLocation
+          '/defaultSecondaryLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_secondary_location
+          '/properties/failoverGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FailoverGroupID
+          '/failoverGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: failover_group_id
+          '/properties/maxLogSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxLogSizeBytes
+          '/maxLogSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_log_size_bytes
+          '/properties/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EarliestRestoreDate
+          '/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: earliest_restore_date
+          '/properties/currentSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CurrentSku
+            go_type_name: Sku
+          '/currentSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: current_sku
+          '/properties/pausedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: PausedDate
+          '/pausedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: paused_date
+          '/properties/resumedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ResumedDate
+          '/resumedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: resumed_date
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/managedBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ManagedBy
+            python_field_name: managed_by
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByServer
+        python_func_name: list_by_server
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListMetrics
+        python_func_name: list_metrics
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByElasticPool
+        python_func_name: list_by_elastic_pool
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListMetricDefinitions
+        python_func_name: list_metric_definitions
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+
+    description: |
+      Manage Azure Database instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The database SKU.<br>The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:<br>```azurecli<br>az sql db list-editions -l <location> -o table<br>````<br>```powershell<br>Get-AzSqlServerServiceObjective -Location <location><br>````<br>'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the SKU, typically, a letter + Number code, e.g. P3.'
+            required: true
+            azure_sdk_references: ['/sku/name']
+          - !ruby/object:Api::Type::String
+            name: 'tier'
+            description: 'The tier or edition of the particular SKU, e.g. Basic, Premium.'
+            required: false
+            azure_sdk_references: ['/sku/tier']
+          - !ruby/object:Api::Type::String
+            name: 'size'
+            description: 'Size of the particular SKU'
+            required: false
+            azure_sdk_references: ['/sku/size']
+          - !ruby/object:Api::Type::String
+            name: 'family'
+            description: 'If the service has different generations of hardware, for the same SKU, then that can be captured here.'
+            required: false
+            azure_sdk_references: ['/sku/family']
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'Capacity of the particular SKU.'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      - !ruby/object:Api::Type::Enum
+        name: 'createMode'
+        description: 'Specifies the mode of database creation.<br>Default: regular database creation.<br>Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.<br>Secondary: creates a database as a secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.<br>PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.<br>Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.<br>Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database''s original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.<br>RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.<br>Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition.'
+        required: false
+        azure_sdk_references: ['/createMode', '/properties/createMode']
+        values:
+          - :Default
+          - :Copy
+          - :Secondary
+          - :PointInTimeRestore
+          - :Restore
+          - :Recovery
+          - :RestoreExternalBackup
+          - :RestoreExternalBackupSecondary
+          - :RestoreLongTermRetentionBackup
+          - :OnlineSecondary
+        default_value: :Default
+      - !ruby/object:Api::Type::String
+        name: 'collation'
+        description: 'The collation of the database.'
+        required: false
+        azure_sdk_references: ['/collation', '/properties/collation']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxSizeBytes'
+        description: 'The max size of the database expressed in bytes.'
+        required: false
+        azure_sdk_references: ['/maxSizeBytes', '/properties/maxSizeBytes']
+      - !ruby/object:Api::Type::Enum
+        name: 'sampleName'
+        description: 'The name of the sample schema to apply when creating this database.'
+        required: false
+        azure_sdk_references: ['/sampleName', '/properties/sampleName']
+        values:
+          - :AdventureWorksLT
+          - :WideWorldImportersStd
+          - :WideWorldImportersFull
+        default_value: :AdventureWorksLT
+      - !ruby/object:Api::Type::String
+        name: 'elasticPoolId'
+        description: 'The resource identifier of the elastic pool containing this database.'
+        required: false
+        azure_sdk_references: ['/elasticPoolId', '/properties/elasticPoolId']
+      - !ruby/object:Api::Type::String
+        name: 'sourceDatabaseId'
+        description: 'The resource identifier of the source database associated with create operation of this database.'
+        required: false
+        azure_sdk_references: ['/sourceDatabaseId', '/properties/sourceDatabaseId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'restorePointInTime'
+        description: 'Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.'
+        required: false
+        azure_sdk_references: ['/restorePointInTime', '/properties/restorePointInTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'sourceDatabaseDeletionDate'
+        description: 'Specifies the time that the database was deleted.'
+        required: false
+        azure_sdk_references: ['/sourceDatabaseDeletionDate', '/properties/sourceDatabaseDeletionDate']
+      - !ruby/object:Api::Type::String
+        name: 'recoveryServicesRecoveryPointId'
+        description: 'The resource identifier of the recovery point associated with create operation of this database.'
+        required: false
+        azure_sdk_references: ['/recoveryServicesRecoveryPointId', '/properties/recoveryServicesRecoveryPointId']
+      - !ruby/object:Api::Type::String
+        name: 'longTermRetentionBackupResourceId'
+        description: 'The resource identifier of the long term retention backup associated with create operation of this database.'
+        required: false
+        azure_sdk_references: ['/longTermRetentionBackupResourceId', '/properties/longTermRetentionBackupResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'recoverableDatabaseId'
+        description: 'The resource identifier of the recoverable database associated with create operation of this database.'
+        required: false
+        azure_sdk_references: ['/recoverableDatabaseId', '/properties/recoverableDatabaseId']
+      - !ruby/object:Api::Type::String
+        name: 'restorableDroppedDatabaseId'
+        description: 'The resource identifier of the restorable dropped database associated with create operation of this database.'
+        required: false
+        azure_sdk_references: ['/restorableDroppedDatabaseId', '/properties/restorableDroppedDatabaseId']
+      - !ruby/object:Api::Type::Enum
+        name: 'catalogCollation'
+        description: 'Collation of the metadata catalog.'
+        required: false
+        azure_sdk_references: ['/catalogCollation', '/properties/catalogCollation']
+        values:
+          - :DATABASE_DEFAULT
+          - :SQL_Latin1_General_CP1_CI_AS
+        default_value: :DATABASE_DEFAULT
+      - !ruby/object:Api::Type::Boolean
+        name: 'zoneRedundant'
+        description: 'Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.'
+        required: false
+        azure_sdk_references: ['/zoneRedundant', '/properties/zoneRedundant']
+      - !ruby/object:Api::Type::Enum
+        name: 'licenseType'
+        description: 'The license type to apply for this database.'
+        required: false
+        azure_sdk_references: ['/licenseType', '/properties/licenseType']
+        values:
+          - :LicenseIncluded
+          - :BasePrice
+        default_value: :LicenseIncluded
+      - !ruby/object:Api::Type::Enum
+        name: 'readScale'
+        description: 'If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica. This property is only settable for Premium and Business Critical databases.'
+        required: false
+        azure_sdk_references: ['/readScale', '/properties/readScale']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
+      - !ruby/object:Api::Type::Integer
+        name: 'readReplicaCount'
+        description: 'The number of readonly secondary replicas associated with the database to which readonly application intent connections may be routed. This property is only settable for Hyperscale edition databases.'
+        required: false
+        azure_sdk_references: ['/readReplicaCount', '/properties/readReplicaCount']
+      - !ruby/object:Api::Type::Integer
+        name: 'autoPauseDelay'
+        description: 'Time in minutes after which database is automatically paused. A value of -1 means that automatic pause is disabled'
+        required: false
+        azure_sdk_references: ['/autoPauseDelay', '/properties/autoPauseDelay']
+      - !ruby/object:Api::Type::Double
+        name: 'minCapacity'
+        description: 'Minimal capacity that database will always have allocated, if not paused'
+        required: false
+        azure_sdk_references: ['/minCapacity', '/properties/minCapacity']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the database.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Online
+          - :Restoring
+          - :RecoveryPending
+          - :Recovering
+          - :Suspect
+          - :Offline
+          - :Standby
+          - :Shutdown
+          - :EmergencyMode
+          - :AutoClosed
+          - :Copying
+          - :Creating
+          - :Inaccessible
+          - :OfflineSecondary
+          - :Pausing
+          - :Paused
+          - :Resuming
+          - :Scaling
+          - :OfflineChangingDwPerformanceTiers
+          - :OnlineChangingDwPerformanceTiers
+          - :Disabled
+      - !ruby/object:Api::Type::String
+        name: 'databaseId'
+        description: 'The ID of the database.'
+        output: true
+        azure_sdk_references: ['/databaseId', '/properties/databaseId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationDate'
+        description: 'The creation date of the database (ISO8601 format).'
+        output: true
+        azure_sdk_references: ['/creationDate', '/properties/creationDate']
+      - !ruby/object:Api::Type::String
+        name: 'currentServiceObjectiveName'
+        description: 'The current service level objective name of the database.'
+        output: true
+        azure_sdk_references: ['/currentServiceObjectiveName', '/properties/currentServiceObjectiveName']
+      - !ruby/object:Api::Type::String
+        name: 'requestedServiceObjectiveName'
+        description: 'The requested service level objective name of the database.'
+        output: true
+        azure_sdk_references: ['/requestedServiceObjectiveName', '/properties/requestedServiceObjectiveName']
+      - !ruby/object:Api::Type::String
+        name: 'defaultSecondaryLocation'
+        description: 'The default secondary region for this database.'
+        output: true
+        azure_sdk_references: ['/defaultSecondaryLocation', '/properties/defaultSecondaryLocation']
+      - !ruby/object:Api::Type::String
+        name: 'failoverGroupId'
+        description: 'Failover Group resource identifier that this database belongs to.'
+        output: true
+        azure_sdk_references: ['/failoverGroupId', '/properties/failoverGroupId']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxLogSizeBytes'
+        description: 'The max log size for this database.'
+        output: true
+        azure_sdk_references: ['/maxLogSizeBytes', '/properties/maxLogSizeBytes']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'earliestRestoreDate'
+        description: 'This records the earliest start date and time that restore is available for this database (ISO8601 format).'
+        output: true
+        azure_sdk_references: ['/earliestRestoreDate', '/properties/earliestRestoreDate']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'currentSku'
+        description: 'The name and tier of the SKU.'
+        output: true
+        azure_sdk_references: ['/currentSku', '/properties/currentSku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the SKU, typically, a letter + Number code, e.g. P3.'
+            required: true
+            azure_sdk_references: ['/currentSku/name', '/properties/currentSku/name']
+          - !ruby/object:Api::Type::String
+            name: 'tier'
+            description: 'The tier or edition of the particular SKU, e.g. Basic, Premium.'
+            required: false
+            azure_sdk_references: ['/currentSku/tier', '/properties/currentSku/tier']
+          - !ruby/object:Api::Type::String
+            name: 'size'
+            description: 'Size of the particular SKU'
+            required: false
+            azure_sdk_references: ['/currentSku/size', '/properties/currentSku/size']
+          - !ruby/object:Api::Type::String
+            name: 'family'
+            description: 'If the service has different generations of hardware, for the same SKU, then that can be captured here.'
+            required: false
+            azure_sdk_references: ['/currentSku/family', '/properties/currentSku/family']
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'Capacity of the particular SKU.'
+            required: false
+            azure_sdk_references: ['/currentSku/capacity', '/properties/currentSku/capacity']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'pausedDate'
+        description: 'The date when database was paused by user configuration or action (ISO8601 format). Null if the database is ready.'
+        output: true
+        azure_sdk_references: ['/pausedDate', '/properties/pausedDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'resumedDate'
+        description: 'The date when database was resumed by user action or database login (ISO8601 format). Null if the database is paused.'
+        output: true
+        azure_sdk_references: ['/resumedDate', '/properties/resumedDate']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Kind of database. This is metadata used for the Azure portal experience.'
+        output: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Type::String
+        name: 'managedBy'
+        description: 'Resource that manages the database.'
+        output: true
+        azure_sdk_references: ['/managedBy']
