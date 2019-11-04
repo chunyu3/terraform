@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_association
+  description: Create or update an association
+  code:
+    scope: scope
+    association_name: myAssociation
+    association:
+      properties:
+        targetResourceId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Solutions/applications/{{ application_name }}
+  

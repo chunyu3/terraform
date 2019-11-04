@@ -1,0 +1,24 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_exportconfiguration
+  description: ExportConfigurationPost
+  code:
+    resource_group: myResourceGroup
+    resource_name: myComponent
+    export_properties:
+      RecordTypes: >-
+        Requests, Event, Exceptions, Metrics, PageViews, PageViewPerformance, Rdd,
+        PerformanceCounters, Availability
+      DestinationType: Blob
+      DestinationAddress: >-
+        https://mystorageblob.blob.core.windows.net/testexport?sv=2015-04-05&sr=c&sig=token
+      IsEnabled: 'true'
+      NotificationQueueEnabled: 'false'
+      NotificationQueueUri: ''
+      DestinationStorageSubscriptionId: subid
+      DestinationStorageLocationId: eastus
+      DestinationAccountId: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.ClassicStorage/storageAccounts/{{
+        storage_account_name }}
+  

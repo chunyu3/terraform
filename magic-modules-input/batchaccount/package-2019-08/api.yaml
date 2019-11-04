@@ -1,0 +1,453 @@
+--- !ruby/object:Api::Product
+name: Azure BatchAccount Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BatchAccount
+    api_name: Batch
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Batch
+      go_client_namespace: 
+      go_client: batchAccountClient
+      python_client_namespace: 
+      python_client: BatchManagementClient.batch_account
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: BatchAccountCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BatchAccountCreateProperties
+            go_type_name: BatchAccountCreateProperties
+          '/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_storage
+          '/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_id
+          '/properties/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoStorage
+            go_type_name: AutoStorageBaseProperties
+          '/properties/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountID
+          '/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pool_allocation_mode
+          '/properties/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PoolAllocationMode
+            go_enum_type_name: PoolAllocationMode
+          '/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_reference
+          '/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: url
+          '/properties/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultReference
+            go_type_name: KeyVaultReference
+          '/properties/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: URL
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: BatchAccountCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BatchAccountCreateProperties
+            go_type_name: BatchAccountCreateProperties
+          '/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_storage
+          '/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_id
+          '/properties/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoStorage
+            go_type_name: AutoStorageBaseProperties
+          '/properties/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountID
+          '/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pool_allocation_mode
+          '/properties/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PoolAllocationMode
+            go_enum_type_name: PoolAllocationMode
+          '/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_reference
+          '/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: url
+          '/properties/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultReference
+            go_type_name: KeyVaultReference
+          '/properties/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: URL
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: batchAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BatchAccountCreateProperties
+            go_type_name: BatchAccountCreateProperties
+          '/properties/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoStorage
+            go_type_name: AutoStorageBaseProperties
+          '/properties/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountID
+          '/properties/autoStorage/lastKeySync': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastKeySync
+          '/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_storage
+          '/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_id
+          '/autoStorage/lastKeySync': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_key_sync
+          '/properties/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PoolAllocationMode
+            go_enum_type_name: PoolAllocationMode
+          '/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pool_allocation_mode
+          '/properties/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultReference
+            go_type_name: KeyVaultReference
+          '/properties/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: URL
+          '/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault_reference
+          '/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: url
+          '/properties/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountEndpoint
+          '/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_endpoint
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/dedicatedCoreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DedicatedCoreQuota
+          '/dedicatedCoreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: dedicated_core_quota
+          '/properties/lowPriorityCoreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LowPriorityCoreQuota
+          '/lowPriorityCoreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: low_priority_core_quota
+          '/properties/dedicatedCoreQuotaPerVMFamily': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DedicatedCoreQuotaPerVmfamily
+            go_type_name: VirtualMachineFamilyCoreQuota
+          '/dedicatedCoreQuotaPerVMFamily': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: dedicated_core_quota_per_vmfamily
+          '/properties/dedicatedCoreQuotaPerVMFamilyEnforced': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DedicatedCoreQuotaPerVmfamilyEnforced
+          '/dedicatedCoreQuotaPerVMFamilyEnforced': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dedicated_core_quota_per_vmfamily_enforced
+          '/properties/poolQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PoolQuota
+          '/poolQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: pool_quota
+          '/properties/activeJobAndJobScheduleQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ActiveJobAndJobScheduleQuota
+          '/activeJobAndJobScheduleQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: active_job_and_job_schedule_quota
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure BatchAccount instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the Batch account.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The region in which to create the account.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The user-specified tags associated with the account.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'autoStorage'
+        description: 'The properties related to the auto-storage account.'
+        required: false
+        azure_sdk_references: ['/autoStorage', '/properties/autoStorage']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'storageAccountId'
+            description: 'The resource ID of the storage account to be used for auto-storage account.'
+            required: true
+            azure_sdk_references: ['/autoStorage/storageAccountId', '/properties/autoStorage/storageAccountId']
+      - !ruby/object:Api::Type::Enum
+        name: 'poolAllocationMode'
+        description: 'The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.'
+        required: false
+        azure_sdk_references: ['/poolAllocationMode', '/properties/poolAllocationMode']
+        values:
+          - :BatchService
+          - :UserSubscription
+        default_value: :BatchService
+      - !ruby/object:Api::Type::NestedObject
+        name: 'keyVaultReference'
+        description: 'A reference to the Azure key vault associated with the Batch account.'
+        required: false
+        azure_sdk_references: ['/keyVaultReference', '/properties/keyVaultReference']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The resource ID of the Azure key vault associated with the Batch account.'
+            required: true
+            azure_sdk_references: ['/keyVaultReference/id', '/properties/keyVaultReference/id']
+          - !ruby/object:Api::Type::String
+            name: 'url'
+            description: 'The URL of the Azure key vault associated with the Batch account.'
+            required: true
+            azure_sdk_references: ['/keyVaultReference/url', '/properties/keyVaultReference/url']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'accountEndpoint'
+        description: 'The account endpoint used to interact with the Batch service.'
+        output: true
+        azure_sdk_references: ['/accountEndpoint', '/properties/accountEndpoint']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioned state of the resource'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Invalid
+          - :Creating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Cancelled
+      - !ruby/object:Api::Type::Integer
+        name: 'dedicatedCoreQuota'
+        description: 'For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.'
+        output: true
+        azure_sdk_references: ['/dedicatedCoreQuota', '/properties/dedicatedCoreQuota']
+      - !ruby/object:Api::Type::Integer
+        name: 'lowPriorityCoreQuota'
+        description: 'For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.'
+        output: true
+        azure_sdk_references: ['/lowPriorityCoreQuota', '/properties/lowPriorityCoreQuota']
+      - !ruby/object:Api::Type::Array
+        name: 'dedicatedCoreQuotaPerVmfamily'
+        description: 'A list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.'
+        output: true
+        azure_sdk_references: ['/dedicatedCoreQuotaPerVMFamily', '/properties/dedicatedCoreQuotaPerVMFamily']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The Virtual Machine family name.'
+              required: false
+              azure_sdk_references: ['/dedicatedCoreQuotaPerVMFamily/name', '/properties/dedicatedCoreQuotaPerVMFamily/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'coreQuota'
+              description: 'The core quota for the VM family for the Batch account.'
+              required: false
+              azure_sdk_references: ['/dedicatedCoreQuotaPerVMFamily/coreQuota', '/properties/dedicatedCoreQuotaPerVMFamily/coreQuota']
+      - !ruby/object:Api::Type::Boolean
+        name: 'dedicatedCoreQuotaPerVmfamilyEnforced'
+        description: 'Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.'
+        output: true
+        azure_sdk_references: ['/dedicatedCoreQuotaPerVMFamilyEnforced', '/properties/dedicatedCoreQuotaPerVMFamilyEnforced']
+      - !ruby/object:Api::Type::Integer
+        name: 'poolQuota'
+        description: ''
+        output: true
+        azure_sdk_references: ['/poolQuota', '/properties/poolQuota']
+      - !ruby/object:Api::Type::Integer
+        name: 'activeJobAndJobScheduleQuota'
+        description: ''
+        output: true
+        azure_sdk_references: ['/activeJobAndJobScheduleQuota', '/properties/activeJobAndJobScheduleQuota']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']
