@@ -54,6 +54,7 @@ steps:
     mkdir -p ~/autorest.cli.debug/generated
     rm -rf ~/autorest.cli.debug/generated/*
     mkdir -p ~/mmoutput-incremental
+    mkdir -p ~/magic-modules-input-incremental
 
     # 'cd ${CURRENT_PATH}/input;
     #    for d in *; do
@@ -93,14 +94,14 @@ steps:
     echo "docker run start"
     docker login ${DOCKER_ACR_SERVER} -u=${DOCKER_USER} -p=${DOCKER_PASSWORD}
     for ((j=0; j<round; j++)); do
-      docker run -v ~/azure-rest-api-specs/increment:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput-incremental:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification $start $per_docker
+      docker run -v ~/azure-rest-api-specs/increment:/azure-rest-api-specs -v ~/magic-modules-input-incremental:/generated -v ~/mmoutput-incremental:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification $start $per_docker
       start=$(( start+per_docker ))
     done
     # docker run -v ~/azure-rest-api-specs/increment:/azure-rest-api-specs -v ~/autorest.cli.debug/generated:/generated -v ~/mmoutput:/mmoutput ${DOCKER_ACR_SERVER}/autorest.cli /azure-rest-api-specs/specification 31 30
   displayName: 'build magic-module input files'
 - bash: |
     echo "success"
-    cp -R ~/autorest.cli.debug/generated/magic-modules-input ~/terraform
+    cp -R ~/magic-modules-input-incremental ~/terraform
     # ls -al ~/mmoutput-incremental/azurerm
     cp -R ~/mmoutput-incremental ~/terraform
     # ls -aRl ~/terraform
