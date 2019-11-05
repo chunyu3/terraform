@@ -1,0 +1,38 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computevirtualmachine
+  description: Create a vm with a marketplace image plan.
+  code:
+    resource_group: myResourceGroup
+    vm_name: myVirtualMachine
+    location: westus
+    plan:
+      name: windows2016
+      publisher: microsoft-ads
+      product: windows-data-science-vm
+    hardware_profile:
+      vm_size: Standard_D1_v2
+    storage_profile:
+      image_reference:
+        publisher: microsoft-ads
+        offer: windows-data-science-vm
+        sku: windows2016
+        version: latest
+      os_disk:
+        name: myVMosdisk
+        caching: ReadWrite
+        create_option: FromImage
+        managed_disk:
+          storage_account_type: Standard_LRS
+    os_profile:
+      computer_name: myVM
+      admin_username: '{your-username}'
+      admin_password: '{your-password}'
+    network_profile:
+      network_interfaces:
+        - id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/networkInterfaces/{{
+            network_interface_name }}
+          primary: true
+  

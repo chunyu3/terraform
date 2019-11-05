@@ -1,0 +1,485 @@
+--- !ruby/object:Api::Product
+name: Azure FileServer Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: FileServer
+    api_name: BatchAI
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.BatchAI
+      go_client_namespace: batchaisdk
+      go_client: fileServersClient
+      python_client_namespace: azure.mgmt.batchaisdk
+      python_client: BatchAIClient.file_servers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileServers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: FileServerCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FileServerBaseProperties
+            go_type_name: FileServerBaseProperties
+          '/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_size
+          '/properties/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmSize
+          '/sshConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh_configuration
+          '/sshConfiguration/publicIPsToAllow': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: public_ips_to_allow
+          '/sshConfiguration/userAccountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: user_account_settings
+          '/sshConfiguration/userAccountSettings/adminUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user_name
+          '/sshConfiguration/userAccountSettings/adminUserSshPublicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user_ssh_public_key
+          '/sshConfiguration/userAccountSettings/adminUserPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user_password
+          '/properties/sshConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SshConfiguration
+            go_type_name: SshConfiguration
+          '/properties/sshConfiguration/publicIPsToAllow': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: PublicIpsToAllow
+          '/properties/sshConfiguration/userAccountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserAccountSettings
+            go_type_name: UserAccountSettings
+          '/properties/sshConfiguration/userAccountSettings/adminUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUserName
+          '/properties/sshConfiguration/userAccountSettings/adminUserSshPublicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUserSshPublicKey
+          '/properties/sshConfiguration/userAccountSettings/adminUserPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUserPassword
+          '/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: data_disks
+          '/dataDisks/diskSizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_in_gb
+          '/dataDisks/cachingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: caching_type
+          '/dataDisks/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_count
+          '/dataDisks/storageAccountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: storage_account_type
+          '/properties/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DataDisks
+            go_type_name: DataDisks
+          '/properties/dataDisks/diskSizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeInGb
+          '/properties/dataDisks/cachingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CachingType
+            go_enum_type_name: CachingType
+          '/properties/dataDisks/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskCount
+          '/properties/dataDisks/storageAccountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StorageAccountType
+            go_enum_type_name: StorageAccountType
+          '/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Subnet
+            go_type_name: ResourceId
+          '/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileServers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileServers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FileServerBaseProperties
+            go_type_name: FileServerBaseProperties
+          '/properties/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmSize
+          '/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_size
+          '/properties/sshConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SshConfiguration
+            go_type_name: SshConfiguration
+          '/properties/sshConfiguration/publicIPsToAllow': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: PublicIpsToAllow
+          '/properties/sshConfiguration/userAccountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: UserAccountSettings
+            go_type_name: UserAccountSettings
+          '/properties/sshConfiguration/userAccountSettings/adminUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUserName
+          '/properties/sshConfiguration/userAccountSettings/adminUserSshPublicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUserSshPublicKey
+          '/properties/sshConfiguration/userAccountSettings/adminUserPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUserPassword
+          '/sshConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh_configuration
+          '/sshConfiguration/publicIPsToAllow': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: public_ips_to_allow
+          '/sshConfiguration/userAccountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: user_account_settings
+          '/sshConfiguration/userAccountSettings/adminUserName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user_name
+          '/sshConfiguration/userAccountSettings/adminUserSshPublicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user_ssh_public_key
+          '/sshConfiguration/userAccountSettings/adminUserPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_user_password
+          '/properties/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DataDisks
+            go_type_name: DataDisks
+          '/properties/dataDisks/diskSizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeInGb
+          '/properties/dataDisks/cachingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CachingType
+            go_enum_type_name: CachingType
+          '/properties/dataDisks/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskCount
+          '/properties/dataDisks/storageAccountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StorageAccountType
+            go_enum_type_name: StorageAccountType
+          '/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: data_disks
+          '/dataDisks/diskSizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_in_gb
+          '/dataDisks/cachingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: caching_type
+          '/dataDisks/diskCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_count
+          '/dataDisks/storageAccountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: storage_account_type
+          '/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Subnet
+            go_type_name: ResourceId
+          '/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/mountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MountSettings
+            go_type_name: MountSettings
+          '/mountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: mount_settings
+          '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ProvisioningStateTransitionTime
+          '/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: provisioning_state_transition_time
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: FileServerProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByWorkspace
+        python_func_name: list_by_workspace
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+
+    description: |
+      Manage Azure FileServer instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group to which the resource belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'workspaceName'
+        description: 'The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'fileServerName'
+        description: 'The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.'
+        required: true
+        input: true
+        azure_sdk_references: ['fileServerName']
+      - !ruby/object:Api::Type::String
+        name: 'vmSize'
+        description: 'The size of the virtual machine for the File Server. For information about available VM sizes from the Virtual Machines Marketplace, see Sizes for Virtual Machines (Linux).'
+        required: true
+        azure_sdk_references: ['/vmSize', '/properties/vmSize']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sshConfiguration'
+        description: 'SSH configuration for the File Server node.'
+        required: true
+        azure_sdk_references: ['/sshConfiguration', '/properties/sshConfiguration']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'publicIpsToAllow'
+            description: 'List of source IP ranges to allow SSH connection from. The default value is ''*'' (all source IPs are allowed). Maximum number of IP ranges that can be specified is 400.'
+            required: false
+            azure_sdk_references: ['/sshConfiguration/publicIPsToAllow', '/properties/sshConfiguration/publicIPsToAllow']
+            item_type: Api::Type::String
+          - !ruby/object:Api::Type::NestedObject
+            name: 'userAccountSettings'
+            description: 'Settings for administrator user account to be created on a node. The account can be used to establish SSH connection to the node.'
+            required: true
+            azure_sdk_references: ['/sshConfiguration/userAccountSettings', '/properties/sshConfiguration/userAccountSettings']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'adminUserName'
+                description: 'Name of the administrator user account which can be used to SSH to nodes.'
+                required: true
+                azure_sdk_references: ['/sshConfiguration/userAccountSettings/adminUserName', '/properties/sshConfiguration/userAccountSettings/adminUserName']
+              - !ruby/object:Api::Type::String
+                name: 'adminUserSshPublicKey'
+                description: 'SSH public key of the administrator user account.'
+                required: false
+                azure_sdk_references: ['/sshConfiguration/userAccountSettings/adminUserSshPublicKey', '/properties/sshConfiguration/userAccountSettings/adminUserSshPublicKey']
+              - !ruby/object:Api::Type::String
+                name: 'adminUserPassword'
+                description: 'Password of the administrator user account.'
+                required: false
+                azure_sdk_references: ['/sshConfiguration/userAccountSettings/adminUserPassword', '/properties/sshConfiguration/userAccountSettings/adminUserPassword']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'dataDisks'
+        description: 'Settings for the data disks which will be created for the File Server.'
+        required: true
+        azure_sdk_references: ['/dataDisks', '/properties/dataDisks']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'diskSizeInGb'
+            description: 'Disk size in GB for the blank data disks.'
+            required: true
+            azure_sdk_references: ['/dataDisks/diskSizeInGB', '/properties/dataDisks/diskSizeInGB']
+          - !ruby/object:Api::Type::Enum
+            name: 'cachingType'
+            description: 'Caching type for the disks. Available values are none (default), readonly, readwrite. Caching type can be set only for VM sizes supporting premium storage.'
+            required: false
+            azure_sdk_references: ['/dataDisks/cachingType', '/properties/dataDisks/cachingType']
+            values:
+              - :none
+              - :readonly
+              - :readwrite
+            default_value: :none
+          - !ruby/object:Api::Type::Integer
+            name: 'diskCount'
+            description: 'Number of data disks attached to the File Server. If multiple disks attached, they will be configured in RAID level 0.'
+            required: true
+            azure_sdk_references: ['/dataDisks/diskCount', '/properties/dataDisks/diskCount']
+          - !ruby/object:Api::Type::Enum
+            name: 'storageAccountType'
+            description: 'Type of storage account to be used on the disk. Possible values are: Standard_LRS or Premium_LRS. Premium storage account type can only be used with VM sizes supporting premium storage.'
+            required: true
+            azure_sdk_references: ['/dataDisks/storageAccountType', '/properties/dataDisks/storageAccountType']
+            values:
+              - :Standard_LRS
+              - :Premium_LRS
+      - !ruby/object:Api::Type::NestedObject
+        name: 'subnet'
+        description: 'Identifier of an existing virtual network subnet to put the File Server in. If not provided, a new virtual network and subnet will be created.'
+        required: false
+        azure_sdk_references: ['/subnet', '/properties/subnet']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The ID of the resource'
+            required: true
+            azure_sdk_references: ['/subnet/id', '/properties/subnet/id']
+      # read only values included only in response
+      - !ruby/object:Api::Type::NestedObject
+        name: 'mountSettings'
+        description: 'File Server mount settings.'
+        output: true
+        azure_sdk_references: ['/mountSettings', '/properties/mountSettings']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'mountPoint'
+            description: 'Path where the data disks are mounted on the File Server.'
+            required: false
+            azure_sdk_references: ['/mountSettings/mountPoint', '/properties/mountSettings/mountPoint']
+          - !ruby/object:Api::Type::String
+            name: 'fileServerPublicIp'
+            description: 'Public IP address of the File Server which can be used to SSH to the node from outside of the subnet.'
+            required: false
+            azure_sdk_references: ['/mountSettings/fileServerPublicIP', '/properties/mountSettings/fileServerPublicIP']
+          - !ruby/object:Api::Type::String
+            name: 'fileServerInternalIp'
+            description: 'Internal IP address of the File Server which can be used to access the File Server from within the subnet.'
+            required: false
+            azure_sdk_references: ['/mountSettings/fileServerInternalIP', '/properties/mountSettings/fileServerInternalIP']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'provisioningStateTransitionTime'
+        description: 'Time when the provisioning state was changed.'
+        output: true
+        azure_sdk_references: ['/provisioningStateTransitionTime', '/properties/provisioningStateTransitionTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'Time when the FileServer was created.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the File Server. Possible values: creating - The File Server is getting created; updating - The File Server creation has been accepted and it is getting updated; deleting - The user has requested that the File Server be deleted, and it is in the process of being deleted; failed - The File Server creation has failed with the specified error code. Details about the error code are specified in the message field; succeeded - The File Server creation has succeeded.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :creating
+          - :updating
+          - :deleting
+          - :succeeded
+          - :failed
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

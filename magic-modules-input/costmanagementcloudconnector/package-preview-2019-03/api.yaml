@@ -1,0 +1,440 @@
+--- !ruby/object:Api::Product
+name: Azure CloudConnector Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CloudConnector
+    api_name: CostManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CostManagement
+      go_client_namespace: costmanagement
+      go_client: cloudConnectorClient
+      python_client_namespace: azure.mgmt.costmanagement
+      python_client: CostManagementClient.cloud_connector
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudConnectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: connector
+            go_type_name: ConnectorDefinition
+            python_parameter_name: connector
+            python_variable_name: connector
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConnectorProperties
+            go_type_name: ConnectorProperties
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/credentialsKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credentials_key
+          '/properties/credentialsKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialsKey
+          '/credentialsSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credentials_secret
+          '/properties/credentialsSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialsSecret
+          '/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: report_id
+          '/properties/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ReportID
+          '/defaultManagementGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_management_group_id
+          '/properties/defaultManagementGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultManagementGroupID
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/billingModel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: billing_model
+          '/properties/billingModel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BillingModel
+            go_enum_type_name: ConnectorBillingModel
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudConnectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: connector
+            go_type_name: ConnectorDefinition
+            python_parameter_name: connector
+            python_variable_name: connector
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConnectorProperties
+            go_type_name: ConnectorProperties
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/credentialsKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credentials_key
+          '/properties/credentialsKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialsKey
+          '/credentialsSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credentials_secret
+          '/properties/credentialsSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialsSecret
+          '/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: report_id
+          '/properties/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ReportID
+          '/defaultManagementGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_management_group_id
+          '/properties/defaultManagementGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultManagementGroupID
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/billingModel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: billing_model
+          '/properties/billingModel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BillingModel
+            go_enum_type_name: ConnectorBillingModel
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudConnectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudConnectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+        response:
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConnectorProperties
+            go_type_name: ConnectorProperties
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/credentialsKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialsKey
+          '/credentialsKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credentials_key
+          '/properties/credentialsSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CredentialsSecret
+          '/credentialsSecret': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credentials_secret
+          '/properties/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ReportID
+          '/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: report_id
+          '/properties/defaultManagementGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultManagementGroupID
+          '/defaultManagementGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_management_group_id
+          '/properties/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/properties/billingModel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BillingModel
+            go_enum_type_name: ConnectorBillingModel
+          '/billingModel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: billing_model
+          '/properties/providerBillingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProviderBillingAccountID
+          '/providerBillingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provider_billing_account_id
+          '/properties/providerBillingAccountDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProviderBillingAccountDisplayName
+          '/providerBillingAccountDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provider_billing_account_display_name
+          '/properties/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedOn
+          '/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_on
+          '/properties/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ModifiedOn
+          '/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: modified_on
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: ConnectorStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/externalBillingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalBillingAccountID
+          '/externalBillingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_billing_account_id
+          '/properties/daysTrialRemaining': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DaysTrialRemaining
+          '/daysTrialRemaining': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: days_trial_remaining
+          '/properties/collectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CollectionInfo
+            go_type_name: ConnectorCollectionInfo
+          '/collectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: collection_info
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure CloudConnector instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'connectorName'
+        description: 'Connector Name.'
+        required: true
+        input: true
+        azure_sdk_references: ['connectorName']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Connector kind (eg aws)'
+        required: false
+        input: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Connector DisplayName'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'credentialsKey'
+        description: 'Credentials authentication key (eg AWS ARN)'
+        required: false
+        azure_sdk_references: ['/credentialsKey', '/properties/credentialsKey']
+      - !ruby/object:Api::Type::String
+        name: 'credentialsSecret'
+        description: 'Credentials secret (eg AWS ExternalId)'
+        required: false
+        azure_sdk_references: ['/credentialsSecret', '/properties/credentialsSecret']
+      - !ruby/object:Api::Type::String
+        name: 'reportId'
+        description: 'Identifying source report. (For AWS this is a CUR report name, defined with Daily and with Resources)'
+        required: false
+        azure_sdk_references: ['/reportId', '/properties/reportId']
+      - !ruby/object:Api::Type::String
+        name: 'defaultManagementGroupId'
+        description: 'Default ManagementGroupId'
+        required: false
+        azure_sdk_references: ['/defaultManagementGroupId', '/properties/defaultManagementGroupId']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'Billing SubscriptionId'
+        required: false
+        azure_sdk_references: ['/subscriptionId', '/properties/subscriptionId']
+      - !ruby/object:Api::Type::Enum
+        name: 'billingModel'
+        description: 'Connector billing model'
+        required: false
+        azure_sdk_references: ['/billingModel', '/properties/billingModel']
+        values:
+          - :trial
+          - :autoUpgrade
+          - :premium
+          - :expired
+        default_value: :trial
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'providerBillingAccountId'
+        description: 'Connector providerBillingAccountId, determined from credentials (eg AWS Consolidated account number)'
+        output: true
+        azure_sdk_references: ['/providerBillingAccountId', '/properties/providerBillingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'providerBillingAccountDisplayName'
+        description: 'The display name of the providerBillingAccountId as defined on the external provider'
+        output: true
+        azure_sdk_references: ['/providerBillingAccountDisplayName', '/properties/providerBillingAccountDisplayName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdOn'
+        description: 'Connector definition creation datetime'
+        output: true
+        azure_sdk_references: ['/createdOn', '/properties/createdOn']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'modifiedOn'
+        description: 'Connector last modified datetime'
+        output: true
+        azure_sdk_references: ['/modifiedOn', '/properties/modifiedOn']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Connector status'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :active
+          - :error
+          - :expired
+          - :warning
+      - !ruby/object:Api::Type::String
+        name: 'externalBillingAccountId'
+        description: 'Associated ExternalBillingAccountId'
+        output: true
+        azure_sdk_references: ['/externalBillingAccountId', '/properties/externalBillingAccountId']
+      - !ruby/object:Api::Type::Integer
+        name: 'daysTrialRemaining'
+        description: 'Number of days remaining of trial'
+        output: true
+        azure_sdk_references: ['/daysTrialRemaining', '/properties/daysTrialRemaining']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'collectionInfo'
+        description: 'Collection information'
+        output: true
+        azure_sdk_references: ['/collectionInfo', '/properties/collectionInfo']
+        properties:
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'lastChecked'
+            description: 'Last time the data acquisition process initiated connecting to the external provider'
+            required: false
+            azure_sdk_references: ['/collectionInfo/lastChecked', '/properties/collectionInfo/lastChecked']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'sourceLastUpdated'
+            description: 'Source timestamp of external data currently available in Azure (eg AWS last processed CUR file timestamp)'
+            required: false
+            azure_sdk_references: ['/collectionInfo/sourceLastUpdated', '/properties/collectionInfo/sourceLastUpdated']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'lastUpdated'
+            description: 'Last time the external data was updated into Azure'
+            required: false
+            azure_sdk_references: ['/collectionInfo/lastUpdated', '/properties/collectionInfo/lastUpdated']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'error'
+            description: 'Error information of last collection'
+            required: false
+            azure_sdk_references: ['/collectionInfo/error', '/properties/collectionInfo/error']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'errorMessage'
+                description: 'Detailed error message'
+                required: false
+                azure_sdk_references: ['/collectionInfo/error/errorMessage', '/properties/collectionInfo/error/errorMessage']
+              - !ruby/object:Api::Type::String
+                name: 'errorInnerMessage'
+                description: 'External Provider error message'
+                required: false
+                azure_sdk_references: ['/collectionInfo/error/errorInnerMessage', '/properties/collectionInfo/error/errorInnerMessage']
+              - !ruby/object:Api::Type::String
+                name: 'errorCode'
+                description: 'Short error code'
+                required: false
+                azure_sdk_references: ['/collectionInfo/error/errorCode', '/properties/collectionInfo/error/errorCode']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'errorStartTime'
+                description: 'Time the error started occurring (Last time error occurred in lastChecked)'
+                required: false
+                azure_sdk_references: ['/collectionInfo/error/errorStartTime', '/properties/collectionInfo/error/errorStartTime']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Connector id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Connector name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Connector type'
+        output: true
+        azure_sdk_references: ['/type']

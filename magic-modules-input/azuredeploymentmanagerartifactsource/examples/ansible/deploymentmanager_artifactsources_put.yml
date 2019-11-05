@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_azuredeploymentmanagerartifactsource
+  description: Create artifact source
+  code:
+    resource_group: myResourceGroup
+    artifact_source_name: myArtifactSource
+    artifact_source_info:
+      type: Microsoft.DeploymentManager/artifactSources
+      location: centralus
+      tags: {}
+      properties:
+        sourceType: AzureStorage
+        authentication:
+          type: Sas
+          properties:
+            sasUri: >-
+              https://mystorageaccount.blob.core.windows.net/myartifactsource?st=2018-07-07T14%3A10%3A00Z&se=2019-12-31T15%3A10%3A00Z&sp=rl&sv=2017-04-17&sr=c&sig=Yh2SoJ1NhhLRwCLln7de%2Fkabcdefghijklmno5sWEIk%3D
+  

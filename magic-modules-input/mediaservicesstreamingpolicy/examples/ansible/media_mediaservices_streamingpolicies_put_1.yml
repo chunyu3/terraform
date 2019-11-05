@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mediaservicesstreamingpolicy
+  description: Creates a Streaming Policy with envelopeEncryption only
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaService
+    streaming_policy_name: myStreamingPolicy
+    default_content_key_policy_name: PolicyWithClearKeyOptionAndTokenRestriction
+    envelope_encryption:
+      enabled_protocols:
+        dash: true
+        hls: true
+        smooth_streaming: true
+      content_keys:
+        default_key:
+          label: aesDefaultKey
+      custom_key_acquisition_url_template: 'https://contoso.com/{AssetAlternativeId}/envelope/{ContentKeyId}'
+  

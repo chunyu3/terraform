@@ -1,0 +1,40 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_costmanagementview
+  description: CreateOrUpdatePrivateView
+  code:
+    view_name: myView
+    e_tag: '"1d4ff9fe66f1d10"'
+    display_name: swagger Example
+    query:
+      type: Usage
+      timeframe: MonthToDate
+      dataset:
+        granularity: Daily
+        aggregation:
+          totalCost:
+            name: PreTaxCost
+            function: Sum
+        grouping: []
+        sorting:
+          - direction: Ascending
+            name: UsageDate
+    chart: Table
+    accumulated: 'true'
+    metric: ActualCost
+    kpis:
+      - type: Forecast
+        enabled: true
+      - type: Budget
+        id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Consumption/budgets/{{ budget_name }}
+        enabled: true
+    pivots:
+      - type: Dimension
+        name: ServiceName
+      - type: Dimension
+        name: MeterCategory
+      - type: TagKey
+        name: swaggerTagKey
+  

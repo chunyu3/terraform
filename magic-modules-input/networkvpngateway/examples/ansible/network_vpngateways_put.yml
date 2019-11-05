@@ -1,0 +1,33 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkvpngateway
+  description: VpnGatewayPut
+  code:
+    resource_group: myResourceGroup
+    gateway_name: myVpnGateway
+    vpn_gateway_parameters:
+      location: West US
+      tags:
+        key1: value1
+      properties:
+        virtualHub:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/virtualHubs/{{ virtual_hub_name }}
+        connections:
+          - name: vpnConnection1
+            properties:
+              remoteVpnSite:
+                id: >-
+                  /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                  resource_group }}/providers/Microsoft.Network/vpnSites/{{
+                  vpn_site_name }}
+              sharedKey: key
+        bgpSettings:
+          asn: '65515'
+          bgpPeeringAddress: 10.0.1.30
+          peerWeight: '0'
+        policies:
+          allowBranchToBranchTraffic: true
+          allowVnetToVnetTraffic: false
+  

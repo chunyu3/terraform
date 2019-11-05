@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networksecurityrule
+  description: Create security rule
+  code:
+    resource_group: myResourceGroup
+    network_security_group_name: myNetworkSecurityGroup
+    security_rule_name: mySecurityRule
+    security_rule_parameters:
+      properties:
+        protocol: '*'
+        sourceAddressPrefix: 10.0.0.0/8
+        destinationAddressPrefix: 11.0.0.0/8
+        access: Deny
+        destinationPortRange: '8080'
+        sourcePortRange: '*'
+        priority: '100'
+        direction: Outbound
+  

@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_managedservicesregistrationassignment
+  description: Put Registration Assignment
+  code:
+    scope: subscription/0afefe50-734e-4610-8a82-a144ahf49dea
+    registration_assignment_id: myRegistrationAssignment
+    request_body:
+      properties:
+        registrationDefinitionId: >-
+          /subscriptions/{{ subscription_id
+          }}/providers/Microsoft.ManagedServices/registrationDefinitions/{{
+          registration_definition_name }}
+  

@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_backupprotectionintent
+  description: Create or Update Azure Vm Protection Intent
+  code:
+    vault_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myBackupFabric
+    intent_object_name: myBackupProtectionIntent
+    source_resource_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Compute/virtualMachines/{{ virtual_machine_name }}
+    policy_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.RecoveryServices/vaults/{{ vault_name
+      }}/backupPolicies/{{ backup_policy_name }}
+  

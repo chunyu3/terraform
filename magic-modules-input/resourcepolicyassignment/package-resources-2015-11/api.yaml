@@ -1,0 +1,173 @@
+--- !ruby/object:Api::Product
+name: Azure PolicyAssignment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PolicyAssignment
+    api_name: Authorization
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Authorization
+      go_client_namespace: resource
+      go_client: policyAssignmentsClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: ResourceManagementClient.policy_assignments
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'policyAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policyAssignments
+            go_variable_name: policyAssignmentName
+            python_parameter_name: policy_assignment_name
+            python_variable_name: policy_assignment_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: PolicyAssignment
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicyAssignmentProperties
+            go_type_name: PolicyAssignmentProperties
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/policyDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_definition_id
+          '/properties/policyDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyDefinitionID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'policyAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policyAssignments
+            go_variable_name: policyAssignmentName
+            python_parameter_name: policy_assignment_name
+            python_variable_name: policy_assignment_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'policyAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policyAssignments
+            go_variable_name: policyAssignmentName
+            python_parameter_name: policy_assignment_name
+            python_variable_name: policy_assignment_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicyAssignmentProperties
+            go_type_name: PolicyAssignmentProperties
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/policyDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyDefinitionID
+          '/policyDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_definition_id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListForScope
+        python_func_name: list_for_scope
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListForResourceGroup
+        python_func_name: list_for_resource_group
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListForResource
+        python_func_name: list_for_resource
+        request:
+
+    description: |
+      Manage Azure PolicyAssignment instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'Scope.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'policyAssignmentName'
+        description: 'Policy assignment name.'
+        required: true
+        input: true
+        azure_sdk_references: ['policyAssignmentName']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'Gets or sets the policy assignment scope.'
+        required: false
+        azure_sdk_references: ['/scope', '/properties/scope']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Gets or sets the policy assignment display name.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'policyDefinitionId'
+        description: 'Gets or sets the policy definition Id.'
+        required: false
+        azure_sdk_references: ['/policyDefinitionId', '/properties/policyDefinitionId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets the policy assignment name.'
+        output: true
+        azure_sdk_references: ['/name']

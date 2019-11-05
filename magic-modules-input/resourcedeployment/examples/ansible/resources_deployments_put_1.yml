@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourcedeployment
+  description: Create a deployment that will redeploy another deployment on failure
+  code:
+    resource_group: myResourceGroup
+    deployment_name: myDeployment
+    template_link: {}
+    mode: Complete
+    on_error_deployment:
+      type: SpecificDeployment
+      deployment_name: '{nameOfDeploymentToUse}'
+  

@@ -1,0 +1,35 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourcepolicysetdefinition
+  description: Create or update a policy set definition with groups
+  code:
+    policy_set_definition_name: myPolicySetDefinition
+    display_name: Cost Management
+    description: Policies to enforce low cost storage SKUs
+    metadata:
+      category: Cost Management
+    policy_definitions:
+      - policy_definition_id: >-
+          /subscriptions/{{ subscription_id
+          }}/providers/Microsoft.Authorization/policyDefinitions/{{
+          policy_definition_name }}
+        policy_definition_reference_id: Limit_Skus
+        group_names:
+          - CostSaving
+      - policy_definition_id: >-
+          /subscriptions/{{ subscription_id
+          }}/providers/Microsoft.Authorization/policyDefinitions/{{
+          policy_definition_name }}
+        policy_definition_reference_id: Resource_Naming
+        group_names:
+          - Organizational
+    policy_definition_groups:
+      - name: CostSaving
+        display_name: Cost Management Policies
+        description: Policies designed to control spend within a subscription.
+      - name: Organizational
+        display_name: Organizational Policies
+        description: >-
+          Policies that help enforce resource organization standards within a
+          subscription.
+  

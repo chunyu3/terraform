@@ -1,0 +1,38 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_monitorclientscheduledqueryrule
+  description: Create or Update rule - AlertingAction with Cross-Resource
+  code:
+    resource_group: myResourceGroup
+    rule_name: myScheduledQueryRule
+    location: eastus
+    tags: {}
+    description: Sample Cross Resource alert
+    enabled: 'true'
+    source:
+      query: 'union requests, workspace("sampleWorkspace").Update'
+      authorized_resources:
+        - >-
+          /subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace
+        - >-
+          /subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI
+      data_source_id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/microsoft.insights/components/{{ component_name }}
+      query_type: ResultCount
+    schedule:
+      frequency_in_minutes: '60'
+      time_window_in_minutes: '60'
+    action:
+      severity: '3'
+      aznsAction:
+        actionGroup:
+          - >-
+            /subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag
+        emailSubject: Cross Resource Mail!!
+      trigger:
+        thresholdOperator: GreaterThan
+        threshold: '5000'
+      odata.type: >-
+        Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction
+  

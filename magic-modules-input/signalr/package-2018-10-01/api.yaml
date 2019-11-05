@@ -1,0 +1,523 @@
+--- !ruby/object:Api::Product
+name: Azure SignalR Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SignalR
+    api_name: SignalRService
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.SignalRService
+      go_client_namespace: signalr
+      go_client: signalRClient
+      python_client_namespace: azure.mgmt.signalr
+      python_client: SignalRManagementClient.signal_r
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: signalR
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: CreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ResourceSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Tier
+            go_enum_type_name: SkuTier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CreateOrUpdateProperties
+            go_type_name: CreateOrUpdateProperties
+          '/hostNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name_prefix
+          '/properties/hostNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostNamePrefix
+          '/features': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: features
+          '/features/flag': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: flag
+          '/features/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/features': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Features
+            go_type_name: Feature
+          '/properties/features/flag': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Flag
+            go_enum_type_name: FeatureFlags
+          '/properties/features/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/features/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"359","$type":"DictionaryType","valueType":{"$id":"360","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"361","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"362","fixed":false},"deprecated":false}
+          '/cors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cors
+          '/cors/allowedOrigins': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: allowed_origins
+          '/properties/cors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Cors
+            go_type_name: CorsSettings
+          '/properties/cors/allowedOrigins': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AllowedOrigins
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: signalR
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: CreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ResourceSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Tier
+            go_enum_type_name: SkuTier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CreateOrUpdateProperties
+            go_type_name: CreateOrUpdateProperties
+          '/hostNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name_prefix
+          '/properties/hostNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostNamePrefix
+          '/features': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: features
+          '/features/flag': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: flag
+          '/features/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/features': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Features
+            go_type_name: Feature
+          '/properties/features/flag': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Flag
+            go_enum_type_name: FeatureFlags
+          '/properties/features/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/features/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"359","$type":"DictionaryType","valueType":{"$id":"360","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"361","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"362","fixed":false},"deprecated":false}
+          '/cors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cors
+          '/cors/allowedOrigins': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: allowed_origins
+          '/properties/cors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Cors
+            go_type_name: CorsSettings
+          '/properties/cors/allowedOrigins': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AllowedOrigins
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: signalR
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: signalR
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ResourceSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Tier
+            go_enum_type_name: SkuTier
+            python_field_name: tier
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CreateOrUpdateProperties
+            go_type_name: CreateOrUpdateProperties
+          '/properties/hostNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostNamePrefix
+          '/hostNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name_prefix
+          '/properties/features': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Features
+            go_type_name: Feature
+          '/properties/features/flag': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Flag
+            go_enum_type_name: FeatureFlags
+          '/properties/features/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/features/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"359","$type":"DictionaryType","valueType":{"$id":"360","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"361","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"362","fixed":false},"deprecated":false}
+          '/features': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: features
+          '/features/flag': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: flag
+          '/features/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/cors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Cors
+            go_type_name: CorsSettings
+          '/properties/cors/allowedOrigins': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AllowedOrigins
+          '/cors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cors
+          '/cors/allowedOrigins': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: allowed_origins
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/externalIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalIp
+          '/externalIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_ip
+          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
+          '/properties/publicPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PublicPort
+          '/publicPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: public_port
+          '/properties/serverPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ServerPort
+          '/serverPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: server_port
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure SignalR instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'A list of key value pairs that describe the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The billing information of the resource.(e.g. basic vs. standard)'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the SKU. Required.<br>Allowed values: Standard_S1, Free_F1'
+            required: true
+            azure_sdk_references: ['/sku/name']
+          - !ruby/object:Api::Type::Enum
+            name: 'tier'
+            description: 'Optional tier of this particular SKU. ''Standard'' or ''Free''. <br>`Basic` is deprecated, use `Standard` instead.'
+            required: false
+            azure_sdk_references: ['/sku/tier']
+            values:
+              - :Free
+              - :Basic
+              - :Standard
+              - :Premium
+            default_value: :Free
+          - !ruby/object:Api::Type::String
+            name: 'size'
+            description: 'Optional string. For future use.'
+            required: false
+            azure_sdk_references: ['/sku/size']
+          - !ruby/object:Api::Type::String
+            name: 'family'
+            description: 'Optional string. For future use.'
+            required: false
+            azure_sdk_references: ['/sku/family']
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'Optional, integer. The unit count of SignalR resource. 1 by default.<br>If present, following values are allowed:<br>    Free: 1<br>    Standard: 1,2,5,10,20,50,100'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      - !ruby/object:Api::Type::String
+        name: 'hostNamePrefix'
+        description: 'Prefix for the hostName of the SignalR service. Retained for future use.<br>The hostname will be of format: &lt;hostNamePrefix&gt;.service.signalr.net.'
+        required: false
+        azure_sdk_references: ['/hostNamePrefix', '/properties/hostNamePrefix']
+      - !ruby/object:Api::Type::Array
+        name: 'features'
+        description: 'List of SignalR featureFlags. e.g. ServiceMode.<br>FeatureFlags that are not included in the parameters for the update operation will not be modified.<br>And the response will only include featureFlags that are explicitly set. <br>When a featureFlag is not explicitly set, SignalR service will use its globally default value. <br>But keep in mind, the default value doesn''t mean "false". It varies in terms of different FeatureFlags.'
+        required: false
+        azure_sdk_references: ['/features', '/properties/features']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'flag'
+              description: 'FeatureFlags is the supported features of Azure SignalR service.<br>- ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn''t have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use.<br>- EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively.'
+              required: true
+              azure_sdk_references: ['/features/flag', '/properties/features/flag']
+              values:
+                - :ServiceMode
+                - :EnableConnectivityLogs
+            - !ruby/object:Api::Type::String
+              name: 'value'
+              description: 'Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/en-us/azure/azure-signalr/ for allowed values.'
+              required: true
+              azure_sdk_references: ['/features/value', '/properties/features/value']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'cors'
+        description: 'Cross-Origin Resource Sharing (CORS) settings.'
+        required: false
+        azure_sdk_references: ['/cors', '/properties/cors']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'allowedOrigins'
+            description: 'Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default.'
+            required: false
+            azure_sdk_references: ['/cors/allowedOrigins', '/properties/cors/allowedOrigins']
+            item_type: Api::Type::String
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Azure GEO region: e.g. West US | East US | North Central US | South Central US | West Europe | North Europe | East Asia | Southeast Asia | etc. <br>The geo region of a resource never changes after it is created.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the SignalR resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Unknown
+          - :Succeeded
+          - :Failed
+          - :Canceled
+          - :Running
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Moving
+      - !ruby/object:Api::Type::String
+        name: 'externalIp'
+        description: 'The publicly accessible IP of the SignalR service.'
+        output: true
+        azure_sdk_references: ['/externalIP', '/properties/externalIP']
+      - !ruby/object:Api::Type::String
+        name: 'hostName'
+        description: 'FQDN of the SignalR service instance. Format: xxx.service.signalr.net'
+        output: true
+        azure_sdk_references: ['/hostName', '/properties/hostName']
+      - !ruby/object:Api::Type::Integer
+        name: 'publicPort'
+        description: 'The publicly accessible port of the SignalR service which is designed for browser/client side usage.'
+        output: true
+        azure_sdk_references: ['/publicPort', '/properties/publicPort']
+      - !ruby/object:Api::Type::Integer
+        name: 'serverPort'
+        description: 'The publicly accessible port of the SignalR service which is designed for customer server side usage.'
+        output: true
+        azure_sdk_references: ['/serverPort', '/properties/serverPort']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'Version of the SignalR resource. Probably you need the same or higher version of client SDKs.'
+        output: true
+        azure_sdk_references: ['/version', '/properties/version']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the service - e.g. "Microsoft.SignalRService/SignalR"'
+        output: true
+        azure_sdk_references: ['/type']

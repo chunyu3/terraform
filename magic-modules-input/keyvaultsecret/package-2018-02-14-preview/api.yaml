@@ -1,0 +1,360 @@
+--- !ruby/object:Api::Product
+name: Azure Secret Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Secret
+    api_name: KeyVault
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.KeyVault
+      go_client_namespace: keyvault
+      go_client: secretsClient
+      python_client_namespace: azure.mgmt.keyvault
+      python_client: KeyVaultManagementClient.secrets
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'secretName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: secrets
+            go_variable_name: secretName
+            python_parameter_name: secret_name
+            python_variable_name: secret_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SecretCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecretProperties
+            go_type_name: SecretProperties
+          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_type
+          '/properties/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentType
+          '/attributes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: attributes
+          '/attributes/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/attributes/nbf': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: nbf
+          '/attributes/exp': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: exp
+          '/properties/attributes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Attributes
+            go_type_name: SecretAttributes
+          '/properties/attributes/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/attributes/nbf': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Nbf
+          '/properties/attributes/exp': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Exp
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'secretName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: secrets
+            go_variable_name: secretName
+            python_parameter_name: secret_name
+            python_variable_name: secret_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SecretCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecretProperties
+            go_type_name: SecretProperties
+          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_type
+          '/properties/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentType
+          '/attributes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: attributes
+          '/attributes/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/attributes/nbf': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: nbf
+          '/attributes/exp': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: exp
+          '/properties/attributes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Attributes
+            go_type_name: SecretAttributes
+          '/properties/attributes/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/attributes/nbf': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Nbf
+          '/properties/attributes/exp': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Exp
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'secretName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: secrets
+            go_variable_name: secretName
+            python_parameter_name: secret_name
+            python_variable_name: secret_name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecretProperties
+            go_type_name: SecretProperties
+          '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentType
+          '/contentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_type
+          '/properties/attributes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Attributes
+            go_type_name: SecretAttributes
+          '/properties/attributes/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/attributes/nbf': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Nbf
+          '/properties/attributes/exp': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Exp
+          '/properties/attributes/created': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Created
+          '/properties/attributes/updated': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [go]
+            go_field_name: Updated
+          '/attributes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: attributes
+          '/attributes/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/attributes/nbf': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: nbf
+          '/attributes/exp': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: exp
+          '/attributes/created': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: created
+          '/attributes/updated': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[unixTime]]
+            applicable_to: [python]
+            python_field_name: updated
+          '/properties/secretUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretUri
+          '/secretUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_uri
+          '/properties/secretUriWithVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretUriWithVersion
+          '/secretUriWithVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_uri_with_version
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+
+    description: |
+      Manage Azure Secret instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the Resource Group to which the vault belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'vaultName'
+        description: 'Name of the vault'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Type::String
+        name: 'secretName'
+        description: 'Name of the secret'
+        required: true
+        input: true
+        azure_sdk_references: ['secretName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags that will be assigned to the secret. '
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'value'
+        description: 'The value of the secret. NOTE: ''value'' will never be returned from the service, as APIs using this model are is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.'
+        required: false
+        azure_sdk_references: ['/value', '/properties/value']
+      - !ruby/object:Api::Type::String
+        name: 'contentType'
+        description: 'The content type of the secret.'
+        required: false
+        azure_sdk_references: ['/contentType', '/properties/contentType']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'attributes'
+        description: 'The attributes of the secret.'
+        required: false
+        azure_sdk_references: ['/attributes', '/properties/attributes']
+        properties:
+          - !ruby/object:Api::Type::Boolean
+            name: 'enabled'
+            description: 'Determines whether the object is enabled.'
+            required: false
+            azure_sdk_references: ['/attributes/enabled', '/properties/attributes/enabled']
+          - !ruby/object:Api::Azure::Type::[unknown-primary[unixTime]]
+            name: 'nbf'
+            description: 'Not before date in seconds since 1970-01-01T00:00:00Z.'
+            required: false
+            azure_sdk_references: ['/attributes/nbf', '/properties/attributes/nbf']
+          - !ruby/object:Api::Azure::Type::[unknown-primary[unixTime]]
+            name: 'exp'
+            description: 'Expiry date in seconds since 1970-01-01T00:00:00Z.'
+            required: false
+            azure_sdk_references: ['/attributes/exp', '/properties/attributes/exp']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'secretUri'
+        description: 'The URI to retrieve the current version of the secret.'
+        output: true
+        azure_sdk_references: ['/secretUri', '/properties/secretUri']
+      - !ruby/object:Api::Type::String
+        name: 'secretUriWithVersion'
+        description: 'The URI to retrieve the specific version of the secret.'
+        output: true
+        azure_sdk_references: ['/secretUriWithVersion', '/properties/secretUriWithVersion']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The Azure Resource Manager resource ID for the key vault.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the key vault.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The resource type of the key vault.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The supported Azure location where the key vault should be created.'
+        output: true
+        azure_sdk_references: ['/location']

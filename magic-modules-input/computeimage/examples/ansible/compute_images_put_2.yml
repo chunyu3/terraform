@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computeimage
+  description: Create a virtual machine image from a managed disk.
+  code:
+    resource_group: myResourceGroup
+    image_name: myImage
+    location: West US
+    storage_profile:
+      os_disk:
+        os_type: Linux
+        os_state: Generalized
+        managed_disk:
+          id: >-
+            subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk
+  

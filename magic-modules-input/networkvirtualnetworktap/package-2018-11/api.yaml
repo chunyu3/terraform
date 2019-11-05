@@ -1,0 +1,1566 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualNetworkTap Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualNetworkTap
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: virtualNetworkTapsClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.virtual_network_taps
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'tapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualNetworkTaps
+            go_variable_name: tapName
+            python_parameter_name: tap_name
+            python_variable_name: tap_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: VirtualNetworkTap
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkTapPropertiesFormat
+            go_type_name: VirtualNetworkTapPropertiesFormat
+          '/destinationNetworkInterfaceIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination_network_interface_ipconfiguration
+          '/destinationNetworkInterfaceIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_taps
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: application_gateway_backend_address_pools
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancer_backend_address_pools
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancer_inbound_nat_rules
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/destinationNetworkInterfaceIPConfiguration/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_ipallocation_method
+          '/destinationNetworkInterfaceIPConfiguration/privateIPAddressVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_ip_address_version
+          '/destinationNetworkInterfaceIPConfiguration/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/destinationNetworkInterfaceIPConfiguration/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: primary
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: zones
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: application_security_groups
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationNetworkInterfaceIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/destinationNetworkInterfaceIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DestinationNetworkInterfaceIpconfiguration
+            go_type_name: InterfaceIPConfiguration
+          '/properties/destinationNetworkInterfaceIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InterfaceIPConfigurationPropertiesFormat
+            go_type_name: InterfaceIPConfigurationPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkTaps
+            go_type_name: VirtualNetworkTap
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkTapPropertiesFormat
+            go_type_name: VirtualNetworkTapPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ApplicationGatewayBackendAddressPools
+            go_type_name: ApplicationGatewayBackendAddressPool
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
+            go_type_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerBackendAddressPools
+            go_type_name: BackendAddressPool
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackendAddressPoolPropertiesFormat
+            go_type_name: BackendAddressPoolPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerInboundNatRules
+            go_type_name: InboundNatRule
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InboundNatRulePropertiesFormat
+            go_type_name: InboundNatRulePropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateIpallocationMethod
+            go_enum_type_name: IPAllocationMethod
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAddressVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddressVersion
+            go_enum_type_name: IPVersion
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Subnet
+            go_type_name: Subnet
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubnetPropertiesFormat
+            go_type_name: SubnetPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Primary
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddress
+            go_type_name: PublicIPAddress
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: PublicIPAddressSku
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddressPropertiesFormat
+            go_type_name: PublicIPAddressPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Zones
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ApplicationSecurityGroups
+            go_type_name: ApplicationSecurityGroup
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationSecurityGroupPropertiesFormat
+            go_type_name: ApplicationSecurityGroupPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/destinationLoadBalancerFrontEndIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination_load_balancer_front_end_ipconfiguration
+          '/destinationLoadBalancerFrontEndIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/destinationLoadBalancerFrontEndIPConfiguration/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_ipallocation_method
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: zones
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: public_ipprefix
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPPrefix/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationLoadBalancerFrontEndIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationLoadBalancerFrontEndIPConfiguration/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: zones
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DestinationLoadBalancerFrontEndIpconfiguration
+            go_type_name: FrontendIPConfiguration
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FrontendIPConfigurationPropertiesFormat
+            go_type_name: FrontendIPConfigurationPropertiesFormat
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateIpallocationMethod
+            go_enum_type_name: IPAllocationMethod
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Subnet
+            go_type_name: Subnet
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubnetPropertiesFormat
+            go_type_name: SubnetPropertiesFormat
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddress
+            go_type_name: PublicIPAddress
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: PublicIPAddressSku
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddressPropertiesFormat
+            go_type_name: PublicIPAddressPropertiesFormat
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Zones
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIpprefix
+            go_type_name: SubResource
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPPrefix/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Zones
+          '/destinationPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: destination_port
+          '/properties/destinationPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DestinationPort
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'tapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualNetworkTaps
+            go_variable_name: tapName
+            python_parameter_name: tap_name
+            python_variable_name: tap_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'tapName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualNetworkTaps
+            go_variable_name: tapName
+            python_parameter_name: tap_name
+            python_variable_name: tap_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkTapPropertiesFormat
+            go_type_name: VirtualNetworkTapPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DestinationNetworkInterfaceIpconfiguration
+            go_type_name: InterfaceIPConfiguration
+          '/properties/destinationNetworkInterfaceIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InterfaceIPConfigurationPropertiesFormat
+            go_type_name: InterfaceIPConfigurationPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkTaps
+            go_type_name: VirtualNetworkTap
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkTapPropertiesFormat
+            go_type_name: VirtualNetworkTapPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ApplicationGatewayBackendAddressPools
+            go_type_name: ApplicationGatewayBackendAddressPool
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
+            go_type_name: ApplicationGatewayBackendAddressPoolPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerBackendAddressPools
+            go_type_name: BackendAddressPool
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackendAddressPoolPropertiesFormat
+            go_type_name: BackendAddressPoolPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancerInboundNatRules
+            go_type_name: InboundNatRule
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InboundNatRulePropertiesFormat
+            go_type_name: InboundNatRulePropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateIpallocationMethod
+            go_enum_type_name: IPAllocationMethod
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAddressVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddressVersion
+            go_enum_type_name: IPVersion
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Subnet
+            go_type_name: Subnet
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubnetPropertiesFormat
+            go_type_name: SubnetPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Primary
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddress
+            go_type_name: PublicIPAddress
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: PublicIPAddressSku
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddressPropertiesFormat
+            go_type_name: PublicIPAddressPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Zones
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ApplicationSecurityGroups
+            go_type_name: ApplicationSecurityGroup
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApplicationSecurityGroupPropertiesFormat
+            go_type_name: ApplicationSecurityGroupPropertiesFormat
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationNetworkInterfaceIPConfiguration/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/properties/destinationNetworkInterfaceIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationNetworkInterfaceIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/destinationNetworkInterfaceIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination_network_interface_ipconfiguration
+          '/destinationNetworkInterfaceIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_taps
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: application_gateway_backend_address_pools
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancer_backend_address_pools
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancer_inbound_nat_rules
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/destinationNetworkInterfaceIPConfiguration/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_ipallocation_method
+          '/destinationNetworkInterfaceIPConfiguration/privateIPAddressVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_ip_address_version
+          '/destinationNetworkInterfaceIPConfiguration/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/destinationNetworkInterfaceIPConfiguration/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: primary
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: zones
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/publicIPAddress/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: application_security_groups
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationNetworkInterfaceIPConfiguration/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/destinationNetworkInterfaceIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationNetworkInterfaceIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DestinationLoadBalancerFrontEndIpconfiguration
+            go_type_name: FrontendIPConfiguration
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FrontendIPConfigurationPropertiesFormat
+            go_type_name: FrontendIPConfigurationPropertiesFormat
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrivateIpallocationMethod
+            go_enum_type_name: IPAllocationMethod
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Subnet
+            go_type_name: Subnet
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubnetPropertiesFormat
+            go_type_name: SubnetPropertiesFormat
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIpAddress
+            go_type_name: PublicIPAddress
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: PublicIPAddressSku
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddressPropertiesFormat
+            go_type_name: PublicIPAddressPropertiesFormat
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Zones
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublicIpprefix
+            go_type_name: SubResource
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPPrefix/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: InboundNatRules
+            go_type_name: SubResource
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/inboundNatPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: InboundNatPools
+            go_type_name: SubResource
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/outboundRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutboundRules
+            go_type_name: SubResource
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: LoadBalancingRules
+            go_type_name: SubResource
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/properties/destinationLoadBalancerFrontEndIPConfiguration/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Zones
+          '/destinationLoadBalancerFrontEndIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: destination_load_balancer_front_end_ipconfiguration
+          '/destinationLoadBalancerFrontEndIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/privateIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/destinationLoadBalancerFrontEndIPConfiguration/privateIPAllocationMethod': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: private_ipallocation_method
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: subnet
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationLoadBalancerFrontEndIPConfiguration/subnet/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: zones
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: public_ipprefix
+          '/destinationLoadBalancerFrontEndIPConfiguration/publicIPPrefix/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/destinationLoadBalancerFrontEndIPConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: inbound_nat_rules
+          '/destinationLoadBalancerFrontEndIPConfiguration/inboundNatPools': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: inbound_nat_pools
+          '/destinationLoadBalancerFrontEndIPConfiguration/outboundRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outbound_rules
+          '/destinationLoadBalancerFrontEndIPConfiguration/loadBalancingRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: load_balancing_rules
+          '/destinationLoadBalancerFrontEndIPConfiguration/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/destinationLoadBalancerFrontEndIPConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/destinationLoadBalancerFrontEndIPConfiguration/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/destinationLoadBalancerFrontEndIPConfiguration/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: zones
+          '/properties/destinationPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DestinationPort
+          '/destinationPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: destination_port
+          '/properties/networkInterfaceTapConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NetworkInterfaceTapConfigurations
+            go_type_name: InterfaceTapConfiguration
+          '/networkInterfaceTapConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: network_interface_tap_configurations
+          '/properties/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceGuid
+          '/resourceGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_guid
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure VirtualNetworkTap instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'tapName'
+        description: 'The name of the virtual network tap.'
+        required: true
+        input: true
+        azure_sdk_references: ['tapName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'destinationNetworkInterfaceIpconfiguration'
+        description: 'The reference to the private IP Address of the collector nic that will receive the tap'
+        required: false
+        azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration', '/properties/destinationNetworkInterfaceIPConfiguration']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/id', '/properties/destinationNetworkInterfaceIPConfiguration/id']
+          - !ruby/object:Api::Type::Array
+            name: 'virtualNetworkTaps'
+            description: 'The reference to Virtual Network Taps.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps', '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/id']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource location.'
+                  required: false
+                  input: true
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/location', '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/location']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/tags', '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/tags']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/virtualNetworkTaps/etag', '/properties/destinationNetworkInterfaceIPConfiguration/properties/virtualNetworkTaps/etag']
+          - !ruby/object:Api::Type::Array
+            name: 'applicationGatewayBackendAddressPools'
+            description: 'The reference of ApplicationGatewayBackendAddressPool resource.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Name of the backend address pool that is unique within an Application Gateway.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/name', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/name']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/etag', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/etag']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Type of the resource.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationGatewayBackendAddressPools/type', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationGatewayBackendAddressPools/type']
+          - !ruby/object:Api::Type::Array
+            name: 'loadBalancerBackendAddressPools'
+            description: 'The reference of LoadBalancerBackendAddressPool resource.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/name', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/name']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerBackendAddressPools/etag', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerBackendAddressPools/etag']
+          - !ruby/object:Api::Type::Array
+            name: 'loadBalancerInboundNatRules'
+            description: 'A list of references of LoadBalancerInboundNatRules.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/name', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/name']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/loadBalancerInboundNatRules/etag', '/properties/destinationNetworkInterfaceIPConfiguration/properties/loadBalancerInboundNatRules/etag']
+          - !ruby/object:Api::Type::String
+            name: 'privateIpAddress'
+            description: 'Private IP address of the IP configuration.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/privateIPAddress', '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAddress']
+          - !ruby/object:Api::Type::Enum
+            name: 'privateIpallocationMethod'
+            description: 'Defines how a private IP address is assigned. Possible values are: ''Static'' and ''Dynamic''.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/privateIPAllocationMethod', '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAllocationMethod']
+            values:
+              - :Static
+              - :Dynamic
+            default_value: :Static
+          - !ruby/object:Api::Type::Enum
+            name: 'privateIpAddressVersion'
+            description: 'Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: ''IPv4'' and ''IPv6''.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/privateIPAddressVersion', '/properties/destinationNetworkInterfaceIPConfiguration/properties/privateIPAddressVersion']
+            values:
+              - :IPv4
+              - :IPv6
+            default_value: :IPv4
+          - !ruby/object:Api::Type::NestedObject
+            name: 'subnet'
+            description: 'Subnet bound to the IP configuration.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/subnet', '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/subnet/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/id']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/subnet/name', '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/name']
+              - !ruby/object:Api::Type::String
+                name: 'etag'
+                description: 'A unique read-only string that changes whenever the resource is updated.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/subnet/etag', '/properties/destinationNetworkInterfaceIPConfiguration/properties/subnet/etag']
+          - !ruby/object:Api::Type::Boolean
+            name: 'primary'
+            description: 'Gets whether this is a primary customer address on the network interface.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/primary', '/properties/destinationNetworkInterfaceIPConfiguration/properties/primary']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'publicIpAddress'
+            description: 'Public IP address bound to the IP configuration.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/publicIPAddress', '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/publicIPAddress/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/id']
+              - !ruby/object:Api::Azure::Type::Location
+                name: 'location'
+                description: 'Resource location.'
+                required: false
+                input: true
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/publicIPAddress/location', '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/location']
+              - !ruby/object:Api::Azure::Type::Tags
+                name: 'tags'
+                description: 'Resource tags.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/publicIPAddress/tags', '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/tags']
+              - !ruby/object:Api::Type::String
+                name: 'etag'
+                description: 'A unique read-only string that changes whenever the resource is updated.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/publicIPAddress/etag', '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/etag']
+              - !ruby/object:Api::Type::Array
+                name: 'zones'
+                description: 'A list of availability zones denoting the IP allocated for the resource needs to come from.'
+                required: false
+                azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/publicIPAddress/zones', '/properties/destinationNetworkInterfaceIPConfiguration/properties/publicIPAddress/zones']
+                item_type: Api::Type::String
+          - !ruby/object:Api::Type::Array
+            name: 'applicationSecurityGroups'
+            description: 'Application security groups in which the IP configuration is included.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/id', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/id']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource location.'
+                  required: false
+                  input: true
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/location', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/location']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags.'
+                  required: false
+                  azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/applicationSecurityGroups/tags', '/properties/destinationNetworkInterfaceIPConfiguration/properties/applicationSecurityGroups/tags']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/name', '/properties/destinationNetworkInterfaceIPConfiguration/name']
+          - !ruby/object:Api::Type::String
+            name: 'etag'
+            description: 'A unique read-only string that changes whenever the resource is updated.'
+            required: false
+            azure_sdk_references: ['/destinationNetworkInterfaceIPConfiguration/etag', '/properties/destinationNetworkInterfaceIPConfiguration/etag']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'destinationLoadBalancerFrontEndIpconfiguration'
+        description: 'The reference to the private IP address on the internal Load Balancer that will receive the tap'
+        required: false
+        azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration', '/properties/destinationLoadBalancerFrontEndIPConfiguration']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/id', '/properties/destinationLoadBalancerFrontEndIPConfiguration/id']
+          - !ruby/object:Api::Type::String
+            name: 'privateIpAddress'
+            description: 'The private IP address of the IP configuration.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/privateIPAddress', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/privateIPAddress']
+          - !ruby/object:Api::Type::Enum
+            name: 'privateIpallocationMethod'
+            description: 'The Private IP allocation method. Possible values are: ''Static'' and ''Dynamic''.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/privateIPAllocationMethod', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/privateIPAllocationMethod']
+            values:
+              - :Static
+              - :Dynamic
+            default_value: :Static
+          - !ruby/object:Api::Type::NestedObject
+            name: 'subnet'
+            description: 'The reference of the subnet resource.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/subnet', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/subnet/id', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/id']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/subnet/name', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/name']
+              - !ruby/object:Api::Type::String
+                name: 'etag'
+                description: 'A unique read-only string that changes whenever the resource is updated.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/subnet/etag', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/subnet/etag']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'publicIpAddress'
+            description: 'The reference of the Public IP resource.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/id', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/id']
+              - !ruby/object:Api::Azure::Type::Location
+                name: 'location'
+                description: 'Resource location.'
+                required: false
+                input: true
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/location', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/location']
+              - !ruby/object:Api::Azure::Type::Tags
+                name: 'tags'
+                description: 'Resource tags.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/tags', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/tags']
+              - !ruby/object:Api::Type::String
+                name: 'etag'
+                description: 'A unique read-only string that changes whenever the resource is updated.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/etag', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/etag']
+              - !ruby/object:Api::Type::Array
+                name: 'zones'
+                description: 'A list of availability zones denoting the IP allocated for the resource needs to come from.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPAddress/zones', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPAddress/zones']
+                item_type: Api::Type::String
+          - !ruby/object:Api::Type::NestedObject
+            name: 'publicIpprefix'
+            description: 'The reference of the Public IP Prefix resource.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPPrefix', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPPrefix']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/publicIPPrefix/id', '/properties/destinationLoadBalancerFrontEndIPConfiguration/properties/publicIPPrefix/id']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/name', '/properties/destinationLoadBalancerFrontEndIPConfiguration/name']
+          - !ruby/object:Api::Type::String
+            name: 'etag'
+            description: 'A unique read-only string that changes whenever the resource is updated.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/etag', '/properties/destinationLoadBalancerFrontEndIPConfiguration/etag']
+          - !ruby/object:Api::Type::Array
+            name: 'zones'
+            description: 'A list of availability zones denoting the IP allocated for the resource needs to come from.'
+            required: false
+            azure_sdk_references: ['/destinationLoadBalancerFrontEndIPConfiguration/zones', '/properties/destinationLoadBalancerFrontEndIPConfiguration/zones']
+            item_type: Api::Type::String
+      - !ruby/object:Api::Type::Integer
+        name: 'destinationPort'
+        description: 'The VXLAN destination port that will receive the tapped traffic.'
+        required: false
+        azure_sdk_references: ['/destinationPort', '/properties/destinationPort']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'networkInterfaceTapConfigurations'
+        description: 'Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped.'
+        output: true
+        azure_sdk_references: ['/networkInterfaceTapConfigurations', '/properties/networkInterfaceTapConfigurations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/networkInterfaceTapConfigurations/id', '/properties/networkInterfaceTapConfigurations/id']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'virtualNetworkTap'
+              description: 'The reference of the Virtual Network Tap resource.'
+              required: false
+              azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap/id', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Resource name.'
+                  required: false
+                  azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap/name', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type.'
+                  required: false
+                  azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap/type', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap/type']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource location.'
+                  required: false
+                  input: true
+                  azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap/location', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap/location']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags.'
+                  required: false
+                  azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap/tags', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap/tags']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/networkInterfaceTapConfigurations/virtualNetworkTap/etag', '/properties/networkInterfaceTapConfigurations/properties/virtualNetworkTap/etag']
+            - !ruby/object:Api::Type::String
+              name: 'provisioningState'
+              description: 'The provisioning state of the network interface tap configuration. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+              required: false
+              azure_sdk_references: ['/networkInterfaceTapConfigurations/provisioningState', '/properties/networkInterfaceTapConfigurations/properties/provisioningState']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+              required: false
+              azure_sdk_references: ['/networkInterfaceTapConfigurations/name', '/properties/networkInterfaceTapConfigurations/name']
+            - !ruby/object:Api::Type::String
+              name: 'etag'
+              description: 'A unique read-only string that changes whenever the resource is updated.'
+              required: false
+              azure_sdk_references: ['/networkInterfaceTapConfigurations/etag', '/properties/networkInterfaceTapConfigurations/etag']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Sub Resource type.'
+              required: false
+              azure_sdk_references: ['/networkInterfaceTapConfigurations/type', '/properties/networkInterfaceTapConfigurations/type']
+      - !ruby/object:Api::Type::String
+        name: 'resourceGuid'
+        description: 'The resourceGuid property of the virtual network tap.'
+        output: true
+        azure_sdk_references: ['/resourceGuid', '/properties/resourceGuid']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state of the virtual network tap. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

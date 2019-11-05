@@ -1,0 +1,186 @@
+--- !ruby/object:Api::Product
+name: Azure PolicyDefinition Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PolicyDefinition
+    api_name: Authorization
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Authorization
+      go_client_namespace: resource
+      go_client: policyDefinitionsClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: PolicyClient.policy_definitions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'policyDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policyDefinitions
+            go_variable_name: policyDefinitionName
+            python_parameter_name: policy_definition_name
+            python_variable_name: policy_definition_name
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'policyDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policyDefinitions
+            go_variable_name: policyDefinitionName
+            python_parameter_name: policy_definition_name
+            python_variable_name: policy_definition_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'policyDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: policyDefinitions
+            go_variable_name: policyDefinitionName
+            python_parameter_name: policy_definition_name
+            python_variable_name: policy_definition_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicyDefinitionProperties
+            go_type_name: PolicyDefinitionProperties
+          '/properties/policyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PolicyType
+            go_enum_type_name: PolicyType
+          '/policyType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: policy_type
+          '/properties/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Mode
+            go_enum_type_name: PolicyMode
+          '/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: mode
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/policyRule': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: PolicyRule
+          '/policyRule': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: policy_rule
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBuiltIn
+        python_func_name: list_built_in
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByManagementGroup
+        python_func_name: list_by_management_group
+        request:
+
+    description: |
+      Manage Azure PolicyDefinition instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'policyDefinitionName'
+        description: 'The name of the policy definition to create.'
+        required: true
+        input: true
+        azure_sdk_references: ['policyDefinitionName']
+      - !ruby/object:Api::Type::Enum
+        name: 'policyType'
+        description: 'The type of policy definition. Possible values are NotSpecified, BuiltIn, and Custom.'
+        required: false
+        azure_sdk_references: ['/policyType', '/properties/policyType']
+        values:
+          - :NotSpecified
+          - :BuiltIn
+          - :Custom
+        default_value: :NotSpecified
+      - !ruby/object:Api::Type::Enum
+        name: 'mode'
+        description: 'The policy definition mode. Possible values are NotSpecified, Indexed, and All.'
+        required: false
+        azure_sdk_references: ['/mode', '/properties/mode']
+        values:
+          - :NotSpecified
+          - :Indexed
+          - :All
+        default_value: :NotSpecified
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'The display name of the policy definition.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The policy definition description.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'policyRule'
+        description: 'The policy rule.'
+        required: false
+        azure_sdk_references: ['/policyRule', '/properties/policyRule']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'metadata'
+        description: 'The policy definition metadata.'
+        required: false
+        azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'parameters'
+        description: 'Required if a parameter is used in policy rule.'
+        required: false
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The ID of the policy definition.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the policy definition.'
+        output: true
+        azure_sdk_references: ['/name']

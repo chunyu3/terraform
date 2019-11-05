@@ -1,0 +1,941 @@
+--- !ruby/object:Api::Product
+name: Azure Vault Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Vault
+    api_name: KeyVault
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.KeyVault
+      go_client_namespace: keyvault
+      go_client: vaultsClient
+      python_client_namespace: azure.mgmt.keyvault
+      python_client: KeyVaultManagementClient.vaults
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: VaultCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VaultProperties
+            go_type_name: VaultProperties
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: family
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: Sku
+          '/properties/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Family
+          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuName
+          '/accessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_policies
+          '/accessPolicies/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/accessPolicies/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/accessPolicies/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/accessPolicies/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: permissions
+          '/accessPolicies/permissions/keys': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: keys
+          '/accessPolicies/permissions/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: secrets
+          '/accessPolicies/permissions/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: storage
+          '/properties/accessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessPolicies
+            go_type_name: AccessPolicyEntry
+          '/properties/accessPolicies/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/properties/accessPolicies/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/properties/accessPolicies/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/properties/accessPolicies/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Permissions
+            go_type_name: Permissions
+          '/properties/accessPolicies/permissions/keys': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Keys
+          '/properties/accessPolicies/permissions/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Secrets
+          '/properties/accessPolicies/permissions/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Certificates
+          '/properties/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Storage
+          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vault_uri
+          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VaultUri
+          '/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_deployment
+          '/properties/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForDeployment
+          '/enabledForDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_disk_encryption
+          '/properties/enabledForDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForDiskEncryption
+          '/enabledForTemplateDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_template_deployment
+          '/properties/enabledForTemplateDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForTemplateDeployment
+          '/enableSoftDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_soft_delete
+          '/properties/enableSoftDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableSoftDelete
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_purge_protection
+          '/properties/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnablePurgeProtection
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: NetworkRuleBypassOptions
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: NetworkRuleAction
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: VaultCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VaultProperties
+            go_type_name: VaultProperties
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: family
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: Sku
+          '/properties/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Family
+          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuName
+          '/accessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_policies
+          '/accessPolicies/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/accessPolicies/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/accessPolicies/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/accessPolicies/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: permissions
+          '/accessPolicies/permissions/keys': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: keys
+          '/accessPolicies/permissions/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: secrets
+          '/accessPolicies/permissions/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: storage
+          '/properties/accessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessPolicies
+            go_type_name: AccessPolicyEntry
+          '/properties/accessPolicies/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/properties/accessPolicies/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/properties/accessPolicies/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/properties/accessPolicies/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Permissions
+            go_type_name: Permissions
+          '/properties/accessPolicies/permissions/keys': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Keys
+          '/properties/accessPolicies/permissions/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Secrets
+          '/properties/accessPolicies/permissions/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Certificates
+          '/properties/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Storage
+          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vault_uri
+          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VaultUri
+          '/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_deployment
+          '/properties/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForDeployment
+          '/enabledForDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_disk_encryption
+          '/properties/enabledForDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForDiskEncryption
+          '/enabledForTemplateDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_template_deployment
+          '/properties/enabledForTemplateDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForTemplateDeployment
+          '/enableSoftDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_soft_delete
+          '/properties/enableSoftDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableSoftDelete
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_purge_protection
+          '/properties/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnablePurgeProtection
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: NetworkRuleBypassOptions
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: NetworkRuleAction
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VaultProperties
+            go_type_name: VaultProperties
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: Sku
+          '/properties/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Family
+          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuName
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: family
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/accessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessPolicies
+            go_type_name: AccessPolicyEntry
+          '/properties/accessPolicies/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/properties/accessPolicies/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/properties/accessPolicies/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationID
+          '/properties/accessPolicies/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Permissions
+            go_type_name: Permissions
+          '/properties/accessPolicies/permissions/keys': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Keys
+          '/properties/accessPolicies/permissions/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Secrets
+          '/properties/accessPolicies/permissions/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Certificates
+          '/properties/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Storage
+          '/accessPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_policies
+          '/accessPolicies/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/accessPolicies/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/accessPolicies/applicationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_id
+          '/accessPolicies/permissions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: permissions
+          '/accessPolicies/permissions/keys': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: keys
+          '/accessPolicies/permissions/secrets': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: secrets
+          '/accessPolicies/permissions/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: storage
+          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VaultUri
+          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vault_uri
+          '/properties/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForDeployment
+          '/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_deployment
+          '/properties/enabledForDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForDiskEncryption
+          '/enabledForDiskEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_disk_encryption
+          '/properties/enabledForTemplateDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnabledForTemplateDeployment
+          '/enabledForTemplateDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled_for_template_deployment
+          '/properties/enableSoftDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableSoftDelete
+          '/enableSoftDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_soft_delete
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnablePurgeProtection
+          '/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_purge_protection
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: NetworkRuleBypassOptions
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: NetworkRuleAction
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListDeleted
+        python_func_name: list_deleted
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Vault instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the Resource Group to which the server belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'vaultName'
+        description: 'Name of the vault'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The supported Azure location where the key vault should be created.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags that will be assigned to the key vault.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.'
+        required: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'SKU details'
+        required: true
+        azure_sdk_references: ['/sku', '/properties/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'family'
+            description: 'SKU family name'
+            required: true
+            azure_sdk_references: ['/sku/family', '/properties/sku/family']
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'SKU name to specify whether the key vault is a standard vault or a premium vault.'
+            required: true
+            azure_sdk_references: ['/sku/name', '/properties/sku/name']
+            values:
+              - :standard
+              - :premium
+      - !ruby/object:Api::Type::Array
+        name: 'accessPolicies'
+        description: 'An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault''s tenant ID. When `createMode` is set to `recover`, access policies are not required. Otherwise, access policies are required.'
+        required: false
+        azure_sdk_references: ['/accessPolicies', '/properties/accessPolicies']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'tenantId'
+              description: 'The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.'
+              required: true
+              azure_sdk_references: ['/accessPolicies/tenantId', '/properties/accessPolicies/tenantId']
+            - !ruby/object:Api::Type::String
+              name: 'objectId'
+              description: 'The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies.'
+              required: true
+              azure_sdk_references: ['/accessPolicies/objectId', '/properties/accessPolicies/objectId']
+            - !ruby/object:Api::Type::String
+              name: 'applicationId'
+              description: ' Application ID of the client making request on behalf of a principal'
+              required: false
+              azure_sdk_references: ['/accessPolicies/applicationId', '/properties/accessPolicies/applicationId']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'permissions'
+              description: 'Permissions the identity has for keys, secrets and certificates.'
+              required: true
+              azure_sdk_references: ['/accessPolicies/permissions', '/properties/accessPolicies/permissions']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'keys'
+                  description: 'Permissions to keys'
+                  required: false
+                  azure_sdk_references: ['/accessPolicies/permissions/keys', '/properties/accessPolicies/permissions/keys']
+                  item_type: !ruby/object:Api::Type::Enum
+                    name: 'TBD'
+                    description: 'TBD'
+                    values:
+                      - :encrypt
+                      - :decrypt
+                      - :wrapKey
+                      - :unwrapKey
+                      - :sign
+                      - :verify
+                      - :get
+                      - :list
+                      - :create
+                      - :update
+                      - :import
+                      - :delete
+                      - :backup
+                      - :restore
+                      - :recover
+                      - :purge
+                    default_value: :encrypt
+                - !ruby/object:Api::Type::Array
+                  name: 'secrets'
+                  description: 'Permissions to secrets'
+                  required: false
+                  azure_sdk_references: ['/accessPolicies/permissions/secrets', '/properties/accessPolicies/permissions/secrets']
+                  item_type: !ruby/object:Api::Type::Enum
+                    name: 'TBD'
+                    description: 'TBD'
+                    values:
+                      - :get
+                      - :list
+                      - :set
+                      - :delete
+                      - :backup
+                      - :restore
+                      - :recover
+                      - :purge
+                    default_value: :get
+                - !ruby/object:Api::Type::Array
+                  name: 'certificates'
+                  description: 'Permissions to certificates'
+                  required: false
+                  azure_sdk_references: ['/accessPolicies/permissions/certificates', '/properties/accessPolicies/permissions/certificates']
+                  item_type: !ruby/object:Api::Type::Enum
+                    name: 'TBD'
+                    description: 'TBD'
+                    values:
+                      - :get
+                      - :list
+                      - :delete
+                      - :create
+                      - :import
+                      - :update
+                      - :managecontacts
+                      - :getissuers
+                      - :listissuers
+                      - :setissuers
+                      - :deleteissuers
+                      - :manageissuers
+                      - :recover
+                      - :purge
+                      - :backup
+                      - :restore
+                    default_value: :get
+                - !ruby/object:Api::Type::Array
+                  name: 'storage'
+                  description: 'Permissions to storage accounts'
+                  required: false
+                  azure_sdk_references: ['/accessPolicies/permissions/storage', '/properties/accessPolicies/permissions/storage']
+                  item_type: !ruby/object:Api::Type::Enum
+                    name: 'TBD'
+                    description: 'TBD'
+                    values:
+                      - :get
+                      - :list
+                      - :delete
+                      - :set
+                      - :update
+                      - :regeneratekey
+                      - :recover
+                      - :purge
+                      - :backup
+                      - :restore
+                      - :setsas
+                      - :listsas
+                      - :getsas
+                      - :deletesas
+                    default_value: :get
+      - !ruby/object:Api::Type::String
+        name: 'vaultUri'
+        description: 'The URI of the vault for performing operations on keys and secrets.'
+        required: false
+        azure_sdk_references: ['/vaultUri', '/properties/vaultUri']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabledForDeployment'
+        description: 'Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.'
+        required: false
+        azure_sdk_references: ['/enabledForDeployment', '/properties/enabledForDeployment']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabledForDiskEncryption'
+        description: 'Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys.'
+        required: false
+        azure_sdk_references: ['/enabledForDiskEncryption', '/properties/enabledForDiskEncryption']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabledForTemplateDeployment'
+        description: 'Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault.'
+        required: false
+        azure_sdk_references: ['/enabledForTemplateDeployment', '/properties/enabledForTemplateDeployment']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableSoftDelete'
+        description: 'Property to specify whether the ''soft delete'' functionality is enabled for this key vault. If it''s not set to any value(true or false) when creating new key vault, it will be set to true by default. Once it''s been set to true value, it can NOT be reverted to false.'
+        required: false
+        azure_sdk_references: ['/enableSoftDelete', '/properties/enableSoftDelete']
+      - !ruby/object:Api::Type::Enum
+        name: 'createMode'
+        description: 'The vault''s create mode to indicate whether the vault need to be recovered or not.'
+        required: false
+        azure_sdk_references: ['/createMode', '/properties/createMode']
+        values:
+          - :recover
+          - :default
+        default_value: :recover
+      - !ruby/object:Api::Type::Boolean
+        name: 'enablePurgeProtection'
+        description: 'Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value.'
+        required: false
+        azure_sdk_references: ['/enablePurgeProtection', '/properties/enablePurgeProtection']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'networkAcls'
+        description: 'A collection of rules governing the accessibility of the vault from specific network locations.'
+        required: false
+        azure_sdk_references: ['/networkAcls', '/properties/networkAcls']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'bypass'
+            description: 'Tells what traffic can bypass network rules. This can be ''AzureServices'' or ''None''.  If not specified the default is ''AzureServices''.'
+            required: false
+            azure_sdk_references: ['/networkAcls/bypass', '/properties/networkAcls/bypass']
+            values:
+              - :AzureServices
+              - :None
+            default_value: :AzureServices
+          - !ruby/object:Api::Type::Enum
+            name: 'defaultAction'
+            description: 'The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.'
+            required: false
+            azure_sdk_references: ['/networkAcls/defaultAction', '/properties/networkAcls/defaultAction']
+            values:
+              - :Allow
+              - :Deny
+            default_value: :Allow
+          - !ruby/object:Api::Type::Array
+            name: 'ipRules'
+            description: 'The list of IP address rules.'
+            required: false
+            azure_sdk_references: ['/networkAcls/ipRules', '/properties/networkAcls/ipRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'An IPv4 address range in CIDR notation, such as ''124.56.78.91'' (simple IP address) or ''124.56.78.0/24'' (all addresses that start with 124.56.78).'
+                  required: true
+                  azure_sdk_references: ['/networkAcls/ipRules/value', '/properties/networkAcls/ipRules/value']
+          - !ruby/object:Api::Type::Array
+            name: 'virtualNetworkRules'
+            description: 'The list of virtual network rules.'
+            required: false
+            azure_sdk_references: ['/networkAcls/virtualNetworkRules', '/properties/networkAcls/virtualNetworkRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Full resource id of a vnet subnet, such as ''/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1''.'
+                  required: true
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/id', '/properties/networkAcls/virtualNetworkRules/id']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The Azure Resource Manager resource ID for the key vault.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the key vault.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The resource type of the key vault.'
+        output: true
+        azure_sdk_references: ['/type']

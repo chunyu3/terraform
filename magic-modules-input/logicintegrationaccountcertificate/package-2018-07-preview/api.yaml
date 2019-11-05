@@ -1,0 +1,335 @@
+--- !ruby/object:Api::Product
+name: Azure IntegrationAccountCertificate Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: IntegrationAccountCertificate
+    api_name: Logic
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Logic
+      go_client_namespace: logic
+      go_client: integrationAccountCertificatesClient
+      python_client_namespace: azure.mgmt.logic
+      python_client: LogicManagementClient.integration_account_certificates
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'certificateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: certificates
+            go_variable_name: certificateName
+            python_parameter_name: certificate_name
+            python_variable_name: certificate_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: certificate
+            go_type_name: IntegrationAccountCertificate
+            python_parameter_name: certificate
+            python_variable_name: certificate
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationAccountCertificateProperties
+            go_type_name: IntegrationAccountCertificateProperties
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key
+          '/key/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault
+          '/key/keyVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/key/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_name
+          '/key/keyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_version
+          '/properties/key': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Key
+            go_type_name: KeyVaultKeyReference
+          '/properties/key/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVault
+            go_type_name: KeyVaultKeyReference_keyVault
+          '/properties/key/keyVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/key/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyName
+          '/properties/key/keyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVersion
+          '/publicCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_certificate
+          '/properties/publicCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicCertificate
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'certificateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: certificates
+            go_variable_name: certificateName
+            python_parameter_name: certificate_name
+            python_variable_name: certificate_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'certificateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: certificates
+            go_variable_name: certificateName
+            python_parameter_name: certificate_name
+            python_variable_name: certificate_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationAccountCertificateProperties
+            go_type_name: IntegrationAccountCertificateProperties
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/key': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Key
+            go_type_name: KeyVaultKeyReference
+          '/properties/key/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVault
+            go_type_name: KeyVaultKeyReference_keyVault
+          '/properties/key/keyVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/key/keyVault/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/key/keyVault/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/key/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyName
+          '/properties/key/keyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVersion
+          '/key': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key
+          '/key/keyVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: key_vault
+          '/key/keyVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/key/keyVault/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/key/keyVault/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/key/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_name
+          '/key/keyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_version
+          '/properties/publicCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicCertificate
+          '/publicCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_certificate
+          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTime
+          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_time
+          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ChangedTime
+          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: changed_time
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+
+    description: |
+      Manage Azure IntegrationAccountCertificate instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'integrationAccountName'
+        description: 'The integration account name.'
+        required: true
+        input: true
+        azure_sdk_references: ['integrationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'certificateName'
+        description: 'The integration account certificate name.'
+        required: true
+        input: true
+        azure_sdk_references: ['certificateName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'metadata'
+        description: 'The metadata.'
+        required: false
+        azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'key'
+        description: 'The key details in the key vault.'
+        required: false
+        azure_sdk_references: ['/key', '/properties/key']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'keyVault'
+            description: 'The key vault reference.'
+            required: true
+            azure_sdk_references: ['/key/keyVault', '/properties/key/keyVault']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'The resource id.'
+                required: false
+                azure_sdk_references: ['/key/keyVault/id', '/properties/key/keyVault/id']
+          - !ruby/object:Api::Type::String
+            name: 'keyName'
+            description: 'The private key name in key vault.'
+            required: true
+            azure_sdk_references: ['/key/keyName', '/properties/key/keyName']
+          - !ruby/object:Api::Type::String
+            name: 'keyVersion'
+            description: 'The private key version in key vault.'
+            required: false
+            azure_sdk_references: ['/key/keyVersion', '/properties/key/keyVersion']
+      - !ruby/object:Api::Type::String
+        name: 'publicCertificate'
+        description: 'The public certificate.'
+        required: false
+        azure_sdk_references: ['/publicCertificate', '/properties/publicCertificate']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'The created time.'
+        output: true
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'changedTime'
+        description: 'The changed time.'
+        output: true
+        azure_sdk_references: ['/changedTime', '/properties/changedTime']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets the resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets the resource type.'
+        output: true
+        azure_sdk_references: ['/type']

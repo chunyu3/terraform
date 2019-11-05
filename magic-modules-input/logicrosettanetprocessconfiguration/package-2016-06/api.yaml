@@ -1,0 +1,959 @@
+--- !ruby/object:Api::Product
+name: Azure RosettaNetProcessConfiguration Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RosettaNetProcessConfiguration
+    api_name: Logic
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Logic
+      go_client_namespace: logic
+      go_client: rosettaNetProcessConfigurationsClient
+      python_client_namespace: azure.mgmt.logic
+      python_client: LogicManagementClient.rosetta_net_process_configurations
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'rosettaNetProcessConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: rosettanetprocessconfigurations
+            go_variable_name: rosettaNetProcessConfigurationName
+            python_parameter_name: rosetta_net_process_configuration_name
+            python_variable_name: rosetta_net_process_configuration_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: rosettaNetProcessConfiguration
+            go_type_name: IntegrationAccountRosettaNetProcessConfiguration
+            python_parameter_name: rosetta_net_process_configuration
+            python_variable_name: rosetta_net_process_configuration
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationAccountRosettaNetProcessConfigurationProperties
+            go_type_name: IntegrationAccountRosettaNetProcessConfigurationProperties
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/activitySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: activity_settings
+          '/activitySettings/activityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: activity_type
+          '/activitySettings/activityBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: activity_behavior
+          '/activitySettings/activityBehavior/isAuthorizationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_authorization_required
+          '/activitySettings/activityBehavior/persistentConfidentialityScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: persistent_confidentiality_scope
+          '/activitySettings/activityBehavior/isSecuredTransportRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_secured_transport_required
+          '/activitySettings/activityBehavior/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/activitySettings/activityBehavior/responseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: response_type
+          '/activitySettings/activityBehavior/nonRepudiationOfOriginAndContent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: non_repudiation_of_origin_and_content
+          '/activitySettings/activityBehavior/retryCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: retry_count
+          '/activitySettings/activityBehavior/timeToPerformInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: time_to_perform_in_seconds
+          '/activitySettings/acknowledgmentOfReceiptSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: acknowledgment_of_receipt_settings
+          '/activitySettings/acknowledgmentOfReceiptSettings/isNonRepudiationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_non_repudiation_required
+          '/activitySettings/acknowledgmentOfReceiptSettings/timeToAcknowledgeInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: time_to_acknowledge_in_seconds
+          '/properties/activitySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActivitySettings
+            go_type_name: RosettaNetPipActivitySettings
+          '/properties/activitySettings/activityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActivityType
+            go_enum_type_name: RosettaNetPipActivityType
+          '/properties/activitySettings/activityBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActivityBehavior
+            go_type_name: RosettaNetPipActivityBehavior
+          '/properties/activitySettings/activityBehavior/isAuthorizationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsAuthorizationRequired
+          '/properties/activitySettings/activityBehavior/persistentConfidentialityScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PersistentConfidentialityScope
+            go_enum_type_name: RosettaNetPipConfidentialityScope
+          '/properties/activitySettings/activityBehavior/isSecuredTransportRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsSecuredTransportRequired
+          '/properties/activitySettings/activityBehavior/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: RosettaNetActionType
+          '/properties/activitySettings/activityBehavior/responseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResponseType
+            go_enum_type_name: RosettaNetResponseType
+          '/properties/activitySettings/activityBehavior/nonRepudiationOfOriginAndContent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NonRepudiationOfOriginAndContent
+          '/properties/activitySettings/activityBehavior/retryCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RetryCount
+          '/properties/activitySettings/activityBehavior/timeToPerformInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TimeToPerformInSeconds
+          '/properties/activitySettings/acknowledgmentOfReceiptSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AcknowledgmentOfReceiptSettings
+            go_type_name: RosettaNetPipAcknowledgmentOfReceiptSettings
+          '/properties/activitySettings/acknowledgmentOfReceiptSettings/isNonRepudiationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsNonRepudiationRequired
+          '/properties/activitySettings/acknowledgmentOfReceiptSettings/timeToAcknowledgeInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TimeToAcknowledgeInSeconds
+          '/processCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: process_code
+          '/properties/processCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProcessCode
+          '/processVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: process_version
+          '/properties/processVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProcessVersion
+          '/processName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: process_name
+          '/properties/processName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProcessName
+          '/initiatorRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: initiator_role_settings
+          '/initiatorRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action
+          '/initiatorRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role
+          '/initiatorRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role_type
+          '/initiatorRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service
+          '/initiatorRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_classification
+          '/initiatorRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: business_document
+          '/initiatorRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/initiatorRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/initiatorRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/initiatorRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/initiatorRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InitiatorRoleSettings
+            go_type_name: RosettaNetPipRoleSettings
+          '/properties/initiatorRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Action
+          '/properties/initiatorRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Role
+          '/properties/initiatorRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoleType
+            go_enum_type_name: RosettaNetPipRoleType
+          '/properties/initiatorRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Service
+          '/properties/initiatorRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceClassification
+          '/properties/initiatorRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BusinessDocument
+            go_type_name: RosettaNetPipBusinessDocument
+          '/properties/initiatorRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/initiatorRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/initiatorRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/initiatorRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/responderRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: responder_role_settings
+          '/responderRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action
+          '/responderRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role
+          '/responderRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role_type
+          '/responderRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service
+          '/responderRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_classification
+          '/responderRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: business_document
+          '/responderRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/responderRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/responderRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/responderRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/responderRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ResponderRoleSettings
+            go_type_name: RosettaNetPipRoleSettings
+          '/properties/responderRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Action
+          '/properties/responderRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Role
+          '/properties/responderRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoleType
+            go_enum_type_name: RosettaNetPipRoleType
+          '/properties/responderRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Service
+          '/properties/responderRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceClassification
+          '/properties/responderRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BusinessDocument
+            go_type_name: RosettaNetPipBusinessDocument
+          '/properties/responderRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/responderRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/responderRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/responderRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'rosettaNetProcessConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: rosettanetprocessconfigurations
+            go_variable_name: rosettaNetProcessConfigurationName
+            python_parameter_name: rosetta_net_process_configuration_name
+            python_variable_name: rosetta_net_process_configuration_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+          'rosettaNetProcessConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: rosettanetprocessconfigurations
+            go_variable_name: rosettaNetProcessConfigurationName
+            python_parameter_name: rosetta_net_process_configuration_name
+            python_variable_name: rosetta_net_process_configuration_name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationAccountRosettaNetProcessConfigurationProperties
+            go_type_name: IntegrationAccountRosettaNetProcessConfigurationProperties
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/activitySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActivitySettings
+            go_type_name: RosettaNetPipActivitySettings
+          '/properties/activitySettings/activityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActivityType
+            go_enum_type_name: RosettaNetPipActivityType
+          '/properties/activitySettings/activityBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActivityBehavior
+            go_type_name: RosettaNetPipActivityBehavior
+          '/properties/activitySettings/activityBehavior/isAuthorizationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsAuthorizationRequired
+          '/properties/activitySettings/activityBehavior/persistentConfidentialityScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PersistentConfidentialityScope
+            go_enum_type_name: RosettaNetPipConfidentialityScope
+          '/properties/activitySettings/activityBehavior/isSecuredTransportRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsSecuredTransportRequired
+          '/properties/activitySettings/activityBehavior/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: RosettaNetActionType
+          '/properties/activitySettings/activityBehavior/responseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResponseType
+            go_enum_type_name: RosettaNetResponseType
+          '/properties/activitySettings/activityBehavior/nonRepudiationOfOriginAndContent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NonRepudiationOfOriginAndContent
+          '/properties/activitySettings/activityBehavior/retryCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RetryCount
+          '/properties/activitySettings/activityBehavior/timeToPerformInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TimeToPerformInSeconds
+          '/properties/activitySettings/acknowledgmentOfReceiptSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AcknowledgmentOfReceiptSettings
+            go_type_name: RosettaNetPipAcknowledgmentOfReceiptSettings
+          '/properties/activitySettings/acknowledgmentOfReceiptSettings/isNonRepudiationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsNonRepudiationRequired
+          '/properties/activitySettings/acknowledgmentOfReceiptSettings/timeToAcknowledgeInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TimeToAcknowledgeInSeconds
+          '/activitySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: activity_settings
+          '/activitySettings/activityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: activity_type
+          '/activitySettings/activityBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: activity_behavior
+          '/activitySettings/activityBehavior/isAuthorizationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_authorization_required
+          '/activitySettings/activityBehavior/persistentConfidentialityScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: persistent_confidentiality_scope
+          '/activitySettings/activityBehavior/isSecuredTransportRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_secured_transport_required
+          '/activitySettings/activityBehavior/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/activitySettings/activityBehavior/responseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: response_type
+          '/activitySettings/activityBehavior/nonRepudiationOfOriginAndContent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: non_repudiation_of_origin_and_content
+          '/activitySettings/activityBehavior/retryCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: retry_count
+          '/activitySettings/activityBehavior/timeToPerformInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: time_to_perform_in_seconds
+          '/activitySettings/acknowledgmentOfReceiptSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: acknowledgment_of_receipt_settings
+          '/activitySettings/acknowledgmentOfReceiptSettings/isNonRepudiationRequired': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_non_repudiation_required
+          '/activitySettings/acknowledgmentOfReceiptSettings/timeToAcknowledgeInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: time_to_acknowledge_in_seconds
+          '/properties/processCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProcessCode
+          '/processCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: process_code
+          '/properties/processVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProcessVersion
+          '/processVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: process_version
+          '/properties/processName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProcessName
+          '/processName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: process_name
+          '/properties/initiatorRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InitiatorRoleSettings
+            go_type_name: RosettaNetPipRoleSettings
+          '/properties/initiatorRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Action
+          '/properties/initiatorRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Role
+          '/properties/initiatorRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoleType
+            go_enum_type_name: RosettaNetPipRoleType
+          '/properties/initiatorRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Service
+          '/properties/initiatorRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceClassification
+          '/properties/initiatorRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BusinessDocument
+            go_type_name: RosettaNetPipBusinessDocument
+          '/properties/initiatorRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/initiatorRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/initiatorRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/initiatorRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/initiatorRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: initiator_role_settings
+          '/initiatorRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action
+          '/initiatorRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role
+          '/initiatorRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role_type
+          '/initiatorRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service
+          '/initiatorRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_classification
+          '/initiatorRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: business_document
+          '/initiatorRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/initiatorRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/initiatorRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/initiatorRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/responderRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ResponderRoleSettings
+            go_type_name: RosettaNetPipRoleSettings
+          '/properties/responderRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Action
+          '/properties/responderRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Role
+          '/properties/responderRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoleType
+            go_enum_type_name: RosettaNetPipRoleType
+          '/properties/responderRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Service
+          '/properties/responderRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceClassification
+          '/properties/responderRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BusinessDocument
+            go_type_name: RosettaNetPipBusinessDocument
+          '/properties/responderRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/responderRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/responderRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/responderRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/responderRoleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: responder_role_settings
+          '/responderRoleSettings/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action
+          '/responderRoleSettings/role': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role
+          '/responderRoleSettings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role_type
+          '/responderRoleSettings/service': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service
+          '/responderRoleSettings/serviceClassification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_classification
+          '/responderRoleSettings/businessDocument': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: business_document
+          '/responderRoleSettings/businessDocument/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/responderRoleSettings/businessDocument/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/responderRoleSettings/businessDocument/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/responderRoleSettings/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTime
+          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_time
+          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ChangedTime
+          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: changed_time
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByIntegrationAccounts
+        python_func_name: list_by_integration_accounts
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'integrationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationAccounts
+            go_variable_name: integrationAccountName
+            python_parameter_name: integration_account_name
+            python_variable_name: integration_account_name
+
+    description: |
+      Manage Azure RosettaNetProcessConfiguration instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'integrationAccountName'
+        description: 'The integration account name.'
+        required: true
+        input: true
+        azure_sdk_references: ['integrationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'rosettaNetProcessConfigurationName'
+        description: 'The integration account RosettaNet ProcessConfiguration name.'
+        required: true
+        input: true
+        azure_sdk_references: ['rosettaNetProcessConfigurationName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'metadata'
+        description: 'The metadata.'
+        required: false
+        azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'activitySettings'
+        description: 'The RosettaNet process configuration activity settings.'
+        required: true
+        azure_sdk_references: ['/activitySettings', '/properties/activitySettings']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'activityType'
+            description: 'The RosettaNet ProcessConfiguration activity type.'
+            required: true
+            azure_sdk_references: ['/activitySettings/activityType', '/properties/activitySettings/activityType']
+            values:
+              - :NotSpecified
+              - :InformationDistribution
+              - :BusinessTransaction
+              - :Notification
+              - :QueryResponse
+              - :RequestConfirm
+              - :RequestResponse
+          - !ruby/object:Api::Type::NestedObject
+            name: 'activityBehavior'
+            description: 'The RosettaNet ProcessConfiguration activity behavior.'
+            required: true
+            azure_sdk_references: ['/activitySettings/activityBehavior', '/properties/activitySettings/activityBehavior']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'isAuthorizationRequired'
+                description: 'The value indicating whether authorization is required.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/isAuthorizationRequired', '/properties/activitySettings/activityBehavior/isAuthorizationRequired']
+              - !ruby/object:Api::Type::Enum
+                name: 'persistentConfidentialityScope'
+                description: 'The persistent confidentiality encryption scope.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/persistentConfidentialityScope', '/properties/activitySettings/activityBehavior/persistentConfidentialityScope']
+                values:
+                  - :NotSpecified
+                  - :None
+                  - :Payload
+                  - :PayloadContainer
+              - !ruby/object:Api::Type::Boolean
+                name: 'isSecuredTransportRequired'
+                description: 'The value indicating whether secured transport is required.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/isSecuredTransportRequired', '/properties/activitySettings/activityBehavior/isSecuredTransportRequired']
+              - !ruby/object:Api::Type::Enum
+                name: 'actionType'
+                description: 'The value indicating whether the RosettaNet PIP is used for a single action.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/actionType', '/properties/activitySettings/activityBehavior/actionType']
+                values:
+                  - :NotSpecified
+                  - :SingleAction
+                  - :DoubleAction
+              - !ruby/object:Api::Type::Enum
+                name: 'responseType'
+                description: 'The value indicating whether the RosettaNet PIP communication is synchronous.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/responseType', '/properties/activitySettings/activityBehavior/responseType']
+                values:
+                  - :NotSpecified
+                  - :Sync
+                  - :Async
+              - !ruby/object:Api::Type::Boolean
+                name: 'nonRepudiationOfOriginAndContent'
+                description: 'The value indicating whether non-repudiation is for origin and content.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/nonRepudiationOfOriginAndContent', '/properties/activitySettings/activityBehavior/nonRepudiationOfOriginAndContent']
+              - !ruby/object:Api::Type::Integer
+                name: 'retryCount'
+                description: 'The value indicating retry count.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/retryCount', '/properties/activitySettings/activityBehavior/retryCount']
+              - !ruby/object:Api::Type::Integer
+                name: 'timeToPerformInSeconds'
+                description: 'The time to perform in seconds.'
+                required: true
+                azure_sdk_references: ['/activitySettings/activityBehavior/timeToPerformInSeconds', '/properties/activitySettings/activityBehavior/timeToPerformInSeconds']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'acknowledgmentOfReceiptSettings'
+            description: 'The RosettaNet ProcessConfiguration acknowledgement settings.'
+            required: true
+            azure_sdk_references: ['/activitySettings/acknowledgmentOfReceiptSettings', '/properties/activitySettings/acknowledgmentOfReceiptSettings']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'isNonRepudiationRequired'
+                description: 'The non-repudiation is required or not.'
+                required: true
+                azure_sdk_references: ['/activitySettings/acknowledgmentOfReceiptSettings/isNonRepudiationRequired', '/properties/activitySettings/acknowledgmentOfReceiptSettings/isNonRepudiationRequired']
+              - !ruby/object:Api::Type::Integer
+                name: 'timeToAcknowledgeInSeconds'
+                description: 'The time to acknowledge in seconds.'
+                required: true
+                azure_sdk_references: ['/activitySettings/acknowledgmentOfReceiptSettings/timeToAcknowledgeInSeconds', '/properties/activitySettings/acknowledgmentOfReceiptSettings/timeToAcknowledgeInSeconds']
+      - !ruby/object:Api::Type::String
+        name: 'processCode'
+        description: 'The integration account RosettaNet process code.'
+        required: true
+        azure_sdk_references: ['/processCode', '/properties/processCode']
+      - !ruby/object:Api::Type::String
+        name: 'processVersion'
+        description: 'The integration account RosettaNet process version.'
+        required: true
+        azure_sdk_references: ['/processVersion', '/properties/processVersion']
+      - !ruby/object:Api::Type::String
+        name: 'processName'
+        description: 'The integration account RosettaNet process name.'
+        required: true
+        azure_sdk_references: ['/processName', '/properties/processName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'initiatorRoleSettings'
+        description: 'The RosettaNet initiator role settings.'
+        required: true
+        azure_sdk_references: ['/initiatorRoleSettings', '/properties/initiatorRoleSettings']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'action'
+            description: 'The action name.'
+            required: true
+            azure_sdk_references: ['/initiatorRoleSettings/action', '/properties/initiatorRoleSettings/action']
+          - !ruby/object:Api::Type::String
+            name: 'role'
+            description: 'The role name.'
+            required: true
+            azure_sdk_references: ['/initiatorRoleSettings/role', '/properties/initiatorRoleSettings/role']
+          - !ruby/object:Api::Type::Enum
+            name: 'roleType'
+            description: 'The RosettaNet ProcessConfiguration role type.'
+            required: true
+            azure_sdk_references: ['/initiatorRoleSettings/roleType', '/properties/initiatorRoleSettings/roleType']
+            values:
+              - :NotSpecified
+              - :Functional
+              - :Organizational
+              - :Employee
+          - !ruby/object:Api::Type::String
+            name: 'service'
+            description: 'The service name.'
+            required: true
+            azure_sdk_references: ['/initiatorRoleSettings/service', '/properties/initiatorRoleSettings/service']
+          - !ruby/object:Api::Type::String
+            name: 'serviceClassification'
+            description: 'The service classification name.'
+            required: true
+            azure_sdk_references: ['/initiatorRoleSettings/serviceClassification', '/properties/initiatorRoleSettings/serviceClassification']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'businessDocument'
+            description: 'The RosettaNet ProcessConfiguration business document.'
+            required: true
+            azure_sdk_references: ['/initiatorRoleSettings/businessDocument', '/properties/initiatorRoleSettings/businessDocument']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The business document name.'
+                required: true
+                azure_sdk_references: ['/initiatorRoleSettings/businessDocument/name', '/properties/initiatorRoleSettings/businessDocument/name']
+              - !ruby/object:Api::Type::String
+                name: 'version'
+                description: 'The business document version.'
+                required: true
+                azure_sdk_references: ['/initiatorRoleSettings/businessDocument/version', '/properties/initiatorRoleSettings/businessDocument/version']
+              - !ruby/object:Api::Type::String
+                name: 'description'
+                description: 'The business document description.'
+                required: false
+                azure_sdk_references: ['/initiatorRoleSettings/businessDocument/description', '/properties/initiatorRoleSettings/businessDocument/description']
+          - !ruby/object:Api::Type::String
+            name: 'description'
+            description: 'The description.'
+            required: false
+            azure_sdk_references: ['/initiatorRoleSettings/description', '/properties/initiatorRoleSettings/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'responderRoleSettings'
+        description: 'The RosettaNet responder role settings.'
+        required: true
+        azure_sdk_references: ['/responderRoleSettings', '/properties/responderRoleSettings']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'action'
+            description: 'The action name.'
+            required: true
+            azure_sdk_references: ['/responderRoleSettings/action', '/properties/responderRoleSettings/action']
+          - !ruby/object:Api::Type::String
+            name: 'role'
+            description: 'The role name.'
+            required: true
+            azure_sdk_references: ['/responderRoleSettings/role', '/properties/responderRoleSettings/role']
+          - !ruby/object:Api::Type::Enum
+            name: 'roleType'
+            description: 'The RosettaNet ProcessConfiguration role type.'
+            required: true
+            azure_sdk_references: ['/responderRoleSettings/roleType', '/properties/responderRoleSettings/roleType']
+            values:
+              - :NotSpecified
+              - :Functional
+              - :Organizational
+              - :Employee
+          - !ruby/object:Api::Type::String
+            name: 'service'
+            description: 'The service name.'
+            required: true
+            azure_sdk_references: ['/responderRoleSettings/service', '/properties/responderRoleSettings/service']
+          - !ruby/object:Api::Type::String
+            name: 'serviceClassification'
+            description: 'The service classification name.'
+            required: true
+            azure_sdk_references: ['/responderRoleSettings/serviceClassification', '/properties/responderRoleSettings/serviceClassification']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'businessDocument'
+            description: 'The RosettaNet ProcessConfiguration business document.'
+            required: true
+            azure_sdk_references: ['/responderRoleSettings/businessDocument', '/properties/responderRoleSettings/businessDocument']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The business document name.'
+                required: true
+                azure_sdk_references: ['/responderRoleSettings/businessDocument/name', '/properties/responderRoleSettings/businessDocument/name']
+              - !ruby/object:Api::Type::String
+                name: 'version'
+                description: 'The business document version.'
+                required: true
+                azure_sdk_references: ['/responderRoleSettings/businessDocument/version', '/properties/responderRoleSettings/businessDocument/version']
+              - !ruby/object:Api::Type::String
+                name: 'description'
+                description: 'The business document description.'
+                required: false
+                azure_sdk_references: ['/responderRoleSettings/businessDocument/description', '/properties/responderRoleSettings/businessDocument/description']
+          - !ruby/object:Api::Type::String
+            name: 'description'
+            description: 'The description.'
+            required: false
+            azure_sdk_references: ['/responderRoleSettings/description', '/properties/responderRoleSettings/description']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The integration account RosettaNet ProcessConfiguration properties.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'The created time.'
+        output: true
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'changedTime'
+        description: 'The changed time.'
+        output: true
+        azure_sdk_references: ['/changedTime', '/properties/changedTime']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets the resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets the resource type.'
+        output: true
+        azure_sdk_references: ['/type']

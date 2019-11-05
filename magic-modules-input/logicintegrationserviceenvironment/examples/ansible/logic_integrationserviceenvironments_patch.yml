@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_logicintegrationserviceenvironment
+  description: Patch an integration service environment
+  code:
+    resource_group: myResourceGroup
+    integration_service_environment_name: myIntegrationServiceEnvironment
+    integration_service_environment:
+      sku:
+        capacity: '0'
+        name: Developer
+      tags:
+        tag1: value1
+  

@@ -1,0 +1,814 @@
+--- !ruby/object:Api::Product
+name: Azure View Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: View
+    api_name: CostManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CostManagement
+      go_client_namespace: costmanagement
+      go_client: viewsClient
+      python_client_namespace: azure.mgmt.costmanagement
+      python_client: CostManagementClient.views
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'viewName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: views
+            go_variable_name: viewName
+            python_parameter_name: view_name
+            python_variable_name: view_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: View
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ViewProperties
+            go_type_name: ViewProperties
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/query': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: query
+          '/query/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/query/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: timeframe
+          '/query/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_period
+          '/query/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: from
+          '/query/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: to
+          '/query/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dataset
+          '/query/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: granularity
+          '/query/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: configuration
+          '/query/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: columns
+          '/query/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: aggregation
+          '/query/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: grouping
+          '/query/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/query/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/query/dataset/sorting': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sorting
+          '/query/dataset/sorting/direction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: direction
+          '/query/dataset/sorting/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/query/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/query/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: and
+          '/query/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: or
+          '/query/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: not
+          '/query/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dimension
+          '/query/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/properties/query': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Query
+            go_type_name: ReportConfigDefinition
+          '/properties/query/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/query/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Timeframe
+            go_enum_type_name: TimeframeType
+          '/properties/query/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimePeriod
+            go_type_name: ReportConfigTimePeriod
+          '/properties/query/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: From
+          '/properties/query/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: To
+          '/properties/query/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dataset
+            go_type_name: ReportConfigDataset
+          '/properties/query/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Granularity
+            go_enum_type_name: GranularityType
+          '/properties/query/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Configuration
+            go_type_name: ReportConfigDatasetConfiguration
+          '/properties/query/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Columns
+          '/properties/query/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Aggregation
+          '/properties/query/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Grouping
+            go_type_name: ReportConfigGrouping
+          '/properties/query/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: ReportConfigColumnType
+          '/properties/query/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/query/dataset/sorting': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Sorting
+            go_type_name: ReportConfigSorting
+          '/properties/query/dataset/sorting/direction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Direction
+            go_enum_type_name: 
+          '/properties/query/dataset/sorting/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/query/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Filter
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: And
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Or
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Not
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dimension
+            go_type_name: ReportConfigComparisonExpression
+          '/properties/query/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Tag
+            go_type_name: ReportConfigComparisonExpression
+          '/chart': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: chart
+          '/properties/chart': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Chart
+            go_enum_type_name: ChartType
+          '/accumulated': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: accumulated
+          '/properties/accumulated': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Accumulated
+            go_enum_type_name: AccumulatedType
+          '/metric': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: metric
+          '/properties/metric': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Metric
+            go_enum_type_name: MetricType
+          '/kpis': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: kpis
+          '/kpis/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/kpis/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/kpis/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/properties/kpis': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Kpis
+            go_type_name: KpiProperties
+          '/properties/kpis/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: KpiTypeType
+          '/properties/kpis/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/kpis/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/pivots': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: pivots
+          '/pivots/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/pivots/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/pivots': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Pivots
+            go_type_name: PivotProperties
+          '/properties/pivots/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: PivotTypeType
+          '/properties/pivots/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'viewName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: views
+            go_variable_name: viewName
+            python_parameter_name: view_name
+            python_variable_name: view_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'viewName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: views
+            go_variable_name: viewName
+            python_parameter_name: view_name
+            python_variable_name: view_name
+        response:
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ViewProperties
+            go_type_name: ViewProperties
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/query': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Query
+            go_type_name: ReportConfigDefinition
+          '/properties/query/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/query/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Timeframe
+            go_enum_type_name: TimeframeType
+          '/properties/query/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimePeriod
+            go_type_name: ReportConfigTimePeriod
+          '/properties/query/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: From
+          '/properties/query/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: To
+          '/properties/query/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dataset
+            go_type_name: ReportConfigDataset
+          '/properties/query/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Granularity
+            go_enum_type_name: GranularityType
+          '/properties/query/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Configuration
+            go_type_name: ReportConfigDatasetConfiguration
+          '/properties/query/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Columns
+          '/properties/query/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Aggregation
+          '/properties/query/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Grouping
+            go_type_name: ReportConfigGrouping
+          '/properties/query/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: ReportConfigColumnType
+          '/properties/query/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/query/dataset/sorting': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Sorting
+            go_type_name: ReportConfigSorting
+          '/properties/query/dataset/sorting/direction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Direction
+            go_enum_type_name: 
+          '/properties/query/dataset/sorting/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/query/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Filter
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: And
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Or
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Not
+            go_type_name: ReportConfigFilter
+          '/properties/query/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Dimension
+            go_type_name: ReportConfigComparisonExpression
+          '/properties/query/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Tag
+            go_type_name: ReportConfigComparisonExpression
+          '/query': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: query
+          '/query/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/query/timeframe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: timeframe
+          '/query/timePeriod': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_period
+          '/query/timePeriod/from': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: from
+          '/query/timePeriod/to': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: to
+          '/query/dataset': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dataset
+          '/query/dataset/granularity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: granularity
+          '/query/dataset/configuration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: configuration
+          '/query/dataset/configuration/columns': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: columns
+          '/query/dataset/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: aggregation
+          '/query/dataset/grouping': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: grouping
+          '/query/dataset/grouping/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/query/dataset/grouping/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/query/dataset/sorting': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sorting
+          '/query/dataset/sorting/direction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: direction
+          '/query/dataset/sorting/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/query/dataset/filter': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: filter
+          '/query/dataset/filter/and': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: and
+          '/query/dataset/filter/or': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: or
+          '/query/dataset/filter/not': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: not
+          '/query/dataset/filter/dimension': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: dimension
+          '/query/dataset/filter/tag': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/properties/chart': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Chart
+            go_enum_type_name: ChartType
+          '/chart': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: chart
+          '/properties/accumulated': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Accumulated
+            go_enum_type_name: AccumulatedType
+          '/accumulated': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: accumulated
+          '/properties/metric': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Metric
+            go_enum_type_name: MetricType
+          '/metric': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: metric
+          '/properties/kpis': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Kpis
+            go_type_name: KpiProperties
+          '/properties/kpis/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: KpiTypeType
+          '/properties/kpis/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/kpis/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/kpis': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: kpis
+          '/kpis/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/kpis/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/kpis/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/properties/pivots': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Pivots
+            go_type_name: PivotProperties
+          '/properties/pivots/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: PivotTypeType
+          '/properties/pivots/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/pivots': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: pivots
+          '/pivots/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/pivots/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedOn
+          '/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_on
+          '/properties/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ModifiedOn
+          '/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: modified_on
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByScope
+        python_func_name: list_by_scope
+        request:
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+
+    description: |
+      Manage Azure View instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'viewName'
+        description: 'View name'
+        required: true
+        input: true
+        azure_sdk_references: ['viewName']
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.'
+        required: false
+        input: true
+        azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'User input name of the view. Required.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'Cost Management scope to save the view on. This includes ''subscriptions/{subscriptionId}'' for subscription scope, ''subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'' for resourceGroup scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}'' for Billing Account scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'' for Department scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'' for EnrollmentAccount scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'' for BillingProfile scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'' for InvoiceSection scope, ''providers/Microsoft.Management/managementGroups/{managementGroupId}'' for Management Group scope, ''/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}'' for ExternalBillingAccount scope, and ''/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}'' for ExternalSubscription scope.'
+        required: false
+        azure_sdk_references: ['/scope', '/properties/scope']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'query'
+        description: 'Query body configuration. Required.'
+        required: false
+        azure_sdk_references: ['/query', '/properties/query']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.'
+            required: true
+            azure_sdk_references: ['/query/type', '/properties/query/type']
+          - !ruby/object:Api::Type::Enum
+            name: 'timeframe'
+            description: 'The time frame for pulling data for the report. If custom, then a specific time period must be provided.'
+            required: true
+            azure_sdk_references: ['/query/timeframe', '/properties/query/timeframe']
+            values:
+              - :WeekToDate
+              - :MonthToDate
+              - :YearToDate
+              - :Custom
+          - !ruby/object:Api::Type::NestedObject
+            name: 'timePeriod'
+            description: 'Has time period for pulling data for the report.'
+            required: false
+            azure_sdk_references: ['/query/timePeriod', '/properties/query/timePeriod']
+            properties:
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'from'
+                description: 'The start date to pull data from.'
+                required: true
+                azure_sdk_references: ['/query/timePeriod/from', '/properties/query/timePeriod/from']
+              - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                name: 'to'
+                description: 'The end date to pull data to.'
+                required: true
+                azure_sdk_references: ['/query/timePeriod/to', '/properties/query/timePeriod/to']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'dataset'
+            description: 'Has definition for data in this report config.'
+            required: false
+            azure_sdk_references: ['/query/dataset', '/properties/query/dataset']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'granularity'
+                description: 'The granularity of rows in the report.'
+                required: false
+                azure_sdk_references: ['/query/dataset/granularity', '/properties/query/dataset/granularity']
+                values:
+                  - :Daily
+                  - :Monthly
+                default_value: :Daily
+              - !ruby/object:Api::Type::NestedObject
+                name: 'configuration'
+                description: 'Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.'
+                required: false
+                azure_sdk_references: ['/query/dataset/configuration', '/properties/query/dataset/configuration']
+                properties:
+                  - !ruby/object:Api::Type::Array
+                    name: 'columns'
+                    description: 'Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.'
+                    required: false
+                    azure_sdk_references: ['/query/dataset/configuration/columns', '/properties/query/dataset/configuration/columns']
+                    item_type: Api::Type::String
+              - !ruby/object:Api::Type::KeyValuePairs
+                name: 'aggregation'
+                description: 'Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses.'
+                required: false
+                azure_sdk_references: ['/query/dataset/aggregation', '/properties/query/dataset/aggregation']
+              - !ruby/object:Api::Type::Array
+                name: 'grouping'
+                description: 'Array of group by expression to use in the report. Report can have up to 2 group by clauses.'
+                required: false
+                azure_sdk_references: ['/query/dataset/grouping', '/properties/query/dataset/grouping']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'type'
+                      description: 'Has type of the column to group.'
+                      required: true
+                      azure_sdk_references: ['/query/dataset/grouping/type', '/properties/query/dataset/grouping/type']
+                      values:
+                        - :Tag
+                        - :Dimension
+                    - !ruby/object:Api::Type::String
+                      name: 'name'
+                      description: 'The name of the column to group. This version supports subscription lowest possible grain.'
+                      required: true
+                      azure_sdk_references: ['/query/dataset/grouping/name', '/properties/query/dataset/grouping/name']
+              - !ruby/object:Api::Type::Array
+                name: 'sorting'
+                description: 'Array of order by expression to use in the report.'
+                required: false
+                azure_sdk_references: ['/query/dataset/sorting', '/properties/query/dataset/sorting']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'direction'
+                      description: 'Direction of sort.'
+                      required: false
+                      azure_sdk_references: ['/query/dataset/sorting/direction', '/properties/query/dataset/sorting/direction']
+                      values:
+                        - :Ascending
+                        - :Descending
+                      default_value: :Ascending
+                    - !ruby/object:Api::Type::String
+                      name: 'name'
+                      description: 'The name of the column to sort.'
+                      required: true
+                      azure_sdk_references: ['/query/dataset/sorting/name', '/properties/query/dataset/sorting/name']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'filter'
+                description: 'Has filter expression to use in the report.'
+                required: false
+                azure_sdk_references: ['/query/dataset/filter', '/properties/query/dataset/filter']
+                properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'chart'
+        description: 'Chart type of the main view in Cost Analysis. Required.'
+        required: false
+        azure_sdk_references: ['/chart', '/properties/chart']
+        values:
+          - :Area
+          - :Line
+          - :StackedColumn
+          - :GroupedColumn
+          - :Table
+        default_value: :Area
+      - !ruby/object:Api::Type::Enum
+        name: 'accumulated'
+        description: 'Show costs accumulated over time.'
+        required: false
+        azure_sdk_references: ['/accumulated', '/properties/accumulated']
+        values:
+          - :true
+          - :false
+        default_value: :true
+      - !ruby/object:Api::Type::Enum
+        name: 'metric'
+        description: 'Metric to use when displaying costs.'
+        required: false
+        azure_sdk_references: ['/metric', '/properties/metric']
+        values:
+          - :ActualCost
+          - :AmortizedCost
+          - :AHUB
+        default_value: :ActualCost
+      - !ruby/object:Api::Type::Array
+        name: 'kpis'
+        description: 'List of KPIs to show in Cost Analysis UI.'
+        required: false
+        azure_sdk_references: ['/kpis', '/properties/kpis']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'KPI type (Forecast, Budget).'
+              required: false
+              azure_sdk_references: ['/kpis/type', '/properties/kpis/type']
+              values:
+                - :Forecast
+                - :Budget
+              default_value: :Forecast
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'ID of resource related to metric (budget).'
+              required: false
+              azure_sdk_references: ['/kpis/id', '/properties/kpis/id']
+            - !ruby/object:Api::Type::Boolean
+              name: 'enabled'
+              description: 'show the KPI in the UI?'
+              required: false
+              azure_sdk_references: ['/kpis/enabled', '/properties/kpis/enabled']
+      - !ruby/object:Api::Type::Array
+        name: 'pivots'
+        description: 'Configuration of 3 sub-views in the Cost Analysis UI.'
+        required: false
+        azure_sdk_references: ['/pivots', '/properties/pivots']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'Data type to show in view.'
+              required: false
+              azure_sdk_references: ['/pivots/type', '/properties/pivots/type']
+              values:
+                - :Dimension
+                - :TagKey
+              default_value: :Dimension
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Data field to show in view.'
+              required: false
+              azure_sdk_references: ['/pivots/name', '/properties/pivots/name']
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdOn'
+        description: 'Date the user created this view.'
+        output: true
+        azure_sdk_references: ['/createdOn', '/properties/createdOn']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'modifiedOn'
+        description: 'Date when the user last modified this view.'
+        output: true
+        azure_sdk_references: ['/modifiedOn', '/properties/modifiedOn']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
