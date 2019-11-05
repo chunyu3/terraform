@@ -1,0 +1,545 @@
+--- !ruby/object:Api::Product
+name: Azure VpnConnection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VpnConnection
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: vpnConnectionsClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.vpn_connections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnGateways
+            go_variable_name: gatewayName
+            python_parameter_name: gateway_name
+            python_variable_name: gateway_name
+          'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnConnections
+            go_variable_name: connectionName
+            python_parameter_name: connection_name
+            python_variable_name: connection_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: vpnConnectionParameters
+            go_type_name: VpnConnection
+            python_parameter_name: vpn_connection_parameters
+            python_variable_name: vpn_connection_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VpnConnectionProperties
+            go_type_name: VpnConnectionProperties
+          '/remoteVpnSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: remote_vpn_site
+          '/remoteVpnSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/remoteVpnSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RemoteVpnSite
+            go_type_name: SubResource
+          '/properties/remoteVpnSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/routingWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: routing_weight
+          '/properties/routingWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RoutingWeight
+          '/connectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connection_status
+          '/properties/connectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectionStatus
+            go_enum_type_name: VpnConnectionStatus
+          '/sharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: shared_key
+          '/properties/sharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SharedKey
+          '/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_bgp
+          '/properties/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableBgp
+          '/ipsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ipsec_policies
+          '/ipsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_life_time_seconds
+          '/ipsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_data_size_kilobytes
+          '/ipsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_encryption
+          '/ipsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_integrity
+          '/ipsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_encryption
+          '/ipsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_integrity
+          '/ipsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: dh_group
+          '/ipsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pfs_group
+          '/properties/ipsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpsecPolicies
+            go_type_name: IpsecPolicy
+          '/properties/ipsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaLifeTimeSeconds
+          '/properties/ipsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaDataSizeKilobytes
+          '/properties/ipsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecEncryption
+            go_enum_type_name: IpsecEncryption
+          '/properties/ipsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecIntegrity
+            go_enum_type_name: IpsecIntegrity
+          '/properties/ipsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeEncryption
+            go_enum_type_name: IkeEncryption
+          '/properties/ipsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeIntegrity
+            go_enum_type_name: IkeIntegrity
+          '/properties/ipsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DhGroup
+            go_enum_type_name: DhGroup
+          '/properties/ipsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PfsGroup
+            go_enum_type_name: PfsGroup
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnGateways
+            go_variable_name: gatewayName
+            python_parameter_name: gateway_name
+            python_variable_name: gateway_name
+          'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnConnections
+            go_variable_name: connectionName
+            python_parameter_name: connection_name
+            python_variable_name: connection_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnGateways
+            go_variable_name: gatewayName
+            python_parameter_name: gateway_name
+            python_variable_name: gateway_name
+          'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnConnections
+            go_variable_name: connectionName
+            python_parameter_name: connection_name
+            python_variable_name: connection_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VpnConnectionProperties
+            go_type_name: VpnConnectionProperties
+          '/properties/remoteVpnSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RemoteVpnSite
+            go_type_name: SubResource
+          '/properties/remoteVpnSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/remoteVpnSite': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: remote_vpn_site
+          '/remoteVpnSite/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/routingWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RoutingWeight
+          '/routingWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: routing_weight
+          '/properties/connectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectionStatus
+            go_enum_type_name: VpnConnectionStatus
+          '/connectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connection_status
+          '/properties/sharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SharedKey
+          '/sharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: shared_key
+          '/properties/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableBgp
+          '/enableBgp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_bgp
+          '/properties/ipsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpsecPolicies
+            go_type_name: IpsecPolicy
+          '/properties/ipsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaLifeTimeSeconds
+          '/properties/ipsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SaDataSizeKilobytes
+          '/properties/ipsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecEncryption
+            go_enum_type_name: IpsecEncryption
+          '/properties/ipsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IpsecIntegrity
+            go_enum_type_name: IpsecIntegrity
+          '/properties/ipsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeEncryption
+            go_enum_type_name: IkeEncryption
+          '/properties/ipsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IkeIntegrity
+            go_enum_type_name: IkeIntegrity
+          '/properties/ipsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DhGroup
+            go_enum_type_name: DhGroup
+          '/properties/ipsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PfsGroup
+            go_enum_type_name: PfsGroup
+          '/ipsecPolicies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ipsec_policies
+          '/ipsecPolicies/saLifeTimeSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_life_time_seconds
+          '/ipsecPolicies/saDataSizeKilobytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: sa_data_size_kilobytes
+          '/ipsecPolicies/ipsecEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_encryption
+          '/ipsecPolicies/ipsecIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ipsec_integrity
+          '/ipsecPolicies/ikeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_encryption
+          '/ipsecPolicies/ikeIntegrity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: ike_integrity
+          '/ipsecPolicies/dhGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: dh_group
+          '/ipsecPolicies/pfsGroup': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pfs_group
+          '/properties/ingressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: IngressBytesTransferred
+          '/ingressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: ingress_bytes_transferred
+          '/properties/egressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: EgressBytesTransferred
+          '/egressBytesTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: egress_bytes_transferred
+          '/properties/connectionBandwidthInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ConnectionBandwidthInMbps
+          '/connectionBandwidthInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: connection_bandwidth_in_mbps
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByVpnGateway
+        python_func_name: list_by_vpn_gateway
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'gatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnGateways
+            go_variable_name: gatewayName
+            python_parameter_name: gateway_name
+            python_variable_name: gateway_name
+
+    description: |
+      Manage Azure VpnConnection instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name of the VpnGateway.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'gatewayName'
+        description: 'The name of the gateway.'
+        required: true
+        input: true
+        azure_sdk_references: ['gatewayName']
+      - !ruby/object:Api::Type::String
+        name: 'connectionName'
+        description: 'The name of the connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['connectionName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'remoteVpnSite'
+        description: 'Id of the connected vpn site.'
+        required: false
+        azure_sdk_references: ['/remoteVpnSite', '/properties/remoteVpnSite']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/remoteVpnSite/id', '/properties/remoteVpnSite/id']
+      - !ruby/object:Api::Type::Integer
+        name: 'routingWeight'
+        description: 'routing weight for vpn connection.'
+        required: false
+        azure_sdk_references: ['/routingWeight', '/properties/routingWeight']
+      - !ruby/object:Api::Type::Enum
+        name: 'connectionStatus'
+        description: 'The connection status.'
+        required: false
+        azure_sdk_references: ['/connectionStatus', '/properties/connectionStatus']
+        values:
+          - :Unknown
+          - :Connecting
+          - :Connected
+          - :NotConnected
+        default_value: :Unknown
+      - !ruby/object:Api::Type::String
+        name: 'sharedKey'
+        description: 'SharedKey for the vpn connection.'
+        required: false
+        azure_sdk_references: ['/sharedKey', '/properties/sharedKey']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableBgp'
+        description: 'EnableBgp flag'
+        required: false
+        azure_sdk_references: ['/enableBgp', '/properties/enableBgp']
+      - !ruby/object:Api::Type::Array
+        name: 'ipsecPolicies'
+        description: 'The IPSec Policies to be considered by this connection.'
+        required: false
+        azure_sdk_references: ['/ipsecPolicies', '/properties/ipsecPolicies']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Integer
+              name: 'saLifeTimeSeconds'
+              description: 'The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site to site VPN tunnel.'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/saLifeTimeSeconds', '/properties/ipsecPolicies/saLifeTimeSeconds']
+            - !ruby/object:Api::Type::Integer
+              name: 'saDataSizeKilobytes'
+              description: 'The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site to site VPN tunnel.'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/saDataSizeKilobytes', '/properties/ipsecPolicies/saDataSizeKilobytes']
+            - !ruby/object:Api::Type::Enum
+              name: 'ipsecEncryption'
+              description: 'The IPSec encryption algorithm (IKE phase 1).'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/ipsecEncryption', '/properties/ipsecPolicies/ipsecEncryption']
+              values:
+                - :None
+                - :DES
+                - :DES3
+                - :AES128
+                - :AES192
+                - :AES256
+                - :GCMAES128
+                - :GCMAES192
+                - :GCMAES256
+            - !ruby/object:Api::Type::Enum
+              name: 'ipsecIntegrity'
+              description: 'The IPSec integrity algorithm (IKE phase 1).'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/ipsecIntegrity', '/properties/ipsecPolicies/ipsecIntegrity']
+              values:
+                - :MD5
+                - :SHA1
+                - :SHA256
+                - :GCMAES128
+                - :GCMAES192
+                - :GCMAES256
+            - !ruby/object:Api::Type::Enum
+              name: 'ikeEncryption'
+              description: 'The IKE encryption algorithm (IKE phase 2).'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/ikeEncryption', '/properties/ipsecPolicies/ikeEncryption']
+              values:
+                - :DES
+                - :DES3
+                - :AES128
+                - :AES192
+                - :AES256
+                - :GCMAES256
+                - :GCMAES128
+            - !ruby/object:Api::Type::Enum
+              name: 'ikeIntegrity'
+              description: 'The IKE integrity algorithm (IKE phase 2).'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/ikeIntegrity', '/properties/ipsecPolicies/ikeIntegrity']
+              values:
+                - :MD5
+                - :SHA1
+                - :SHA256
+                - :SHA384
+                - :GCMAES256
+                - :GCMAES128
+            - !ruby/object:Api::Type::Enum
+              name: 'dhGroup'
+              description: 'The DH Groups used in IKE Phase 1 for initial SA.'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/dhGroup', '/properties/ipsecPolicies/dhGroup']
+              values:
+                - :None
+                - :DHGroup1
+                - :DHGroup2
+                - :DHGroup14
+                - :DHGroup2048
+                - :ECP256
+                - :ECP384
+                - :DHGroup24
+            - !ruby/object:Api::Type::Enum
+              name: 'pfsGroup'
+              description: 'The Pfs Groups used in IKE Phase 2 for new child SA.'
+              required: true
+              azure_sdk_references: ['/ipsecPolicies/pfsGroup', '/properties/ipsecPolicies/pfsGroup']
+              values:
+                - :None
+                - :PFS1
+                - :PFS2
+                - :PFS2048
+                - :ECP256
+                - :ECP384
+                - :PFS24
+                - :PFS14
+                - :PFSMM
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'ingressBytesTransferred'
+        description: 'Ingress bytes transferred.'
+        output: true
+        azure_sdk_references: ['/ingressBytesTransferred', '/properties/ingressBytesTransferred']
+      - !ruby/object:Api::Type::Integer
+        name: 'egressBytesTransferred'
+        description: 'Egress bytes transferred.'
+        output: true
+        azure_sdk_references: ['/egressBytesTransferred', '/properties/egressBytesTransferred']
+      - !ruby/object:Api::Type::Integer
+        name: 'connectionBandwidthInMbps'
+        description: 'Expected bandwidth in MBPS.'
+        output: true
+        azure_sdk_references: ['/connectionBandwidthInMbps', '/properties/connectionBandwidthInMbps']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

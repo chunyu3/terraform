@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkvpnsite
+  description: VpnSiteCreate
+  code:
+    resource_group: myResourceGroup
+    vpn_site_name: myVpnSite
+    vpn_site_parameters:
+      tags:
+        key1: value1
+      location: West US
+      properties:
+        virtualWAN: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Network/VirtualWans/{{ virtual_wan_name }}
+        deviceProperties:
+          deviceVendor: vendor1
+          deviceModel: model01
+          linkSpeedInMbps: '200'
+        ipAddress: 10.0.0.0
+        addressSpace:
+          addressPrefixes:
+            - 10.0.0.0/16
+        bgpProperties:
+          bgpPeeringAddress: 192.168.0.0
+          asn: '1234'
+  

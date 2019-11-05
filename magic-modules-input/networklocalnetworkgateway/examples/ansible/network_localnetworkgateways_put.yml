@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networklocalnetworkgateway
+  description: CreateLocalNetworkGateway
+  code:
+    resource_group: myResourceGroup
+    local_network_gateway_name: myLocalNetworkGateway
+    location: Central US
+    local_network_address_space:
+      address_prefixes:
+        - 10.1.0.0/16
+    gateway_ip_address: x.x.x.x
+  

@@ -1,0 +1,53 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mediaservicesstreamingpolicy
+  description: Creates a Streaming Policy with secure streaming
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaService
+    streaming_policy_name: myStreamingPolicy
+    default_content_key_policy_name: PolicyWithMultipleOptions
+    envelope_encryption:
+      enabled_protocols:
+        download: false
+        dash: true
+        hls: true
+        smooth_streaming: true
+      content_keys:
+        default_key:
+          label: aesDefaultKey
+      custom_key_acquisition_url_template: 'https://contoso.com/{AssetAlternativeId}/envelope/{ContentKeyId}'
+    common_encryption_cenc:
+      enabled_protocols:
+        download: false
+        dash: true
+        hls: false
+        smooth_streaming: true
+      clear_tracks:
+        - track_selections:
+            - property: FourCC
+              operation: Equal
+              value: hev1
+      content_keys:
+        default_key:
+          label: cencDefaultKey
+      drm:
+        play_ready:
+          custom_license_acquisition_url_template: 'https://contoso.com/{AssetAlternativeId}/playready/{ContentKeyId}'
+          play_ready_custom_attributes: PlayReady CustomAttributes
+        widevine:
+          custom_license_acquisition_url_template: 'https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId}'
+    common_encryption_cbcs:
+      enabled_protocols:
+        download: false
+        dash: false
+        hls: true
+        smooth_streaming: false
+      content_keys:
+        default_key:
+          label: cbcsDefaultKey
+      drm:
+        fair_play:
+          custom_license_acquisition_url_template: 'https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}'
+          allow_persistent_license: true
+  

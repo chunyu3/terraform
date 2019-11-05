@@ -1,0 +1,304 @@
+--- !ruby/object:Api::Product
+name: Azure ExpressRouteCircuitConnection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ExpressRouteCircuitConnection
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: expressRouteCircuitConnectionsClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.express_route_circuit_connections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connections
+            go_variable_name: connectionName
+            python_parameter_name: connection_name
+            python_variable_name: connection_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: expressRouteCircuitConnectionParameters
+            go_type_name: ExpressRouteCircuitConnection
+            python_parameter_name: express_route_circuit_connection_parameters
+            python_variable_name: express_route_circuit_connection_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteCircuitConnectionPropertiesFormat
+            go_type_name: ExpressRouteCircuitConnectionPropertiesFormat
+          '/expressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: express_route_circuit_peering
+          '/expressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/expressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteCircuitPeering
+            go_type_name: SubResource
+          '/properties/expressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/peerExpressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: peer_express_route_circuit_peering
+          '/peerExpressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/peerExpressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PeerExpressRouteCircuitPeering
+            go_type_name: SubResource
+          '/properties/peerExpressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_prefix
+          '/properties/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressPrefix
+          '/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: authorization_key
+          '/properties/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthorizationKey
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connections
+            go_variable_name: connectionName
+            python_parameter_name: connection_name
+            python_variable_name: connection_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+          'peeringName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: peerings
+            go_variable_name: peeringName
+            python_parameter_name: peering_name
+            python_variable_name: peering_name
+          'connectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connections
+            go_variable_name: connectionName
+            python_parameter_name: connection_name
+            python_variable_name: connection_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteCircuitConnectionPropertiesFormat
+            go_type_name: ExpressRouteCircuitConnectionPropertiesFormat
+          '/properties/expressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteCircuitPeering
+            go_type_name: SubResource
+          '/properties/expressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/expressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: express_route_circuit_peering
+          '/expressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/peerExpressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PeerExpressRouteCircuitPeering
+            go_type_name: SubResource
+          '/properties/peerExpressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/peerExpressRouteCircuitPeering': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: peer_express_route_circuit_peering
+          '/peerExpressRouteCircuitPeering/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AddressPrefix
+          '/addressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address_prefix
+          '/properties/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthorizationKey
+          '/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: authorization_key
+          '/properties/circuitConnectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CircuitConnectionStatus
+            go_enum_type_name: CircuitConnectionStatus
+          '/circuitConnectionStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: circuit_connection_status
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+
+    description: |
+      Manage Azure ExpressRouteCircuitConnection instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'circuitName'
+        description: 'The name of the express route circuit.'
+        required: true
+        input: true
+        azure_sdk_references: ['circuitName']
+      - !ruby/object:Api::Type::String
+        name: 'peeringName'
+        description: 'The name of the peering.'
+        required: true
+        input: true
+        azure_sdk_references: ['peeringName']
+      - !ruby/object:Api::Type::String
+        name: 'connectionName'
+        description: 'The name of the express route circuit connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['connectionName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'expressRouteCircuitPeering'
+        description: 'Reference to Express Route Circuit Private Peering Resource of the circuit initiating connection.'
+        required: false
+        azure_sdk_references: ['/expressRouteCircuitPeering', '/properties/expressRouteCircuitPeering']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/expressRouteCircuitPeering/id', '/properties/expressRouteCircuitPeering/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'peerExpressRouteCircuitPeering'
+        description: 'Reference to Express Route Circuit Private Peering Resource of the peered circuit.'
+        required: false
+        azure_sdk_references: ['/peerExpressRouteCircuitPeering', '/properties/peerExpressRouteCircuitPeering']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/peerExpressRouteCircuitPeering/id', '/properties/peerExpressRouteCircuitPeering/id']
+      - !ruby/object:Api::Type::String
+        name: 'addressPrefix'
+        description: '/29 IP address space to carve out Customer addresses for tunnels.'
+        required: false
+        azure_sdk_references: ['/addressPrefix', '/properties/addressPrefix']
+      - !ruby/object:Api::Type::String
+        name: 'authorizationKey'
+        description: 'The authorization key.'
+        required: false
+        azure_sdk_references: ['/authorizationKey', '/properties/authorizationKey']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'circuitConnectionStatus'
+        description: 'Express Route Circuit Connection State. Possible values are: ''Connected'' and ''Disconnected''.'
+        output: true
+        azure_sdk_references: ['/circuitConnectionStatus', '/properties/circuitConnectionStatus']
+        values:
+          - :Connected
+          - :Connecting
+          - :Disconnected
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Provisioning state of the circuit connection resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

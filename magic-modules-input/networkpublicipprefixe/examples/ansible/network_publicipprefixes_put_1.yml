@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkpublicipprefixe
+  description: Create public IP prefix allocation method
+  code:
+    resource_group: myResourceGroup
+    public_ip_prefix_name: myPublicIpprefixe
+    location: westus
+    sku:
+      name: Standard
+    public_ip_address_version: IPv4
+    prefix_length: '30'
+  

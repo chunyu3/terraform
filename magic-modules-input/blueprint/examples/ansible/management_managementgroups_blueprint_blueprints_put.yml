@@ -1,0 +1,30 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_blueprint
+  description: Blueprint
+  code:
+    management_group_name: myManagementGroup
+    blueprint_name: myBlueprint
+    blueprint:
+      properties:
+        description: 'blueprint contains all artifact kinds {''template'', ''rbac'', ''policy''}'
+        parameters:
+          storageAccountType:
+            type: string
+            metadata:
+              displayName: storage account type.
+          costCenter:
+            type: string
+            metadata:
+              displayName: force cost center tag for all resources under given subscription.
+          owners:
+            type: array
+            metadata:
+              displayName: assign owners to subscription along with blueprint assignment.
+        resourceGroups:
+          storageRG:
+            metadata:
+              displayName: storage resource group
+              description: Contains storageAccounts that collect all shoebox logs.
+        targetScope: subscription
+  

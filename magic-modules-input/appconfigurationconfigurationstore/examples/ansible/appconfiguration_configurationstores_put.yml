@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_appconfigurationconfigurationstore
+  description: ConfigurationStores_Create
+  code:
+    resource_group: myResourceGroup
+    config_store_name: myConfigurationStore
+    config_store_creation_parameters:
+      location: westus
+      sku:
+        name: Free
+      tags:
+        myTag: myTagValue
+  

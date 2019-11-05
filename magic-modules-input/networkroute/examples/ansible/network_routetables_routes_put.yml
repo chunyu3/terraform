@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkroute
+  description: Create route
+  code:
+    resource_group: myResourceGroup
+    route_table_name: myRouteTable
+    route_name: myRoute
+    route_parameters:
+      properties:
+        addressPrefix: 10.0.3.0/24
+        nextHopType: VirtualNetworkGateway
+  

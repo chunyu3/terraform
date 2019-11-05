@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_azuredatasqlserver
+  description: Creates or updates a SQL Server in a Registration group.
+  code:
+    resource_group: myResourceGroup
+    sql_server_registration_name: mySqlServerRegistration
+    sql_server_name: mySqlServer
+    cores: '8'
+    version: '2008'
+    edition: Latin
+    registration_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.AzureData/SqlServerRegistrations/{{
+      sql_server_registration_name }}
+    property_bag: ''
+  

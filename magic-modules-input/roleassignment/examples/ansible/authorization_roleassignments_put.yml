@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_roleassignment
+  description: GetConfigurations
+  code:
+    scope: scope
+    role_assignment_name: myRoleAssignment
+    role_definition_id: >-
+      /subscriptions/{{ subscription_id
+      }}/providers/Microsoft.Authorization/roleDefinitions/{{ role_definition_name
+      }}
+    principal_id: d93a38bc-d029-4160-bfb0-fbda779ac214
+    principal_type: User
+    can_delegate: false
+  

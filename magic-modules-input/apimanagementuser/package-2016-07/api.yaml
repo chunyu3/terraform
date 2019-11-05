@@ -1,0 +1,275 @@
+--- !ruby/object:Api::Product
+name: Azure User Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: User
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: apimanagement
+      go_client: usersClient
+      python_client_namespace: azure.mgmt.apimanagement
+      python_client: ApiManagementClient.users
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: uid
+            python_parameter_name: uid
+            python_variable_name: uid
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: UserCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Email
+            python_field_name: email
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Password
+            python_field_name: password
+          '/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FirstName
+            python_field_name: first_name
+          '/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: last_name
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: State
+            go_enum_type_name: UserStateContract
+            python_field_name: state
+          '/note': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Note
+            python_field_name: note
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: uid
+            python_parameter_name: uid
+            python_variable_name: uid
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: UserCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Email
+            python_field_name: email
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Password
+            python_field_name: password
+          '/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FirstName
+            python_field_name: first_name
+          '/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: last_name
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: State
+            go_enum_type_name: UserStateContract
+            python_field_name: state
+          '/note': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Note
+            python_field_name: note
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: uid
+            python_parameter_name: uid
+            python_variable_name: uid
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: uid
+            python_parameter_name: uid
+            python_variable_name: uid
+        response:
+          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Email
+            python_field_name: email
+          '/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FirstName
+            python_field_name: first_name
+          '/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: name
+            python_field_name: last_name
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: State
+            go_enum_type_name: UserStateContract
+            python_field_name: state
+          '/note': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Note
+            python_field_name: note
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/registrationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: RegistrationDate
+            python_field_name: registration_date
+          '/identities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Identities
+            go_type_name: UserIdentityContract
+            python_field_name: identities
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByService
+        python_func_name: list_by_service
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+
+    description: |
+      Manage Azure User instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'uid'
+        description: 'User identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['uid']
+      - !ruby/object:Api::Type::String
+        name: 'email'
+        description: 'Email address. Must not be empty and must be unique within the service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['/email']
+      - !ruby/object:Api::Type::String
+        name: 'password'
+        description: 'User Password.'
+        required: true
+        input: true
+        azure_sdk_references: ['/password']
+      - !ruby/object:Api::Type::String
+        name: 'firstName'
+        description: 'First name.'
+        required: true
+        input: true
+        azure_sdk_references: ['/firstName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Last name.'
+        required: true
+        input: true
+        azure_sdk_references: ['/lastName']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.'
+        required: false
+        input: true
+        azure_sdk_references: ['/state']
+        values:
+          - :Active
+          - :Blocked
+        default_value: :Active
+      - !ruby/object:Api::Type::String
+        name: 'note'
+        description: 'Optional note about a user set by the administrator.'
+        required: false
+        input: true
+        azure_sdk_references: ['/note']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'User identifier path.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'registrationDate'
+        description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+        output: true
+        azure_sdk_references: ['/registrationDate']
+      - !ruby/object:Api::Type::Array
+        name: 'identities'
+        description: 'Collection of user identities.'
+        output: true
+        azure_sdk_references: ['/identities']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'provider'
+              description: 'Identity provider name.'
+              required: false
+              azure_sdk_references: ['/identities/provider']
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Identifier value within provider.'
+              required: false
+              azure_sdk_references: ['/identities/id']

@@ -1,0 +1,23 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_workbooktemplate
+  description: WorkbookTemplateUpdate
+  code:
+    resource_group: myResourceGroup
+    resource_name: myWorkbooktemplate
+    workbook_template_properties:
+      name: display-name-of-template
+      location: west us
+      type: microsoft.insights/workbooktemplates
+      properties:
+        priority: '1'
+        author: Contoso
+        galleries:
+          - name: Simple Template
+            category: Failures
+            type: tsg
+            resourceType: microsoft.insights/components
+            order: '100'
+        templateData: {}
+      tags: null
+  

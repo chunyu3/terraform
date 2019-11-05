@@ -3,11 +3,14 @@ task: !ruby/object:Provider::Ansible::Task
   name: azure_rm_storsimplemanager
   description: ManagersCreateOrUpdate
   code:
-    location: westus
-    cis_intrinsic_settings:
-      type: GardaV1
-    sku:
-      name: Standard
+    manager:
+      properties:
+        cisIntrinsicSettings:
+          type: HelsinkiV1
+        sku:
+          name: Standard
+      name: hManagerForSDKTest
+      location: westus
     resource_group: myResourceGroup
     manager_name: myManager
   

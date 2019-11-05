@@ -1,0 +1,352 @@
+--- !ruby/object:Api::Product
+name: Azure ExpressRouteGateway Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ExpressRouteGateway
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: expressRouteGatewaysClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.express_route_gateways
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'expressRouteGatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteGateways
+            go_variable_name: expressRouteGatewayName
+            python_parameter_name: express_route_gateway_name
+            python_variable_name: express_route_gateway_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: putExpressRouteGatewayParameters
+            go_type_name: ExpressRouteGateway
+            python_parameter_name: put_express_route_gateway_parameters
+            python_variable_name: put_express_route_gateway_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteGatewayProperties
+            go_type_name: ExpressRouteGatewayProperties
+          '/autoScaleConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_scale_configuration
+          '/autoScaleConfiguration/bounds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bounds
+          '/autoScaleConfiguration/bounds/min': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: min
+          '/autoScaleConfiguration/bounds/max': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max
+          '/properties/autoScaleConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoScaleConfiguration
+            go_type_name: ExpressRouteGatewayProperties_autoScaleConfiguration
+          '/properties/autoScaleConfiguration/bounds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Bounds
+            go_type_name: ExpressRouteGatewayProperties_autoScaleConfiguration_bounds
+          '/properties/autoScaleConfiguration/bounds/min': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Min
+          '/properties/autoScaleConfiguration/bounds/max': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Max
+          '/virtualHub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_hub
+          '/virtualHub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/virtualHub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualHub
+            go_type_name: VirtualHubId
+          '/properties/virtualHub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'expressRouteGatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteGateways
+            go_variable_name: expressRouteGatewayName
+            python_parameter_name: express_route_gateway_name
+            python_variable_name: express_route_gateway_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'expressRouteGatewayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteGateways
+            go_variable_name: expressRouteGatewayName
+            python_parameter_name: express_route_gateway_name
+            python_variable_name: express_route_gateway_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteGatewayProperties
+            go_type_name: ExpressRouteGatewayProperties
+          '/properties/autoScaleConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AutoScaleConfiguration
+            go_type_name: ExpressRouteGatewayProperties_autoScaleConfiguration
+          '/properties/autoScaleConfiguration/bounds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Bounds
+            go_type_name: ExpressRouteGatewayProperties_autoScaleConfiguration_bounds
+          '/properties/autoScaleConfiguration/bounds/min': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Min
+          '/properties/autoScaleConfiguration/bounds/max': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Max
+          '/autoScaleConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: auto_scale_configuration
+          '/autoScaleConfiguration/bounds': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bounds
+          '/autoScaleConfiguration/bounds/min': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: min
+          '/autoScaleConfiguration/bounds/max': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max
+          '/properties/virtualHub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualHub
+            go_type_name: VirtualHubId
+          '/properties/virtualHub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/virtualHub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_hub
+          '/virtualHub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/expressRouteConnections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ExpressRouteConnections
+            go_type_name: ExpressRouteConnection
+          '/expressRouteConnections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: express_route_connections
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure ExpressRouteGateway instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'expressRouteGatewayName'
+        description: 'The name of the ExpressRoute gateway.'
+        required: true
+        input: true
+        azure_sdk_references: ['expressRouteGatewayName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'autoScaleConfiguration'
+        description: 'Configuration for auto scaling.'
+        required: false
+        azure_sdk_references: ['/autoScaleConfiguration', '/properties/autoScaleConfiguration']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'bounds'
+            description: 'Minimum and maximum number of scale units to deploy.'
+            required: false
+            azure_sdk_references: ['/autoScaleConfiguration/bounds', '/properties/autoScaleConfiguration/bounds']
+            properties:
+              - !ruby/object:Api::Type::Integer
+                name: 'min'
+                description: 'Minimum number of scale units deployed for ExpressRoute gateway.'
+                required: false
+                azure_sdk_references: ['/autoScaleConfiguration/bounds/min', '/properties/autoScaleConfiguration/bounds/min']
+              - !ruby/object:Api::Type::Integer
+                name: 'max'
+                description: 'Maximum number of scale units deployed for ExpressRoute gateway.'
+                required: false
+                azure_sdk_references: ['/autoScaleConfiguration/bounds/max', '/properties/autoScaleConfiguration/bounds/max']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'virtualHub'
+        description: 'The Virtual Hub where the ExpressRoute gateway is or will be deployed.'
+        required: true
+        azure_sdk_references: ['/virtualHub', '/properties/virtualHub']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The resource URI for the Virtual Hub where the ExpressRoute gateway is or will be deployed. The Virtual Hub resource and the ExpressRoute gateway resource reside in the same subscription.'
+            required: false
+            azure_sdk_references: ['/virtualHub/id', '/properties/virtualHub/id']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'expressRouteConnections'
+        description: 'List of ExpressRoute connections to the ExpressRoute gateway.'
+        output: true
+        azure_sdk_references: ['/expressRouteConnections', '/properties/expressRouteConnections']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/expressRouteConnections/id', '/properties/expressRouteConnections/id']
+            - !ruby/object:Api::Type::Enum
+              name: 'provisioningState'
+              description: 'The provisioning state of the resource.'
+              required: false
+              azure_sdk_references: ['/expressRouteConnections/provisioningState', '/properties/expressRouteConnections/properties/provisioningState']
+              values:
+                - :Succeeded
+                - :Updating
+                - :Deleting
+                - :Failed
+              default_value: :Succeeded
+            - !ruby/object:Api::Type::NestedObject
+              name: 'expressRouteCircuitPeering'
+              description: 'The ExpressRoute circuit peering.'
+              required: true
+              azure_sdk_references: ['/expressRouteConnections/expressRouteCircuitPeering', '/properties/expressRouteConnections/properties/expressRouteCircuitPeering']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'The ID of the ExpressRoute circuit peering.'
+                  required: false
+                  azure_sdk_references: ['/expressRouteConnections/expressRouteCircuitPeering/id', '/properties/expressRouteConnections/properties/expressRouteCircuitPeering/id']
+            - !ruby/object:Api::Type::String
+              name: 'authorizationKey'
+              description: 'Authorization key to establish the connection.'
+              required: false
+              azure_sdk_references: ['/expressRouteConnections/authorizationKey', '/properties/expressRouteConnections/properties/authorizationKey']
+            - !ruby/object:Api::Type::Integer
+              name: 'routingWeight'
+              description: 'The routing weight associated to the connection.'
+              required: false
+              azure_sdk_references: ['/expressRouteConnections/routingWeight', '/properties/expressRouteConnections/properties/routingWeight']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource.'
+              required: true
+              azure_sdk_references: ['/expressRouteConnections/name', '/properties/expressRouteConnections/name']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

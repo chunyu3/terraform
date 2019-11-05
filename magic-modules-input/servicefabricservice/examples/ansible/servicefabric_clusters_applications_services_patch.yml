@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_servicefabricservice
+  description: Patch a service
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    application_name: myApplication
+    service_name: myService
+    location: eastus
+    service_load_metrics:
+      - name: metric1
+        weight: Low
+  

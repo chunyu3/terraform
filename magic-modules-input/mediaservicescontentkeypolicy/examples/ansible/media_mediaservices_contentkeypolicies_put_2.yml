@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mediaservicescontentkeypolicy
+  description: Creates a Content Key Policy with ClearKey option and Token Restriction
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaService
+    content_key_policy_name: myContentKeyPolicy
+    description: ArmPolicyDescription
+    options:
+      - name: ClearKeyOption
+        configuration:
+          '@odata.type': '#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration'
+        restriction:
+          '@odata.type': '#Microsoft.Media.ContentKeyPolicyTokenRestriction'
+          issuer: 'urn:issuer'
+          audience: 'urn:audience'
+          primaryVerificationKey:
+            '@odata.type': '#Microsoft.Media.ContentKeyPolicySymmetricTokenKey'
+            keyValue: AAAAAAAAAAAAAAAAAAAAAA==
+          restrictionTokenType: Swt
+  

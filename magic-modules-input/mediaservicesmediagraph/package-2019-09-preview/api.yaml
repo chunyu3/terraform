@@ -1,0 +1,302 @@
+--- !ruby/object:Api::Product
+name: Azure MediaGraph Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: MediaGraph
+    api_name: Media
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Media
+      go_client_namespace: mediaservices
+      go_client: mediaGraphsClient
+      python_client_namespace: azure.mgmt.mediaservices
+      python_client: AzureMediaServicesClient.media_graphs
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'mediaGraphName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaGraphs
+            go_variable_name: mediaGraphName
+            python_parameter_name: media_graph_name
+            python_variable_name: media_graph_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: MediaGraph
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MediaGraphProperties
+            go_type_name: MediaGraphProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/sources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sources
+          '/sources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Sources
+            go_type_name: MediaGraphSource
+          '/properties/sources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/sinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sinks
+          '/sinks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/sinks/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: inputs
+          '/properties/sinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Sinks
+            go_type_name: MediaGraphSink
+          '/properties/sinks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/sinks/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Inputs
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'mediaGraphName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaGraphs
+            go_variable_name: mediaGraphName
+            python_parameter_name: media_graph_name
+            python_variable_name: media_graph_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'mediaGraphName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaGraphs
+            go_variable_name: mediaGraphName
+            python_parameter_name: media_graph_name
+            python_variable_name: media_graph_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MediaGraphProperties
+            go_type_name: MediaGraphProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/sources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Sources
+            go_type_name: MediaGraphSource
+          '/properties/sources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/sources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sources
+          '/sources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Sinks
+            go_type_name: MediaGraphSink
+          '/properties/sinks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/sinks/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Inputs
+          '/sinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sinks
+          '/sinks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/sinks/inputs': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: inputs
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: MediaGraphState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Created
+          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created
+          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastModified
+          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_modified
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+
+    description: |
+      Manage Azure MediaGraph instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The Media Services account name.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'mediaGraphName'
+        description: 'The Media Graph name.'
+        required: true
+        input: true
+        azure_sdk_references: ['mediaGraphName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Media Graph  description'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Array
+        name: 'sources'
+        description: 'Media Graph sources'
+        required: true
+        azure_sdk_references: ['/sources', '/properties/sources']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Source name'
+              required: true
+              azure_sdk_references: ['/sources/name', '/properties/sources/name']
+      - !ruby/object:Api::Type::Array
+        name: 'sinks'
+        description: 'Media Graph sinks'
+        required: true
+        azure_sdk_references: ['/sinks', '/properties/sinks']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Sink name'
+              required: true
+              azure_sdk_references: ['/sinks/name', '/properties/sinks/name']
+            - !ruby/object:Api::Type::Array
+              name: 'inputs'
+              description: 'Sink inputs'
+              required: true
+              azure_sdk_references: ['/sinks/inputs', '/properties/sinks/inputs']
+              item_type: Api::Type::String
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Media Graph state'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Running
+          - :Starting
+          - :Stopped
+          - :Stopping
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'created'
+        description: 'Date the Media Graph was created'
+        output: true
+        azure_sdk_references: ['/created', '/properties/created']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastModified'
+        description: 'Date the Media Graph was last modified'
+        output: true
+        azure_sdk_references: ['/lastModified', '/properties/lastModified']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource ID for the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

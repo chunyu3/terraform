@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_blueprintartifact
+  description: PolicyAssignmentArtifact
+  code:
+    management_group_name: myManagementGroup
+    blueprint_name: myBlueprint
+    artifact_name: myArtifact
+    artifact:
+      properties:
+        displayName: force costCenter tag on all resources
+        policyDefinitionId: >-
+          /providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62
+        parameters:
+          tagName:
+            value: costCenter
+          tagValue:
+            value: '[parameter(''costCenter'')]'
+      kind: policyAssignment
+  

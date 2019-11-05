@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkexpressrouteport
+  description: ExpressRoutePortUpdateLink
+  code:
+    resource_group: myResourceGroup
+    express_route_port_name: myExpressRoutePort
+    location: westus
+    peering_location: peeringLocationName
+    bandwidth_in_gbps: '100'
+    encapsulation: QinQ
+    links:
+      - admin_state: Enabled
+        name: link1
+  

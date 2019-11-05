@@ -1,0 +1,217 @@
+--- !ruby/object:Api::Product
+name: Azure ExpressRouteCircuitAuthorization Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ExpressRouteCircuitAuthorization
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: expressRouteCircuitAuthorizationsClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.express_route_circuit_authorizations
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+          'authorizationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: authorizations
+            go_variable_name: authorizationName
+            python_parameter_name: authorization_name
+            python_variable_name: authorization_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: authorizationParameters
+            go_type_name: ExpressRouteCircuitAuthorization
+            python_parameter_name: authorization_parameters
+            python_variable_name: authorization_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AuthorizationPropertiesFormat
+            go_type_name: AuthorizationPropertiesFormat
+          '/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: authorization_key
+          '/properties/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthorizationKey
+          '/authorizationUseStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: authorization_use_status
+          '/properties/authorizationUseStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AuthorizationUseStatus
+            go_enum_type_name: AuthorizationUseStatus
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+          'authorizationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: authorizations
+            go_variable_name: authorizationName
+            python_parameter_name: authorization_name
+            python_variable_name: authorization_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+          'authorizationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: authorizations
+            go_variable_name: authorizationName
+            python_parameter_name: authorization_name
+            python_variable_name: authorization_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AuthorizationPropertiesFormat
+            go_type_name: AuthorizationPropertiesFormat
+          '/properties/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthorizationKey
+          '/authorizationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: authorization_key
+          '/properties/authorizationUseStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AuthorizationUseStatus
+            go_enum_type_name: AuthorizationUseStatus
+          '/authorizationUseStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: authorization_use_status
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'circuitName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: expressRouteCircuits
+            go_variable_name: circuitName
+            python_parameter_name: circuit_name
+            python_variable_name: circuit_name
+
+    description: |
+      Manage Azure ExpressRouteCircuitAuthorization instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'circuitName'
+        description: 'The name of the express route circuit.'
+        required: true
+        input: true
+        azure_sdk_references: ['circuitName']
+      - !ruby/object:Api::Type::String
+        name: 'authorizationName'
+        description: 'The name of the authorization.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Identifier.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'authorizationKey'
+        description: 'The authorization key.'
+        required: false
+        azure_sdk_references: ['/authorizationKey', '/properties/authorizationKey']
+      - !ruby/object:Api::Type::Enum
+        name: 'authorizationUseStatus'
+        description: 'AuthorizationUseStatus. Possible values are: ''Available'' and ''InUse''.'
+        required: false
+        azure_sdk_references: ['/authorizationUseStatus', '/properties/authorizationUseStatus']
+        values:
+          - :Available
+          - :InUse
+        default_value: :Available
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Gets the provisioning state of the public IP resource. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
