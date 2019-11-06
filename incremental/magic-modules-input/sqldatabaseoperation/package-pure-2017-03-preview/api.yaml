@@ -1,0 +1,167 @@
+--- !ruby/object:Api::Product
+name: Azure DatabaseOperation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DatabaseOperation
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: databaseOperationsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.database_operations
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabase
+        python_func_name: list_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: name
+            python_parameter_name: database_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure DatabaseOperation instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Array of results.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'databaseName'
+              description: 'The name of the database the operation is being performed on.'
+              required: false
+              azure_sdk_references: ['/value/databaseName', '/value/properties/databaseName']
+            - !ruby/object:Api::Type::String
+              name: 'operation'
+              description: 'The name of operation.'
+              required: false
+              azure_sdk_references: ['/value/operation', '/value/properties/operation']
+            - !ruby/object:Api::Type::String
+              name: 'operationFriendlyName'
+              description: 'The friendly name of operation.'
+              required: false
+              azure_sdk_references: ['/value/operationFriendlyName', '/value/properties/operationFriendlyName']
+            - !ruby/object:Api::Type::Integer
+              name: 'percentComplete'
+              description: 'The percentage of the operation completed.'
+              required: false
+              azure_sdk_references: ['/value/percentComplete', '/value/properties/percentComplete']
+            - !ruby/object:Api::Type::String
+              name: 'serverName'
+              description: 'The name of the server.'
+              required: false
+              azure_sdk_references: ['/value/serverName', '/value/properties/serverName']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startTime'
+              description: 'The operation start time.'
+              required: false
+              azure_sdk_references: ['/value/startTime', '/value/properties/startTime']
+            - !ruby/object:Api::Type::Enum
+              name: 'state'
+              description: 'The operation state.'
+              required: false
+              azure_sdk_references: ['/value/state', '/value/properties/state']
+              values:
+                - :Pending
+                - :InProgress
+                - :Succeeded
+                - :Failed
+                - :CancelInProgress
+                - :Cancelled
+              default_value: :Pending
+            - !ruby/object:Api::Type::Integer
+              name: 'errorCode'
+              description: 'The operation error code.'
+              required: false
+              azure_sdk_references: ['/value/errorCode', '/value/properties/errorCode']
+            - !ruby/object:Api::Type::String
+              name: 'errorDescription'
+              description: 'The operation error description.'
+              required: false
+              azure_sdk_references: ['/value/errorDescription', '/value/properties/errorDescription']
+            - !ruby/object:Api::Type::Integer
+              name: 'errorSeverity'
+              description: 'The operation error severity.'
+              required: false
+              azure_sdk_references: ['/value/errorSeverity', '/value/properties/errorSeverity']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isUserError'
+              description: 'Whether or not the error is a user error.'
+              required: false
+              azure_sdk_references: ['/value/isUserError', '/value/properties/isUserError']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'estimatedCompletionTime'
+              description: 'The estimated completion time of the operation.'
+              required: false
+              azure_sdk_references: ['/value/estimatedCompletionTime', '/value/properties/estimatedCompletionTime']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'The operation description.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isCancellable'
+              description: 'Whether the operation can be cancelled.'
+              required: false
+              azure_sdk_references: ['/value/isCancellable', '/value/properties/isCancellable']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to retrieve next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

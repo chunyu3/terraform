@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqlvirtualmachinegroup
+  description: Creates or updates a SQL virtual machine group.
+  code:
+    resource_group: myResourceGroup
+    name: mySqlVirtualMachineGroup
+    location: northeurope
+    tags:
+      mytag: myval
+    sql_image_offer: SQL2016-WS2016
+    sql_image_sku: Enterprise
+    wsfc_domain_profile:
+      domain_fqdn: testdomain.com
+      ou_path: 'OU=WSCluster,DC=testdomain,DC=com'
+      cluster_bootstrap_account: testrpadmin
+      cluster_operator_account: testrp@testdomain.com
+      sql_service_account: sqlservice@testdomain.com
+      storage_account_url: 'https://storgact.blob.core.windows.net/'
+      storage_account_primary_key: <primary storage access key>
+  

@@ -1,0 +1,1130 @@
+--- !ruby/object:Api::Product
+name: Azure StorageAccount Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: StorageAccount
+    api_name: Storage
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Storage
+      go_client_namespace: storage
+      go_client: storageAccountsClient
+      python_client_namespace: azure.mgmt.storage
+      python_client: StorageManagementClient.storage_accounts
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: AccountCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/sku/restrictions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Restrictions
+            go_type_name: Restriction
+            python_field_name: restrictions
+          '/sku/restrictions/reasonCode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: ReasonCode
+            go_enum_type_name: ReasonCode
+            python_field_name: reason_code
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Kind
+            go_enum_type_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: Identity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountPropertiesCreateParameters
+            go_type_name: AccountPropertiesCreateParameters
+          '/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_domain
+          '/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: use_sub_domain_name
+          '/properties/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomDomain
+            go_type_name: CustomDomain
+          '/properties/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: UseSubDomainName
+          '/encryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encryption
+          '/encryption/services': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: services
+          '/encryption/services/blob': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: blob
+          '/encryption/services/blob/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/encryption/services/file': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: file
+          '/encryption/services/file/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/encryption/keySource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: key_source
+          '/encryption/keyvaultproperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: keyvaultproperties
+          '/encryption/keyvaultproperties/keyname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: keyname
+          '/encryption/keyvaultproperties/keyversion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: keyversion
+          '/encryption/keyvaultproperties/keyvaulturi': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: keyvaulturi
+          '/properties/encryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Encryption
+            go_type_name: Encryption
+          '/properties/encryption/services': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Services
+            go_type_name: EncryptionServices
+          '/properties/encryption/services/blob': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Blob
+            go_type_name: EncryptionService
+          '/properties/encryption/services/blob/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/encryption/services/file': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: File
+            go_type_name: EncryptionService
+          '/properties/encryption/services/file/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/encryption/keySource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: KeySource
+            go_enum_type_name: KeySource
+          '/properties/encryption/keyvaultproperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Keyvaultproperties
+            go_type_name: KeyVaultProperties
+          '/properties/encryption/keyvaultproperties/keyname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Keyname
+          '/properties/encryption/keyvaultproperties/keyversion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Keyversion
+          '/properties/encryption/keyvaultproperties/keyvaulturi': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Keyvaulturi
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: Bypass
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: State
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: DefaultAction
+          '/accessTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_tier
+          '/properties/accessTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessTier
+            go_enum_type_name: AccessTier
+          '/azureFilesIdentityBasedAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: azure_files_identity_based_authentication
+          '/azureFilesIdentityBasedAuthentication/directoryServiceOptions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: directory_service_options
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: active_directory_properties
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_name
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: net_bios_domain_name
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: forest_name
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_guid
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_sid
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_storage_sid
+          '/properties/azureFilesIdentityBasedAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AzureFilesIdentityBasedAuthentication
+            go_type_name: AzureFilesIdentityBasedAuthentication
+          '/properties/azureFilesIdentityBasedAuthentication/directoryServiceOptions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DirectoryServiceOptions
+            go_enum_type_name: DirectoryServiceOptions
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActiveDirectoryProperties
+            go_type_name: ActiveDirectoryProperties
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainName
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NetBiosDomainName
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ForestName
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainGuid
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainSid
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureStorageSid
+          '/supportsHttpsTrafficOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: supports_https_traffic_only
+          '/properties/supportsHttpsTrafficOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SupportsHttpsTrafficOnly
+          '/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_hns_enabled
+          '/properties/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsHnsEnabled
+          '/largeFileSharesState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: large_file_shares_state
+          '/properties/largeFileSharesState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LargeFileSharesState
+            go_enum_type_name: LargeFileSharesState
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: AccountCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/sku/restrictions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Restrictions
+            go_type_name: Restriction
+            python_field_name: restrictions
+          '/sku/restrictions/reasonCode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: ReasonCode
+            go_enum_type_name: ReasonCode
+            python_field_name: reason_code
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Kind
+            go_enum_type_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: Identity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountPropertiesCreateParameters
+            go_type_name: AccountPropertiesCreateParameters
+          '/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_domain
+          '/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: use_sub_domain_name
+          '/properties/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomDomain
+            go_type_name: CustomDomain
+          '/properties/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: UseSubDomainName
+          '/encryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: encryption
+          '/encryption/services': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: services
+          '/encryption/services/blob': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: blob
+          '/encryption/services/blob/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/encryption/services/file': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: file
+          '/encryption/services/file/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/encryption/keySource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: key_source
+          '/encryption/keyvaultproperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: keyvaultproperties
+          '/encryption/keyvaultproperties/keyname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: keyname
+          '/encryption/keyvaultproperties/keyversion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: keyversion
+          '/encryption/keyvaultproperties/keyvaulturi': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: keyvaulturi
+          '/properties/encryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Encryption
+            go_type_name: Encryption
+          '/properties/encryption/services': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Services
+            go_type_name: EncryptionServices
+          '/properties/encryption/services/blob': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Blob
+            go_type_name: EncryptionService
+          '/properties/encryption/services/blob/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/encryption/services/file': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: File
+            go_type_name: EncryptionService
+          '/properties/encryption/services/file/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/properties/encryption/keySource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: KeySource
+            go_enum_type_name: KeySource
+          '/properties/encryption/keyvaultproperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Keyvaultproperties
+            go_type_name: KeyVaultProperties
+          '/properties/encryption/keyvaultproperties/keyname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Keyname
+          '/properties/encryption/keyvaultproperties/keyversion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Keyversion
+          '/properties/encryption/keyvaultproperties/keyvaulturi': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Keyvaulturi
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: Bypass
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: State
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: DefaultAction
+          '/accessTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: access_tier
+          '/properties/accessTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AccessTier
+            go_enum_type_name: AccessTier
+          '/azureFilesIdentityBasedAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: azure_files_identity_based_authentication
+          '/azureFilesIdentityBasedAuthentication/directoryServiceOptions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: directory_service_options
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: active_directory_properties
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_name
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: net_bios_domain_name
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: forest_name
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_guid
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_sid
+          '/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_storage_sid
+          '/properties/azureFilesIdentityBasedAuthentication': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AzureFilesIdentityBasedAuthentication
+            go_type_name: AzureFilesIdentityBasedAuthentication
+          '/properties/azureFilesIdentityBasedAuthentication/directoryServiceOptions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DirectoryServiceOptions
+            go_enum_type_name: DirectoryServiceOptions
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActiveDirectoryProperties
+            go_type_name: ActiveDirectoryProperties
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainName
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NetBiosDomainName
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ForestName
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainGuid
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainSid
+          '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureStorageSid
+          '/supportsHttpsTrafficOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: supports_https_traffic_only
+          '/properties/supportsHttpsTrafficOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SupportsHttpsTrafficOnly
+          '/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_hns_enabled
+          '/properties/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsHnsEnabled
+          '/largeFileSharesState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: large_file_shares_state
+          '/properties/largeFileSharesState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LargeFileSharesState
+            go_enum_type_name: LargeFileSharesState
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: name
+            python_parameter_name: account_name
+            python_variable_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure StorageAccount instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'Required. Gets or sets the SKU name.'
+        required: true
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'Gets or sets the SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.'
+            required: true
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :Standard_LRS
+              - :Standard_GRS
+              - :Standard_RAGRS
+              - :Standard_ZRS
+              - :Premium_LRS
+              - :Premium_ZRS
+              - :Standard_GZRS
+              - :Standard_RAGZRS
+          - !ruby/object:Api::Type::Array
+            name: 'restrictions'
+            description: 'The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.'
+            required: false
+            azure_sdk_references: ['/sku/restrictions']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'reasonCode'
+                  description: 'The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The "NotAvailableForSubscription" is related to capacity at DC.'
+                  required: false
+                  azure_sdk_references: ['/sku/restrictions/reasonCode']
+                  values:
+                    - :QuotaId
+                    - :NotAvailableForSubscription
+                  default_value: :QuotaId
+      - !ruby/object:Api::Type::Enum
+        name: 'kind'
+        description: 'Required. Indicates the type of storage account.'
+        required: true
+        input: true
+        azure_sdk_references: ['/kind']
+        values:
+          - :Storage
+          - :StorageV2
+          - :BlobStorage
+          - :FileStorage
+          - :BlockBlobStorage
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'The identity of the resource.'
+        required: false
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The identity type.'
+            required: true
+            azure_sdk_references: ['/identity/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'customDomain'
+        description: 'User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.'
+        required: false
+        azure_sdk_references: ['/customDomain', '/properties/customDomain']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.'
+            required: true
+            azure_sdk_references: ['/customDomain/name', '/properties/customDomain/name']
+          - !ruby/object:Api::Type::Boolean
+            name: 'useSubDomainName'
+            description: 'Indicates whether indirect CName validation is enabled. Default value is false. This should only be set on updates.'
+            required: false
+            azure_sdk_references: ['/customDomain/useSubDomainName', '/properties/customDomain/useSubDomainName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'encryption'
+        description: 'Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled.'
+        required: false
+        azure_sdk_references: ['/encryption', '/properties/encryption']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'services'
+            description: 'List of services which support encryption.'
+            required: false
+            azure_sdk_references: ['/encryption/services', '/properties/encryption/services']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'blob'
+                description: 'The encryption function of the blob storage service.'
+                required: false
+                azure_sdk_references: ['/encryption/services/blob', '/properties/encryption/services/blob']
+                properties:
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'enabled'
+                    description: 'A boolean indicating whether or not the service encrypts the data as it is stored.'
+                    required: false
+                    azure_sdk_references: ['/encryption/services/blob/enabled', '/properties/encryption/services/blob/enabled']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'file'
+                description: 'The encryption function of the file storage service.'
+                required: false
+                azure_sdk_references: ['/encryption/services/file', '/properties/encryption/services/file']
+                properties:
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'enabled'
+                    description: 'A boolean indicating whether or not the service encrypts the data as it is stored.'
+                    required: false
+                    azure_sdk_references: ['/encryption/services/file/enabled', '/properties/encryption/services/file/enabled']
+          - !ruby/object:Api::Type::Enum
+            name: 'keySource'
+            description: 'The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault'
+            required: true
+            azure_sdk_references: ['/encryption/keySource', '/properties/encryption/keySource']
+            values:
+              - :Microsoft.Storage
+              - :Microsoft.Keyvault
+          - !ruby/object:Api::Type::NestedObject
+            name: 'keyvaultproperties'
+            description: 'Properties provided by key vault.'
+            required: false
+            azure_sdk_references: ['/encryption/keyvaultproperties', '/properties/encryption/keyvaultproperties']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'keyname'
+                description: 'The name of KeyVault key.'
+                required: false
+                azure_sdk_references: ['/encryption/keyvaultproperties/keyname', '/properties/encryption/keyvaultproperties/keyname']
+              - !ruby/object:Api::Type::String
+                name: 'keyversion'
+                description: 'The version of KeyVault key.'
+                required: false
+                azure_sdk_references: ['/encryption/keyvaultproperties/keyversion', '/properties/encryption/keyvaultproperties/keyversion']
+              - !ruby/object:Api::Type::String
+                name: 'keyvaulturi'
+                description: 'The Uri of KeyVault.'
+                required: false
+                azure_sdk_references: ['/encryption/keyvaultproperties/keyvaulturi', '/properties/encryption/keyvaultproperties/keyvaulturi']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'networkAcls'
+        description: 'Network rule set'
+        required: false
+        azure_sdk_references: ['/networkAcls', '/properties/networkAcls']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'bypass'
+            description: 'Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.'
+            required: false
+            azure_sdk_references: ['/networkAcls/bypass', '/properties/networkAcls/bypass']
+            values:
+              - :None
+              - :Logging
+              - :Metrics
+              - :AzureServices
+            default_value: :None
+          - !ruby/object:Api::Type::Array
+            name: 'virtualNetworkRules'
+            description: 'Sets the virtual network rules'
+            required: false
+            azure_sdk_references: ['/networkAcls/virtualNetworkRules', '/properties/networkAcls/virtualNetworkRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.'
+                  required: true
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/id', '/properties/networkAcls/virtualNetworkRules/id']
+                - !ruby/object:Api::Type::Enum
+                  name: 'action'
+                  description: 'The action of virtual network rule.'
+                  required: false
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/action', '/properties/networkAcls/virtualNetworkRules/action']
+                  values:
+                    - :Allow
+                  default_value: :Allow
+                - !ruby/object:Api::Type::Enum
+                  name: 'state'
+                  description: 'Gets the state of virtual network rule.'
+                  required: false
+                  azure_sdk_references: ['/networkAcls/virtualNetworkRules/state', '/properties/networkAcls/virtualNetworkRules/state']
+                  values:
+                    - :provisioning
+                    - :deprovisioning
+                    - :succeeded
+                    - :failed
+                    - :networkSourceDeleted
+                  default_value: :provisioning
+          - !ruby/object:Api::Type::Array
+            name: 'ipRules'
+            description: 'Sets the IP ACL rules'
+            required: false
+            azure_sdk_references: ['/networkAcls/ipRules', '/properties/networkAcls/ipRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.'
+                  required: true
+                  azure_sdk_references: ['/networkAcls/ipRules/value', '/properties/networkAcls/ipRules/value']
+                - !ruby/object:Api::Type::Enum
+                  name: 'action'
+                  description: 'The action of IP ACL rule.'
+                  required: false
+                  azure_sdk_references: ['/networkAcls/ipRules/action', '/properties/networkAcls/ipRules/action']
+                  values:
+                    - :Allow
+                  default_value: :Allow
+          - !ruby/object:Api::Type::Enum
+            name: 'defaultAction'
+            description: 'Specifies the default action of allow or deny when no other rules match.'
+            required: true
+            azure_sdk_references: ['/networkAcls/defaultAction', '/properties/networkAcls/defaultAction']
+            values:
+              - :Allow
+              - :Deny
+      - !ruby/object:Api::Type::Enum
+        name: 'accessTier'
+        description: 'Required for storage accounts where kind = BlobStorage. The access tier used for billing.'
+        required: false
+        azure_sdk_references: ['/accessTier', '/properties/accessTier']
+        values:
+          - :Hot
+          - :Cool
+        default_value: :Hot
+      - !ruby/object:Api::Type::NestedObject
+        name: 'azureFilesIdentityBasedAuthentication'
+        description: 'Provides the identity based authentication settings for Azure Files.'
+        required: false
+        azure_sdk_references: ['/azureFilesIdentityBasedAuthentication', '/properties/azureFilesIdentityBasedAuthentication']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'directoryServiceOptions'
+            description: 'Indicates the directory service used.'
+            required: true
+            azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/directoryServiceOptions', '/properties/azureFilesIdentityBasedAuthentication/directoryServiceOptions']
+            values:
+              - :None
+              - :AADDS
+              - :AD
+          - !ruby/object:Api::Type::NestedObject
+            name: 'activeDirectoryProperties'
+            description: 'Required if choose AD.'
+            required: false
+            azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'domainName'
+                description: 'Specifies the primary domain that the AD DNS server is authoritative for.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName']
+              - !ruby/object:Api::Type::String
+                name: 'netBiosDomainName'
+                description: 'Specifies the NetBIOS domain name.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName']
+              - !ruby/object:Api::Type::String
+                name: 'forestName'
+                description: 'Specifies the Active Directory forest to get.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName']
+              - !ruby/object:Api::Type::String
+                name: 'domainGuid'
+                description: 'Specifies the domain GUID.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid']
+              - !ruby/object:Api::Type::String
+                name: 'domainSid'
+                description: 'Specifies the security identifier (SID).'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid']
+              - !ruby/object:Api::Type::String
+                name: 'azureStorageSid'
+                description: 'Specifies the security identifier (SID) for Azure Storage.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid']
+      - !ruby/object:Api::Type::Boolean
+        name: 'supportsHttpsTrafficOnly'
+        description: 'Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01.'
+        required: false
+        azure_sdk_references: ['/supportsHttpsTrafficOnly', '/properties/supportsHttpsTrafficOnly']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isHnsEnabled'
+        description: 'Account HierarchicalNamespace enabled if sets to true.'
+        required: false
+        azure_sdk_references: ['/isHnsEnabled', '/properties/isHnsEnabled']
+      - !ruby/object:Api::Type::Enum
+        name: 'largeFileSharesState'
+        description: 'Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.'
+        required: false
+        azure_sdk_references: ['/largeFileSharesState', '/properties/largeFileSharesState']
+        values:
+          - :Disabled
+          - :Enabled
+        default_value: :Disabled
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Gets the status of the storage account at the time the operation was called.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :ResolvingDNS
+          - :Succeeded
+      - !ruby/object:Api::Type::NestedObject
+        name: 'primaryEndpoints'
+        description: 'Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that Standard_ZRS and Premium_LRS accounts only return the blob endpoint.'
+        output: true
+        azure_sdk_references: ['/primaryEndpoints', '/properties/primaryEndpoints']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'blob'
+            description: 'Gets the blob endpoint.'
+            required: false
+            azure_sdk_references: ['/primaryEndpoints/blob', '/properties/primaryEndpoints/blob']
+          - !ruby/object:Api::Type::String
+            name: 'queue'
+            description: 'Gets the queue endpoint.'
+            required: false
+            azure_sdk_references: ['/primaryEndpoints/queue', '/properties/primaryEndpoints/queue']
+          - !ruby/object:Api::Type::String
+            name: 'table'
+            description: 'Gets the table endpoint.'
+            required: false
+            azure_sdk_references: ['/primaryEndpoints/table', '/properties/primaryEndpoints/table']
+          - !ruby/object:Api::Type::String
+            name: 'file'
+            description: 'Gets the file endpoint.'
+            required: false
+            azure_sdk_references: ['/primaryEndpoints/file', '/properties/primaryEndpoints/file']
+          - !ruby/object:Api::Type::String
+            name: 'web'
+            description: 'Gets the web endpoint.'
+            required: false
+            azure_sdk_references: ['/primaryEndpoints/web', '/properties/primaryEndpoints/web']
+          - !ruby/object:Api::Type::String
+            name: 'dfs'
+            description: 'Gets the dfs endpoint.'
+            required: false
+            azure_sdk_references: ['/primaryEndpoints/dfs', '/properties/primaryEndpoints/dfs']
+      - !ruby/object:Api::Type::String
+        name: 'primaryLocation'
+        description: 'Gets the location of the primary data center for the storage account.'
+        output: true
+        azure_sdk_references: ['/primaryLocation', '/properties/primaryLocation']
+      - !ruby/object:Api::Type::Enum
+        name: 'statusOfPrimary'
+        description: 'Gets the status indicating whether the primary location of the storage account is available or unavailable.'
+        output: true
+        azure_sdk_references: ['/statusOfPrimary', '/properties/statusOfPrimary']
+        values:
+          - :available
+          - :unavailable
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastGeoFailoverTime'
+        description: 'Gets the timestamp of the most recent instance of a failover to the secondary location. Only the most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only available if the accountType is Standard_GRS or Standard_RAGRS.'
+        output: true
+        azure_sdk_references: ['/lastGeoFailoverTime', '/properties/lastGeoFailoverTime']
+      - !ruby/object:Api::Type::String
+        name: 'secondaryLocation'
+        description: 'Gets the location of the geo-replicated secondary for the storage account. Only available if the accountType is Standard_GRS or Standard_RAGRS.'
+        output: true
+        azure_sdk_references: ['/secondaryLocation', '/properties/secondaryLocation']
+      - !ruby/object:Api::Type::Enum
+        name: 'statusOfSecondary'
+        description: 'Gets the status indicating whether the secondary location of the storage account is available or unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.'
+        output: true
+        azure_sdk_references: ['/statusOfSecondary', '/properties/statusOfSecondary']
+        values:
+          - :available
+          - :unavailable
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'Gets the creation date and time of the storage account in UTC.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'secondaryEndpoints'
+        description: 'Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.'
+        output: true
+        azure_sdk_references: ['/secondaryEndpoints', '/properties/secondaryEndpoints']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'blob'
+            description: 'Gets the blob endpoint.'
+            required: false
+            azure_sdk_references: ['/secondaryEndpoints/blob', '/properties/secondaryEndpoints/blob']
+          - !ruby/object:Api::Type::String
+            name: 'queue'
+            description: 'Gets the queue endpoint.'
+            required: false
+            azure_sdk_references: ['/secondaryEndpoints/queue', '/properties/secondaryEndpoints/queue']
+          - !ruby/object:Api::Type::String
+            name: 'table'
+            description: 'Gets the table endpoint.'
+            required: false
+            azure_sdk_references: ['/secondaryEndpoints/table', '/properties/secondaryEndpoints/table']
+          - !ruby/object:Api::Type::String
+            name: 'file'
+            description: 'Gets the file endpoint.'
+            required: false
+            azure_sdk_references: ['/secondaryEndpoints/file', '/properties/secondaryEndpoints/file']
+          - !ruby/object:Api::Type::String
+            name: 'web'
+            description: 'Gets the web endpoint.'
+            required: false
+            azure_sdk_references: ['/secondaryEndpoints/web', '/properties/secondaryEndpoints/web']
+          - !ruby/object:Api::Type::String
+            name: 'dfs'
+            description: 'Gets the dfs endpoint.'
+            required: false
+            azure_sdk_references: ['/secondaryEndpoints/dfs', '/properties/secondaryEndpoints/dfs']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'geoReplicationStats'
+        description: 'Geo Replication Stats'
+        output: true
+        azure_sdk_references: ['/geoReplicationStats', '/properties/geoReplicationStats']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'status'
+            description: 'The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the secondary location is temporarily unavailable.'
+            required: false
+            azure_sdk_references: ['/geoReplicationStats/status', '/properties/geoReplicationStats/status']
+            values:
+              - :Live
+              - :Bootstrap
+              - :Unavailable
+            default_value: :Live
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'lastSyncTime'
+            description: 'All primary writes preceding this UTC date/time value are guaranteed to be available for read operations. Primary writes following this point in time may or may not be available for reads. Element may be default value if value of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.'
+            required: false
+            azure_sdk_references: ['/geoReplicationStats/lastSyncTime', '/properties/geoReplicationStats/lastSyncTime']
+          - !ruby/object:Api::Type::Boolean
+            name: 'canFailover'
+            description: 'A boolean flag which indicates whether or not account failover is supported for the account.'
+            required: false
+            azure_sdk_references: ['/geoReplicationStats/canFailover', '/properties/geoReplicationStats/canFailover']
+      - !ruby/object:Api::Type::Boolean
+        name: 'failoverInProgress'
+        description: 'If the failover is in progress, the value will be true, otherwise, it will be null.'
+        output: true
+        azure_sdk_references: ['/failoverInProgress', '/properties/failoverInProgress']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

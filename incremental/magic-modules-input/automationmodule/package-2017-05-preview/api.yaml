@@ -1,0 +1,511 @@
+--- !ruby/object:Api::Product
+name: Azure Module Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Module
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: automation
+      go_client: moduleClient
+      python_client_namespace: azure.mgmt.automation
+      python_client: AutomationClient.module
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: modules
+            go_variable_name: name
+            python_parameter_name: module_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ModuleCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ModuleCreateOrUpdateProperties
+            go_type_name: ModuleCreateOrUpdateProperties
+          '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_link
+          '/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/contentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentLink
+            go_type_name: ContentLink
+          '/properties/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/contentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: modules
+            go_variable_name: name
+            python_parameter_name: module_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ModuleCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ModuleCreateOrUpdateProperties
+            go_type_name: ModuleCreateOrUpdateProperties
+          '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_link
+          '/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/contentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentLink
+            go_type_name: ContentLink
+          '/properties/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/contentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: modules
+            go_variable_name: name
+            python_parameter_name: module_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: modules
+            go_variable_name: name
+            python_parameter_name: module_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ModuleCreateOrUpdateProperties
+            go_type_name: ModuleCreateOrUpdateProperties
+          '/properties/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentLink
+            go_type_name: ContentLink
+          '/properties/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/contentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_link
+          '/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/contentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/isGlobal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsGlobal
+          '/isGlobal': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_global
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/sizeInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: SizeInBytes
+          '/sizeInBytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: size_in_bytes
+          '/properties/activityCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ActivityCount
+          '/activityCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: activity_count
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ModuleProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Error
+            go_type_name: ModuleErrorInfo
+          '/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/properties/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastModifiedTime
+          '/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_modified_time
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/isComposite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsComposite
+          '/isComposite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_composite
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAutomationAccount
+        python_func_name: list_by_automation_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+
+    description: |
+      Manage Azure Module instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'automationAccountName'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of module.'
+        required: true
+        input: true
+        azure_sdk_references: ['moduleName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'contentLink'
+        description: 'Gets or sets the module content link.'
+        required: true
+        azure_sdk_references: ['/contentLink', '/properties/contentLink']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'uri'
+            description: 'Gets or sets the uri of the runbook content.'
+            required: false
+            azure_sdk_references: ['/contentLink/uri', '/properties/contentLink/uri']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'contentHash'
+            description: 'Gets or sets the hash.'
+            required: false
+            azure_sdk_references: ['/contentLink/contentHash', '/properties/contentLink/contentHash']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'algorithm'
+                description: 'Gets or sets the content hash algorithm used to hash the content.'
+                required: true
+                azure_sdk_references: ['/contentLink/contentHash/algorithm', '/properties/contentLink/contentHash/algorithm']
+              - !ruby/object:Api::Type::String
+                name: 'value'
+                description: 'Gets or sets expected hash value of the content.'
+                required: true
+                azure_sdk_references: ['/contentLink/contentHash/value', '/properties/contentLink/contentHash/value']
+          - !ruby/object:Api::Type::String
+            name: 'version'
+            description: 'Gets or sets the version of the content.'
+            required: false
+            azure_sdk_references: ['/contentLink/version', '/properties/contentLink/version']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets name of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Gets or sets the location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Gets or sets the tags attached to the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Boolean
+        name: 'isGlobal'
+        description: 'Gets or sets the isGlobal flag of the module.'
+        output: true
+        azure_sdk_references: ['/isGlobal', '/properties/isGlobal']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'Gets or sets the version of the module.'
+        output: true
+        azure_sdk_references: ['/version', '/properties/version']
+      - !ruby/object:Api::Type::Integer
+        name: 'sizeInBytes'
+        description: 'Gets or sets the size in bytes of the module.'
+        output: true
+        azure_sdk_references: ['/sizeInBytes', '/properties/sizeInBytes']
+      - !ruby/object:Api::Type::Integer
+        name: 'activityCount'
+        description: 'Gets or sets the activity count of the module.'
+        output: true
+        azure_sdk_references: ['/activityCount', '/properties/activityCount']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Gets or sets the provisioning state of the module.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Created
+          - :Creating
+          - :StartingImportModuleRunbook
+          - :RunningImportModuleRunbook
+          - :ContentRetrieved
+          - :ContentDownloaded
+          - :ContentValidated
+          - :ConnectionTypeImported
+          - :ContentStored
+          - :ModuleDataStored
+          - :ActivitiesStored
+          - :ModuleImportRunbookComplete
+          - :Succeeded
+          - :Failed
+          - :Cancelled
+          - :Updating
+      - !ruby/object:Api::Type::NestedObject
+        name: 'error'
+        description: 'Gets or sets the error info of the module.'
+        output: true
+        azure_sdk_references: ['/error', '/properties/error']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'code'
+            description: 'Gets or sets the error code.'
+            required: false
+            azure_sdk_references: ['/error/code', '/properties/error/code']
+          - !ruby/object:Api::Type::String
+            name: 'message'
+            description: 'Gets or sets the error message.'
+            required: false
+            azure_sdk_references: ['/error/message', '/properties/error/message']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'Gets or sets the creation time.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastModifiedTime'
+        description: 'Gets or sets the last modified time.'
+        output: true
+        azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Gets or sets the description.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isComposite'
+        description: 'Gets or sets type of module, if its composite or not.'
+        output: true
+        azure_sdk_references: ['/isComposite', '/properties/isComposite']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets or sets the etag of the resource.'
+        output: true
+        azure_sdk_references: ['/etag']

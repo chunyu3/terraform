@@ -1,0 +1,151 @@
+--- !ruby/object:Api::Product
+name: Azure ConsumerInvitation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ConsumerInvitation
+    api_name: DataShare
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataShare
+      go_client_namespace: datashare
+      go_client: consumerInvitationsClient
+      python_client_namespace: azure.mgmt.datashare
+      python_client: DataShareManagementClient.consumer_invitations
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          '/properties/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/properties/invitationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InvitationID
+          '/invitationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: invitation_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConsumerInvitationProperties
+            go_type_name: ConsumerInvitationProperties
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListInvitations
+        python_func_name: list_invitations
+        request:
+
+    description: |
+      Manage Azure ConsumerInvitation instance.
+    properties:
+      - !ruby/object:Api::Type::Integer
+        name: 'dataSetCount'
+        description: 'Number of data sets in a share'
+        required: false
+        azure_sdk_references: ['/dataSetCount', '/properties/dataSetCount']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description shared when the invitation was created'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'invitationId'
+        description: 'Unique id of the invitation.'
+        required: true
+        azure_sdk_references: ['/invitationId', '/properties/invitationId']
+      - !ruby/object:Api::Type::Enum
+        name: 'invitationStatus'
+        description: 'The status of the invitation.'
+        required: false
+        azure_sdk_references: ['/invitationStatus', '/properties/invitationStatus']
+        values:
+          - :Pending
+          - :Accepted
+          - :Rejected
+          - :Withdrawn
+        default_value: :Pending
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'invitation location'
+        required: false
+        input: true
+        azure_sdk_references: ['/location', '/properties/location']
+      - !ruby/object:Api::Type::String
+        name: 'providerEmail'
+        description: 'Email of the provider who created the resource'
+        required: false
+        azure_sdk_references: ['/providerEmail', '/properties/providerEmail']
+      - !ruby/object:Api::Type::String
+        name: 'providerName'
+        description: 'Name of the provider who created the resource'
+        required: false
+        azure_sdk_references: ['/providerName', '/properties/providerName']
+      - !ruby/object:Api::Type::String
+        name: 'providerTenantName'
+        description: 'Tenant name of the provider who created the resource'
+        required: false
+        azure_sdk_references: ['/providerTenantName', '/properties/providerTenantName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'respondedAt'
+        description: 'The time the recipient responded to the invitation.'
+        required: false
+        azure_sdk_references: ['/respondedAt', '/properties/respondedAt']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'sentAt'
+        description: 'Gets the time at which the invitation was sent.'
+        required: false
+        azure_sdk_references: ['/sentAt', '/properties/sentAt']
+      - !ruby/object:Api::Type::String
+        name: 'shareName'
+        description: 'Gets the source share Name.'
+        required: false
+        azure_sdk_references: ['/shareName', '/properties/shareName']
+      - !ruby/object:Api::Type::String
+        name: 'termsOfUse'
+        description: 'Terms of use shared when the invitation was created'
+        required: false
+        azure_sdk_references: ['/termsOfUse', '/properties/termsOfUse']
+      - !ruby/object:Api::Type::String
+        name: 'userEmail'
+        description: 'Email of the user who created the resource'
+        required: false
+        azure_sdk_references: ['/userEmail', '/properties/userEmail']
+      - !ruby/object:Api::Type::String
+        name: 'userName'
+        description: 'Name of the user who created the resource'
+        required: false
+        azure_sdk_references: ['/userName', '/properties/userName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id of the azure resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the azure resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the azure resource'
+        output: true
+        azure_sdk_references: ['/type']

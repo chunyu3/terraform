@@ -1,0 +1,135 @@
+--- !ruby/object:Api::Product
+name: Azure GroupUser Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: GroupUser
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: apimanagement
+      go_client: groupUsersClient
+      python_client_namespace: azure.mgmt.apimanagement
+      python_client: ApiManagementClient.group_users
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByGroup
+        python_func_name: list_by_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          'groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: groups
+            go_variable_name: groupID
+            python_parameter_name: group_id
+            python_variable_name: group_id
+
+    description: |
+      Manage Azure GroupUser instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'groupId'
+        description: 'Group identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['groupId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Page values.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'User identifier path.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'firstName'
+              description: 'First name.'
+              required: false
+              azure_sdk_references: ['/value/firstName']
+            - !ruby/object:Api::Type::String
+              name: 'lastName'
+              description: 'Last name.'
+              required: false
+              azure_sdk_references: ['/value/lastName']
+            - !ruby/object:Api::Type::String
+              name: 'email'
+              description: 'Email address.'
+              required: false
+              azure_sdk_references: ['/value/email']
+            - !ruby/object:Api::Type::Enum
+              name: 'state'
+              description: 'User state.'
+              required: false
+              azure_sdk_references: ['/value/state']
+              values:
+                - :Active
+                - :Blocked
+              default_value: :Active
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'registrationDate'
+              description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+              required: false
+              azure_sdk_references: ['/value/registrationDate']
+            - !ruby/object:Api::Type::String
+              name: 'note'
+              description: 'Administrator''s note about given user.'
+              required: false
+              azure_sdk_references: ['/value/note']
+            - !ruby/object:Api::Type::Array
+              name: 'identities'
+              description: 'Collection of user identities.'
+              required: false
+              azure_sdk_references: ['/value/identities']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'provider'
+                    description: 'Identity provider name.'
+                    required: false
+                    azure_sdk_references: ['/value/identities/provider']
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Identifier value within provider.'
+                    required: false
+                    azure_sdk_references: ['/value/identities/id']
+      - !ruby/object:Api::Type::Integer
+        name: 'count'
+        description: 'Total records count number.'
+        output: true
+        azure_sdk_references: ['/count']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Next page link if any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

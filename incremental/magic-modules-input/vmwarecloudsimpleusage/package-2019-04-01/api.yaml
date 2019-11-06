@@ -1,0 +1,91 @@
+--- !ruby/object:Api::Product
+name: Azure Usage Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Usage
+    api_name: VMwareCloudSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.VMwareCloudSimple
+      go_client_namespace: vmwarecloudsimple
+      go_client: usagesClient
+      python_client_namespace: azure.mgmt.vmwarecloudsimple
+      python_client: VMwareCloudSimpleClient.usages
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'regionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: regionID
+            python_parameter_name: region_id
+            python_variable_name: region_id
+
+    description: |
+      Manage Azure Usage instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'regionId'
+        description: 'The region Id (westus, eastus)'
+        required: true
+        input: true
+        azure_sdk_references: ['regionId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link for next list of DedicatedCloudNode'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of usages'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Integer
+              name: 'currentValue'
+              description: 'The current usage value'
+              required: true
+              azure_sdk_references: ['/value/currentValue']
+            - !ruby/object:Api::Type::Integer
+              name: 'limit'
+              description: 'limit of a given sku in a region for a subscription. The maximum permitted value for the usage quota. If there is no limit, this value will be -1'
+              required: true
+              azure_sdk_references: ['/value/limit']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'Usage name value and localized name'
+              required: false
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'e.g. "Virtual Machines"'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'resource type or resource type sku name, e.g. virtualMachines'
+                  required: false
+                  azure_sdk_references: ['/value/name/value']
+            - !ruby/object:Api::Type::Enum
+              name: 'unit'
+              description: 'The usages'' unit'
+              required: false
+              azure_sdk_references: ['/value/unit']
+              values:
+                - :Count
+                - :Bytes
+                - :Seconds
+                - :Percent
+                - :CountPerSecond
+                - :BytesPerSecond
+              default_value: :Count

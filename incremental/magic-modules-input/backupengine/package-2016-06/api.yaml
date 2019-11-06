@@ -1,0 +1,140 @@
+--- !ruby/object:Api::Product
+name: Azure BackupEngine Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BackupEngine
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: backup
+      go_client: backupEnginesClient
+      python_client_namespace: azure.mgmt.recoveryservices.backup
+      python_client: RecoveryServicesBackupClient.backup_engines
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: name
+            python_parameter_name: vault_name
+            python_variable_name: name
+        response:
+          '/nextLink': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: NextLink
+            python_field_name: next_link
+          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Value
+            go_type_name: EngineBaseResource
+            python_field_name: value
+
+    description: |
+      Manage Azure BackupEngine instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Recovery Services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group associated with the Recovery Services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to GET the next page of resources. Call ListNext() gets the next page of resources.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID represents the complete path to the resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name associated with the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'eTag'
+              description: 'Optional ETag.'
+              required: false
+              azure_sdk_references: ['/value/eTag']
+            - !ruby/object:Api::Type::String
+              name: 'friendlyName'
+              description: 'The friendly name of the backup engine.'
+              required: false
+              azure_sdk_references: ['/value/friendlyName', '/value/properties/friendlyName']
+            - !ruby/object:Api::Type::Enum
+              name: 'backupManagementType'
+              description: 'The type of backup management associated with the backup engine.'
+              required: false
+              azure_sdk_references: ['/value/backupManagementType', '/value/properties/backupManagementType']
+              values:
+                - :Invalid
+                - :AzureIaasVM
+                - :MAB
+                - :DPM
+                - :AzureBackupServer
+                - :AzureSql
+              default_value: :Invalid
+            - !ruby/object:Api::Type::String
+              name: 'registrationStatus'
+              description: 'The status of the backup engine registration with the Recovery Services vault.'
+              required: false
+              azure_sdk_references: ['/value/registrationStatus', '/value/properties/registrationStatus']
+            - !ruby/object:Api::Type::String
+              name: 'healthStatus'
+              description: 'The backup status of the backup engine.'
+              required: false
+              azure_sdk_references: ['/value/healthStatus', '/value/properties/healthStatus']
+            - !ruby/object:Api::Type::Boolean
+              name: 'canReRegister'
+              description: 'The flag indicating whether the backup engine be registered again, once the engine has been initially registered.'
+              required: false
+              azure_sdk_references: ['/value/canReRegister', '/value/properties/canReRegister']
+            - !ruby/object:Api::Type::String
+              name: 'backupEngineId'
+              description: 'The ID of the backup engine.'
+              required: false
+              azure_sdk_references: ['/value/backupEngineId', '/value/properties/backupEngineId']

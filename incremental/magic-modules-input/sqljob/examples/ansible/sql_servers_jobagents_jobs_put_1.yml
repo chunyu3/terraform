@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqljob
+  description: Create a job with all properties specified
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    job_agent_name: myJobAgent
+    name: myJob
+    description: my favourite job
+    schedule:
+      start_time: '2015-09-24T18:30:01Z'
+      end_time: '2015-09-24T23:59:59Z'
+      type: Recurring
+      enabled: true
+      interval: PT5M
+  

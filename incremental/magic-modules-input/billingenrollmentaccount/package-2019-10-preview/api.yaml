@@ -1,0 +1,133 @@
+--- !ruby/object:Api::Product
+name: Azure EnrollmentAccount Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: EnrollmentAccount
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: billing
+      go_client: enrollmentAccountsClient
+      python_client_namespace: azure.mgmt.billing
+      python_client: BillingManagementClient.enrollment_accounts
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByBillingAccountName
+        python_func_name: list_by_billing_account_name
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: name
+            python_parameter_name: billing_account_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure EnrollmentAccount instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'billing Account Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of enrollment accounts.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'accountName'
+              description: 'The account name.'
+              required: false
+              azure_sdk_references: ['/value/accountName', '/value/properties/accountName']
+            - !ruby/object:Api::Type::String
+              name: 'costCenter'
+              description: 'The cost center name.'
+              required: false
+              azure_sdk_references: ['/value/costCenter', '/value/properties/costCenter']
+            - !ruby/object:Api::Type::String
+              name: 'accountOwner'
+              description: 'The account owner'
+              required: false
+              azure_sdk_references: ['/value/accountOwner', '/value/properties/accountOwner']
+            - !ruby/object:Api::Type::String
+              name: 'status'
+              description: 'The status for account.'
+              required: false
+              azure_sdk_references: ['/value/status', '/value/properties/status']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startDate'
+              description: 'Account Start Date'
+              required: false
+              azure_sdk_references: ['/value/startDate', '/value/properties/startDate']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'endDate'
+              description: 'Account End Date'
+              required: false
+              azure_sdk_references: ['/value/endDate', '/value/properties/endDate']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'department'
+              description: 'Associated department. By default this is not populated, unless it''s specified in $expand.'
+              required: false
+              azure_sdk_references: ['/value/department', '/value/properties/department']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource Id.'
+                  required: false
+                  azure_sdk_references: ['/value/department/id', '/value/properties/department/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/department/name', '/value/properties/department/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type.'
+                  required: false
+                  azure_sdk_references: ['/value/department/type', '/value/properties/department/type']
+                - !ruby/object:Api::Type::String
+                  name: 'departmentName'
+                  description: 'The name for department.'
+                  required: false
+                  azure_sdk_references: ['/value/department/departmentName', '/value/properties/department/properties/departmentName']
+                - !ruby/object:Api::Type::String
+                  name: 'costCenter'
+                  description: 'The cost center name.'
+                  required: false
+                  azure_sdk_references: ['/value/department/costCenter', '/value/properties/department/properties/costCenter']
+                - !ruby/object:Api::Type::String
+                  name: 'status'
+                  description: 'The status for department.'
+                  required: false
+                  azure_sdk_references: ['/value/department/status', '/value/properties/department/properties/status']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link (url) to the next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

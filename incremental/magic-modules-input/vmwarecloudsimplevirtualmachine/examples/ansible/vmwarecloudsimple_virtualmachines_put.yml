@@ -1,0 +1,44 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_vmwarecloudsimplevirtualmachine
+  description: CreateVirtualMachine
+  code:
+    resource_group: myResourceGroup
+    referer: 'https://management.azure.com/'
+    name: myVirtualMachine
+    virtual_machine_request:
+      location: westus2
+      properties:
+        privateCloudId: >-
+          /subscriptions/{{ subscription_id
+          }}/providers/Microsoft.VMwareCloudSimple/locations/{{ location_name
+          }}/privateClouds/{{ private_cloud_name }}
+        templateId: >-
+          /subscriptions/{{ subscription_id
+          }}/providers/Microsoft.VMwareCloudSimple/locations/{{ location_name
+          }}/privateClouds/{{ private_cloud_name }}/virtualMachineTemplates/{{
+          virtual_machine_template_name }}
+        numberOfCores: '2'
+        amountOfRam: '4096'
+        disks:
+          - controllerId: '1000'
+            independenceMode: persistent
+            totalSize: '10485760'
+            virtualDiskId: '2000'
+        resourcePool:
+          id: >-
+            /subscriptions/{{ subscription_id
+            }}/providers/Microsoft.VMwareCloudSimple/locations/{{ location_name
+            }}/privateClouds/{{ private_cloud_name }}/resourcePools/{{
+            resource_pool_name }}
+        nics:
+          - network:
+              id: >-
+                /subscriptions/{{ subscription_id
+                }}/providers/Microsoft.VMwareCloudSimple/locations/{{
+                location_name }}/privateClouds/{{ private_cloud_name
+                }}/virtualNetworks/{{ virtual_network_name }}
+            nicType: E1000
+            powerOnBoot: true
+            virtualNicId: '4000'
+  

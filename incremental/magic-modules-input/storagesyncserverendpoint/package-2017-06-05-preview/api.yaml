@@ -1,0 +1,689 @@
+--- !ruby/object:Api::Product
+name: Azure ServerEndpoint Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServerEndpoint
+    api_name: StorageSync
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorageSync
+      go_client_namespace: storagesync
+      go_client: serverEndpointsClient
+      python_client_namespace: azure.mgmt.storagesync
+      python_client: MicrosoftStorageSyncClient.server_endpoints
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: name
+            python_parameter_name: server_endpoint_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerEndpoint
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointProperties
+            go_type_name: ServerEndpointProperties
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/lastSyncSuccess': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_sync_success
+          '/properties/lastSyncSuccess': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastSyncSuccess
+          '/syncErrorState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_error_state
+          '/properties/syncErrorState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncErrorState
+          '/syncErrorStateTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: sync_error_state_timestamp
+          '/properties/syncErrorStateTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SyncErrorStateTimestamp
+          '/syncErrorDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_error_direction
+          '/properties/syncErrorDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncErrorDirection
+            go_enum_type_name: 
+          '/itemUploadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_upload_error_count
+          '/properties/itemUploadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemUploadErrorCount
+          '/itemDownloadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_download_error_count
+          '/properties/itemDownloadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemDownloadErrorCount
+          '/syncErrorContext': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_error_context
+          '/properties/syncErrorContext': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncErrorContext
+          '/currentProgressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: current_progress_type
+          '/properties/currentProgressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CurrentProgressType
+            go_enum_type_name: 
+          '/itemProgressCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_progress_count
+          '/properties/itemProgressCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemProgressCount
+          '/itemTotalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_total_count
+          '/properties/itemTotalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemTotalCount
+          '/byteProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: byte_progress
+          '/properties/byteProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ByteProgress
+          '/totalProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_progress
+          '/properties/totalProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalProgress
+          '/byteTotal': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: byte_total
+          '/properties/byteTotal': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ByteTotal
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: name
+            python_parameter_name: server_endpoint_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServerEndpoint
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointProperties
+            go_type_name: ServerEndpointProperties
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/lastSyncSuccess': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_sync_success
+          '/properties/lastSyncSuccess': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastSyncSuccess
+          '/syncErrorState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_error_state
+          '/properties/syncErrorState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncErrorState
+          '/syncErrorStateTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: sync_error_state_timestamp
+          '/properties/syncErrorStateTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SyncErrorStateTimestamp
+          '/syncErrorDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_error_direction
+          '/properties/syncErrorDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncErrorDirection
+            go_enum_type_name: 
+          '/itemUploadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_upload_error_count
+          '/properties/itemUploadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemUploadErrorCount
+          '/itemDownloadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_download_error_count
+          '/properties/itemDownloadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemDownloadErrorCount
+          '/syncErrorContext': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_error_context
+          '/properties/syncErrorContext': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncErrorContext
+          '/currentProgressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: current_progress_type
+          '/properties/currentProgressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CurrentProgressType
+            go_enum_type_name: 
+          '/itemProgressCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_progress_count
+          '/properties/itemProgressCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemProgressCount
+          '/itemTotalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_total_count
+          '/properties/itemTotalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemTotalCount
+          '/byteProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: byte_progress
+          '/properties/byteProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ByteProgress
+          '/totalProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_progress
+          '/properties/totalProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalProgress
+          '/byteTotal': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: byte_total
+          '/properties/byteTotal': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ByteTotal
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: name
+            python_parameter_name: server_endpoint_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'serverEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serverEndpoints
+            go_variable_name: name
+            python_parameter_name: server_endpoint_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServerEndpointProperties
+            go_type_name: ServerEndpointProperties
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
+          '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CloudTiering
+            go_enum_type_name: 
+          '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cloud_tiering
+          '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: VolumeFreeSpacePercent
+          '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: volume_free_space_percent
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/lastSyncSuccess': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastSyncSuccess
+          '/lastSyncSuccess': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_sync_success
+          '/properties/syncErrorState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncErrorState
+          '/syncErrorState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_error_state
+          '/properties/syncErrorStateTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: SyncErrorStateTimestamp
+          '/syncErrorStateTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: sync_error_state_timestamp
+          '/properties/syncErrorDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SyncErrorDirection
+            go_enum_type_name: 
+          '/syncErrorDirection': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sync_error_direction
+          '/properties/itemUploadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemUploadErrorCount
+          '/itemUploadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_upload_error_count
+          '/properties/itemDownloadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemDownloadErrorCount
+          '/itemDownloadErrorCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_download_error_count
+          '/properties/syncErrorContext': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SyncErrorContext
+          '/syncErrorContext': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sync_error_context
+          '/properties/currentProgressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CurrentProgressType
+            go_enum_type_name: 
+          '/currentProgressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: current_progress_type
+          '/properties/itemProgressCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemProgressCount
+          '/itemProgressCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_progress_count
+          '/properties/itemTotalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ItemTotalCount
+          '/itemTotalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: item_total_count
+          '/properties/byteProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ByteProgress
+          '/byteProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: byte_progress
+          '/properties/totalProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalProgress
+          '/totalProgress': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_progress
+          '/properties/byteTotal': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ByteTotal
+          '/byteTotal': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: byte_total
+          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerResourceID
+          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_resource_id
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySyncGroup
+        python_func_name: list_by_sync_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+
+    description: |
+      Manage Azure ServerEndpoint instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'storageSyncServiceName'
+        description: 'Name of Storage Sync Service resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['storageSyncServiceName']
+      - !ruby/object:Api::Type::String
+        name: 'syncGroupName'
+        description: 'Name of Sync Group resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['syncGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of Server Endpoint object.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverEndpointName']
+      - !ruby/object:Api::Type::String
+        name: 'serverLocalPath'
+        description: 'Server Local path.'
+        required: false
+        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
+      - !ruby/object:Api::Type::Enum
+        name: 'cloudTiering'
+        description: 'Cloud Tiering.'
+        required: false
+        azure_sdk_references: ['/cloudTiering', '/properties/cloudTiering']
+        values:
+          - :on
+          - :off
+        default_value: :on
+      - !ruby/object:Api::Type::Integer
+        name: 'volumeFreeSpacePercent'
+        description: 'Level of free space to be maintained by Cloud Tiering if it is enabled.'
+        required: false
+        azure_sdk_references: ['/volumeFreeSpacePercent', '/properties/volumeFreeSpacePercent']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly Name'
+        required: false
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastSyncSuccess'
+        description: 'Last Sync Success'
+        required: false
+        azure_sdk_references: ['/lastSyncSuccess', '/properties/lastSyncSuccess']
+      - !ruby/object:Api::Type::String
+        name: 'syncErrorState'
+        description: 'Sync Error State'
+        required: false
+        azure_sdk_references: ['/syncErrorState', '/properties/syncErrorState']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'syncErrorStateTimestamp'
+        description: 'Sync Error State Timestamp'
+        required: false
+        azure_sdk_references: ['/syncErrorStateTimestamp', '/properties/syncErrorStateTimestamp']
+      - !ruby/object:Api::Type::Enum
+        name: 'syncErrorDirection'
+        description: 'Sync Error Direction.'
+        required: false
+        azure_sdk_references: ['/syncErrorDirection', '/properties/syncErrorDirection']
+        values:
+          - :none
+          - :initialize
+          - :download
+          - :upload
+          - :recall
+        default_value: :none
+      - !ruby/object:Api::Type::Integer
+        name: 'itemUploadErrorCount'
+        description: 'Item Upload Error Count.'
+        required: false
+        azure_sdk_references: ['/itemUploadErrorCount', '/properties/itemUploadErrorCount']
+      - !ruby/object:Api::Type::Integer
+        name: 'itemDownloadErrorCount'
+        description: 'Item download error count.'
+        required: false
+        azure_sdk_references: ['/itemDownloadErrorCount', '/properties/itemDownloadErrorCount']
+      - !ruby/object:Api::Type::String
+        name: 'syncErrorContext'
+        description: 'sync error context.'
+        required: false
+        azure_sdk_references: ['/syncErrorContext', '/properties/syncErrorContext']
+      - !ruby/object:Api::Type::Enum
+        name: 'currentProgressType'
+        description: 'current progress type.'
+        required: false
+        azure_sdk_references: ['/currentProgressType', '/properties/currentProgressType']
+        values:
+          - :none
+          - :initialize
+          - :download
+          - :upload
+          - :recall
+        default_value: :none
+      - !ruby/object:Api::Type::Integer
+        name: 'itemProgressCount'
+        description: 'Item Progress Count'
+        required: false
+        azure_sdk_references: ['/itemProgressCount', '/properties/itemProgressCount']
+      - !ruby/object:Api::Type::Integer
+        name: 'itemTotalCount'
+        description: 'Item Total Count'
+        required: false
+        azure_sdk_references: ['/itemTotalCount', '/properties/itemTotalCount']
+      - !ruby/object:Api::Type::Integer
+        name: 'byteProgress'
+        description: 'Bytes in progress'
+        required: false
+        azure_sdk_references: ['/byteProgress', '/properties/byteProgress']
+      - !ruby/object:Api::Type::Integer
+        name: 'totalProgress'
+        description: 'Total progress'
+        required: false
+        azure_sdk_references: ['/totalProgress', '/properties/totalProgress']
+      - !ruby/object:Api::Type::Integer
+        name: 'byteTotal'
+        description: 'Bytes total'
+        required: false
+        azure_sdk_references: ['/byteTotal', '/properties/byteTotal']
+      - !ruby/object:Api::Type::String
+        name: 'serverResourceId'
+        description: 'Server Resource Id.'
+        required: false
+        azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'lastWorkflowId'
+        description: 'ServerEndpoint lastWorkflowId'
+        required: false
+        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'ServerEndpoint Provisioning State'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The id of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource'
+        output: true
+        azure_sdk_references: ['/type']

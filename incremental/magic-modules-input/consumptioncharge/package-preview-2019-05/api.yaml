@@ -1,0 +1,95 @@
+--- !ruby/object:Api::Product
+name: Azure Charge Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Charge
+    api_name: Consumption
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Consumption
+      go_client_namespace: consumption
+      go_client: chargesClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.charges
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByScope
+        python_func_name: list_by_scope
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure Charge instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope associated with usage details operations. This includes ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'' for Department scope and ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'' for EnrollmentAccount scope. For department and enrollment accounts, you can also add billing period to the scope using ''/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}''. For e.g. to specify billing period at department scope use ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'''
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'billingPeriodId'
+        description: 'The id of the billing period resource that the charge belongs to.'
+        required: false
+        azure_sdk_references: ['/billingPeriodId', '/properties/billingPeriodId']
+      - !ruby/object:Api::Type::String
+        name: 'usageStart'
+        description: 'Usage start date.'
+        required: false
+        azure_sdk_references: ['/usageStart', '/properties/usageStart']
+      - !ruby/object:Api::Type::String
+        name: 'usageEnd'
+        description: ' Usage end date.'
+        required: false
+        azure_sdk_references: ['/usageEnd', '/properties/usageEnd']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+        name: 'azureCharges'
+        description: 'Azure Charges.'
+        required: false
+        azure_sdk_references: ['/azureCharges', '/properties/azureCharges']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+        name: 'chargesBilledSeparately'
+        description: 'Charges Billed separately.'
+        required: false
+        azure_sdk_references: ['/chargesBilledSeparately', '/properties/chargesBilledSeparately']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+        name: 'marketplaceCharges'
+        description: 'Marketplace Charges.'
+        required: false
+        azure_sdk_references: ['/marketplaceCharges', '/properties/marketplaceCharges']
+      - !ruby/object:Api::Type::String
+        name: 'currency'
+        description: 'Currency Code'
+        required: false
+        azure_sdk_references: ['/currency', '/properties/currency']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        output: true
+        azure_sdk_references: ['tags', '/tags']

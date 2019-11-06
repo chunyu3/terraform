@@ -1,0 +1,480 @@
+--- !ruby/object:Api::Product
+name: Azure DedicatedHost Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DedicatedHost
+    api_name: Compute
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Compute
+      go_client_namespace: compute
+      go_client: dedicatedHostsClient
+      python_client_namespace: azure.mgmt.compute
+      python_client: ComputeManagementClient.dedicated_hosts
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hostGroups
+            go_variable_name: hostGroupName
+            python_parameter_name: host_group_name
+            python_variable_name: host_group_name
+          'hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hosts
+            go_variable_name: name
+            python_parameter_name: host_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DedicatedHost
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DedicatedHostProperties
+            go_type_name: DedicatedHostProperties
+          '/platformFaultDomain': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_fault_domain
+          '/properties/platformFaultDomain': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformFaultDomain
+          '/autoReplaceOnFailure': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_replace_on_failure
+          '/properties/autoReplaceOnFailure': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoReplaceOnFailure
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+            go_enum_type_name: DedicatedHostLicenseTypes
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: Capacity
+            python_field_name: capacity
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hostGroups
+            go_variable_name: hostGroupName
+            python_parameter_name: host_group_name
+            python_variable_name: host_group_name
+          'hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hosts
+            go_variable_name: name
+            python_parameter_name: host_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DedicatedHost
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DedicatedHostProperties
+            go_type_name: DedicatedHostProperties
+          '/platformFaultDomain': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_fault_domain
+          '/properties/platformFaultDomain': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformFaultDomain
+          '/autoReplaceOnFailure': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_replace_on_failure
+          '/properties/autoReplaceOnFailure': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoReplaceOnFailure
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+            go_enum_type_name: DedicatedHostLicenseTypes
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: Capacity
+            python_field_name: capacity
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hostGroups
+            go_variable_name: hostGroupName
+            python_parameter_name: host_group_name
+            python_variable_name: host_group_name
+          'hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hosts
+            go_variable_name: name
+            python_parameter_name: host_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hostGroups
+            go_variable_name: hostGroupName
+            python_parameter_name: host_group_name
+            python_variable_name: host_group_name
+          'hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hosts
+            go_variable_name: name
+            python_parameter_name: host_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DedicatedHostProperties
+            go_type_name: DedicatedHostProperties
+          '/properties/platformFaultDomain': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformFaultDomain
+          '/platformFaultDomain': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_fault_domain
+          '/properties/autoReplaceOnFailure': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoReplaceOnFailure
+          '/autoReplaceOnFailure': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_replace_on_failure
+          '/properties/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: LicenseType
+            go_enum_type_name: DedicatedHostLicenseTypes
+          '/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: license_type
+          '/properties/hostId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostID
+          '/hostId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_id
+          '/properties/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualMachines
+            go_type_name: SubResourceReadOnly
+          '/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_machines
+          '/properties/provisioningTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ProvisioningTime
+          '/provisioningTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: provisioning_time
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InstanceView
+            go_type_name: DedicatedHostInstanceView
+          '/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: instance_view
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByHostGroup
+        python_func_name: list_by_host_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hostGroups
+            go_variable_name: hostGroupName
+            python_parameter_name: host_group_name
+            python_variable_name: host_group_name
+
+    description: |
+      Manage Azure DedicatedHost instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'hostGroupName'
+        description: 'The name of the dedicated host group.'
+        required: true
+        input: true
+        azure_sdk_references: ['hostGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the dedicated host .'
+        required: true
+        input: true
+        azure_sdk_references: ['hostName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Integer
+        name: 'platformFaultDomain'
+        description: 'Fault domain of the dedicated host within a dedicated host group.'
+        required: false
+        azure_sdk_references: ['/platformFaultDomain', '/properties/platformFaultDomain']
+      - !ruby/object:Api::Type::Boolean
+        name: 'autoReplaceOnFailure'
+        description: 'Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to ''true'' when not provided.'
+        required: false
+        azure_sdk_references: ['/autoReplaceOnFailure', '/properties/autoReplaceOnFailure']
+      - !ruby/object:Api::Type::Enum
+        name: 'licenseType'
+        description: 'Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None**'
+        required: false
+        azure_sdk_references: ['/licenseType', '/properties/licenseType']
+        values:
+          - :None
+          - :Windows_Server_Hybrid
+          - :Windows_Server_Perpetual
+        default_value: :None
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values.'
+        required: true
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The sku name.'
+            required: false
+            azure_sdk_references: ['/sku/name']
+          - !ruby/object:Api::Type::String
+            name: 'tier'
+            description: 'Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic**'
+            required: false
+            azure_sdk_references: ['/sku/tier']
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'Specifies the number of virtual machines in the scale set.'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'hostId'
+        description: 'A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.'
+        output: true
+        azure_sdk_references: ['/hostId', '/properties/hostId']
+      - !ruby/object:Api::Type::Array
+        name: 'virtualMachines'
+        description: 'A list of references to all virtual machines in the Dedicated Host.'
+        output: true
+        azure_sdk_references: ['/virtualMachines', '/properties/virtualMachines']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              required: false
+              azure_sdk_references: ['/virtualMachines/id', '/properties/virtualMachines/id']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'provisioningTime'
+        description: 'The date when the host was first provisioned.'
+        output: true
+        azure_sdk_references: ['/provisioningTime', '/properties/provisioningTime']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The provisioning state, which only appears in the response.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'instanceView'
+        description: 'The dedicated host instance view.'
+        output: true
+        azure_sdk_references: ['/instanceView', '/properties/instanceView']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'assetId'
+            description: 'Specifies the unique id of the dedicated physical machine on which the dedicated host resides.'
+            required: false
+            azure_sdk_references: ['/instanceView/assetId', '/properties/instanceView/assetId']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'availableCapacity'
+            description: 'Unutilized capacity of the dedicated host.'
+            required: false
+            azure_sdk_references: ['/instanceView/availableCapacity', '/properties/instanceView/availableCapacity']
+            properties:
+              - !ruby/object:Api::Type::Array
+                name: 'allocatableVms'
+                description: 'The unutilized capacity of the dedicated host represented in terms of each VM size that is allowed to be deployed to the dedicated host.'
+                required: false
+                azure_sdk_references: ['/instanceView/availableCapacity/allocatableVMs', '/properties/instanceView/availableCapacity/allocatableVMs']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'vmSize'
+                      description: 'VM size in terms of which the unutilized capacity is represented.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/availableCapacity/allocatableVMs/vmSize', '/properties/instanceView/availableCapacity/allocatableVMs/vmSize']
+                    - !ruby/object:Api::Type::Double
+                      name: 'count'
+                      description: 'Maximum number of VMs of size vmSize that can fit in the dedicated host''s remaining capacity.'
+                      required: false
+                      azure_sdk_references: ['/instanceView/availableCapacity/allocatableVMs/count', '/properties/instanceView/availableCapacity/allocatableVMs/count']
+          - !ruby/object:Api::Type::Array
+            name: 'statuses'
+            description: 'The resource status information.'
+            required: false
+            azure_sdk_references: ['/instanceView/statuses', '/properties/instanceView/statuses']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'code'
+                  description: 'The status code.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/code', '/properties/instanceView/statuses/code']
+                - !ruby/object:Api::Type::Enum
+                  name: 'level'
+                  description: 'The level code.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/level', '/properties/instanceView/statuses/level']
+                  values:
+                    - :Info
+                    - :Warning
+                    - :Error
+                  default_value: :Info
+                - !ruby/object:Api::Type::String
+                  name: 'displayStatus'
+                  description: 'The short localizable label for the status.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/displayStatus', '/properties/instanceView/statuses/displayStatus']
+                - !ruby/object:Api::Type::String
+                  name: 'message'
+                  description: 'The detailed status message, including for alerts and error messages.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/message', '/properties/instanceView/statuses/message']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'time'
+                  description: 'The time of the status.'
+                  required: false
+                  azure_sdk_references: ['/instanceView/statuses/time', '/properties/instanceView/statuses/time']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

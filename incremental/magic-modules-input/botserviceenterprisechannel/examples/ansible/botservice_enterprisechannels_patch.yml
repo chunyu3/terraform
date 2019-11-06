@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_botserviceenterprisechannel
+  description: Update Enterprise Channel
+  code:
+    resource_group: myResourceGroup
+    name: myEnterpriseChannel
+    location: West US
+    tags:
+      tag1: value1
+      tag2: value2
+    sku:
+      name: S1
+    etag: etag1
+    state: Stopping
+    nodes:
+      - state: Stopping
+        name: Node 1
+        azure_sku: Int1
+        azure_location: WestUs
+        id: 00000000-0000-0000-0000-000000000000
+  

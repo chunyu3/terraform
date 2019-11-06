@@ -1,0 +1,105 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: KeyVault
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.KeyVault
+      go_client_namespace: keyvault
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.keyvault
+      python_client: KeyVaultManagementClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of Storage operations supported by the Storage resource provider.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Operation name: {provider}/{resource}/{operation}'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Display metadata associated with the operation.'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Service provider: Microsoft Key Vault.'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'Resource on which the operation is performed etc.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Type of operation: get, read, delete, etc.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Description of operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'The origin of operations.'
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'serviceSpecification'
+              description: 'One property of operation, include metric specifications.'
+              required: false
+              azure_sdk_references: ['/value/serviceSpecification', '/value/properties/serviceSpecification']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'logSpecifications'
+                  description: 'Log specifications of operation.'
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/logSpecifications', '/value/properties/serviceSpecification/logSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'Name of log specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/name', '/value/properties/serviceSpecification/logSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: 'Display name of log specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/displayName', '/value/properties/serviceSpecification/logSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'blobDuration'
+                        description: 'Blob duration of specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/blobDuration', '/value/properties/serviceSpecification/logSpecifications/blobDuration']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of operations.'
+        output: true
+        azure_sdk_references: ['/nextLink']

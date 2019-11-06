@@ -1,0 +1,31 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_monitorclientdiagnosticsetting
+  description: Creates or Updates the diagnostic setting
+  code:
+    resource_uri: >-
+      subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6
+    storage_account_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Storage/storageAccounts/{{ storage_account_name }}
+    event_hub_authorization_rule_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/microsoft.eventhub/namespaces/{{ namespace_name }}/eventhubs/{{
+      eventhub_name }}/authorizationrules/{{ authorizationrule_name }}
+    event_hub_name: myeventhub
+    metrics:
+      - category: WorkflowMetrics
+        enabled: true
+        retention_policy:
+          enabled: false
+          days: '0'
+    logs:
+      - category: WorkflowRuntime
+        enabled: true
+        retention_policy:
+          enabled: false
+          days: '0'
+    workspace_id: ''
+    log_analytics_destination_type: Dedicated
+    name: mysetting
+  

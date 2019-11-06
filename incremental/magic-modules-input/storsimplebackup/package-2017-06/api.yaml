@@ -1,0 +1,183 @@
+--- !ruby/object:Api::Product
+name: Azure Backup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Backup
+    api_name: StorSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorSimple
+      go_client_namespace: storsimple
+      go_client: backupsClient
+      python_client_namespace: azure.mgmt.storsimple
+      python_client: StorSimple8000SeriesManagementClient.backups
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDevice
+        python_func_name: list_by_device
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+
+    description: |
+      Manage Azure Backup instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'deviceName'
+        description: 'The device name'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The value.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The path ID that uniquely identifies the object.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the object.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The hierarchical type of the object.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'kind'
+              description: 'The Kind of the object. Currently only Series8000 is supported'
+              required: false
+              azure_sdk_references: ['/value/kind']
+              values:
+                - :Series8000
+              default_value: :Series8000
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'createdOn'
+              description: 'The time when the backup was created.'
+              required: true
+              azure_sdk_references: ['/value/createdOn', '/value/properties/createdOn']
+            - !ruby/object:Api::Type::Integer
+              name: 'sizeInBytes'
+              description: 'The backup size in bytes.'
+              required: true
+              azure_sdk_references: ['/value/sizeInBytes', '/value/properties/sizeInBytes']
+            - !ruby/object:Api::Type::Enum
+              name: 'backupType'
+              description: 'The type of the backup.'
+              required: false
+              azure_sdk_references: ['/value/backupType', '/value/properties/backupType']
+              values:
+                - :LocalSnapshot
+                - :CloudSnapshot
+              default_value: :LocalSnapshot
+            - !ruby/object:Api::Type::Enum
+              name: 'backupJobCreationType'
+              description: 'The backup job creation type.'
+              required: false
+              azure_sdk_references: ['/value/backupJobCreationType', '/value/properties/backupJobCreationType']
+              values:
+                - :Adhoc
+                - :BySchedule
+                - :BySSM
+              default_value: :Adhoc
+            - !ruby/object:Api::Type::String
+              name: 'backupPolicyId'
+              description: 'The path ID of the backup policy.'
+              required: false
+              azure_sdk_references: ['/value/backupPolicyId', '/value/properties/backupPolicyId']
+            - !ruby/object:Api::Type::String
+              name: 'ssmHostName'
+              description: 'The StorSimple Snapshot Manager host name.'
+              required: false
+              azure_sdk_references: ['/value/ssmHostName', '/value/properties/ssmHostName']
+            - !ruby/object:Api::Type::Array
+              name: 'elements'
+              description: 'The backup elements.'
+              required: true
+              azure_sdk_references: ['/value/elements', '/value/properties/elements']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'elementId'
+                    description: 'The path ID that uniquely identifies the backup element.'
+                    required: true
+                    azure_sdk_references: ['/value/elements/elementId', '/value/properties/elements/elementId']
+                  - !ruby/object:Api::Type::String
+                    name: 'elementName'
+                    description: 'The name of the backup element.'
+                    required: true
+                    azure_sdk_references: ['/value/elements/elementName', '/value/properties/elements/elementName']
+                  - !ruby/object:Api::Type::String
+                    name: 'elementType'
+                    description: 'The hierarchical type of the backup element.'
+                    required: true
+                    azure_sdk_references: ['/value/elements/elementType', '/value/properties/elements/elementType']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'sizeInBytes'
+                    description: 'The size in bytes.'
+                    required: true
+                    azure_sdk_references: ['/value/elements/sizeInBytes', '/value/properties/elements/sizeInBytes']
+                  - !ruby/object:Api::Type::String
+                    name: 'volumeName'
+                    description: 'The name of the volume.'
+                    required: true
+                    azure_sdk_references: ['/value/elements/volumeName', '/value/properties/elements/volumeName']
+                  - !ruby/object:Api::Type::String
+                    name: 'volumeContainerId'
+                    description: 'The path ID of the volume container.'
+                    required: true
+                    azure_sdk_references: ['/value/elements/volumeContainerId', '/value/properties/elements/volumeContainerId']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'volumeType'
+                    description: 'The volume type.'
+                    required: false
+                    azure_sdk_references: ['/value/elements/volumeType', '/value/properties/elements/volumeType']
+                    values:
+                      - :Tiered
+                      - :Archival
+                      - :LocallyPinned
+                    default_value: :Tiered
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The NextLink.'
+        output: true
+        azure_sdk_references: ['/nextLink']

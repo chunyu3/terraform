@@ -1,0 +1,125 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: Storage
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Storage
+      go_client_namespace: storage
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.storage
+      python_client: StorageManagementClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of Storage operations supported by the Storage resource provider.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Operation name: {provider}/{resource}/{operation}'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Display metadata associated with the operation.'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Service provider: Microsoft Storage.'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'Resource on which the operation is performed etc.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Type of operation: get, read, delete, etc.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Description of the operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'The origin of operations.'
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'serviceSpecification'
+              description: 'One property of operation, include metric specifications.'
+              required: false
+              azure_sdk_references: ['/value/serviceSpecification', '/value/properties/serviceSpecification']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'metricSpecifications'
+                  description: 'Metric specifications of operation.'
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/metricSpecifications', '/value/properties/serviceSpecification/metricSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'Name of metric specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/name', '/value/properties/serviceSpecification/metricSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: 'Display name of metric specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/displayName', '/value/properties/serviceSpecification/metricSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayDescription'
+                        description: 'Display description of metric specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/displayDescription', '/value/properties/serviceSpecification/metricSpecifications/displayDescription']
+                      - !ruby/object:Api::Type::String
+                        name: 'unit'
+                        description: 'Unit could be Bytes or Count.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/unit', '/value/properties/serviceSpecification/metricSpecifications/unit']
+                      - !ruby/object:Api::Type::String
+                        name: 'aggregationType'
+                        description: 'Aggregation type could be Average.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/aggregationType', '/value/properties/serviceSpecification/metricSpecifications/aggregationType']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'fillGapWithZero'
+                        description: 'The property to decide fill gap with zero or not.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/fillGapWithZero', '/value/properties/serviceSpecification/metricSpecifications/fillGapWithZero']
+                      - !ruby/object:Api::Type::String
+                        name: 'category'
+                        description: 'The category this metric specification belong to, could be Capacity.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/category', '/value/properties/serviceSpecification/metricSpecifications/category']
+                      - !ruby/object:Api::Type::String
+                        name: 'resourceIdDimensionNameOverride'
+                        description: 'Account Resource Id.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/resourceIdDimensionNameOverride', '/value/properties/serviceSpecification/metricSpecifications/resourceIdDimensionNameOverride']

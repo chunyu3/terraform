@@ -1,0 +1,190 @@
+--- !ruby/object:Api::Product
+name: Azure ElasticPoolActivity Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ElasticPoolActivity
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: elasticPoolActivitiesClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.elastic_pool_activities
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByElasticPool
+        python_func_name: list_by_elastic_pool
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: elasticPools
+            go_variable_name: name
+            python_parameter_name: elastic_pool_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ElasticPoolActivity instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the elastic pool for which to get the current activity.'
+        required: true
+        input: true
+        azure_sdk_references: ['elasticPoolName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of elastic pool activities.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'The geo-location where the resource lives'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'endTime'
+              description: 'The time the operation finished (ISO8601 format).'
+              required: false
+              azure_sdk_references: ['/value/endTime', '/value/properties/endTime']
+            - !ruby/object:Api::Type::Integer
+              name: 'errorCode'
+              description: 'The error code if available.'
+              required: false
+              azure_sdk_references: ['/value/errorCode', '/value/properties/errorCode']
+            - !ruby/object:Api::Type::String
+              name: 'errorMessage'
+              description: 'The error message if available.'
+              required: false
+              azure_sdk_references: ['/value/errorMessage', '/value/properties/errorMessage']
+            - !ruby/object:Api::Type::Integer
+              name: 'errorSeverity'
+              description: 'The error severity if available.'
+              required: false
+              azure_sdk_references: ['/value/errorSeverity', '/value/properties/errorSeverity']
+            - !ruby/object:Api::Type::String
+              name: 'operation'
+              description: 'The operation name.'
+              required: false
+              azure_sdk_references: ['/value/operation', '/value/properties/operation']
+            - !ruby/object:Api::Type::String
+              name: 'operationId'
+              description: 'The unique operation ID.'
+              required: false
+              azure_sdk_references: ['/value/operationId', '/value/properties/operationId']
+            - !ruby/object:Api::Type::Integer
+              name: 'percentComplete'
+              description: 'The percentage complete if available.'
+              required: false
+              azure_sdk_references: ['/value/percentComplete', '/value/properties/percentComplete']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedDatabaseDtuMax'
+              description: 'The requested max DTU per database if available.'
+              required: false
+              azure_sdk_references: ['/value/requestedDatabaseDtuMax', '/value/properties/requestedDatabaseDtuMax']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedDatabaseDtuMin'
+              description: 'The requested min DTU per database if available.'
+              required: false
+              azure_sdk_references: ['/value/requestedDatabaseDtuMin', '/value/properties/requestedDatabaseDtuMin']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedDtu'
+              description: 'The requested DTU for the pool if available.'
+              required: false
+              azure_sdk_references: ['/value/requestedDtu', '/value/properties/requestedDtu']
+            - !ruby/object:Api::Type::String
+              name: 'requestedElasticPoolName'
+              description: 'The requested name for the elastic pool if available.'
+              required: false
+              azure_sdk_references: ['/value/requestedElasticPoolName', '/value/properties/requestedElasticPoolName']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedStorageLimitInGb'
+              description: 'The requested storage limit for the pool in GB if available.'
+              required: false
+              azure_sdk_references: ['/value/requestedStorageLimitInGB', '/value/properties/requestedStorageLimitInGB']
+            - !ruby/object:Api::Type::String
+              name: 'elasticPoolName'
+              description: 'The name of the elastic pool.'
+              required: false
+              azure_sdk_references: ['/value/elasticPoolName', '/value/properties/elasticPoolName']
+            - !ruby/object:Api::Type::String
+              name: 'serverName'
+              description: 'The name of the server the elastic pool is in.'
+              required: false
+              azure_sdk_references: ['/value/serverName', '/value/properties/serverName']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startTime'
+              description: 'The time the operation started (ISO8601 format).'
+              required: false
+              azure_sdk_references: ['/value/startTime', '/value/properties/startTime']
+            - !ruby/object:Api::Type::String
+              name: 'state'
+              description: 'The current state of the operation.'
+              required: false
+              azure_sdk_references: ['/value/state', '/value/properties/state']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedStorageLimitInMb'
+              description: 'The requested storage limit in MB.'
+              required: false
+              azure_sdk_references: ['/value/requestedStorageLimitInMB', '/value/properties/requestedStorageLimitInMB']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedDatabaseDtuGuarantee'
+              description: 'The requested per database DTU guarantee.'
+              required: false
+              azure_sdk_references: ['/value/requestedDatabaseDtuGuarantee', '/value/properties/requestedDatabaseDtuGuarantee']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedDatabaseDtuCap'
+              description: 'The requested per database DTU cap.'
+              required: false
+              azure_sdk_references: ['/value/requestedDatabaseDtuCap', '/value/properties/requestedDatabaseDtuCap']
+            - !ruby/object:Api::Type::Integer
+              name: 'requestedDtuGuarantee'
+              description: 'The requested DTU guarantee.'
+              required: false
+              azure_sdk_references: ['/value/requestedDtuGuarantee', '/value/properties/requestedDtuGuarantee']

@@ -1,0 +1,36 @@
+--- !ruby/object:Api::Product
+name: Azure Location Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Location
+    api_name: Batch
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Batch
+      go_client_namespace: batch
+      go_client: locationClient
+      python_client_namespace: azure.mgmt.batch
+      python_client: BatchManagementClient.location
+
+    description: |
+      Manage Azure Location instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The region for which to retrieve Batch service quotas.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'accountQuota'
+        description: 'The number of Batch accounts that may be created under the subscription in the specified region.'
+        output: true
+        azure_sdk_references: ['/accountQuota']

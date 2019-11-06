@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computedisk
+  description: >-
+    Create a managed disk from an existing managed disk in the same or different
+    subscription.
+  code:
+    resource_group: myResourceGroup
+    name: myDisk
+    disk:
+      name: myDisk2
+      location: West US
+      properties:
+        creationData:
+          createOption: Copy
+          sourceResourceId: >-
+            subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1
+  

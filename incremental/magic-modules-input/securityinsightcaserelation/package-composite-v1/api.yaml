@@ -1,0 +1,133 @@
+--- !ruby/object:Api::Product
+name: Azure CaseRelation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CaseRelation
+    api_name: undefined
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: {operationalInsightsResourceProvider}
+      go_client_namespace: securityinsight
+      go_client: caseRelationsClient
+      python_client_namespace: azure.mgmt.securityinsight
+      python_client: SecurityInsightsClient.case_relations
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'operationalInsightsResourceProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: operationalInsightsResourceProvider
+            python_parameter_name: operational_insights_resource_provider
+            python_variable_name: operational_insights_resource_provider
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: name
+            python_parameter_name: workspace_name
+            python_variable_name: name
+          'caseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cases
+            go_variable_name: caseID
+            python_parameter_name: case_id
+            python_variable_name: case_id
+
+    description: |
+      Manage Azure CaseRelation instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'operationalInsightsResourceProvider'
+        description: 'The namespace of workspaces resource provider- Microsoft.OperationalInsights.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationalInsightsResourceProvider']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the workspace.'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'caseId'
+        description: 'Case ID'
+        required: true
+        input: true
+        azure_sdk_references: ['caseId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to fetch the next set of relations.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Array of relations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Azure resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Azure resource name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Azure resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'kind'
+              description: 'The type of relation node'
+              required: false
+              azure_sdk_references: ['/value/kind']
+              values:
+                - :CasesToBookmarks
+              default_value: :CasesToBookmarks
+            - !ruby/object:Api::Type::String
+              name: 'etag'
+              description: 'ETag for relation'
+              required: false
+              azure_sdk_references: ['/value/etag']
+            - !ruby/object:Api::Type::String
+              name: 'relationName'
+              description: 'Name of relation'
+              required: true
+              azure_sdk_references: ['/value/relationName', '/value/properties/relationName']
+            - !ruby/object:Api::Type::String
+              name: 'bookmarkId'
+              description: 'The case related bookmark id'
+              required: true
+              azure_sdk_references: ['/value/bookmarkId', '/value/properties/bookmarkId']
+            - !ruby/object:Api::Type::String
+              name: 'caseIdentifier'
+              description: 'The case identifier'
+              required: true
+              azure_sdk_references: ['/value/caseIdentifier', '/value/properties/caseIdentifier']
+            - !ruby/object:Api::Type::String
+              name: 'bookmarkName'
+              description: 'The case related bookmark name'
+              required: false
+              azure_sdk_references: ['/value/bookmarkName', '/value/properties/bookmarkName']

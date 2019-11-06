@@ -1,0 +1,25 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_smartdetectoralertrule
+  description: Create or update a Smart Detector alert rule
+  code:
+    resource_group: myResourceGroup
+    name: mySmartDetectorAlertRule
+    description: Sample smart detector alert rule description
+    state: Enabled
+    severity: Sev3
+    frequency: PT5M
+    detector:
+      id: VMMemoryLeak
+    scope:
+      - >-
+        /subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourceGroups/MyVms/providers/Microsoft.Compute/virtualMachines/vm1
+    action_groups:
+      custom_email_subject: My custom email subject
+      custom_webhook_payload: '{"AlertRuleName":"#alertrulename"}'
+      group_ids:
+        - >-
+          /subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourcegroups/actionGroups/providers/microsoft.insights/actiongroups/MyActionGroup
+    throttling:
+      duration: PT20M
+  

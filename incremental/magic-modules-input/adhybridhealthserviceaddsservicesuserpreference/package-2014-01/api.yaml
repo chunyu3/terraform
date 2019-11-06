@@ -1,0 +1,43 @@
+--- !ruby/object:Api::Product
+name: Azure AddsServicesUserPreference Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AddsServicesUserPreference
+    api_name: ADHybridHealthService
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ADHybridHealthService
+      go_client_namespace: adhybridhealthservice
+      go_client: addsServicesUserPreferenceClient
+      python_client_namespace: azure.mgmt.adhybridhealthservice
+      python_client: ADHybridHealthServiceClient.adds_services_user_preference
+
+    description: |
+      Manage Azure AddsServicesUserPreference instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the feature.'
+        required: true
+        input: true
+        azure_sdk_references: ['featureName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'metricNames'
+        description: 'The name of the metric.'
+        output: true
+        azure_sdk_references: ['/metricNames']
+        item_type: Api::Type::String

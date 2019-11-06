@@ -1,0 +1,83 @@
+--- !ruby/object:Api::Product
+name: Azure ReservationRecommendation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ReservationRecommendation
+    api_name: Consumption
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Consumption
+      go_client_namespace: consumption
+      go_client: reservationRecommendationsClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.reservation_recommendations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure ReservationRecommendation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope associated with reservation recommendations operations. This includes ''/subscriptions/{subscriptionId}/'' for subscription scope, ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}'' for BillingAccount scope, and ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'' for billingProfile scope'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of reservation recommendations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Type::String
+              name: 'sku'
+              description: 'Resource sku'
+              required: false
+              azure_sdk_references: ['/value/sku']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link (url) to the next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

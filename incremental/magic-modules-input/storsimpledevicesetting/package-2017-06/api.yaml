@@ -1,0 +1,81 @@
+--- !ruby/object:Api::Product
+name: Azure DeviceSetting Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DeviceSetting
+    api_name: StorSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorSimple
+      go_client_namespace: storsimple
+      go_client: deviceSettingsClient
+      python_client_namespace: azure.mgmt.storsimple
+      python_client: StorSimple8000SeriesManagementClient.device_settings
+
+    description: |
+      Manage Azure DeviceSetting instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'deviceName'
+        description: 'The device name'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      - !ruby/object:Api::Type::String
+        name: 'timeZone'
+        description: 'The timezone of device, like ''(UTC -06:00) Central America'''
+        required: true
+        azure_sdk_references: ['/timeZone', '/properties/timeZone']
+      - !ruby/object:Api::Type::String
+        name: 'primaryTimeServer'
+        description: 'The primary Network Time Protocol (NTP) server name, like ''time.windows.com''.'
+        required: false
+        azure_sdk_references: ['/primaryTimeServer', '/properties/primaryTimeServer']
+      - !ruby/object:Api::Type::Array
+        name: 'secondaryTimeServer'
+        description: 'The secondary Network Time Protocol (NTP) server name, like ''time.contoso.com''. It''s optional.'
+        required: false
+        azure_sdk_references: ['/secondaryTimeServer', '/properties/secondaryTimeServer']
+        item_type: Api::Type::String
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The path ID that uniquely identifies the object.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the object.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The hierarchical type of the object.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'kind'
+        description: 'The Kind of the object. Currently only Series8000 is supported'
+        output: true
+        azure_sdk_references: ['/kind']
+        values:
+          - :Series8000

@@ -1,0 +1,310 @@
+--- !ruby/object:Api::Product
+name: Azure FileServer Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: FileServer
+    api_name: StorSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorSimple
+      go_client_namespace: storsimple
+      go_client: fileServersClient
+      python_client_namespace: azure.mgmt.storsimple
+      python_client: StorSimpleManagementClient.file_servers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileservers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: fileServer
+            go_type_name: FileServer
+            python_parameter_name: file_server
+            python_variable_name: file_server
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FileServerProperties
+            go_type_name: FileServerProperties
+          '/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_name
+          '/properties/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainName
+          '/storageDomainId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_domain_id
+          '/properties/storageDomainId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageDomainID
+          '/backupScheduleGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: backup_schedule_group_id
+          '/properties/backupScheduleGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleGroupID
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileservers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileservers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FileServerProperties
+            go_type_name: FileServerProperties
+          '/properties/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DomainName
+          '/domainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: domain_name
+          '/properties/storageDomainId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageDomainID
+          '/storageDomainId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_domain_id
+          '/properties/backupScheduleGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleGroupID
+          '/backupScheduleGroupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: backup_schedule_group_id
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByManager
+        python_func_name: list_by_manager
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDevice
+        python_func_name: list_by_device
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListMetrics
+        python_func_name: list_metrics
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileservers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListMetricDefinition
+        python_func_name: list_metric_definition
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: fileservers
+            go_variable_name: fileServerName
+            python_parameter_name: file_server_name
+            python_variable_name: file_server_name
+
+    description: |
+      Manage Azure FileServer instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'deviceName'
+        description: 'The device name.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Type::String
+        name: 'fileServerName'
+        description: 'The file server name.'
+        required: true
+        input: true
+        azure_sdk_references: ['fileServerName']
+      - !ruby/object:Api::Type::String
+        name: 'domainName'
+        description: 'Domain of the file server'
+        required: true
+        azure_sdk_references: ['/domainName', '/properties/domainName']
+      - !ruby/object:Api::Type::String
+        name: 'storageDomainId'
+        description: 'The storage domain id.'
+        required: true
+        azure_sdk_references: ['/storageDomainId', '/properties/storageDomainId']
+      - !ruby/object:Api::Type::String
+        name: 'backupScheduleGroupId'
+        description: 'The backup policy id.'
+        required: true
+        azure_sdk_references: ['/backupScheduleGroupId', '/properties/backupScheduleGroupId']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the file server'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type.'
+        output: true
+        azure_sdk_references: ['/type']

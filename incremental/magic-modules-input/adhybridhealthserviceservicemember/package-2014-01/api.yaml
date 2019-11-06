@@ -1,0 +1,195 @@
+--- !ruby/object:Api::Product
+name: Azure ServiceMember Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServiceMember
+    api_name: ADHybridHealthService
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ADHybridHealthService
+      go_client_namespace: adhybridhealthservice
+      go_client: serviceMembersClient
+      python_client_namespace: azure.mgmt.adhybridhealthservice
+      python_client: ADHybridHealthServiceClient.service_members
+
+    description: |
+      Manage Azure ServiceMember instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'dimensionType'
+        description: 'The server specific dimension.'
+        required: false
+        input: true
+        azure_sdk_references: ['dimensionType']
+      - !ruby/object:Api::Type::String
+        name: 'dimensionSignature'
+        description: 'The value of the dimension.'
+        required: false
+        input: true
+        azure_sdk_references: ['dimensionSignature']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link used to get the next page of operations.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The value returned by the operation.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'serviceMemberId'
+              description: 'The id of the server.'
+              required: false
+              azure_sdk_references: ['/value/serviceMemberId']
+            - !ruby/object:Api::Type::String
+              name: 'serviceId'
+              description: 'The service id to whom this server belongs.'
+              required: false
+              azure_sdk_references: ['/value/serviceId']
+            - !ruby/object:Api::Type::String
+              name: 'tenantId'
+              description: 'The tenant id to whom this server belongs.'
+              required: false
+              azure_sdk_references: ['/value/tenantId']
+            - !ruby/object:Api::Type::Integer
+              name: 'activeAlerts'
+              description: 'The total number of alerts that are currently active for the server.'
+              required: false
+              azure_sdk_references: ['/value/activeAlerts']
+            - !ruby/object:Api::Type::String
+              name: 'additionalInformation'
+              description: 'The additional information, if any, for the server.'
+              required: false
+              azure_sdk_references: ['/value/additionalInformation']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'createdDate'
+              description: 'The date time , in UTC, when the server was onboarded to Azure Active Directory Connect Health.'
+              required: false
+              azure_sdk_references: ['/value/createdDate']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'dimensions'
+              description: 'The server specific configuration related dimensions.'
+              required: false
+              azure_sdk_references: ['/value/dimensions']
+            - !ruby/object:Api::Type::Boolean
+              name: 'disabled'
+              description: 'Indicates if the server is disabled or not. '
+              required: false
+              azure_sdk_references: ['/value/disabled']
+            - !ruby/object:Api::Type::Integer
+              name: 'disabledReason'
+              description: 'The reason for disabling the server.'
+              required: false
+              azure_sdk_references: ['/value/disabledReason']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'installedQfes'
+              description: 'The list of installed QFEs for the server.'
+              required: false
+              azure_sdk_references: ['/value/installedQfes']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastDisabled'
+              description: 'The date and time , in UTC, when the server was last disabled.'
+              required: false
+              azure_sdk_references: ['/value/lastDisabled']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastReboot'
+              description: 'The date and time, in UTC, when the server was last rebooted.'
+              required: false
+              azure_sdk_references: ['/value/lastReboot']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastServerReportedMonitoringLevelChange'
+              description: 'The date and time, in UTC, when the server''s data monitoring configuration was last changed.'
+              required: false
+              azure_sdk_references: ['/value/lastServerReportedMonitoringLevelChange']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastUpdated'
+              description: 'The date and time, in UTC, when the server properties were last updated.'
+              required: false
+              azure_sdk_references: ['/value/lastUpdated']
+            - !ruby/object:Api::Type::String
+              name: 'machineId'
+              description: 'The id of the machine.'
+              required: false
+              azure_sdk_references: ['/value/machineId']
+            - !ruby/object:Api::Type::String
+              name: 'machineName'
+              description: 'The name of the server.'
+              required: false
+              azure_sdk_references: ['/value/machineName']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'monitoringConfigurationsComputed'
+              description: 'The monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health.'
+              required: false
+              azure_sdk_references: ['/value/monitoringConfigurationsComputed']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'monitoringConfigurationsCustomized'
+              description: 'The customized monitoring configuration of the server which determines what activities are monitored by Azure Active Directory Connect Health.'
+              required: false
+              azure_sdk_references: ['/value/monitoringConfigurationsCustomized']
+            - !ruby/object:Api::Type::String
+              name: 'osName'
+              description: 'The name of the operating system installed in the machine.'
+              required: false
+              azure_sdk_references: ['/value/osName']
+            - !ruby/object:Api::Type::String
+              name: 'osVersion'
+              description: 'The version of the operating system installed in the machine.'
+              required: false
+              azure_sdk_references: ['/value/osVersion']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'recommendedQfes'
+              description: 'The list of recommended hotfixes for the server.'
+              required: false
+              azure_sdk_references: ['/value/recommendedQfes']
+            - !ruby/object:Api::Type::Integer
+              name: 'resolvedAlerts'
+              description: 'The total count of alerts that are resolved for this server.'
+              required: false
+              azure_sdk_references: ['/value/resolvedAlerts']
+            - !ruby/object:Api::Type::String
+              name: 'role'
+              description: 'The service role that is being monitored in the server.'
+              required: false
+              azure_sdk_references: ['/value/role']
+            - !ruby/object:Api::Type::Enum
+              name: 'serverReportedMonitoringLevel'
+              description: 'The monitoring level reported by the server.'
+              required: false
+              azure_sdk_references: ['/value/serverReportedMonitoringLevel']
+              values:
+                - :Partial
+                - :Full
+                - :Off
+              default_value: :Partial
+            - !ruby/object:Api::Type::String
+              name: 'status'
+              description: 'The health status of the server.'
+              required: false
+              azure_sdk_references: ['/value/status']
+      - !ruby/object:Api::Type::Integer
+        name: 'totalCount'
+        description: 'The total count of service elements.'
+        output: true
+        azure_sdk_references: ['/totalCount']
+      - !ruby/object:Api::Type::String
+        name: 'continuationToken'
+        description: 'The continuation token for paginated calls.'
+        output: true
+        azure_sdk_references: ['/continuationToken']

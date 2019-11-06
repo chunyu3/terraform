@@ -1,0 +1,247 @@
+--- !ruby/object:Api::Product
+name: Azure Alert Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Alert
+    api_name: AlertsManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AlertsManagement
+      go_client_namespace: alertsmanagement
+      go_client: alertsClient
+      python_client_namespace: azure.mgmt.alertsmanagement
+      python_client: AlertsManagementClient.alerts
+
+    description: |
+      Manage Azure Alert instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'targetResource'
+        description: 'filter by target resource'
+        required: false
+        input: true
+        azure_sdk_references: ['targetResource']
+      - !ruby/object:Api::Type::String
+        name: 'targetResourceGroup'
+        description: 'filter by target resource group name'
+        required: false
+        input: true
+        azure_sdk_references: ['targetResourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'targetResourceType'
+        description: 'filter by target resource type'
+        required: false
+        input: true
+        azure_sdk_references: ['targetResourceType']
+      - !ruby/object:Api::Type::String
+        name: 'monitorService'
+        description: 'filter by monitor service which is the source of the alert object.'
+        required: false
+        input: true
+        azure_sdk_references: ['monitorService']
+      - !ruby/object:Api::Type::String
+        name: 'monitorCondition'
+        description: 'filter by monitor condition which is the state of the alert at monitor service'
+        required: false
+        input: true
+        azure_sdk_references: ['monitorCondition']
+      - !ruby/object:Api::Type::String
+        name: 'severity'
+        description: 'filter by severity'
+        required: false
+        input: true
+        azure_sdk_references: ['severity']
+      - !ruby/object:Api::Type::String
+        name: 'alertState'
+        description: 'filter by state'
+        required: false
+        input: true
+        azure_sdk_references: ['alertState']
+      - !ruby/object:Api::Type::String
+        name: 'smartGroupId'
+        description: 'filter by smart Group Id'
+        required: false
+        input: true
+        azure_sdk_references: ['smartGroupId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'includePayload'
+        description: 'include payload field content, default value is ''false''.'
+        required: false
+        input: true
+        azure_sdk_references: ['includePayload']
+      - !ruby/object:Api::Type::Integer
+        name: 'pageCount'
+        description: 'number of items per page, default value is ''25''.'
+        required: false
+        input: true
+        azure_sdk_references: ['pageCount']
+      - !ruby/object:Api::Type::String
+        name: 'sortBy'
+        description: 'sort the query results by input field, default value is ''lastModifiedDateTime''.'
+        required: false
+        input: true
+        azure_sdk_references: ['sortBy']
+      - !ruby/object:Api::Type::String
+        name: 'sortOrder'
+        description: 'sort the query results order in either ascending or descending, default value is ''desc'' for time fields and ''asc'' for others.'
+        required: false
+        input: true
+        azure_sdk_references: ['sortOrder']
+      - !ruby/object:Api::Type::String
+        name: 'timeRange'
+        description: 'filter by time range, default value is 1 day'
+        required: false
+        input: true
+        azure_sdk_references: ['timeRange']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to fetch the next set of alerts.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of alerts'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Azure resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Azure resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Azure resource name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Enum
+              name: 'severity'
+              description: 'Severity of alert Sev1 being highest and Sev3 being lowest.'
+              required: false
+              azure_sdk_references: ['/value/severity', '/value/properties/severity']
+              values:
+                - :Sev0
+                - :Sev1
+                - :Sev2
+                - :Sev3
+                - :Sev4
+              default_value: :Sev0
+            - !ruby/object:Api::Type::Enum
+              name: 'signalType'
+              description: 'Log based alert or metric based alert'
+              required: false
+              azure_sdk_references: ['/value/signalType', '/value/properties/signalType']
+              values:
+                - :Metric
+                - :Log
+                - :Unknown
+              default_value: :Metric
+            - !ruby/object:Api::Type::Enum
+              name: 'alertState'
+              description: 'Alert object state'
+              required: false
+              azure_sdk_references: ['/value/alertState', '/value/properties/alertState']
+              values:
+                - :New
+                - :Acknowledged
+                - :Closed
+              default_value: :New
+            - !ruby/object:Api::Type::Enum
+              name: 'monitorCondition'
+              description: 'Condition of the rule at the monitor service'
+              required: false
+              azure_sdk_references: ['/value/monitorCondition', '/value/properties/monitorCondition']
+              values:
+                - :Fired
+                - :Resolved
+              default_value: :Fired
+            - !ruby/object:Api::Type::String
+              name: 'targetResource'
+              description: 'Target ARM resource, on which alert got created.'
+              required: false
+              azure_sdk_references: ['/value/targetResource', '/value/properties/targetResource']
+            - !ruby/object:Api::Type::String
+              name: 'targetResourceName'
+              description: 'Target ARM resource name, on which alert got created.'
+              required: false
+              azure_sdk_references: ['/value/targetResourceName', '/value/properties/targetResourceName']
+            - !ruby/object:Api::Type::String
+              name: 'targetResourceGroup'
+              description: 'Resource group of target ARM resource.'
+              required: false
+              azure_sdk_references: ['/value/targetResourceGroup', '/value/properties/targetResourceGroup']
+            - !ruby/object:Api::Type::String
+              name: 'targetResourceType'
+              description: 'Resource type of target ARM resource'
+              required: false
+              azure_sdk_references: ['/value/targetResourceType', '/value/properties/targetResourceType']
+            - !ruby/object:Api::Type::Enum
+              name: 'monitorService'
+              description: 'Monitor service which is the source of the alert object.'
+              required: false
+              azure_sdk_references: ['/value/monitorService', '/value/properties/monitorService']
+              values:
+                - :Platform
+                - :Application Insights
+                - :Log Analytics
+                - :Infrastructure Insights
+                - :ActivityLog Administrative
+                - :ActivityLog Security
+                - :ActivityLog Recommendation
+                - :ActivityLog Policy
+                - :ActivityLog Autoscale
+                - :ServiceHealth
+                - :SmartDetector
+                - :Zabbix
+                - :SCOM
+                - :Nagios
+              default_value: :Platform
+            - !ruby/object:Api::Type::String
+              name: 'sourceCreatedId'
+              description: 'Unique Id created by monitor service'
+              required: false
+              azure_sdk_references: ['/value/sourceCreatedId', '/value/properties/sourceCreatedId']
+            - !ruby/object:Api::Type::String
+              name: 'smartGroupId'
+              description: 'Unique Id of the smart group'
+              required: false
+              azure_sdk_references: ['/value/smartGroupId', '/value/properties/smartGroupId']
+            - !ruby/object:Api::Type::String
+              name: 'smartGroupingReason'
+              description: 'Reason for addition to a smart group'
+              required: false
+              azure_sdk_references: ['/value/smartGroupingReason', '/value/properties/smartGroupingReason']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startDateTime'
+              description: 'Creation time(ISO-8601 format).'
+              required: false
+              azure_sdk_references: ['/value/startDateTime', '/value/properties/startDateTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastModifiedDateTime'
+              description: 'Last modification time(ISO-8601 format).'
+              required: false
+              azure_sdk_references: ['/value/lastModifiedDateTime', '/value/properties/lastModifiedDateTime']
+            - !ruby/object:Api::Type::String
+              name: 'lastModifiedUserName'
+              description: 'User who last modified the alert.'
+              required: false
+              azure_sdk_references: ['/value/lastModifiedUserName', '/value/properties/lastModifiedUserName']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'payload'
+              description: 'More details which are contextual to the monitor service.'
+              required: false
+              azure_sdk_references: ['/value/payload', '/value/properties/payload']

@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimplebandwidthsetting
+  description: BandwidthSettingsCreateOrUpdate
+  code:
+    bandwidth_setting_name: myBandwidthSetting
+    schedules:
+      - start:
+          hours: '10'
+          minutes: '0'
+          seconds: '0'
+        stop:
+          hours: '20'
+          minutes: '0'
+          seconds: '0'
+        rate_in_mbps: '10'
+        days:
+          - Saturday
+          - Sunday
+    resource_group: myResourceGroup
+    name: myManager
+  

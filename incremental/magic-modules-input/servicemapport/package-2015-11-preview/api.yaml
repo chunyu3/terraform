@@ -1,0 +1,245 @@
+--- !ruby/object:Api::Product
+name: Azure Port Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Port
+    api_name: OperationalInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.OperationalInsights
+      go_client_namespace: servicemap
+      go_client: portsClient
+      python_client_namespace: azure.mgmt.servicemap
+      python_client: ServiceMapClient.ports
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: machineName
+            python_parameter_name: machine_name
+            python_variable_name: machine_name
+          'portName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ports
+            go_variable_name: name
+            python_parameter_name: port_name
+            python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Port_properties
+            go_type_name: Port_properties
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListConnections
+        python_func_name: list_connections
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: machineName
+            python_parameter_name: machine_name
+            python_variable_name: machine_name
+          'portName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ports
+            go_variable_name: name
+            python_parameter_name: port_name
+            python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAcceptingProcesses
+        python_func_name: list_accepting_processes
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: machineName
+            python_parameter_name: machine_name
+            python_variable_name: machine_name
+          'portName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ports
+            go_variable_name: name
+            python_parameter_name: port_name
+            python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
+
+    description: |
+      Manage Azure Port instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Resource group name within the specified subscriptionId.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'workspaceName'
+        description: 'OMS workspace containing the resources of interest.'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'machineName'
+        description: 'Machine resource name.'
+        required: true
+        input: true
+        azure_sdk_references: ['machineName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Port resource name.'
+        required: true
+        input: true
+        azure_sdk_references: ['portName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m'
+        required: false
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow'
+        required: false
+        input: true
+        azure_sdk_references: ['endTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'monitoringState'
+        description: 'Specifies whether the port is actively monitored or discovered.'
+        required: false
+        azure_sdk_references: ['/monitoringState', '/properties/monitoringState']
+        values:
+          - :monitored
+          - :discovered
+        default_value: :monitored
+      - !ruby/object:Api::Type::NestedObject
+        name: 'machine'
+        description: 'Machine hosting this port.'
+        required: false
+        azure_sdk_references: ['/machine', '/properties/machine']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource URI.'
+            required: true
+            azure_sdk_references: ['/machine/id', '/properties/machine/id']
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'Resource type qualifier.'
+            required: false
+            azure_sdk_references: ['/machine/type', '/properties/machine/type']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Resource name.'
+            required: false
+            azure_sdk_references: ['/machine/name', '/properties/machine/name']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Name to use for display purposes.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'ipAddress'
+        description: 'IP address associated with the port. At present only IPv4 addresses are supported.'
+        required: false
+        azure_sdk_references: ['/ipAddress', '/properties/ipAddress']
+      - !ruby/object:Api::Type::Integer
+        name: 'portNumber'
+        description: 'Port number.'
+        required: false
+        azure_sdk_references: ['/portNumber', '/properties/portNumber']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Resource ETAG.'
+        output: true
+        azure_sdk_references: ['/etag']

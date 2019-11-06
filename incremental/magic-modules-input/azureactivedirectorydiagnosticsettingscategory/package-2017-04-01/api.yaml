@@ -1,0 +1,59 @@
+--- !ruby/object:Api::Product
+name: Azure DiagnosticSettingsCategory Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DiagnosticSettingsCategory
+    api_name: aadiam
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.aadiam
+      go_client_namespace: azureactivedirectory
+      go_client: diagnosticSettingsCategoryClient
+      python_client_namespace: azure.mgmt.azureactivedirectory
+      python_client: AzureactivedirectoryClient.diagnostic_settings_category
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure DiagnosticSettingsCategory instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The collection of diagnostic settings category resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Azure resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Azure resource name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Azure resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'categoryType'
+              description: 'The type of the diagnostic settings category.'
+              required: false
+              azure_sdk_references: ['/value/categoryType', '/value/properties/categoryType']
+              values:
+                - :Logs
+              default_value: :Logs

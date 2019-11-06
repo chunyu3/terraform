@@ -1,0 +1,121 @@
+--- !ruby/object:Api::Product
+name: Azure Sku Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Sku
+    api_name: Storage
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Storage
+      go_client_namespace: storage
+      go_client: skusClient
+      python_client_namespace: azure.mgmt.storage
+      python_client: StorageManagementClient.skus
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Sku instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Get the list result of storage SKUs and their properties.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'name'
+              description: 'Gets or sets the sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.'
+              required: true
+              azure_sdk_references: ['/value/name']
+              values:
+                - :Standard_LRS
+                - :Standard_GRS
+                - :Standard_RAGRS
+                - :Standard_ZRS
+                - :Premium_LRS
+            - !ruby/object:Api::Type::Enum
+              name: 'tier'
+              description: 'Gets the sku tier. This is based on the SKU name.'
+              required: false
+              azure_sdk_references: ['/value/tier']
+              values:
+                - :Standard
+                - :Premium
+              default_value: :Standard
+            - !ruby/object:Api::Type::String
+              name: 'resourceType'
+              description: 'The type of the resource, usually it is ''storageAccounts''.'
+              required: false
+              azure_sdk_references: ['/value/resourceType']
+            - !ruby/object:Api::Type::Enum
+              name: 'kind'
+              description: 'Indicates the type of storage account.'
+              required: false
+              azure_sdk_references: ['/value/kind']
+              values:
+                - :Storage
+                - :StorageV2
+                - :BlobStorage
+              default_value: :Storage
+            - !ruby/object:Api::Type::Array
+              name: 'locations'
+              description: 'The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.).'
+              required: false
+              azure_sdk_references: ['/value/locations']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'capabilities'
+              description: 'The capability information in the specified sku, including file encryption, network acls, change notification, etc.'
+              required: false
+              azure_sdk_references: ['/value/capabilities']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of capability, The capability information in the specified sku, including file encryption, network acls, change notification, etc.'
+                    required: false
+                    azure_sdk_references: ['/value/capabilities/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'A string value to indicate states of given capability. Possibly ''true'' or ''false''.'
+                    required: false
+                    azure_sdk_references: ['/value/capabilities/value']
+            - !ruby/object:Api::Type::Array
+              name: 'restrictions'
+              description: 'The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.'
+              required: false
+              azure_sdk_references: ['/value/restrictions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'type'
+                    description: 'The type of restrictions. As of now only possible value for this is location.'
+                    required: false
+                    azure_sdk_references: ['/value/restrictions/type']
+                  - !ruby/object:Api::Type::Array
+                    name: 'values'
+                    description: 'The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.'
+                    required: false
+                    azure_sdk_references: ['/value/restrictions/values']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::Enum
+                    name: 'reasonCode'
+                    description: 'The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". Quota Id is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. The "NotAvailableForSubscription" is related to capacity at DC.'
+                    required: false
+                    azure_sdk_references: ['/value/restrictions/reasonCode']
+                    values:
+                      - :QuotaId
+                      - :NotAvailableForSubscription
+                    default_value: :QuotaId

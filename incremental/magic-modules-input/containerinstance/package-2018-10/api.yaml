@@ -1,0 +1,76 @@
+--- !ruby/object:Api::Product
+name: Azure  Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: 
+    api_name: ContainerInstance
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerInstance
+      go_client_namespace: containerinstance
+      go_client: client
+      python_client_namespace: azure.mgmt.containerinstance
+      python_client: ContainerInstanceManagementClient.
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListCachedImages
+        python_func_name: list_cached_images
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListCapabilities
+        python_func_name: list_capabilities
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure  instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The identifier for the physical azure location.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of cached images.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The resource Id of the cached image.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'osType'
+              description: 'The OS type of the cached image.'
+              required: true
+              azure_sdk_references: ['/value/osType']
+            - !ruby/object:Api::Type::String
+              name: 'image'
+              description: 'The cached image name.'
+              required: true
+              azure_sdk_references: ['/value/image']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to fetch the next page of cached images.'
+        output: true
+        azure_sdk_references: ['/nextLink']

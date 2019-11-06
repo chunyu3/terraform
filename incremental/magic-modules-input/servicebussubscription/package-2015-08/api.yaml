@@ -1,0 +1,485 @@
+--- !ruby/object:Api::Product
+name: Azure Subscription Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Subscription
+    api_name: ServiceBus
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ServiceBus
+      go_client_namespace: servicebus
+      go_client: subscriptionsClient
+      python_client_namespace: azure.mgmt.servicebus
+      python_client: ServiceBusManagementClient.subscriptions
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+          'subscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subscriptions
+            go_variable_name: name
+            python_parameter_name: subscription_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SubscriptionCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubscriptionProperties
+            go_type_name: SubscriptionProperties
+          '/autoDeleteOnIdle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: auto_delete_on_idle
+          '/properties/autoDeleteOnIdle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AutoDeleteOnIdle
+          '/defaultMessageTimeToLive': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_message_time_to_live
+          '/properties/defaultMessageTimeToLive': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultMessageTimeToLive
+          '/deadLetteringOnFilterEvaluationExceptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dead_lettering_on_filter_evaluation_exceptions
+          '/properties/deadLetteringOnFilterEvaluationExceptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DeadLetteringOnFilterEvaluationExceptions
+          '/deadLetteringOnMessageExpiration': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dead_lettering_on_message_expiration
+          '/properties/deadLetteringOnMessageExpiration': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DeadLetteringOnMessageExpiration
+          '/enableBatchedOperations': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_batched_operations
+          '/properties/enableBatchedOperations': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableBatchedOperations
+          '/entityAvailabilityStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: entity_availability_status
+          '/properties/entityAvailabilityStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EntityAvailabilityStatus
+            go_enum_type_name: EntityAvailabilityStatus
+          '/isReadOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_read_only
+          '/properties/isReadOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsReadOnly
+          '/lockDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lock_duration
+          '/properties/lockDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LockDuration
+          '/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_count
+          '/properties/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryCount
+          '/requiresSession': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_session
+          '/properties/requiresSession': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresSession
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EntityStatus
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+          'subscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subscriptions
+            go_variable_name: name
+            python_parameter_name: subscription_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+          'subscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subscriptions
+            go_variable_name: name
+            python_parameter_name: subscription_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SubscriptionProperties
+            go_type_name: SubscriptionProperties
+          '/properties/autoDeleteOnIdle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AutoDeleteOnIdle
+          '/autoDeleteOnIdle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: auto_delete_on_idle
+          '/properties/defaultMessageTimeToLive': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultMessageTimeToLive
+          '/defaultMessageTimeToLive': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_message_time_to_live
+          '/properties/deadLetteringOnFilterEvaluationExceptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DeadLetteringOnFilterEvaluationExceptions
+          '/deadLetteringOnFilterEvaluationExceptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dead_lettering_on_filter_evaluation_exceptions
+          '/properties/deadLetteringOnMessageExpiration': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DeadLetteringOnMessageExpiration
+          '/deadLetteringOnMessageExpiration': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dead_lettering_on_message_expiration
+          '/properties/enableBatchedOperations': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableBatchedOperations
+          '/enableBatchedOperations': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_batched_operations
+          '/properties/entityAvailabilityStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EntityAvailabilityStatus
+            go_enum_type_name: EntityAvailabilityStatus
+          '/entityAvailabilityStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: entity_availability_status
+          '/properties/isReadOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsReadOnly
+          '/isReadOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_read_only
+          '/properties/lockDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LockDuration
+          '/lockDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lock_duration
+          '/properties/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxDeliveryCount
+          '/maxDeliveryCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_delivery_count
+          '/properties/requiresSession': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresSession
+          '/requiresSession': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_session
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EntityStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/accessedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: AccessedAt
+          '/accessedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: accessed_at
+          '/properties/countDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CountDetails
+            go_type_name: MessageCountDetails
+          '/countDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: count_details
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/messageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MessageCount
+          '/messageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: message_count
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_at
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+
+    description: |
+      Manage Azure Subscription instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'The namespace name'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'topicName'
+        description: 'The topic name.'
+        required: true
+        input: true
+        azure_sdk_references: ['topicName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The subscription name.'
+        required: true
+        input: true
+        azure_sdk_references: ['subscriptionName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Subscription data center location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource manager type of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'autoDeleteOnIdle'
+        description: 'TimeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.'
+        required: false
+        azure_sdk_references: ['/autoDeleteOnIdle', '/properties/autoDeleteOnIdle']
+      - !ruby/object:Api::Type::String
+        name: 'defaultMessageTimeToLive'
+        description: 'Default message time to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.'
+        required: false
+        azure_sdk_references: ['/defaultMessageTimeToLive', '/properties/defaultMessageTimeToLive']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deadLetteringOnFilterEvaluationExceptions'
+        description: 'Value that indicates whether a subscription has dead letter support on filter evaluation exceptions.'
+        required: false
+        azure_sdk_references: ['/deadLetteringOnFilterEvaluationExceptions', '/properties/deadLetteringOnFilterEvaluationExceptions']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deadLetteringOnMessageExpiration'
+        description: 'Value that indicates whether a subscription has dead letter support when a message expires.'
+        required: false
+        azure_sdk_references: ['/deadLetteringOnMessageExpiration', '/properties/deadLetteringOnMessageExpiration']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableBatchedOperations'
+        description: 'Value that indicates whether server-side batched operations are enabled.'
+        required: false
+        azure_sdk_references: ['/enableBatchedOperations', '/properties/enableBatchedOperations']
+      - !ruby/object:Api::Type::Enum
+        name: 'entityAvailabilityStatus'
+        description: 'Entity availability status for the topic.'
+        required: false
+        azure_sdk_references: ['/entityAvailabilityStatus', '/properties/entityAvailabilityStatus']
+        values:
+          - :Available
+          - :Limited
+          - :Renaming
+          - :Restoring
+          - :Unknown
+        default_value: :Available
+      - !ruby/object:Api::Type::Boolean
+        name: 'isReadOnly'
+        description: 'Value that indicates whether the entity description is read-only.'
+        required: false
+        azure_sdk_references: ['/isReadOnly', '/properties/isReadOnly']
+      - !ruby/object:Api::Type::String
+        name: 'lockDuration'
+        description: 'The lock duration time span for the subscription.'
+        required: false
+        azure_sdk_references: ['/lockDuration', '/properties/lockDuration']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxDeliveryCount'
+        description: 'Number of maximum deliveries.'
+        required: false
+        azure_sdk_references: ['/maxDeliveryCount', '/properties/maxDeliveryCount']
+      - !ruby/object:Api::Type::Boolean
+        name: 'requiresSession'
+        description: 'Value indicating if a subscription supports the concept of sessions.'
+        required: false
+        azure_sdk_references: ['/requiresSession', '/properties/requiresSession']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Enumerates the possible values for the status of a messaging entity.'
+        required: false
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Active
+          - :Creating
+          - :Deleting
+          - :Disabled
+          - :ReceiveDisabled
+          - :Renaming
+          - :Restoring
+          - :SendDisabled
+          - :Unknown
+        default_value: :Active
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'accessedAt'
+        description: 'Last time there was a receive request to this subscription.'
+        output: true
+        azure_sdk_references: ['/accessedAt', '/properties/accessedAt']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'countDetails'
+        description: ''
+        output: true
+        azure_sdk_references: ['/countDetails', '/properties/countDetails']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'activeMessageCount'
+            description: 'Number of active messages in the queue, topic, or subscription.'
+            required: false
+            azure_sdk_references: ['/countDetails/activeMessageCount', '/properties/countDetails/activeMessageCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'deadLetterMessageCount'
+            description: 'Number of messages that are dead lettered.'
+            required: false
+            azure_sdk_references: ['/countDetails/deadLetterMessageCount', '/properties/countDetails/deadLetterMessageCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'scheduledMessageCount'
+            description: 'Number of scheduled messages.'
+            required: false
+            azure_sdk_references: ['/countDetails/scheduledMessageCount', '/properties/countDetails/scheduledMessageCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'transferDeadLetterMessageCount'
+            description: 'Number of messages transferred into dead letters.'
+            required: false
+            azure_sdk_references: ['/countDetails/transferDeadLetterMessageCount', '/properties/countDetails/transferDeadLetterMessageCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'transferMessageCount'
+            description: 'Number of messages transferred to another queue, topic, or subscription.'
+            required: false
+            azure_sdk_references: ['/countDetails/transferMessageCount', '/properties/countDetails/transferMessageCount']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAt'
+        description: 'Exact time the message was created.'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Type::Integer
+        name: 'messageCount'
+        description: 'Number of messages.'
+        output: true
+        azure_sdk_references: ['/messageCount', '/properties/messageCount']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedAt'
+        description: 'The exact time the message was updated.'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']

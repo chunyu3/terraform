@@ -1,0 +1,234 @@
+--- !ruby/object:Api::Product
+name: Azure BackupScheduleGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BackupScheduleGroup
+    api_name: StorSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorSimple
+      go_client_namespace: storsimple
+      go_client: backupScheduleGroupsClient
+      python_client_namespace: azure.mgmt.storsimple
+      python_client: StorSimpleManagementClient.backup_schedule_groups
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'scheduleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupScheduleGroups
+            go_variable_name: scheduleGroupName
+            python_parameter_name: schedule_group_name
+            python_variable_name: schedule_group_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: scheduleGroup
+            go_type_name: BackupScheduleGroup
+            python_parameter_name: schedule_group
+            python_variable_name: schedule_group
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleGroupProperties
+            go_type_name: BackupScheduleGroupProperties
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/startTime/hour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: hour
+          '/startTime/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StartTime
+            go_type_name: Time
+          '/properties/startTime/hour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Hour
+          '/properties/startTime/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'scheduleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupScheduleGroups
+            go_variable_name: scheduleGroupName
+            python_parameter_name: schedule_group_name
+            python_variable_name: schedule_group_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+          'scheduleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupScheduleGroups
+            go_variable_name: scheduleGroupName
+            python_parameter_name: schedule_group_name
+            python_variable_name: schedule_group_name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackupScheduleGroupProperties
+            go_type_name: BackupScheduleGroupProperties
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StartTime
+            go_type_name: Time
+          '/properties/startTime/hour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Hour
+          '/properties/startTime/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/startTime/hour': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: hour
+          '/startTime/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDevice
+        python_func_name: list_by_device
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: deviceName
+            python_parameter_name: device_name
+            python_variable_name: device_name
+
+    description: |
+      Manage Azure BackupScheduleGroup instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'deviceName'
+        description: 'The name of the device.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Type::String
+        name: 'scheduleGroupName'
+        description: 'The name of the schedule group.'
+        required: true
+        input: true
+        azure_sdk_references: ['scheduleGroupName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'startTime'
+        description: 'The start time. When this field is specified we will generate Default GrandFather Father Son Backup Schedules.'
+        required: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'hour'
+            description: 'The hour.'
+            required: true
+            azure_sdk_references: ['/startTime/hour', '/properties/startTime/hour']
+          - !ruby/object:Api::Type::Integer
+            name: 'minute'
+            description: 'The minute.'
+            required: true
+            azure_sdk_references: ['/startTime/minute', '/properties/startTime/minute']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type.'
+        output: true
+        azure_sdk_references: ['/type']

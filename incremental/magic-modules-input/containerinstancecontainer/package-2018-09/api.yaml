@@ -1,0 +1,78 @@
+--- !ruby/object:Api::Product
+name: Azure Container Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Container
+    api_name: ContainerInstance
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerInstance
+      go_client_namespace: containerinstance
+      go_client: containerClient
+      python_client_namespace: azure.mgmt.containerinstance
+      python_client: ContainerInstanceManagementClient.container
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListLogs
+        python_func_name: list_logs
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'containerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containerGroups
+            go_variable_name: containerGroupName
+            python_parameter_name: container_group_name
+            python_variable_name: container_group_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: name
+            python_parameter_name: container_name
+            python_variable_name: name
+          'tail': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            id_portion: null
+            go_variable_name: tail
+            python_parameter_name: tail
+            python_variable_name: tail
+
+    description: |
+      Manage Azure Container instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'containerGroupName'
+        description: 'The name of the container group.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the container instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
+      - !ruby/object:Api::Type::Integer
+        name: 'tail'
+        description: 'The number of lines to show from the tail of the container instance log. If not provided, all available logs are shown up to 4mb.'
+        required: false
+        input: true
+        azure_sdk_references: ['tail']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'content'
+        description: 'The content of the log.'
+        output: true
+        azure_sdk_references: ['/content']

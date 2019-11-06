@@ -1,0 +1,626 @@
+--- !ruby/object:Api::Product
+name: Azure JobStep Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: JobStep
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: jobStepsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.job_steps
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+          'stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: steps
+            go_variable_name: name
+            python_parameter_name: step_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: JobStep
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobStepProperties
+            go_type_name: JobStepProperties
+          '/stepId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: step_id
+          '/properties/stepId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: StepID
+          '/targetGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_group
+          '/properties/targetGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetGroup
+          '/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential
+          '/properties/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Credential
+          '/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/action/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/action/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: source
+          '/action/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: JobStepAction
+          '/properties/action/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobStepActionType
+          '/properties/action/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Source
+            go_enum_type_name: JobStepActionSource
+          '/properties/action/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: output
+          '/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/output/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/output/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_group_name
+          '/output/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_name
+          '/output/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_name
+          '/output/schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: schema_name
+          '/output/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: table_name
+          '/output/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential
+          '/properties/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Output
+            go_type_name: JobStepOutput
+          '/properties/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobStepOutputType
+          '/properties/output/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/properties/output/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceGroupName
+          '/properties/output/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerName
+          '/properties/output/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseName
+          '/properties/output/schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SchemaName
+          '/properties/output/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TableName
+          '/properties/output/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Credential
+          '/executionOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: execution_options
+          '/executionOptions/timeoutSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: timeout_seconds
+          '/executionOptions/retryAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retry_attempts
+          '/executionOptions/initialRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: initial_retry_interval_seconds
+          '/executionOptions/maximumRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maximum_retry_interval_seconds
+          '/executionOptions/retryIntervalBackoffMultiplier': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: retry_interval_backoff_multiplier
+          '/properties/executionOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExecutionOptions
+            go_type_name: JobStepExecutionOptions
+          '/properties/executionOptions/timeoutSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeoutSeconds
+          '/properties/executionOptions/retryAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetryAttempts
+          '/properties/executionOptions/initialRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InitialRetryIntervalSeconds
+          '/properties/executionOptions/maximumRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaximumRetryIntervalSeconds
+          '/properties/executionOptions/retryIntervalBackoffMultiplier': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RetryIntervalBackoffMultiplier
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+          'stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: steps
+            go_variable_name: name
+            python_parameter_name: step_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+          'stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: steps
+            go_variable_name: name
+            python_parameter_name: step_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobStepProperties
+            go_type_name: JobStepProperties
+          '/properties/stepId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: StepID
+          '/stepId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: step_id
+          '/properties/targetGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetGroup
+          '/targetGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_group
+          '/properties/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Credential
+          '/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential
+          '/properties/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: JobStepAction
+          '/properties/action/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobStepActionType
+          '/properties/action/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Source
+            go_enum_type_name: JobStepActionSource
+          '/properties/action/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/action/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/action/source': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: source
+          '/action/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Output
+            go_type_name: JobStepOutput
+          '/properties/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobStepOutputType
+          '/properties/output/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubscriptionID
+          '/properties/output/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceGroupName
+          '/properties/output/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerName
+          '/properties/output/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseName
+          '/properties/output/schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SchemaName
+          '/properties/output/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TableName
+          '/properties/output/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Credential
+          '/output': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: output
+          '/output/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/output/subscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subscription_id
+          '/output/resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_group_name
+          '/output/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_name
+          '/output/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_name
+          '/output/schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: schema_name
+          '/output/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: table_name
+          '/output/credential': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: credential
+          '/properties/executionOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ExecutionOptions
+            go_type_name: JobStepExecutionOptions
+          '/properties/executionOptions/timeoutSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeoutSeconds
+          '/properties/executionOptions/retryAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RetryAttempts
+          '/properties/executionOptions/initialRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InitialRetryIntervalSeconds
+          '/properties/executionOptions/maximumRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaximumRetryIntervalSeconds
+          '/properties/executionOptions/retryIntervalBackoffMultiplier': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RetryIntervalBackoffMultiplier
+          '/executionOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: execution_options
+          '/executionOptions/timeoutSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: timeout_seconds
+          '/executionOptions/retryAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: retry_attempts
+          '/executionOptions/initialRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: initial_retry_interval_seconds
+          '/executionOptions/maximumRetryIntervalSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: maximum_retry_interval_seconds
+          '/executionOptions/retryIntervalBackoffMultiplier': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: retry_interval_backoff_multiplier
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByJob
+        python_func_name: list_by_job
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByVersion
+        python_func_name: list_by_version
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: jobName
+            python_parameter_name: job_name
+            python_variable_name: job_name
+
+    description: |
+      Manage Azure JobStep instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'jobAgentName'
+        description: 'The name of the job agent.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobAgentName']
+      - !ruby/object:Api::Type::String
+        name: 'jobName'
+        description: 'The name of the job.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the job step.'
+        required: true
+        input: true
+        azure_sdk_references: ['stepName']
+      - !ruby/object:Api::Type::Integer
+        name: 'stepId'
+        description: 'The job step''s index within the job. If not specified when creating the job step, it will be created as the last step. If not specified when updating the job step, the step id is not modified.'
+        required: false
+        azure_sdk_references: ['/stepId', '/properties/stepId']
+      - !ruby/object:Api::Type::String
+        name: 'targetGroup'
+        description: 'The resource ID of the target group that the job step will be executed on.'
+        required: true
+        azure_sdk_references: ['/targetGroup', '/properties/targetGroup']
+      - !ruby/object:Api::Type::String
+        name: 'credential'
+        description: 'The resource ID of the job credential that will be used to connect to the targets.'
+        required: true
+        azure_sdk_references: ['/credential', '/properties/credential']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'action'
+        description: 'The action payload of the job step.'
+        required: true
+        azure_sdk_references: ['/action', '/properties/action']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'Type of action being executed by the job step.'
+            required: false
+            azure_sdk_references: ['/action/type', '/properties/action/type']
+            values:
+              - :TSql
+            default_value: :TSql
+          - !ruby/object:Api::Type::Enum
+            name: 'source'
+            description: 'The source of the action to execute.'
+            required: false
+            azure_sdk_references: ['/action/source', '/properties/action/source']
+            values:
+              - :Inline
+            default_value: :Inline
+          - !ruby/object:Api::Type::String
+            name: 'value'
+            description: 'The action value, for example the text of the T-SQL script to execute.'
+            required: true
+            azure_sdk_references: ['/action/value', '/properties/action/value']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'output'
+        description: 'Output destination properties of the job step.'
+        required: false
+        azure_sdk_references: ['/output', '/properties/output']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The output destination type.'
+            required: false
+            azure_sdk_references: ['/output/type', '/properties/output/type']
+            values:
+              - :SqlDatabase
+            default_value: :SqlDatabase
+          - !ruby/object:Api::Type::String
+            name: 'subscriptionId'
+            description: 'The output destination subscription id.'
+            required: false
+            azure_sdk_references: ['/output/subscriptionId', '/properties/output/subscriptionId']
+          - !ruby/object:Api::Azure::Type::ResourceGroupName
+            name: 'resourceGroupName'
+            description: 'The output destination resource group.'
+            required: false
+            azure_sdk_references: ['/output/resourceGroupName', '/properties/output/resourceGroupName']
+          - !ruby/object:Api::Type::String
+            name: 'serverName'
+            description: 'The output destination server name.'
+            required: true
+            azure_sdk_references: ['/output/serverName', '/properties/output/serverName']
+          - !ruby/object:Api::Type::String
+            name: 'databaseName'
+            description: 'The output destination database.'
+            required: true
+            azure_sdk_references: ['/output/databaseName', '/properties/output/databaseName']
+          - !ruby/object:Api::Type::String
+            name: 'schemaName'
+            description: 'The output destination schema.'
+            required: false
+            azure_sdk_references: ['/output/schemaName', '/properties/output/schemaName']
+          - !ruby/object:Api::Type::String
+            name: 'tableName'
+            description: 'The output destination table.'
+            required: true
+            azure_sdk_references: ['/output/tableName', '/properties/output/tableName']
+          - !ruby/object:Api::Type::String
+            name: 'credential'
+            description: 'The resource ID of the credential to use to connect to the output destination.'
+            required: true
+            azure_sdk_references: ['/output/credential', '/properties/output/credential']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'executionOptions'
+        description: 'Execution options for the job step.'
+        required: false
+        azure_sdk_references: ['/executionOptions', '/properties/executionOptions']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'timeoutSeconds'
+            description: 'Execution timeout for the job step.'
+            required: false
+            azure_sdk_references: ['/executionOptions/timeoutSeconds', '/properties/executionOptions/timeoutSeconds']
+          - !ruby/object:Api::Type::Integer
+            name: 'retryAttempts'
+            description: 'Maximum number of times the job step will be reattempted if the first attempt fails.'
+            required: false
+            azure_sdk_references: ['/executionOptions/retryAttempts', '/properties/executionOptions/retryAttempts']
+          - !ruby/object:Api::Type::Integer
+            name: 'initialRetryIntervalSeconds'
+            description: 'Initial delay between retries for job step execution.'
+            required: false
+            azure_sdk_references: ['/executionOptions/initialRetryIntervalSeconds', '/properties/executionOptions/initialRetryIntervalSeconds']
+          - !ruby/object:Api::Type::Integer
+            name: 'maximumRetryIntervalSeconds'
+            description: 'The maximum amount of time to wait between retries for job step execution.'
+            required: false
+            azure_sdk_references: ['/executionOptions/maximumRetryIntervalSeconds', '/properties/executionOptions/maximumRetryIntervalSeconds']
+          - !ruby/object:Api::Type::Integer
+            name: 'retryIntervalBackoffMultiplier'
+            description: 'The backoff multiplier for the time between retries.'
+            required: false
+            azure_sdk_references: ['/executionOptions/retryIntervalBackoffMultiplier', '/properties/executionOptions/retryIntervalBackoffMultiplier']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

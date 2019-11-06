@@ -1,0 +1,214 @@
+--- !ruby/object:Api::Product
+name: Azure Event Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Event
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: consumption
+      go_client: eventsClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.events
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'billingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountID
+            python_parameter_name: billing_account_id
+            python_variable_name: billing_account_id
+          'billingProfileId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileID
+            python_parameter_name: billing_profile_id
+            python_variable_name: billing_profile_id
+          'startDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: startDate
+            python_parameter_name: start_date
+            python_variable_name: start_date
+          'endDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: endDate
+            python_parameter_name: end_date
+            python_variable_name: end_date
+
+    description: |
+      Manage Azure Event instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountId'
+        description: 'BillingAccount ID'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileId'
+        description: 'Azure Billing Profile ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingProfileId']
+      - !ruby/object:Api::Type::String
+        name: 'startDate'
+        description: 'Start date'
+        required: true
+        input: true
+        azure_sdk_references: ['startDate']
+      - !ruby/object:Api::Type::String
+        name: 'endDate'
+        description: 'End date'
+        required: true
+        input: true
+        azure_sdk_references: ['endDate']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of event summary.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'transactionDate'
+              description: 'Transaction date.'
+              required: false
+              azure_sdk_references: ['/value/transactionDate', '/value/properties/transactionDate']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'Transaction description.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'newCredit'
+              description: 'New Credit.'
+              required: false
+              azure_sdk_references: ['/value/newCredit', '/value/properties/newCredit']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'Amount currency.'
+                  required: false
+                  azure_sdk_references: ['/value/newCredit/currency', '/value/properties/newCredit/currency']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'value'
+                  description: 'Amount.'
+                  required: false
+                  azure_sdk_references: ['/value/newCredit/value', '/value/properties/newCredit/value']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'adjustments'
+              description: 'Adjustments amount.'
+              required: false
+              azure_sdk_references: ['/value/adjustments', '/value/properties/adjustments']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'Amount currency.'
+                  required: false
+                  azure_sdk_references: ['/value/adjustments/currency', '/value/properties/adjustments/currency']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'value'
+                  description: 'Amount.'
+                  required: false
+                  azure_sdk_references: ['/value/adjustments/value', '/value/properties/adjustments/value']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'creditExpired'
+              description: 'Credit expired.'
+              required: false
+              azure_sdk_references: ['/value/creditExpired', '/value/properties/creditExpired']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'Amount currency.'
+                  required: false
+                  azure_sdk_references: ['/value/creditExpired/currency', '/value/properties/creditExpired/currency']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'value'
+                  description: 'Amount.'
+                  required: false
+                  azure_sdk_references: ['/value/creditExpired/value', '/value/properties/creditExpired/value']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'charges'
+              description: 'Charges amount.'
+              required: false
+              azure_sdk_references: ['/value/charges', '/value/properties/charges']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'Amount currency.'
+                  required: false
+                  azure_sdk_references: ['/value/charges/currency', '/value/properties/charges/currency']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'value'
+                  description: 'Amount.'
+                  required: false
+                  azure_sdk_references: ['/value/charges/value', '/value/properties/charges/value']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'closedBalance'
+              description: 'Closed balance.'
+              required: false
+              azure_sdk_references: ['/value/closedBalance', '/value/properties/closedBalance']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'Amount currency.'
+                  required: false
+                  azure_sdk_references: ['/value/closedBalance/currency', '/value/properties/closedBalance/currency']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'value'
+                  description: 'Amount.'
+                  required: false
+                  azure_sdk_references: ['/value/closedBalance/value', '/value/properties/closedBalance/value']
+            - !ruby/object:Api::Type::Enum
+              name: 'eventType'
+              description: 'The type of event.'
+              required: false
+              azure_sdk_references: ['/value/eventType', '/value/properties/eventType']
+              values:
+                - :SettledCharges
+                - :PendingCharges
+                - :PendingAdjustments
+                - :PendingNewCredit
+                - :PendingExpiredCredit
+                - :UnKnown
+                - :NewCredit
+              default_value: :SettledCharges
+            - !ruby/object:Api::Type::String
+              name: 'invoiceNumber'
+              description: 'Invoice number.'
+              required: false
+              azure_sdk_references: ['/value/invoiceNumber', '/value/properties/invoiceNumber']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link (url) to the next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

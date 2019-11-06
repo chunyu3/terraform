@@ -1,0 +1,105 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: backup
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.recoveryservices.backup
+      python_client: RecoveryServicesBackupClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of available operations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the Operation.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Contains the localized display information for this particular operation'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Name of the provider for display purposes'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'ResourceType for which this Operation can be performed.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Operations Name itself.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Description of the operation having details of what operation is about.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'The intended executor of the operation;governs the display of the operation in the RBAC UX and the audit logs UX'
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'serviceSpecification'
+              description: 'Operation properties.'
+              required: false
+              azure_sdk_references: ['/value/serviceSpecification', '/value/properties/serviceSpecification']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'logSpecifications'
+                  description: 'List of log specifications of this operation.'
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/logSpecifications', '/value/properties/serviceSpecification/logSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'Name for shoebox log specification.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/name', '/value/properties/serviceSpecification/logSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: 'Localized display name'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/displayName', '/value/properties/serviceSpecification/logSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'blobDuration'
+                        description: 'blob duration of shoebox log specification'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/blobDuration', '/value/properties/serviceSpecification/logSpecifications/blobDuration']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to the next chunk of Response.'
+        output: true
+        azure_sdk_references: ['/nextLink']

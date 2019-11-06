@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_automationwatcher
+  description: Create or update watcher
+  code:
+    resource_group: myResourceGroup
+    automation_account_name: myAutomationAccount
+    name: myWatcher
+    tags: {}
+    execution_frequency_in_seconds: '60'
+    script_name: MyTestWatcherRunbook
+    script_run_on: MyTestHybridWorkerGroup
+    description: This is a test watcher.
+    creation_time: '2016-11-01T11:22:47.7333333+00:00'
+    last_modified_time: '2016-11-01T11:22:47.7333333+00:00'
+  

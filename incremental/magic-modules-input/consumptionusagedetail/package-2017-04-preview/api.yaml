@@ -1,0 +1,183 @@
+--- !ruby/object:Api::Product
+name: Azure UsageDetail Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: UsageDetail
+    api_name: Consumption
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Consumption
+      go_client_namespace: consumption
+      go_client: usageDetailsClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.usage_details
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure UsageDetail instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of the usage details. The scope can be ''/subscriptions/{subscriptionId}'' for a subscription, or ''/subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/{invoiceName}'' for an invoice or ''/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}'' for a billing period.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of usage details.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'billingPeriodId'
+              description: 'The id of the billing period resource that the usage belongs to.'
+              required: false
+              azure_sdk_references: ['/value/billingPeriodId', '/value/properties/billingPeriodId']
+            - !ruby/object:Api::Type::String
+              name: 'invoiceId'
+              description: 'The id of the invoice resource that the usage belongs to.'
+              required: false
+              azure_sdk_references: ['/value/invoiceId', '/value/properties/invoiceId']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'usageStart'
+              description: 'The start of the date time range covered by the usage detail.'
+              required: false
+              azure_sdk_references: ['/value/usageStart', '/value/properties/usageStart']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'usageEnd'
+              description: 'The end of the date time range covered by the usage detail.'
+              required: false
+              azure_sdk_references: ['/value/usageEnd', '/value/properties/usageEnd']
+            - !ruby/object:Api::Type::String
+              name: 'instanceName'
+              description: 'The name of the resource instance that the usage is about.'
+              required: false
+              azure_sdk_references: ['/value/instanceName', '/value/properties/instanceName']
+            - !ruby/object:Api::Type::String
+              name: 'instanceId'
+              description: 'The uri of the resource instance that the usage is about.'
+              required: false
+              azure_sdk_references: ['/value/instanceId', '/value/properties/instanceId']
+            - !ruby/object:Api::Type::String
+              name: 'instanceLocation'
+              description: 'The location of the resource instance that the usage is about.'
+              required: false
+              azure_sdk_references: ['/value/instanceLocation', '/value/properties/instanceLocation']
+            - !ruby/object:Api::Type::String
+              name: 'currency'
+              description: 'The ISO currency in which the meter is charged, for example, USD.'
+              required: false
+              azure_sdk_references: ['/value/currency', '/value/properties/currency']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+              name: 'usageQuantity'
+              description: 'The quantity of usage.'
+              required: false
+              azure_sdk_references: ['/value/usageQuantity', '/value/properties/usageQuantity']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+              name: 'billableQuantity'
+              description: 'The billable usage quantity.'
+              required: false
+              azure_sdk_references: ['/value/billableQuantity', '/value/properties/billableQuantity']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+              name: 'pretaxCost'
+              description: 'The amount of cost before tax.'
+              required: false
+              azure_sdk_references: ['/value/pretaxCost', '/value/properties/pretaxCost']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isEstimated'
+              description: 'The estimated usage is subject to change.'
+              required: false
+              azure_sdk_references: ['/value/isEstimated', '/value/properties/isEstimated']
+            - !ruby/object:Api::Type::String
+              name: 'meterId'
+              description: 'The meter id.'
+              required: false
+              azure_sdk_references: ['/value/meterId', '/value/properties/meterId']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'meterDetails'
+              description: 'The details about the meter. By default this is not populated, unless it''s specified in $expand.'
+              required: false
+              azure_sdk_references: ['/value/meterDetails', '/value/properties/meterDetails']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'meterName'
+                  description: 'The name of the meter, within the given meter category'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/meterName', '/value/properties/meterDetails/meterName']
+                - !ruby/object:Api::Type::String
+                  name: 'meterCategory'
+                  description: 'The category of the meter, for example, ''Cloud services'', ''Networking'', etc..'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/meterCategory', '/value/properties/meterDetails/meterCategory']
+                - !ruby/object:Api::Type::String
+                  name: 'meterSubCategory'
+                  description: 'The subcategory of the meter, for example, ''A6 Cloud services'', ''ExpressRoute (IXP)'', etc..'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/meterSubCategory', '/value/properties/meterDetails/meterSubCategory']
+                - !ruby/object:Api::Type::String
+                  name: 'unit'
+                  description: 'The unit in which the meter consumption is charged, for example, ''Hours'', ''GB'', etc.'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/unit', '/value/properties/meterDetails/unit']
+                - !ruby/object:Api::Type::String
+                  name: 'meterLocation'
+                  description: 'The location in which the Azure service is available.'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/meterLocation', '/value/properties/meterDetails/meterLocation']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'totalIncludedQuantity'
+                  description: 'The total included quantity associated with the offer.'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/totalIncludedQuantity', '/value/properties/meterDetails/totalIncludedQuantity']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+                  name: 'pretaxStandardRate'
+                  description: 'The pretax listing price.'
+                  required: false
+                  azure_sdk_references: ['/value/meterDetails/pretaxStandardRate', '/value/properties/meterDetails/pretaxStandardRate']
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'additionalProperties'
+              description: 'The list of key/value pairs for the additional properties, in the format ''key'':''value'' where key = the field name, and value = the field value. By default this is not populated, unless it''s specified in $expand.'
+              required: false
+              azure_sdk_references: ['/value/additionalProperties', '/value/properties/additionalProperties']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link (url) to the next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

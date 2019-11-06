@@ -1,0 +1,131 @@
+--- !ruby/object:Api::Product
+name: Azure Configuration Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Configuration
+    api_name: ADHybridHealthService
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ADHybridHealthService
+      go_client_namespace: adhybridhealthservice
+      go_client: configurationClient
+      python_client_namespace: azure.mgmt.adhybridhealthservice
+      python_client: ADHybridHealthServiceClient.configuration
+
+    description: |
+      Manage Azure Configuration instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The Id of the tenant.'
+        output: true
+        azure_sdk_references: ['/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'aadLicense'
+        description: 'The Azure Active Directory license of the tenant.'
+        output: true
+        azure_sdk_references: ['/aadLicense']
+      - !ruby/object:Api::Type::Boolean
+        name: 'aadPremium'
+        description: 'Indicate if the tenant has Azure Active Directory Premium license or not.'
+        output: true
+        azure_sdk_references: ['/aadPremium']
+      - !ruby/object:Api::Type::Boolean
+        name: 'agentAutoUpdate'
+        description: 'Indicates if the tenant is configured to automatically receive updates for Azure Active Directory Connect Health client side features.'
+        output: true
+        azure_sdk_references: ['/agentAutoUpdate']
+      - !ruby/object:Api::Type::Integer
+        name: 'alertSuppressionTimeInMins'
+        description: 'The time in minutes after which an alert will be auto-suppressed.'
+        output: true
+        azure_sdk_references: ['/alertSuppressionTimeInMins']
+      - !ruby/object:Api::Type::Boolean
+        name: 'consentedToMicrosoftDevOps'
+        description: 'Indicates if the tenant data can be seen by Microsoft through Azure portal.'
+        output: true
+        azure_sdk_references: ['/consentedToMicrosoftDevOps']
+      - !ruby/object:Api::Type::String
+        name: 'countryLetterCode'
+        description: 'The country letter code of the tenant.'
+        output: true
+        azure_sdk_references: ['/countryLetterCode']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdDate'
+        description: 'The date, in UTC, when the tenant was onboarded to Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/createdDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'devOpsTtl'
+        description: 'The date and time, in UTC, till when the tenant data can be seen by Microsoft through Azure portal.'
+        output: true
+        azure_sdk_references: ['/devOpsTtl']
+      - !ruby/object:Api::Type::Boolean
+        name: 'disabled'
+        description: 'Indicates if the tenant is disabled in Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/disabled']
+      - !ruby/object:Api::Type::Integer
+        name: 'disabledReason'
+        description: 'The reason due to which the tenant was disabled in Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/disabledReason']
+      - !ruby/object:Api::Type::Array
+        name: 'globalAdminsEmail'
+        description: 'The list of global administrators for the tenant.'
+        output: true
+        azure_sdk_references: ['/globalAdminsEmail']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'initialDomain'
+        description: 'The initial domain of the tenant.'
+        output: true
+        azure_sdk_references: ['/initialDomain']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastDisabled'
+        description: 'The date and time, in UTC, when the tenant was last disabled in Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/lastDisabled']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastVerified'
+        description: 'The date and time, in UTC, when the tenant onboarding status in Azure Active Directory Connect Health was last verified.'
+        output: true
+        azure_sdk_references: ['/lastVerified']
+      - !ruby/object:Api::Type::Boolean
+        name: 'onboardingAllowed'
+        description: 'Indicates if the tenant is allowed to  onboard to Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/onboardingAllowed']
+      - !ruby/object:Api::Type::Boolean
+        name: 'onboarded'
+        description: 'Indicates if the tenant is already onboarded to Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/onboarded']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'pksCertificate'
+        description: 'The certificate associated with the tenant to onboard data to Azure Active Directory Connect Health.'
+        output: true
+        azure_sdk_references: ['/pksCertificate']
+      - !ruby/object:Api::Type::Boolean
+        name: 'privatePreviewTenant'
+        description: 'Indicates if the tenant has signed up for private preview of Azure Active Directory Connect Health features.'
+        output: true
+        azure_sdk_references: ['/privatePreviewTenant']
+      - !ruby/object:Api::Type::Boolean
+        name: 'tenantInQuarantine'
+        description: 'Indicates if data collection for this tenant is disabled or not.'
+        output: true
+        azure_sdk_references: ['/tenantInQuarantine']
+      - !ruby/object:Api::Type::String
+        name: 'tenantName'
+        description: 'The name of the tenant.'
+        output: true
+        azure_sdk_references: ['/tenantName']

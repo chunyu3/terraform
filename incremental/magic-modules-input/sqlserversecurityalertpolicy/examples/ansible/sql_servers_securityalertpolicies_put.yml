@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqlserversecurityalertpolicy
+  description: Update a server's threat detection policy with all parameters
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    name: mySecurityAlertPolicy
+    state: Enabled
+    disabled_alerts:
+      - Access_Anomaly
+      - Usage_Anomaly
+    email_addresses:
+      - testSecurityAlert@microsoft.com
+    email_account_admins: true
+    storage_endpoint: 'https://mystorage.blob.core.windows.net'
+    storage_account_access_key: >-
+      sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==
+    retention_days: '5'
+  

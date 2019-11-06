@@ -1,0 +1,854 @@
+--- !ruby/object:Api::Product
+name: Azure ConnectorMapping Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ConnectorMapping
+    api_name: CustomerInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CustomerInsights
+      go_client_namespace: customerinsights
+      go_client: connectorMappingsClient
+      python_client_namespace: azure.mgmt.customerinsights
+      python_client: CustomerInsightsManagementClient.connector_mappings
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+          'mappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mappings
+            go_variable_name: name
+            python_parameter_name: mapping_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ConnectorMappingResourceFormat
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConnectorMapping
+            go_type_name: ConnectorMapping
+          '/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connector_type
+          '/properties/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectorType
+            go_enum_type_name: ConnectorTypes
+          '/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: entity_type
+          '/properties/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EntityType
+            go_enum_type_name: EntityTypes
+          '/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: entity_type_name
+          '/properties/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EntityTypeName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/mappingProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: mapping_properties
+          '/mappingProperties/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: folder_path
+          '/mappingProperties/fileFilter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_filter
+          '/mappingProperties/hasHeader': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: has_header
+          '/mappingProperties/errorManagement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error_management
+          '/mappingProperties/errorManagement/errorManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: error_management_type
+          '/mappingProperties/errorManagement/errorLimit': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: error_limit
+          '/mappingProperties/format': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: format
+          '/mappingProperties/format/formatType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: format_type
+          '/mappingProperties/format/columnDelimiter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: column_delimiter
+          '/mappingProperties/format/acceptLanguage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: accept_language
+          '/mappingProperties/format/quoteCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: quote_character
+          '/mappingProperties/format/quoteEscapeCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: quote_escape_character
+          '/mappingProperties/format/arraySeparator': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: array_separator
+          '/mappingProperties/availability': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: availability
+          '/mappingProperties/availability/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: frequency
+          '/mappingProperties/availability/interval': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: interval
+          '/mappingProperties/structure': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: structure
+          '/mappingProperties/structure/propertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: property_name
+          '/mappingProperties/structure/columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: column_name
+          '/mappingProperties/structure/customFormatSpecifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_format_specifier
+          '/mappingProperties/structure/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_encrypted
+          '/mappingProperties/completeOperation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: complete_operation
+          '/mappingProperties/completeOperation/completionOperationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: completion_operation_type
+          '/mappingProperties/completeOperation/destinationFolder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: destination_folder
+          '/properties/mappingProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MappingProperties
+            go_type_name: ConnectorMappingProperties
+          '/properties/mappingProperties/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FolderPath
+          '/properties/mappingProperties/fileFilter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileFilter
+          '/properties/mappingProperties/hasHeader': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: HasHeader
+          '/properties/mappingProperties/errorManagement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ErrorManagement
+            go_type_name: ConnectorMappingErrorManagement
+          '/properties/mappingProperties/errorManagement/errorManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ErrorManagementType
+            go_enum_type_name: ErrorManagementTypes
+          '/properties/mappingProperties/errorManagement/errorLimit': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ErrorLimit
+          '/properties/mappingProperties/format': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Format
+            go_type_name: ConnectorMappingFormat
+          '/properties/mappingProperties/format/formatType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FormatType
+          '/properties/mappingProperties/format/columnDelimiter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ColumnDelimiter
+          '/properties/mappingProperties/format/acceptLanguage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AcceptLanguage
+          '/properties/mappingProperties/format/quoteCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QuoteCharacter
+          '/properties/mappingProperties/format/quoteEscapeCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QuoteEscapeCharacter
+          '/properties/mappingProperties/format/arraySeparator': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArraySeparator
+          '/properties/mappingProperties/availability': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Availability
+            go_type_name: ConnectorMappingAvailability
+          '/properties/mappingProperties/availability/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Frequency
+            go_enum_type_name: FrequencyTypes
+          '/properties/mappingProperties/availability/interval': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Interval
+          '/properties/mappingProperties/structure': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Structure
+            go_type_name: ConnectorMappingStructure
+          '/properties/mappingProperties/structure/propertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PropertyName
+          '/properties/mappingProperties/structure/columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ColumnName
+          '/properties/mappingProperties/structure/customFormatSpecifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomFormatSpecifier
+          '/properties/mappingProperties/structure/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsEncrypted
+          '/properties/mappingProperties/completeOperation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CompleteOperation
+            go_type_name: ConnectorMappingCompleteOperation
+          '/properties/mappingProperties/completeOperation/completionOperationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CompletionOperationType
+            go_enum_type_name: CompletionOperationTypes
+          '/properties/mappingProperties/completeOperation/destinationFolder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DestinationFolder
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+          'mappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mappings
+            go_variable_name: name
+            python_parameter_name: mapping_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+          'mappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mappings
+            go_variable_name: name
+            python_parameter_name: mapping_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ConnectorMapping
+            go_type_name: ConnectorMapping
+          '/properties/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConnectorType
+            go_enum_type_name: ConnectorTypes
+          '/connectorType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: connector_type
+          '/properties/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EntityType
+            go_enum_type_name: EntityTypes
+          '/entityType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: entity_type
+          '/properties/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EntityTypeName
+          '/entityTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: entity_type_name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/mappingProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MappingProperties
+            go_type_name: ConnectorMappingProperties
+          '/properties/mappingProperties/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FolderPath
+          '/properties/mappingProperties/fileFilter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileFilter
+          '/properties/mappingProperties/hasHeader': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: HasHeader
+          '/properties/mappingProperties/errorManagement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ErrorManagement
+            go_type_name: ConnectorMappingErrorManagement
+          '/properties/mappingProperties/errorManagement/errorManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ErrorManagementType
+            go_enum_type_name: ErrorManagementTypes
+          '/properties/mappingProperties/errorManagement/errorLimit': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ErrorLimit
+          '/properties/mappingProperties/format': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Format
+            go_type_name: ConnectorMappingFormat
+          '/properties/mappingProperties/format/formatType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FormatType
+          '/properties/mappingProperties/format/columnDelimiter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ColumnDelimiter
+          '/properties/mappingProperties/format/acceptLanguage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AcceptLanguage
+          '/properties/mappingProperties/format/quoteCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QuoteCharacter
+          '/properties/mappingProperties/format/quoteEscapeCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QuoteEscapeCharacter
+          '/properties/mappingProperties/format/arraySeparator': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArraySeparator
+          '/properties/mappingProperties/availability': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Availability
+            go_type_name: ConnectorMappingAvailability
+          '/properties/mappingProperties/availability/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Frequency
+            go_enum_type_name: FrequencyTypes
+          '/properties/mappingProperties/availability/interval': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Interval
+          '/properties/mappingProperties/structure': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Structure
+            go_type_name: ConnectorMappingStructure
+          '/properties/mappingProperties/structure/propertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PropertyName
+          '/properties/mappingProperties/structure/columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ColumnName
+          '/properties/mappingProperties/structure/customFormatSpecifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomFormatSpecifier
+          '/properties/mappingProperties/structure/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsEncrypted
+          '/properties/mappingProperties/completeOperation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CompleteOperation
+            go_type_name: ConnectorMappingCompleteOperation
+          '/properties/mappingProperties/completeOperation/completionOperationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CompletionOperationType
+            go_enum_type_name: CompletionOperationTypes
+          '/properties/mappingProperties/completeOperation/destinationFolder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DestinationFolder
+          '/mappingProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: mapping_properties
+          '/mappingProperties/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: folder_path
+          '/mappingProperties/fileFilter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_filter
+          '/mappingProperties/hasHeader': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: has_header
+          '/mappingProperties/errorManagement': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error_management
+          '/mappingProperties/errorManagement/errorManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: error_management_type
+          '/mappingProperties/errorManagement/errorLimit': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: error_limit
+          '/mappingProperties/format': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: format
+          '/mappingProperties/format/formatType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: format_type
+          '/mappingProperties/format/columnDelimiter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: column_delimiter
+          '/mappingProperties/format/acceptLanguage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: accept_language
+          '/mappingProperties/format/quoteCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: quote_character
+          '/mappingProperties/format/quoteEscapeCharacter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: quote_escape_character
+          '/mappingProperties/format/arraySeparator': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: array_separator
+          '/mappingProperties/availability': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: availability
+          '/mappingProperties/availability/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: frequency
+          '/mappingProperties/availability/interval': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: interval
+          '/mappingProperties/structure': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: structure
+          '/mappingProperties/structure/propertyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: property_name
+          '/mappingProperties/structure/columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: column_name
+          '/mappingProperties/structure/customFormatSpecifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_format_specifier
+          '/mappingProperties/structure/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_encrypted
+          '/mappingProperties/completeOperation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: complete_operation
+          '/mappingProperties/completeOperation/completionOperationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: completion_operation_type
+          '/mappingProperties/completeOperation/destinationFolder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: destination_folder
+          '/properties/connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConnectorName
+          '/connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: connector_name
+          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Created
+          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created
+          '/properties/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastModified
+          '/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_modified
+          '/properties/connectorMappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConnectorMappingName
+          '/connectorMappingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: connector_mapping_name
+          '/properties/dataFormatId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DataFormatID
+          '/dataFormatId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: data_format_id
+          '/properties/nextRunTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NextRunTime
+          '/nextRunTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: next_run_time
+          '/properties/runId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunID
+          '/runId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_id
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: ConnectorMappingStates
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByConnector
+        python_func_name: list_by_connector
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hubs
+            go_variable_name: hubName
+            python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'connectorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: connectors
+            go_variable_name: connectorName
+            python_parameter_name: connector_name
+            python_variable_name: connector_name
+
+    description: |
+      Manage Azure ConnectorMapping instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'hubName'
+        description: 'The name of the hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['hubName']
+      - !ruby/object:Api::Type::String
+        name: 'connectorName'
+        description: 'The name of the connector.'
+        required: true
+        input: true
+        azure_sdk_references: ['connectorName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the connector mapping.'
+        required: true
+        input: true
+        azure_sdk_references: ['mappingName']
+      - !ruby/object:Api::Type::Enum
+        name: 'connectorType'
+        description: 'Type of connector.'
+        required: false
+        azure_sdk_references: ['/connectorType', '/properties/connectorType']
+        values:
+          - :None
+          - :CRM
+          - :AzureBlob
+          - :Salesforce
+          - :ExchangeOnline
+          - :Outbound
+        default_value: :None
+      - !ruby/object:Api::Type::Enum
+        name: 'entityType'
+        description: 'Defines which entity type the file should map to.'
+        required: true
+        azure_sdk_references: ['/entityType', '/properties/entityType']
+        values:
+          - :None
+          - :Profile
+          - :Interaction
+          - :Relationship
+      - !ruby/object:Api::Type::String
+        name: 'entityTypeName'
+        description: 'The mapping entity name.'
+        required: true
+        azure_sdk_references: ['/entityTypeName', '/properties/entityTypeName']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Display name for the connector mapping.'
+        required: false
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the connector mapping.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'mappingProperties'
+        description: 'The properties of the mapping.'
+        required: true
+        azure_sdk_references: ['/mappingProperties', '/properties/mappingProperties']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'folderPath'
+            description: 'The folder path for the mapping.'
+            required: false
+            azure_sdk_references: ['/mappingProperties/folderPath', '/properties/mappingProperties/folderPath']
+          - !ruby/object:Api::Type::String
+            name: 'fileFilter'
+            description: 'The file filter for the mapping.'
+            required: false
+            azure_sdk_references: ['/mappingProperties/fileFilter', '/properties/mappingProperties/fileFilter']
+          - !ruby/object:Api::Type::Boolean
+            name: 'hasHeader'
+            description: 'If the file contains a header or not.'
+            required: false
+            azure_sdk_references: ['/mappingProperties/hasHeader', '/properties/mappingProperties/hasHeader']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'errorManagement'
+            description: 'The error management setting for the mapping.'
+            required: true
+            azure_sdk_references: ['/mappingProperties/errorManagement', '/properties/mappingProperties/errorManagement']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'errorManagementType'
+                description: 'The type of error management to use for the mapping.'
+                required: true
+                azure_sdk_references: ['/mappingProperties/errorManagement/errorManagementType', '/properties/mappingProperties/errorManagement/errorManagementType']
+                values:
+                  - :RejectAndContinue
+                  - :StopImport
+                  - :RejectUntilLimit
+              - !ruby/object:Api::Type::Integer
+                name: 'errorLimit'
+                description: 'The error limit allowed while importing data.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/errorManagement/errorLimit', '/properties/mappingProperties/errorManagement/errorLimit']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'format'
+            description: 'The format of mapping property.'
+            required: true
+            azure_sdk_references: ['/mappingProperties/format', '/properties/mappingProperties/format']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'formatType'
+                description: 'The type mapping format.'
+                required: true
+                azure_sdk_references: ['/mappingProperties/format/formatType', '/properties/mappingProperties/format/formatType']
+              - !ruby/object:Api::Type::String
+                name: 'columnDelimiter'
+                description: 'The character that signifies a break between columns.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/format/columnDelimiter', '/properties/mappingProperties/format/columnDelimiter']
+              - !ruby/object:Api::Type::String
+                name: 'acceptLanguage'
+                description: 'The oData language.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/format/acceptLanguage', '/properties/mappingProperties/format/acceptLanguage']
+              - !ruby/object:Api::Type::String
+                name: 'quoteCharacter'
+                description: 'Quote character, used to indicate enquoted fields.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/format/quoteCharacter', '/properties/mappingProperties/format/quoteCharacter']
+              - !ruby/object:Api::Type::String
+                name: 'quoteEscapeCharacter'
+                description: 'Escape character for quotes, can be the same as the quoteCharacter.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/format/quoteEscapeCharacter', '/properties/mappingProperties/format/quoteEscapeCharacter']
+              - !ruby/object:Api::Type::String
+                name: 'arraySeparator'
+                description: 'Character separating array elements.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/format/arraySeparator', '/properties/mappingProperties/format/arraySeparator']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'availability'
+            description: 'The availability of mapping property.'
+            required: true
+            azure_sdk_references: ['/mappingProperties/availability', '/properties/mappingProperties/availability']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'frequency'
+                description: 'The frequency to update.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/availability/frequency', '/properties/mappingProperties/availability/frequency']
+                values:
+                  - :Minute
+                  - :Hour
+                  - :Day
+                  - :Week
+                  - :Month
+                default_value: :Minute
+              - !ruby/object:Api::Type::Integer
+                name: 'interval'
+                description: 'The interval of the given frequency to use.'
+                required: true
+                azure_sdk_references: ['/mappingProperties/availability/interval', '/properties/mappingProperties/availability/interval']
+          - !ruby/object:Api::Type::Array
+            name: 'structure'
+            description: 'Ingestion mapping information at property level.'
+            required: true
+            azure_sdk_references: ['/mappingProperties/structure', '/properties/mappingProperties/structure']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'propertyName'
+                  description: 'The property name of the mapping entity.'
+                  required: true
+                  azure_sdk_references: ['/mappingProperties/structure/propertyName', '/properties/mappingProperties/structure/propertyName']
+                - !ruby/object:Api::Type::String
+                  name: 'columnName'
+                  description: 'The column name of the import file.'
+                  required: true
+                  azure_sdk_references: ['/mappingProperties/structure/columnName', '/properties/mappingProperties/structure/columnName']
+                - !ruby/object:Api::Type::String
+                  name: 'customFormatSpecifier'
+                  description: 'Custom format specifier for input parsing.'
+                  required: false
+                  azure_sdk_references: ['/mappingProperties/structure/customFormatSpecifier', '/properties/mappingProperties/structure/customFormatSpecifier']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'isEncrypted'
+                  description: 'Indicates if the column is encrypted.'
+                  required: false
+                  azure_sdk_references: ['/mappingProperties/structure/isEncrypted', '/properties/mappingProperties/structure/isEncrypted']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'completeOperation'
+            description: 'The operation after import is done.'
+            required: true
+            azure_sdk_references: ['/mappingProperties/completeOperation', '/properties/mappingProperties/completeOperation']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'completionOperationType'
+                description: 'The type of completion operation.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/completeOperation/completionOperationType', '/properties/mappingProperties/completeOperation/completionOperationType']
+                values:
+                  - :DoNothing
+                  - :DeleteFile
+                  - :MoveFile
+                default_value: :DoNothing
+              - !ruby/object:Api::Type::String
+                name: 'destinationFolder'
+                description: 'The destination folder where files will be moved to once the import is done.'
+                required: false
+                azure_sdk_references: ['/mappingProperties/completeOperation/destinationFolder', '/properties/mappingProperties/completeOperation/destinationFolder']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'connectorName'
+        description: 'The connector name.'
+        output: true
+        azure_sdk_references: ['/connectorName', '/properties/connectorName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'created'
+        description: 'The created time.'
+        output: true
+        azure_sdk_references: ['/created', '/properties/created']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastModified'
+        description: 'The last modified time.'
+        output: true
+        azure_sdk_references: ['/lastModified', '/properties/lastModified']
+      - !ruby/object:Api::Type::String
+        name: 'connectorMappingName'
+        description: 'The connector mapping name'
+        output: true
+        azure_sdk_references: ['/connectorMappingName', '/properties/connectorMappingName']
+      - !ruby/object:Api::Type::String
+        name: 'dataFormatId'
+        description: 'The DataFormat ID.'
+        output: true
+        azure_sdk_references: ['/dataFormatId', '/properties/dataFormatId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'nextRunTime'
+        description: 'The next run time based on customer''s settings.'
+        output: true
+        azure_sdk_references: ['/nextRunTime', '/properties/nextRunTime']
+      - !ruby/object:Api::Type::String
+        name: 'runId'
+        description: 'The RunId.'
+        output: true
+        azure_sdk_references: ['/runId', '/properties/runId']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'State of connector mapping.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Creating
+          - :Created
+          - :Failed
+          - :Ready
+          - :Running
+          - :Stopped
+          - :Expiring
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The hub name.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

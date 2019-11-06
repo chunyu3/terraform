@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_databoxedgetrigger
+  description: TriggerPut
+  code:
+    name: myTrigger
+    trigger:
+      properties:
+        customContextTag: CustomContextTags-1235346475
+        sourceInfo:
+          shareId: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+            data_box_edge_device_name }}/shares/{{ share_name }}
+        sinkInfo:
+          roleId: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{{
+            data_box_edge_device_name }}/roles/{{ role_name }}
+      kind: FileEvent
+    resource_group: myResourceGroup
+  

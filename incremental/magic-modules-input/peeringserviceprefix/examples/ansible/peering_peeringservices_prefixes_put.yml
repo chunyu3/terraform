@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_peeringserviceprefix
+  description: Create or update a prefix for the peering service
+  code:
+    resource_group: myResourceGroup
+    peering_service_name: myPeeringService
+    name: myPrefix
+    peering_service_prefix:
+      properties:
+        prefix: 192.168.1.0/24
+  

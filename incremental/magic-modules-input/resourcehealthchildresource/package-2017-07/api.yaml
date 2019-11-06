@@ -1,0 +1,249 @@
+--- !ruby/object:Api::Product
+name: Azure ChildResource Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ChildResource
+    api_name: ResourceHealth
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ResourceHealth
+      go_client_namespace: resourcehealth
+      go_client: childResourcesClient
+      python_client_namespace: azure.mgmt.resourcehealth
+      python_client: MicrosoftResourceHealthClient.child_resources
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+
+    description: |
+      Manage Azure ChildResource instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The fully qualified ID of the resource, including the resource name and resource type. Currently the API only support not nested parent resource type: /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of availabilityStatuses.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Azure Resource Manager Identity for the availabilityStatuses resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'current.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Microsoft.ResourceHealth/AvailabilityStatuses.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Azure Resource Manager geo location of the resource.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Type::Enum
+              name: 'availabilityState'
+              description: 'Availability status of the resource. When it is null, this availabilityStatus object represents an availability impacting event'
+              required: false
+              azure_sdk_references: ['/value/availabilityState', '/value/properties/availabilityState']
+              values:
+                - :Available
+                - :Unavailable
+                - :Unknown
+              default_value: :Available
+            - !ruby/object:Api::Type::String
+              name: 'summary'
+              description: 'Summary description of the availability status.'
+              required: false
+              azure_sdk_references: ['/value/summary', '/value/properties/summary']
+            - !ruby/object:Api::Type::String
+              name: 'detailedStatus'
+              description: 'Details of the availability status.'
+              required: false
+              azure_sdk_references: ['/value/detailedStatus', '/value/properties/detailedStatus']
+            - !ruby/object:Api::Type::String
+              name: 'reasonType'
+              description: 'When the resource''s availabilityState is Unavailable, it describes where the health impacting event was originated. Examples are planned, unplanned, user initiated or an outage etc.'
+              required: false
+              azure_sdk_references: ['/value/reasonType', '/value/properties/reasonType']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'rootCauseAttributionTime'
+              description: 'When the resource''s availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received.'
+              required: false
+              azure_sdk_references: ['/value/rootCauseAttributionTime', '/value/properties/rootCauseAttributionTime']
+            - !ruby/object:Api::Type::String
+              name: 'healthEventType'
+              description: 'In case of an availability impacting event, it describes when the health impacting event was originated. Examples are Lifecycle, Downtime, Fault Analysis etc.'
+              required: false
+              azure_sdk_references: ['/value/healthEventType', '/value/properties/healthEventType']
+            - !ruby/object:Api::Type::String
+              name: 'healthEventCause'
+              description: 'In case of an availability impacting event, it describes where the health impacting event was originated. Examples are PlatformInitiated, UserInitiated etc.'
+              required: false
+              azure_sdk_references: ['/value/healthEventCause', '/value/properties/healthEventCause']
+            - !ruby/object:Api::Type::String
+              name: 'healthEventCategory'
+              description: 'In case of an availability impacting event, it describes the category of a PlatformInitiated health impacting event. Examples are Planned, Unplanned etc.'
+              required: false
+              azure_sdk_references: ['/value/healthEventCategory', '/value/properties/healthEventCategory']
+            - !ruby/object:Api::Type::String
+              name: 'healthEventId'
+              description: 'It is a unique Id that identifies the event'
+              required: false
+              azure_sdk_references: ['/value/healthEventId', '/value/properties/healthEventId']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'resolutionEta'
+              description: 'When the resource''s availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved.'
+              required: false
+              azure_sdk_references: ['/value/resolutionETA', '/value/properties/resolutionETA']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'occuredTime'
+              description: 'Timestamp for when last change in health status occurred.'
+              required: false
+              azure_sdk_references: ['/value/occuredTime', '/value/properties/occuredTime']
+            - !ruby/object:Api::Type::Enum
+              name: 'reasonChronicity'
+              description: 'Chronicity of the availability transition.'
+              required: false
+              azure_sdk_references: ['/value/reasonChronicity', '/value/properties/reasonChronicity']
+              values:
+                - :Transient
+                - :Persistent
+              default_value: :Transient
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'reportedTime'
+              description: 'Timestamp for when the health was last checked. '
+              required: false
+              azure_sdk_references: ['/value/reportedTime', '/value/properties/reportedTime']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'recentlyResolvedState'
+              description: 'An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned'
+              required: false
+              azure_sdk_references: ['/value/recentlyResolvedState', '/value/properties/recentlyResolvedState']
+              properties:
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'unavailableOccurredTime'
+                  description: 'Timestamp for when the availabilityState changed to Unavailable'
+                  required: false
+                  azure_sdk_references: ['/value/recentlyResolvedState/unavailableOccurredTime', '/value/properties/recentlyResolvedState/unavailableOccurredTime']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'resolvedTime'
+                  description: 'Timestamp when the availabilityState changes to Available.'
+                  required: false
+                  azure_sdk_references: ['/value/recentlyResolvedState/resolvedTime', '/value/properties/recentlyResolvedState/resolvedTime']
+                - !ruby/object:Api::Type::String
+                  name: 'unavailabilitySummary'
+                  description: 'Brief description of cause of the resource becoming unavailable.'
+                  required: false
+                  azure_sdk_references: ['/value/recentlyResolvedState/unavailabilitySummary', '/value/properties/recentlyResolvedState/unavailabilitySummary']
+            - !ruby/object:Api::Type::Array
+              name: 'recommendedActions'
+              description: 'Lists actions the user can take based on the current availabilityState of the resource.'
+              required: false
+              azure_sdk_references: ['/value/recommendedActions', '/value/properties/recommendedActions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'action'
+                    description: 'Recommended action.'
+                    required: false
+                    azure_sdk_references: ['/value/recommendedActions/action', '/value/properties/recommendedActions/action']
+                  - !ruby/object:Api::Type::String
+                    name: 'actionUrl'
+                    description: 'Link to the action'
+                    required: false
+                    azure_sdk_references: ['/value/recommendedActions/actionUrl', '/value/properties/recommendedActions/actionUrl']
+                  - !ruby/object:Api::Type::String
+                    name: 'actionUrlText'
+                    description: 'Substring of action, it describes which text should host the action url.'
+                    required: false
+                    azure_sdk_references: ['/value/recommendedActions/actionUrlText', '/value/properties/recommendedActions/actionUrlText']
+            - !ruby/object:Api::Type::Array
+              name: 'serviceImpactingEvents'
+              description: 'Lists the service impacting events that may be affecting the health of the resource.'
+              required: false
+              azure_sdk_references: ['/value/serviceImpactingEvents', '/value/properties/serviceImpactingEvents']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'eventStartTime'
+                    description: 'Timestamp for when the event started.'
+                    required: false
+                    azure_sdk_references: ['/value/serviceImpactingEvents/eventStartTime', '/value/properties/serviceImpactingEvents/eventStartTime']
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'eventStatusLastModifiedTime'
+                    description: 'Timestamp for when event was submitted/detected.'
+                    required: false
+                    azure_sdk_references: ['/value/serviceImpactingEvents/eventStatusLastModifiedTime', '/value/properties/serviceImpactingEvents/eventStatusLastModifiedTime']
+                  - !ruby/object:Api::Type::String
+                    name: 'correlationId'
+                    description: 'Correlation id for the event'
+                    required: false
+                    azure_sdk_references: ['/value/serviceImpactingEvents/correlationId', '/value/properties/serviceImpactingEvents/correlationId']
+                  - !ruby/object:Api::Type::NestedObject
+                    name: 'status'
+                    description: 'Status of the service impacting event.'
+                    required: false
+                    azure_sdk_references: ['/value/serviceImpactingEvents/status', '/value/properties/serviceImpactingEvents/status']
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'value'
+                        description: 'Current status of the event'
+                        required: false
+                        azure_sdk_references: ['/value/serviceImpactingEvents/status/value', '/value/properties/serviceImpactingEvents/status/value']
+                  - !ruby/object:Api::Type::NestedObject
+                    name: 'incidentProperties'
+                    description: 'Properties of the service impacting event.'
+                    required: false
+                    azure_sdk_references: ['/value/serviceImpactingEvents/incidentProperties', '/value/properties/serviceImpactingEvents/incidentProperties']
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'title'
+                        description: 'Title of the incident.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceImpactingEvents/incidentProperties/title', '/value/properties/serviceImpactingEvents/incidentProperties/title']
+                      - !ruby/object:Api::Type::String
+                        name: 'service'
+                        description: 'Service impacted by the event.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceImpactingEvents/incidentProperties/service', '/value/properties/serviceImpactingEvents/incidentProperties/service']
+                      - !ruby/object:Api::Type::String
+                        name: 'region'
+                        description: 'Region impacted by the event.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceImpactingEvents/incidentProperties/region', '/value/properties/serviceImpactingEvents/incidentProperties/region']
+                      - !ruby/object:Api::Type::String
+                        name: 'incidentType'
+                        description: 'Type of Event.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceImpactingEvents/incidentProperties/incidentType', '/value/properties/serviceImpactingEvents/incidentProperties/incidentType']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to fetch the next page of availabilityStatuses. Call ListNext() with this URI to fetch the next page of availabilityStatuses.'
+        output: true
+        azure_sdk_references: ['/nextLink']

@@ -1,0 +1,1091 @@
+--- !ruby/object:Api::Product
+name: Azure ApiManagementService Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ApiManagementService
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: apimanagement
+      go_client: apiManagementServiceClient
+      python_client_namespace: azure.mgmt.apimanagement
+      python_client: ApiManagementClient.api_management_service
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServiceResource
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceProperties
+            go_type_name: ServiceProperties
+          '/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notification_sender_email
+          '/properties/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NotificationSenderEmail
+          '/hostnameConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hostname_configurations
+          '/hostnameConfigurations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/hostnameConfigurations/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
+          '/hostnameConfigurations/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault_id
+          '/hostnameConfigurations/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encoded_certificate
+          '/hostnameConfigurations/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_password
+          '/hostnameConfigurations/defaultSslBinding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: default_ssl_binding
+          '/hostnameConfigurations/negotiateClientCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negotiate_client_certificate
+          '/properties/hostnameConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: HostnameConfigurations
+            go_type_name: HostnameConfiguration
+          '/properties/hostnameConfigurations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: HostnameType
+          '/properties/hostnameConfigurations/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/properties/hostnameConfigurations/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultID
+          '/properties/hostnameConfigurations/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncodedCertificate
+          '/properties/hostnameConfigurations/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificatePassword
+          '/properties/hostnameConfigurations/defaultSslBinding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DefaultSslBinding
+          '/properties/hostnameConfigurations/negotiateClientCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegotiateClientCertificate
+          '/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network_configuration
+          '/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/properties/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkConfiguration
+            go_type_name: VirtualNetworkConfiguration
+          '/properties/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/additionalLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: additional_locations
+          '/additionalLocations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/additionalLocations/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/additionalLocations/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/additionalLocations/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: capacity
+          '/additionalLocations/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network_configuration
+          '/additionalLocations/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/properties/additionalLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AdditionalLocations
+            go_type_name: AdditionalLocation
+          '/properties/additionalLocations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/additionalLocations/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: ServiceSkuProperties
+          '/properties/additionalLocations/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuType
+          '/properties/additionalLocations/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Capacity
+          '/properties/additionalLocations/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkConfiguration
+            go_type_name: VirtualNetworkConfiguration
+          '/properties/additionalLocations/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/customProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: custom_properties
+          '/properties/customProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: CustomProperties
+          '/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/certificates/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encoded_certificate
+          '/certificates/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_password
+          '/certificates/storeName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: store_name
+          '/properties/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Certificates
+            go_type_name: CertificateConfiguration
+          '/properties/certificates/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncodedCertificate
+          '/properties/certificates/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificatePassword
+          '/properties/certificates/storeName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StoreName
+            go_enum_type_name: 
+          '/virtualNetworkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: virtual_network_type
+          '/properties/virtualNetworkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkType
+            go_enum_type_name: VirtualNetworkType
+          '/publisherEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_email
+          '/properties/publisherEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherEmail
+          '/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_name
+          '/properties/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherName
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ServiceSkuProperties
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuType
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ServiceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ServiceResource
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceProperties
+            go_type_name: ServiceProperties
+          '/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notification_sender_email
+          '/properties/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NotificationSenderEmail
+          '/hostnameConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hostname_configurations
+          '/hostnameConfigurations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/hostnameConfigurations/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
+          '/hostnameConfigurations/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault_id
+          '/hostnameConfigurations/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encoded_certificate
+          '/hostnameConfigurations/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_password
+          '/hostnameConfigurations/defaultSslBinding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: default_ssl_binding
+          '/hostnameConfigurations/negotiateClientCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negotiate_client_certificate
+          '/properties/hostnameConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: HostnameConfigurations
+            go_type_name: HostnameConfiguration
+          '/properties/hostnameConfigurations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: HostnameType
+          '/properties/hostnameConfigurations/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/properties/hostnameConfigurations/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultID
+          '/properties/hostnameConfigurations/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncodedCertificate
+          '/properties/hostnameConfigurations/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificatePassword
+          '/properties/hostnameConfigurations/defaultSslBinding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DefaultSslBinding
+          '/properties/hostnameConfigurations/negotiateClientCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegotiateClientCertificate
+          '/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network_configuration
+          '/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/properties/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkConfiguration
+            go_type_name: VirtualNetworkConfiguration
+          '/properties/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/additionalLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: additional_locations
+          '/additionalLocations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/additionalLocations/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/additionalLocations/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/additionalLocations/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: capacity
+          '/additionalLocations/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network_configuration
+          '/additionalLocations/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/properties/additionalLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AdditionalLocations
+            go_type_name: AdditionalLocation
+          '/properties/additionalLocations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/additionalLocations/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: ServiceSkuProperties
+          '/properties/additionalLocations/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuType
+          '/properties/additionalLocations/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Capacity
+          '/properties/additionalLocations/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkConfiguration
+            go_type_name: VirtualNetworkConfiguration
+          '/properties/additionalLocations/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/customProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: custom_properties
+          '/properties/customProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: CustomProperties
+          '/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/certificates/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encoded_certificate
+          '/certificates/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_password
+          '/certificates/storeName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: store_name
+          '/properties/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Certificates
+            go_type_name: CertificateConfiguration
+          '/properties/certificates/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncodedCertificate
+          '/properties/certificates/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificatePassword
+          '/properties/certificates/storeName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StoreName
+            go_enum_type_name: 
+          '/virtualNetworkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: virtual_network_type
+          '/properties/virtualNetworkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkType
+            go_enum_type_name: VirtualNetworkType
+          '/publisherEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_email
+          '/properties/publisherEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherEmail
+          '/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_name
+          '/properties/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherName
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ServiceSkuProperties
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuType
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ServiceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceProperties
+            go_type_name: ServiceProperties
+          '/properties/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NotificationSenderEmail
+          '/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notification_sender_email
+          '/properties/hostnameConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: HostnameConfigurations
+            go_type_name: HostnameConfiguration
+          '/properties/hostnameConfigurations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: HostnameType
+          '/properties/hostnameConfigurations/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/properties/hostnameConfigurations/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultID
+          '/properties/hostnameConfigurations/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncodedCertificate
+          '/properties/hostnameConfigurations/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificatePassword
+          '/properties/hostnameConfigurations/defaultSslBinding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DefaultSslBinding
+          '/properties/hostnameConfigurations/negotiateClientCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegotiateClientCertificate
+          '/properties/hostnameConfigurations/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Certificate
+            go_type_name: CertificateInformation
+          '/hostnameConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hostname_configurations
+          '/hostnameConfigurations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/hostnameConfigurations/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
+          '/hostnameConfigurations/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault_id
+          '/hostnameConfigurations/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encoded_certificate
+          '/hostnameConfigurations/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_password
+          '/hostnameConfigurations/defaultSslBinding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: default_ssl_binding
+          '/hostnameConfigurations/negotiateClientCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negotiate_client_certificate
+          '/hostnameConfigurations/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: certificate
+          '/properties/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkConfiguration
+            go_type_name: VirtualNetworkConfiguration
+          '/properties/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/properties/virtualNetworkConfiguration/vnetid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Vnetid
+          '/properties/virtualNetworkConfiguration/subnetname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subnetname
+          '/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network_configuration
+          '/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/virtualNetworkConfiguration/vnetid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vnetid
+          '/virtualNetworkConfiguration/subnetname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnetname
+          '/properties/additionalLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AdditionalLocations
+            go_type_name: AdditionalLocation
+          '/properties/additionalLocations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/additionalLocations/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: ServiceSkuProperties
+          '/properties/additionalLocations/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuType
+          '/properties/additionalLocations/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Capacity
+          '/properties/additionalLocations/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkConfiguration
+            go_type_name: VirtualNetworkConfiguration
+          '/properties/additionalLocations/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetResourceID
+          '/properties/additionalLocations/virtualNetworkConfiguration/vnetid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Vnetid
+          '/properties/additionalLocations/virtualNetworkConfiguration/subnetname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Subnetname
+          '/properties/additionalLocations/staticIps': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: StaticIps
+          '/properties/additionalLocations/gatewayRegionalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GatewayRegionalURL
+          '/additionalLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: additional_locations
+          '/additionalLocations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/additionalLocations/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/additionalLocations/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/additionalLocations/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: capacity
+          '/additionalLocations/virtualNetworkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_network_configuration
+          '/additionalLocations/virtualNetworkConfiguration/subnetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_resource_id
+          '/additionalLocations/virtualNetworkConfiguration/vnetid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vnetid
+          '/additionalLocations/virtualNetworkConfiguration/subnetname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnetname
+          '/additionalLocations/staticIps': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: static_ips
+          '/additionalLocations/gatewayRegionalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gateway_regional_url
+          '/properties/customProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: CustomProperties
+          '/customProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: custom_properties
+          '/properties/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Certificates
+            go_type_name: CertificateConfiguration
+          '/properties/certificates/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncodedCertificate
+          '/properties/certificates/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificatePassword
+          '/properties/certificates/storeName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StoreName
+            go_enum_type_name: 
+          '/properties/certificates/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Certificate
+            go_type_name: CertificateInformation
+          '/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: certificates
+          '/certificates/encodedCertificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encoded_certificate
+          '/certificates/certificatePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_password
+          '/certificates/storeName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: store_name
+          '/certificates/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: certificate
+          '/properties/virtualNetworkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkType
+            go_enum_type_name: VirtualNetworkType
+          '/virtualNetworkType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: virtual_network_type
+          '/properties/publisherEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherEmail
+          '/publisherEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_email
+          '/properties/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherName
+          '/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_name
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/targetProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetProvisioningState
+          '/targetProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_provisioning_state
+          '/properties/createdAtUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAtUtc
+          '/createdAtUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at_utc
+          '/properties/gatewayUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GatewayURL
+          '/gatewayUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gateway_url
+          '/properties/gatewayRegionalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GatewayRegionalURL
+          '/gatewayRegionalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gateway_regional_url
+          '/properties/portalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PortalURL
+          '/portalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: portal_url
+          '/properties/managementApiUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagementApiURL
+          '/managementApiUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: management_api_url
+          '/properties/scmUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ScmURL
+          '/scmUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scm_url
+          '/properties/staticIps': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: StaticIps
+          '/staticIps': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: static_ips
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ServiceSkuProperties
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuType
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: ServiceIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure ApiManagementService instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'notificationSenderEmail'
+        description: 'Email address from which the notification will be sent.'
+        required: false
+        azure_sdk_references: ['/notificationSenderEmail', '/properties/notificationSenderEmail']
+      - !ruby/object:Api::Type::Array
+        name: 'hostnameConfigurations'
+        description: 'Custom hostname configuration of the API Management service.'
+        required: false
+        azure_sdk_references: ['/hostnameConfigurations', '/properties/hostnameConfigurations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'Hostname type.'
+              required: true
+              azure_sdk_references: ['/hostnameConfigurations/type', '/properties/hostnameConfigurations/type']
+              values:
+                - :Proxy
+                - :Portal
+                - :Management
+                - :Scm
+            - !ruby/object:Api::Type::String
+              name: 'hostName'
+              description: 'Hostname to configure on the Api Management service.'
+              required: true
+              azure_sdk_references: ['/hostnameConfigurations/hostName', '/properties/hostnameConfigurations/hostName']
+            - !ruby/object:Api::Type::String
+              name: 'keyVaultId'
+              description: 'Url to the KeyVault Secret containing the Ssl Certificate. If absolute Url containing version is provided, auto-update of ssl certificate will not work. This requires Api Management service to be configured with MSI. The secret should be of type *application/x-pkcs12*'
+              required: false
+              azure_sdk_references: ['/hostnameConfigurations/keyVaultId', '/properties/hostnameConfigurations/keyVaultId']
+            - !ruby/object:Api::Type::String
+              name: 'encodedCertificate'
+              description: 'Base64 Encoded certificate.'
+              required: false
+              azure_sdk_references: ['/hostnameConfigurations/encodedCertificate', '/properties/hostnameConfigurations/encodedCertificate']
+            - !ruby/object:Api::Type::String
+              name: 'certificatePassword'
+              description: 'Certificate Password.'
+              required: false
+              azure_sdk_references: ['/hostnameConfigurations/certificatePassword', '/properties/hostnameConfigurations/certificatePassword']
+            - !ruby/object:Api::Type::Boolean
+              name: 'defaultSslBinding'
+              description: 'Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to Proxy Hostname Type.'
+              required: false
+              azure_sdk_references: ['/hostnameConfigurations/defaultSslBinding', '/properties/hostnameConfigurations/defaultSslBinding']
+            - !ruby/object:Api::Type::Boolean
+              name: 'negotiateClientCertificate'
+              description: 'Specify true to always negotiate client certificate on the hostname. Default Value is false.'
+              required: false
+              azure_sdk_references: ['/hostnameConfigurations/negotiateClientCertificate', '/properties/hostnameConfigurations/negotiateClientCertificate']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'virtualNetworkConfiguration'
+        description: 'Virtual network configuration of the API Management service.'
+        required: false
+        azure_sdk_references: ['/virtualNetworkConfiguration', '/properties/virtualNetworkConfiguration']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'subnetResourceId'
+            description: 'The full resource ID of a subnet in a virtual network to deploy the API Management service in.'
+            required: false
+            azure_sdk_references: ['/virtualNetworkConfiguration/subnetResourceId', '/properties/virtualNetworkConfiguration/subnetResourceId']
+      - !ruby/object:Api::Type::Array
+        name: 'additionalLocations'
+        description: 'Additional datacenter locations of the API Management service.'
+        required: false
+        azure_sdk_references: ['/additionalLocations', '/properties/additionalLocations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'The location name of the additional region among Azure Data center regions.'
+              required: true
+              input: true
+              azure_sdk_references: ['/additionalLocations/location', '/properties/additionalLocations/location']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'sku'
+              description: 'SKU properties of the API Management service.'
+              required: true
+              azure_sdk_references: ['/additionalLocations/sku', '/properties/additionalLocations/sku']
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'name'
+                  description: 'Name of the Sku.'
+                  required: true
+                  azure_sdk_references: ['/additionalLocations/sku/name', '/properties/additionalLocations/sku/name']
+                  values:
+                    - :Developer
+                    - :Standard
+                    - :Premium
+                    - :Basic
+                - !ruby/object:Api::Type::Integer
+                  name: 'capacity'
+                  description: 'Capacity of the SKU (number of deployed units of the SKU). The default value is 1.'
+                  required: false
+                  azure_sdk_references: ['/additionalLocations/sku/capacity', '/properties/additionalLocations/sku/capacity']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'virtualNetworkConfiguration'
+              description: 'Virtual network configuration for the location.'
+              required: false
+              azure_sdk_references: ['/additionalLocations/virtualNetworkConfiguration', '/properties/additionalLocations/virtualNetworkConfiguration']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'subnetResourceId'
+                  description: 'The full resource ID of a subnet in a virtual network to deploy the API Management service in.'
+                  required: false
+                  azure_sdk_references: ['/additionalLocations/virtualNetworkConfiguration/subnetResourceId', '/properties/additionalLocations/virtualNetworkConfiguration/subnetResourceId']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'customProperties'
+        description: 'Custom properties of the API Management service. Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168` will disable the cipher TLS_RSA_WITH_3DES_EDE_CBC_SHA for all TLS(1.0, 1.1 and 1.2). Setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11` can be used to disable just TLS 1.1 and setting `Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10` can be used to disable TLS 1.0 on an API Management service.'
+        required: false
+        azure_sdk_references: ['/customProperties', '/properties/customProperties']
+      - !ruby/object:Api::Type::Array
+        name: 'certificates'
+        description: 'List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10.'
+        required: false
+        azure_sdk_references: ['/certificates', '/properties/certificates']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'encodedCertificate'
+              description: 'Base64 Encoded certificate.'
+              required: false
+              azure_sdk_references: ['/certificates/encodedCertificate', '/properties/certificates/encodedCertificate']
+            - !ruby/object:Api::Type::String
+              name: 'certificatePassword'
+              description: 'Certificate Password.'
+              required: false
+              azure_sdk_references: ['/certificates/certificatePassword', '/properties/certificates/certificatePassword']
+            - !ruby/object:Api::Type::Enum
+              name: 'storeName'
+              description: 'The local certificate store location. Only Root and CertificateAuthority are valid locations.'
+              required: true
+              azure_sdk_references: ['/certificates/storeName', '/properties/certificates/storeName']
+              values:
+                - :CertificateAuthority
+                - :Root
+      - !ruby/object:Api::Type::Enum
+        name: 'virtualNetworkType'
+        description: 'The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.'
+        required: false
+        azure_sdk_references: ['/virtualNetworkType', '/properties/virtualNetworkType']
+        values:
+          - :None
+          - :External
+          - :Internal
+        default_value: :None
+      - !ruby/object:Api::Type::String
+        name: 'publisherEmail'
+        description: 'Publisher email.'
+        required: true
+        azure_sdk_references: ['/publisherEmail', '/properties/publisherEmail']
+      - !ruby/object:Api::Type::String
+        name: 'publisherName'
+        description: 'Publisher name.'
+        required: true
+        azure_sdk_references: ['/publisherName', '/properties/publisherName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'SKU properties of the API Management service.'
+        required: true
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'Name of the Sku.'
+            required: true
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :Developer
+              - :Standard
+              - :Premium
+              - :Basic
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'Capacity of the SKU (number of deployed units of the SKU). The default value is 1.'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'Managed service identity of the Api Management service.'
+        required: false
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'type'
+            description: 'The identity type. Currently the only supported type is ''SystemAssigned''.'
+            required: true
+            azure_sdk_references: ['/identity/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'The current provisioning state of the API Management service which can be one of the following: Created/Activating/Succeeded/Updating/Failed/Stopped/Terminating/TerminationFailed/Deleted.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'targetProvisioningState'
+        description: 'The provisioning state of the API Management service, which is targeted by the long running operation started on the service.'
+        output: true
+        azure_sdk_references: ['/targetProvisioningState', '/properties/targetProvisioningState']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAtUtc'
+        description: 'Creation UTC date of the API Management service.The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+        output: true
+        azure_sdk_references: ['/createdAtUtc', '/properties/createdAtUtc']
+      - !ruby/object:Api::Type::String
+        name: 'gatewayUrl'
+        description: 'Gateway URL of the API Management service.'
+        output: true
+        azure_sdk_references: ['/gatewayUrl', '/properties/gatewayUrl']
+      - !ruby/object:Api::Type::String
+        name: 'gatewayRegionalUrl'
+        description: 'Gateway URL of the API Management service in the Default Region.'
+        output: true
+        azure_sdk_references: ['/gatewayRegionalUrl', '/properties/gatewayRegionalUrl']
+      - !ruby/object:Api::Type::String
+        name: 'portalUrl'
+        description: 'Publisher portal endpoint Url of the API Management service.'
+        output: true
+        azure_sdk_references: ['/portalUrl', '/properties/portalUrl']
+      - !ruby/object:Api::Type::String
+        name: 'managementApiUrl'
+        description: 'Management API endpoint URL of the API Management service.'
+        output: true
+        azure_sdk_references: ['/managementApiUrl', '/properties/managementApiUrl']
+      - !ruby/object:Api::Type::String
+        name: 'scmUrl'
+        description: 'SCM endpoint URL of the API Management service.'
+        output: true
+        azure_sdk_references: ['/scmUrl', '/properties/scmUrl']
+      - !ruby/object:Api::Type::Array
+        name: 'staticIps'
+        description: 'Static IP addresses of the API Management service virtual machines. Available only for Standard and Premium SKU.'
+        output: true
+        azure_sdk_references: ['/staticIps', '/properties/staticIps']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type for API Management resource is set to Microsoft.ApiManagement.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'ETag of the resource.'
+        output: true
+        azure_sdk_references: ['/etag']

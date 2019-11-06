@@ -1,0 +1,118 @@
+--- !ruby/object:Api::Product
+name: Azure BillingProperty Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BillingProperty
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: billing
+      go_client: billingPropertyClient
+      python_client_namespace: azure.mgmt.billing
+      python_client: BillingManagementClient.billing_property
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PropertySummary
+            go_type_name: PropertySummary
+
+    description: |
+      Manage Azure BillingProperty instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingTenantId'
+        description: 'Billing tenant Id.'
+        required: false
+        azure_sdk_references: ['/billingTenantId', '/properties/billingTenantId']
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountId'
+        description: 'Billing account Id.'
+        required: false
+        azure_sdk_references: ['/billingAccountId', '/properties/billingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountName'
+        description: 'Billing account name.'
+        required: false
+        azure_sdk_references: ['/billingAccountName', '/properties/billingAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileId'
+        description: 'Billing profile Id.'
+        required: false
+        azure_sdk_references: ['/billingProfileId', '/properties/billingProfileId']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileName'
+        description: 'Billing profile name.'
+        required: false
+        azure_sdk_references: ['/billingProfileName', '/properties/billingProfileName']
+      - !ruby/object:Api::Type::String
+        name: 'costCenter'
+        description: 'Cost center name.'
+        required: false
+        azure_sdk_references: ['/costCenter', '/properties/costCenter']
+      - !ruby/object:Api::Type::String
+        name: 'invoiceSectionId'
+        description: 'Invoice Section Id.'
+        required: false
+        azure_sdk_references: ['/invoiceSectionId', '/properties/invoiceSectionId']
+      - !ruby/object:Api::Type::String
+        name: 'invoiceSectionName'
+        description: 'Invoice Section name.'
+        required: false
+        azure_sdk_references: ['/invoiceSectionName', '/properties/invoiceSectionName']
+      - !ruby/object:Api::Type::String
+        name: 'productId'
+        description: 'Product Id.'
+        required: false
+        azure_sdk_references: ['/productId', '/properties/productId']
+      - !ruby/object:Api::Type::String
+        name: 'productName'
+        description: 'Product name.'
+        required: false
+        azure_sdk_references: ['/productName', '/properties/productName']
+      - !ruby/object:Api::Type::String
+        name: 'skuId'
+        description: 'SKU Id.'
+        required: false
+        azure_sdk_references: ['/skuId', '/properties/skuId']
+      - !ruby/object:Api::Type::String
+        name: 'skuDescription'
+        description: 'SKU description.'
+        required: false
+        azure_sdk_references: ['/skuDescription', '/properties/skuDescription']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

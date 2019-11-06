@@ -1,0 +1,204 @@
+--- !ruby/object:Api::Product
+name: Azure DataSource Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DataSource
+    api_name: OperationalInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.OperationalInsights
+      go_client_namespace: operationalinsights
+      go_client: dataSourcesClient
+      python_client_namespace: azure.mgmt.operationalinsights
+      python_client: OperationalInsightsManagementClient.data_sources
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'dataSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataSources
+            go_variable_name: name
+            python_parameter_name: data_source_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: DataSource
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Object
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Kind
+            go_enum_type_name: DataSourceKind
+            python_field_name: kind
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'dataSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataSources
+            go_variable_name: name
+            python_parameter_name: data_source_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'dataSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataSources
+            go_variable_name: name
+            python_parameter_name: data_source_name
+            python_variable_name: name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Object
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Kind
+            go_enum_type_name: DataSourceKind
+            python_field_name: kind
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByWorkspace
+        python_func_name: list_by_workspace
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaces
+            go_variable_name: workspaceName
+            python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+
+    description: |
+      Manage Azure DataSource instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group to get. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'workspaceName'
+        description: 'Name of the Log Analytics Workspace that will contain the datasource'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the datasource resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['dataSourceName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'The ETag of the data source.'
+        required: false
+        input: true
+        azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::Enum
+        name: 'kind'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['/kind']
+        values:
+          - :AzureActivityLog
+          - :ChangeTrackingPath
+          - :ChangeTrackingDefaultPath
+          - :ChangeTrackingDefaultRegistry
+          - :ChangeTrackingCustomRegistry
+          - :CustomLog
+          - :CustomLogCollection
+          - :GenericDataSource
+          - :IISLogs
+          - :LinuxPerformanceObject
+          - :LinuxPerformanceCollection
+          - :LinuxSyslog
+          - :LinuxSyslogCollection
+          - :WindowsEvent
+          - :WindowsPerformanceCounter
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

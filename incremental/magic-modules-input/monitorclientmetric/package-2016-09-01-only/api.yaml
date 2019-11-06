@@ -1,0 +1,123 @@
+--- !ruby/object:Api::Product
+name: Azure Metric Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Metric
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: metricsClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.metrics
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+
+    description: |
+      Manage Azure Metric instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'the value of the collection.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'the id, resourceId, of the metric.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'the resource type of the metric resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'the name and the display name of the metric, i.e. it is localizable string.'
+              required: true
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'the invariant value.'
+                  required: true
+                  azure_sdk_references: ['/value/name/value']
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'the locale specific value.'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']
+            - !ruby/object:Api::Type::Enum
+              name: 'unit'
+              description: 'the unit of the metric.'
+              required: true
+              azure_sdk_references: ['/value/unit']
+              values:
+                - :Count
+                - :Bytes
+                - :Seconds
+                - :CountPerSecond
+                - :BytesPerSecond
+                - :Percent
+                - :MilliSeconds
+            - !ruby/object:Api::Type::Array
+              name: 'data'
+              description: 'Array of data points representing the metric values.'
+              required: true
+              azure_sdk_references: ['/value/data']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'timeStamp'
+                    description: 'the timestamp for the metric value in ISO 8601 format.'
+                    required: true
+                    azure_sdk_references: ['/value/data/timeStamp']
+                  - !ruby/object:Api::Type::Double
+                    name: 'average'
+                    description: 'the average value in the time range.'
+                    required: false
+                    azure_sdk_references: ['/value/data/average']
+                  - !ruby/object:Api::Type::Double
+                    name: 'minimum'
+                    description: 'the least value in the time range.'
+                    required: false
+                    azure_sdk_references: ['/value/data/minimum']
+                  - !ruby/object:Api::Type::Double
+                    name: 'maximum'
+                    description: 'the greatest value in the time range.'
+                    required: false
+                    azure_sdk_references: ['/value/data/maximum']
+                  - !ruby/object:Api::Type::Double
+                    name: 'total'
+                    description: 'the sum of all of the values in the time range.'
+                    required: false
+                    azure_sdk_references: ['/value/data/total']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.'
+                    required: false
+                    azure_sdk_references: ['/value/data/count']

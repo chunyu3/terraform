@@ -1,0 +1,25 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_machinelearningcomputeoperationalizationcluster
+  description: PUT Operationalization Cluster
+  code:
+    resource_group: myResourceGroup
+    name: myOperationalizationCluster
+    location: West US
+    tags:
+      key1: alpha
+      key2: beta
+    description: My Operationalization Cluster
+    cluster_type: ACS
+    container_service:
+      orchestrator_type: Kubernetes
+      orchestrator_properties:
+        service_principal:
+          client_id: abcdefghijklmnopqrt
+          secret: uiuiwueiwuewiue
+    global_service_configuration:
+      ssl:
+        status: Enabled
+        cert: afjdklq2131casfakld=
+        key: flksdafkldsajf=
+  

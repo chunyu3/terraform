@@ -1,0 +1,129 @@
+--- !ruby/object:Api::Product
+name: Azure ApiRevision Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ApiRevision
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: apimanagement
+      go_client: apiRevisionsClient
+      python_client_namespace: azure.mgmt.apimanagement
+      python_client: ApiManagementClient.api_revisions
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apis
+            go_variable_name: apiID
+            python_parameter_name: api_id
+            python_variable_name: api_id
+
+    description: |
+      Manage Azure ApiRevision instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'apiId'
+        description: 'API identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['apiId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Page values.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type for API Management resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'apiId'
+              description: 'Identifier of the API Revision.'
+              required: false
+              azure_sdk_references: ['/value/apiId', '/value/properties/apiId']
+            - !ruby/object:Api::Type::String
+              name: 'apiRevision'
+              description: 'Revision number of API.'
+              required: false
+              azure_sdk_references: ['/value/apiRevision', '/value/properties/apiRevision']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'createdDateTime'
+              description: 'The time the API Revision was created. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
+              required: false
+              azure_sdk_references: ['/value/createdDateTime', '/value/properties/createdDateTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'updatedDateTime'
+              description: 'The time the API Revision were updated. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
+              required: false
+              azure_sdk_references: ['/value/updatedDateTime', '/value/properties/updatedDateTime']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'Description of the API Revision.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::String
+              name: 'privateUrl'
+              description: 'Gateway URL for accessing the non-current API Revision.'
+              required: false
+              azure_sdk_references: ['/value/privateUrl', '/value/properties/privateUrl']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isOnline'
+              description: 'Indicates if API revision is the current api revision.'
+              required: false
+              azure_sdk_references: ['/value/isOnline', '/value/properties/isOnline']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isCurrent'
+              description: 'Indicates if API revision is accessible via the gateway.'
+              required: false
+              azure_sdk_references: ['/value/isCurrent', '/value/properties/isCurrent']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Next page link if any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

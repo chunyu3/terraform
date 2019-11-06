@@ -1,0 +1,448 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualMachineImageTemplate Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualMachineImageTemplate
+    api_name: VirtualMachineImages
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.VirtualMachineImages
+      go_client_namespace: virtualmachineimagebuilder
+      go_client: virtualMachineImageTemplatesClient
+      python_client_namespace: azure.mgmt.virtualmachineimagebuilder
+      python_client: ImageBuilderClient.virtual_machine_image_templates
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: imageTemplates
+            go_variable_name: name
+            python_parameter_name: image_template_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ImageTemplate
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImageTemplateProperties
+            go_type_name: ImageTemplateProperties
+          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source
+          '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Source
+            go_type_name: ImageTemplateSource
+          '/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: customize
+          '/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Customize
+            go_type_name: ImageTemplateCustomizer
+          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: distribute
+          '/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_output_name
+          '/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: artifact_tags
+          '/properties/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Distribute
+            go_type_name: ImageTemplateDistributor
+          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunOutputName
+          '/properties/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ArtifactTags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: imageTemplates
+            go_variable_name: name
+            python_parameter_name: image_template_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ImageTemplate
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImageTemplateProperties
+            go_type_name: ImageTemplateProperties
+          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source
+          '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Source
+            go_type_name: ImageTemplateSource
+          '/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: customize
+          '/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Customize
+            go_type_name: ImageTemplateCustomizer
+          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: distribute
+          '/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_output_name
+          '/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: artifact_tags
+          '/properties/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Distribute
+            go_type_name: ImageTemplateDistributor
+          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunOutputName
+          '/properties/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ArtifactTags
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: imageTemplates
+            go_variable_name: name
+            python_parameter_name: image_template_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: imageTemplates
+            go_variable_name: name
+            python_parameter_name: image_template_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImageTemplateProperties
+            go_type_name: ImageTemplateProperties
+          '/properties/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Source
+            go_type_name: ImageTemplateSource
+          '/source': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source
+          '/properties/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Customize
+            go_type_name: ImageTemplateCustomizer
+          '/properties/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/customize': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: customize
+          '/customize/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Distribute
+            go_type_name: ImageTemplateDistributor
+          '/properties/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunOutputName
+          '/properties/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ArtifactTags
+          '/distribute': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: distribute
+          '/distribute/runOutputName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_output_name
+          '/distribute/artifactTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: artifact_tags
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: 
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/provisioningError': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProvisioningError
+            go_type_name: ProvisioningError
+          '/provisioningError': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: provisioning_error
+          '/properties/lastRunStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LastRunStatus
+            go_type_name: ImageTemplateLastRunStatus
+          '/lastRunStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: last_run_status
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListRunOutputs
+        python_func_name: list_run_outputs
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: imageTemplates
+            go_variable_name: name
+            python_parameter_name: image_template_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure VirtualMachineImageTemplate instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Array
+        name: 'customize'
+        description: 'Specifies the properties used to describe the customization steps of the image, like Image source etc'
+        required: false
+        azure_sdk_references: ['/customize', '/properties/customize']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Friendly Name to provide context on what this customization step does'
+              required: false
+              azure_sdk_references: ['/customize/name', '/properties/customize/name']
+      - !ruby/object:Api::Type::Array
+        name: 'distribute'
+        description: 'The distribution targets where the image output needs to go to.'
+        required: true
+        azure_sdk_references: ['/distribute', '/properties/distribute']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'runOutputName'
+              description: 'The name to be used for the associated RunOutput.'
+              required: true
+              azure_sdk_references: ['/distribute/runOutputName', '/properties/distribute/runOutputName']
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'artifactTags'
+              description: 'Tags that will be applied to the artifact once it has been created/updated by the distributor.'
+              required: false
+              azure_sdk_references: ['/distribute/artifactTags', '/properties/distribute/artifactTags']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the image Template'
+        required: true
+        input: true
+        azure_sdk_references: ['imageTemplateName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the resource'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Succeeded
+          - :Failed
+          - :Deleting
+      - !ruby/object:Api::Type::NestedObject
+        name: 'provisioningError'
+        description: 'Provisioning error, if any'
+        output: true
+        azure_sdk_references: ['/provisioningError', '/properties/provisioningError']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'provisioningErrorCode'
+            description: 'Error code of the provisioning failure'
+            required: false
+            azure_sdk_references: ['/provisioningError/provisioningErrorCode', '/properties/provisioningError/provisioningErrorCode']
+            values:
+              - :BadSourceType
+              - :BadPIRSource
+              - :BadISOSource
+              - :BadManagedImageSource
+              - :BadCustomizerType
+              - :UnsupportedCustomizerType
+              - :NoCustomizerScript
+              - :BadDistributeType
+              - :BadSharedImageDistribute
+              - :ServerError
+              - :Other
+            default_value: :BadSourceType
+          - !ruby/object:Api::Type::String
+            name: 'message'
+            description: 'Verbose error message about the provisioning failure'
+            required: false
+            azure_sdk_references: ['/provisioningError/message', '/properties/provisioningError/message']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'lastRunStatus'
+        description: 'State of ''run'' that is currently executing or was last executed.'
+        output: true
+        azure_sdk_references: ['/lastRunStatus', '/properties/lastRunStatus']
+        properties:
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'startTime'
+            description: 'Start time of the last run (UTC)'
+            required: false
+            azure_sdk_references: ['/lastRunStatus/startTime', '/properties/lastRunStatus/startTime']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'endTime'
+            description: 'End time of the last run (UTC)'
+            required: false
+            azure_sdk_references: ['/lastRunStatus/endTime', '/properties/lastRunStatus/endTime']
+          - !ruby/object:Api::Type::Enum
+            name: 'runState'
+            description: 'State of the last run'
+            required: false
+            azure_sdk_references: ['/lastRunStatus/runState', '/properties/lastRunStatus/runState']
+            values:
+              - :Running
+              - :Succeeded
+              - :PartiallySucceeded
+              - :Failed
+            default_value: :Running
+          - !ruby/object:Api::Type::Enum
+            name: 'runSubState'
+            description: 'Sub-state of the last run'
+            required: false
+            azure_sdk_references: ['/lastRunStatus/runSubState', '/properties/lastRunStatus/runSubState']
+            values:
+              - :Queued
+              - :Building
+              - :Customizing
+              - :Distributing
+            default_value: :Queued
+          - !ruby/object:Api::Type::String
+            name: 'message'
+            description: 'Verbose information about the last run state'
+            required: false
+            azure_sdk_references: ['/lastRunStatus/message', '/properties/lastRunStatus/message']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

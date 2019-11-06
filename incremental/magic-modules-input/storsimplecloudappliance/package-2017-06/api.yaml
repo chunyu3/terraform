@@ -1,0 +1,162 @@
+--- !ruby/object:Api::Product
+name: Azure CloudAppliance Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CloudAppliance
+    api_name: StorSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorSimple
+      go_client_namespace: storsimple
+      go_client: cloudAppliancesClient
+      python_client_namespace: azure.mgmt.storsimple
+      python_client: StorSimple8000SeriesManagementClient.cloud_appliances
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSupportedConfigurations
+        python_func_name: list_supported_configurations
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: name
+            python_parameter_name: manager_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure CloudAppliance instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The value.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The path ID that uniquely identifies the object.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the object.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The hierarchical type of the object.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'kind'
+              description: 'The Kind of the object. Currently only Series8000 is supported'
+              required: false
+              azure_sdk_references: ['/value/kind']
+              values:
+                - :Series8000
+              default_value: :Series8000
+            - !ruby/object:Api::Type::String
+              name: 'modelNumber'
+              description: 'The model number.'
+              required: true
+              azure_sdk_references: ['/value/modelNumber', '/value/properties/modelNumber']
+            - !ruby/object:Api::Type::String
+              name: 'cloudPlatform'
+              description: 'The cloud platform.'
+              required: true
+              azure_sdk_references: ['/value/cloudPlatform', '/value/properties/cloudPlatform']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'acsConfiguration'
+              description: 'The ACS configuration.'
+              required: true
+              azure_sdk_references: ['/value/acsConfiguration', '/value/properties/acsConfiguration']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'namespace'
+                  description: 'The namespace.'
+                  required: true
+                  azure_sdk_references: ['/value/acsConfiguration/namespace', '/value/properties/acsConfiguration/namespace']
+                - !ruby/object:Api::Type::String
+                  name: 'realm'
+                  description: 'The realm.'
+                  required: true
+                  azure_sdk_references: ['/value/acsConfiguration/realm', '/value/properties/acsConfiguration/realm']
+                - !ruby/object:Api::Type::String
+                  name: 'serviceUrl'
+                  description: 'The service URL.'
+                  required: true
+                  azure_sdk_references: ['/value/acsConfiguration/serviceUrl', '/value/properties/acsConfiguration/serviceUrl']
+            - !ruby/object:Api::Type::Array
+              name: 'supportedStorageAccountTypes'
+              description: 'The supported storage account types.'
+              required: true
+              azure_sdk_references: ['/value/supportedStorageAccountTypes', '/value/properties/supportedStorageAccountTypes']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'supportedRegions'
+              description: 'The supported regions.'
+              required: true
+              azure_sdk_references: ['/value/supportedRegions', '/value/properties/supportedRegions']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'supportedVmTypes'
+              description: 'The supported virtual machine types.'
+              required: true
+              azure_sdk_references: ['/value/supportedVmTypes', '/value/properties/supportedVmTypes']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'supportedVmImages'
+              description: 'The supported virtual machine images.'
+              required: true
+              azure_sdk_references: ['/value/supportedVmImages', '/value/properties/supportedVmImages']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name.'
+                    required: true
+                    azure_sdk_references: ['/value/supportedVmImages/name', '/value/properties/supportedVmImages/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'version'
+                    description: 'The version.'
+                    required: true
+                    azure_sdk_references: ['/value/supportedVmImages/version', '/value/properties/supportedVmImages/version']
+                  - !ruby/object:Api::Type::String
+                    name: 'offer'
+                    description: 'The offer.'
+                    required: true
+                    azure_sdk_references: ['/value/supportedVmImages/offer', '/value/properties/supportedVmImages/offer']
+                  - !ruby/object:Api::Type::String
+                    name: 'publisher'
+                    description: 'The publisher.'
+                    required: true
+                    azure_sdk_references: ['/value/supportedVmImages/publisher', '/value/properties/supportedVmImages/publisher']
+                  - !ruby/object:Api::Type::String
+                    name: 'sku'
+                    description: 'The SKU.'
+                    required: true
+                    azure_sdk_references: ['/value/supportedVmImages/sku', '/value/properties/supportedVmImages/sku']

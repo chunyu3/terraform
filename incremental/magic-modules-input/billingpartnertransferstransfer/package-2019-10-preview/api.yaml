@@ -1,0 +1,196 @@
+--- !ruby/object:Api::Product
+name: Azure PartnerTransfersTransfer Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PartnerTransfersTransfer
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: billing
+      go_client: partnerTransfersTransfersClient
+      python_client_namespace: azure.mgmt.billing
+      python_client: BillingManagementClient.partner_transfers_transfers
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'billingAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountName
+            python_parameter_name: billing_account_name
+            python_variable_name: billing_account_name
+          'billingProfileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileName
+            python_parameter_name: billing_profile_name
+            python_variable_name: billing_profile_name
+          'customerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: customers
+            go_variable_name: name
+            python_parameter_name: customer_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure PartnerTransfersTransfer instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountName'
+        description: 'billing Account Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileName'
+        description: 'Billing Profile Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingProfileName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Customer name.'
+        required: true
+        input: true
+        azure_sdk_references: ['customerName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of transfers initiated by caller.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'creationTime'
+              description: 'Transfer creation time.'
+              required: false
+              azure_sdk_references: ['/value/creationTime', '/value/properties/creationTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'expirationTime'
+              description: 'Transfer expiration time.'
+              required: false
+              azure_sdk_references: ['/value/expirationTime', '/value/properties/expirationTime']
+            - !ruby/object:Api::Type::String
+              name: 'invoiceSectionId'
+              description: 'Target invoice section Id.'
+              required: false
+              azure_sdk_references: ['/value/invoiceSectionId', '/value/properties/invoiceSectionId']
+            - !ruby/object:Api::Type::String
+              name: 'billingAccountId'
+              description: 'Target billing account Id.'
+              required: false
+              azure_sdk_references: ['/value/billingAccountId', '/value/properties/billingAccountId']
+            - !ruby/object:Api::Type::String
+              name: 'resellerId'
+              description: 'Reseller Id for transfer.'
+              required: false
+              azure_sdk_references: ['/value/resellerId', '/value/properties/resellerId']
+            - !ruby/object:Api::Type::String
+              name: 'resellerName'
+              description: 'Reseller name for transfer.'
+              required: false
+              azure_sdk_references: ['/value/resellerName', '/value/properties/resellerName']
+            - !ruby/object:Api::Type::String
+              name: 'initiatorCustomerType'
+              description: 'Customer type of the initiator.'
+              required: false
+              azure_sdk_references: ['/value/initiatorCustomerType', '/value/properties/initiatorCustomerType']
+            - !ruby/object:Api::Type::String
+              name: 'billingProfileId'
+              description: 'Target billing profile Id.'
+              required: false
+              azure_sdk_references: ['/value/billingProfileId', '/value/properties/billingProfileId']
+            - !ruby/object:Api::Type::Enum
+              name: 'transferStatus'
+              description: 'Overall transfer status.'
+              required: false
+              azure_sdk_references: ['/value/transferStatus', '/value/properties/transferStatus']
+              values:
+                - :Pending
+                - :InProgress
+                - :Completed
+                - :CompletedWithErrors
+                - :Failed
+                - :Canceled
+                - :Declined
+              default_value: :Pending
+            - !ruby/object:Api::Type::String
+              name: 'recipientEmailId'
+              description: 'Email Id of recipient of transfer.'
+              required: false
+              azure_sdk_references: ['/value/recipientEmailId', '/value/properties/recipientEmailId']
+            - !ruby/object:Api::Type::String
+              name: 'initiatorEmailId'
+              description: 'Email Id of initiator of transfer.'
+              required: false
+              azure_sdk_references: ['/value/initiatorEmailId', '/value/properties/initiatorEmailId']
+            - !ruby/object:Api::Type::String
+              name: 'canceledBy'
+              description: 'Email Id who user canceled the transfer.'
+              required: false
+              azure_sdk_references: ['/value/canceledBy', '/value/properties/canceledBy']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastModifiedTime'
+              description: 'Transfer last modification time.'
+              required: false
+              azure_sdk_references: ['/value/lastModifiedTime', '/value/properties/lastModifiedTime']
+            - !ruby/object:Api::Type::Array
+              name: 'detailedTransferStatus'
+              description: 'Detailed transfer status.'
+              required: false
+              azure_sdk_references: ['/value/detailedTransferStatus', '/value/properties/detailedTransferStatus']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Enum
+                    name: 'productType'
+                    description: 'Type of product being transferred.'
+                    required: false
+                    azure_sdk_references: ['/value/detailedTransferStatus/productType', '/value/properties/detailedTransferStatus/productType']
+                    values:
+                      - :AzureSubscription
+                      - :AzureReservation
+                    default_value: :AzureSubscription
+                  - !ruby/object:Api::Type::String
+                    name: 'productId'
+                    description: 'Id of product being transferred.'
+                    required: false
+                    azure_sdk_references: ['/value/detailedTransferStatus/productId', '/value/properties/detailedTransferStatus/productId']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'transferStatus'
+                    description: 'Transfer status.'
+                    required: false
+                    azure_sdk_references: ['/value/detailedTransferStatus/transferStatus', '/value/properties/detailedTransferStatus/transferStatus']
+                    values:
+                      - :NotStarted
+                      - :InProgress
+                      - :Completed
+                      - :Failed
+                    default_value: :NotStarted
+                  - !ruby/object:Api::Type::NestedObject
+                    name: 'errorDetails'
+                    description: 'Error details for transfer execution.'
+                    required: false
+                    azure_sdk_references: ['/value/detailedTransferStatus/errorDetails', '/value/properties/detailedTransferStatus/errorDetails']
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'errorCode'
+                        description: 'Error code.'
+                        required: false
+                        azure_sdk_references: ['/value/detailedTransferStatus/errorDetails/errorCode', '/value/properties/detailedTransferStatus/errorDetails/errorCode']
+                      - !ruby/object:Api::Type::String
+                        name: 'errorMessage'
+                        description: 'Error message.'
+                        required: false
+                        azure_sdk_references: ['/value/detailedTransferStatus/errorDetails/errorMessage', '/value/properties/detailedTransferStatus/errorDetails/errorMessage']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link (url) to the next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

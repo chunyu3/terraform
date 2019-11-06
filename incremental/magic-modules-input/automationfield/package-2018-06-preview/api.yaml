@@ -1,0 +1,90 @@
+--- !ruby/object:Api::Product
+name: Azure Field Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Field
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: automation
+      go_client: fieldsClient
+      python_client_namespace: azure.mgmt.automation
+      python_client: AutomationClient.fields
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByType
+        python_func_name: list_by_type
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: modules
+            go_variable_name: moduleName
+            python_parameter_name: module_name
+            python_variable_name: module_name
+          'typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: types
+            go_variable_name: name
+            python_parameter_name: type_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Field instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'automationAccountName'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'moduleName'
+        description: 'The name of module.'
+        required: true
+        input: true
+        azure_sdk_references: ['moduleName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of type.'
+        required: true
+        input: true
+        azure_sdk_references: ['typeName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets a list of fields.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Gets or sets the name of the field.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Gets or sets the type of the field.'
+              required: false
+              azure_sdk_references: ['/value/type']

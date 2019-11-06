@@ -1,0 +1,211 @@
+--- !ruby/object:Api::Product
+name: Azure PeeringLocation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PeeringLocation
+    api_name: Peering
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Peering
+      go_client_namespace: peering
+      go_client: peeringLocationsClient
+      python_client_namespace: azure.mgmt.peering
+      python_client: PeeringManagementClient.peering_locations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: kind
+            python_parameter_name: kind
+            python_variable_name: kind
+          'directPeeringType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: directPeeringType
+            python_parameter_name: direct_peering_type
+            python_variable_name: direct_peering_type
+
+    description: |
+      Manage Azure PeeringLocation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'The kind of the peering.'
+        required: true
+        input: true
+        azure_sdk_references: ['kind']
+      - !ruby/object:Api::Type::String
+        name: 'directPeeringType'
+        description: 'The type of direct peering.'
+        required: false
+        input: true
+        azure_sdk_references: ['directPeeringType']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of peering locations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The ID of the resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The type of the resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'kind'
+              description: 'The kind of peering that the peering location supports.'
+              required: false
+              azure_sdk_references: ['/value/kind']
+              values:
+                - :Direct
+                - :Exchange
+              default_value: :Direct
+            - !ruby/object:Api::Type::NestedObject
+              name: 'direct'
+              description: 'The properties that define a direct peering location.'
+              required: false
+              azure_sdk_references: ['/value/direct', '/value/properties/direct']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'peeringFacilities'
+                  description: 'The list of direct peering facilities at the peering location.'
+                  required: false
+                  azure_sdk_references: ['/value/direct/peeringFacilities', '/value/properties/direct/peeringFacilities']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'address'
+                        description: 'The address of the direct peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/direct/peeringFacilities/address', '/value/properties/direct/peeringFacilities/address']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'directPeeringType'
+                        description: 'The type of the direct peering.'
+                        required: false
+                        azure_sdk_references: ['/value/direct/peeringFacilities/directPeeringType', '/value/properties/direct/peeringFacilities/directPeeringType']
+                        values:
+                          - :Edge
+                          - :Transit
+                          - :Cdn
+                          - :Internal
+                        default_value: :Edge
+                      - !ruby/object:Api::Type::Integer
+                        name: 'peeringDbfacilityId'
+                        description: 'The PeeringDB.com ID of the facility.'
+                        required: false
+                        azure_sdk_references: ['/value/direct/peeringFacilities/peeringDBFacilityId', '/value/properties/direct/peeringFacilities/peeringDBFacilityId']
+                      - !ruby/object:Api::Type::String
+                        name: 'peeringDbfacilityLink'
+                        description: 'The PeeringDB.com URL of the facility.'
+                        required: false
+                        azure_sdk_references: ['/value/direct/peeringFacilities/peeringDBFacilityLink', '/value/properties/direct/peeringFacilities/peeringDBFacilityLink']
+                - !ruby/object:Api::Type::Array
+                  name: 'bandwidthOffers'
+                  description: 'The list of bandwidth offers available at the peering location.'
+                  required: false
+                  azure_sdk_references: ['/value/direct/bandwidthOffers', '/value/properties/direct/bandwidthOffers']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'offerName'
+                        description: 'The name of the bandwidth offer.'
+                        required: false
+                        azure_sdk_references: ['/value/direct/bandwidthOffers/offerName', '/value/properties/direct/bandwidthOffers/offerName']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'valueInMbps'
+                        description: 'The value of the bandwidth offer in Mbps.'
+                        required: false
+                        azure_sdk_references: ['/value/direct/bandwidthOffers/valueInMbps', '/value/properties/direct/bandwidthOffers/valueInMbps']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'exchange'
+              description: 'The properties that define an exchange peering location.'
+              required: false
+              azure_sdk_references: ['/value/exchange', '/value/properties/exchange']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'peeringFacilities'
+                  description: 'The list of exchange peering facilities at the peering location.'
+                  required: false
+                  azure_sdk_references: ['/value/exchange/peeringFacilities', '/value/properties/exchange/peeringFacilities']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'exchangeName'
+                        description: 'The name of the exchange peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/exchangeName', '/value/properties/exchange/peeringFacilities/exchangeName']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'bandwidthInMbps'
+                        description: 'The bandwidth of the connection between Microsoft and the exchange peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/bandwidthInMbps', '/value/properties/exchange/peeringFacilities/bandwidthInMbps']
+                      - !ruby/object:Api::Type::String
+                        name: 'microsoftIpv4address'
+                        description: 'The IPv4 address of Microsoft at the exchange peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/microsoftIPv4Address', '/value/properties/exchange/peeringFacilities/microsoftIPv4Address']
+                      - !ruby/object:Api::Type::String
+                        name: 'microsoftIpv6address'
+                        description: 'The IPv6 address of Microsoft at the exchange peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/microsoftIPv6Address', '/value/properties/exchange/peeringFacilities/microsoftIPv6Address']
+                      - !ruby/object:Api::Type::String
+                        name: 'facilityIpv4prefix'
+                        description: 'The IPv4 prefixes associated with the exchange peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/facilityIPv4Prefix', '/value/properties/exchange/peeringFacilities/facilityIPv4Prefix']
+                      - !ruby/object:Api::Type::String
+                        name: 'facilityIpv6prefix'
+                        description: 'The IPv6 prefixes associated with the exchange peering facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/facilityIPv6Prefix', '/value/properties/exchange/peeringFacilities/facilityIPv6Prefix']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'peeringDbfacilityId'
+                        description: 'The PeeringDB.com ID of the facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/peeringDBFacilityId', '/value/properties/exchange/peeringFacilities/peeringDBFacilityId']
+                      - !ruby/object:Api::Type::String
+                        name: 'peeringDbfacilityLink'
+                        description: 'The PeeringDB.com URL of the facility.'
+                        required: false
+                        azure_sdk_references: ['/value/exchange/peeringFacilities/peeringDBFacilityLink', '/value/properties/exchange/peeringFacilities/peeringDBFacilityLink']
+            - !ruby/object:Api::Type::String
+              name: 'peeringLocation'
+              description: 'The name of the peering location.'
+              required: false
+              azure_sdk_references: ['/value/peeringLocation', '/value/properties/peeringLocation']
+            - !ruby/object:Api::Type::String
+              name: 'country'
+              description: 'The country in which the peering location exists.'
+              required: false
+              azure_sdk_references: ['/value/country', '/value/properties/country']
+            - !ruby/object:Api::Type::String
+              name: 'azureRegion'
+              description: 'The Azure region associated with the peering location.'
+              required: false
+              azure_sdk_references: ['/value/azureRegion', '/value/properties/azureRegion']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link to fetch the next page of peering locations.'
+        output: true
+        azure_sdk_references: ['/nextLink']

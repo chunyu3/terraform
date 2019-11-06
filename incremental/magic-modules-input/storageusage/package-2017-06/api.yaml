@@ -1,0 +1,75 @@
+--- !ruby/object:Api::Product
+name: Azure Usage Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Usage
+    api_name: Storage
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Storage
+      go_client_namespace: storage
+      go_client: usageClient
+      python_client_namespace: azure.mgmt.storage
+      python_client: StorageManagementClient.usage
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Usage instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets the list of Storage Resource Usages.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'unit'
+              description: 'Gets the unit of measurement.'
+              required: false
+              azure_sdk_references: ['/value/unit']
+              values:
+                - :Count
+                - :Bytes
+                - :Seconds
+                - :Percent
+                - :CountsPerSecond
+                - :BytesPerSecond
+              default_value: :Count
+            - !ruby/object:Api::Type::Integer
+              name: 'currentValue'
+              description: 'Gets the current count of the allocated resources in the subscription.'
+              required: false
+              azure_sdk_references: ['/value/currentValue']
+            - !ruby/object:Api::Type::Integer
+              name: 'limit'
+              description: 'Gets the maximum count of the resources that can be allocated in the subscription.'
+              required: false
+              azure_sdk_references: ['/value/limit']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'Gets the name of the type of usage.'
+              required: false
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'Gets a string describing the resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/name/value']
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'Gets a localized string describing the resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']

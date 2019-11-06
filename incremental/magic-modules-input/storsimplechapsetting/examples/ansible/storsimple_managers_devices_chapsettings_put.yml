@@ -1,0 +1,26 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimplechapsetting
+  description: ChapSettingsCreateOrUpdate
+  code:
+    device_name: myDevice
+    chap_user_name: myChapSetting
+    chap_setting:
+      Client:
+        BaseUri: 'https://management.azure.com/'
+        SubscriptionId: 9eb689cd-7243-43b4-b6f6-5c65cb296641
+        AcceptLanguage: en-US
+        LongRunningOperationRetryTimeout: '30'
+        GenerateClientRequestId: true
+      ResourceGroupName: ResourceGroupForSDKTest
+      ManagerName: hAzureSDKOperations
+      properties:
+        password:
+          value: >-
+            W4xL3maActbzoehB9Ny1nr16uyjZZfvuJ70f8yBQgtS3vU4SLrOpoggmutOsbcgOgmgNHZnKe73WRZxzJFxzUQqcFNrAV+dReDkO5I/L1GxDjT5rsWn+74dRl8ditTew4z6OcwrT6RXtjG0njkUNsxXuawuylXsdHdvgQtSWbXBSao6KVhSbGQ57/V++CXqBbG2zoGLlHMdZF9OQccvCgh7qwD4ua7FLwqvQ8vYYVXryKm+XDmmT+GYWDqxPly0M2mJl/GLB/c6rNem4oRHBsf/vKfEKm8WGLWNsRZGcbxZKGiGsKC8QsxDHou6Ci3rfphVJE2R/9TxL+/1lUu2poQ==
+          encryptionCertificateThumbprint: D73DB57C4CDD6761E159F8D1E8A7D759424983FD
+          encryptionAlgorithm: RSAES_PKCS1_v_1_5
+      name: ChapSettingForSDK
+    resource_group: myResourceGroup
+    name: myManager
+  

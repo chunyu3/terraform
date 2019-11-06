@@ -1,0 +1,87 @@
+--- !ruby/object:Api::Product
+name: Azure DiagnosticSettingsCategory Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DiagnosticSettingsCategory
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: diagnosticSettingsCategoryClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.diagnostic_settings_category
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiagnosticSettingsCategory
+            go_type_name: DiagnosticSettingsCategory
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+
+    description: |
+      Manage Azure DiagnosticSettingsCategory instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::Enum
+        name: 'categoryType'
+        description: 'The type of the diagnostic settings category.'
+        required: false
+        azure_sdk_references: ['/categoryType', '/properties/categoryType']
+        values:
+          - :Metrics
+          - :Logs
+        default_value: :Metrics
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Azure resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,286 @@
+--- !ruby/object:Api::Product
+name: Azure PrivateZone Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PrivateZone
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: privatedns
+      go_client: privateZonesClient
+      python_client_namespace: azure.mgmt.privatedns
+      python_client: PrivateDnsManagementClient.private_zones
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'privateZoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateDnsZones
+            go_variable_name: name
+            python_parameter_name: private_zone_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: PrivateZone
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateZoneProperties
+            go_type_name: PrivateZoneProperties
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'privateZoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateDnsZones
+            go_variable_name: name
+            python_parameter_name: private_zone_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: PrivateZone
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateZoneProperties
+            go_type_name: PrivateZoneProperties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'privateZoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateDnsZones
+            go_variable_name: name
+            python_parameter_name: private_zone_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'privateZoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateDnsZones
+            go_variable_name: name
+            python_parameter_name: private_zone_name
+            python_variable_name: name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateZoneProperties
+            go_type_name: PrivateZoneProperties
+          '/properties/maxNumberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfRecordSets
+          '/maxNumberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_record_sets
+          '/properties/numberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfRecordSets
+          '/numberOfRecordSets': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_record_sets
+          '/properties/maxNumberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfVirtualNetworkLinks
+          '/maxNumberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_virtual_network_links
+          '/properties/numberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfVirtualNetworkLinks
+          '/numberOfVirtualNetworkLinks': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_virtual_network_links
+          '/properties/maxNumberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MaxNumberOfVirtualNetworkLinksWithRegistration
+          '/maxNumberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: max_number_of_virtual_network_links_with_registration
+          '/properties/numberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfVirtualNetworkLinksWithRegistration
+          '/numberOfVirtualNetworkLinksWithRegistration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_virtual_network_links_with_registration
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure PrivateZone instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Private DNS zone (without a terminating dot).'
+        required: true
+        input: true
+        azure_sdk_references: ['privateZoneName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The Azure Region where the resource lives'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The ETag of the zone.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfRecordSets'
+        description: 'The maximum number of record sets that can be created in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfRecordSets', '/properties/maxNumberOfRecordSets']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfRecordSets'
+        description: 'The current number of record sets in this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfRecordSets', '/properties/numberOfRecordSets']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfVirtualNetworkLinks'
+        description: 'The maximum number of virtual networks that can be linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfVirtualNetworkLinks', '/properties/maxNumberOfVirtualNetworkLinks']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfVirtualNetworkLinks'
+        description: 'The current number of virtual networks that are linked to this Private DNS zone. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfVirtualNetworkLinks', '/properties/numberOfVirtualNetworkLinks']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxNumberOfVirtualNetworkLinksWithRegistration'
+        description: 'The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/maxNumberOfVirtualNetworkLinksWithRegistration', '/properties/maxNumberOfVirtualNetworkLinksWithRegistration']
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfVirtualNetworkLinksWithRegistration'
+        description: 'The current number of virtual networks that are linked to this Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/numberOfVirtualNetworkLinksWithRegistration', '/properties/numberOfVirtualNetworkLinksWithRegistration']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource. This is a read-only property and any attempt to set this value will be ignored.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Example - ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}''.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Example - ''Microsoft.Network/privateDnsZones''.'
+        output: true
+        azure_sdk_references: ['/type']

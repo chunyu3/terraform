@@ -1,0 +1,29 @@
+--- !ruby/object:Api::Product
+name: Azure Workspace Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Workspace
+    api_name: OperationalInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.OperationalInsights
+      go_client_namespace: operationalinsights
+      go_client: workspacesClient
+      python_client_namespace: azure.mgmt.operationalinsights
+      python_client: OperationalInsightsManagementClient.workspaces
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListLinkTargets
+        python_func_name: list_link_targets
+        request:
+
+    description: |
+      Manage Azure Workspace instance.
+    properties:
+      # read only values included only in response

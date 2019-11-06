@@ -1,0 +1,106 @@
+--- !ruby/object:Api::Product
+name: Azure Event Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Event
+    api_name: Migrate
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Migrate
+      go_client_namespace: azuremigrate
+      go_client: eventsClient
+      python_client_namespace: azure.mgmt.azuremigrate
+      python_client: AzureMigrateHubClient.events
+
+    description: |
+      Manage Azure Event instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Azure Resource Group that migrate project is part of.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Azure Migrate project.'
+        required: true
+        input: true
+        azure_sdk_references: ['migrateProjectName']
+      - !ruby/object:Api::Type::String
+        name: 'continuationToken'
+        description: 'The continuation token.'
+        required: false
+        input: true
+        azure_sdk_references: ['continuationToken']
+      - !ruby/object:Api::Type::Integer
+        name: 'pageSize'
+        description: 'The number of items to be returned in a single page. This value is honored only if it is less than the 100.'
+        required: false
+        input: true
+        azure_sdk_references: ['pageSize']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets the machines.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Gets or sets the relative URL to get to this REST resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Gets or sets the name of this REST resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Gets the type of this REST resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'errorCode'
+              description: 'Gets or sets the error code.'
+              required: false
+              azure_sdk_references: ['/value/errorCode', '/value/properties/errorCode']
+            - !ruby/object:Api::Type::String
+              name: 'errorMessage'
+              description: 'Gets or sets the error message.'
+              required: false
+              azure_sdk_references: ['/value/errorMessage', '/value/properties/errorMessage']
+            - !ruby/object:Api::Type::String
+              name: 'recommendation'
+              description: 'Gets or sets the recommendation for the error.'
+              required: false
+              azure_sdk_references: ['/value/recommendation', '/value/properties/recommendation']
+            - !ruby/object:Api::Type::String
+              name: 'possibleCauses'
+              description: 'Gets or sets the possible causes for the error.'
+              required: false
+              azure_sdk_references: ['/value/possibleCauses', '/value/properties/possibleCauses']
+            - !ruby/object:Api::Type::String
+              name: 'solution'
+              description: 'Gets or sets the solution for which the error is being reported.'
+              required: false
+              azure_sdk_references: ['/value/solution', '/value/properties/solution']
+            - !ruby/object:Api::Type::String
+              name: 'clientRequestId'
+              description: 'Gets or sets the client request Id of the payload for which the event is being reported.'
+              required: false
+              azure_sdk_references: ['/value/clientRequestId', '/value/properties/clientRequestId']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Gets or sets the value of nextLink.'
+        output: true
+        azure_sdk_references: ['/nextLink']

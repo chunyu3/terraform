@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_automationrunbook
+  description: Create runbook as draft
+  code:
+    resource_group: myResourceGroup
+    automation_account_name: myAutomationAccount
+    name: Get-AzureVMTutorial
+    log_verbose: false
+    log_progress: false
+    runbook_type: PowerShellWorkflow
+    draft: {}
+    description: Description of the Runbook
+    location: East US 2
+    tags:
+      tag01: value01
+      tag02: value02
+  

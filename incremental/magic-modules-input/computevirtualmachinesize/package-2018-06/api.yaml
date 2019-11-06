@@ -1,0 +1,77 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualMachineSize Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualMachineSize
+    api_name: Compute
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Compute
+      go_client_namespace: compute
+      go_client: virtualMachineSizesClient
+      python_client_namespace: azure.mgmt.compute
+      python_client: ComputeManagementClient.virtual_machine_sizes
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure VirtualMachineSize instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location upon which virtual-machine-sizes is queried.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of virtual machine sizes.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the virtual machine size.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'numberOfCores'
+              description: 'The number of cores supported by the virtual machine size.'
+              required: false
+              azure_sdk_references: ['/value/numberOfCores']
+            - !ruby/object:Api::Type::Integer
+              name: 'osDiskSizeInMb'
+              description: 'The OS disk size, in MB, allowed by the virtual machine size.'
+              required: false
+              azure_sdk_references: ['/value/osDiskSizeInMB']
+            - !ruby/object:Api::Type::Integer
+              name: 'resourceDiskSizeInMb'
+              description: 'The resource disk size, in MB, allowed by the virtual machine size.'
+              required: false
+              azure_sdk_references: ['/value/resourceDiskSizeInMB']
+            - !ruby/object:Api::Type::Integer
+              name: 'memoryInMb'
+              description: 'The amount of memory, in MB, supported by the virtual machine size.'
+              required: false
+              azure_sdk_references: ['/value/memoryInMB']
+            - !ruby/object:Api::Type::Integer
+              name: 'maxDataDiskCount'
+              description: 'The maximum number of data disks that can be attached to the virtual machine size.'
+              required: false
+              azure_sdk_references: ['/value/maxDataDiskCount']

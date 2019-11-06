@@ -1,0 +1,137 @@
+--- !ruby/object:Api::Product
+name: Azure Job Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Job
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: backup
+      go_client: jobsClient
+      python_client_namespace: azure.mgmt.recoveryservices.backup
+      python_client: RecoveryServicesBackupClient.jobs
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: name
+            python_parameter_name: vault_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Job instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Recovery Services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group associated with the Recovery Services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to GET the next page of resources. Call ListNext() gets the next page of resources.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID represents the complete path to the resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name associated with the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'eTag'
+              description: 'Optional ETag.'
+              required: false
+              azure_sdk_references: ['/value/eTag']
+            - !ruby/object:Api::Type::String
+              name: 'entityFriendlyName'
+              description: 'The friendly name of the entity on which the current job is executing.'
+              required: false
+              azure_sdk_references: ['/value/entityFriendlyName', '/value/properties/entityFriendlyName']
+            - !ruby/object:Api::Type::Enum
+              name: 'backupManagementType'
+              description: 'The backup management type for the current job.'
+              required: false
+              azure_sdk_references: ['/value/backupManagementType', '/value/properties/backupManagementType']
+              values:
+                - :Invalid
+                - :AzureIaasVM
+                - :MAB
+                - :DPM
+                - :AzureBackupServer
+                - :AzureSql
+              default_value: :Invalid
+            - !ruby/object:Api::Type::String
+              name: 'operation'
+              description: 'The operation name.'
+              required: false
+              azure_sdk_references: ['/value/operation', '/value/properties/operation']
+            - !ruby/object:Api::Type::String
+              name: 'status'
+              description: 'The job status.'
+              required: false
+              azure_sdk_references: ['/value/status', '/value/properties/status']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startTime'
+              description: 'The start time.'
+              required: false
+              azure_sdk_references: ['/value/startTime', '/value/properties/startTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'endTime'
+              description: 'The end time.'
+              required: false
+              azure_sdk_references: ['/value/endTime', '/value/properties/endTime']
+            - !ruby/object:Api::Type::String
+              name: 'activityId'
+              description: 'ActivityId of job.'
+              required: false
+              azure_sdk_references: ['/value/activityId', '/value/properties/activityId']

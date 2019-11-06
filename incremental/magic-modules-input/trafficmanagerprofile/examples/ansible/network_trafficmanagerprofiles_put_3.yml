@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_trafficmanagerprofile
+  description: Profile-PUT-WithEndpoints
+  code:
+    resource_group: myResourceGroup
+    name: myTrafficmanagerprofile
+    location: global
+    profile_status: Enabled
+    traffic_routing_method: Performance
+    dns_config:
+      relative_name: azuresdkfornetautoresttrafficmanager6192
+      ttl: '35'
+    monitor_config:
+      protocol: HTTP
+      port: '80'
+      path: /testpath.aspx
+      interval_in_seconds: '10'
+      timeout_in_seconds: '5'
+      tolerated_number_of_failures: '2'
+    endpoints:
+      - target: foobar.contoso.com
+        endpoint_status: Enabled
+        endpoint_location: North Europe
+        name: My external endpoint
+        type: Microsoft.network/TrafficManagerProfiles/ExternalEndpoints
+  

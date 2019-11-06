@@ -1,0 +1,338 @@
+--- !ruby/object:Api::Product
+name: Azure CloudEndpoint Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CloudEndpoint
+    api_name: StorageSync
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorageSync
+      go_client_namespace: storagesync
+      go_client: cloudEndpointsClient
+      python_client_namespace: azure.mgmt.storagesync
+      python_client: MicrosoftStorageSyncClient.cloud_endpoints
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'cloudEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudEndpoints
+            go_variable_name: name
+            python_parameter_name: cloud_endpoint_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: CloudEndpoint
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CloudEndpointProperties
+            go_type_name: CloudEndpointProperties
+          '/storageAccountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_key
+          '/properties/storageAccountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountKey
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+          '/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_resource_id
+          '/properties/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountResourceID
+          '/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_share_name
+          '/properties/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountShareName
+          '/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_tenant_id
+          '/properties/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountTenantID
+          '/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partnership_id
+          '/properties/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnershipID
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'cloudEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudEndpoints
+            go_variable_name: name
+            python_parameter_name: cloud_endpoint_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+          'cloudEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cloudEndpoints
+            go_variable_name: name
+            python_parameter_name: cloud_endpoint_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CloudEndpointProperties
+            go_type_name: CloudEndpointProperties
+          '/properties/storageAccountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountKey
+          '/storageAccountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_key
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/properties/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountResourceID
+          '/storageAccountResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_resource_id
+          '/properties/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountShareName
+          '/storageAccountShareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_share_name
+          '/properties/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountTenantID
+          '/storageAccountTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_tenant_id
+          '/properties/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnershipID
+          '/partnershipId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partnership_id
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastWorkflowID
+          '/lastWorkflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_workflow_id
+          '/properties/backupEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BackupEnabled
+          '/backupEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: backup_enabled
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySyncGroup
+        python_func_name: list_by_sync_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'storageSyncServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageSyncServices
+            go_variable_name: storageSyncServiceName
+            python_parameter_name: storage_sync_service_name
+            python_variable_name: storage_sync_service_name
+          'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: syncGroups
+            go_variable_name: syncGroupName
+            python_parameter_name: sync_group_name
+            python_variable_name: sync_group_name
+
+    description: |
+      Manage Azure CloudEndpoint instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'storageSyncServiceName'
+        description: 'Name of Storage Sync Service resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['storageSyncServiceName']
+      - !ruby/object:Api::Type::String
+        name: 'syncGroupName'
+        description: 'Name of Sync Group resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['syncGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of Cloud Endpoint object.'
+        required: true
+        input: true
+        azure_sdk_references: ['cloudEndpointName']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountKey'
+        description: 'Storage Account access key.'
+        required: false
+        azure_sdk_references: ['/storageAccountKey', '/properties/storageAccountKey']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccount'
+        description: 'Storage Account name.'
+        required: false
+        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountResourceId'
+        description: 'Storage Account Resource Id'
+        required: false
+        azure_sdk_references: ['/storageAccountResourceId', '/properties/storageAccountResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountShareName'
+        description: 'Storage Account Share name'
+        required: false
+        azure_sdk_references: ['/storageAccountShareName', '/properties/storageAccountShareName']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountTenantId'
+        description: 'Storage Account Tenant Id'
+        required: false
+        azure_sdk_references: ['/storageAccountTenantId', '/properties/storageAccountTenantId']
+      - !ruby/object:Api::Type::String
+        name: 'partnershipId'
+        description: 'Partnership Id'
+        required: false
+        azure_sdk_references: ['/partnershipId', '/properties/partnershipId']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly Name'
+        required: false
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::String
+        name: 'lastWorkflowId'
+        description: 'CloudEndpoint lastWorkflowId'
+        required: false
+        azure_sdk_references: ['/lastWorkflowId', '/properties/lastWorkflowId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Boolean
+        name: 'backupEnabled'
+        description: 'Backup Enabled'
+        output: true
+        azure_sdk_references: ['/backupEnabled', '/properties/backupEnabled']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'CloudEndpoint Provisioning State'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The id of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource'
+        output: true
+        azure_sdk_references: ['/type']

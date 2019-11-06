@@ -1,0 +1,85 @@
+--- !ruby/object:Api::Product
+name: Azure AddsService Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AddsService
+    api_name: ADHybridHealthService
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ADHybridHealthService
+      go_client_namespace: adhybridhealthservice
+      go_client: addsServiceClient
+      python_client_namespace: azure.mgmt.adhybridhealthservice
+      python_client: ADHybridHealthServiceClient.adds_service
+
+    description: |
+      Manage Azure AddsService instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'metricName'
+        description: 'The metric name'
+        required: true
+        input: true
+        azure_sdk_references: ['metricName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The group name'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'groupKey'
+        description: 'The group key'
+        required: false
+        input: true
+        azure_sdk_references: ['groupKey']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'fromDate'
+        description: 'The start date.'
+        required: false
+        input: true
+        azure_sdk_references: ['fromDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'toDate'
+        description: 'The end date.'
+        required: false
+        input: true
+        azure_sdk_references: ['toDate']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'sets'
+        description: 'The list of metric set.'
+        output: true
+        azure_sdk_references: ['/sets']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'setName'
+              description: 'The name of the set.'
+              required: false
+              azure_sdk_references: ['/sets/setName']
+            - !ruby/object:Api::Type::Array
+              name: 'values'
+              description: 'The list of the metric values.'
+              required: false
+              azure_sdk_references: ['/sets/values']
+              item_type: Api::Type::Integer
+      - !ruby/object:Api::Type::Array
+        name: 'timeStamps'
+        description: 'The list of timestamps for each metric in the metric set.'
+        output: true
+        azure_sdk_references: ['/timeStamps']
+        item_type: Api::Azure::Type::ISO8601DateTime

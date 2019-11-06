@@ -1,0 +1,369 @@
+--- !ruby/object:Api::Product
+name: Azure Run Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Run
+    api_name: ContainerRegistry
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerRegistry
+      go_client_namespace: containerregistry
+      go_client: runsClient
+      python_client_namespace: azure.mgmt.containerregistry
+      python_client: ContainerRegistryManagementClient.runs
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: name
+            python_parameter_name: registry_name
+            python_variable_name: name
+          '/properties/runId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunID
+          '/runId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RunProperties
+            go_type_name: RunProperties
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: name
+            python_parameter_name: registry_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Run instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group to which the container registry belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the container registry.'
+        required: true
+        input: true
+        azure_sdk_references: ['registryName']
+      - !ruby/object:Api::Type::String
+        name: 'runId'
+        description: 'The unique identifier for the run.'
+        required: false
+        azure_sdk_references: ['/runId', '/properties/runId']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The current status of the run.'
+        required: false
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Queued
+          - :Started
+          - :Running
+          - :Succeeded
+          - :Failed
+          - :Canceled
+          - :Error
+          - :Timeout
+        default_value: :Queued
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastUpdatedTime'
+        description: 'The last updated time for the run.'
+        required: false
+        azure_sdk_references: ['/lastUpdatedTime', '/properties/lastUpdatedTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'runType'
+        description: 'The type of run.'
+        required: false
+        azure_sdk_references: ['/runType', '/properties/runType']
+        values:
+          - :QuickBuild
+          - :QuickRun
+          - :AutoBuild
+          - :AutoRun
+        default_value: :QuickBuild
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTime'
+        description: 'The time the run was scheduled.'
+        required: false
+        azure_sdk_references: ['/createTime', '/properties/createTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The time the run started.'
+        required: false
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'finishTime'
+        description: 'The time the run finished.'
+        required: false
+        azure_sdk_references: ['/finishTime', '/properties/finishTime']
+      - !ruby/object:Api::Type::Array
+        name: 'outputImages'
+        description: 'The list of all images that were generated from the run. This is applicable if the run generates base image dependencies.'
+        required: false
+        azure_sdk_references: ['/outputImages', '/properties/outputImages']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'registry'
+              description: 'The registry login server.'
+              required: false
+              azure_sdk_references: ['/outputImages/registry', '/properties/outputImages/registry']
+            - !ruby/object:Api::Type::String
+              name: 'repository'
+              description: 'The repository name.'
+              required: false
+              azure_sdk_references: ['/outputImages/repository', '/properties/outputImages/repository']
+            - !ruby/object:Api::Type::String
+              name: 'tag'
+              description: 'The tag name.'
+              required: false
+              azure_sdk_references: ['/outputImages/tag', '/properties/outputImages/tag']
+            - !ruby/object:Api::Type::String
+              name: 'digest'
+              description: 'The sha256-based digest of the image manifest.'
+              required: false
+              azure_sdk_references: ['/outputImages/digest', '/properties/outputImages/digest']
+      - !ruby/object:Api::Type::String
+        name: 'task'
+        description: 'The task against which run was scheduled.'
+        required: false
+        azure_sdk_references: ['/task', '/properties/task']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'imageUpdateTrigger'
+        description: 'The image update trigger that caused the run. This is applicable if the task has base image trigger configured.'
+        required: false
+        azure_sdk_references: ['/imageUpdateTrigger', '/properties/imageUpdateTrigger']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The unique ID of the trigger.'
+            required: false
+            azure_sdk_references: ['/imageUpdateTrigger/id', '/properties/imageUpdateTrigger/id']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'timestamp'
+            description: 'The timestamp when the image update happened.'
+            required: false
+            azure_sdk_references: ['/imageUpdateTrigger/timestamp', '/properties/imageUpdateTrigger/timestamp']
+          - !ruby/object:Api::Type::Array
+            name: 'images'
+            description: 'The list of image updates that caused the build.'
+            required: false
+            azure_sdk_references: ['/imageUpdateTrigger/images', '/properties/imageUpdateTrigger/images']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'registry'
+                  description: 'The registry login server.'
+                  required: false
+                  azure_sdk_references: ['/imageUpdateTrigger/images/registry', '/properties/imageUpdateTrigger/images/registry']
+                - !ruby/object:Api::Type::String
+                  name: 'repository'
+                  description: 'The repository name.'
+                  required: false
+                  azure_sdk_references: ['/imageUpdateTrigger/images/repository', '/properties/imageUpdateTrigger/images/repository']
+                - !ruby/object:Api::Type::String
+                  name: 'tag'
+                  description: 'The tag name.'
+                  required: false
+                  azure_sdk_references: ['/imageUpdateTrigger/images/tag', '/properties/imageUpdateTrigger/images/tag']
+                - !ruby/object:Api::Type::String
+                  name: 'digest'
+                  description: 'The sha256-based digest of the image manifest.'
+                  required: false
+                  azure_sdk_references: ['/imageUpdateTrigger/images/digest', '/properties/imageUpdateTrigger/images/digest']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sourceTrigger'
+        description: 'The source trigger that caused the run.'
+        required: false
+        azure_sdk_references: ['/sourceTrigger', '/properties/sourceTrigger']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'The unique ID of the trigger.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/id', '/properties/sourceTrigger/id']
+          - !ruby/object:Api::Type::String
+            name: 'eventType'
+            description: 'The event type of the trigger.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/eventType', '/properties/sourceTrigger/eventType']
+          - !ruby/object:Api::Type::String
+            name: 'commitId'
+            description: 'The unique ID that identifies a commit.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/commitId', '/properties/sourceTrigger/commitId']
+          - !ruby/object:Api::Type::String
+            name: 'pullRequestId'
+            description: 'The unique ID that identifies pull request.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/pullRequestId', '/properties/sourceTrigger/pullRequestId']
+          - !ruby/object:Api::Type::String
+            name: 'repositoryUrl'
+            description: 'The repository URL.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/repositoryUrl', '/properties/sourceTrigger/repositoryUrl']
+          - !ruby/object:Api::Type::String
+            name: 'branchName'
+            description: 'The branch name in the repository.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/branchName', '/properties/sourceTrigger/branchName']
+          - !ruby/object:Api::Type::String
+            name: 'providerType'
+            description: 'The source control provider type.'
+            required: false
+            azure_sdk_references: ['/sourceTrigger/providerType', '/properties/sourceTrigger/providerType']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'timerTrigger'
+        description: 'The timer trigger that caused the run.'
+        required: false
+        azure_sdk_references: ['/timerTrigger', '/properties/timerTrigger']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'timerTriggerName'
+            description: 'The timer trigger name that caused the run.'
+            required: false
+            azure_sdk_references: ['/timerTrigger/timerTriggerName', '/properties/timerTrigger/timerTriggerName']
+          - !ruby/object:Api::Type::String
+            name: 'scheduleOccurrence'
+            description: 'The occurrence that triggered the run.'
+            required: false
+            azure_sdk_references: ['/timerTrigger/scheduleOccurrence', '/properties/timerTrigger/scheduleOccurrence']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'platform'
+        description: 'The platform properties against which the run will happen.'
+        required: false
+        azure_sdk_references: ['/platform', '/properties/platform']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'os'
+            description: 'The operating system type required for the run.'
+            required: true
+            azure_sdk_references: ['/platform/os', '/properties/platform/os']
+            values:
+              - :Windows
+              - :Linux
+          - !ruby/object:Api::Type::Enum
+            name: 'architecture'
+            description: 'The OS architecture.'
+            required: false
+            azure_sdk_references: ['/platform/architecture', '/properties/platform/architecture']
+            values:
+              - :amd64
+              - :x86
+              - :386
+              - :arm
+              - :arm64
+            default_value: :amd64
+          - !ruby/object:Api::Type::Enum
+            name: 'variant'
+            description: 'Variant of the CPU.'
+            required: false
+            azure_sdk_references: ['/platform/variant', '/properties/platform/variant']
+            values:
+              - :v6
+              - :v7
+              - :v8
+            default_value: :v6
+      - !ruby/object:Api::Type::NestedObject
+        name: 'agentConfiguration'
+        description: 'The machine configuration of the run agent.'
+        required: false
+        azure_sdk_references: ['/agentConfiguration', '/properties/agentConfiguration']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'cpu'
+            description: 'The CPU configuration in terms of number of cores required for the run.'
+            required: false
+            azure_sdk_references: ['/agentConfiguration/cpu', '/properties/agentConfiguration/cpu']
+      - !ruby/object:Api::Type::String
+        name: 'sourceRegistryAuth'
+        description: 'The scope of the credentials that were used to login to the source registry during this run.'
+        required: false
+        azure_sdk_references: ['/sourceRegistryAuth', '/properties/sourceRegistryAuth']
+      - !ruby/object:Api::Type::Array
+        name: 'customRegistries'
+        description: 'The list of custom registries that were logged in during this run.'
+        required: false
+        azure_sdk_references: ['/customRegistries', '/properties/customRegistries']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'runErrorMessage'
+        description: 'The error message received from backend systems after the run is scheduled.'
+        required: false
+        azure_sdk_references: ['/runErrorMessage', '/properties/runErrorMessage']
+      - !ruby/object:Api::Type::String
+        name: 'updateTriggerToken'
+        description: 'The update trigger token passed for the Run.'
+        required: false
+        azure_sdk_references: ['/updateTriggerToken', '/properties/updateTriggerToken']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of a run.'
+        required: false
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
+        default_value: :Creating
+      - !ruby/object:Api::Type::Boolean
+        name: 'isArchiveEnabled'
+        description: 'The value that indicates whether archiving is enabled or not.'
+        required: false
+        azure_sdk_references: ['/isArchiveEnabled', '/properties/isArchiveEnabled']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,103 @@
+--- !ruby/object:Api::Product
+name: Azure RestorePoint Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RestorePoint
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: restorePointsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.restore_points
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabase
+        python_func_name: list_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: name
+            python_parameter_name: database_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure RestorePoint instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the database to get available restore points.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of database restore points.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'restorePointType'
+              description: 'The restore point type of the database restore point.'
+              required: false
+              azure_sdk_references: ['/value/restorePointType', '/value/properties/restorePointType']
+              values:
+                - :DISCRETE
+                - :CONTINUOUS
+              default_value: :DISCRETE
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'restorePointCreationDate'
+              description: 'Restore point creation time (ISO8601 format). Populated when restorePointType = CONTINUOUS. Null otherwise.'
+              required: false
+              azure_sdk_references: ['/value/restorePointCreationDate', '/value/properties/restorePointCreationDate']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'earliestRestoreDate'
+              description: 'Earliest restore time (ISO8601 format). Populated when restorePointType = DISCRETE. Null otherwise.'
+              required: false
+              azure_sdk_references: ['/value/earliestRestoreDate', '/value/properties/earliestRestoreDate']

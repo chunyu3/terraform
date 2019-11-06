@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_privatednsrecordset
+  description: PUT Private DNS Zone MX Record Set
+  code:
+    resource_group: myResourceGroup
+    private_zone_name: myPrivateDnsZone
+    record_type: MX
+    name: myRecordType
+    metadata:
+      key1: value1
+    ttl: '3600'
+    mx_records:
+      - preference: '0'
+        exchange: mail.privatezone1.com
+  

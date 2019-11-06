@@ -1,0 +1,403 @@
+--- !ruby/object:Api::Product
+name: Azure CustomResourceProvider Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CustomResourceProvider
+    api_name: CustomProviders
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CustomProviders
+      go_client_namespace: customproviders
+      go_client: customResourceProviderClient
+      python_client_namespace: azure.mgmt.customproviders
+      python_client: CustomprovidersClient.custom_resource_provider
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceProviders
+            go_variable_name: name
+            python_parameter_name: resource_provider_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: resourceProvider
+            go_type_name: CustomRPManifest
+            python_parameter_name: resource_provider
+            python_variable_name: resource_provider
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomRPManifest_properties
+            go_type_name: CustomRPManifest_properties
+          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: actions
+          '/actions/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/actions/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/actions/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: routing_type
+          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Actions
+            go_type_name: CustomRPActionRouteDefinition
+          '/properties/actions/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/actions/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/actions/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoutingType
+            go_enum_type_name: ActionRouting
+          '/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: resource_types
+          '/resourceTypes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/resourceTypes/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/resourceTypes/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: routing_type
+          '/properties/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ResourceTypes
+            go_type_name: CustomRPResourceTypeRouteDefinition
+          '/properties/resourceTypes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/resourceTypes/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/resourceTypes/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoutingType
+            go_enum_type_name: ResourceTypeRouting
+          '/validations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: validations
+          '/validations/validationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: validation_type
+          '/validations/specification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: specification
+          '/properties/validations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Validations
+            go_type_name: CustomRPValidations
+          '/properties/validations/validationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ValidationType
+            go_enum_type_name: ValidationType
+          '/properties/validations/specification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Specification
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceProviders
+            go_variable_name: name
+            python_parameter_name: resource_provider_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceProviders
+            go_variable_name: name
+            python_parameter_name: resource_provider_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceProviderName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceProviders
+            go_variable_name: name
+            python_parameter_name: resource_provider_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomRPManifest_properties
+            go_type_name: CustomRPManifest_properties
+          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Actions
+            go_type_name: CustomRPActionRouteDefinition
+          '/properties/actions/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/actions/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/actions/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoutingType
+            go_enum_type_name: ActionRouting
+          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: actions
+          '/actions/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/actions/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/actions/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: routing_type
+          '/properties/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ResourceTypes
+            go_type_name: CustomRPResourceTypeRouteDefinition
+          '/properties/resourceTypes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/resourceTypes/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/resourceTypes/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoutingType
+            go_enum_type_name: ResourceTypeRouting
+          '/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: resource_types
+          '/resourceTypes/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/resourceTypes/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/resourceTypes/routingType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: routing_type
+          '/properties/validations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Validations
+            go_type_name: CustomRPValidations
+          '/properties/validations/validationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ValidationType
+            go_enum_type_name: ValidationType
+          '/properties/validations/specification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Specification
+          '/validations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: validations
+          '/validations/validationType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: validation_type
+          '/validations/specification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: specification
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure CustomResourceProvider instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource provider.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceProviderName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Array
+        name: 'actions'
+        description: 'A list of actions that the custom resource provider implements.'
+        required: false
+        azure_sdk_references: ['/actions', '/properties/actions']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the route definition. This becomes the name for the ARM extension (e.g. ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{resourceProviderName}/{name}'')'
+              required: true
+              azure_sdk_references: ['/actions/name', '/properties/actions/name']
+            - !ruby/object:Api::Type::String
+              name: 'endpoint'
+              description: 'The route definition endpoint URI that the custom resource provider will proxy requests to. This can be in the form of a flat URI (e.g. ''https://testendpoint/'') or can specify to route via a path (e.g. ''https://testendpoint/{requestPath}'')'
+              required: true
+              azure_sdk_references: ['/actions/endpoint', '/properties/actions/endpoint']
+            - !ruby/object:Api::Type::Enum
+              name: 'routingType'
+              description: 'The routing types that are supported for action requests.'
+              required: false
+              azure_sdk_references: ['/actions/routingType', '/properties/actions/routingType']
+              values:
+                - :Proxy
+              default_value: :Proxy
+      - !ruby/object:Api::Type::Array
+        name: 'resourceTypes'
+        description: 'A list of resource types that the custom resource provider implements.'
+        required: false
+        azure_sdk_references: ['/resourceTypes', '/properties/resourceTypes']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the route definition. This becomes the name for the ARM extension (e.g. ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{resourceProviderName}/{name}'')'
+              required: true
+              azure_sdk_references: ['/resourceTypes/name', '/properties/resourceTypes/name']
+            - !ruby/object:Api::Type::String
+              name: 'endpoint'
+              description: 'The route definition endpoint URI that the custom resource provider will proxy requests to. This can be in the form of a flat URI (e.g. ''https://testendpoint/'') or can specify to route via a path (e.g. ''https://testendpoint/{requestPath}'')'
+              required: true
+              azure_sdk_references: ['/resourceTypes/endpoint', '/properties/resourceTypes/endpoint']
+            - !ruby/object:Api::Type::Enum
+              name: 'routingType'
+              description: 'The routing types that are supported for resource requests.'
+              required: false
+              azure_sdk_references: ['/resourceTypes/routingType', '/properties/resourceTypes/routingType']
+              values:
+                - :Proxy
+                - :Proxy,Cache
+              default_value: :Proxy
+      - !ruby/object:Api::Type::Array
+        name: 'validations'
+        description: 'A list of validations to run on the custom resource provider''s requests.'
+        required: false
+        azure_sdk_references: ['/validations', '/properties/validations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'validationType'
+              description: 'The type of validation to run against a matching request.'
+              required: false
+              azure_sdk_references: ['/validations/validationType', '/properties/validations/validationType']
+              values:
+                - :Swagger
+              default_value: :Swagger
+            - !ruby/object:Api::Type::String
+              name: 'specification'
+              description: 'A link to the validation specification. The specification must be hosted on raw.githubusercontent.com.'
+              required: true
+              azure_sdk_references: ['/validations/specification', '/properties/validations/specification']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource provider.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Accepted
+          - :Deleting
+          - :Running
+          - :Succeeded
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

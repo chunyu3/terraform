@@ -1,0 +1,682 @@
+--- !ruby/object:Api::Product
+name: Azure ActionGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ActionGroup
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: actionGroupsClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.action_groups
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'actionGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: actionGroups
+            go_variable_name: name
+            python_parameter_name: action_group_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: actionGroup
+            go_type_name: ActionGroupResource
+            python_parameter_name: action_group
+            python_variable_name: action_group
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActionGroup
+            go_type_name: ActionGroup
+          '/groupShortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_short_name
+          '/properties/groupShortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupShortName
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/emailReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: email_receivers
+          '/emailReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/emailReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_address
+          '/properties/emailReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EmailReceivers
+            go_type_name: EmailReceiver
+          '/properties/emailReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/emailReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailAddress
+          '/smsReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sms_receivers
+          '/smsReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/smsReceivers/countryCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country_code
+          '/smsReceivers/phoneNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone_number
+          '/properties/smsReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SmsReceivers
+            go_type_name: SmsReceiver
+          '/properties/smsReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/smsReceivers/countryCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CountryCode
+          '/properties/smsReceivers/phoneNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PhoneNumber
+          '/webhookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: webhook_receivers
+          '/webhookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/webhookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_uri
+          '/properties/webhookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: WebhookReceivers
+            go_type_name: WebhookReceiver
+          '/properties/webhookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/webhookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceUri
+          '/itsmReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: itsm_receivers
+          '/itsmReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/itsmReceivers/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/itsmReceivers/connectionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: connection_id
+          '/itsmReceivers/ticketConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ticket_configuration
+          '/itsmReceivers/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/properties/itsmReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ItsmReceivers
+            go_type_name: ItsmReceiver
+          '/properties/itsmReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/itsmReceivers/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/properties/itsmReceivers/connectionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConnectionID
+          '/properties/itsmReceivers/ticketConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TicketConfiguration
+          '/properties/itsmReceivers/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/azureAppPushReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: azure_app_push_receivers
+          '/azureAppPushReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/azureAppPushReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_address
+          '/properties/azureAppPushReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AzureAppPushReceivers
+            go_type_name: AzureAppPushReceiver
+          '/properties/azureAppPushReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/azureAppPushReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailAddress
+          '/automationRunbookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: automation_runbook_receivers
+          '/automationRunbookReceivers/automationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: automation_account_id
+          '/automationRunbookReceivers/runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: runbook_name
+          '/automationRunbookReceivers/webhookResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_resource_id
+          '/automationRunbookReceivers/isGlobalRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_global_runbook
+          '/automationRunbookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/automationRunbookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_uri
+          '/properties/automationRunbookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AutomationRunbookReceivers
+            go_type_name: AutomationRunbookReceiver
+          '/properties/automationRunbookReceivers/automationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AutomationAccountID
+          '/properties/automationRunbookReceivers/runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunbookName
+          '/properties/automationRunbookReceivers/webhookResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookResourceID
+          '/properties/automationRunbookReceivers/isGlobalRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsGlobalRunbook
+          '/properties/automationRunbookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/automationRunbookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceUri
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'actionGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: actionGroups
+            go_variable_name: name
+            python_parameter_name: action_group_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'actionGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: actionGroups
+            go_variable_name: name
+            python_parameter_name: action_group_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'actionGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: actionGroups
+            go_variable_name: name
+            python_parameter_name: action_group_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ActionGroup
+            go_type_name: ActionGroup
+          '/properties/groupShortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GroupShortName
+          '/groupShortName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: group_short_name
+          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
+          '/properties/emailReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EmailReceivers
+            go_type_name: EmailReceiver
+          '/properties/emailReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/emailReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailAddress
+          '/properties/emailReceivers/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: ReceiverStatus
+          '/emailReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: email_receivers
+          '/emailReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/emailReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_address
+          '/emailReceivers/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/smsReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SmsReceivers
+            go_type_name: SmsReceiver
+          '/properties/smsReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/smsReceivers/countryCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CountryCode
+          '/properties/smsReceivers/phoneNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PhoneNumber
+          '/properties/smsReceivers/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: ReceiverStatus
+          '/smsReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: sms_receivers
+          '/smsReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/smsReceivers/countryCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country_code
+          '/smsReceivers/phoneNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone_number
+          '/smsReceivers/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/webhookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: WebhookReceivers
+            go_type_name: WebhookReceiver
+          '/properties/webhookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/webhookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceUri
+          '/webhookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: webhook_receivers
+          '/webhookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/webhookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_uri
+          '/properties/itsmReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ItsmReceivers
+            go_type_name: ItsmReceiver
+          '/properties/itsmReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/itsmReceivers/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/properties/itsmReceivers/connectionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConnectionID
+          '/properties/itsmReceivers/ticketConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TicketConfiguration
+          '/properties/itsmReceivers/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/itsmReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: itsm_receivers
+          '/itsmReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/itsmReceivers/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/itsmReceivers/connectionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: connection_id
+          '/itsmReceivers/ticketConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ticket_configuration
+          '/itsmReceivers/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/properties/azureAppPushReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AzureAppPushReceivers
+            go_type_name: AzureAppPushReceiver
+          '/properties/azureAppPushReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/azureAppPushReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailAddress
+          '/azureAppPushReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: azure_app_push_receivers
+          '/azureAppPushReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/azureAppPushReceivers/emailAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_address
+          '/properties/automationRunbookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AutomationRunbookReceivers
+            go_type_name: AutomationRunbookReceiver
+          '/properties/automationRunbookReceivers/automationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AutomationAccountID
+          '/properties/automationRunbookReceivers/runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunbookName
+          '/properties/automationRunbookReceivers/webhookResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookResourceID
+          '/properties/automationRunbookReceivers/isGlobalRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsGlobalRunbook
+          '/properties/automationRunbookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/automationRunbookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceUri
+          '/automationRunbookReceivers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: automation_runbook_receivers
+          '/automationRunbookReceivers/automationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: automation_account_id
+          '/automationRunbookReceivers/runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: runbook_name
+          '/automationRunbookReceivers/webhookResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_resource_id
+          '/automationRunbookReceivers/isGlobalRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_global_runbook
+          '/automationRunbookReceivers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/automationRunbookReceivers/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_uri
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscriptionId
+        python_func_name: list_by_subscription_id
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure ActionGroup instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the action group.'
+        required: true
+        input: true
+        azure_sdk_references: ['actionGroupName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'groupShortName'
+        description: 'The short name of the action group. This will be used in SMS messages.'
+        required: true
+        azure_sdk_references: ['/groupShortName', '/properties/groupShortName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabled'
+        description: 'Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.'
+        required: true
+        azure_sdk_references: ['/enabled', '/properties/enabled']
+      - !ruby/object:Api::Type::Array
+        name: 'emailReceivers'
+        description: 'The list of email receivers that are part of this action group.'
+        required: false
+        azure_sdk_references: ['/emailReceivers', '/properties/emailReceivers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the email receiver. Names must be unique across all receivers within an action group.'
+              required: true
+              azure_sdk_references: ['/emailReceivers/name', '/properties/emailReceivers/name']
+            - !ruby/object:Api::Type::String
+              name: 'emailAddress'
+              description: 'The email address of this receiver.'
+              required: true
+              azure_sdk_references: ['/emailReceivers/emailAddress', '/properties/emailReceivers/emailAddress']
+      - !ruby/object:Api::Type::Array
+        name: 'smsReceivers'
+        description: 'The list of SMS receivers that are part of this action group.'
+        required: false
+        azure_sdk_references: ['/smsReceivers', '/properties/smsReceivers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the SMS receiver. Names must be unique across all receivers within an action group.'
+              required: true
+              azure_sdk_references: ['/smsReceivers/name', '/properties/smsReceivers/name']
+            - !ruby/object:Api::Type::String
+              name: 'countryCode'
+              description: 'The country code of the SMS receiver.'
+              required: true
+              azure_sdk_references: ['/smsReceivers/countryCode', '/properties/smsReceivers/countryCode']
+            - !ruby/object:Api::Type::String
+              name: 'phoneNumber'
+              description: 'The phone number of the SMS receiver.'
+              required: true
+              azure_sdk_references: ['/smsReceivers/phoneNumber', '/properties/smsReceivers/phoneNumber']
+      - !ruby/object:Api::Type::Array
+        name: 'webhookReceivers'
+        description: 'The list of webhook receivers that are part of this action group.'
+        required: false
+        azure_sdk_references: ['/webhookReceivers', '/properties/webhookReceivers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the webhook receiver. Names must be unique across all receivers within an action group.'
+              required: true
+              azure_sdk_references: ['/webhookReceivers/name', '/properties/webhookReceivers/name']
+            - !ruby/object:Api::Type::String
+              name: 'serviceUri'
+              description: 'The URI where webhooks should be sent.'
+              required: true
+              azure_sdk_references: ['/webhookReceivers/serviceUri', '/properties/webhookReceivers/serviceUri']
+      - !ruby/object:Api::Type::Array
+        name: 'itsmReceivers'
+        description: 'The list of ITSM receivers that are part of this action group.'
+        required: false
+        azure_sdk_references: ['/itsmReceivers', '/properties/itsmReceivers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the Itsm receiver. Names must be unique across all receivers within an action group.'
+              required: true
+              azure_sdk_references: ['/itsmReceivers/name', '/properties/itsmReceivers/name']
+            - !ruby/object:Api::Type::String
+              name: 'workspaceId'
+              description: 'OMS LA instance identifier.'
+              required: true
+              azure_sdk_references: ['/itsmReceivers/workspaceId', '/properties/itsmReceivers/workspaceId']
+            - !ruby/object:Api::Type::String
+              name: 'connectionId'
+              description: 'Unique identification of ITSM connection among multiple defined in above workspace.'
+              required: true
+              azure_sdk_references: ['/itsmReceivers/connectionId', '/properties/itsmReceivers/connectionId']
+            - !ruby/object:Api::Type::String
+              name: 'ticketConfiguration'
+              description: 'JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well.'
+              required: true
+              azure_sdk_references: ['/itsmReceivers/ticketConfiguration', '/properties/itsmReceivers/ticketConfiguration']
+            - !ruby/object:Api::Type::String
+              name: 'region'
+              description: 'Region in which workspace resides. Supported values:''centralindia'',''japaneast'',''southeastasia'',''australiasoutheast'',''uksouth'',''westcentralus'',''canadacentral'',''eastus'',''westeurope'''
+              required: true
+              azure_sdk_references: ['/itsmReceivers/region', '/properties/itsmReceivers/region']
+      - !ruby/object:Api::Type::Array
+        name: 'azureAppPushReceivers'
+        description: 'The list of AzureAppPush receivers that are part of this action group.'
+        required: false
+        azure_sdk_references: ['/azureAppPushReceivers', '/properties/azureAppPushReceivers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group.'
+              required: true
+              azure_sdk_references: ['/azureAppPushReceivers/name', '/properties/azureAppPushReceivers/name']
+            - !ruby/object:Api::Type::String
+              name: 'emailAddress'
+              description: 'The email address registered for the Azure mobile app.'
+              required: true
+              azure_sdk_references: ['/azureAppPushReceivers/emailAddress', '/properties/azureAppPushReceivers/emailAddress']
+      - !ruby/object:Api::Type::Array
+        name: 'automationRunbookReceivers'
+        description: 'The list of AutomationRunbook receivers that are part of this action group.'
+        required: false
+        azure_sdk_references: ['/automationRunbookReceivers', '/properties/automationRunbookReceivers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'automationAccountId'
+              description: 'The Azure automation account Id which holds this runbook and authenticate to Azure resource.'
+              required: true
+              azure_sdk_references: ['/automationRunbookReceivers/automationAccountId', '/properties/automationRunbookReceivers/automationAccountId']
+            - !ruby/object:Api::Type::String
+              name: 'runbookName'
+              description: 'The name for this runbook.'
+              required: true
+              azure_sdk_references: ['/automationRunbookReceivers/runbookName', '/properties/automationRunbookReceivers/runbookName']
+            - !ruby/object:Api::Type::String
+              name: 'webhookResourceId'
+              description: 'The resource id for webhook linked to this runbook.'
+              required: true
+              azure_sdk_references: ['/automationRunbookReceivers/webhookResourceId', '/properties/automationRunbookReceivers/webhookResourceId']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isGlobalRunbook'
+              description: 'Indicates whether this instance is global runbook.'
+              required: true
+              azure_sdk_references: ['/automationRunbookReceivers/isGlobalRunbook', '/properties/automationRunbookReceivers/isGlobalRunbook']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Indicates name of the webhook.'
+              required: false
+              azure_sdk_references: ['/automationRunbookReceivers/name', '/properties/automationRunbookReceivers/name']
+            - !ruby/object:Api::Type::String
+              name: 'serviceUri'
+              description: 'The URI where webhooks should be sent.'
+              required: false
+              azure_sdk_references: ['/automationRunbookReceivers/serviceUri', '/properties/automationRunbookReceivers/serviceUri']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Azure resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type'
+        output: true
+        azure_sdk_references: ['/type']

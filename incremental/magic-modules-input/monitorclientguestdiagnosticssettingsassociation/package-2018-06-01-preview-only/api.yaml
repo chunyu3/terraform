@@ -1,0 +1,180 @@
+--- !ruby/object:Api::Product
+name: Azure GuestDiagnosticsSettingsAssociation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: GuestDiagnosticsSettingsAssociation
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: guestDiagnosticsSettingsAssociationClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.guest_diagnostics_settings_association
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'associationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: guestDiagnosticSettingsAssociation
+            go_variable_name: name
+            python_parameter_name: association_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: diagnosticSettingsAssociation
+            go_type_name: GuestDiagnosticSettingsAssociationResource
+            python_parameter_name: diagnostic_settings_association
+            python_variable_name: diagnostic_settings_association
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GuestDiagnosticSettingsAssociation
+            go_type_name: GuestDiagnosticSettingsAssociation
+          '/guestDiagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: guest_diagnostic_settings_name
+          '/properties/guestDiagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GuestDiagnosticSettingsName
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'associationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: guestDiagnosticSettingsAssociation
+            go_variable_name: name
+            python_parameter_name: association_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'associationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: guestDiagnosticSettingsAssociation
+            go_variable_name: name
+            python_parameter_name: association_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'associationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: guestDiagnosticSettingsAssociation
+            go_variable_name: name
+            python_parameter_name: association_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GuestDiagnosticSettingsAssociation
+            go_type_name: GuestDiagnosticSettingsAssociation
+          '/properties/guestDiagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GuestDiagnosticSettingsName
+          '/guestDiagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: guest_diagnostic_settings_name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+
+    description: |
+      Manage Azure GuestDiagnosticsSettingsAssociation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The fully qualified ID of the resource, including the resource name and resource type.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the diagnostic settings association.'
+        required: true
+        input: true
+        azure_sdk_references: ['associationName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'guestDiagnosticSettingsName'
+        description: 'The guest diagnostic settings name.'
+        required: true
+        azure_sdk_references: ['/guestDiagnosticSettingsName', '/properties/guestDiagnosticSettingsName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Azure resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type'
+        output: true
+        azure_sdk_references: ['/type']

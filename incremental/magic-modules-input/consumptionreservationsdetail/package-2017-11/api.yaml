@@ -1,0 +1,107 @@
+--- !ruby/object:Api::Product
+name: Azure ReservationsDetail Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ReservationsDetail
+    api_name: Consumption
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Consumption
+      go_client_namespace: consumption
+      go_client: reservationsDetailsClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.reservations_details
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure ReservationsDetail instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of the reservation details. The scope can be ''providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}'' or ''providers/Microsoft.Capacity/reservationorders/{ReservationOrderId}/reservations/{ReservationId}'''
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of reservation details.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'reservationOrderId'
+              description: 'The reservation order ID is the identifier for a reservation purchase. Each reservation order ID represents a single purchase transaction. A reservation order contains reservations. The reservation order specifies the VM size and region for the reservations.'
+              required: false
+              azure_sdk_references: ['/value/reservationOrderId', '/value/properties/reservationOrderId']
+            - !ruby/object:Api::Type::String
+              name: 'reservationId'
+              description: 'The reservation ID is the identifier of a reservation within a reservation order. Each reservation is the grouping for applying the benefit scope and also specifies the number of instances to which the reservation benefit can be applied to.'
+              required: false
+              azure_sdk_references: ['/value/reservationId', '/value/properties/reservationId']
+            - !ruby/object:Api::Type::String
+              name: 'skuName'
+              description: 'This is the ARM Sku name. It can be used to join with the serviceType field in additional info in usage records.'
+              required: false
+              azure_sdk_references: ['/value/skuName', '/value/properties/skuName']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+              name: 'reservedHours'
+              description: 'This is the total hours reserved for the day. E.g. if reservation for 1 instance was made on 1 PM, this will be 11 hours for that day and 24 hours from subsequent days.'
+              required: false
+              azure_sdk_references: ['/value/reservedHours', '/value/properties/reservedHours']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'usageDate'
+              description: 'The date on which consumption occurred.'
+              required: false
+              azure_sdk_references: ['/value/usageDate', '/value/properties/usageDate']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+              name: 'usedHours'
+              description: 'This is the total hours used by the instance.'
+              required: false
+              azure_sdk_references: ['/value/usedHours', '/value/properties/usedHours']
+            - !ruby/object:Api::Type::String
+              name: 'instanceId'
+              description: 'This identifier is the name of the resource or the fully qualified Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/instanceId', '/value/properties/instanceId']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
+              name: 'totalReservedQuantity'
+              description: 'This is the total count of instances that are reserved for the reservationId.'
+              required: false
+              azure_sdk_references: ['/value/totalReservedQuantity', '/value/properties/totalReservedQuantity']

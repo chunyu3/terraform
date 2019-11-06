@@ -1,0 +1,115 @@
+--- !ruby/object:Api::Product
+name: Azure Node Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Node
+    api_name: DataBoxEdge
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataBoxEdge
+      go_client_namespace: databoxedge
+      go_client: nodesClient
+      python_client_namespace: azure.mgmt.databoxedge
+      python_client: DataBoxEdgeManagementClient.nodes
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDataBoxEdgeDevice
+        python_func_name: list_by_data_box_edge_device
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Node instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The device name.'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of Nodes.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The path ID that uniquely identifies the object.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The object name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The hierarchical type of the object.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'nodeStatus'
+              description: 'The current status of the individual node'
+              required: false
+              azure_sdk_references: ['/value/nodeStatus', '/value/properties/nodeStatus']
+              values:
+                - :Unknown
+                - :Up
+                - :Down
+                - :Rebooting
+                - :ShuttingDown
+              default_value: :Unknown
+            - !ruby/object:Api::Type::String
+              name: 'nodeChassisSerialNumber'
+              description: 'Serial number of the Chassis'
+              required: false
+              azure_sdk_references: ['/value/nodeChassisSerialNumber', '/value/properties/nodeChassisSerialNumber']
+            - !ruby/object:Api::Type::String
+              name: 'nodeSerialNumber'
+              description: 'Serial number of the individual node'
+              required: false
+              azure_sdk_references: ['/value/nodeSerialNumber', '/value/properties/nodeSerialNumber']
+            - !ruby/object:Api::Type::String
+              name: 'nodeDisplayName'
+              description: 'Display Name of the individual node'
+              required: false
+              azure_sdk_references: ['/value/nodeDisplayName', '/value/properties/nodeDisplayName']
+            - !ruby/object:Api::Type::String
+              name: 'nodeFriendlySoftwareVersion'
+              description: 'Friendly software version name that is currently installed on the node'
+              required: false
+              azure_sdk_references: ['/value/nodeFriendlySoftwareVersion', '/value/properties/nodeFriendlySoftwareVersion']
+            - !ruby/object:Api::Type::String
+              name: 'nodeHcsVersion'
+              description: 'HCS version that is currently installed on the node'
+              required: false
+              azure_sdk_references: ['/value/nodeHcsVersion', '/value/properties/nodeHcsVersion']
+            - !ruby/object:Api::Type::String
+              name: 'nodeInstanceId'
+              description: 'Guid instance id of the node'
+              required: false
+              azure_sdk_references: ['/value/nodeInstanceId', '/value/properties/nodeInstanceId']

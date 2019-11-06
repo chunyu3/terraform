@@ -1,0 +1,26 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_machinelearningservicesworkspace
+  description: Create Workspace
+  code:
+    resource_group: myResourceGroup
+    name: myWorkspace
+    location: eastus2euap
+    description: test description
+    friendly_name: HelloName
+    batchai_workspace: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.BatchAI/workspaces/{{ workspace_name }}
+    key_vault: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.KeyVault/vaults/{{ vault_name }}
+    application_insights: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/microsoft.insights/components/{{ component_name }}
+    container_registry: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.ContainerRegistry/registries/{{ registry_name }}
+    storage_account: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Storage/storageAccounts/{{ storage_account_name }}
+  

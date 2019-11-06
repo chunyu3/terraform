@@ -1,0 +1,119 @@
+--- !ruby/object:Api::Product
+name: Azure UserGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: UserGroup
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: apimanagement
+      go_client: userGroupClient
+      python_client_namespace: azure.mgmt.apimanagement
+      python_client: ApiManagementClient.user_group
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          'userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: userID
+            python_parameter_name: user_id
+            python_variable_name: user_id
+
+    description: |
+      Manage Azure UserGroup instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'userId'
+        description: 'User identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['userId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Page values.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type for API Management resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'displayName'
+              description: 'Group name.'
+              required: true
+              azure_sdk_references: ['/value/displayName', '/value/properties/displayName']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'Group description. Can contain HTML formatting tags.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::Boolean
+              name: 'builtIn'
+              description: 'true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.'
+              required: false
+              azure_sdk_references: ['/value/builtIn', '/value/properties/builtIn']
+            - !ruby/object:Api::Type::Enum
+              name: 'type'
+              description: 'Group type.'
+              required: false
+              azure_sdk_references: ['/value/type', '/value/properties/type']
+              values:
+                - :custom
+                - :system
+                - :external
+              default_value: :custom
+            - !ruby/object:Api::Type::String
+              name: 'externalId'
+              description: 'For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null.'
+              required: false
+              azure_sdk_references: ['/value/externalId', '/value/properties/externalId']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Next page link if any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

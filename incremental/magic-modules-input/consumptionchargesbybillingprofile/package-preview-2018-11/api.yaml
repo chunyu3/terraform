@@ -1,0 +1,178 @@
+--- !ruby/object:Api::Product
+name: Azure ChargesByBillingProfile Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ChargesByBillingProfile
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: consumption
+      go_client: chargesByBillingProfileClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.charges_by_billing_profile
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'billingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountID
+            python_parameter_name: billing_account_id
+            python_variable_name: billing_account_id
+          'billingProfileId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileID
+            python_parameter_name: billing_profile_id
+            python_variable_name: billing_profile_id
+          'startDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: startDate
+            python_parameter_name: start_date
+            python_variable_name: start_date
+          'endDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: endDate
+            python_parameter_name: end_date
+            python_variable_name: end_date
+
+    description: |
+      Manage Azure ChargesByBillingProfile instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountId'
+        description: 'BillingAccount ID'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileId'
+        description: 'Billing Profile Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingProfileId']
+      - !ruby/object:Api::Type::String
+        name: 'startDate'
+        description: 'Start date'
+        required: true
+        input: true
+        azure_sdk_references: ['startDate']
+      - !ruby/object:Api::Type::String
+        name: 'endDate'
+        description: 'End date'
+        required: true
+        input: true
+        azure_sdk_references: ['endDate']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of charge summary by billing profile.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'billingPeriodId'
+              description: 'The id of the billing period resource that the usage belongs to.'
+              required: false
+              azure_sdk_references: ['/value/billingPeriodId', '/value/properties/billingPeriodId']
+            - !ruby/object:Api::Type::String
+              name: 'usageStart'
+              description: 'Billing period start date.'
+              required: false
+              azure_sdk_references: ['/value/usageStart', '/value/properties/usageStart']
+            - !ruby/object:Api::Type::String
+              name: 'usageEnd'
+              description: 'Billing period end date.'
+              required: false
+              azure_sdk_references: ['/value/usageEnd', '/value/properties/usageEnd']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'azureCharges'
+              description: 'Azure Charges.'
+              required: false
+              azure_sdk_references: ['/value/azureCharges', '/value/properties/azureCharges']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'The currency for the amount value.'
+                  required: false
+                  azure_sdk_references: ['/value/azureCharges/currency', '/value/properties/azureCharges/currency']
+                - !ruby/object:Api::Type::Integer
+                  name: 'value'
+                  description: 'Amount value.'
+                  required: false
+                  azure_sdk_references: ['/value/azureCharges/value', '/value/properties/azureCharges/value']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'chargesBilledSeparately'
+              description: 'Charges Billed separately.'
+              required: false
+              azure_sdk_references: ['/value/chargesBilledSeparately', '/value/properties/chargesBilledSeparately']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'The currency for the amount value.'
+                  required: false
+                  azure_sdk_references: ['/value/chargesBilledSeparately/currency', '/value/properties/chargesBilledSeparately/currency']
+                - !ruby/object:Api::Type::Integer
+                  name: 'value'
+                  description: 'Amount value.'
+                  required: false
+                  azure_sdk_references: ['/value/chargesBilledSeparately/value', '/value/properties/chargesBilledSeparately/value']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'marketplaceCharges'
+              description: 'Marketplace Charges.'
+              required: false
+              azure_sdk_references: ['/value/marketplaceCharges', '/value/properties/marketplaceCharges']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'currency'
+                  description: 'The currency for the amount value.'
+                  required: false
+                  azure_sdk_references: ['/value/marketplaceCharges/currency', '/value/properties/marketplaceCharges/currency']
+                - !ruby/object:Api::Type::Integer
+                  name: 'value'
+                  description: 'Amount value.'
+                  required: false
+                  azure_sdk_references: ['/value/marketplaceCharges/value', '/value/properties/marketplaceCharges/value']
+            - !ruby/object:Api::Type::String
+              name: 'billingAccountId'
+              description: 'The id of the billing account resource that the charge belongs to.'
+              required: false
+              azure_sdk_references: ['/value/billingAccountId', '/value/properties/billingAccountId']
+            - !ruby/object:Api::Type::String
+              name: 'billingProfileId'
+              description: 'The id of the billing profile resource that the charge belongs to.'
+              required: false
+              azure_sdk_references: ['/value/billingProfileId', '/value/properties/billingProfileId']
+            - !ruby/object:Api::Type::String
+              name: 'invoiceSectionId'
+              description: 'The id of the invoice section resource that the charge belongs to.'
+              required: false
+              azure_sdk_references: ['/value/invoiceSectionId', '/value/properties/invoiceSectionId']

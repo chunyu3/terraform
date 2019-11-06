@@ -1,0 +1,289 @@
+--- !ruby/object:Api::Product
+name: Azure WCFRelay Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WCFRelay
+    api_name: Relay
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Relay
+      go_client_namespace: relay
+      go_client: wCFRelaysClient
+      python_client_namespace: azure.mgmt.relay
+      python_client: RelayAPIClient.wcfrelays
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: wcfRelays
+            go_variable_name: name
+            python_parameter_name: relay_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: WcfRelay
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WcfRelay_properties
+            go_type_name: WcfRelay_properties
+          '/relayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: relay_type
+          '/properties/relayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RelayType
+            go_enum_type_name: Relaytype
+          '/requiresClientAuthorization': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_client_authorization
+          '/properties/requiresClientAuthorization': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresClientAuthorization
+          '/requiresTransportSecurity': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_transport_security
+          '/properties/requiresTransportSecurity': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresTransportSecurity
+          '/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_metadata
+          '/properties/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserMetadata
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: wcfRelays
+            go_variable_name: name
+            python_parameter_name: relay_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: wcfRelays
+            go_variable_name: name
+            python_parameter_name: relay_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WcfRelay_properties
+            go_type_name: WcfRelay_properties
+          '/properties/relayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RelayType
+            go_enum_type_name: Relaytype
+          '/relayType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: relay_type
+          '/properties/requiresClientAuthorization': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresClientAuthorization
+          '/requiresClientAuthorization': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_client_authorization
+          '/properties/requiresTransportSecurity': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: RequiresTransportSecurity
+          '/requiresTransportSecurity': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: requires_transport_security
+          '/properties/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserMetadata
+          '/userMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_metadata
+          '/properties/isDynamic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsDynamic
+          '/isDynamic': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_dynamic
+          '/properties/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedAt
+          '/createdAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_at
+          '/properties/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedAt
+          '/updatedAt': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_at
+          '/properties/listenerCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ListenerCount
+          '/listenerCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: listener_count
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByNamespace
+        python_func_name: list_by_namespace
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAuthorizationRules
+        python_func_name: list_authorization_rules
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: wcfRelays
+            go_variable_name: name
+            python_parameter_name: relay_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure WCFRelay instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'The namespace name'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The relay name.'
+        required: true
+        input: true
+        azure_sdk_references: ['relayName']
+      - !ruby/object:Api::Type::Enum
+        name: 'relayType'
+        description: 'WCF relay type.'
+        required: false
+        azure_sdk_references: ['/relayType', '/properties/relayType']
+        values:
+          - :NetTcp
+          - :Http
+        default_value: :NetTcp
+      - !ruby/object:Api::Type::Boolean
+        name: 'requiresClientAuthorization'
+        description: 'Returns true if client authorization is needed for this relay; otherwise, false.'
+        required: false
+        azure_sdk_references: ['/requiresClientAuthorization', '/properties/requiresClientAuthorization']
+      - !ruby/object:Api::Type::Boolean
+        name: 'requiresTransportSecurity'
+        description: 'Returns true if transport security is needed for this relay; otherwise, false.'
+        required: false
+        azure_sdk_references: ['/requiresTransportSecurity', '/properties/requiresTransportSecurity']
+      - !ruby/object:Api::Type::String
+        name: 'userMetadata'
+        description: 'The usermetadata is a placeholder to store user-defined string data for the WCF Relay endpoint. For example, it can be used to store descriptive data, such as list of teams and their contact information. Also, user-defined configuration settings can be stored.'
+        required: false
+        azure_sdk_references: ['/userMetadata', '/properties/userMetadata']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Boolean
+        name: 'isDynamic'
+        description: 'Returns true if the relay is dynamic; otherwise, false.'
+        output: true
+        azure_sdk_references: ['/isDynamic', '/properties/isDynamic']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdAt'
+        description: 'The time the WCF relay was created.'
+        output: true
+        azure_sdk_references: ['/createdAt', '/properties/createdAt']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedAt'
+        description: 'The time the namespace was updated.'
+        output: true
+        azure_sdk_references: ['/updatedAt', '/properties/updatedAt']
+      - !ruby/object:Api::Type::Integer
+        name: 'listenerCount'
+        description: 'The number of listeners for this relay. Note that min :1 and max:25 are supported.'
+        output: true
+        azure_sdk_references: ['/listenerCount', '/properties/listenerCount']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

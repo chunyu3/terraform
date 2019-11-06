@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_automationsourcecontrol
+  description: Create or update a source control
+  code:
+    resource_group: myResourceGroup
+    automation_account_name: myAutomationAccount
+    name: mySourceControl
+    repo_url: 'https://sampleUser.visualstudio.com/myProject/_git/myRepository'
+    branch: master
+    folder_path: /folderOne/folderTwo
+    auto_sync: true
+    publish_runbook: true
+    source_type: VsoGit
+    security_token:
+      access_token: 3a326f7a0dcd343ea58fee21f2fd5fb4c1234567
+      token_type: PersonalAccessToken
+    description: my description
+  

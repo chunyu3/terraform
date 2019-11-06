@@ -1,0 +1,78 @@
+--- !ruby/object:Api::Product
+name: Azure ResourceProviderCommon Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ResourceProviderCommon
+    api_name: Devices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Devices
+      go_client_namespace: iothub
+      go_client: resourceProviderCommonClient
+      python_client_namespace: azure.mgmt.iothub
+      python_client: IotHubClient.resource_provider_common
+
+    description: |
+      Manage Azure ResourceProviderCommon instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: ''
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'IotHub type id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Response type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'unit'
+              description: 'Unit of IotHub type'
+              required: false
+              azure_sdk_references: ['/value/unit']
+            - !ruby/object:Api::Type::Integer
+              name: 'currentValue'
+              description: 'Current number of IotHub type'
+              required: false
+              azure_sdk_references: ['/value/currentValue']
+            - !ruby/object:Api::Type::Integer
+              name: 'limit'
+              description: 'Numerical limit on IotHub type'
+              required: false
+              azure_sdk_references: ['/value/limit']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'IotHub type'
+              required: false
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'IotHub type'
+                  required: false
+                  azure_sdk_references: ['/value/name/value']
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'Localized value of name'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: ''
+        output: true
+        azure_sdk_references: ['/nextLink']

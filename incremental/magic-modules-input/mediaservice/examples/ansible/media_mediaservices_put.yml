@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mediaservice
+  description: Create a Media Services account
+  code:
+    resource_group: myResourceGroup
+    name: myMediaservice
+    tags:
+      key1: value1
+      key2: value2
+    location: South Central US
+    storage_accounts:
+      - id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Storage/storageAccounts/{{ storage_account_name
+          }}
+        type: Primary
+  

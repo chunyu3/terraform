@@ -1,0 +1,220 @@
+--- !ruby/object:Api::Product
+name: Azure Metric Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Metric
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: metricsClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.metrics
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'timespan': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: timespan
+            python_parameter_name: timespan
+            python_variable_name: timespan
+          'interval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            id_portion: null
+            go_variable_name: interval
+            python_parameter_name: interval
+            python_variable_name: interval
+          'metric': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: metric
+            python_parameter_name: metric
+            python_variable_name: metric
+          'aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: aggregation
+            python_parameter_name: aggregation
+            python_variable_name: aggregation
+          'resultType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: resultType
+            python_parameter_name: result_type
+            python_variable_name: result_type
+
+    description: |
+      Manage Azure Metric instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'timespan'
+        description: 'The timespan of the query. It is a string with the following format ''startDateTime_ISO/endDateTime_ISO''.'
+        required: false
+        input: true
+        azure_sdk_references: ['timespan']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'interval'
+        description: 'The interval (i.e. timegrain) of the query.'
+        required: false
+        input: true
+        azure_sdk_references: ['interval']
+      - !ruby/object:Api::Type::String
+        name: 'metric'
+        description: 'The name of the metric to retrieve.'
+        required: false
+        input: true
+        azure_sdk_references: ['metric']
+      - !ruby/object:Api::Type::String
+        name: 'aggregation'
+        description: 'The list of aggregation types (comma separated) to retrieve.'
+        required: false
+        input: true
+        azure_sdk_references: ['aggregation']
+      - !ruby/object:Api::Type::String
+        name: 'resultType'
+        description: 'Reduces the set of data collected. The syntax allowed depends on the operation. See the operation''s description for details.'
+        required: false
+        input: true
+        azure_sdk_references: ['resultType']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'cost'
+        description: 'The integer value representing the cost of the query, for data case.'
+        output: true
+        azure_sdk_references: ['/cost']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'the value of the collection.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'the metric Id.'
+              required: true
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'the resource type of the metric resource.'
+              required: true
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'the name and the display name of the metric, i.e. it is localizable string.'
+              required: true
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'the invariant value.'
+                  required: true
+                  azure_sdk_references: ['/value/name/value']
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'the locale specific value.'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']
+            - !ruby/object:Api::Type::Enum
+              name: 'unit'
+              description: 'the unit of the metric.'
+              required: true
+              azure_sdk_references: ['/value/unit']
+              values:
+                - :Count
+                - :Bytes
+                - :Seconds
+                - :CountPerSecond
+                - :BytesPerSecond
+                - :Percent
+                - :MilliSeconds
+                - :ByteSeconds
+                - :Unspecified
+            - !ruby/object:Api::Type::Array
+              name: 'timeseries'
+              description: 'the time series returned when a data query is performed.'
+              required: true
+              azure_sdk_references: ['/value/timeseries']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Array
+                    name: 'metadatavalues'
+                    description: 'the metadata values returned if $filter was specified in the call.'
+                    required: false
+                    azure_sdk_references: ['/value/timeseries/metadatavalues']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'name'
+                          description: 'the name of the metadata.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/metadatavalues/name']
+                          properties:
+                            - !ruby/object:Api::Type::String
+                              name: 'value'
+                              description: 'the invariant value.'
+                              required: true
+                              azure_sdk_references: ['/value/timeseries/metadatavalues/name/value']
+                            - !ruby/object:Api::Type::String
+                              name: 'localizedValue'
+                              description: 'the locale specific value.'
+                              required: false
+                              azure_sdk_references: ['/value/timeseries/metadatavalues/name/localizedValue']
+                        - !ruby/object:Api::Type::String
+                          name: 'value'
+                          description: 'the value of the metadata.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/metadatavalues/value']
+                  - !ruby/object:Api::Type::Array
+                    name: 'data'
+                    description: 'An array of data points representing the metric values.  This is only returned if a result type of data is specified.'
+                    required: false
+                    azure_sdk_references: ['/value/timeseries/data']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                          name: 'timeStamp'
+                          description: 'the timestamp for the metric value in ISO 8601 format.'
+                          required: true
+                          azure_sdk_references: ['/value/timeseries/data/timeStamp']
+                        - !ruby/object:Api::Type::Double
+                          name: 'average'
+                          description: 'the average value in the time range.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/data/average']
+                        - !ruby/object:Api::Type::Double
+                          name: 'minimum'
+                          description: 'the least value in the time range.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/data/minimum']
+                        - !ruby/object:Api::Type::Double
+                          name: 'maximum'
+                          description: 'the greatest value in the time range.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/data/maximum']
+                        - !ruby/object:Api::Type::Double
+                          name: 'total'
+                          description: 'the sum of all of the values in the time range.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/data/total']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'count'
+                          description: 'the number of samples in the time range. Can be used to determine the number of values that contributed to the average value.'
+                          required: false
+                          azure_sdk_references: ['/value/timeseries/data/count']

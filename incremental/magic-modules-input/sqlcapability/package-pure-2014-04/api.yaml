@@ -1,0 +1,400 @@
+--- !ruby/object:Api::Product
+name: Azure Capability Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Capability
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: capabilitiesClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.capabilities
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByLocation
+        python_func_name: list_by_location
+        request:
+          'locationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: locationID
+            python_parameter_name: location_id
+            python_variable_name: location_id
+
+    description: |
+      Manage Azure Capability instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'locationId'
+        description: 'The location id whose capabilities are retrieved.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The location name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Azure SQL Database''s status for the location.'
+        output: true
+        azure_sdk_references: ['/status']
+        values:
+          - :Visible
+          - :Available
+          - :Default
+          - :Disabled
+      - !ruby/object:Api::Type::Array
+        name: 'supportedServerVersions'
+        description: 'The list of supported server versions.'
+        output: true
+        azure_sdk_references: ['/supportedServerVersions']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The server version name.'
+              required: false
+              azure_sdk_references: ['/supportedServerVersions/name']
+            - !ruby/object:Api::Type::Enum
+              name: 'status'
+              description: 'The status of the server version.'
+              required: false
+              azure_sdk_references: ['/supportedServerVersions/status']
+              values:
+                - :Visible
+                - :Available
+                - :Default
+                - :Disabled
+              default_value: :Visible
+            - !ruby/object:Api::Type::Array
+              name: 'supportedEditions'
+              description: 'The list of supported database editions.'
+              required: false
+              azure_sdk_references: ['/supportedServerVersions/supportedEditions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The edition name.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedEditions/name']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'status'
+                    description: 'The status of the edition.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedEditions/status']
+                    values:
+                      - :Visible
+                      - :Available
+                      - :Default
+                      - :Disabled
+                    default_value: :Visible
+                  - !ruby/object:Api::Type::Array
+                    name: 'supportedServiceLevelObjectives'
+                    description: 'The list of supported service objectives for the edition.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'name'
+                          description: 'The service objective name.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/name']
+                        - !ruby/object:Api::Type::Enum
+                          name: 'status'
+                          description: 'The status of the service objective.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/status']
+                          values:
+                            - :Visible
+                            - :Available
+                            - :Default
+                            - :Disabled
+                          default_value: :Visible
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'performanceLevel'
+                          description: 'The performance level of the service objective capability.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/performanceLevel']
+                          properties:
+                            - !ruby/object:Api::Type::Enum
+                              name: 'unit'
+                              description: 'Unit type used to measure service objective performance level.'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/performanceLevel/unit']
+                              values:
+                                - :DTU
+                              default_value: :DTU
+                            - !ruby/object:Api::Type::Integer
+                              name: 'value'
+                              description: 'Performance level value.'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/performanceLevel/value']
+                        - !ruby/object:Api::Type::String
+                          name: 'id'
+                          description: 'The unique ID of the service objective.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/id']
+                        - !ruby/object:Api::Type::Array
+                          name: 'supportedMaxSizes'
+                          description: 'The list of supported maximum database sizes for this service objective.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/supportedMaxSizes']
+                          item_type: !ruby/object:Api::Type::NestedObject
+                            properties:
+                              - !ruby/object:Api::Type::Integer
+                                name: 'limit'
+                                description: 'The maximum size of the database (see ''unit'' for the units).'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/supportedMaxSizes/limit']
+                              - !ruby/object:Api::Type::Enum
+                                name: 'unit'
+                                description: 'The units that the limit is expressed in.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/supportedMaxSizes/unit']
+                                values:
+                                  - :Megabytes
+                                  - :Gigabytes
+                                  - :Terabytes
+                                  - :Petabytes
+                                default_value: :Megabytes
+                              - !ruby/object:Api::Type::Enum
+                                name: 'status'
+                                description: 'The status of the maximum size capability.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/supportedMaxSizes/status']
+                                values:
+                                  - :Visible
+                                  - :Available
+                                  - :Default
+                                  - :Disabled
+                                default_value: :Visible
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'includedMaxSize'
+                          description: 'The included (free) max size for this service level objective.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/includedMaxSize']
+                          properties:
+                            - !ruby/object:Api::Type::Integer
+                              name: 'limit'
+                              description: 'The maximum size of the database (see ''unit'' for the units).'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/includedMaxSize/limit']
+                            - !ruby/object:Api::Type::Enum
+                              name: 'unit'
+                              description: 'The units that the limit is expressed in.'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/includedMaxSize/unit']
+                              values:
+                                - :Megabytes
+                                - :Gigabytes
+                                - :Terabytes
+                                - :Petabytes
+                              default_value: :Megabytes
+                            - !ruby/object:Api::Type::Enum
+                              name: 'status'
+                              description: 'The status of the maximum size capability.'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedEditions/supportedServiceLevelObjectives/includedMaxSize/status']
+                              values:
+                                - :Visible
+                                - :Available
+                                - :Default
+                                - :Disabled
+                              default_value: :Visible
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'zoneRedundant'
+                    description: 'Whether or not zone redundancy is supported for the edition.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedEditions/zoneRedundant']
+            - !ruby/object:Api::Type::Array
+              name: 'supportedElasticPoolEditions'
+              description: 'The list of supported elastic pool editions.'
+              required: false
+              azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The elastic pool edition name.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/name']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'status'
+                    description: 'The status of the elastic pool edition.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/status']
+                    values:
+                      - :Visible
+                      - :Available
+                      - :Default
+                      - :Disabled
+                    default_value: :Visible
+                  - !ruby/object:Api::Type::Array
+                    name: 'supportedElasticPoolDtus'
+                    description: 'The list of supported elastic pool DTU levels for the edition.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::Integer
+                          name: 'limit'
+                          description: 'The maximum size of the database (see ''unit'' for the units).'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/limit']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'maxDatabaseCount'
+                          description: 'The maximum number of databases supported.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/maxDatabaseCount']
+                        - !ruby/object:Api::Type::Enum
+                          name: 'status'
+                          description: 'The status of the capability.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/status']
+                          values:
+                            - :Visible
+                            - :Available
+                            - :Default
+                            - :Disabled
+                          default_value: :Visible
+                        - !ruby/object:Api::Type::Array
+                          name: 'supportedMaxSizes'
+                          description: 'The list of supported max sizes.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedMaxSizes']
+                          item_type: !ruby/object:Api::Type::NestedObject
+                            properties:
+                              - !ruby/object:Api::Type::Integer
+                                name: 'limit'
+                                description: 'The maximum size of the database (see ''unit'' for the units).'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedMaxSizes/limit']
+                              - !ruby/object:Api::Type::Enum
+                                name: 'unit'
+                                description: 'The units that the limit is expressed in.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedMaxSizes/unit']
+                                values:
+                                  - :Megabytes
+                                  - :Gigabytes
+                                  - :Terabytes
+                                  - :Petabytes
+                                default_value: :Megabytes
+                              - !ruby/object:Api::Type::Enum
+                                name: 'status'
+                                description: 'The status of the maximum size capability.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedMaxSizes/status']
+                                values:
+                                  - :Visible
+                                  - :Available
+                                  - :Default
+                                  - :Disabled
+                                default_value: :Visible
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'includedMaxSize'
+                          description: 'The included (free) max size for this service level objective.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/includedMaxSize']
+                          properties:
+                            - !ruby/object:Api::Type::Integer
+                              name: 'limit'
+                              description: 'The maximum size of the database (see ''unit'' for the units).'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/includedMaxSize/limit']
+                            - !ruby/object:Api::Type::Enum
+                              name: 'unit'
+                              description: 'The units that the limit is expressed in.'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/includedMaxSize/unit']
+                              values:
+                                - :Megabytes
+                                - :Gigabytes
+                                - :Terabytes
+                                - :Petabytes
+                              default_value: :Megabytes
+                            - !ruby/object:Api::Type::Enum
+                              name: 'status'
+                              description: 'The status of the maximum size capability.'
+                              required: false
+                              azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/includedMaxSize/status']
+                              values:
+                                - :Visible
+                                - :Available
+                                - :Default
+                                - :Disabled
+                              default_value: :Visible
+                        - !ruby/object:Api::Type::Array
+                          name: 'supportedPerDatabaseMaxSizes'
+                          description: 'The list of supported max database sizes.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxSizes']
+                          item_type: !ruby/object:Api::Type::NestedObject
+                            properties:
+                              - !ruby/object:Api::Type::Integer
+                                name: 'limit'
+                                description: 'The maximum size of the database (see ''unit'' for the units).'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxSizes/limit']
+                              - !ruby/object:Api::Type::Enum
+                                name: 'unit'
+                                description: 'The units that the limit is expressed in.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxSizes/unit']
+                                values:
+                                  - :Megabytes
+                                  - :Gigabytes
+                                  - :Terabytes
+                                  - :Petabytes
+                                default_value: :Megabytes
+                              - !ruby/object:Api::Type::Enum
+                                name: 'status'
+                                description: 'The status of the maximum size capability.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxSizes/status']
+                                values:
+                                  - :Visible
+                                  - :Available
+                                  - :Default
+                                  - :Disabled
+                                default_value: :Visible
+                        - !ruby/object:Api::Type::Array
+                          name: 'supportedPerDatabaseMaxDtus'
+                          description: 'The list of supported max database DTUs.'
+                          required: false
+                          azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxDtus']
+                          item_type: !ruby/object:Api::Type::NestedObject
+                            properties:
+                              - !ruby/object:Api::Type::Integer
+                                name: 'limit'
+                                description: 'The maximum DTUs per database.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxDtus/limit']
+                              - !ruby/object:Api::Type::Enum
+                                name: 'status'
+                                description: 'The status of the capability.'
+                                required: false
+                                azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/supportedElasticPoolDtus/supportedPerDatabaseMaxDtus/status']
+                                values:
+                                  - :Visible
+                                  - :Available
+                                  - :Default
+                                  - :Disabled
+                                default_value: :Visible
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'zoneRedundant'
+                    description: 'Whether or not zone redundancy is supported for the edition.'
+                    required: false
+                    azure_sdk_references: ['/supportedServerVersions/supportedElasticPoolEditions/zoneRedundant']

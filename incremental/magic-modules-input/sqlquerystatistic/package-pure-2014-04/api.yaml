@@ -1,0 +1,134 @@
+--- !ruby/object:Api::Product
+name: Azure QueryStatistic Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: QueryStatistic
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: queryStatisticsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.query_statistics
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByQuery
+        python_func_name: list_by_query
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: name
+            python_parameter_name: database_name
+            python_variable_name: name
+          'queryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topQueries
+            go_variable_name: queryID
+            python_parameter_name: query_id
+            python_variable_name: query_id
+
+    description: |
+      Manage Azure QueryStatistic instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'queryId'
+        description: 'The id of the query'
+        required: true
+        input: true
+        azure_sdk_references: ['queryId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The query.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'queryId'
+              description: 'The id of the query'
+              required: false
+              azure_sdk_references: ['/value/queryId']
+            - !ruby/object:Api::Type::Array
+              name: 'intervals'
+              description: 'The list of query intervals.'
+              required: false
+              azure_sdk_references: ['/value/intervals']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'intervalStartTime'
+                    description: 'The start time of the measurement interval (ISO8601 format).'
+                    required: false
+                    azure_sdk_references: ['/value/intervals/intervalStartTime']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'executionCount'
+                    description: 'The number of times the query was executed during this interval.'
+                    required: false
+                    azure_sdk_references: ['/value/intervals/executionCount']
+                  - !ruby/object:Api::Type::Array
+                    name: 'metrics'
+                    description: 'The list of query metrics during this interval.'
+                    required: false
+                    azure_sdk_references: ['/value/intervals/metrics']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'name'
+                          description: 'The name of the metric'
+                          required: false
+                          azure_sdk_references: ['/value/intervals/metrics/name']
+                        - !ruby/object:Api::Type::String
+                          name: 'displayName'
+                          description: 'The name of the metric for display in user interface'
+                          required: false
+                          azure_sdk_references: ['/value/intervals/metrics/displayName']
+                        - !ruby/object:Api::Type::Enum
+                          name: 'unit'
+                          description: 'The unit of measurement'
+                          required: false
+                          azure_sdk_references: ['/value/intervals/metrics/unit']
+                          values:
+                            - :percentage
+                            - :KB
+                            - :microseconds
+                          default_value: :percentage
+                        - !ruby/object:Api::Type::Double
+                          name: 'value'
+                          description: 'The measured value'
+                          required: false
+                          azure_sdk_references: ['/value/intervals/metrics/value']

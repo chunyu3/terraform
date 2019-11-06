@@ -1,0 +1,232 @@
+--- !ruby/object:Api::Product
+name: Azure DatabaseAdvisor Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DatabaseAdvisor
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: databaseAdvisorsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.database_advisors
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'advisorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: advisors
+            go_variable_name: name
+            python_parameter_name: advisor_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Advisor
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdvisorProperties
+            go_type_name: AdvisorProperties
+          '/autoExecuteValue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: auto_execute_value
+          '/properties/autoExecuteValue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AutoExecuteValue
+            go_enum_type_name: AutoExecuteStatus
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'advisorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: advisors
+            go_variable_name: name
+            python_parameter_name: advisor_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AdvisorProperties
+            go_type_name: AdvisorProperties
+          '/properties/autoExecuteValue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AutoExecuteValue
+            go_enum_type_name: AutoExecuteStatus
+          '/autoExecuteValue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: auto_execute_value
+          '/properties/advisorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AdvisorStatus
+            go_enum_type_name: AdvisorStatus
+          '/advisorStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: advisor_status
+          '/properties/recommendationsStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecommendationsStatus
+          '/recommendationsStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recommendations_status
+          '/properties/lastChecked': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastChecked
+          '/lastChecked': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_checked
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabase
+        python_func_name: list_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+
+    description: |
+      Manage Azure DatabaseAdvisor instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Database Advisor.'
+        required: true
+        input: true
+        azure_sdk_references: ['advisorName']
+      - !ruby/object:Api::Type::Enum
+        name: 'autoExecuteValue'
+        description: 'Gets the auto-execute status (whether to let the system execute the recommendations) of this advisor. Possible values are ''Enabled'' and ''Disabled'''
+        required: true
+        azure_sdk_references: ['/autoExecuteValue', '/properties/autoExecuteValue']
+        values:
+          - :Enabled
+          - :Disabled
+          - :Default
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'advisorStatus'
+        description: 'Gets the status of availability of this advisor to customers. Possible values are ''GA'', ''PublicPreview'', ''LimitedPublicPreview'' and ''PrivatePreview''.'
+        output: true
+        azure_sdk_references: ['/advisorStatus', '/properties/advisorStatus']
+        values:
+          - :GA
+          - :PublicPreview
+          - :LimitedPublicPreview
+          - :PrivatePreview
+      - !ruby/object:Api::Type::String
+        name: 'recommendationsStatus'
+        description: 'Gets that status of recommendations for this advisor and reason for not having any recommendations. Possible values include, but are not limited to, ''Ok'' (Recommendations available), LowActivity (not enough workload to analyze), ''DbSeemsTuned'' (Database is doing well), etc.'
+        output: true
+        azure_sdk_references: ['/recommendationsStatus', '/properties/recommendationsStatus']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastChecked'
+        description: 'Gets the time when the current resource was analyzed for recommendations by this advisor.'
+        output: true
+        azure_sdk_references: ['/lastChecked', '/properties/lastChecked']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Resource kind.'
+        output: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        output: true
+        azure_sdk_references: ['/location']

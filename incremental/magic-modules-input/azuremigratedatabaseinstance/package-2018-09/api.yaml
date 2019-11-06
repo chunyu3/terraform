@@ -1,0 +1,148 @@
+--- !ruby/object:Api::Product
+name: Azure DatabaseInstance Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DatabaseInstance
+    api_name: Migrate
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Migrate
+      go_client_namespace: azuremigrate
+      go_client: databaseInstancesClient
+      python_client_namespace: azure.mgmt.azuremigrate
+      python_client: AzureMigrateHubClient.database_instances
+
+    description: |
+      Manage Azure DatabaseInstance instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Azure Resource Group that migrate project is part of.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Azure Migrate project.'
+        required: true
+        input: true
+        azure_sdk_references: ['migrateProjectName']
+      - !ruby/object:Api::Type::String
+        name: 'continuationToken'
+        description: 'The continuation token.'
+        required: false
+        input: true
+        azure_sdk_references: ['continuationToken']
+      - !ruby/object:Api::Type::Integer
+        name: 'pageSize'
+        description: 'The number of items to be returned in a single page. This value is honored only if it is less than the 100.'
+        required: false
+        input: true
+        azure_sdk_references: ['pageSize']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets the database instances.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Gets or sets the relative URL to get to this REST resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Gets or sets the name of this REST resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Gets the type of this REST resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Array
+              name: 'discoveryData'
+              description: 'Gets or sets the assessment details of the database instance published by various sources.'
+              required: false
+              azure_sdk_references: ['/value/discoveryData', '/value/properties/discoveryData']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'lastUpdatedTime'
+                    description: 'Gets or sets the time of the last modification of the database instance details.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/lastUpdatedTime', '/value/properties/discoveryData/lastUpdatedTime']
+                  - !ruby/object:Api::Type::String
+                    name: 'instanceId'
+                    description: 'Gets or sets the database instance Id.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/instanceId', '/value/properties/discoveryData/instanceId']
+                  - !ruby/object:Api::Type::String
+                    name: 'enqueueTime'
+                    description: 'Gets or sets the time the message was enqueued.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/enqueueTime', '/value/properties/discoveryData/enqueueTime']
+                  - !ruby/object:Api::Type::String
+                    name: 'solutionName'
+                    description: 'Gets or sets the name of the solution that sent the data.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/solutionName', '/value/properties/discoveryData/solutionName']
+                  - !ruby/object:Api::Type::String
+                    name: 'instanceName'
+                    description: 'Gets or sets the database instance name.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/instanceName', '/value/properties/discoveryData/instanceName']
+                  - !ruby/object:Api::Type::String
+                    name: 'instanceVersion'
+                    description: 'Gets or sets the database instance version.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/instanceVersion', '/value/properties/discoveryData/instanceVersion']
+                  - !ruby/object:Api::Type::String
+                    name: 'instanceType'
+                    description: 'Gets or sets the database instance type.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/instanceType', '/value/properties/discoveryData/instanceType']
+                  - !ruby/object:Api::Type::String
+                    name: 'hostName'
+                    description: 'Gets or sets the host name of the database server.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/hostName', '/value/properties/discoveryData/hostName']
+                  - !ruby/object:Api::Type::String
+                    name: 'ipAddress'
+                    description: 'Gets or sets the IP addresses of the database server. IP addresses could be IP V4 or IP V6.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/ipAddress', '/value/properties/discoveryData/ipAddress']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'portNumber'
+                    description: 'Gets or sets the port number of the database server.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/portNumber', '/value/properties/discoveryData/portNumber']
+                  - !ruby/object:Api::Type::KeyValuePairs
+                    name: 'extendedInfo'
+                    description: 'Gets or sets the extended properties of the database server.'
+                    required: false
+                    azure_sdk_references: ['/value/discoveryData/extendedInfo', '/value/properties/discoveryData/extendedInfo']
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'summary'
+              description: 'Gets or sets the database instances summary per solution. The key of dictionary is the solution name and value is the corresponding database instance summary object.'
+              required: false
+              azure_sdk_references: ['/value/summary', '/value/properties/summary']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastUpdatedTime'
+              description: 'Gets or sets the time of the last modification of the database.'
+              required: false
+              azure_sdk_references: ['/value/lastUpdatedTime', '/value/properties/lastUpdatedTime']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Gets or sets the value of nextLink.'
+        output: true
+        azure_sdk_references: ['/nextLink']

@@ -1,0 +1,92 @@
+--- !ruby/object:Api::Product
+name: Azure NodeCountInformation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: NodeCountInformation
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: automation
+      go_client: nodeCountInformationClient
+      python_client_namespace: azure.mgmt.automation
+      python_client: AutomationClient.node_count_information
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: name
+            python_parameter_name: automation_account_name
+            python_variable_name: name
+          'countType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: nodecounts
+            go_variable_name: countType
+            python_parameter_name: count_type
+            python_variable_name: count_type
+        response:
+          '/value': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Value
+            go_type_name: NodeCount
+            python_field_name: value
+          '/totalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: TotalCount
+            python_field_name: total_count
+
+    description: |
+      Manage Azure NodeCountInformation instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'countType'
+        description: 'The type of counts to retrieve'
+        required: true
+        input: true
+        azure_sdk_references: ['countType']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets an array of counts'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Gets the name of a count type'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'count'
+              description: 'Gets the count for the name'
+              required: false
+              azure_sdk_references: ['/value/count', '/value/properties/count']
+      - !ruby/object:Api::Type::Integer
+        name: 'totalCount'
+        description: 'Gets the total number of records matching countType criteria.'
+        output: true
+        azure_sdk_references: ['/totalCount']

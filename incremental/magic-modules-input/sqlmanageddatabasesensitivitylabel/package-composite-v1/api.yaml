@@ -1,0 +1,339 @@
+--- !ruby/object:Api::Product
+name: Azure ManagedDatabaseSensitivityLabel Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ManagedDatabaseSensitivityLabel
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: managedDatabaseSensitivityLabelsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.managed_database_sensitivity_labels
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedInstances
+            go_variable_name: managedInstanceName
+            python_parameter_name: managed_instance_name
+            python_variable_name: managed_instance_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schemas
+            go_variable_name: schemaName
+            python_parameter_name: schema_name
+            python_variable_name: schema_name
+          'tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tables
+            go_variable_name: tableName
+            python_parameter_name: table_name
+            python_variable_name: table_name
+          'columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: columns
+            go_variable_name: name
+            python_parameter_name: column_name
+            python_variable_name: name
+          'sensitivityLabelSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sensitivityLabels
+            go_variable_name: sensitivityLabelSource
+            python_parameter_name: sensitivity_label_source
+            python_variable_name: sensitivity_label_source
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SensitivityLabel
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SensitivityLabelProperties
+            go_type_name: SensitivityLabelProperties
+          '/labelName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label_name
+          '/properties/labelName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabelName
+          '/labelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label_id
+          '/properties/labelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabelID
+          '/informationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: information_type
+          '/properties/informationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InformationType
+          '/informationTypeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: information_type_id
+          '/properties/informationTypeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InformationTypeID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedInstances
+            go_variable_name: managedInstanceName
+            python_parameter_name: managed_instance_name
+            python_variable_name: managed_instance_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schemas
+            go_variable_name: schemaName
+            python_parameter_name: schema_name
+            python_variable_name: schema_name
+          'tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tables
+            go_variable_name: tableName
+            python_parameter_name: table_name
+            python_variable_name: table_name
+          'columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: columns
+            go_variable_name: name
+            python_parameter_name: column_name
+            python_variable_name: name
+          'sensitivityLabelSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sensitivityLabels
+            go_variable_name: sensitivityLabelSource
+            python_parameter_name: sensitivity_label_source
+            python_variable_name: sensitivity_label_source
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedInstances
+            go_variable_name: managedInstanceName
+            python_parameter_name: managed_instance_name
+            python_variable_name: managed_instance_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'schemaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: schemas
+            go_variable_name: schemaName
+            python_parameter_name: schema_name
+            python_variable_name: schema_name
+          'tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tables
+            go_variable_name: tableName
+            python_parameter_name: table_name
+            python_variable_name: table_name
+          'columnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: columns
+            go_variable_name: name
+            python_parameter_name: column_name
+            python_variable_name: name
+          'sensitivityLabelSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sensitivityLabels
+            go_variable_name: sensitivityLabelSource
+            python_parameter_name: sensitivity_label_source
+            python_variable_name: sensitivity_label_source
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SensitivityLabelProperties
+            go_type_name: SensitivityLabelProperties
+          '/properties/labelName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabelName
+          '/labelName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label_name
+          '/properties/labelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabelID
+          '/labelId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label_id
+          '/properties/informationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InformationType
+          '/informationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: information_type
+          '/properties/informationTypeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: InformationTypeID
+          '/informationTypeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: information_type_id
+          '/properties/isDisabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsDisabled
+          '/isDisabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_disabled
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListCurrentByDatabase
+        python_func_name: list_current_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedInstances
+            go_variable_name: managedInstanceName
+            python_parameter_name: managed_instance_name
+            python_variable_name: managed_instance_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListRecommendedByDatabase
+        python_func_name: list_recommended_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedInstances
+            go_variable_name: managedInstanceName
+            python_parameter_name: managed_instance_name
+            python_variable_name: managed_instance_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+
+    description: |
+      Manage Azure ManagedDatabaseSensitivityLabel instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'managedInstanceName'
+        description: 'The name of the managed instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['managedInstanceName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'schemaName'
+        description: 'The name of the schema.'
+        required: true
+        input: true
+        azure_sdk_references: ['schemaName']
+      - !ruby/object:Api::Type::String
+        name: 'tableName'
+        description: 'The name of the table.'
+        required: true
+        input: true
+        azure_sdk_references: ['tableName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the column.'
+        required: true
+        input: true
+        azure_sdk_references: ['columnName']
+      - !ruby/object:Api::Type::String
+        name: 'sensitivityLabelSource'
+        description: 'The source of the sensitivity label.'
+        required: true
+        input: true
+        azure_sdk_references: ['sensitivityLabelSource']
+      - !ruby/object:Api::Type::String
+        name: 'labelName'
+        description: 'The label name.'
+        required: false
+        azure_sdk_references: ['/labelName', '/properties/labelName']
+      - !ruby/object:Api::Type::String
+        name: 'labelId'
+        description: 'The label ID.'
+        required: false
+        azure_sdk_references: ['/labelId', '/properties/labelId']
+      - !ruby/object:Api::Type::String
+        name: 'informationType'
+        description: 'The information type.'
+        required: false
+        azure_sdk_references: ['/informationType', '/properties/informationType']
+      - !ruby/object:Api::Type::String
+        name: 'informationTypeId'
+        description: 'The information type ID.'
+        required: false
+        azure_sdk_references: ['/informationTypeId', '/properties/informationTypeId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Boolean
+        name: 'isDisabled'
+        description: 'Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only. Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or not.'
+        output: true
+        azure_sdk_references: ['/isDisabled', '/properties/isDisabled']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,52 @@
+--- !ruby/object:Api::Product
+name: Azure OperationResult Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: OperationResult
+    api_name: HealthcareApis
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.HealthcareApis
+      go_client_namespace: healthcareapis
+      go_client: operationResultsClient
+      python_client_namespace: azure.mgmt.healthcareapis
+      python_client: HealthcareApisManagementClient.operation_results
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: name
+            python_parameter_name: location_name
+            python_variable_name: name
+          'operationResultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationresults
+            go_variable_name: operationResultID
+            python_parameter_name: operation_result_id
+            python_variable_name: operation_result_id
+        response:
+
+    description: |
+      Manage Azure OperationResult instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The location of the operation.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationName']
+      - !ruby/object:Api::Type::String
+        name: 'operationResultId'
+        description: 'The ID of the operation result to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationResultId']
+      # read only values included only in response

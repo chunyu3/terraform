@@ -1,0 +1,192 @@
+--- !ruby/object:Api::Product
+name: Azure BackupProtectedItem Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BackupProtectedItem
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: backup
+      go_client: backupProtectedItemsClient
+      python_client_namespace: azure.mgmt.recoveryservices.backup
+      python_client: RecoveryServicesBackupClient.backup_protected_items
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: name
+            python_parameter_name: vault_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure BackupProtectedItem instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the recovery services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group where the recovery services vault is present.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id represents the complete path to the resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name associated with the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'eTag'
+              description: 'Optional ETag.'
+              required: false
+              azure_sdk_references: ['/value/eTag']
+            - !ruby/object:Api::Type::Enum
+              name: 'backupManagementType'
+              description: 'Type of backup management for the backed up item.'
+              required: false
+              azure_sdk_references: ['/value/backupManagementType', '/value/properties/backupManagementType']
+              values:
+                - :Invalid
+                - :AzureIaasVM
+                - :MAB
+                - :DPM
+                - :AzureBackupServer
+                - :AzureSql
+                - :AzureStorage
+                - :AzureWorkload
+                - :DefaultBackup
+              default_value: :Invalid
+            - !ruby/object:Api::Type::Enum
+              name: 'workloadType'
+              description: 'Type of workload this item represents.'
+              required: false
+              azure_sdk_references: ['/value/workloadType', '/value/properties/workloadType']
+              values:
+                - :Invalid
+                - :VM
+                - :FileFolder
+                - :AzureSqlDb
+                - :SQLDB
+                - :Exchange
+                - :Sharepoint
+                - :VMwareVM
+                - :SystemState
+                - :Client
+                - :GenericDataSource
+                - :SQLDataBase
+                - :AzureFileShare
+                - :SAPHanaDatabase
+                - :SAPAseDatabase
+              default_value: :Invalid
+            - !ruby/object:Api::Type::String
+              name: 'containerName'
+              description: 'Unique name of container'
+              required: false
+              azure_sdk_references: ['/value/containerName', '/value/properties/containerName']
+            - !ruby/object:Api::Type::String
+              name: 'sourceResourceId'
+              description: 'ARM ID of the resource to be backed up.'
+              required: false
+              azure_sdk_references: ['/value/sourceResourceId', '/value/properties/sourceResourceId']
+            - !ruby/object:Api::Type::String
+              name: 'policyId'
+              description: 'ID of the backup policy with which this item is backed up.'
+              required: false
+              azure_sdk_references: ['/value/policyId', '/value/properties/policyId']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastRecoveryPoint'
+              description: 'Timestamp when the last (latest) backup copy was created for this backup item.'
+              required: false
+              azure_sdk_references: ['/value/lastRecoveryPoint', '/value/properties/lastRecoveryPoint']
+            - !ruby/object:Api::Type::String
+              name: 'backupSetName'
+              description: 'Name of the backup set the backup item belongs to'
+              required: false
+              azure_sdk_references: ['/value/backupSetName', '/value/properties/backupSetName']
+            - !ruby/object:Api::Type::Enum
+              name: 'createMode'
+              description: 'Create mode to indicate recovery of existing soft deleted data source or creation of new data source.'
+              required: false
+              azure_sdk_references: ['/value/createMode', '/value/properties/createMode']
+              values:
+                - :Invalid
+                - :Default
+                - :Recover
+              default_value: :Invalid
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'deferredDeleteTimeInUtc'
+              description: 'Time for deferred deletion in UTC'
+              required: false
+              azure_sdk_references: ['/value/deferredDeleteTimeInUTC', '/value/properties/deferredDeleteTimeInUTC']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isScheduledForDeferredDelete'
+              description: 'Flag to identify whether the DS is scheduled for deferred delete'
+              required: false
+              azure_sdk_references: ['/value/isScheduledForDeferredDelete', '/value/properties/isScheduledForDeferredDelete']
+            - !ruby/object:Api::Type::String
+              name: 'deferredDeleteTimeRemaining'
+              description: 'Time remaining before the DS marked for deferred delete is permanently deleted'
+              required: false
+              azure_sdk_references: ['/value/deferredDeleteTimeRemaining', '/value/properties/deferredDeleteTimeRemaining']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isDeferredDeleteScheduleUpcoming'
+              description: 'Flag to identify whether the deferred deleted DS is to be purged soon'
+              required: false
+              azure_sdk_references: ['/value/isDeferredDeleteScheduleUpcoming', '/value/properties/isDeferredDeleteScheduleUpcoming']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isRehydrate'
+              description: 'Flag to identify that deferred deleted DS is to be moved into Pause state'
+              required: false
+              azure_sdk_references: ['/value/isRehydrate', '/value/properties/isRehydrate']

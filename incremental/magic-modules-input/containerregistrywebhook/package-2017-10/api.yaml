@@ -1,0 +1,305 @@
+--- !ruby/object:Api::Product
+name: Azure Webhook Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Webhook
+    api_name: ContainerRegistry
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerRegistry
+      go_client_namespace: containerregistry
+      go_client: webhooksClient
+      python_client_namespace: azure.mgmt.containerregistry
+      python_client: ContainerRegistryManagementClient.webhooks
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+          'webhookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webhooks
+            go_variable_name: name
+            python_parameter_name: webhook_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: webhookCreateParameters
+            go_type_name: WebhookCreateParameters
+            python_parameter_name: webhook_create_parameters
+            python_variable_name: webhook_create_parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WebhookPropertiesCreateParameters
+            go_type_name: WebhookPropertiesCreateParameters
+          '/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_uri
+          '/properties/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceUri
+          '/customHeaders': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: custom_headers
+          '/properties/customHeaders': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: CustomHeaders
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: WebhookStatus
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: actions
+          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Actions
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+          'webhookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webhooks
+            go_variable_name: name
+            python_parameter_name: webhook_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+          'webhookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webhooks
+            go_variable_name: name
+            python_parameter_name: webhook_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+          'webhookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: webhooks
+            go_variable_name: name
+            python_parameter_name: webhook_name
+            python_variable_name: name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WebhookPropertiesCreateParameters
+            go_type_name: WebhookPropertiesCreateParameters
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: WebhookStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/actions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Actions
+          '/actions': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: actions
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: registryName
+            python_parameter_name: registry_name
+            python_variable_name: registry_name
+
+    description: |
+      Manage Azure Webhook instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group to which the container registry belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'registryName'
+        description: 'The name of the container registry.'
+        required: true
+        input: true
+        azure_sdk_references: ['registryName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the webhook.'
+        required: true
+        input: true
+        azure_sdk_references: ['webhookName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags for the webhook.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the webhook. This cannot be changed after the resource is created.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'serviceUri'
+        description: 'The service URI for the webhook to post notifications.'
+        required: true
+        azure_sdk_references: ['/serviceUri', '/properties/serviceUri']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'customHeaders'
+        description: 'Custom headers that will be added to the webhook notifications.'
+        required: false
+        azure_sdk_references: ['/customHeaders', '/properties/customHeaders']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the webhook at the time the operation was called.'
+        required: false
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :enabled
+          - :disabled
+        default_value: :enabled
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of repositories where the event can be triggered. For example, ''foo:*'' means events for all tags under repository ''foo''. ''foo:bar'' means events for ''foo:bar'' only. ''foo'' is equivalent to ''foo:latest''. Empty means all events.'
+        required: false
+        azure_sdk_references: ['/scope', '/properties/scope']
+      - !ruby/object:Api::Type::Array
+        name: 'actions'
+        description: 'The list of actions that trigger the webhook to post notifications.'
+        required: true
+        azure_sdk_references: ['/actions', '/properties/actions']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :push
+            - :delete
+            - :quarantine
+            - :chart_push
+            - :chart_delete
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the webhook at the time the operation was called.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

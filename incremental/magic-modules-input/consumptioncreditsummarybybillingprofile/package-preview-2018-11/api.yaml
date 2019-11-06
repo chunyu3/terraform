@@ -1,0 +1,174 @@
+--- !ruby/object:Api::Product
+name: Azure CreditSummaryByBillingProfile Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CreditSummaryByBillingProfile
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: consumption
+      go_client: creditSummaryByBillingProfileClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.credit_summary_by_billing_profile
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'billingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountID
+            python_parameter_name: billing_account_id
+            python_variable_name: billing_account_id
+          'billingProfileId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingProfiles
+            go_variable_name: billingProfileID
+            python_parameter_name: billing_profile_id
+            python_variable_name: billing_profile_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CreditSummaryProperties
+            go_type_name: CreditSummaryProperties
+
+    description: |
+      Manage Azure CreditSummaryByBillingProfile instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountId'
+        description: 'BillingAccount ID'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'billingProfileId'
+        description: 'Billing Profile Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingProfileId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'balanceSummary'
+        description: 'Summary of balances associated with this credit summary.'
+        required: false
+        azure_sdk_references: ['/balanceSummary', '/properties/balanceSummary']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'estimatedBalance'
+            description: 'Estimated balance.'
+            required: false
+            azure_sdk_references: ['/balanceSummary/estimatedBalance', '/properties/balanceSummary/estimatedBalance']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'currency'
+                description: 'The currency for the amount value.'
+                required: false
+                azure_sdk_references: ['/balanceSummary/estimatedBalance/currency', '/properties/balanceSummary/estimatedBalance/currency']
+              - !ruby/object:Api::Type::Integer
+                name: 'value'
+                description: 'Amount value.'
+                required: false
+                azure_sdk_references: ['/balanceSummary/estimatedBalance/value', '/properties/balanceSummary/estimatedBalance/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'currentBalance'
+            description: 'Current balance.'
+            required: false
+            azure_sdk_references: ['/balanceSummary/currentBalance', '/properties/balanceSummary/currentBalance']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'currency'
+                description: 'The currency for the amount value.'
+                required: false
+                azure_sdk_references: ['/balanceSummary/currentBalance/currency', '/properties/balanceSummary/currentBalance/currency']
+              - !ruby/object:Api::Type::Integer
+                name: 'value'
+                description: 'Amount value.'
+                required: false
+                azure_sdk_references: ['/balanceSummary/currentBalance/value', '/properties/balanceSummary/currentBalance/value']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'pendingCreditAdjustments'
+        description: 'Pending Credit Adjustments.'
+        required: false
+        azure_sdk_references: ['/pendingCreditAdjustments', '/properties/pendingCreditAdjustments']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'currency'
+            description: 'The currency for the amount value.'
+            required: false
+            azure_sdk_references: ['/pendingCreditAdjustments/currency', '/properties/pendingCreditAdjustments/currency']
+          - !ruby/object:Api::Type::Integer
+            name: 'value'
+            description: 'Amount value.'
+            required: false
+            azure_sdk_references: ['/pendingCreditAdjustments/value', '/properties/pendingCreditAdjustments/value']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'expiredCredit'
+        description: 'Expired Credit.'
+        required: false
+        azure_sdk_references: ['/expiredCredit', '/properties/expiredCredit']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'currency'
+            description: 'The currency for the amount value.'
+            required: false
+            azure_sdk_references: ['/expiredCredit/currency', '/properties/expiredCredit/currency']
+          - !ruby/object:Api::Type::Integer
+            name: 'value'
+            description: 'Amount value.'
+            required: false
+            azure_sdk_references: ['/expiredCredit/value', '/properties/expiredCredit/value']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'pendingEligibleCharges'
+        description: 'Pending Eligible Charges.'
+        required: false
+        azure_sdk_references: ['/pendingEligibleCharges', '/properties/pendingEligibleCharges']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'currency'
+            description: 'The currency for the amount value.'
+            required: false
+            azure_sdk_references: ['/pendingEligibleCharges/currency', '/properties/pendingEligibleCharges/currency']
+          - !ruby/object:Api::Type::Integer
+            name: 'value'
+            description: 'Amount value.'
+            required: false
+            azure_sdk_references: ['/pendingEligibleCharges/value', '/properties/pendingEligibleCharges/value']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        output: true
+        azure_sdk_references: ['tags', '/tags']

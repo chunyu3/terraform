@@ -1,0 +1,91 @@
+--- !ruby/object:Api::Product
+name: Azure Quota Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Quota
+    api_name: MachineLearningServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.MachineLearningServices
+      go_client_namespace: machinelearningservices
+      go_client: quotasClient
+      python_client_namespace: azure.mgmt.machinelearningservices
+      python_client: AzureMachineLearningWorkspacesClient.quotas
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure Quota instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location for which resource usage is queried.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of Workspace Quotas by VM Family'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Specifies the resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Specifies the resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'Name of the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'The name of the resource.'
+                  required: false
+                  azure_sdk_references: ['/value/name/value']
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'The localized name of the resource.'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']
+            - !ruby/object:Api::Type::Integer
+              name: 'limit'
+              description: 'The maximum permitted quota of the resource.'
+              required: false
+              azure_sdk_references: ['/value/limit']
+            - !ruby/object:Api::Type::Enum
+              name: 'unit'
+              description: 'An enum describing the unit of quota measurement.'
+              required: false
+              azure_sdk_references: ['/value/unit']
+              values:
+                - :Count
+              default_value: :Count
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to fetch the next page of workspace quota information by VM Family. Call ListNext() with this to fetch the next page of Workspace Quota information.'
+        output: true
+        azure_sdk_references: ['/nextLink']

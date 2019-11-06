@@ -1,0 +1,30 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_activitylogalert
+  description: Create or update an activity log alert
+  code:
+    resource_group: myResourceGroup
+    name: myActivityLogAlert
+    activity_log_alert:
+      location: Global
+      tags: {}
+      properties:
+        scopes:
+          - /subscriptions/187f412d-1758-44d9-b052-169e2564721d
+        enabled: true
+        condition:
+          allOf:
+            - field: Category
+              equals: Administrative
+            - field: Level
+              equals: Error
+        actions:
+          actionGroups:
+            - actionGroupId: >-
+                /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                resource_group }}/providers/microsoft.insights/actionGroups/{{
+                action_group_name }}
+              webhookProperties:
+                sampleWebhookProperty: samplePropertyValue
+        description: Sample activity log alert description
+  

@@ -1,0 +1,199 @@
+--- !ruby/object:Api::Product
+name: Azure ActivityRun Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ActivityRun
+    api_name: DataFactory
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataFactory
+      go_client_namespace: datafactoryv2
+      go_client: activityRunsClient
+      python_client_namespace: azure.mgmt.datafactoryv2
+      python_client: DataFactoryManagementClient.activity_runs
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByPipelineRun
+        python_func_name: list_by_pipeline_run
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'factoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: factories
+            go_variable_name: factoryName
+            python_parameter_name: factory_name
+            python_variable_name: factory_name
+          'runId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: pipelineruns
+            go_variable_name: runID
+            python_parameter_name: run_id
+            python_variable_name: run_id
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
+          'status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: status
+            python_parameter_name: status
+            python_variable_name: status
+          'activityName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: activityName
+            python_parameter_name: activity_name
+            python_variable_name: activity_name
+          'linkedServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: name
+            python_parameter_name: linked_service_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ActivityRun instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'factoryName'
+        description: 'The factory name.'
+        required: true
+        input: true
+        azure_sdk_references: ['factoryName']
+      - !ruby/object:Api::Type::String
+        name: 'runId'
+        description: 'The pipeline run identifier.'
+        required: true
+        input: true
+        azure_sdk_references: ['runId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The start time of activity runs in ISO8601 format.'
+        required: true
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'The end time of activity runs in ISO8601 format.'
+        required: true
+        input: true
+        azure_sdk_references: ['endTime']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'The status of the pipeline run.'
+        required: false
+        input: true
+        azure_sdk_references: ['status']
+      - !ruby/object:Api::Type::String
+        name: 'activityName'
+        description: 'The name of the activity.'
+        required: false
+        input: true
+        azure_sdk_references: ['activityName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The linked service name.'
+        required: false
+        input: true
+        azure_sdk_references: ['linkedServiceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of activity runs.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'additionalProperties'
+              description: 'Unmatched properties from the message are deserialized this collection'
+              required: false
+              azure_sdk_references: ['/value/additionalProperties']
+            - !ruby/object:Api::Type::String
+              name: 'pipelineName'
+              description: 'The name of the pipeline.'
+              required: false
+              azure_sdk_references: ['/value/pipelineName']
+            - !ruby/object:Api::Type::String
+              name: 'pipelineRunId'
+              description: 'The id of the pipeline run.'
+              required: false
+              azure_sdk_references: ['/value/pipelineRunId']
+            - !ruby/object:Api::Type::String
+              name: 'activityName'
+              description: 'The name of the activity.'
+              required: false
+              azure_sdk_references: ['/value/activityName']
+            - !ruby/object:Api::Type::String
+              name: 'activityType'
+              description: 'The type of the activity.'
+              required: false
+              azure_sdk_references: ['/value/activityType']
+            - !ruby/object:Api::Type::String
+              name: 'activityRunId'
+              description: 'The id of the activity run.'
+              required: false
+              azure_sdk_references: ['/value/activityRunId']
+            - !ruby/object:Api::Type::String
+              name: 'linkedServiceName'
+              description: 'The name of the compute linked service.'
+              required: false
+              azure_sdk_references: ['/value/linkedServiceName']
+            - !ruby/object:Api::Type::String
+              name: 'status'
+              description: 'The status of the activity run.'
+              required: false
+              azure_sdk_references: ['/value/status']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'activityRunStart'
+              description: 'The start time of the activity run in ''ISO 8601'' format.'
+              required: false
+              azure_sdk_references: ['/value/activityRunStart']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'activityRunEnd'
+              description: 'The end time of the activity run in ''ISO 8601'' format.'
+              required: false
+              azure_sdk_references: ['/value/activityRunEnd']
+            - !ruby/object:Api::Type::Integer
+              name: 'durationInMs'
+              description: 'The duration of the activity run.'
+              required: false
+              azure_sdk_references: ['/value/durationInMs']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'input'
+              description: 'The input for the activity.'
+              required: false
+              azure_sdk_references: ['/value/input']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'output'
+              description: 'The output for the activity.'
+              required: false
+              azure_sdk_references: ['/value/output']
+            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+              name: 'error'
+              description: 'The error if any from the activity run.'
+              required: false
+              azure_sdk_references: ['/value/error']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link to the next page of results, if any remaining results exist.'
+        output: true
+        azure_sdk_references: ['/nextLink']

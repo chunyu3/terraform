@@ -1,0 +1,288 @@
+--- !ruby/object:Api::Product
+name: Azure ADCCatalog Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ADCCatalog
+    api_name: DataCatalog
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataCatalog
+      go_client_namespace: datacatalog
+      go_client: aDCCatalogsClient
+      python_client_namespace: azure.mgmt.datacatalog
+      python_client: DataCatalogRestClient.adccatalogs
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'catalogName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: catalogs
+            go_variable_name: name
+            python_parameter_name: catalog_name
+            python_variable_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ADCCatalogProperties
+            go_type_name: ADCCatalogProperties
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'catalogName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: catalogs
+            go_variable_name: name
+            python_parameter_name: catalog_name
+            python_variable_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ADCCatalogProperties
+            go_type_name: ADCCatalogProperties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'catalogName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: catalogs
+            go_variable_name: name
+            python_parameter_name: catalog_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'catalogName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: catalogs
+            go_variable_name: name
+            python_parameter_name: catalog_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ADCCatalogProperties
+            go_type_name: ADCCatalogProperties
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_enum_type_name: SkuType
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/properties/units': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Units
+          '/units': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: units
+          '/properties/admins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Admins
+            go_type_name: Principals
+          '/properties/admins/upn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Upn
+          '/properties/admins/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/admins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: admins
+          '/admins/upn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: upn
+          '/admins/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/properties/users': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Users
+            go_type_name: Principals
+          '/properties/users/upn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Upn
+          '/properties/users/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/users': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: users
+          '/users/upn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: upn
+          '/users/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/properties/successfullyProvisioned': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SuccessfullyProvisioned
+          '/successfullyProvisioned': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: successfully_provisioned
+          '/properties/enableAutomaticUnitAdjustment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableAutomaticUnitAdjustment
+          '/enableAutomaticUnitAdjustment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_automatic_unit_adjustment
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListtByResourceGroup
+        python_func_name: listt_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure ADCCatalog instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the data catalog in the specified subscription and resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['catalogName']
+      - !ruby/object:Api::Type::Enum
+        name: 'sku'
+        description: 'Azure data catalog SKU.'
+        required: false
+        azure_sdk_references: ['/sku', '/properties/sku']
+        values:
+          - :Free
+          - :Standard
+        default_value: :Free
+      - !ruby/object:Api::Type::Integer
+        name: 'units'
+        description: 'Azure data catalog units.'
+        required: false
+        azure_sdk_references: ['/units', '/properties/units']
+      - !ruby/object:Api::Type::Array
+        name: 'admins'
+        description: 'Azure data catalog admin list.'
+        required: false
+        azure_sdk_references: ['/admins', '/properties/admins']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'upn'
+              description: 'UPN of the user.'
+              required: false
+              azure_sdk_references: ['/admins/upn', '/properties/admins/upn']
+            - !ruby/object:Api::Type::String
+              name: 'objectId'
+              description: 'Object Id for the user'
+              required: false
+              azure_sdk_references: ['/admins/objectId', '/properties/admins/objectId']
+      - !ruby/object:Api::Type::Array
+        name: 'users'
+        description: 'Azure data catalog user list.'
+        required: false
+        azure_sdk_references: ['/users', '/properties/users']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'upn'
+              description: 'UPN of the user.'
+              required: false
+              azure_sdk_references: ['/users/upn', '/properties/users/upn']
+            - !ruby/object:Api::Type::String
+              name: 'objectId'
+              description: 'Object Id for the user'
+              required: false
+              azure_sdk_references: ['/users/objectId', '/properties/users/objectId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'successfullyProvisioned'
+        description: 'Azure data catalog provision status.'
+        required: false
+        azure_sdk_references: ['/successfullyProvisioned', '/properties/successfullyProvisioned']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableAutomaticUnitAdjustment'
+        description: 'Automatic unit adjustment enabled or not.'
+        required: false
+        azure_sdk_references: ['/enableAutomaticUnitAdjustment', '/properties/enableAutomaticUnitAdjustment']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Resource etag'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

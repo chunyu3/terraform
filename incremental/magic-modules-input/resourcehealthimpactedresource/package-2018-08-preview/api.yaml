@@ -1,0 +1,92 @@
+--- !ruby/object:Api::Product
+name: Azure ImpactedResource Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ImpactedResource
+    api_name: ResourceHealth
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ResourceHealth
+      go_client_namespace: resourcehealth
+      go_client: impactedResourcesClient
+      python_client_namespace: azure.mgmt.resourcehealth
+      python_client: MicrosoftResourceHealthClient.impacted_resources
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscriptionId
+        python_func_name: list_by_subscription_id
+        request:
+
+    description: |
+      Manage Azure ImpactedResource instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of impactedResourceStatus.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::Enum
+              name: 'availabilityState'
+              description: 'Impacted resource status of the resource.'
+              required: false
+              azure_sdk_references: ['/value/availabilityState', '/value/properties/availabilityState']
+              values:
+                - :Available
+                - :Unavailable
+                - :Degraded
+                - :Unknown
+              default_value: :Available
+            - !ruby/object:Api::Type::String
+              name: 'title'
+              description: 'Title description of the impacted resource status.'
+              required: false
+              azure_sdk_references: ['/value/title', '/value/properties/title']
+            - !ruby/object:Api::Type::String
+              name: 'summary'
+              description: 'Summary description of the impacted resource status.'
+              required: false
+              azure_sdk_references: ['/value/summary', '/value/properties/summary']
+            - !ruby/object:Api::Type::Enum
+              name: 'reasonType'
+              description: 'When the resource''s availabilityState is Unavailable, it describes where the health impacting event was originated.'
+              required: false
+              azure_sdk_references: ['/value/reasonType', '/value/properties/reasonType']
+              values:
+                - :Unplanned
+                - :Planned
+                - :UserInitiated
+              default_value: :Unplanned
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'occuredTime'
+              description: 'Timestamp for when last change in health status occurred.'
+              required: false
+              azure_sdk_references: ['/value/occuredTime', '/value/properties/occuredTime']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to fetch the next page of impactedResourceStatus.'
+        output: true
+        azure_sdk_references: ['/nextLink']

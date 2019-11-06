@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_blueprint
+  description: ResourceGroupWithTags
+  code:
+    scope: 'providers/Microsoft.Management/managementGroups/{ManagementGroupId}'
+    name: myBlueprint
+    blueprint:
+      properties:
+        targetScope: subscription
+        resourceGroups:
+          myRGName:
+            name: myRGName
+            location: westus
+            metadata:
+              displayName: My Resource Group
+            tags:
+              costcenter: '123456'
+              nameOnlyTag: ''
+        description: An example blueprint containing an RG with two tags.
+  

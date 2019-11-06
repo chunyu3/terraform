@@ -1,0 +1,158 @@
+--- !ruby/object:Api::Product
+name: Azure Sku Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Sku
+    api_name: MachineLearning
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.MachineLearning
+      go_client_namespace: machinelearning
+      go_client: skusClient
+      python_client_namespace: azure.mgmt.machinelearning
+      python_client: AzureMLCommitmentPlansManagementClient.skus
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Sku instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: ''
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'resourceType'
+              description: 'Resource type name'
+              required: false
+              azure_sdk_references: ['/value/resourceType']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'SKU name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'tier'
+              description: 'SKU tier'
+              required: false
+              azure_sdk_references: ['/value/tier']
+            - !ruby/object:Api::Type::Array
+              name: 'locations'
+              description: 'Regions where the SKU is available.'
+              required: false
+              azure_sdk_references: ['/value/locations']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::NestedObject
+              name: 'capacity'
+              description: 'SKU scaling information'
+              required: false
+              azure_sdk_references: ['/value/capacity']
+              properties:
+                - !ruby/object:Api::Type::Integer
+                  name: 'minimum'
+                  description: 'The minimum capacity.'
+                  required: false
+                  azure_sdk_references: ['/value/capacity/minimum']
+                - !ruby/object:Api::Type::Integer
+                  name: 'maximum'
+                  description: 'The maximum capacity that can be set.'
+                  required: false
+                  azure_sdk_references: ['/value/capacity/maximum']
+                - !ruby/object:Api::Type::Integer
+                  name: 'default'
+                  description: 'The default capacity.'
+                  required: false
+                  azure_sdk_references: ['/value/capacity/default']
+                - !ruby/object:Api::Type::Enum
+                  name: 'scaleType'
+                  description: 'The scale type applicable to the sku.'
+                  required: false
+                  azure_sdk_references: ['/value/capacity/scaleType']
+                  values:
+                    - :Automatic
+                    - :Manual
+                    - :None
+                  default_value: :Automatic
+            - !ruby/object:Api::Type::Array
+              name: 'capabilities'
+              description: 'The capability information for the specified SKU.'
+              required: false
+              azure_sdk_references: ['/value/capabilities']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The capability name.'
+                    required: false
+                    azure_sdk_references: ['/value/capabilities/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'The capability value.'
+                    required: false
+                    azure_sdk_references: ['/value/capabilities/value']
+            - !ruby/object:Api::Type::Array
+              name: 'costs'
+              description: 'The cost information for the specified SKU.'
+              required: false
+              azure_sdk_references: ['/value/costs']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'meterId'
+                    description: 'The meter used for this part of a SKU''s cost.'
+                    required: false
+                    azure_sdk_references: ['/value/costs/meterID']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'quantity'
+                    description: 'The multiplier for the meter ID.'
+                    required: false
+                    azure_sdk_references: ['/value/costs/quantity']
+                  - !ruby/object:Api::Type::String
+                    name: 'extendedUnit'
+                    description: 'The overall duration represented by the quantity.'
+                    required: false
+                    azure_sdk_references: ['/value/costs/extendedUnit']
+            - !ruby/object:Api::Type::Array
+              name: 'restrictions'
+              description: 'Restrictions which would prevent a SKU from being used. This is empty if there are no restrictions.'
+              required: false
+              azure_sdk_references: ['/value/restrictions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Enum
+                    name: 'type'
+                    description: 'The type of restrictions.'
+                    required: false
+                    azure_sdk_references: ['/value/restrictions/type']
+                    values:
+                      - :location
+                      - :zone
+                    default_value: :location
+                  - !ruby/object:Api::Type::Array
+                    name: 'values'
+                    description: 'The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.'
+                    required: false
+                    azure_sdk_references: ['/value/restrictions/values']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::Enum
+                    name: 'reasonCode'
+                    description: 'The reason for restriction.'
+                    required: false
+                    azure_sdk_references: ['/value/restrictions/reasonCode']
+                    values:
+                      - :QuotaId
+                      - :NotAvailableForSubscription
+                    default_value: :QuotaId

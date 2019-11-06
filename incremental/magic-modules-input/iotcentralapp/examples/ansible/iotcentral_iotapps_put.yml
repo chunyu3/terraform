@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_iotcentralapp
+  description: Apps_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    name: myIoTapp
+    app:
+      displayName: My IoT Central App
+      subdomain: my-iot-central-app
+      template: iotc-default@1.0.0
+      location: westus
+      sku:
+        name: F1
+  

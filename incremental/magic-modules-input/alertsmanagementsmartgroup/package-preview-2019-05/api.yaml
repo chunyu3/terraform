@@ -1,0 +1,284 @@
+--- !ruby/object:Api::Product
+name: Azure SmartGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SmartGroup
+    api_name: AlertsManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AlertsManagement
+      go_client_namespace: alertsmanagement
+      go_client: smartGroupsClient
+      python_client_namespace: azure.mgmt.alertsmanagement
+      python_client: AlertsManagementClient.smart_groups
+
+    description: |
+      Manage Azure SmartGroup instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'targetResource'
+        description: 'Filter by target resource( which is full ARM ID) Default value is select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['targetResource']
+      - !ruby/object:Api::Type::String
+        name: 'targetResourceGroup'
+        description: 'Filter by target resource group name. Default value is select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['targetResourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'targetResourceType'
+        description: 'Filter by target resource type. Default value is select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['targetResourceType']
+      - !ruby/object:Api::Type::String
+        name: 'monitorService'
+        description: 'Filter by monitor service which generates the alert instance. Default value is select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['monitorService']
+      - !ruby/object:Api::Type::String
+        name: 'monitorCondition'
+        description: 'Filter by monitor condition which is either ''Fired'' or ''Resolved''. Default value is to select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['monitorCondition']
+      - !ruby/object:Api::Type::String
+        name: 'severity'
+        description: 'Filter by severity.  Default value is select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['severity']
+      - !ruby/object:Api::Type::String
+        name: 'smartGroupState'
+        description: 'Filter by state of the smart group. Default value is to select all.'
+        required: false
+        input: true
+        azure_sdk_references: ['smartGroupState']
+      - !ruby/object:Api::Type::String
+        name: 'timeRange'
+        description: 'Filter by time range by below listed values. Default value is 1 day.'
+        required: false
+        input: true
+        azure_sdk_references: ['timeRange']
+      - !ruby/object:Api::Type::Integer
+        name: 'pageCount'
+        description: 'Determines number of alerts returned per page in response. Permissible value is between 1 to 250. When the "includeContent"  filter is selected, maximum value allowed is 25. Default value is 25.'
+        required: false
+        input: true
+        azure_sdk_references: ['pageCount']
+      - !ruby/object:Api::Type::String
+        name: 'sortBy'
+        description: 'Sort the query results by input field. Default value is sort by ''lastModifiedDateTime''.'
+        required: false
+        input: true
+        azure_sdk_references: ['sortBy']
+      - !ruby/object:Api::Type::String
+        name: 'sortOrder'
+        description: 'Sort the query results order in either ascending or descending.  Default value is ''desc'' for time fields and ''asc'' for others.'
+        required: false
+        input: true
+        azure_sdk_references: ['sortOrder']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to fetch the next set of alerts.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of alerts'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Azure resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Azure resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Azure resource name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Integer
+              name: 'alertsCount'
+              description: 'Total number of alerts in smart group'
+              required: false
+              azure_sdk_references: ['/value/alertsCount', '/value/properties/alertsCount']
+            - !ruby/object:Api::Type::Enum
+              name: 'smartGroupState'
+              description: 'Smart group state'
+              required: false
+              azure_sdk_references: ['/value/smartGroupState', '/value/properties/smartGroupState']
+              values:
+                - :New
+                - :Acknowledged
+                - :Closed
+              default_value: :New
+            - !ruby/object:Api::Type::Enum
+              name: 'severity'
+              description: 'Severity of smart group is the highest(Sev0 >... > Sev4) severity of all the alerts in the group.'
+              required: false
+              azure_sdk_references: ['/value/severity', '/value/properties/severity']
+              values:
+                - :Sev0
+                - :Sev1
+                - :Sev2
+                - :Sev3
+                - :Sev4
+              default_value: :Sev0
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startDateTime'
+              description: 'Creation time of smart group. Date-Time in ISO-8601 format.'
+              required: false
+              azure_sdk_references: ['/value/startDateTime', '/value/properties/startDateTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastModifiedDateTime'
+              description: 'Last updated time of smart group. Date-Time in ISO-8601 format.'
+              required: false
+              azure_sdk_references: ['/value/lastModifiedDateTime', '/value/properties/lastModifiedDateTime']
+            - !ruby/object:Api::Type::String
+              name: 'lastModifiedUserName'
+              description: 'Last modified by user name.'
+              required: false
+              azure_sdk_references: ['/value/lastModifiedUserName', '/value/properties/lastModifiedUserName']
+            - !ruby/object:Api::Type::Array
+              name: 'resources'
+              description: 'Summary of target resources in the smart group'
+              required: false
+              azure_sdk_references: ['/value/resources', '/value/properties/resources']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/resources/name', '/value/properties/resources/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/resources/count', '/value/properties/resources/count']
+            - !ruby/object:Api::Type::Array
+              name: 'resourceTypes'
+              description: 'Summary of target resource types in the smart group'
+              required: false
+              azure_sdk_references: ['/value/resourceTypes', '/value/properties/resourceTypes']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/resourceTypes/name', '/value/properties/resourceTypes/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/resourceTypes/count', '/value/properties/resourceTypes/count']
+            - !ruby/object:Api::Type::Array
+              name: 'resourceGroups'
+              description: 'Summary of target resource groups in the smart group'
+              required: false
+              azure_sdk_references: ['/value/resourceGroups', '/value/properties/resourceGroups']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/resourceGroups/name', '/value/properties/resourceGroups/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/resourceGroups/count', '/value/properties/resourceGroups/count']
+            - !ruby/object:Api::Type::Array
+              name: 'monitorServices'
+              description: 'Summary of monitorServices in the smart group'
+              required: false
+              azure_sdk_references: ['/value/monitorServices', '/value/properties/monitorServices']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/monitorServices/name', '/value/properties/monitorServices/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/monitorServices/count', '/value/properties/monitorServices/count']
+            - !ruby/object:Api::Type::Array
+              name: 'monitorConditions'
+              description: 'Summary of monitorConditions in the smart group'
+              required: false
+              azure_sdk_references: ['/value/monitorConditions', '/value/properties/monitorConditions']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/monitorConditions/name', '/value/properties/monitorConditions/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/monitorConditions/count', '/value/properties/monitorConditions/count']
+            - !ruby/object:Api::Type::Array
+              name: 'alertStates'
+              description: 'Summary of alertStates in the smart group'
+              required: false
+              azure_sdk_references: ['/value/alertStates', '/value/properties/alertStates']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/alertStates/name', '/value/properties/alertStates/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/alertStates/count', '/value/properties/alertStates/count']
+            - !ruby/object:Api::Type::Array
+              name: 'alertSeverities'
+              description: 'Summary of alertSeverities in the smart group'
+              required: false
+              azure_sdk_references: ['/value/alertSeverities', '/value/properties/alertSeverities']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the type.'
+                    required: false
+                    azure_sdk_references: ['/value/alertSeverities/name', '/value/properties/alertSeverities/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'count'
+                    description: 'Total number of items of type.'
+                    required: false
+                    azure_sdk_references: ['/value/alertSeverities/count', '/value/properties/alertSeverities/count']
+            - !ruby/object:Api::Type::String
+              name: 'nextLink'
+              description: 'The URI to fetch the next page of alerts. Call ListNext() with this URI to fetch the next page alerts.'
+              required: false
+              azure_sdk_references: ['/value/nextLink', '/value/properties/nextLink']
