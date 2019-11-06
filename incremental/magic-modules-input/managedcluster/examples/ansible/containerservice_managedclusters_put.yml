@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_managedcluster
+  description: Create/Update Managed Cluster
+  code:
+    resource_group: myResourceGroup
+    name: myManagedCluster
+    location: location1
+    dns_prefix: dnsprefix1
+    kubernetes_version: 1.7.7
+    agent_pool_profiles:
+      - name: agentpool1
+        count: '1'
+        vm_size: Standard_D2_v2
+  

@@ -1,0 +1,1216 @@
+--- !ruby/object:Api::Product
+name: Azure Policy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Policy
+    api_name: Cdn
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Cdn
+      go_client_namespace: cdn
+      go_client: policiesClient
+      python_client_namespace: azure.mgmt.cdn
+      python_client: CdnManagementClient.policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: CdnWebApplicationFirewallPolicies
+            go_variable_name: name
+            python_parameter_name: policy_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: cdnWebApplicationFirewallPolicy
+            go_type_name: WebApplicationFirewallPolicy
+            python_parameter_name: cdn_web_application_firewall_policy
+            python_variable_name: cdn_web_application_firewall_policy
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WebApplicationFirewallPolicyProperties
+            go_type_name: WebApplicationFirewallPolicyProperties
+          '/policySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: policy_settings
+          '/policySettings/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/policySettings/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: mode
+          '/policySettings/defaultRedirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_redirect_url
+          '/policySettings/defaultCustomBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: default_custom_block_response_status_code
+          '/policySettings/defaultCustomBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_custom_block_response_body
+          '/properties/policySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicySettings
+            go_type_name: PolicySettings
+          '/properties/policySettings/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: PolicyEnabledState
+          '/properties/policySettings/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Mode
+            go_enum_type_name: PolicyMode
+          '/properties/policySettings/defaultRedirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultRedirectURL
+          '/properties/policySettings/defaultCustomBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DefaultCustomBlockResponseStatusCode
+          '/properties/policySettings/defaultCustomBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultCustomBlockResponseBody
+          '/rateLimitRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: rate_limit_rules
+          '/rateLimitRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/rateLimitRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/rateLimitRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/rateLimitRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: priority
+          '/rateLimitRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: match_conditions
+          '/rateLimitRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: match_variable
+          '/rateLimitRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: selector
+          '/rateLimitRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operator
+          '/rateLimitRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negate_condition
+          '/rateLimitRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: match_value
+          '/rateLimitRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/rateLimitRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/rateLimitRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: redirect_url
+          '/rateLimitRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_status_code
+          '/rateLimitRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_body
+          '/rateLimitRules/rules/rateLimitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: rate_limit_threshold
+          '/rateLimitRules/rules/rateLimitDurationInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: rate_limit_duration_in_minutes
+          '/properties/rateLimitRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RateLimitRules
+            go_type_name: RateLimitRuleList
+          '/properties/rateLimitRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: RateLimitRule
+          '/properties/rateLimitRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/rateLimitRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: CustomRuleEnabledState
+          '/properties/rateLimitRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/rateLimitRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MatchConditions
+            go_type_name: MatchCondition
+          '/properties/rateLimitRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MatchVariable
+            go_enum_type_name: MatchVariable
+          '/properties/rateLimitRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Selector
+          '/properties/rateLimitRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operator
+            go_enum_type_name: Operator
+          '/properties/rateLimitRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegateCondition
+          '/properties/rateLimitRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MatchValue
+          '/properties/rateLimitRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: ActionType
+          '/properties/rateLimitRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: Action
+          '/properties/rateLimitRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RedirectURL
+          '/properties/rateLimitRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseStatusCode
+          '/properties/rateLimitRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseBody
+          '/properties/rateLimitRules/rules/rateLimitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RateLimitThreshold
+          '/properties/rateLimitRules/rules/rateLimitDurationInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RateLimitDurationInMinutes
+          '/customRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_rules
+          '/customRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/customRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/customRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/customRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: priority
+          '/customRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: match_conditions
+          '/customRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: match_variable
+          '/customRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: selector
+          '/customRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operator
+          '/customRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negate_condition
+          '/customRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: match_value
+          '/customRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/customRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/customRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: redirect_url
+          '/customRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_status_code
+          '/customRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_body
+          '/properties/customRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomRules
+            go_type_name: CustomRuleList
+          '/properties/customRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: CustomRule
+          '/properties/customRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/customRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: CustomRuleEnabledState
+          '/properties/customRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/customRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MatchConditions
+            go_type_name: MatchCondition
+          '/properties/customRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MatchVariable
+            go_enum_type_name: MatchVariable
+          '/properties/customRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Selector
+          '/properties/customRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operator
+            go_enum_type_name: Operator
+          '/properties/customRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegateCondition
+          '/properties/customRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MatchValue
+          '/properties/customRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: ActionType
+          '/properties/customRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: Action
+          '/properties/customRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RedirectURL
+          '/properties/customRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseStatusCode
+          '/properties/customRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseBody
+          '/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: managed_rules
+          '/managedRules/managedRuleSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: managed_rule_sets
+          '/managedRules/managedRuleSets/ruleSetType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_set_type
+          '/managedRules/managedRuleSets/ruleSetVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_set_version
+          '/managedRules/managedRuleSets/anomalyScore': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: anomaly_score
+          '/managedRules/managedRuleSets/ruleGroupOverrides': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rule_group_overrides
+          '/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_group_name
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/properties/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ManagedRules
+            go_type_name: ManagedRuleSetList
+          '/properties/managedRules/managedRuleSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ManagedRuleSets
+            go_type_name: ManagedRuleSet
+          '/properties/managedRules/managedRuleSets/ruleSetType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleSetType
+          '/properties/managedRules/managedRuleSets/ruleSetVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleSetVersion
+          '/properties/managedRules/managedRuleSets/anomalyScore': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: AnomalyScore
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RuleGroupOverrides
+            go_type_name: ManagedRuleGroupOverride
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleGroupName
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: ManagedRuleOverride
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: CdnWebApplicationFirewallPolicies
+            go_variable_name: name
+            python_parameter_name: policy_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: CdnWebApplicationFirewallPolicies
+            go_variable_name: name
+            python_parameter_name: policy_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: CdnWebApplicationFirewallPolicies
+            go_variable_name: name
+            python_parameter_name: policy_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WebApplicationFirewallPolicyProperties
+            go_type_name: WebApplicationFirewallPolicyProperties
+          '/properties/policySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PolicySettings
+            go_type_name: PolicySettings
+          '/properties/policySettings/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: PolicyEnabledState
+          '/properties/policySettings/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Mode
+            go_enum_type_name: PolicyMode
+          '/properties/policySettings/defaultRedirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultRedirectURL
+          '/properties/policySettings/defaultCustomBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DefaultCustomBlockResponseStatusCode
+          '/properties/policySettings/defaultCustomBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultCustomBlockResponseBody
+          '/policySettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: policy_settings
+          '/policySettings/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/policySettings/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: mode
+          '/policySettings/defaultRedirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_redirect_url
+          '/policySettings/defaultCustomBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: default_custom_block_response_status_code
+          '/policySettings/defaultCustomBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_custom_block_response_body
+          '/properties/rateLimitRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RateLimitRules
+            go_type_name: RateLimitRuleList
+          '/properties/rateLimitRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: RateLimitRule
+          '/properties/rateLimitRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/rateLimitRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: CustomRuleEnabledState
+          '/properties/rateLimitRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/rateLimitRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MatchConditions
+            go_type_name: MatchCondition
+          '/properties/rateLimitRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MatchVariable
+            go_enum_type_name: MatchVariable
+          '/properties/rateLimitRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Selector
+          '/properties/rateLimitRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operator
+            go_enum_type_name: Operator
+          '/properties/rateLimitRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegateCondition
+          '/properties/rateLimitRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MatchValue
+          '/properties/rateLimitRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: ActionType
+          '/properties/rateLimitRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: Action
+          '/properties/rateLimitRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RedirectURL
+          '/properties/rateLimitRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseStatusCode
+          '/properties/rateLimitRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseBody
+          '/properties/rateLimitRules/rules/rateLimitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RateLimitThreshold
+          '/properties/rateLimitRules/rules/rateLimitDurationInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RateLimitDurationInMinutes
+          '/rateLimitRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: rate_limit_rules
+          '/rateLimitRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/rateLimitRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/rateLimitRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/rateLimitRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: priority
+          '/rateLimitRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: match_conditions
+          '/rateLimitRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: match_variable
+          '/rateLimitRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: selector
+          '/rateLimitRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operator
+          '/rateLimitRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negate_condition
+          '/rateLimitRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: match_value
+          '/rateLimitRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/rateLimitRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/rateLimitRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: redirect_url
+          '/rateLimitRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_status_code
+          '/rateLimitRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_body
+          '/rateLimitRules/rules/rateLimitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: rate_limit_threshold
+          '/rateLimitRules/rules/rateLimitDurationInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: rate_limit_duration_in_minutes
+          '/properties/customRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomRules
+            go_type_name: CustomRuleList
+          '/properties/customRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: CustomRule
+          '/properties/customRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/customRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: CustomRuleEnabledState
+          '/properties/customRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/customRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MatchConditions
+            go_type_name: MatchCondition
+          '/properties/customRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MatchVariable
+            go_enum_type_name: MatchVariable
+          '/properties/customRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Selector
+          '/properties/customRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operator
+            go_enum_type_name: Operator
+          '/properties/customRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: NegateCondition
+          '/properties/customRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: MatchValue
+          '/properties/customRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: ActionType
+          '/properties/customRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: Action
+          '/properties/customRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RedirectURL
+          '/properties/customRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseStatusCode
+          '/properties/customRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseBody
+          '/customRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_rules
+          '/customRules/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/customRules/rules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/customRules/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/customRules/rules/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: priority
+          '/customRules/rules/matchConditions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: match_conditions
+          '/customRules/rules/matchConditions/matchVariable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: match_variable
+          '/customRules/rules/matchConditions/selector': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: selector
+          '/customRules/rules/matchConditions/operator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operator
+          '/customRules/rules/matchConditions/negateCondition': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: negate_condition
+          '/customRules/rules/matchConditions/matchValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: match_value
+          '/customRules/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/customRules/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/customRules/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: redirect_url
+          '/customRules/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_status_code
+          '/customRules/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_body
+          '/properties/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ManagedRules
+            go_type_name: ManagedRuleSetList
+          '/properties/managedRules/managedRuleSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ManagedRuleSets
+            go_type_name: ManagedRuleSet
+          '/properties/managedRules/managedRuleSets/ruleSetType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleSetType
+          '/properties/managedRules/managedRuleSets/ruleSetVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleSetVersion
+          '/properties/managedRules/managedRuleSets/anomalyScore': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: AnomalyScore
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: RuleGroupOverrides
+            go_type_name: ManagedRuleGroupOverride
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleGroupName
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Rules
+            go_type_name: ManagedRuleOverride
+          '/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: managed_rules
+          '/managedRules/managedRuleSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: managed_rule_sets
+          '/managedRules/managedRuleSets/ruleSetType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_set_type
+          '/managedRules/managedRuleSets/ruleSetVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_set_version
+          '/managedRules/managedRuleSets/anomalyScore': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: anomaly_score
+          '/managedRules/managedRuleSets/ruleGroupOverrides': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rule_group_overrides
+          '/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_group_name
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: rules
+          '/properties/cdnEndpointLinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: CdnEndpointLinks
+            go_type_name: Endpoint
+          '/cdnEndpointLinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: cdn_endpoint_links
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: PolicyResourceState
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: SkuName
+            python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Policy instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the CdnWebApplicationFirewallPolicy.'
+        required: true
+        input: true
+        azure_sdk_references: ['policyName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'policySettings'
+        description: 'Describes  policySettings for policy'
+        required: false
+        azure_sdk_references: ['/policySettings', '/properties/policySettings']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'enabledState'
+            description: 'describes if the policy is in enabled state or disabled state'
+            required: false
+            azure_sdk_references: ['/policySettings/enabledState', '/properties/policySettings/enabledState']
+            values:
+              - :Disabled
+              - :Enabled
+            default_value: :Disabled
+          - !ruby/object:Api::Type::Enum
+            name: 'mode'
+            description: 'Describes if it is in detection mode or prevention mode at policy level.'
+            required: false
+            azure_sdk_references: ['/policySettings/mode', '/properties/policySettings/mode']
+            values:
+              - :Prevention
+              - :Detection
+            default_value: :Prevention
+          - !ruby/object:Api::Type::String
+            name: 'defaultRedirectUrl'
+            description: 'If action type is redirect, this field represents the default redirect URL for the client.'
+            required: false
+            azure_sdk_references: ['/policySettings/defaultRedirectUrl', '/properties/policySettings/defaultRedirectUrl']
+          - !ruby/object:Api::Type::Integer
+            name: 'defaultCustomBlockResponseStatusCode'
+            description: 'If the action type is block, this field defines the default customer overridable http response status code.'
+            required: false
+            azure_sdk_references: ['/policySettings/defaultCustomBlockResponseStatusCode', '/properties/policySettings/defaultCustomBlockResponseStatusCode']
+          - !ruby/object:Api::Type::String
+            name: 'defaultCustomBlockResponseBody'
+            description: 'If the action type is block, customer can override the response body. The body must be specified in base64 encoding.'
+            required: false
+            azure_sdk_references: ['/policySettings/defaultCustomBlockResponseBody', '/properties/policySettings/defaultCustomBlockResponseBody']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'rateLimitRules'
+        description: 'Describes rate limit rules inside the policy.'
+        required: false
+        azure_sdk_references: ['/rateLimitRules', '/properties/rateLimitRules']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'rules'
+            description: 'List of rules'
+            required: false
+            azure_sdk_references: ['/rateLimitRules/rules', '/properties/rateLimitRules/rules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Defines the name of the custom rule'
+                  required: true
+                  azure_sdk_references: ['/rateLimitRules/rules/name', '/properties/rateLimitRules/rules/name']
+                - !ruby/object:Api::Type::Enum
+                  name: 'enabledState'
+                  description: 'Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.'
+                  required: false
+                  azure_sdk_references: ['/rateLimitRules/rules/enabledState', '/properties/rateLimitRules/rules/enabledState']
+                  values:
+                    - :Disabled
+                    - :Enabled
+                  default_value: :Disabled
+                - !ruby/object:Api::Type::Integer
+                  name: 'priority'
+                  description: 'Defines in what order this rule be evaluated in the overall list of custom rules'
+                  required: true
+                  azure_sdk_references: ['/rateLimitRules/rules/priority', '/properties/rateLimitRules/rules/priority']
+                - !ruby/object:Api::Type::Array
+                  name: 'matchConditions'
+                  description: 'List of match conditions.'
+                  required: true
+                  azure_sdk_references: ['/rateLimitRules/rules/matchConditions', '/properties/rateLimitRules/rules/matchConditions']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'matchVariable'
+                        description: 'Match variable to compare against.'
+                        required: true
+                        azure_sdk_references: ['/rateLimitRules/rules/matchConditions/matchVariable', '/properties/rateLimitRules/rules/matchConditions/matchVariable']
+                        values:
+                          - :RemoteAddr
+                          - :Country
+                          - :RequestMethod
+                          - :RequestHeader
+                          - :RequestUri
+                          - :QueryString
+                          - :RequestBody
+                          - :Cookies
+                          - :PostArgs
+                      - !ruby/object:Api::Type::String
+                        name: 'selector'
+                        description: 'Selector can used to match a specific key for QueryString, RequestUri, RequestHeaders or RequestBody.'
+                        required: false
+                        azure_sdk_references: ['/rateLimitRules/rules/matchConditions/selector', '/properties/rateLimitRules/rules/matchConditions/selector']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'operator'
+                        description: 'Describes operator to be matched'
+                        required: true
+                        azure_sdk_references: ['/rateLimitRules/rules/matchConditions/operator', '/properties/rateLimitRules/rules/matchConditions/operator']
+                        values:
+                          - :Any
+                          - :IPMatch
+                          - :GeoMatch
+                          - :Equal
+                          - :Contains
+                          - :LessThan
+                          - :GreaterThan
+                          - :LessThanOrEqual
+                          - :GreaterThanOrEqual
+                          - :BeginsWith
+                          - :EndsWith
+                          - :RegEx
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'negateCondition'
+                        description: 'Describes if the result of this condition should be negated.'
+                        required: false
+                        azure_sdk_references: ['/rateLimitRules/rules/matchConditions/negateCondition', '/properties/rateLimitRules/rules/matchConditions/negateCondition']
+                      - !ruby/object:Api::Type::Array
+                        name: 'matchValue'
+                        description: 'List of possible match values.'
+                        required: true
+                        azure_sdk_references: ['/rateLimitRules/rules/matchConditions/matchValue', '/properties/rateLimitRules/rules/matchConditions/matchValue']
+                        item_type: Api::Type::String
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'action'
+                  description: 'Describes what action to be applied when rule matches'
+                  required: true
+                  azure_sdk_references: ['/rateLimitRules/rules/action', '/properties/rateLimitRules/rules/action']
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'actionType'
+                      description: 'Describes type of action.'
+                      required: true
+                      azure_sdk_references: ['/rateLimitRules/rules/action/actionType', '/properties/rateLimitRules/rules/action/actionType']
+                      values:
+                        - :Allow
+                        - :Block
+                        - :Log
+                        - :Redirect
+                    - !ruby/object:Api::Type::String
+                      name: 'redirectUrl'
+                      description: 'If action type is redirect, this field represents URL to be re-directed.'
+                      required: false
+                      azure_sdk_references: ['/rateLimitRules/rules/action/redirectUrl', '/properties/rateLimitRules/rules/action/redirectUrl']
+                    - !ruby/object:Api::Type::Integer
+                      name: 'customBlockResponseStatusCode'
+                      description: 'If the action type is block, customer can override the response status code.'
+                      required: false
+                      azure_sdk_references: ['/rateLimitRules/rules/action/customBlockResponseStatusCode', '/properties/rateLimitRules/rules/action/customBlockResponseStatusCode']
+                    - !ruby/object:Api::Type::String
+                      name: 'customBlockResponseBody'
+                      description: 'If the action type is block, customer can override the response body. The body must be specified in base64 encoding.'
+                      required: false
+                      azure_sdk_references: ['/rateLimitRules/rules/action/customBlockResponseBody', '/properties/rateLimitRules/rules/action/customBlockResponseBody']
+                - !ruby/object:Api::Type::Integer
+                  name: 'rateLimitThreshold'
+                  description: 'Defines rate limit threshold.'
+                  required: true
+                  azure_sdk_references: ['/rateLimitRules/rules/rateLimitThreshold', '/properties/rateLimitRules/rules/rateLimitThreshold']
+                - !ruby/object:Api::Type::Integer
+                  name: 'rateLimitDurationInMinutes'
+                  description: 'Defines rate limit duration. Default is 1 minute.'
+                  required: true
+                  azure_sdk_references: ['/rateLimitRules/rules/rateLimitDurationInMinutes', '/properties/rateLimitRules/rules/rateLimitDurationInMinutes']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'customRules'
+        description: 'Describes custom rules inside the policy.'
+        required: false
+        azure_sdk_references: ['/customRules', '/properties/customRules']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'rules'
+            description: 'List of rules'
+            required: false
+            azure_sdk_references: ['/customRules/rules', '/properties/customRules/rules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Defines the name of the custom rule'
+                  required: true
+                  azure_sdk_references: ['/customRules/rules/name', '/properties/customRules/rules/name']
+                - !ruby/object:Api::Type::Enum
+                  name: 'enabledState'
+                  description: 'Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.'
+                  required: false
+                  azure_sdk_references: ['/customRules/rules/enabledState', '/properties/customRules/rules/enabledState']
+                  values:
+                    - :Disabled
+                    - :Enabled
+                  default_value: :Disabled
+                - !ruby/object:Api::Type::Integer
+                  name: 'priority'
+                  description: 'Defines in what order this rule be evaluated in the overall list of custom rules'
+                  required: true
+                  azure_sdk_references: ['/customRules/rules/priority', '/properties/customRules/rules/priority']
+                - !ruby/object:Api::Type::Array
+                  name: 'matchConditions'
+                  description: 'List of match conditions.'
+                  required: true
+                  azure_sdk_references: ['/customRules/rules/matchConditions', '/properties/customRules/rules/matchConditions']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'matchVariable'
+                        description: 'Match variable to compare against.'
+                        required: true
+                        azure_sdk_references: ['/customRules/rules/matchConditions/matchVariable', '/properties/customRules/rules/matchConditions/matchVariable']
+                        values:
+                          - :RemoteAddr
+                          - :Country
+                          - :RequestMethod
+                          - :RequestHeader
+                          - :RequestUri
+                          - :QueryString
+                          - :RequestBody
+                          - :Cookies
+                          - :PostArgs
+                      - !ruby/object:Api::Type::String
+                        name: 'selector'
+                        description: 'Selector can used to match a specific key for QueryString, RequestUri, RequestHeaders or RequestBody.'
+                        required: false
+                        azure_sdk_references: ['/customRules/rules/matchConditions/selector', '/properties/customRules/rules/matchConditions/selector']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'operator'
+                        description: 'Describes operator to be matched'
+                        required: true
+                        azure_sdk_references: ['/customRules/rules/matchConditions/operator', '/properties/customRules/rules/matchConditions/operator']
+                        values:
+                          - :Any
+                          - :IPMatch
+                          - :GeoMatch
+                          - :Equal
+                          - :Contains
+                          - :LessThan
+                          - :GreaterThan
+                          - :LessThanOrEqual
+                          - :GreaterThanOrEqual
+                          - :BeginsWith
+                          - :EndsWith
+                          - :RegEx
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'negateCondition'
+                        description: 'Describes if the result of this condition should be negated.'
+                        required: false
+                        azure_sdk_references: ['/customRules/rules/matchConditions/negateCondition', '/properties/customRules/rules/matchConditions/negateCondition']
+                      - !ruby/object:Api::Type::Array
+                        name: 'matchValue'
+                        description: 'List of possible match values.'
+                        required: true
+                        azure_sdk_references: ['/customRules/rules/matchConditions/matchValue', '/properties/customRules/rules/matchConditions/matchValue']
+                        item_type: Api::Type::String
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'action'
+                  description: 'Describes what action to be applied when rule matches'
+                  required: true
+                  azure_sdk_references: ['/customRules/rules/action', '/properties/customRules/rules/action']
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'actionType'
+                      description: 'Describes type of action.'
+                      required: true
+                      azure_sdk_references: ['/customRules/rules/action/actionType', '/properties/customRules/rules/action/actionType']
+                      values:
+                        - :Allow
+                        - :Block
+                        - :Log
+                        - :Redirect
+                    - !ruby/object:Api::Type::String
+                      name: 'redirectUrl'
+                      description: 'If action type is redirect, this field represents URL to be re-directed.'
+                      required: false
+                      azure_sdk_references: ['/customRules/rules/action/redirectUrl', '/properties/customRules/rules/action/redirectUrl']
+                    - !ruby/object:Api::Type::Integer
+                      name: 'customBlockResponseStatusCode'
+                      description: 'If the action type is block, customer can override the response status code.'
+                      required: false
+                      azure_sdk_references: ['/customRules/rules/action/customBlockResponseStatusCode', '/properties/customRules/rules/action/customBlockResponseStatusCode']
+                    - !ruby/object:Api::Type::String
+                      name: 'customBlockResponseBody'
+                      description: 'If the action type is block, customer can override the response body. The body must be specified in base64 encoding.'
+                      required: false
+                      azure_sdk_references: ['/customRules/rules/action/customBlockResponseBody', '/properties/customRules/rules/action/customBlockResponseBody']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'managedRules'
+        description: 'Describes managed rules inside the policy.'
+        required: false
+        azure_sdk_references: ['/managedRules', '/properties/managedRules']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'managedRuleSets'
+            description: 'List of rule sets.'
+            required: false
+            azure_sdk_references: ['/managedRules/managedRuleSets', '/properties/managedRules/managedRuleSets']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'ruleSetType'
+                  description: 'Defines the rule set type to use.'
+                  required: true
+                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleSetType', '/properties/managedRules/managedRuleSets/ruleSetType']
+                - !ruby/object:Api::Type::String
+                  name: 'ruleSetVersion'
+                  description: 'Defines the version of the rule set to use.'
+                  required: true
+                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleSetVersion', '/properties/managedRules/managedRuleSets/ruleSetVersion']
+                - !ruby/object:Api::Type::Integer
+                  name: 'anomalyScore'
+                  description: 'Verizon only : If the rule set supports anomaly detection mode, this describes the threshold for blocking requests.'
+                  required: false
+                  azure_sdk_references: ['/managedRules/managedRuleSets/anomalyScore', '/properties/managedRules/managedRuleSets/anomalyScore']
+                - !ruby/object:Api::Type::Array
+                  name: 'ruleGroupOverrides'
+                  description: 'Defines the rule overrides to apply to the rule set.'
+                  required: false
+                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides', '/properties/managedRules/managedRuleSets/ruleGroupOverrides']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'ruleGroupName'
+                        description: 'Describes the managed rule group within the rule set to override'
+                        required: true
+                        azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The pricing tier (defines a CDN provider, feature list and rate) of the CdnWebApplicationFirewallPolicy.'
+        required: true
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'Name of the pricing tier.'
+            required: false
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :Standard_Verizon
+              - :Premium_Verizon
+              - :Custom_Verizon
+              - :Standard_Akamai
+              - :Standard_ChinaCdn
+              - :Standard_Microsoft
+            default_value: :Standard_Verizon
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'cdnEndpointLinks'
+        description: 'Describes Azure CDN endpoints associated with this Web Application Firewall policy.'
+        output: true
+        azure_sdk_references: ['/cdnEndpointLinks', '/properties/cdnEndpointLinks']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'ARM Resource ID string.'
+              required: false
+              azure_sdk_references: ['/cdnEndpointLinks/id', '/properties/cdnEndpointLinks/id']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the WebApplicationFirewallPolicy.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Succeeded
+          - :Failed
+      - !ruby/object:Api::Type::Enum
+        name: 'resourceState'
+        description: ''
+        output: true
+        azure_sdk_references: ['/resourceState', '/properties/resourceState']
+        values:
+          - :Creating
+          - :Enabling
+          - :Enabled
+          - :Disabling
+          - :Disabled
+          - :Deleting
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,95 @@
+--- !ruby/object:Api::Product
+name: Azure ExpressRouteServiceProvider Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ExpressRouteServiceProvider
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: expressRouteServiceProvidersClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.express_route_service_providers
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure ExpressRouteServiceProvider instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'A list of ExpressRouteResourceProvider resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Identifier.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::Array
+              name: 'peeringLocations'
+              description: 'Get a list of peering locations.'
+              required: false
+              azure_sdk_references: ['/value/peeringLocations', '/value/properties/peeringLocations']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'bandwidthsOffered'
+              description: 'Gets bandwidths offered.'
+              required: false
+              azure_sdk_references: ['/value/bandwidthsOffered', '/value/properties/bandwidthsOffered']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'offerName'
+                    description: 'The OfferName.'
+                    required: false
+                    azure_sdk_references: ['/value/bandwidthsOffered/offerName', '/value/properties/bandwidthsOffered/offerName']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'valueInMbps'
+                    description: 'The ValueInMbps.'
+                    required: false
+                    azure_sdk_references: ['/value/bandwidthsOffered/valueInMbps', '/value/properties/bandwidthsOffered/valueInMbps']
+            - !ruby/object:Api::Type::String
+              name: 'provisioningState'
+              description: 'Gets the provisioning state of the resource.'
+              required: false
+              azure_sdk_references: ['/value/provisioningState', '/value/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

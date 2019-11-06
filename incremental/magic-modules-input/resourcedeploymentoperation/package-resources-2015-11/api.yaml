@@ -1,0 +1,127 @@
+--- !ruby/object:Api::Product
+name: Azure DeploymentOperation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DeploymentOperation
+    api_name: undefined
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: 
+      go_client_namespace: resource
+      go_client: deploymentOperationsClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: ResourceManagementClient.deployment_operations
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: OperationID
+            python_field_name: operation_id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeploymentOperationProperties
+            go_type_name: DeploymentOperationProperties
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure DeploymentOperation instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the deployment.'
+        required: true
+        input: true
+        azure_sdk_references: ['deploymentName']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Gets or sets the state of the provisioning.'
+        required: false
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'timestamp'
+        description: 'Gets or sets the date and time of the operation.'
+        required: false
+        azure_sdk_references: ['/timestamp', '/properties/timestamp']
+      - !ruby/object:Api::Type::String
+        name: 'statusCode'
+        description: 'Gets or sets operation status code.'
+        required: false
+        azure_sdk_references: ['/statusCode', '/properties/statusCode']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'statusMessage'
+        description: 'Gets or sets operation status message.'
+        required: false
+        azure_sdk_references: ['/statusMessage', '/properties/statusMessage']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'targetResource'
+        description: 'Gets or sets the target resource.'
+        required: false
+        azure_sdk_references: ['/targetResource', '/properties/targetResource']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Gets or sets the ID of the resource.'
+            required: false
+            azure_sdk_references: ['/targetResource/id', '/properties/targetResource/id']
+          - !ruby/object:Api::Type::String
+            name: 'resourceName'
+            description: 'Gets or sets the name of the resource.'
+            required: false
+            azure_sdk_references: ['/targetResource/resourceName', '/properties/targetResource/resourceName']
+          - !ruby/object:Api::Type::String
+            name: 'resourceType'
+            description: 'Gets or sets the type of the resource.'
+            required: false
+            azure_sdk_references: ['/targetResource/resourceType', '/properties/targetResource/resourceType']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Gets or sets full deployment operation id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'Gets or sets deployment operation id.'
+        output: true
+        azure_sdk_references: ['/operationId']

@@ -1,0 +1,29 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_containerservicesmanagedcluster
+  description: Create/Update Managed Cluster
+  code:
+    resource_group: myResourceGroup
+    name: myManagedCluster
+    location: location1
+    tags:
+      tier: production
+      archv2: ''
+    kubernetes_version: ''
+    dns_prefix: dnsprefix1
+    agent_pool_profiles:
+      - name: nodepool1
+        count: '3'
+        vm_size: Standard_DS1_v2
+        os_type: Linux
+    linux_profile:
+      admin_username: azureuser
+      ssh:
+        public_keys:
+          - key_data: keydata
+    service_principal_profile:
+      client_id: clientid
+      secret: secret
+    addon_profiles: {}
+    enable_rbac: false
+  

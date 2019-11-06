@@ -1,0 +1,783 @@
+--- !ruby/object:Api::Product
+name: Azure IntegrationServiceEnvironment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: IntegrationServiceEnvironment
+    api_name: Logic
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Logic
+      go_client_namespace: logic
+      go_client: integrationServiceEnvironmentsClient
+      python_client_namespace: azure.mgmt.logic
+      python_client: LogicManagementClient.integration_service_environments
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'integrationServiceEnvironmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationServiceEnvironments
+            go_variable_name: name
+            python_parameter_name: integration_service_environment_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: integrationServiceEnvironment
+            go_type_name: IntegrationServiceEnvironment
+            python_parameter_name: integration_service_environment
+            python_variable_name: integration_service_environment
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationServiceEnvironmentProperties
+            go_type_name: IntegrationServiceEnvironmentProperties
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: WorkflowState
+          '/integrationServiceEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: integration_service_environment_id
+          '/properties/integrationServiceEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IntegrationServiceEnvironmentID
+          '/endpointsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: endpoints_configuration
+          '/endpointsConfiguration/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: workflow
+          '/endpointsConfiguration/workflow/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outgoing_ip_addresses
+          '/endpointsConfiguration/workflow/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/workflow/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_endpoint_ip_addresses
+          '/endpointsConfiguration/workflow/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/connector': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: connector
+          '/endpointsConfiguration/connector/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outgoing_ip_addresses
+          '/endpointsConfiguration/connector/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/connector/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_endpoint_ip_addresses
+          '/endpointsConfiguration/connector/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/properties/endpointsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EndpointsConfiguration
+            go_type_name: FlowEndpointsConfiguration
+          '/properties/endpointsConfiguration/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Workflow
+            go_type_name: FlowEndpoints
+          '/properties/endpointsConfiguration/workflow/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutgoingIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/workflow/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessEndpointIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/connector': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Connector
+            go_type_name: FlowEndpoints
+          '/properties/endpointsConfiguration/connector/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutgoingIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/connector/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessEndpointIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/networkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_configuration
+          '/networkConfiguration/virtualNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_network_address_space
+          '/networkConfiguration/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: access_endpoint
+          '/networkConfiguration/accessEndpoint/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/networkConfiguration/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: subnets
+          '/networkConfiguration/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/networkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkConfiguration
+            go_type_name: NetworkConfiguration
+          '/properties/networkConfiguration/virtualNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkAddressSpace
+          '/properties/networkConfiguration/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccessEndpoint
+            go_type_name: IntegrationServiceEnvironmentAccessEndpoint
+          '/properties/networkConfiguration/accessEndpoint/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: IntegrationServiceEnvironmentAccessEndpointType
+          '/properties/networkConfiguration/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Subnets
+            go_type_name: ResourceReference
+          '/properties/networkConfiguration/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: IntegrationServiceEnvironmentSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: IntegrationServiceEnvironmentSkuName
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'integrationServiceEnvironmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationServiceEnvironments
+            go_variable_name: name
+            python_parameter_name: integration_service_environment_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: integrationServiceEnvironment
+            go_type_name: IntegrationServiceEnvironment
+            python_parameter_name: integration_service_environment
+            python_variable_name: integration_service_environment
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationServiceEnvironmentProperties
+            go_type_name: IntegrationServiceEnvironmentProperties
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: WorkflowState
+          '/integrationServiceEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: integration_service_environment_id
+          '/properties/integrationServiceEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IntegrationServiceEnvironmentID
+          '/endpointsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: endpoints_configuration
+          '/endpointsConfiguration/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: workflow
+          '/endpointsConfiguration/workflow/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outgoing_ip_addresses
+          '/endpointsConfiguration/workflow/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/workflow/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_endpoint_ip_addresses
+          '/endpointsConfiguration/workflow/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/connector': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: connector
+          '/endpointsConfiguration/connector/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outgoing_ip_addresses
+          '/endpointsConfiguration/connector/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/connector/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_endpoint_ip_addresses
+          '/endpointsConfiguration/connector/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/properties/endpointsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EndpointsConfiguration
+            go_type_name: FlowEndpointsConfiguration
+          '/properties/endpointsConfiguration/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Workflow
+            go_type_name: FlowEndpoints
+          '/properties/endpointsConfiguration/workflow/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutgoingIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/workflow/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessEndpointIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/connector': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Connector
+            go_type_name: FlowEndpoints
+          '/properties/endpointsConfiguration/connector/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutgoingIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/connector/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessEndpointIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/networkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_configuration
+          '/networkConfiguration/virtualNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_network_address_space
+          '/networkConfiguration/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: access_endpoint
+          '/networkConfiguration/accessEndpoint/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/networkConfiguration/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: subnets
+          '/networkConfiguration/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/networkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkConfiguration
+            go_type_name: NetworkConfiguration
+          '/properties/networkConfiguration/virtualNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkAddressSpace
+          '/properties/networkConfiguration/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccessEndpoint
+            go_type_name: IntegrationServiceEnvironmentAccessEndpoint
+          '/properties/networkConfiguration/accessEndpoint/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: IntegrationServiceEnvironmentAccessEndpointType
+          '/properties/networkConfiguration/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Subnets
+            go_type_name: ResourceReference
+          '/properties/networkConfiguration/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: IntegrationServiceEnvironmentSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: IntegrationServiceEnvironmentSkuName
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'integrationServiceEnvironmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationServiceEnvironments
+            go_variable_name: name
+            python_parameter_name: integration_service_environment_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'integrationServiceEnvironmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationServiceEnvironments
+            go_variable_name: name
+            python_parameter_name: integration_service_environment_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IntegrationServiceEnvironmentProperties
+            go_type_name: IntegrationServiceEnvironmentProperties
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: WorkflowState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/integrationServiceEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IntegrationServiceEnvironmentID
+          '/integrationServiceEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: integration_service_environment_id
+          '/properties/endpointsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EndpointsConfiguration
+            go_type_name: FlowEndpointsConfiguration
+          '/properties/endpointsConfiguration/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Workflow
+            go_type_name: FlowEndpoints
+          '/properties/endpointsConfiguration/workflow/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutgoingIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/workflow/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessEndpointIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/connector': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Connector
+            go_type_name: FlowEndpoints
+          '/properties/endpointsConfiguration/connector/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutgoingIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/connector/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AccessEndpointIpAddresses
+            go_type_name: IpAddress
+          '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Address
+          '/endpointsConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: endpoints_configuration
+          '/endpointsConfiguration/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: workflow
+          '/endpointsConfiguration/workflow/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outgoing_ip_addresses
+          '/endpointsConfiguration/workflow/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/workflow/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_endpoint_ip_addresses
+          '/endpointsConfiguration/workflow/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/connector': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: connector
+          '/endpointsConfiguration/connector/outgoingIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: outgoing_ip_addresses
+          '/endpointsConfiguration/connector/outgoingIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/endpointsConfiguration/connector/accessEndpointIpAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: access_endpoint_ip_addresses
+          '/endpointsConfiguration/connector/accessEndpointIpAddresses/address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: address
+          '/properties/networkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkConfiguration
+            go_type_name: NetworkConfiguration
+          '/properties/networkConfiguration/virtualNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkAddressSpace
+          '/properties/networkConfiguration/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccessEndpoint
+            go_type_name: IntegrationServiceEnvironmentAccessEndpoint
+          '/properties/networkConfiguration/accessEndpoint/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: IntegrationServiceEnvironmentAccessEndpointType
+          '/properties/networkConfiguration/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Subnets
+            go_type_name: ResourceReference
+          '/properties/networkConfiguration/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkConfiguration/subnets/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/networkConfiguration/subnets/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/networkConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_configuration
+          '/networkConfiguration/virtualNetworkAddressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_network_address_space
+          '/networkConfiguration/accessEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: access_endpoint
+          '/networkConfiguration/accessEndpoint/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/networkConfiguration/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: subnets
+          '/networkConfiguration/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkConfiguration/subnets/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/networkConfiguration/subnets/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: WorkflowProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: IntegrationServiceEnvironmentSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Name
+            go_enum_type_name: IntegrationServiceEnvironmentSkuName
+            python_field_name: name
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure IntegrationServiceEnvironment instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'The resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The integration service environment name.'
+        required: true
+        input: true
+        azure_sdk_references: ['integrationServiceEnvironmentName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'The integration service environment state.'
+        required: false
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :NotSpecified
+          - :Completed
+          - :Enabled
+          - :Disabled
+          - :Deleted
+          - :Suspended
+        default_value: :NotSpecified
+      - !ruby/object:Api::Type::String
+        name: 'integrationServiceEnvironmentId'
+        description: 'Gets the tracking id.'
+        required: false
+        azure_sdk_references: ['/integrationServiceEnvironmentId', '/properties/integrationServiceEnvironmentId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'endpointsConfiguration'
+        description: 'The endpoints configuration.'
+        required: false
+        azure_sdk_references: ['/endpointsConfiguration', '/properties/endpointsConfiguration']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'workflow'
+            description: 'The workflow endpoints.'
+            required: false
+            azure_sdk_references: ['/endpointsConfiguration/workflow', '/properties/endpointsConfiguration/workflow']
+            properties:
+              - !ruby/object:Api::Type::Array
+                name: 'outgoingIpAddresses'
+                description: 'The outgoing ip address.'
+                required: false
+                azure_sdk_references: ['/endpointsConfiguration/workflow/outgoingIpAddresses', '/properties/endpointsConfiguration/workflow/outgoingIpAddresses']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address'
+                      description: 'The address.'
+                      required: false
+                      azure_sdk_references: ['/endpointsConfiguration/workflow/outgoingIpAddresses/address', '/properties/endpointsConfiguration/workflow/outgoingIpAddresses/address']
+              - !ruby/object:Api::Type::Array
+                name: 'accessEndpointIpAddresses'
+                description: 'The access endpoint ip address.'
+                required: false
+                azure_sdk_references: ['/endpointsConfiguration/workflow/accessEndpointIpAddresses', '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address'
+                      description: 'The address.'
+                      required: false
+                      azure_sdk_references: ['/endpointsConfiguration/workflow/accessEndpointIpAddresses/address', '/properties/endpointsConfiguration/workflow/accessEndpointIpAddresses/address']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'connector'
+            description: 'The connector endpoints.'
+            required: false
+            azure_sdk_references: ['/endpointsConfiguration/connector', '/properties/endpointsConfiguration/connector']
+            properties:
+              - !ruby/object:Api::Type::Array
+                name: 'outgoingIpAddresses'
+                description: 'The outgoing ip address.'
+                required: false
+                azure_sdk_references: ['/endpointsConfiguration/connector/outgoingIpAddresses', '/properties/endpointsConfiguration/connector/outgoingIpAddresses']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address'
+                      description: 'The address.'
+                      required: false
+                      azure_sdk_references: ['/endpointsConfiguration/connector/outgoingIpAddresses/address', '/properties/endpointsConfiguration/connector/outgoingIpAddresses/address']
+              - !ruby/object:Api::Type::Array
+                name: 'accessEndpointIpAddresses'
+                description: 'The access endpoint ip address.'
+                required: false
+                azure_sdk_references: ['/endpointsConfiguration/connector/accessEndpointIpAddresses', '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address'
+                      description: 'The address.'
+                      required: false
+                      azure_sdk_references: ['/endpointsConfiguration/connector/accessEndpointIpAddresses/address', '/properties/endpointsConfiguration/connector/accessEndpointIpAddresses/address']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'networkConfiguration'
+        description: 'The network configuration.'
+        required: false
+        azure_sdk_references: ['/networkConfiguration', '/properties/networkConfiguration']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'virtualNetworkAddressSpace'
+            description: 'Gets the virtual network address space.'
+            required: false
+            azure_sdk_references: ['/networkConfiguration/virtualNetworkAddressSpace', '/properties/networkConfiguration/virtualNetworkAddressSpace']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'accessEndpoint'
+            description: 'The access endpoint.'
+            required: false
+            azure_sdk_references: ['/networkConfiguration/accessEndpoint', '/properties/networkConfiguration/accessEndpoint']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'type'
+                description: 'The access endpoint type.'
+                required: false
+                azure_sdk_references: ['/networkConfiguration/accessEndpoint/type', '/properties/networkConfiguration/accessEndpoint/type']
+                values:
+                  - :NotSpecified
+                  - :External
+                  - :Internal
+                default_value: :NotSpecified
+          - !ruby/object:Api::Type::Array
+            name: 'subnets'
+            description: 'The subnets.'
+            required: false
+            azure_sdk_references: ['/networkConfiguration/subnets', '/properties/networkConfiguration/subnets']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'The resource id.'
+                  required: false
+                  azure_sdk_references: ['/networkConfiguration/subnets/id', '/properties/networkConfiguration/subnets/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The sku.'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'The sku name.'
+            required: false
+            azure_sdk_references: ['/sku/name']
+            values:
+              - :NotSpecified
+              - :Premium
+              - :Developer
+            default_value: :NotSpecified
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'The sku capacity.'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :NotSpecified
+          - :Accepted
+          - :Running
+          - :Ready
+          - :Creating
+          - :Created
+          - :Deleting
+          - :Deleted
+          - :Canceled
+          - :Failed
+          - :Succeeded
+          - :Moving
+          - :Updating
+          - :Registering
+          - :Registered
+          - :Unregistering
+          - :Unregistered
+          - :Completed
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets the resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets the resource type.'
+        output: true
+        azure_sdk_references: ['/type']

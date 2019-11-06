@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_azuremigrateproject
+  description: Projects_Update
+  code:
+    resource_group: myResourceGroup
+    name: myProject
+    project:
+      properties:
+        customerWorkspaceId: url-to-customers-service-map
+        customerWorkspaceLocation: West Us
+      id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Migrate/projects/{{ project_name }}
+      name: project01
+      type: Microsoft.Migrate/projects
+      eTag: ''
+      location: West Us
+      tags: {}
+  

@@ -1,0 +1,145 @@
+--- !ruby/object:Api::Product
+name: Azure GalleryImage Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: GalleryImage
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: devtestlab
+      go_client: galleryImagesClient
+      python_client_namespace: azure.mgmt.devtestlab
+      python_client: DevTestLabsClient.gallery_images
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure GalleryImage instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Results of the list operation.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The identifier of the resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The type of the resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'The location of the resource.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'The tags of the resource.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'author'
+              description: 'The author of the gallery image.'
+              required: false
+              azure_sdk_references: ['/value/author', '/value/properties/author']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'createdDate'
+              description: 'The creation date of the gallery image.'
+              required: false
+              azure_sdk_references: ['/value/createdDate', '/value/properties/createdDate']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'The description of the gallery image.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'imageReference'
+              description: 'The image reference of the gallery image.'
+              required: false
+              azure_sdk_references: ['/value/imageReference', '/value/properties/imageReference']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'offer'
+                  description: 'The offer of the gallery image.'
+                  required: false
+                  azure_sdk_references: ['/value/imageReference/offer', '/value/properties/imageReference/offer']
+                - !ruby/object:Api::Type::String
+                  name: 'publisher'
+                  description: 'The publisher of the gallery image.'
+                  required: false
+                  azure_sdk_references: ['/value/imageReference/publisher', '/value/properties/imageReference/publisher']
+                - !ruby/object:Api::Type::String
+                  name: 'sku'
+                  description: 'The SKU of the gallery image.'
+                  required: false
+                  azure_sdk_references: ['/value/imageReference/sku', '/value/properties/imageReference/sku']
+                - !ruby/object:Api::Type::String
+                  name: 'osType'
+                  description: 'The OS type of the gallery image.'
+                  required: false
+                  azure_sdk_references: ['/value/imageReference/osType', '/value/properties/imageReference/osType']
+                - !ruby/object:Api::Type::String
+                  name: 'version'
+                  description: 'The version of the gallery image.'
+                  required: false
+                  azure_sdk_references: ['/value/imageReference/version', '/value/properties/imageReference/version']
+            - !ruby/object:Api::Type::String
+              name: 'icon'
+              description: 'The icon of the gallery image.'
+              required: false
+              azure_sdk_references: ['/value/icon', '/value/properties/icon']
+            - !ruby/object:Api::Type::Boolean
+              name: 'enabled'
+              description: 'Indicates whether this gallery image is enabled.'
+              required: false
+              azure_sdk_references: ['/value/enabled', '/value/properties/enabled']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link for next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

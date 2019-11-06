@@ -1,0 +1,190 @@
+--- !ruby/object:Api::Product
+name: Azure IoTSecuritySolutionsResourceGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: IoTSecuritySolutionsResourceGroup
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: ioTSecuritySolutionsResourceGroupClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.io_tsecurity_solutions_resource_group
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure IoTSecuritySolutionsResourceGroup instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of security solutions'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'The resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Type::String
+              name: 'workspace'
+              description: 'Workspace resource ID'
+              required: true
+              azure_sdk_references: ['/value/workspace', '/value/properties/workspace']
+            - !ruby/object:Api::Type::String
+              name: 'displayName'
+              description: 'Resource display name.'
+              required: true
+              azure_sdk_references: ['/value/displayName', '/value/properties/displayName']
+            - !ruby/object:Api::Type::Enum
+              name: 'status'
+              description: 'Security solution status'
+              required: false
+              azure_sdk_references: ['/value/status', '/value/properties/status']
+              values:
+                - :Enabled
+                - :Disabled
+              default_value: :Enabled
+            - !ruby/object:Api::Type::Array
+              name: 'export'
+              description: 'List of additional export to workspace data options'
+              required: false
+              azure_sdk_references: ['/value/export', '/value/properties/export']
+              item_type: !ruby/object:Api::Type::Enum
+                name: 'TBD'
+                description: 'TBD'
+                values:
+                  - :RawEvents
+                default_value: :RawEvents
+            - !ruby/object:Api::Type::Array
+              name: 'disabledDataSources'
+              description: 'Disabled data sources. Disabling these data sources compromises the system.'
+              required: false
+              azure_sdk_references: ['/value/disabledDataSources', '/value/properties/disabledDataSources']
+              item_type: !ruby/object:Api::Type::Enum
+                name: 'TBD'
+                description: 'TBD'
+                values:
+                  - :TwinData
+                default_value: :TwinData
+            - !ruby/object:Api::Type::Array
+              name: 'iotHubs'
+              description: 'IoT Hub resource IDs'
+              required: true
+              azure_sdk_references: ['/value/iotHubs', '/value/properties/iotHubs']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::NestedObject
+              name: 'userDefinedResources'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/userDefinedResources', '/value/properties/userDefinedResources']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'query'
+                  description: 'Azure Resource Graph query which represents the security solution''s user defined resources. Required to start with "where type != "Microsoft.Devices/IotHubs""'
+                  required: true
+                  azure_sdk_references: ['/value/userDefinedResources/query', '/value/properties/userDefinedResources/query']
+                - !ruby/object:Api::Type::Array
+                  name: 'querySubscriptions'
+                  description: 'List of Azure subscription ids on which the user defined resources query should be executed.'
+                  required: true
+                  azure_sdk_references: ['/value/userDefinedResources/querySubscriptions', '/value/properties/userDefinedResources/querySubscriptions']
+                  item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'autoDiscoveredResources'
+              description: 'List of resources that were automatically discovered as relevant to the security solution.'
+              required: false
+              azure_sdk_references: ['/value/autoDiscoveredResources', '/value/properties/autoDiscoveredResources']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'recommendationsConfiguration'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/recommendationsConfiguration', '/value/properties/recommendationsConfiguration']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Enum
+                    name: 'recommendationType'
+                    description: 'The recommendation type.'
+                    required: true
+                    azure_sdk_references: ['/value/recommendationsConfiguration/recommendationType', '/value/properties/recommendationsConfiguration/recommendationType']
+                    values:
+                      - :IoT_ACRAuthentication
+                      - :IoT_AgentSendsUnutilizedMessages
+                      - :IoT_Baseline
+                      - :IoT_EdgeHubMemOptimize
+                      - :IoT_EdgeLoggingOptions
+                      - :IoT_InconsistentModuleSettings
+                      - :IoT_InstallAgent
+                      - :IoT_IPFilter_DenyAll
+                      - :IoT_IPFilter_PermissiveRule
+                      - :IoT_OpenPorts
+                      - :IoT_PermissiveFirewallPolicy
+                      - :IoT_PermissiveInputFirewallRules
+                      - :IoT_PermissiveOutputFirewallRules
+                      - :IoT_PrivilegedDockerOptions
+                      - :IoT_SharedCredentials
+                      - :IoT_VulnerableTLSCipherSuite
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: ''
+                    required: false
+                    azure_sdk_references: ['/value/recommendationsConfiguration/name', '/value/properties/recommendationsConfiguration/name']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'status'
+                    description: 'Recommendation status. The recommendation is not generated when the status is disabled'
+                    required: true
+                    azure_sdk_references: ['/value/recommendationsConfiguration/status', '/value/properties/recommendationsConfiguration/status']
+                    values:
+                      - :Disabled
+                      - :Enabled
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to fetch the next page.'
+        output: true
+        azure_sdk_references: ['/nextLink']

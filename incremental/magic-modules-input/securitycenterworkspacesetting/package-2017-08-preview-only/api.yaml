@@ -1,0 +1,164 @@
+--- !ruby/object:Api::Product
+name: Azure WorkspaceSetting Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WorkspaceSetting
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: workspaceSettingsClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.workspace_settings
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'workspaceSettingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaceSettings
+            go_variable_name: name
+            python_parameter_name: workspace_setting_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: workspaceSetting
+            go_type_name: WorkspaceSetting
+            python_parameter_name: workspace_setting
+            python_variable_name: workspace_setting
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceSettingProperties
+            go_type_name: WorkspaceSettingProperties
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'workspaceSettingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaceSettings
+            go_variable_name: name
+            python_parameter_name: workspace_setting_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: workspaceSetting
+            go_type_name: WorkspaceSetting
+            python_parameter_name: workspace_setting
+            python_variable_name: workspace_setting
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceSettingProperties
+            go_type_name: WorkspaceSettingProperties
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'workspaceSettingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaceSettings
+            go_variable_name: name
+            python_parameter_name: workspace_setting_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'workspaceSettingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workspaceSettings
+            go_variable_name: name
+            python_parameter_name: workspace_setting_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkspaceSettingProperties
+            go_type_name: WorkspaceSettingProperties
+          '/properties/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WorkspaceID
+          '/workspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: workspace_id
+          '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure WorkspaceSetting instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the security setting'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceSettingName']
+      - !ruby/object:Api::Type::String
+        name: 'workspaceId'
+        description: 'The full Azure ID of the workspace to save the data in'
+        required: true
+        azure_sdk_references: ['/workspaceId', '/properties/workspaceId']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope'
+        required: true
+        azure_sdk_references: ['/scope', '/properties/scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

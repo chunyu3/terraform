@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkprofile
+  description: Create network profile defaults
+  code:
+    resource_group: myResourceGroup
+    name: myNetworkProfile
+    container_network_interface_configurations:
+      - ip_configurations:
+          - name: ipconfig1
+        name: eth1
+  

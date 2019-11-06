@@ -1,0 +1,77 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of Security operations'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the operation'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'Where the operation is originated'
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'The resource provider for the operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'The display name of the resource the operation applies to.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'The display name of the security operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'The description of the operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URI to fetch the next page.'
+        output: true
+        azure_sdk_references: ['/nextLink']

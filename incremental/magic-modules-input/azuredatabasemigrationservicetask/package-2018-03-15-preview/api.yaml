@@ -1,0 +1,305 @@
+--- !ruby/object:Api::Product
+name: Azure Task Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Task
+    api_name: DataMigration
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataMigration
+      go_client_namespace: azuredatabasemigrationservice
+      go_client: tasksClient
+      python_client_namespace: azure.mgmt.azuredatabasemigrationservice
+      python_client: DataMigrationManagementClient.tasks
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tasks
+            go_variable_name: name
+            python_parameter_name: task_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ProjectTask
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProjectTaskProperties
+            go_type_name: ProjectTaskProperties
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tasks
+            go_variable_name: name
+            python_parameter_name: task_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: ProjectTask
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProjectTaskProperties
+            go_type_name: ProjectTaskProperties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tasks
+            go_variable_name: name
+            python_parameter_name: task_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tasks
+            go_variable_name: name
+            python_parameter_name: task_name
+            python_variable_name: name
+        response:
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProjectTaskProperties
+            go_type_name: ProjectTaskProperties
+          '/properties/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Errors
+            go_type_name: ODataError
+          '/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: errors
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: TaskState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+
+    description: |
+      Manage Azure Task instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'HTTP strong entity tag value. This is ignored if submitted.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'groupName'
+        description: 'Name of the resource group'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'Name of the service'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'projectName'
+        description: 'Name of the project'
+        required: true
+        input: true
+        azure_sdk_references: ['projectName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Task'
+        required: true
+        input: true
+        azure_sdk_references: ['taskName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'errors'
+        description: 'Array of errors. This is ignored if submitted.'
+        output: true
+        azure_sdk_references: ['/errors', '/properties/errors']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'code'
+              description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
+              required: false
+              azure_sdk_references: ['/errors/code', '/properties/errors/code']
+            - !ruby/object:Api::Type::String
+              name: 'message'
+              description: 'The human-readable description of the error'
+              required: false
+              azure_sdk_references: ['/errors/message', '/properties/errors/message']
+            - !ruby/object:Api::Type::Array
+              name: 'details'
+              description: 'Inner errors that caused this error'
+              required: false
+              azure_sdk_references: ['/errors/details', '/properties/errors/details']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'code'
+                    description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
+                    required: false
+                    azure_sdk_references: ['/errors/details/code', '/properties/errors/details/code']
+                  - !ruby/object:Api::Type::String
+                    name: 'message'
+                    description: 'The human-readable description of the error'
+                    required: false
+                    azure_sdk_references: ['/errors/details/message', '/properties/errors/details/message']
+                  - !ruby/object:Api::Type::Array
+                    name: 'details'
+                    description: 'Inner errors that caused this error'
+                    required: false
+                    azure_sdk_references: ['/errors/details/details', '/properties/errors/details/details']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'code'
+                          description: 'The machine-readable description of the error, such as ''InvalidRequest'' or ''InternalServerError'''
+                          required: false
+                          azure_sdk_references: ['/errors/details/details/code', '/properties/errors/details/details/code']
+                        - !ruby/object:Api::Type::String
+                          name: 'message'
+                          description: 'The human-readable description of the error'
+                          required: false
+                          azure_sdk_references: ['/errors/details/details/message', '/properties/errors/details/details/message']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'The state of the task. This is ignored if submitted.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Unknown
+          - :Queued
+          - :Running
+          - :Canceled
+          - :Succeeded
+          - :Failed
+          - :FailedInputValidation
+          - :Faulted
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

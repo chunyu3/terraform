@@ -1,0 +1,110 @@
+--- !ruby/object:Api::Product
+name: Azure Partner Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Partner
+    api_name: ManagementPartner
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ManagementPartner
+      go_client_namespace: managementpartner
+      go_client: partnersClient
+      python_client_namespace: azure.mgmt.managementpartner
+      python_client: ACEProvisioningManagementPartnerAPIClient.partners
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PartnerProperties
+            go_type_name: PartnerProperties
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+
+    description: |
+      Manage Azure Partner instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'partnerId'
+        description: 'This is the partner id'
+        required: false
+        azure_sdk_references: ['/partnerId', '/properties/partnerId']
+      - !ruby/object:Api::Type::String
+        name: 'partnerName'
+        description: 'This is the partner name'
+        required: false
+        azure_sdk_references: ['/partnerName', '/properties/partnerName']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'This is the tenant id.'
+        required: false
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'objectId'
+        description: 'This is the object id.'
+        required: false
+        azure_sdk_references: ['/objectId', '/properties/objectId']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'This is the version.'
+        required: false
+        azure_sdk_references: ['/version', '/properties/version']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedTime'
+        description: 'This is the DateTime when the partner was updated.'
+        required: false
+        azure_sdk_references: ['/updatedTime', '/properties/updatedTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'This is the DateTime when the partner was created.'
+        required: false
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'This is the partner state'
+        required: false
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Active
+          - :Deleted
+        default_value: :Active
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'etag'
+        description: 'Type of the partner'
+        output: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Identifier of the partner'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the partner'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of resource. "Microsoft.ManagementPartner/partners"'
+        output: true
+        azure_sdk_references: ['/type']

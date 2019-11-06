@@ -1,0 +1,282 @@
+--- !ruby/object:Api::Product
+name: Azure ComponentsSummary Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ComponentsSummary
+    api_name: WorkloadMonitor
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.WorkloadMonitor
+      go_client_namespace: workloadmonitor
+      go_client: componentsSummaryClient
+      python_client_namespace: azure.mgmt.microsoft.workloadmonitor
+      python_client: WorkloadMonitorAPIClient.components_summary
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure ComponentsSummary instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of components.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'etag'
+              description: 'For optimistic concurrency control.'
+              required: false
+              azure_sdk_references: ['/value/etag']
+            - !ruby/object:Api::Type::String
+              name: 'workspaceId'
+              description: 'ID of the workspace.'
+              required: false
+              azure_sdk_references: ['/value/workspaceId', '/value/properties/workspaceId']
+            - !ruby/object:Api::Type::String
+              name: 'solutionId'
+              description: 'ID of the OMS solution this component belong to.'
+              required: false
+              azure_sdk_references: ['/value/solutionId', '/value/properties/solutionId']
+            - !ruby/object:Api::Type::Enum
+              name: 'workloadType'
+              description: 'Type of the workload.'
+              required: false
+              azure_sdk_references: ['/value/workloadType', '/value/properties/workloadType']
+              values:
+                - :BaseOS
+                - :SQL
+                - :IIS
+                - :Apache
+              default_value: :BaseOS
+            - !ruby/object:Api::Type::String
+              name: 'componentName'
+              description: 'Name of the component.'
+              required: false
+              azure_sdk_references: ['/value/componentName', '/value/properties/componentName']
+            - !ruby/object:Api::Type::String
+              name: 'componentTypeId'
+              description: 'ID of the component type.'
+              required: false
+              azure_sdk_references: ['/value/componentTypeId', '/value/properties/componentTypeId']
+            - !ruby/object:Api::Type::String
+              name: 'componentTypeName'
+              description: 'Name of the component type. Qualifies the type of component such as whether it is a SQL database, logical disk, website, etc.'
+              required: false
+              azure_sdk_references: ['/value/componentTypeName', '/value/properties/componentTypeName']
+            - !ruby/object:Api::Type::String
+              name: 'componentTypeGroupCategory'
+              description: 'Component type group category. Classification of component type groups into a logical category. e.g. Network, Disk, Memory, CPU.'
+              required: false
+              azure_sdk_references: ['/value/componentTypeGroupCategory', '/value/properties/componentTypeGroupCategory']
+            - !ruby/object:Api::Type::Enum
+              name: 'healthState'
+              description: 'Health state of the component.'
+              required: false
+              azure_sdk_references: ['/value/healthState', '/value/properties/healthState']
+              values:
+                - :Error
+                - :Warning
+                - :Success
+                - :Unknown
+                - :Uninitialized
+              default_value: :Error
+            - !ruby/object:Api::Type::Enum
+              name: 'healthStateCategory'
+              description: 'Category of component''s health state.'
+              required: false
+              azure_sdk_references: ['/value/healthStateCategory', '/value/properties/healthStateCategory']
+              values:
+                - :Identity
+                - :CustomGroup
+              default_value: :Identity
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'healthStateChangesStartTime'
+              description: 'Start time for health state changes.'
+              required: false
+              azure_sdk_references: ['/value/healthStateChangesStartTime', '/value/properties/healthStateChangesStartTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'healthStateChangesEndTime'
+              description: 'End time for health state changes.'
+              required: false
+              azure_sdk_references: ['/value/healthStateChangesEndTime', '/value/properties/healthStateChangesEndTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastHealthStateChangeTime'
+              description: 'Time of last health state change.'
+              required: false
+              azure_sdk_references: ['/value/lastHealthStateChangeTime', '/value/properties/lastHealthStateChangeTime']
+            - !ruby/object:Api::Type::String
+              name: 'vmId'
+              description: 'ID of the VM this component belongs to.'
+              required: false
+              azure_sdk_references: ['/value/vmId', '/value/properties/vmId']
+            - !ruby/object:Api::Type::String
+              name: 'vmName'
+              description: 'Name of the VM this component belongs to.'
+              required: false
+              azure_sdk_references: ['/value/vmName', '/value/properties/vmName']
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'vmTags'
+              description: 'Tags on the VM this component belongs to.'
+              required: false
+              azure_sdk_references: ['/value/vmTags', '/value/properties/vmTags']
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'aggregateProperties'
+              description: 'Properties requested in aggregation queries.'
+              required: false
+              azure_sdk_references: ['/value/aggregateProperties', '/value/properties/aggregateProperties']
+            - !ruby/object:Api::Type::Array
+              name: 'children'
+              description: 'component children.'
+              required: false
+              azure_sdk_references: ['/value/children', '/value/properties/children']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+                    required: false
+                    azure_sdk_references: ['/value/children/id', '/value/properties/children/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the resource'
+                    required: false
+                    azure_sdk_references: ['/value/children/name', '/value/properties/children/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'type'
+                    description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+                    required: false
+                    azure_sdk_references: ['/value/children/type', '/value/properties/children/type']
+                  - !ruby/object:Api::Type::String
+                    name: 'etag'
+                    description: 'For optimistic concurrency control.'
+                    required: false
+                    azure_sdk_references: ['/value/children/etag', '/value/properties/children/etag']
+                  - !ruby/object:Api::Type::String
+                    name: 'workspaceId'
+                    description: 'ID of the workspace.'
+                    required: false
+                    azure_sdk_references: ['/value/children/workspaceId', '/value/properties/children/properties/workspaceId']
+                  - !ruby/object:Api::Type::String
+                    name: 'solutionId'
+                    description: 'ID of the OMS solution this component belong to.'
+                    required: false
+                    azure_sdk_references: ['/value/children/solutionId', '/value/properties/children/properties/solutionId']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'workloadType'
+                    description: 'Type of the workload.'
+                    required: false
+                    azure_sdk_references: ['/value/children/workloadType', '/value/properties/children/properties/workloadType']
+                    values:
+                      - :BaseOS
+                      - :SQL
+                      - :IIS
+                      - :Apache
+                    default_value: :BaseOS
+                  - !ruby/object:Api::Type::String
+                    name: 'componentName'
+                    description: 'Name of the component.'
+                    required: false
+                    azure_sdk_references: ['/value/children/componentName', '/value/properties/children/properties/componentName']
+                  - !ruby/object:Api::Type::String
+                    name: 'componentTypeId'
+                    description: 'ID of the component type.'
+                    required: false
+                    azure_sdk_references: ['/value/children/componentTypeId', '/value/properties/children/properties/componentTypeId']
+                  - !ruby/object:Api::Type::String
+                    name: 'componentTypeName'
+                    description: 'Name of the component type. Qualifies the type of component such as whether it is a SQL database, logical disk, website, etc.'
+                    required: false
+                    azure_sdk_references: ['/value/children/componentTypeName', '/value/properties/children/properties/componentTypeName']
+                  - !ruby/object:Api::Type::String
+                    name: 'componentTypeGroupCategory'
+                    description: 'Component type group category. Classification of component type groups into a logical category. e.g. Network, Disk, Memory, CPU.'
+                    required: false
+                    azure_sdk_references: ['/value/children/componentTypeGroupCategory', '/value/properties/children/properties/componentTypeGroupCategory']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'healthState'
+                    description: 'Health state of the component.'
+                    required: false
+                    azure_sdk_references: ['/value/children/healthState', '/value/properties/children/properties/healthState']
+                    values:
+                      - :Error
+                      - :Warning
+                      - :Success
+                      - :Unknown
+                      - :Uninitialized
+                    default_value: :Error
+                  - !ruby/object:Api::Type::Enum
+                    name: 'healthStateCategory'
+                    description: 'Category of component''s health state.'
+                    required: false
+                    azure_sdk_references: ['/value/children/healthStateCategory', '/value/properties/children/properties/healthStateCategory']
+                    values:
+                      - :Identity
+                      - :CustomGroup
+                    default_value: :Identity
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'healthStateChangesStartTime'
+                    description: 'Start time for health state changes.'
+                    required: false
+                    azure_sdk_references: ['/value/children/healthStateChangesStartTime', '/value/properties/children/properties/healthStateChangesStartTime']
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'healthStateChangesEndTime'
+                    description: 'End time for health state changes.'
+                    required: false
+                    azure_sdk_references: ['/value/children/healthStateChangesEndTime', '/value/properties/children/properties/healthStateChangesEndTime']
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'lastHealthStateChangeTime'
+                    description: 'Time of last health state change.'
+                    required: false
+                    azure_sdk_references: ['/value/children/lastHealthStateChangeTime', '/value/properties/children/properties/lastHealthStateChangeTime']
+                  - !ruby/object:Api::Type::String
+                    name: 'vmId'
+                    description: 'ID of the VM this component belongs to.'
+                    required: false
+                    azure_sdk_references: ['/value/children/vmId', '/value/properties/children/properties/vmId']
+                  - !ruby/object:Api::Type::String
+                    name: 'vmName'
+                    description: 'Name of the VM this component belongs to.'
+                    required: false
+                    azure_sdk_references: ['/value/children/vmName', '/value/properties/children/properties/vmName']
+                  - !ruby/object:Api::Type::KeyValuePairs
+                    name: 'vmTags'
+                    description: 'Tags on the VM this component belongs to.'
+                    required: false
+                    azure_sdk_references: ['/value/children/vmTags', '/value/properties/children/properties/vmTags']
+                  - !ruby/object:Api::Type::KeyValuePairs
+                    name: 'aggregateProperties'
+                    description: 'Properties requested in aggregation queries.'
+                    required: false
+                    azure_sdk_references: ['/value/children/aggregateProperties', '/value/properties/children/properties/aggregateProperties']

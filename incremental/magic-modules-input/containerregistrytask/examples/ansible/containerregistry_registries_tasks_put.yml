@@ -15,10 +15,11 @@ task: !ruby/object:Provider::Ansible::Task
         agentConfiguration:
           cpu: '2'
         step:
+          type: Docker
           imageNames:
             - 'azurerest:testtag'
-          dockerFilePath: src/DockerFile
-          contextPath: src
+          dockerFilePath: subfolder/Dockerfile
+          contextPath: dockerfiles
           isPushEnabled: true
           noCache: false
           arguments:
@@ -29,9 +30,6 @@ task: !ruby/object:Provider::Ansible::Task
               value: mysecrettestvalue
               isSecret: true
         trigger:
-          timerTriggers:
-            - name: myTimerTrigger
-              schedule: 30 9 * * 1-5
           sourceTriggers:
             - name: mySourceTrigger
               sourceRepository:
@@ -43,12 +41,11 @@ task: !ruby/object:Provider::Ansible::Task
                   token: xxxxx
               sourceTriggerEvents:
                 - commit
+              status: Enabled
           baseImageTrigger:
             name: myBaseImageTrigger
             baseImageTriggerType: Runtime
       location: eastus
-      identity:
-        type: SystemAssigned
       tags:
         testkey: value
   

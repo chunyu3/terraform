@@ -1,0 +1,389 @@
+--- !ruby/object:Api::Product
+name: Azure ReplicationVaultHealth Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ReplicationVaultHealth
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: recoveryservicessiterecovery
+      go_client: replicationVaultHealthClient
+      python_client_namespace: azure.mgmt.recoveryservicessiterecovery
+      python_client: SiteRecoveryManagementClient.replication_vault_health
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VaultHealthProperties
+            go_type_name: VaultHealthProperties
+
+    description: |
+      Manage Azure ReplicationVaultHealth instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the recovery services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group where the recovery services vault is present.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::Array
+        name: 'vaultErrors'
+        description: 'The list of errors on the vault.'
+        required: false
+        azure_sdk_references: ['/vaultErrors', '/properties/vaultErrors']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'errorSource'
+              description: 'Source of error.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/errorSource', '/properties/vaultErrors/errorSource']
+            - !ruby/object:Api::Type::String
+              name: 'errorType'
+              description: 'Type of error.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/errorType', '/properties/vaultErrors/errorType']
+            - !ruby/object:Api::Type::String
+              name: 'errorLevel'
+              description: 'Level of error.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/errorLevel', '/properties/vaultErrors/errorLevel']
+            - !ruby/object:Api::Type::String
+              name: 'errorCode'
+              description: 'Error code.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/errorCode', '/properties/vaultErrors/errorCode']
+            - !ruby/object:Api::Type::String
+              name: 'errorMessage'
+              description: 'Error message.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/errorMessage', '/properties/vaultErrors/errorMessage']
+            - !ruby/object:Api::Type::String
+              name: 'possibleCauses'
+              description: 'Possible causes of error.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/possibleCauses', '/properties/vaultErrors/possibleCauses']
+            - !ruby/object:Api::Type::String
+              name: 'recommendedAction'
+              description: 'Recommended action to resolve error.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/recommendedAction', '/properties/vaultErrors/recommendedAction']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'creationTimeUtc'
+              description: 'Error creation time (UTC)'
+              required: false
+              azure_sdk_references: ['/vaultErrors/creationTimeUtc', '/properties/vaultErrors/creationTimeUtc']
+            - !ruby/object:Api::Type::String
+              name: 'recoveryProviderErrorMessage'
+              description: 'DRA error message.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/recoveryProviderErrorMessage', '/properties/vaultErrors/recoveryProviderErrorMessage']
+            - !ruby/object:Api::Type::String
+              name: 'entityId'
+              description: 'ID of the entity.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/entityId', '/properties/vaultErrors/entityId']
+            - !ruby/object:Api::Type::Array
+              name: 'childErrors'
+              description: 'The child health errors.'
+              required: false
+              azure_sdk_references: ['/vaultErrors/childErrors', '/properties/vaultErrors/childErrors']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'errorSource'
+                    description: 'Source of error.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/errorSource', '/properties/vaultErrors/childErrors/errorSource']
+                  - !ruby/object:Api::Type::String
+                    name: 'errorType'
+                    description: 'Type of error.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/errorType', '/properties/vaultErrors/childErrors/errorType']
+                  - !ruby/object:Api::Type::String
+                    name: 'errorLevel'
+                    description: 'Level of error.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/errorLevel', '/properties/vaultErrors/childErrors/errorLevel']
+                  - !ruby/object:Api::Type::String
+                    name: 'errorCode'
+                    description: 'Error code.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/errorCode', '/properties/vaultErrors/childErrors/errorCode']
+                  - !ruby/object:Api::Type::String
+                    name: 'errorMessage'
+                    description: 'Error message.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/errorMessage', '/properties/vaultErrors/childErrors/errorMessage']
+                  - !ruby/object:Api::Type::String
+                    name: 'possibleCauses'
+                    description: 'Possible causes of error.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/possibleCauses', '/properties/vaultErrors/childErrors/possibleCauses']
+                  - !ruby/object:Api::Type::String
+                    name: 'recommendedAction'
+                    description: 'Recommended action to resolve error.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/recommendedAction', '/properties/vaultErrors/childErrors/recommendedAction']
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'creationTimeUtc'
+                    description: 'Error creation time (UTC)'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/creationTimeUtc', '/properties/vaultErrors/childErrors/creationTimeUtc']
+                  - !ruby/object:Api::Type::String
+                    name: 'recoveryProviderErrorMessage'
+                    description: 'DRA error message.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/recoveryProviderErrorMessage', '/properties/vaultErrors/childErrors/recoveryProviderErrorMessage']
+                  - !ruby/object:Api::Type::String
+                    name: 'entityId'
+                    description: 'ID of the entity.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/entityId', '/properties/vaultErrors/childErrors/entityId']
+                  - !ruby/object:Api::Type::Array
+                    name: 'childErrors'
+                    description: 'The child health errors.'
+                    required: false
+                    azure_sdk_references: ['/vaultErrors/childErrors/childErrors', '/properties/vaultErrors/childErrors/childErrors']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'errorSource'
+                          description: 'Source of error.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/errorSource', '/properties/vaultErrors/childErrors/childErrors/errorSource']
+                        - !ruby/object:Api::Type::String
+                          name: 'errorType'
+                          description: 'Type of error.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/errorType', '/properties/vaultErrors/childErrors/childErrors/errorType']
+                        - !ruby/object:Api::Type::String
+                          name: 'errorLevel'
+                          description: 'Level of error.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/errorLevel', '/properties/vaultErrors/childErrors/childErrors/errorLevel']
+                        - !ruby/object:Api::Type::String
+                          name: 'errorCode'
+                          description: 'Error code.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/errorCode', '/properties/vaultErrors/childErrors/childErrors/errorCode']
+                        - !ruby/object:Api::Type::String
+                          name: 'errorMessage'
+                          description: 'Error message.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/errorMessage', '/properties/vaultErrors/childErrors/childErrors/errorMessage']
+                        - !ruby/object:Api::Type::String
+                          name: 'possibleCauses'
+                          description: 'Possible causes of error.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/possibleCauses', '/properties/vaultErrors/childErrors/childErrors/possibleCauses']
+                        - !ruby/object:Api::Type::String
+                          name: 'recommendedAction'
+                          description: 'Recommended action to resolve error.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/recommendedAction', '/properties/vaultErrors/childErrors/childErrors/recommendedAction']
+                        - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                          name: 'creationTimeUtc'
+                          description: 'Error creation time (UTC)'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/creationTimeUtc', '/properties/vaultErrors/childErrors/childErrors/creationTimeUtc']
+                        - !ruby/object:Api::Type::String
+                          name: 'recoveryProviderErrorMessage'
+                          description: 'DRA error message.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/recoveryProviderErrorMessage', '/properties/vaultErrors/childErrors/childErrors/recoveryProviderErrorMessage']
+                        - !ruby/object:Api::Type::String
+                          name: 'entityId'
+                          description: 'ID of the entity.'
+                          required: false
+                          azure_sdk_references: ['/vaultErrors/childErrors/childErrors/entityId', '/properties/vaultErrors/childErrors/childErrors/entityId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'protectedItemsHealth'
+        description: 'The list of the health detail of the protected items in the vault.'
+        required: false
+        azure_sdk_references: ['/protectedItemsHealth', '/properties/protectedItemsHealth']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'resourceCount'
+            description: 'The count of total resources under the container.'
+            required: false
+            azure_sdk_references: ['/protectedItemsHealth/resourceCount', '/properties/protectedItemsHealth/resourceCount']
+          - !ruby/object:Api::Type::Array
+            name: 'issues'
+            description: 'The list of summary of health errors across the resources under the container.'
+            required: false
+            azure_sdk_references: ['/protectedItemsHealth/issues', '/properties/protectedItemsHealth/issues']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'summaryCode'
+                  description: 'The code of the health error.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/summaryCode', '/properties/protectedItemsHealth/issues/summaryCode']
+                - !ruby/object:Api::Type::Enum
+                  name: 'category'
+                  description: 'The category of the health error.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/category', '/properties/protectedItemsHealth/issues/category']
+                  values:
+                    - :Replication
+                    - :TestFailover
+                    - :Configuration
+                  default_value: :Replication
+                - !ruby/object:Api::Type::Enum
+                  name: 'severity'
+                  description: 'Severity of error.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/severity', '/properties/protectedItemsHealth/issues/severity']
+                  values:
+                    - :NONE
+                    - :Warning
+                    - :Error
+                    - :Info
+                  default_value: :NONE
+                - !ruby/object:Api::Type::String
+                  name: 'summaryMessage'
+                  description: 'The summary message of the health error.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/summaryMessage', '/properties/protectedItemsHealth/issues/summaryMessage']
+                - !ruby/object:Api::Type::String
+                  name: 'affectedResourceType'
+                  description: 'The type of affected ARM resource.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/affectedResourceType', '/properties/protectedItemsHealth/issues/affectedResourceType']
+                - !ruby/object:Api::Type::String
+                  name: 'affectedResourceSubtype'
+                  description: 'The sub type of any subcomponent within the ARM resource that this might be applicable. Value remains null if not applicable.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/affectedResourceSubtype', '/properties/protectedItemsHealth/issues/affectedResourceSubtype']
+                - !ruby/object:Api::Type::Array
+                  name: 'affectedResourceCorrelationIds'
+                  description: 'The list of affected resource correlation Ids. This can be used to uniquely identify the count of items affected by a specific category and severity as well as count of item affected by an specific issue.'
+                  required: false
+                  azure_sdk_references: ['/protectedItemsHealth/issues/affectedResourceCorrelationIds', '/properties/protectedItemsHealth/issues/affectedResourceCorrelationIds']
+                  item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'fabricsHealth'
+        description: 'The list of the health detail of the fabrics in the vault.'
+        required: false
+        azure_sdk_references: ['/fabricsHealth', '/properties/fabricsHealth']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'resourceCount'
+            description: 'The count of total resources under the container.'
+            required: false
+            azure_sdk_references: ['/fabricsHealth/resourceCount', '/properties/fabricsHealth/resourceCount']
+          - !ruby/object:Api::Type::Array
+            name: 'issues'
+            description: 'The list of summary of health errors across the resources under the container.'
+            required: false
+            azure_sdk_references: ['/fabricsHealth/issues', '/properties/fabricsHealth/issues']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'summaryCode'
+                  description: 'The code of the health error.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/summaryCode', '/properties/fabricsHealth/issues/summaryCode']
+                - !ruby/object:Api::Type::Enum
+                  name: 'category'
+                  description: 'The category of the health error.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/category', '/properties/fabricsHealth/issues/category']
+                  values:
+                    - :Replication
+                    - :TestFailover
+                    - :Configuration
+                  default_value: :Replication
+                - !ruby/object:Api::Type::Enum
+                  name: 'severity'
+                  description: 'Severity of error.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/severity', '/properties/fabricsHealth/issues/severity']
+                  values:
+                    - :NONE
+                    - :Warning
+                    - :Error
+                    - :Info
+                  default_value: :NONE
+                - !ruby/object:Api::Type::String
+                  name: 'summaryMessage'
+                  description: 'The summary message of the health error.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/summaryMessage', '/properties/fabricsHealth/issues/summaryMessage']
+                - !ruby/object:Api::Type::String
+                  name: 'affectedResourceType'
+                  description: 'The type of affected ARM resource.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/affectedResourceType', '/properties/fabricsHealth/issues/affectedResourceType']
+                - !ruby/object:Api::Type::String
+                  name: 'affectedResourceSubtype'
+                  description: 'The sub type of any subcomponent within the ARM resource that this might be applicable. Value remains null if not applicable.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/affectedResourceSubtype', '/properties/fabricsHealth/issues/affectedResourceSubtype']
+                - !ruby/object:Api::Type::Array
+                  name: 'affectedResourceCorrelationIds'
+                  description: 'The list of affected resource correlation Ids. This can be used to uniquely identify the count of items affected by a specific category and severity as well as count of item affected by an specific issue.'
+                  required: false
+                  azure_sdk_references: ['/fabricsHealth/issues/affectedResourceCorrelationIds', '/properties/fabricsHealth/issues/affectedResourceCorrelationIds']
+                  item_type: Api::Type::String
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource Name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource Type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource Location'
+        output: true
+        azure_sdk_references: ['/location']

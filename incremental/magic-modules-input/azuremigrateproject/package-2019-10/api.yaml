@@ -1,0 +1,102 @@
+--- !ruby/object:Api::Product
+name: Azure Project Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Project
+    api_name: Migrate
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Migrate
+      go_client_namespace: azuremigrate
+      go_client: projectClient
+      python_client_namespace: azure.mgmt.azuremigrate
+      python_client: AzureMigrateV2Client.project
+
+    description: |
+      Manage Azure Project instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Azure Resource Group that project is part of.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Azure Migrate project.'
+        required: true
+        input: true
+        azure_sdk_references: ['projectName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of operations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Unique name of an assessment options.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Unique identifier of an assessment options.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::Array
+              name: 'vmFamilies'
+              description: 'Dictionary of VM families grouped by vm family name describing the targeted azure locations of VM family and the category of the family.'
+              required: false
+              azure_sdk_references: ['/value/vmFamilies', '/value/properties/vmFamilies']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'familyName'
+                    description: 'Name of the VM family.'
+                    required: false
+                    azure_sdk_references: ['/value/vmFamilies/familyName', '/value/properties/vmFamilies/familyName']
+                  - !ruby/object:Api::Type::Array
+                    name: 'targetLocations'
+                    description: 'List of Azure regions.'
+                    required: false
+                    azure_sdk_references: ['/value/vmFamilies/targetLocations', '/value/properties/vmFamilies/targetLocations']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::Array
+                    name: 'category'
+                    description: 'Category of the VM family.'
+                    required: false
+                    azure_sdk_references: ['/value/vmFamilies/category', '/value/properties/vmFamilies/category']
+                    item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'reservedInstanceVmFamilies'
+              description: 'List of supported VM Families.'
+              required: false
+              azure_sdk_references: ['/value/reservedInstanceVmFamilies', '/value/properties/reservedInstanceVmFamilies']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'reservedInstanceSupportedLocations'
+              description: 'List of supported Azure regions for reserved instances.'
+              required: false
+              azure_sdk_references: ['/value/reservedInstanceSupportedLocations', '/value/properties/reservedInstanceSupportedLocations']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'reservedInstanceSupportedCurrencies'
+              description: 'List of supported currencies for reserved instances.'
+              required: false
+              azure_sdk_references: ['/value/reservedInstanceSupportedCurrencies', '/value/properties/reservedInstanceSupportedCurrencies']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'reservedInstanceSupportedOffers'
+              description: 'List of supported Azure offer codes for reserved instances.'
+              required: false
+              azure_sdk_references: ['/value/reservedInstanceSupportedOffers', '/value/properties/reservedInstanceSupportedOffers']
+              item_type: Api::Type::String

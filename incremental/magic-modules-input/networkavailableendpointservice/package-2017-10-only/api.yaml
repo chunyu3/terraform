@@ -1,0 +1,67 @@
+--- !ruby/object:Api::Product
+name: Azure AvailableEndpointService Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AvailableEndpointService
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: availableEndpointServicesClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.available_endpoint_services
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure AvailableEndpointService instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location to check available endpoint services.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of available endpoint services in a region.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the endpoint service.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Type of the endpoint service.'
+              required: false
+              azure_sdk_references: ['/value/type']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

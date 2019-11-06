@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkconnectionmonitor
+  description: Create connection monitor
+  code:
+    resource_group: myResourceGroup
+    network_watcher_name: myNetworkWatcher
+    name: myConnectionMonitor
+    source:
+      resource_id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Compute/virtualMachines/{{ virtual_machine_name }}
+    destination:
+      address: bing.com
+      port: '80'
+    monitoring_interval_in_seconds: '60'
+  

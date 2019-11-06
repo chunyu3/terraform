@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkserviceendpointpolicy
+  description: Create service endpoint policy with definition
+  code:
+    resource_group: myResourceGroup
+    name: myServiceEndpointPolicy
+    service_endpoint_policy_definitions:
+      - description: Storage Service EndpointPolicy Definition
+        service: Microsoft.Storage
+        service_resources:
+          - /subscriptions/subid1
+          - /subscriptions/subid1/resourceGroups/storageRg
+          - >-
+            /subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount
+        name: StorageServiceEndpointPolicyDefinition
+  

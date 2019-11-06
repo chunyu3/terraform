@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkpublicipprefix
+  description: Create public IP prefix defaults
+  code:
+    resource_group: myResourceGroup
+    name: myPublicIpprefix
+    location: westus
+    sku:
+      name: Standard
+    prefix_length: '30'
+  

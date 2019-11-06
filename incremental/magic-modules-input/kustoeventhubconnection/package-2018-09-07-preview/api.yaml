@@ -1,0 +1,352 @@
+--- !ruby/object:Api::Product
+name: Azure EventHubConnection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: EventHubConnection
+    api_name: Kusto
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Kusto
+      go_client_namespace: kusto
+      go_client: eventHubConnectionsClient
+      python_client_namespace: azure.mgmt.kusto
+      python_client: KustoManagementClient.event_hub_connections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'eventHubConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubconnections
+            go_variable_name: name
+            python_parameter_name: event_hub_connection_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: EventHubConnection
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EventHubConnectionProperties
+            go_type_name: EventHubConnectionProperties
+          '/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_resource_id
+          '/properties/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubResourceID
+          '/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: consumer_group
+          '/properties/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConsumerGroup
+          '/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: table_name
+          '/properties/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TableName
+          '/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mapping_rule_name
+          '/properties/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MappingRuleName
+          '/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_format
+          '/properties/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataFormat
+            go_enum_type_name: DataFormat
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'eventHubConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubconnections
+            go_variable_name: name
+            python_parameter_name: event_hub_connection_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: EventHubConnection
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EventHubConnectionProperties
+            go_type_name: EventHubConnectionProperties
+          '/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_resource_id
+          '/properties/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubResourceID
+          '/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: consumer_group
+          '/properties/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConsumerGroup
+          '/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: table_name
+          '/properties/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TableName
+          '/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mapping_rule_name
+          '/properties/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MappingRuleName
+          '/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_format
+          '/properties/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataFormat
+            go_enum_type_name: DataFormat
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'eventHubConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubconnections
+            go_variable_name: name
+            python_parameter_name: event_hub_connection_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'eventHubConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventhubconnections
+            go_variable_name: name
+            python_parameter_name: event_hub_connection_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EventHubConnectionProperties
+            go_type_name: EventHubConnectionProperties
+          '/properties/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventHubResourceID
+          '/eventHubResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_hub_resource_id
+          '/properties/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConsumerGroup
+          '/consumerGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: consumer_group
+          '/properties/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TableName
+          '/tableName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: table_name
+          '/properties/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MappingRuleName
+          '/mappingRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mapping_rule_name
+          '/properties/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataFormat
+            go_enum_type_name: DataFormat
+          '/dataFormat': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_format
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabase
+        python_func_name: list_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: clusterName
+            python_parameter_name: cluster_name
+            python_variable_name: cluster_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+
+    description: |
+      Manage Azure EventHubConnection instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group containing the Kusto cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'clusterName'
+        description: 'The name of the Kusto cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['clusterName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database in the Kusto cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the event hub connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['eventHubConnectionName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'eventHubResourceId'
+        description: 'The resource ID of the event hub to be used to create a data connection.'
+        required: true
+        azure_sdk_references: ['/eventHubResourceId', '/properties/eventHubResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'consumerGroup'
+        description: 'The event hub consumer group.'
+        required: true
+        azure_sdk_references: ['/consumerGroup', '/properties/consumerGroup']
+      - !ruby/object:Api::Type::String
+        name: 'tableName'
+        description: 'The table where the data should be ingested. Optionally the table information can be added to each message.'
+        required: false
+        azure_sdk_references: ['/tableName', '/properties/tableName']
+      - !ruby/object:Api::Type::String
+        name: 'mappingRuleName'
+        description: 'The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message.'
+        required: false
+        azure_sdk_references: ['/mappingRuleName', '/properties/mappingRuleName']
+      - !ruby/object:Api::Type::Enum
+        name: 'dataFormat'
+        description: 'The data format of the message. Optionally the data format can be added to each message.'
+        required: false
+        azure_sdk_references: ['/dataFormat', '/properties/dataFormat']
+        values:
+          - :MULTIJSON
+          - :JSON
+          - :CSV
+        default_value: :MULTIJSON
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']

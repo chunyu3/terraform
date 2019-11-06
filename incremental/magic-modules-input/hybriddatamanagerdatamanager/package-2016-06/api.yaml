@@ -1,0 +1,211 @@
+--- !ruby/object:Api::Product
+name: Azure DataManager Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DataManager
+    api_name: HybridData
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.HybridData
+      go_client_namespace: hybriddatamanager
+      go_client: dataManagersClient
+      python_client_namespace: azure.mgmt.hybriddatamanager
+      python_client: HybridDataManagementClient.data_managers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'dataManagerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataManagers
+            go_variable_name: name
+            python_parameter_name: data_manager_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: dataManager
+            go_type_name: DataManager
+            python_parameter_name: data_manager
+            python_variable_name: data_manager
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'dataManagerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataManagers
+            go_variable_name: name
+            python_parameter_name: data_manager_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'dataManagerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataManagers
+            go_variable_name: name
+            python_parameter_name: data_manager_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'dataManagerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataManagers
+            go_variable_name: name
+            python_parameter_name: data_manager_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: Sku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure DataManager instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The Resource Group Name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the DataManager Resource within the specified resource group. DataManager names must be between 3 and 24 characters in length and use any alphanumeric and underscore only'
+        required: true
+        input: true
+        azure_sdk_references: ['dataManagerName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East<br>US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo<br>region is specified on update the request will succeed.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource<br>(across resource groups).'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'The sku type.'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The sku name. Required for data manager creation, optional for update.'
+            required: false
+            azure_sdk_references: ['/sku/name']
+          - !ruby/object:Api::Type::String
+            name: 'tier'
+            description: 'The sku tier. This is based on the SKU name.'
+            required: false
+            azure_sdk_references: ['/sku/tier']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Etag of the Resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The Resource Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The Resource Name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

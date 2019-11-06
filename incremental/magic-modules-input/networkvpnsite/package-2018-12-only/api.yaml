@@ -1,0 +1,453 @@
+--- !ruby/object:Api::Product
+name: Azure VpnSite Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VpnSite
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: vpnSitesClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.vpn_sites
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vpnSiteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnSites
+            go_variable_name: name
+            python_parameter_name: vpn_site_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: vpnSiteParameters
+            go_type_name: VpnSite
+            python_parameter_name: vpn_site_parameters
+            python_variable_name: vpn_site_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VpnSiteProperties
+            go_type_name: VpnSiteProperties
+          '/virtualWan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_wan
+          '/virtualWan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/virtualWan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualWan
+            go_type_name: SubResource
+          '/properties/virtualWan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/deviceProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: device_properties
+          '/deviceProperties/deviceVendor': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: device_vendor
+          '/deviceProperties/deviceModel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: device_model
+          '/deviceProperties/linkSpeedInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: link_speed_in_mbps
+          '/properties/deviceProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeviceProperties
+            go_type_name: DeviceProperties
+          '/properties/deviceProperties/deviceVendor': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeviceVendor
+          '/properties/deviceProperties/deviceModel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeviceModel
+          '/properties/deviceProperties/linkSpeedInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LinkSpeedInMbps
+          '/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/properties/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/siteKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: site_key
+          '/properties/siteKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SiteKey
+          '/addressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: address_space
+          '/addressSpace/addressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: address_prefixes
+          '/properties/addressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AddressSpace
+            go_type_name: AddressSpace
+          '/properties/addressSpace/addressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AddressPrefixes
+          '/bgpProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bgp_properties
+          '/bgpProperties/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: asn
+          '/bgpProperties/bgpPeeringAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: bgp_peering_address
+          '/bgpProperties/peerWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: peer_weight
+          '/properties/bgpProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BgpProperties
+            go_type_name: BgpSettings
+          '/properties/bgpProperties/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: Asn
+          '/properties/bgpProperties/bgpPeeringAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BgpPeeringAddress
+          '/properties/bgpProperties/peerWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PeerWeight
+          '/isSecuritySite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_security_site
+          '/properties/isSecuritySite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsSecuritySite
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vpnSiteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnSites
+            go_variable_name: name
+            python_parameter_name: vpn_site_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vpnSiteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vpnSites
+            go_variable_name: name
+            python_parameter_name: vpn_site_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VpnSiteProperties
+            go_type_name: VpnSiteProperties
+          '/properties/virtualWan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualWan
+            go_type_name: SubResource
+          '/properties/virtualWan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/virtualWan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: virtual_wan
+          '/virtualWan/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/deviceProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeviceProperties
+            go_type_name: DeviceProperties
+          '/properties/deviceProperties/deviceVendor': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeviceVendor
+          '/properties/deviceProperties/deviceModel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeviceModel
+          '/properties/deviceProperties/linkSpeedInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LinkSpeedInMbps
+          '/deviceProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: device_properties
+          '/deviceProperties/deviceVendor': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: device_vendor
+          '/deviceProperties/deviceModel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: device_model
+          '/deviceProperties/linkSpeedInMbps': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: link_speed_in_mbps
+          '/properties/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/properties/siteKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SiteKey
+          '/siteKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: site_key
+          '/properties/addressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AddressSpace
+            go_type_name: AddressSpace
+          '/properties/addressSpace/addressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AddressPrefixes
+          '/addressSpace': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: address_space
+          '/addressSpace/addressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: address_prefixes
+          '/properties/bgpProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BgpProperties
+            go_type_name: BgpSettings
+          '/properties/bgpProperties/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: Asn
+          '/properties/bgpProperties/bgpPeeringAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BgpPeeringAddress
+          '/properties/bgpProperties/peerWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PeerWeight
+          '/bgpProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bgp_properties
+          '/bgpProperties/asn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: asn
+          '/bgpProperties/bgpPeeringAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: bgp_peering_address
+          '/bgpProperties/peerWeight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: peer_weight
+          '/properties/isSecuritySite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsSecuritySite
+          '/isSecuritySite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_security_site
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure VpnSite instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name of the VpnSite.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the VpnSite being created or updated.'
+        required: true
+        input: true
+        azure_sdk_references: ['vpnSiteName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'virtualWan'
+        description: 'The VirtualWAN to which the vpnSite belongs'
+        required: false
+        azure_sdk_references: ['/virtualWan', '/properties/virtualWan']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/virtualWan/id', '/properties/virtualWan/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'deviceProperties'
+        description: 'The device properties'
+        required: false
+        azure_sdk_references: ['/deviceProperties', '/properties/deviceProperties']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'deviceVendor'
+            description: 'Name of the device Vendor.'
+            required: false
+            azure_sdk_references: ['/deviceProperties/deviceVendor', '/properties/deviceProperties/deviceVendor']
+          - !ruby/object:Api::Type::String
+            name: 'deviceModel'
+            description: 'Model of the device.'
+            required: false
+            azure_sdk_references: ['/deviceProperties/deviceModel', '/properties/deviceProperties/deviceModel']
+          - !ruby/object:Api::Type::Integer
+            name: 'linkSpeedInMbps'
+            description: 'Link speed.'
+            required: false
+            azure_sdk_references: ['/deviceProperties/linkSpeedInMbps', '/properties/deviceProperties/linkSpeedInMbps']
+      - !ruby/object:Api::Type::String
+        name: 'ipAddress'
+        description: 'The ip-address for the vpn-site.'
+        required: false
+        azure_sdk_references: ['/ipAddress', '/properties/ipAddress']
+      - !ruby/object:Api::Type::String
+        name: 'siteKey'
+        description: 'The key for vpn-site that can be used for connections.'
+        required: false
+        azure_sdk_references: ['/siteKey', '/properties/siteKey']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'addressSpace'
+        description: 'The AddressSpace that contains an array of IP address ranges.'
+        required: false
+        azure_sdk_references: ['/addressSpace', '/properties/addressSpace']
+        properties:
+          - !ruby/object:Api::Type::Array
+            name: 'addressPrefixes'
+            description: 'A list of address blocks reserved for this virtual network in CIDR notation.'
+            required: false
+            azure_sdk_references: ['/addressSpace/addressPrefixes', '/properties/addressSpace/addressPrefixes']
+            item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'bgpProperties'
+        description: 'The set of bgp properties.'
+        required: false
+        azure_sdk_references: ['/bgpProperties', '/properties/bgpProperties']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'asn'
+            description: 'The BGP speaker''s ASN.'
+            required: false
+            azure_sdk_references: ['/bgpProperties/asn', '/properties/bgpProperties/asn']
+          - !ruby/object:Api::Type::String
+            name: 'bgpPeeringAddress'
+            description: 'The BGP peering address and BGP identifier of this BGP speaker.'
+            required: false
+            azure_sdk_references: ['/bgpProperties/bgpPeeringAddress', '/properties/bgpProperties/bgpPeeringAddress']
+          - !ruby/object:Api::Type::Integer
+            name: 'peerWeight'
+            description: 'The weight added to routes learned from this BGP speaker.'
+            required: false
+            azure_sdk_references: ['/bgpProperties/peerWeight', '/properties/bgpProperties/peerWeight']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isSecuritySite'
+        description: 'IsSecuritySite flag'
+        required: false
+        azure_sdk_references: ['/isSecuritySite', '/properties/isSecuritySite']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets a unique read-only string that changes whenever the resource is updated.'
+        output: true
+        azure_sdk_references: ['/etag']

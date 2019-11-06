@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_appplatformbinding
+  description: Bindings_CreateOrUpdate
+  code:
+    resource_name: my-cosmosdb-1
+    resource_type: Microsoft.DocumentDB
+    resource_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.DocumentDB/databaseAccounts/{{ database_account_name
+      }}
+    key: xxxx
+    binding_parameters:
+      databaseName: db1
+      apiType: SQL
+    resource_group: myResourceGroup
+    service_name: mySpring
+    app_name: myApp
+    name: myBinding
+  

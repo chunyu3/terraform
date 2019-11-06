@@ -1,0 +1,84 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkapplicationgateway
+  description: Create Application Gateway
+  code:
+    resource_group: myResourceGroup
+    name: myApplicationGateway
+    sku:
+      name: Standard_Medium
+      tier: Standard
+      capacity: '3'
+    gateway_ipconfigurations:
+      - subnet:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+            }}/subnets/{{ subnet_name }}
+        name: appgwipc
+    ssl_certificates:
+      - data: '****'
+        password: '****'
+        name: sslcert
+    frontend_ipconfigurations:
+      - public_ip_address:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/publicIPAddresses/{{
+            public_ip_address_name }}
+        name: appgwfip
+    frontend_ports:
+      - port: '443'
+        name: appgwfp
+    backend_address_pools:
+      - backend_addresses:
+          - ip_address: 10.0.1.1
+          - ip_address: 10.0.1.2
+        name: appgwpool
+    backend_http_settings_collection:
+      - port: '80'
+        protocol: Http
+        cookie_based_affinity: Disabled
+        request_timeout: '30'
+        name: appgwbhs
+    http_listeners:
+      - frontend_ipconfiguration:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/applicationGateways/{{
+            application_gateway_name }}/frontendIPConfigurations/{{
+            frontend_ipconfiguration_name }}
+        frontend_port:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/applicationGateways/{{
+            application_gateway_name }}/frontendPorts/{{ frontend_port_name }}
+        protocol: Https
+        ssl_certificate:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/applicationGateways/{{
+            application_gateway_name }}/sslCertificates/{{ ssl_certificate_name }}
+        require_server_name_indication: false
+        name: appgwhl
+    request_routing_rules:
+      - rule_type: Basic
+        backend_address_pool:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/applicationGateways/{{
+            application_gateway_name }}/backendAddressPools/{{
+            backend_address_pool_name }}
+        backend_http_settings:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/applicationGateways/{{
+            application_gateway_name }}/backendHttpSettingsCollection/{{
+            backend_http_settings_collection_name }}
+        http_listener:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/applicationGateways/{{
+            application_gateway_name }}/httpListeners/{{ http_listener_name }}
+        name: appgwrule
+  

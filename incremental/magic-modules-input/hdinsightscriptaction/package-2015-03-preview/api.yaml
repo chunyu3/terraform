@@ -1,0 +1,136 @@
+--- !ruby/object:Api::Product
+name: Azure ScriptAction Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ScriptAction
+    api_name: HDInsight
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.HDInsight
+      go_client_namespace: hdinsight
+      go_client: scriptActionsClient
+      python_client_namespace: azure.mgmt.hdinsight
+      python_client: HDInsightManagementClient.script_actions
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListPersistedScripts
+        python_func_name: list_persisted_scripts
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusters
+            go_variable_name: name
+            python_parameter_name: cluster_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ScriptAction instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the cluster.'
+        required: true
+        input: true
+        azure_sdk_references: ['clusterName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of persisted script action details for the cluster.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the script action.'
+              required: true
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'uri'
+              description: 'The URI to the script.'
+              required: true
+              azure_sdk_references: ['/value/uri']
+            - !ruby/object:Api::Type::String
+              name: 'parameters'
+              description: 'The parameters for the script'
+              required: false
+              azure_sdk_references: ['/value/parameters']
+            - !ruby/object:Api::Type::Array
+              name: 'roles'
+              description: 'The list of roles where script will be executed.'
+              required: true
+              azure_sdk_references: ['/value/roles']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::String
+              name: 'applicationName'
+              description: 'The application name of the script action, if any.'
+              required: false
+              azure_sdk_references: ['/value/applicationName']
+            - !ruby/object:Api::Type::Integer
+              name: 'scriptExecutionId'
+              description: 'The execution id of the script action.'
+              required: false
+              azure_sdk_references: ['/value/scriptExecutionId']
+            - !ruby/object:Api::Type::String
+              name: 'startTime'
+              description: 'The start time of script action execution.'
+              required: false
+              azure_sdk_references: ['/value/startTime']
+            - !ruby/object:Api::Type::String
+              name: 'endTime'
+              description: 'The end time of script action execution.'
+              required: false
+              azure_sdk_references: ['/value/endTime']
+            - !ruby/object:Api::Type::String
+              name: 'status'
+              description: 'The current execution status of the script action.'
+              required: false
+              azure_sdk_references: ['/value/status']
+            - !ruby/object:Api::Type::String
+              name: 'operation'
+              description: 'The reason why the script action was executed.'
+              required: false
+              azure_sdk_references: ['/value/operation']
+            - !ruby/object:Api::Type::Array
+              name: 'executionSummary'
+              description: 'The summary of script action execution result.'
+              required: false
+              azure_sdk_references: ['/value/executionSummary']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'status'
+                    description: 'The status of script action execution.'
+                    required: false
+                    azure_sdk_references: ['/value/executionSummary/status']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'instanceCount'
+                    description: 'The instance count for a given script action execution status.'
+                    required: false
+                    azure_sdk_references: ['/value/executionSummary/instanceCount']
+            - !ruby/object:Api::Type::String
+              name: 'debugInformation'
+              description: 'The script action execution debug information.'
+              required: false
+              azure_sdk_references: ['/value/debugInformation']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The link (url) to the next page of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

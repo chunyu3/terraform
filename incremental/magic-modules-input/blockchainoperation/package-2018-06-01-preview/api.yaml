@@ -1,0 +1,82 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: Blockchain
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Blockchain
+      go_client_namespace: blockchain
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.blockchain
+      python_client: BlockchainManagementClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets the collection of operations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'Gets or sets the origin.'
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Gets or sets the operation name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isDataAction'
+              description: 'Gets or sets a value indicating whether the operation is a data action or not.'
+              required: false
+              azure_sdk_references: ['/value/isDataAction']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Gets or sets operation display'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Gets or sets the name of the provider for display purposes.'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'Gets or sets the name of the resource type for display purposes.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Gets or sets the name of the operation for display purposes.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Gets or sets the description of the provider for display purposes.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Gets or sets the URL, that the client should use to fetch the next page (per server side paging).<br>It''s null for now, added for future use.'
+        output: true
+        azure_sdk_references: ['/nextLink']

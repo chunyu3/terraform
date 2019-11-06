@@ -1,0 +1,165 @@
+--- !ruby/object:Api::Product
+name: Azure IoTSecuritySolutionsAnalyticsAggregatedAlert Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: IoTSecuritySolutionsAnalyticsAggregatedAlert
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: ioTSecuritySolutionsAnalyticsAggregatedAlertClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.io_tsecurity_solutions_analytics_aggregated_alert
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: iotSecuritySolutions
+            go_variable_name: solutionName
+            python_parameter_name: solution_name
+            python_variable_name: solution_name
+          'aggregatedAlertName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: aggregatedAlerts
+            go_variable_name: name
+            python_parameter_name: aggregated_alert_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IoTSecurityAggregatedAlertProperties
+            go_type_name: IoTSecurityAggregatedAlertProperties
+
+    description: |
+      Manage Azure IoTSecuritySolutionsAnalyticsAggregatedAlert instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'solutionName'
+        description: 'The solution manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['solutionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Identifier of the aggregated alert'
+        required: true
+        input: true
+        azure_sdk_references: ['aggregatedAlertName']
+      - !ruby/object:Api::Type::String
+        name: 'alertType'
+        description: 'Name of the alert type'
+        required: false
+        azure_sdk_references: ['/alertType', '/properties/alertType']
+      - !ruby/object:Api::Type::String
+        name: 'alertDisplayName'
+        description: 'Display name of the alert type'
+        required: false
+        azure_sdk_references: ['/alertDisplayName', '/properties/alertDisplayName']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[date]]
+        name: 'aggregatedDateUtc'
+        description: 'The date the incidents were detected by the vendor'
+        required: false
+        azure_sdk_references: ['/aggregatedDateUtc', '/properties/aggregatedDateUtc']
+      - !ruby/object:Api::Type::String
+        name: 'vendorName'
+        description: 'Name of the vendor that discovered the incident'
+        required: false
+        azure_sdk_references: ['/vendorName', '/properties/vendorName']
+      - !ruby/object:Api::Type::Enum
+        name: 'reportedSeverity'
+        description: 'Estimated severity of this alert'
+        required: false
+        azure_sdk_references: ['/reportedSeverity', '/properties/reportedSeverity']
+        values:
+          - :Informational
+          - :Low
+          - :Medium
+          - :High
+        default_value: :Informational
+      - !ruby/object:Api::Type::String
+        name: 'remediationSteps'
+        description: 'Recommended steps for remediation'
+        required: false
+        azure_sdk_references: ['/remediationSteps', '/properties/remediationSteps']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description of the incident and what it means'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Integer
+        name: 'count'
+        description: 'Occurrence number of the alert within the aggregated date'
+        required: false
+        azure_sdk_references: ['/count', '/properties/count']
+      - !ruby/object:Api::Type::String
+        name: 'effectedResourceType'
+        description: 'Azure resource ID of the resource that got the alerts'
+        required: false
+        azure_sdk_references: ['/effectedResourceType', '/properties/effectedResourceType']
+      - !ruby/object:Api::Type::String
+        name: 'systemSource'
+        description: 'The type of the alerted resource (Azure, Non-Azure)'
+        required: false
+        azure_sdk_references: ['/systemSource', '/properties/systemSource']
+      - !ruby/object:Api::Type::String
+        name: 'actionTaken'
+        description: 'The action that was taken as a response to the alert (Active, Blocked etc.)'
+        required: false
+        azure_sdk_references: ['/actionTaken', '/properties/actionTaken']
+      - !ruby/object:Api::Type::String
+        name: 'logAnalyticsQuery'
+        description: 'query in log analytics to get the list of affected devices/alerts'
+        required: false
+        azure_sdk_references: ['/logAnalyticsQuery', '/properties/logAnalyticsQuery']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        output: true
+        azure_sdk_references: ['tags', '/tags']

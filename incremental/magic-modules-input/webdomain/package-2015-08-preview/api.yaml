@@ -1,0 +1,563 @@
+--- !ruby/object:Api::Product
+name: Azure Domain Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Domain
+    api_name: DomainRegistration
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DomainRegistration
+      go_client_namespace: web
+      go_client: domainsClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.domains
+
+    description: |
+      Manage Azure Domain instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of resources'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource Name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'kind'
+              description: 'Kind of resource'
+              required: false
+              azure_sdk_references: ['/value/kind']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource Location'
+              required: true
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'contactAdmin'
+              description: 'Admin contact information'
+              required: false
+              azure_sdk_references: ['/value/contactAdmin', '/value/properties/contactAdmin']
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'addressMailing'
+                  description: 'Mailing address'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/addressMailing', '/value/properties/contactAdmin/addressMailing']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address1'
+                      description: 'Address 1'
+                      required: false
+                      azure_sdk_references: ['/value/contactAdmin/addressMailing/address1', '/value/properties/contactAdmin/addressMailing/address1']
+                    - !ruby/object:Api::Type::String
+                      name: 'address2'
+                      description: 'Address 2'
+                      required: false
+                      azure_sdk_references: ['/value/contactAdmin/addressMailing/address2', '/value/properties/contactAdmin/addressMailing/address2']
+                    - !ruby/object:Api::Type::String
+                      name: 'city'
+                      description: 'City'
+                      required: false
+                      azure_sdk_references: ['/value/contactAdmin/addressMailing/city', '/value/properties/contactAdmin/addressMailing/city']
+                    - !ruby/object:Api::Type::String
+                      name: 'country'
+                      description: 'Country'
+                      required: false
+                      azure_sdk_references: ['/value/contactAdmin/addressMailing/country', '/value/properties/contactAdmin/addressMailing/country']
+                    - !ruby/object:Api::Type::String
+                      name: 'postalCode'
+                      description: 'Postal code'
+                      required: false
+                      azure_sdk_references: ['/value/contactAdmin/addressMailing/postalCode', '/value/properties/contactAdmin/addressMailing/postalCode']
+                    - !ruby/object:Api::Type::String
+                      name: 'state'
+                      description: 'State'
+                      required: false
+                      azure_sdk_references: ['/value/contactAdmin/addressMailing/state', '/value/properties/contactAdmin/addressMailing/state']
+                - !ruby/object:Api::Type::String
+                  name: 'email'
+                  description: 'Email address'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/email', '/value/properties/contactAdmin/email']
+                - !ruby/object:Api::Type::String
+                  name: 'fax'
+                  description: 'Fax number'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/fax', '/value/properties/contactAdmin/fax']
+                - !ruby/object:Api::Type::String
+                  name: 'jobTitle'
+                  description: 'Job title'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/jobTitle', '/value/properties/contactAdmin/jobTitle']
+                - !ruby/object:Api::Type::String
+                  name: 'nameFirst'
+                  description: 'First name'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/nameFirst', '/value/properties/contactAdmin/nameFirst']
+                - !ruby/object:Api::Type::String
+                  name: 'nameLast'
+                  description: 'Last name'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/nameLast', '/value/properties/contactAdmin/nameLast']
+                - !ruby/object:Api::Type::String
+                  name: 'nameMiddle'
+                  description: 'Middle name'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/nameMiddle', '/value/properties/contactAdmin/nameMiddle']
+                - !ruby/object:Api::Type::String
+                  name: 'organization'
+                  description: 'Organization'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/organization', '/value/properties/contactAdmin/organization']
+                - !ruby/object:Api::Type::String
+                  name: 'phone'
+                  description: 'Phone number'
+                  required: false
+                  azure_sdk_references: ['/value/contactAdmin/phone', '/value/properties/contactAdmin/phone']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'contactBilling'
+              description: 'Billing contact information'
+              required: false
+              azure_sdk_references: ['/value/contactBilling', '/value/properties/contactBilling']
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'addressMailing'
+                  description: 'Mailing address'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/addressMailing', '/value/properties/contactBilling/addressMailing']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address1'
+                      description: 'Address 1'
+                      required: false
+                      azure_sdk_references: ['/value/contactBilling/addressMailing/address1', '/value/properties/contactBilling/addressMailing/address1']
+                    - !ruby/object:Api::Type::String
+                      name: 'address2'
+                      description: 'Address 2'
+                      required: false
+                      azure_sdk_references: ['/value/contactBilling/addressMailing/address2', '/value/properties/contactBilling/addressMailing/address2']
+                    - !ruby/object:Api::Type::String
+                      name: 'city'
+                      description: 'City'
+                      required: false
+                      azure_sdk_references: ['/value/contactBilling/addressMailing/city', '/value/properties/contactBilling/addressMailing/city']
+                    - !ruby/object:Api::Type::String
+                      name: 'country'
+                      description: 'Country'
+                      required: false
+                      azure_sdk_references: ['/value/contactBilling/addressMailing/country', '/value/properties/contactBilling/addressMailing/country']
+                    - !ruby/object:Api::Type::String
+                      name: 'postalCode'
+                      description: 'Postal code'
+                      required: false
+                      azure_sdk_references: ['/value/contactBilling/addressMailing/postalCode', '/value/properties/contactBilling/addressMailing/postalCode']
+                    - !ruby/object:Api::Type::String
+                      name: 'state'
+                      description: 'State'
+                      required: false
+                      azure_sdk_references: ['/value/contactBilling/addressMailing/state', '/value/properties/contactBilling/addressMailing/state']
+                - !ruby/object:Api::Type::String
+                  name: 'email'
+                  description: 'Email address'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/email', '/value/properties/contactBilling/email']
+                - !ruby/object:Api::Type::String
+                  name: 'fax'
+                  description: 'Fax number'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/fax', '/value/properties/contactBilling/fax']
+                - !ruby/object:Api::Type::String
+                  name: 'jobTitle'
+                  description: 'Job title'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/jobTitle', '/value/properties/contactBilling/jobTitle']
+                - !ruby/object:Api::Type::String
+                  name: 'nameFirst'
+                  description: 'First name'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/nameFirst', '/value/properties/contactBilling/nameFirst']
+                - !ruby/object:Api::Type::String
+                  name: 'nameLast'
+                  description: 'Last name'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/nameLast', '/value/properties/contactBilling/nameLast']
+                - !ruby/object:Api::Type::String
+                  name: 'nameMiddle'
+                  description: 'Middle name'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/nameMiddle', '/value/properties/contactBilling/nameMiddle']
+                - !ruby/object:Api::Type::String
+                  name: 'organization'
+                  description: 'Organization'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/organization', '/value/properties/contactBilling/organization']
+                - !ruby/object:Api::Type::String
+                  name: 'phone'
+                  description: 'Phone number'
+                  required: false
+                  azure_sdk_references: ['/value/contactBilling/phone', '/value/properties/contactBilling/phone']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'contactRegistrant'
+              description: 'Registrant contact information'
+              required: false
+              azure_sdk_references: ['/value/contactRegistrant', '/value/properties/contactRegistrant']
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'addressMailing'
+                  description: 'Mailing address'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/addressMailing', '/value/properties/contactRegistrant/addressMailing']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address1'
+                      description: 'Address 1'
+                      required: false
+                      azure_sdk_references: ['/value/contactRegistrant/addressMailing/address1', '/value/properties/contactRegistrant/addressMailing/address1']
+                    - !ruby/object:Api::Type::String
+                      name: 'address2'
+                      description: 'Address 2'
+                      required: false
+                      azure_sdk_references: ['/value/contactRegistrant/addressMailing/address2', '/value/properties/contactRegistrant/addressMailing/address2']
+                    - !ruby/object:Api::Type::String
+                      name: 'city'
+                      description: 'City'
+                      required: false
+                      azure_sdk_references: ['/value/contactRegistrant/addressMailing/city', '/value/properties/contactRegistrant/addressMailing/city']
+                    - !ruby/object:Api::Type::String
+                      name: 'country'
+                      description: 'Country'
+                      required: false
+                      azure_sdk_references: ['/value/contactRegistrant/addressMailing/country', '/value/properties/contactRegistrant/addressMailing/country']
+                    - !ruby/object:Api::Type::String
+                      name: 'postalCode'
+                      description: 'Postal code'
+                      required: false
+                      azure_sdk_references: ['/value/contactRegistrant/addressMailing/postalCode', '/value/properties/contactRegistrant/addressMailing/postalCode']
+                    - !ruby/object:Api::Type::String
+                      name: 'state'
+                      description: 'State'
+                      required: false
+                      azure_sdk_references: ['/value/contactRegistrant/addressMailing/state', '/value/properties/contactRegistrant/addressMailing/state']
+                - !ruby/object:Api::Type::String
+                  name: 'email'
+                  description: 'Email address'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/email', '/value/properties/contactRegistrant/email']
+                - !ruby/object:Api::Type::String
+                  name: 'fax'
+                  description: 'Fax number'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/fax', '/value/properties/contactRegistrant/fax']
+                - !ruby/object:Api::Type::String
+                  name: 'jobTitle'
+                  description: 'Job title'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/jobTitle', '/value/properties/contactRegistrant/jobTitle']
+                - !ruby/object:Api::Type::String
+                  name: 'nameFirst'
+                  description: 'First name'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/nameFirst', '/value/properties/contactRegistrant/nameFirst']
+                - !ruby/object:Api::Type::String
+                  name: 'nameLast'
+                  description: 'Last name'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/nameLast', '/value/properties/contactRegistrant/nameLast']
+                - !ruby/object:Api::Type::String
+                  name: 'nameMiddle'
+                  description: 'Middle name'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/nameMiddle', '/value/properties/contactRegistrant/nameMiddle']
+                - !ruby/object:Api::Type::String
+                  name: 'organization'
+                  description: 'Organization'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/organization', '/value/properties/contactRegistrant/organization']
+                - !ruby/object:Api::Type::String
+                  name: 'phone'
+                  description: 'Phone number'
+                  required: false
+                  azure_sdk_references: ['/value/contactRegistrant/phone', '/value/properties/contactRegistrant/phone']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'contactTech'
+              description: 'Technical contact information'
+              required: false
+              azure_sdk_references: ['/value/contactTech', '/value/properties/contactTech']
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'addressMailing'
+                  description: 'Mailing address'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/addressMailing', '/value/properties/contactTech/addressMailing']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'address1'
+                      description: 'Address 1'
+                      required: false
+                      azure_sdk_references: ['/value/contactTech/addressMailing/address1', '/value/properties/contactTech/addressMailing/address1']
+                    - !ruby/object:Api::Type::String
+                      name: 'address2'
+                      description: 'Address 2'
+                      required: false
+                      azure_sdk_references: ['/value/contactTech/addressMailing/address2', '/value/properties/contactTech/addressMailing/address2']
+                    - !ruby/object:Api::Type::String
+                      name: 'city'
+                      description: 'City'
+                      required: false
+                      azure_sdk_references: ['/value/contactTech/addressMailing/city', '/value/properties/contactTech/addressMailing/city']
+                    - !ruby/object:Api::Type::String
+                      name: 'country'
+                      description: 'Country'
+                      required: false
+                      azure_sdk_references: ['/value/contactTech/addressMailing/country', '/value/properties/contactTech/addressMailing/country']
+                    - !ruby/object:Api::Type::String
+                      name: 'postalCode'
+                      description: 'Postal code'
+                      required: false
+                      azure_sdk_references: ['/value/contactTech/addressMailing/postalCode', '/value/properties/contactTech/addressMailing/postalCode']
+                    - !ruby/object:Api::Type::String
+                      name: 'state'
+                      description: 'State'
+                      required: false
+                      azure_sdk_references: ['/value/contactTech/addressMailing/state', '/value/properties/contactTech/addressMailing/state']
+                - !ruby/object:Api::Type::String
+                  name: 'email'
+                  description: 'Email address'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/email', '/value/properties/contactTech/email']
+                - !ruby/object:Api::Type::String
+                  name: 'fax'
+                  description: 'Fax number'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/fax', '/value/properties/contactTech/fax']
+                - !ruby/object:Api::Type::String
+                  name: 'jobTitle'
+                  description: 'Job title'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/jobTitle', '/value/properties/contactTech/jobTitle']
+                - !ruby/object:Api::Type::String
+                  name: 'nameFirst'
+                  description: 'First name'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/nameFirst', '/value/properties/contactTech/nameFirst']
+                - !ruby/object:Api::Type::String
+                  name: 'nameLast'
+                  description: 'Last name'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/nameLast', '/value/properties/contactTech/nameLast']
+                - !ruby/object:Api::Type::String
+                  name: 'nameMiddle'
+                  description: 'Middle name'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/nameMiddle', '/value/properties/contactTech/nameMiddle']
+                - !ruby/object:Api::Type::String
+                  name: 'organization'
+                  description: 'Organization'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/organization', '/value/properties/contactTech/organization']
+                - !ruby/object:Api::Type::String
+                  name: 'phone'
+                  description: 'Phone number'
+                  required: false
+                  azure_sdk_references: ['/value/contactTech/phone', '/value/properties/contactTech/phone']
+            - !ruby/object:Api::Type::Enum
+              name: 'registrationStatus'
+              description: 'Domain registration status'
+              required: false
+              azure_sdk_references: ['/value/registrationStatus', '/value/properties/registrationStatus']
+              values:
+                - :Active
+                - :Awaiting
+                - :Cancelled
+                - :Confiscated
+                - :Disabled
+                - :Excluded
+                - :Expired
+                - :Failed
+                - :Held
+                - :Locked
+                - :Parked
+                - :Pending
+                - :Reserved
+                - :Reverted
+                - :Suspended
+                - :Transferred
+                - :Unknown
+                - :Unlocked
+                - :Unparked
+                - :Updated
+                - :JsonConverterFailed
+              default_value: :Active
+            - !ruby/object:Api::Type::Enum
+              name: 'provisioningState'
+              description: 'Domain provisioning state'
+              required: false
+              azure_sdk_references: ['/value/provisioningState', '/value/properties/provisioningState']
+              values:
+                - :Succeeded
+                - :Failed
+                - :Canceled
+                - :InProgress
+                - :Deleting
+              default_value: :Succeeded
+            - !ruby/object:Api::Type::Array
+              name: 'nameServers'
+              description: 'Name servers'
+              required: false
+              azure_sdk_references: ['/value/nameServers', '/value/properties/nameServers']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Boolean
+              name: 'privacy'
+              description: 'If true then domain privacy is enabled for this domain'
+              required: false
+              azure_sdk_references: ['/value/privacy', '/value/properties/privacy']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'createdTime'
+              description: 'Domain creation timestamp'
+              required: false
+              azure_sdk_references: ['/value/createdTime', '/value/properties/createdTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'expirationTime'
+              description: 'Domain expiration timestamp'
+              required: false
+              azure_sdk_references: ['/value/expirationTime', '/value/properties/expirationTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastRenewedTime'
+              description: 'Timestamp when the domain was renewed last time'
+              required: false
+              azure_sdk_references: ['/value/lastRenewedTime', '/value/properties/lastRenewedTime']
+            - !ruby/object:Api::Type::Boolean
+              name: 'autoRenew'
+              description: 'If true then domain will renewed automatically'
+              required: false
+              azure_sdk_references: ['/value/autoRenew', '/value/properties/autoRenew']
+            - !ruby/object:Api::Type::Boolean
+              name: 'readyForDnsRecordManagement'
+              description: 'If true then Azure can assign this domain to Web Apps. This value will be true if domain registration status is active and it is hosted on name servers Azure has programmatic access to'
+              required: false
+              azure_sdk_references: ['/value/readyForDnsRecordManagement', '/value/properties/readyForDnsRecordManagement']
+            - !ruby/object:Api::Type::Array
+              name: 'managedHostNames'
+              description: 'All hostnames derived from the domain and assigned to Azure resources'
+              required: false
+              azure_sdk_references: ['/value/managedHostNames', '/value/properties/managedHostNames']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the hostname'
+                    required: false
+                    azure_sdk_references: ['/value/managedHostNames/name', '/value/properties/managedHostNames/name']
+                  - !ruby/object:Api::Type::Array
+                    name: 'siteNames'
+                    description: 'List of sites the hostname is assigned to. This list will have more than one site only if the hostname is pointing to a Traffic Manager'
+                    required: false
+                    azure_sdk_references: ['/value/managedHostNames/siteNames', '/value/properties/managedHostNames/siteNames']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::String
+                    name: 'azureResourceName'
+                    description: 'Name of the Azure resource the hostname is assigned to. If it is assigned to a traffic manager then it will be the traffic manager name otherwise it will be the website name'
+                    required: false
+                    azure_sdk_references: ['/value/managedHostNames/azureResourceName', '/value/properties/managedHostNames/azureResourceName']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'azureResourceType'
+                    description: 'Type of the Azure resource the hostname is assigned to'
+                    required: false
+                    azure_sdk_references: ['/value/managedHostNames/azureResourceType', '/value/properties/managedHostNames/azureResourceType']
+                    values:
+                      - :Website
+                      - :TrafficManager
+                    default_value: :Website
+                  - !ruby/object:Api::Type::Enum
+                    name: 'customHostNameDnsRecordType'
+                    description: 'Type of the Dns record'
+                    required: false
+                    azure_sdk_references: ['/value/managedHostNames/customHostNameDnsRecordType', '/value/properties/managedHostNames/customHostNameDnsRecordType']
+                    values:
+                      - :CName
+                      - :A
+                    default_value: :CName
+                  - !ruby/object:Api::Type::Enum
+                    name: 'hostNameType'
+                    description: 'Type of the hostname'
+                    required: false
+                    azure_sdk_references: ['/value/managedHostNames/hostNameType', '/value/properties/managedHostNames/hostNameType']
+                    values:
+                      - :Verified
+                      - :Managed
+                    default_value: :Verified
+            - !ruby/object:Api::Type::NestedObject
+              name: 'consent'
+              description: 'Legal agreement consent'
+              required: false
+              azure_sdk_references: ['/value/consent', '/value/properties/consent']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'agreementKeys'
+                  description: 'List of applicable legal agreement keys. This list can be retrieved using ListLegalAgreements Api under TopLevelDomain resource'
+                  required: false
+                  azure_sdk_references: ['/value/consent/agreementKeys', '/value/properties/consent/agreementKeys']
+                  item_type: Api::Type::String
+                - !ruby/object:Api::Type::String
+                  name: 'agreedBy'
+                  description: 'Client IP address'
+                  required: false
+                  azure_sdk_references: ['/value/consent/agreedBy', '/value/properties/consent/agreedBy']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'agreedAt'
+                  description: 'Timestamp when the agreements were accepted'
+                  required: false
+                  azure_sdk_references: ['/value/consent/agreedAt', '/value/properties/consent/agreedAt']
+            - !ruby/object:Api::Type::Array
+              name: 'domainNotRenewableReasons'
+              description: 'Reasons why domain is not renewable'
+              required: false
+              azure_sdk_references: ['/value/domainNotRenewableReasons', '/value/properties/domainNotRenewableReasons']
+              item_type: !ruby/object:Api::Type::Enum
+                name: 'TBD'
+                description: 'TBD'
+                values:
+                  - :RegistrationStatusNotSupportedForRenewal
+                  - :ExpirationNotInRenewalTimeRange
+                  - :SubscriptionNotActive
+                default_value: :RegistrationStatusNotSupportedForRenewal
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to next page of resources'
+        output: true
+        azure_sdk_references: ['/nextLink']

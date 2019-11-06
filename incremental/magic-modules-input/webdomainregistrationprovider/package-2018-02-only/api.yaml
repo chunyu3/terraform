@@ -1,0 +1,177 @@
+--- !ruby/object:Api::Product
+name: Azure DomainRegistrationProvider Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DomainRegistrationProvider
+    api_name: DomainRegistration
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DomainRegistration
+      go_client_namespace: web
+      go_client: domainRegistrationProviderClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.domain_registration_provider
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListOperations
+        python_func_name: list_operations
+        request:
+
+    description: |
+      Manage Azure DomainRegistrationProvider instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'serviceSpecification'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/serviceSpecification', '/value/properties/serviceSpecification']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'metricSpecifications'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/metricSpecifications', '/value/properties/serviceSpecification/metricSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/name', '/value/properties/serviceSpecification/metricSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/displayName', '/value/properties/serviceSpecification/metricSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayDescription'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/displayDescription', '/value/properties/serviceSpecification/metricSpecifications/displayDescription']
+                      - !ruby/object:Api::Type::String
+                        name: 'unit'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/unit', '/value/properties/serviceSpecification/metricSpecifications/unit']
+                      - !ruby/object:Api::Type::String
+                        name: 'aggregationType'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/aggregationType', '/value/properties/serviceSpecification/metricSpecifications/aggregationType']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'supportsInstanceLevelAggregation'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/supportsInstanceLevelAggregation', '/value/properties/serviceSpecification/metricSpecifications/supportsInstanceLevelAggregation']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'enableRegionalMdmAccount'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/enableRegionalMdmAccount', '/value/properties/serviceSpecification/metricSpecifications/enableRegionalMdmAccount']
+                      - !ruby/object:Api::Type::String
+                        name: 'sourceMdmAccount'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/sourceMdmAccount', '/value/properties/serviceSpecification/metricSpecifications/sourceMdmAccount']
+                      - !ruby/object:Api::Type::String
+                        name: 'sourceMdmNamespace'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/sourceMdmNamespace', '/value/properties/serviceSpecification/metricSpecifications/sourceMdmNamespace']
+                      - !ruby/object:Api::Type::String
+                        name: 'metricFilterPattern'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/metricFilterPattern', '/value/properties/serviceSpecification/metricSpecifications/metricFilterPattern']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'fillGapWithZero'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/fillGapWithZero', '/value/properties/serviceSpecification/metricSpecifications/fillGapWithZero']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'isInternal'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/isInternal', '/value/properties/serviceSpecification/metricSpecifications/isInternal']
+                      - !ruby/object:Api::Type::String
+                        name: 'category'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/category', '/value/properties/serviceSpecification/metricSpecifications/category']
+                - !ruby/object:Api::Type::Array
+                  name: 'logSpecifications'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/logSpecifications', '/value/properties/serviceSpecification/logSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/name', '/value/properties/serviceSpecification/logSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/displayName', '/value/properties/serviceSpecification/logSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'blobDuration'
+                        description: ''
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/blobDuration', '/value/properties/serviceSpecification/logSpecifications/blobDuration']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to next page of resources.'
+        output: true
+        azure_sdk_references: ['/nextLink']

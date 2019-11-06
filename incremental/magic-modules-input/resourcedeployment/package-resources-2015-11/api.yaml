@@ -1,0 +1,373 @@
+--- !ruby/object:Api::Product
+name: Azure Deployment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Deployment
+    api_name: Resources
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Resources
+      go_client_namespace: resource
+      go_client: deploymentsClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: ResourceManagementClient.deployments
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeploymentProperties
+            go_type_name: DeploymentProperties
+          '/properties/template': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Template
+          '/template': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: template
+          '/properties/templateLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TemplateLink
+            go_type_name: TemplateLink
+          '/properties/templateLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/templateLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentVersion
+          '/templateLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: template_link
+          '/templateLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/templateLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_version
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/parametersLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ParametersLink
+            go_type_name: ParametersLink
+          '/properties/parametersLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/parametersLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentVersion
+          '/parametersLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: parameters_link
+          '/parametersLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/parametersLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_version
+          '/properties/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Mode
+            go_enum_type_name: DeploymentMode
+          '/mode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: mode
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/correlationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CorrelationID
+          '/correlationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: correlation_id
+          '/properties/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Timestamp
+          '/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: timestamp
+          '/properties/outputs': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Outputs
+          '/outputs': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: outputs
+          '/properties/providers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Providers
+            go_type_name: Provider
+          '/providers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: providers
+          '/properties/dependencies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Dependencies
+            go_type_name: Dependency
+          '/dependencies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: dependencies
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Deployment instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the deployment.'
+        required: true
+        input: true
+        azure_sdk_references: ['deploymentName']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'template'
+        description: 'Gets or sets the template content. Use only one of Template or TemplateLink.'
+        required: false
+        azure_sdk_references: ['/template', '/properties/template']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'templateLink'
+        description: 'Gets or sets the URI referencing the template. Use only one of Template or TemplateLink.'
+        required: false
+        azure_sdk_references: ['/templateLink', '/properties/templateLink']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'uri'
+            description: 'URI referencing the template.'
+            required: true
+            azure_sdk_references: ['/templateLink/uri', '/properties/templateLink/uri']
+          - !ruby/object:Api::Type::String
+            name: 'contentVersion'
+            description: 'If included it must match the ContentVersion in the template.'
+            required: false
+            azure_sdk_references: ['/templateLink/contentVersion', '/properties/templateLink/contentVersion']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'parameters'
+        description: 'Deployment parameters. Use only one of Parameters or ParametersLink.'
+        required: false
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'parametersLink'
+        description: 'Gets or sets the URI referencing the parameters. Use only one of Parameters or ParametersLink.'
+        required: false
+        azure_sdk_references: ['/parametersLink', '/properties/parametersLink']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'uri'
+            description: 'URI referencing the template.'
+            required: true
+            azure_sdk_references: ['/parametersLink/uri', '/properties/parametersLink/uri']
+          - !ruby/object:Api::Type::String
+            name: 'contentVersion'
+            description: 'If included it must match the ContentVersion in the template.'
+            required: false
+            azure_sdk_references: ['/parametersLink/contentVersion', '/properties/parametersLink/contentVersion']
+      - !ruby/object:Api::Type::Enum
+        name: 'mode'
+        description: 'Gets or sets the deployment mode.'
+        required: false
+        azure_sdk_references: ['/mode', '/properties/mode']
+        values:
+          - :Incremental
+          - :Complete
+        default_value: :Incremental
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Gets or sets the state of the provisioning.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'correlationId'
+        description: 'Gets or sets the correlation ID of the deployment.'
+        output: true
+        azure_sdk_references: ['/correlationId', '/properties/correlationId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'timestamp'
+        description: 'Gets or sets the timestamp of the template deployment.'
+        output: true
+        azure_sdk_references: ['/timestamp', '/properties/timestamp']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'outputs'
+        description: 'Gets or sets key/value pairs that represent deployment output.'
+        output: true
+        azure_sdk_references: ['/outputs', '/properties/outputs']
+      - !ruby/object:Api::Type::Array
+        name: 'providers'
+        description: 'Gets the list of resource providers needed for the deployment.'
+        output: true
+        azure_sdk_references: ['/providers', '/properties/providers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Gets or sets the provider id.'
+              required: false
+              azure_sdk_references: ['/providers/id', '/properties/providers/id']
+            - !ruby/object:Api::Type::String
+              name: 'namespace'
+              description: 'Gets or sets the namespace of the provider.'
+              required: false
+              azure_sdk_references: ['/providers/namespace', '/properties/providers/namespace']
+            - !ruby/object:Api::Type::String
+              name: 'registrationState'
+              description: 'Gets or sets the registration state of the provider.'
+              required: false
+              azure_sdk_references: ['/providers/registrationState', '/properties/providers/registrationState']
+            - !ruby/object:Api::Type::Array
+              name: 'resourceTypes'
+              description: 'Gets or sets the collection of provider resource types.'
+              required: false
+              azure_sdk_references: ['/providers/resourceTypes', '/properties/providers/resourceTypes']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'resourceType'
+                    description: 'Gets or sets the resource type.'
+                    required: false
+                    azure_sdk_references: ['/providers/resourceTypes/resourceType', '/properties/providers/resourceTypes/resourceType']
+                  - !ruby/object:Api::Type::Array
+                    name: 'locations'
+                    description: 'Gets or sets the collection of locations where this resource type can be created in.'
+                    required: false
+                    azure_sdk_references: ['/providers/resourceTypes/locations', '/properties/providers/resourceTypes/locations']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::Array
+                    name: 'apiVersions'
+                    description: 'Gets or sets the api version.'
+                    required: false
+                    azure_sdk_references: ['/providers/resourceTypes/apiVersions', '/properties/providers/resourceTypes/apiVersions']
+                    item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'dependencies'
+        description: 'Gets the list of deployment dependencies.'
+        output: true
+        azure_sdk_references: ['/dependencies', '/properties/dependencies']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Array
+              name: 'dependsOn'
+              description: 'Gets the list of dependencies.'
+              required: false
+              azure_sdk_references: ['/dependencies/dependsOn', '/properties/dependencies/dependsOn']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Gets or sets the ID of the dependency.'
+                    required: false
+                    azure_sdk_references: ['/dependencies/dependsOn/id', '/properties/dependencies/dependsOn/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'resourceType'
+                    description: 'Gets or sets the dependency resource type.'
+                    required: false
+                    azure_sdk_references: ['/dependencies/dependsOn/resourceType', '/properties/dependencies/dependsOn/resourceType']
+                  - !ruby/object:Api::Type::String
+                    name: 'resourceName'
+                    description: 'Gets or sets the dependency resource name.'
+                    required: false
+                    azure_sdk_references: ['/dependencies/dependsOn/resourceName', '/properties/dependencies/dependsOn/resourceName']
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Gets or sets the ID of the dependency.'
+              required: false
+              azure_sdk_references: ['/dependencies/id', '/properties/dependencies/id']
+            - !ruby/object:Api::Type::String
+              name: 'resourceType'
+              description: 'Gets or sets the dependency resource type.'
+              required: false
+              azure_sdk_references: ['/dependencies/resourceType', '/properties/dependencies/resourceType']
+            - !ruby/object:Api::Type::String
+              name: 'resourceName'
+              description: 'Gets or sets the dependency resource name.'
+              required: false
+              azure_sdk_references: ['/dependencies/resourceName', '/properties/dependencies/resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Gets or sets the ID of the deployment.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets the name of the deployment.'
+        output: true
+        azure_sdk_references: ['/name']

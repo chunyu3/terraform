@@ -1,0 +1,42 @@
+--- !ruby/object:Api::Product
+name: Azure  Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: 
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: client
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.
+
+    description: |
+      Manage Azure  instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the domain name.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      - !ruby/object:Api::Type::String
+        name: 'domainNameLabel'
+        description: 'The domain name to be verified. It must conform to the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$.'
+        required: false
+        input: true
+        azure_sdk_references: ['domainNameLabel']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Boolean
+        name: 'available'
+        description: 'Domain availability (True/False).'
+        output: true
+        azure_sdk_references: ['/available']

@@ -1,0 +1,135 @@
+--- !ruby/object:Api::Product
+name: Azure ReplicationUsage Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ReplicationUsage
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: recoveryservices
+      go_client: replicationUsagesClient
+      python_client_namespace: azure.mgmt.recoveryservices
+      python_client: RecoveryServicesClient.replication_usages
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: name
+            python_parameter_name: vault_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ReplicationUsage instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group where the recovery services vault is present.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the recovery services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of replication usages for the given vault.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::NestedObject
+              name: 'monitoringSummary'
+              description: 'Summary of the replication monitoring data for this vault.'
+              required: false
+              azure_sdk_references: ['/value/monitoringSummary']
+              properties:
+                - !ruby/object:Api::Type::Integer
+                  name: 'unHealthyVmCount'
+                  description: 'Count of unhealthy VMs.'
+                  required: false
+                  azure_sdk_references: ['/value/monitoringSummary/unHealthyVmCount']
+                - !ruby/object:Api::Type::Integer
+                  name: 'unHealthyProviderCount'
+                  description: 'Count of unhealthy replication providers.'
+                  required: false
+                  azure_sdk_references: ['/value/monitoringSummary/unHealthyProviderCount']
+                - !ruby/object:Api::Type::Integer
+                  name: 'eventsCount'
+                  description: 'Count of all critical warnings.'
+                  required: false
+                  azure_sdk_references: ['/value/monitoringSummary/eventsCount']
+                - !ruby/object:Api::Type::Integer
+                  name: 'deprecatedProviderCount'
+                  description: 'Count of all deprecated recovery service providers.'
+                  required: false
+                  azure_sdk_references: ['/value/monitoringSummary/deprecatedProviderCount']
+                - !ruby/object:Api::Type::Integer
+                  name: 'supportedProviderCount'
+                  description: 'Count of all the supported recovery service providers.'
+                  required: false
+                  azure_sdk_references: ['/value/monitoringSummary/supportedProviderCount']
+                - !ruby/object:Api::Type::Integer
+                  name: 'unsupportedProviderCount'
+                  description: 'Count of all the unsupported recovery service providers.'
+                  required: false
+                  azure_sdk_references: ['/value/monitoringSummary/unsupportedProviderCount']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'jobsSummary'
+              description: 'Summary of the replication jobs data for this vault.'
+              required: false
+              azure_sdk_references: ['/value/jobsSummary']
+              properties:
+                - !ruby/object:Api::Type::Integer
+                  name: 'failedJobs'
+                  description: 'Count of failed jobs.'
+                  required: false
+                  azure_sdk_references: ['/value/jobsSummary/failedJobs']
+                - !ruby/object:Api::Type::Integer
+                  name: 'suspendedJobs'
+                  description: 'Count of suspended jobs.'
+                  required: false
+                  azure_sdk_references: ['/value/jobsSummary/suspendedJobs']
+                - !ruby/object:Api::Type::Integer
+                  name: 'inProgressJobs'
+                  description: 'Count of in-progress jobs.'
+                  required: false
+                  azure_sdk_references: ['/value/jobsSummary/inProgressJobs']
+            - !ruby/object:Api::Type::Integer
+              name: 'protectedItemCount'
+              description: 'Number of replication protected items for this vault.'
+              required: false
+              azure_sdk_references: ['/value/protectedItemCount']
+            - !ruby/object:Api::Type::Integer
+              name: 'recoveryPlanCount'
+              description: 'Number of replication recovery plans for this vault.'
+              required: false
+              azure_sdk_references: ['/value/recoveryPlanCount']
+            - !ruby/object:Api::Type::Integer
+              name: 'registeredServersCount'
+              description: 'Number of servers registered to this vault.'
+              required: false
+              azure_sdk_references: ['/value/registeredServersCount']
+            - !ruby/object:Api::Type::Integer
+              name: 'recoveryServicesProviderAuthType'
+              description: 'The authentication type of recovery service providers in the vault.'
+              required: false
+              azure_sdk_references: ['/value/recoveryServicesProviderAuthType']

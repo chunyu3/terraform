@@ -1,0 +1,509 @@
+--- !ruby/object:Api::Product
+name: Azure ServiceReplica Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServiceReplica
+    api_name: ServiceFabricMesh
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ServiceFabricMesh
+      go_client_namespace: servicefabricmeshrestapis
+      go_client: serviceReplicaClient
+      python_client_namespace: azure.mgmt.servicefabricmeshrestapis
+      python_client: ServiceFabricMeshManagementClient.service_replica
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'applicationResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationResourceName
+            python_parameter_name: application_resource_name
+            python_variable_name: application_resource_name
+          'serviceResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_resource_name
+            python_variable_name: name
+        response:
+          '/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: OsType
+            go_enum_type_name: OperatingSystemType
+            python_field_name: os_type
+          '/codePackages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: CodePackages
+            go_type_name: ContainerCodePackageProperties
+            python_field_name: code_packages
+          '/networkRefs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: NetworkRefs
+            go_type_name: NetworkRef
+            python_field_name: network_refs
+          '/diagnostics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Diagnostics
+            go_type_name: DiagnosticsRef
+            python_field_name: diagnostics
+          '/replicaName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ReplicaName
+            python_field_name: replica_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'applicationResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: applicationResourceName
+            python_parameter_name: application_resource_name
+            python_variable_name: application_resource_name
+          'serviceResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_resource_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ServiceReplica instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Azure resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'applicationResourceName'
+        description: 'The identity of the application.'
+        required: true
+        input: true
+        azure_sdk_references: ['applicationResourceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The identity of the service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceResourceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'osType'
+        description: 'The operation system required by the code in service.'
+        output: true
+        azure_sdk_references: ['/osType']
+        values:
+          - :Linux
+          - :Windows
+      - !ruby/object:Api::Type::Array
+        name: 'codePackages'
+        description: 'Describes the set of code packages that forms the service. A code package describes the container and the properties for running it. All the code packages are started together on the same host and share the same context (network, process etc.).'
+        output: true
+        azure_sdk_references: ['/codePackages']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the code package.'
+              required: true
+              azure_sdk_references: ['/codePackages/name']
+            - !ruby/object:Api::Type::String
+              name: 'image'
+              description: 'The Container image to use.'
+              required: true
+              azure_sdk_references: ['/codePackages/image']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'imageRegistryCredential'
+              description: 'Image registry credential.'
+              required: false
+              azure_sdk_references: ['/codePackages/imageRegistryCredential']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'server'
+                  description: 'Docker image registry server, without protocol such as `http` and `https`.'
+                  required: true
+                  azure_sdk_references: ['/codePackages/imageRegistryCredential/server']
+                - !ruby/object:Api::Type::String
+                  name: 'username'
+                  description: 'The username for the private registry.'
+                  required: true
+                  azure_sdk_references: ['/codePackages/imageRegistryCredential/username']
+                - !ruby/object:Api::Type::String
+                  name: 'password'
+                  description: 'The password for the private registry. The password is required for create or update operations, however it is not returned in the get or list operations.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/imageRegistryCredential/password']
+            - !ruby/object:Api::Type::String
+              name: 'entrypoint'
+              description: 'Override for the default entry point in the container.'
+              required: false
+              azure_sdk_references: ['/codePackages/entrypoint']
+            - !ruby/object:Api::Type::Array
+              name: 'commands'
+              description: 'Command array to execute within the container in exec form.'
+              required: false
+              azure_sdk_references: ['/codePackages/commands']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'environmentVariables'
+              description: 'The environment variables to set in this container'
+              required: false
+              azure_sdk_references: ['/codePackages/environmentVariables']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the environment variable.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/environmentVariables/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'The value of the environment variable.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/environmentVariables/value']
+            - !ruby/object:Api::Type::Array
+              name: 'settings'
+              description: 'The settings to set in this container. The setting file path can be fetched from environment variable "Fabric_SettingPath". The path for Windows container is "C:\\secrets". The path for Linux container is "/var/secrets".'
+              required: false
+              azure_sdk_references: ['/codePackages/settings']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the setting.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/settings/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'The value of the setting.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/settings/value']
+            - !ruby/object:Api::Type::Array
+              name: 'labels'
+              description: 'The labels to set in this container.'
+              required: false
+              azure_sdk_references: ['/codePackages/labels']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the container label.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/labels/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'The value of the container label.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/labels/value']
+            - !ruby/object:Api::Type::Array
+              name: 'endpoints'
+              description: 'The endpoints exposed by this container.'
+              required: false
+              azure_sdk_references: ['/codePackages/endpoints']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'The name of the endpoint.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/endpoints/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'port'
+                    description: 'Port used by the container.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/endpoints/port']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'resources'
+              description: 'The resources required by this container.'
+              required: true
+              azure_sdk_references: ['/codePackages/resources']
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'requests'
+                  description: 'Describes the requested resources for a given container.'
+                  required: true
+                  azure_sdk_references: ['/codePackages/resources/requests']
+                  properties:
+                    - !ruby/object:Api::Type::Double
+                      name: 'memoryInGb'
+                      description: 'The memory request in GB for this container.'
+                      required: true
+                      azure_sdk_references: ['/codePackages/resources/requests/memoryInGB']
+                    - !ruby/object:Api::Type::Double
+                      name: 'cpu'
+                      description: 'Requested number of CPU cores. At present, only full cores are supported.'
+                      required: true
+                      azure_sdk_references: ['/codePackages/resources/requests/cpu']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'limits'
+                  description: 'Describes the maximum limits on the resources for a given container.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/resources/limits']
+                  properties:
+                    - !ruby/object:Api::Type::Double
+                      name: 'memoryInGb'
+                      description: 'The memory limit in GB.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/resources/limits/memoryInGB']
+                    - !ruby/object:Api::Type::Double
+                      name: 'cpu'
+                      description: 'CPU limits in cores. At present, only full cores are supported.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/resources/limits/cpu']
+            - !ruby/object:Api::Type::Array
+              name: 'volumeRefs'
+              description: 'Volumes to be attached to the container. The lifetime of these volumes is independent of the application''s lifetime.'
+              required: false
+              azure_sdk_references: ['/codePackages/volumeRefs']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the volume being referenced.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/volumeRefs/name']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'readOnly'
+                    description: 'The flag indicating whether the volume is read only. Default is ''false''.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/volumeRefs/readOnly']
+                  - !ruby/object:Api::Type::String
+                    name: 'destinationPath'
+                    description: 'The path within the container at which the volume should be mounted. Only valid path characters are allowed.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/volumeRefs/destinationPath']
+            - !ruby/object:Api::Type::Array
+              name: 'volumes'
+              description: 'Volumes to be attached to the container. The lifetime of these volumes is scoped to the application''s lifetime.'
+              required: false
+              azure_sdk_references: ['/codePackages/volumes']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the volume being referenced.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/volumes/name']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'readOnly'
+                    description: 'The flag indicating whether the volume is read only. Default is ''false''.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/volumes/readOnly']
+                  - !ruby/object:Api::Type::String
+                    name: 'destinationPath'
+                    description: 'The path within the container at which the volume should be mounted. Only valid path characters are allowed.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/volumes/destinationPath']
+                  - !ruby/object:Api::Type::NestedObject
+                    name: 'creationParameters'
+                    description: 'Describes parameters for creating application-scoped volumes.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/volumes/creationParameters']
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'description'
+                        description: 'User readable description of the volume.'
+                        required: false
+                        azure_sdk_references: ['/codePackages/volumes/creationParameters/description']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'diagnostics'
+              description: 'Reference to sinks in DiagnosticsDescription.'
+              required: false
+              azure_sdk_references: ['/codePackages/diagnostics']
+              properties:
+                - !ruby/object:Api::Type::Boolean
+                  name: 'enabled'
+                  description: 'Status of whether or not sinks are enabled.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/diagnostics/enabled']
+                - !ruby/object:Api::Type::Array
+                  name: 'sinkRefs'
+                  description: 'List of sinks to be used if enabled. References the list of sinks in DiagnosticsDescription.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/diagnostics/sinkRefs']
+                  item_type: Api::Type::String
+            - !ruby/object:Api::Type::Array
+              name: 'reliableCollectionsRefs'
+              description: 'A list of ReliableCollection resources used by this particular code package. Please refer to ReliableCollectionsRef for more details.'
+              required: false
+              azure_sdk_references: ['/codePackages/reliableCollectionsRefs']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of ReliableCollection resource. Right now it''s not used and you can use any string.'
+                    required: true
+                    azure_sdk_references: ['/codePackages/reliableCollectionsRefs/name']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'doNotPersistState'
+                    description: 'False (the default) if ReliableCollections state is persisted to disk as usual. True if you do not want to persist state, in which case replication is still enabled and you can use ReliableCollections as distributed cache.'
+                    required: false
+                    azure_sdk_references: ['/codePackages/reliableCollectionsRefs/doNotPersistState']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'instanceView'
+              description: 'Runtime information of a container instance.'
+              required: false
+              azure_sdk_references: ['/codePackages/instanceView']
+              properties:
+                - !ruby/object:Api::Type::Integer
+                  name: 'restartCount'
+                  description: 'The number of times the container has been restarted.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/instanceView/restartCount']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'currentState'
+                  description: 'Current container instance state.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/instanceView/currentState']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'state'
+                      description: 'The state of this container'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/currentState/state']
+                    - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                      name: 'startTime'
+                      description: 'Date/time when the container state started.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/currentState/startTime']
+                    - !ruby/object:Api::Type::String
+                      name: 'exitCode'
+                      description: 'The container exit code.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/currentState/exitCode']
+                    - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                      name: 'finishTime'
+                      description: 'Date/time when the container state finished.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/currentState/finishTime']
+                    - !ruby/object:Api::Type::String
+                      name: 'detailStatus'
+                      description: 'Human-readable status of this state.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/currentState/detailStatus']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'previousState'
+                  description: 'Previous container instance state.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/instanceView/previousState']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'state'
+                      description: 'The state of this container'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/previousState/state']
+                    - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                      name: 'startTime'
+                      description: 'Date/time when the container state started.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/previousState/startTime']
+                    - !ruby/object:Api::Type::String
+                      name: 'exitCode'
+                      description: 'The container exit code.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/previousState/exitCode']
+                    - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                      name: 'finishTime'
+                      description: 'Date/time when the container state finished.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/previousState/finishTime']
+                    - !ruby/object:Api::Type::String
+                      name: 'detailStatus'
+                      description: 'Human-readable status of this state.'
+                      required: false
+                      azure_sdk_references: ['/codePackages/instanceView/previousState/detailStatus']
+                - !ruby/object:Api::Type::Array
+                  name: 'events'
+                  description: 'The events of this container instance.'
+                  required: false
+                  azure_sdk_references: ['/codePackages/instanceView/events']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'The name of the container event.'
+                        required: false
+                        azure_sdk_references: ['/codePackages/instanceView/events/name']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'count'
+                        description: 'The count of the event.'
+                        required: false
+                        azure_sdk_references: ['/codePackages/instanceView/events/count']
+                      - !ruby/object:Api::Type::String
+                        name: 'firstTimestamp'
+                        description: 'Date/time of the first event.'
+                        required: false
+                        azure_sdk_references: ['/codePackages/instanceView/events/firstTimestamp']
+                      - !ruby/object:Api::Type::String
+                        name: 'lastTimestamp'
+                        description: 'Date/time of the last event.'
+                        required: false
+                        azure_sdk_references: ['/codePackages/instanceView/events/lastTimestamp']
+                      - !ruby/object:Api::Type::String
+                        name: 'message'
+                        description: 'The event message'
+                        required: false
+                        azure_sdk_references: ['/codePackages/instanceView/events/message']
+                      - !ruby/object:Api::Type::String
+                        name: 'type'
+                        description: 'The event type.'
+                        required: false
+                        azure_sdk_references: ['/codePackages/instanceView/events/type']
+      - !ruby/object:Api::Type::Array
+        name: 'networkRefs'
+        description: 'The names of the private networks that this service needs to be part of.'
+        output: true
+        azure_sdk_references: ['/networkRefs']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the network'
+              required: false
+              azure_sdk_references: ['/networkRefs/name']
+            - !ruby/object:Api::Type::Array
+              name: 'endpointRefs'
+              description: 'A list of endpoints that are exposed on this network.'
+              required: false
+              azure_sdk_references: ['/networkRefs/endpointRefs']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the endpoint.'
+                    required: false
+                    azure_sdk_references: ['/networkRefs/endpointRefs/name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'diagnostics'
+        description: 'Reference to sinks in DiagnosticsDescription.'
+        output: true
+        azure_sdk_references: ['/diagnostics']
+        properties:
+          - !ruby/object:Api::Type::Boolean
+            name: 'enabled'
+            description: 'Status of whether or not sinks are enabled.'
+            required: false
+            azure_sdk_references: ['/diagnostics/enabled']
+          - !ruby/object:Api::Type::Array
+            name: 'sinkRefs'
+            description: 'List of sinks to be used if enabled. References the list of sinks in DiagnosticsDescription.'
+            required: false
+            azure_sdk_references: ['/diagnostics/sinkRefs']
+            item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'replicaName'
+        description: 'Name of the replica.'
+        output: true
+        azure_sdk_references: ['/replicaName']

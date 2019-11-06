@@ -1,0 +1,97 @@
+--- !ruby/object:Api::Product
+name: Azure BillingMeter Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BillingMeter
+    api_name: Web
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Web
+      go_client_namespace: web
+      go_client: billingMetersClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.billing_meters
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'billingLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: billingLocation
+            python_parameter_name: billing_location
+            python_variable_name: billing_location
+
+    description: |
+      Manage Azure BillingMeter instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingLocation'
+        description: 'Azure Location of billable resource'
+        required: false
+        input: true
+        azure_sdk_references: ['billingLocation']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of Billing Meters.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource Name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'kind'
+              description: 'Kind of resource.'
+              required: false
+              azure_sdk_references: ['/value/kind']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Type::String
+              name: 'meterId'
+              description: 'Meter GUID onboarded in Commerce'
+              required: false
+              azure_sdk_references: ['/value/meterId', '/value/properties/meterId']
+            - !ruby/object:Api::Type::String
+              name: 'billingLocation'
+              description: 'Azure Location of billable resource'
+              required: false
+              azure_sdk_references: ['/value/billingLocation', '/value/properties/billingLocation']
+            - !ruby/object:Api::Type::String
+              name: 'shortName'
+              description: 'Short Name from App Service Azure pricing Page'
+              required: false
+              azure_sdk_references: ['/value/shortName', '/value/properties/shortName']
+            - !ruby/object:Api::Type::String
+              name: 'friendlyName'
+              description: 'Friendly name of the meter'
+              required: false
+              azure_sdk_references: ['/value/friendlyName', '/value/properties/friendlyName']
+            - !ruby/object:Api::Type::String
+              name: 'resourceType'
+              description: 'App Service resource type meter used for'
+              required: false
+              azure_sdk_references: ['/value/resourceType', '/value/properties/resourceType']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to next page of resources.'
+        output: true
+        azure_sdk_references: ['/nextLink']

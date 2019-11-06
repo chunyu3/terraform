@@ -1,0 +1,83 @@
+--- !ruby/object:Api::Product
+name: Azure Usage Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Usage
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: usagesClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.usages
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure Usage instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location upon which resource usage is queried.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets the list Network Resource Usages.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'unit'
+              description: 'Gets or sets an enum describing the unit of measurement.'
+              required: true
+              azure_sdk_references: ['/value/unit']
+            - !ruby/object:Api::Type::Integer
+              name: 'currentValue'
+              description: 'Gets or sets the current value of the usage.'
+              required: true
+              azure_sdk_references: ['/value/currentValue']
+            - !ruby/object:Api::Type::Integer
+              name: 'limit'
+              description: 'Gets or sets the limit of usage.'
+              required: true
+              azure_sdk_references: ['/value/limit']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'name'
+              description: 'Gets or sets the name of the type of usage.'
+              required: true
+              azure_sdk_references: ['/value/name']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'value'
+                  description: 'Gets or sets a string describing the resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/name/value']
+                - !ruby/object:Api::Type::String
+                  name: 'localizedValue'
+                  description: 'Gets or sets a localized string describing the resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/name/localizedValue']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to get the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

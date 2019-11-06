@@ -1,0 +1,262 @@
+--- !ruby/object:Api::Product
+name: Azure PrivateEndpointConnection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PrivateEndpointConnection
+    api_name: DBforPostgreSQL
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DBforPostgreSQL
+      go_client_namespace: postgresql
+      go_client: privateEndpointConnectionsClient
+      python_client_namespace: azure.mgmt.postgresql
+      python_client: PostgreSQLManagementClient.private_endpoint_connections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'privateEndpointConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateEndpointConnections
+            go_variable_name: name
+            python_parameter_name: private_endpoint_connection_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: PrivateEndpointConnection
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpointConnectionProperties
+            go_type_name: PrivateEndpointConnectionProperties
+          '/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_endpoint
+          '/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpoint
+            go_type_name: PrivateEndpointProperty
+          '/properties/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_link_service_connection_state
+          '/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateLinkServiceConnectionState
+            go_type_name: PrivateLinkServiceConnectionStateProperty
+          '/properties/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'privateEndpointConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateEndpointConnections
+            go_variable_name: name
+            python_parameter_name: private_endpoint_connection_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'privateEndpointConnectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateEndpointConnections
+            go_variable_name: name
+            python_parameter_name: private_endpoint_connection_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpointConnectionProperties
+            go_type_name: PrivateEndpointConnectionProperties
+          '/properties/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpoint
+            go_type_name: PrivateEndpointProperty
+          '/properties/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_endpoint
+          '/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateLinkServiceConnectionState
+            go_type_name: PrivateLinkServiceConnectionStateProperty
+          '/properties/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/privateLinkServiceConnectionState/actionsRequired': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ActionsRequired
+          '/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_link_service_connection_state
+          '/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/privateLinkServiceConnectionState/actionsRequired': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: actions_required
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByServer
+        python_func_name: list_by_server
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+
+    description: |
+      Manage Azure PrivateEndpointConnection instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['privateEndpointConnectionName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'privateEndpoint'
+        description: 'Private endpoint which the connection belongs to.'
+        required: false
+        azure_sdk_references: ['/privateEndpoint', '/properties/privateEndpoint']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource id of the private endpoint.'
+            required: false
+            azure_sdk_references: ['/privateEndpoint/id', '/properties/privateEndpoint/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'privateLinkServiceConnectionState'
+        description: 'Connection state of the private endpoint connection.'
+        required: false
+        azure_sdk_references: ['/privateLinkServiceConnectionState', '/properties/privateLinkServiceConnectionState']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'status'
+            description: 'The private link service connection status.'
+            required: true
+            azure_sdk_references: ['/privateLinkServiceConnectionState/status', '/properties/privateLinkServiceConnectionState/status']
+          - !ruby/object:Api::Type::String
+            name: 'description'
+            description: 'The private link service connection description.'
+            required: true
+            azure_sdk_references: ['/privateLinkServiceConnectionState/description', '/properties/privateLinkServiceConnectionState/description']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'State of the private endpoint connection.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

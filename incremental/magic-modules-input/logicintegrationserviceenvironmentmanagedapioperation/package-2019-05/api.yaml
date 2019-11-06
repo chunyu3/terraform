@@ -1,0 +1,607 @@
+--- !ruby/object:Api::Product
+name: Azure IntegrationServiceEnvironmentManagedApiOperation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: IntegrationServiceEnvironmentManagedApiOperation
+    api_name: Logic
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Logic
+      go_client_namespace: logic
+      go_client: integrationServiceEnvironmentManagedApiOperationsClient
+      python_client_namespace: azure.mgmt.logic
+      python_client: LogicManagementClient.integration_service_environment_managed_api_operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'integrationServiceEnvironmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: integrationServiceEnvironments
+            go_variable_name: integrationServiceEnvironmentName
+            python_parameter_name: integration_service_environment_name
+            python_variable_name: integration_service_environment_name
+          'apiName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managedApis
+            go_variable_name: name
+            python_parameter_name: api_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure IntegrationServiceEnvironmentManagedApiOperation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'The resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'integrationServiceEnvironmentName'
+        description: 'The integration service environment name.'
+        required: true
+        input: true
+        azure_sdk_references: ['integrationServiceEnvironmentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The api name.'
+        required: true
+        input: true
+        azure_sdk_references: ['apiName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The api operation definitions for an API.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The resource id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Gets the resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Gets the resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'The resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'The resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'summary'
+              description: 'The summary of the api operation.'
+              required: false
+              azure_sdk_references: ['/value/summary', '/value/properties/summary']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'The description of the api operation.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::String
+              name: 'visibility'
+              description: 'The visibility of the api operation.'
+              required: false
+              azure_sdk_references: ['/value/visibility', '/value/properties/visibility']
+            - !ruby/object:Api::Type::String
+              name: 'trigger'
+              description: 'The trigger type of api operation.'
+              required: false
+              azure_sdk_references: ['/value/trigger', '/value/properties/trigger']
+            - !ruby/object:Api::Type::String
+              name: 'triggerHint'
+              description: 'The trigger hint for the api operation.'
+              required: false
+              azure_sdk_references: ['/value/triggerHint', '/value/properties/triggerHint']
+            - !ruby/object:Api::Type::Boolean
+              name: 'pageable'
+              description: 'Indicates whether the api operation is pageable.'
+              required: false
+              azure_sdk_references: ['/value/pageable', '/value/properties/pageable']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'annotation'
+              description: 'The annotation of api operation.'
+              required: false
+              azure_sdk_references: ['/value/annotation', '/value/properties/annotation']
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'status'
+                  description: ''
+                  required: false
+                  azure_sdk_references: ['/value/annotation/status', '/value/properties/annotation/status']
+                  values:
+                    - :NotSpecified
+                    - :Preview
+                    - :Production
+                  default_value: :NotSpecified
+                - !ruby/object:Api::Type::String
+                  name: 'family'
+                  description: 'The family.'
+                  required: false
+                  azure_sdk_references: ['/value/annotation/family', '/value/properties/annotation/family']
+                - !ruby/object:Api::Type::Integer
+                  name: 'revision'
+                  description: 'The revision.'
+                  required: false
+                  azure_sdk_references: ['/value/annotation/revision', '/value/properties/annotation/revision']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'api'
+              description: 'The api reference.'
+              required: false
+              azure_sdk_references: ['/value/api', '/value/properties/api']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'The resource id.'
+                  required: false
+                  azure_sdk_references: ['/value/api/id', '/value/properties/api/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Gets the resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/api/name', '/value/properties/api/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Gets the resource type.'
+                  required: false
+                  azure_sdk_references: ['/value/api/type', '/value/properties/api/type']
+                - !ruby/object:Api::Type::String
+                  name: 'displayName'
+                  description: 'The display name of the api.'
+                  required: false
+                  azure_sdk_references: ['/value/api/displayName', '/value/properties/api/displayName']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'The description of the api.'
+                  required: false
+                  azure_sdk_references: ['/value/api/description', '/value/properties/api/description']
+                - !ruby/object:Api::Type::String
+                  name: 'iconUri'
+                  description: 'The icon uri of the api.'
+                  required: false
+                  azure_sdk_references: ['/value/api/iconUri', '/value/properties/api/iconUri']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                  name: 'swagger'
+                  description: 'The swagger of the api.'
+                  required: false
+                  azure_sdk_references: ['/value/api/swagger', '/value/properties/api/swagger']
+                - !ruby/object:Api::Type::String
+                  name: 'brandColor'
+                  description: 'The brand color of the api.'
+                  required: false
+                  azure_sdk_references: ['/value/api/brandColor', '/value/properties/api/brandColor']
+                - !ruby/object:Api::Type::Enum
+                  name: 'category'
+                  description: 'The tier.'
+                  required: false
+                  azure_sdk_references: ['/value/api/category', '/value/properties/api/category']
+                  values:
+                    - :NotSpecified
+                    - :Enterprise
+                    - :Standard
+                    - :Premium
+                  default_value: :NotSpecified
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'integrationServiceEnvironment'
+                  description: 'The integration service environment reference.'
+                  required: false
+                  azure_sdk_references: ['/value/api/integrationServiceEnvironment', '/value/properties/api/integrationServiceEnvironment']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'id'
+                      description: 'The resource id.'
+                      required: false
+                      azure_sdk_references: ['/value/api/integrationServiceEnvironment/id', '/value/properties/api/integrationServiceEnvironment/id']
+                    - !ruby/object:Api::Type::String
+                      name: 'name'
+                      description: 'Gets the resource name.'
+                      required: false
+                      azure_sdk_references: ['/value/api/integrationServiceEnvironment/name', '/value/properties/api/integrationServiceEnvironment/name']
+                    - !ruby/object:Api::Type::String
+                      name: 'type'
+                      description: 'Gets the resource type.'
+                      required: false
+                      azure_sdk_references: ['/value/api/integrationServiceEnvironment/type', '/value/properties/api/integrationServiceEnvironment/type']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'inputsDefinition'
+              description: 'The operation inputs definition schema.'
+              required: false
+              azure_sdk_references: ['/value/inputsDefinition', '/value/properties/inputsDefinition']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'ref'
+                  description: 'The reference.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/ref', '/value/properties/inputsDefinition/ref']
+                - !ruby/object:Api::Type::Enum
+                  name: 'type'
+                  description: 'The type'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/type', '/value/properties/inputsDefinition/type']
+                  values:
+                    - :String
+                    - :Number
+                    - :Integer
+                    - :Boolean
+                    - :Array
+                    - :File
+                    - :Object
+                    - :Null
+                  default_value: :String
+                - !ruby/object:Api::Type::String
+                  name: 'title'
+                  description: 'The title.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/title', '/value/properties/inputsDefinition/title']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'items'
+                  description: 'The items schema.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/items', '/value/properties/inputsDefinition/items']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'ref'
+                      description: 'The reference.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/ref', '/value/properties/inputsDefinition/items/ref']
+                    - !ruby/object:Api::Type::Enum
+                      name: 'type'
+                      description: 'The type'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/type', '/value/properties/inputsDefinition/items/type']
+                      values:
+                        - :String
+                        - :Number
+                        - :Integer
+                        - :Boolean
+                        - :Array
+                        - :File
+                        - :Object
+                        - :Null
+                      default_value: :String
+                    - !ruby/object:Api::Type::String
+                      name: 'title'
+                      description: 'The title.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/title', '/value/properties/inputsDefinition/items/title']
+                    - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                      name: 'additionalProperties'
+                      description: 'The additional properties.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/additionalProperties', '/value/properties/inputsDefinition/items/additionalProperties']
+                    - !ruby/object:Api::Type::Array
+                      name: 'required'
+                      description: 'The object required properties.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/required', '/value/properties/inputsDefinition/items/required']
+                      item_type: Api::Type::String
+                    - !ruby/object:Api::Type::Integer
+                      name: 'maxProperties'
+                      description: 'The maximum number of allowed properties.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/maxProperties', '/value/properties/inputsDefinition/items/maxProperties']
+                    - !ruby/object:Api::Type::Integer
+                      name: 'minProperties'
+                      description: 'The minimum number of allowed properties.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/minProperties', '/value/properties/inputsDefinition/items/minProperties']
+                    - !ruby/object:Api::Type::String
+                      name: 'discriminator'
+                      description: 'The discriminator.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/discriminator', '/value/properties/inputsDefinition/items/discriminator']
+                    - !ruby/object:Api::Type::Boolean
+                      name: 'readOnly'
+                      description: 'Indicates whether this property must be present in the a request.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/readOnly', '/value/properties/inputsDefinition/items/readOnly']
+                    - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                      name: 'example'
+                      description: 'The example value.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/example', '/value/properties/inputsDefinition/items/example']
+                    - !ruby/object:Api::Type::Boolean
+                      name: 'notificationUrlExtension'
+                      description: 'Indicates the notification url extension. If this is set, the property''s value should be a callback url for a webhook.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/items/notificationUrlExtension', '/value/properties/inputsDefinition/items/notificationUrlExtension']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                  name: 'additionalProperties'
+                  description: 'The additional properties.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/additionalProperties', '/value/properties/inputsDefinition/additionalProperties']
+                - !ruby/object:Api::Type::Array
+                  name: 'required'
+                  description: 'The object required properties.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/required', '/value/properties/inputsDefinition/required']
+                  item_type: Api::Type::String
+                - !ruby/object:Api::Type::Integer
+                  name: 'maxProperties'
+                  description: 'The maximum number of allowed properties.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/maxProperties', '/value/properties/inputsDefinition/maxProperties']
+                - !ruby/object:Api::Type::Integer
+                  name: 'minProperties'
+                  description: 'The minimum number of allowed properties.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/minProperties', '/value/properties/inputsDefinition/minProperties']
+                - !ruby/object:Api::Type::Array
+                  name: 'allOf'
+                  description: 'The schemas which must pass validation when this schema is used.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/allOf', '/value/properties/inputsDefinition/allOf']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'ref'
+                        description: 'The reference.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/ref', '/value/properties/inputsDefinition/allOf/ref']
+                      - !ruby/object:Api::Type::Enum
+                        name: 'type'
+                        description: 'The type'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/type', '/value/properties/inputsDefinition/allOf/type']
+                        values:
+                          - :String
+                          - :Number
+                          - :Integer
+                          - :Boolean
+                          - :Array
+                          - :File
+                          - :Object
+                          - :Null
+                        default_value: :String
+                      - !ruby/object:Api::Type::String
+                        name: 'title'
+                        description: 'The title.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/title', '/value/properties/inputsDefinition/allOf/title']
+                      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                        name: 'additionalProperties'
+                        description: 'The additional properties.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/additionalProperties', '/value/properties/inputsDefinition/allOf/additionalProperties']
+                      - !ruby/object:Api::Type::Array
+                        name: 'required'
+                        description: 'The object required properties.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/required', '/value/properties/inputsDefinition/allOf/required']
+                        item_type: Api::Type::String
+                      - !ruby/object:Api::Type::Integer
+                        name: 'maxProperties'
+                        description: 'The maximum number of allowed properties.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/maxProperties', '/value/properties/inputsDefinition/allOf/maxProperties']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'minProperties'
+                        description: 'The minimum number of allowed properties.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/minProperties', '/value/properties/inputsDefinition/allOf/minProperties']
+                      - !ruby/object:Api::Type::String
+                        name: 'discriminator'
+                        description: 'The discriminator.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/discriminator', '/value/properties/inputsDefinition/allOf/discriminator']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'readOnly'
+                        description: 'Indicates whether this property must be present in the a request.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/readOnly', '/value/properties/inputsDefinition/allOf/readOnly']
+                      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                        name: 'example'
+                        description: 'The example value.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/example', '/value/properties/inputsDefinition/allOf/example']
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'notificationUrlExtension'
+                        description: 'Indicates the notification url extension. If this is set, the property''s value should be a callback url for a webhook.'
+                        required: false
+                        azure_sdk_references: ['/value/inputsDefinition/allOf/notificationUrlExtension', '/value/properties/inputsDefinition/allOf/notificationUrlExtension']
+                - !ruby/object:Api::Type::String
+                  name: 'discriminator'
+                  description: 'The discriminator.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/discriminator', '/value/properties/inputsDefinition/discriminator']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'readOnly'
+                  description: 'Indicates whether this property must be present in the a request.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/readOnly', '/value/properties/inputsDefinition/readOnly']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'xml'
+                  description: 'The xml representation format for a property.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/xml', '/value/properties/inputsDefinition/xml']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'name'
+                      description: 'The xml element or attribute name.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/xml/name', '/value/properties/inputsDefinition/xml/name']
+                    - !ruby/object:Api::Type::String
+                      name: 'namespace'
+                      description: 'The xml namespace.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/xml/namespace', '/value/properties/inputsDefinition/xml/namespace']
+                    - !ruby/object:Api::Type::String
+                      name: 'prefix'
+                      description: 'The name prefix.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/xml/prefix', '/value/properties/inputsDefinition/xml/prefix']
+                    - !ruby/object:Api::Type::Boolean
+                      name: 'attribute'
+                      description: 'Indicates whether the property should be an attribute instead of an element.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/xml/attribute', '/value/properties/inputsDefinition/xml/attribute']
+                    - !ruby/object:Api::Type::Boolean
+                      name: 'wrapped'
+                      description: 'Indicates whether the array elements are wrapped in a container element.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/xml/wrapped', '/value/properties/inputsDefinition/xml/wrapped']
+                    - !ruby/object:Api::Type::KeyValuePairs
+                      name: 'extensions'
+                      description: 'The vendor extensions.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/xml/extensions', '/value/properties/inputsDefinition/xml/extensions']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'externalDocs'
+                  description: 'The external documentation.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/externalDocs', '/value/properties/inputsDefinition/externalDocs']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'description'
+                      description: 'The document description.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/externalDocs/description', '/value/properties/inputsDefinition/externalDocs/description']
+                    - !ruby/object:Api::Type::String
+                      name: 'uri'
+                      description: 'The documentation Uri.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/externalDocs/uri', '/value/properties/inputsDefinition/externalDocs/uri']
+                    - !ruby/object:Api::Type::KeyValuePairs
+                      name: 'extensions'
+                      description: 'The vendor extensions.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/externalDocs/extensions', '/value/properties/inputsDefinition/externalDocs/extensions']
+                - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+                  name: 'example'
+                  description: 'The example value.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/example', '/value/properties/inputsDefinition/example']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'notificationUrlExtension'
+                  description: 'Indicates the notification url extension. If this is set, the property''s value should be a callback url for a webhook.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/notificationUrlExtension', '/value/properties/inputsDefinition/notificationUrlExtension']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'dynamicSchemaOld'
+                  description: 'The dynamic schema configuration.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaOld', '/value/properties/inputsDefinition/dynamicSchemaOld']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'operationId'
+                      description: 'The operation id to fetch dynamic schema.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaOld/operationId', '/value/properties/inputsDefinition/dynamicSchemaOld/operationId']
+                    - !ruby/object:Api::Type::String
+                      name: 'valuePath'
+                      description: 'Json pointer to the dynamic schema on the response body.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaOld/valuePath', '/value/properties/inputsDefinition/dynamicSchemaOld/valuePath']
+                    - !ruby/object:Api::Type::KeyValuePairs
+                      name: 'parameters'
+                      description: 'The operation parameters.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaOld/parameters', '/value/properties/inputsDefinition/dynamicSchemaOld/parameters']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'dynamicSchemaNew'
+                  description: 'The dynamic schema configuration.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaNew', '/value/properties/inputsDefinition/dynamicSchemaNew']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'operationId'
+                      description: 'The operation id to fetch dynamic schema.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaNew/operationId', '/value/properties/inputsDefinition/dynamicSchemaNew/operationId']
+                    - !ruby/object:Api::Type::String
+                      name: 'valuePath'
+                      description: 'Json pointer to the dynamic schema on the response body.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaNew/valuePath', '/value/properties/inputsDefinition/dynamicSchemaNew/valuePath']
+                    - !ruby/object:Api::Type::KeyValuePairs
+                      name: 'parameters'
+                      description: 'The operation parameters.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicSchemaNew/parameters', '/value/properties/inputsDefinition/dynamicSchemaNew/parameters']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'dynamicListNew'
+                  description: 'The dynamic list.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/dynamicListNew', '/value/properties/inputsDefinition/dynamicListNew']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'operationId'
+                      description: 'The operation id to fetch dynamic schema.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicListNew/operationId', '/value/properties/inputsDefinition/dynamicListNew/operationId']
+                    - !ruby/object:Api::Type::String
+                      name: 'builtInOperation'
+                      description: 'The built in operation.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicListNew/builtInOperation', '/value/properties/inputsDefinition/dynamicListNew/builtInOperation']
+                    - !ruby/object:Api::Type::String
+                      name: 'itemsPath'
+                      description: 'The path to a response property (relative to the response object, not the response body) which contains an array of dynamic value items.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicListNew/itemsPath', '/value/properties/inputsDefinition/dynamicListNew/itemsPath']
+                    - !ruby/object:Api::Type::String
+                      name: 'itemValuePath'
+                      description: 'The path to a property which defines the value which should be used.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicListNew/itemValuePath', '/value/properties/inputsDefinition/dynamicListNew/itemValuePath']
+                    - !ruby/object:Api::Type::String
+                      name: 'itemTitlePath'
+                      description: 'The path to an item property which defines the display name of the item.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicListNew/itemTitlePath', '/value/properties/inputsDefinition/dynamicListNew/itemTitlePath']
+                    - !ruby/object:Api::Type::KeyValuePairs
+                      name: 'parameters'
+                      description: 'The parameters.'
+                      required: false
+                      azure_sdk_references: ['/value/inputsDefinition/dynamicListNew/parameters', '/value/properties/inputsDefinition/dynamicListNew/parameters']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'dynamicTree'
+                  description: 'The dynamic values tree configuration.'
+                  required: false
+                  azure_sdk_references: ['/value/inputsDefinition/dynamicTree', '/value/properties/inputsDefinition/dynamicTree']
+                  properties:
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'responsesDefinition'
+              description: 'The operation responses definition schemas.'
+              required: false
+              azure_sdk_references: ['/value/responsesDefinition', '/value/properties/responsesDefinition']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isWebhook'
+              description: 'Indicates whether the API operation is webhook or not.'
+              required: false
+              azure_sdk_references: ['/value/isWebhook', '/value/properties/isWebhook']
+            - !ruby/object:Api::Type::Boolean
+              name: 'isNotification'
+              description: 'Indicates whether the API operation is notification or not.'
+              required: false
+              azure_sdk_references: ['/value/isNotification', '/value/properties/isNotification']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

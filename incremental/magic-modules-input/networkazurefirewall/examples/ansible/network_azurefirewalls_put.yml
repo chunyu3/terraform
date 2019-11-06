@@ -1,0 +1,57 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkazurefirewall
+  description: Create Azure Firewall
+  code:
+    resource_group: myResourceGroup
+    name: myAzureFirewall
+    tags:
+      key1: value1
+    application_rule_collections:
+      - priority: '110'
+        action:
+          type: Deny
+        rules:
+          - name: rule1
+            description: Deny inbound rule
+            source_addresses:
+              - 216.58.216.164
+              - 10.0.0.0/24
+            protocols:
+              - protocolType: Https
+                port: '443'
+            target_urls:
+              - www.test.com
+        name: apprulecoll
+    network_rule_collections:
+      - priority: '112'
+        action:
+          type: Deny
+        rules:
+          - name: D-NAT-web-traffic
+            description: D-NAT all outbound web traffic for inspection
+            protocols:
+              - TCP
+              - ICMP
+            source_addresses:
+              - 192.168.1.1-192.168.1.12
+              - 10.1.4.12-10.1.4.255
+            destination_addresses:
+              - '*'
+            destination_ports:
+              - 443-444
+              - '8443'
+        name: netrulecoll
+    ip_configurations:
+      - subnet:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/virtualNetworks/{{ virtual_network_name
+            }}/subnets/{{ subnet_name }}
+        internal_public_ip_address:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/publicIPAddresses/{{
+            public_ip_address_name }}
+        name: azureFirewallIpConfiguration
+  

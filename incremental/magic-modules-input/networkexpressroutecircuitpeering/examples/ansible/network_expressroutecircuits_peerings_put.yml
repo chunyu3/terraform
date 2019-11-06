@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkexpressroutecircuitpeering
+  description: Create ExpressRouteCircuit Peerings
+  code:
+    resource_group: myResourceGroup
+    circuit_name: myExpressRouteCircuit
+    name: myPeering
+    peering_parameters:
+      properties:
+        azureASN: '12076'
+        peerASN: '200'
+        primaryPeerAddressPrefix: 192.168.16.252/30
+        secondaryPeerAddressPrefix: 192.168.18.252/30
+        vlanId: '200'
+  

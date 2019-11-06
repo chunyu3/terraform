@@ -1,0 +1,113 @@
+--- !ruby/object:Api::Product
+name: Azure EdgeNode Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: EdgeNode
+    api_name: Cdn
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Cdn
+      go_client_namespace: cdn
+      go_client: edgeNodesClient
+      python_client_namespace: azure.mgmt.cdn
+      python_client: CdnManagementClient.edge_nodes
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure EdgeNode instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Edge node of CDN service.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location.'
+              required: true
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::Array
+              name: 'ipAddressGroups'
+              description: 'List of ip address groups.'
+              required: true
+              azure_sdk_references: ['/value/ipAddressGroups', '/value/properties/ipAddressGroups']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'deliveryRegion'
+                    description: 'The delivery region of the ip address group'
+                    required: false
+                    azure_sdk_references: ['/value/ipAddressGroups/deliveryRegion', '/value/properties/ipAddressGroups/deliveryRegion']
+                  - !ruby/object:Api::Type::Array
+                    name: 'ipv4addresses'
+                    description: 'The list of ip v4 addresses.'
+                    required: false
+                    azure_sdk_references: ['/value/ipAddressGroups/ipv4Addresses', '/value/properties/ipAddressGroups/ipv4Addresses']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'baseIpAddress'
+                          description: 'IP address itself.'
+                          required: false
+                          azure_sdk_references: ['/value/ipAddressGroups/ipv4Addresses/baseIpAddress', '/value/properties/ipAddressGroups/ipv4Addresses/baseIpAddress']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'prefixLength'
+                          description: 'The length of the prefix of the ip address.'
+                          required: false
+                          azure_sdk_references: ['/value/ipAddressGroups/ipv4Addresses/prefixLength', '/value/properties/ipAddressGroups/ipv4Addresses/prefixLength']
+                  - !ruby/object:Api::Type::Array
+                    name: 'ipv6addresses'
+                    description: 'The list of ip v6 addresses.'
+                    required: false
+                    azure_sdk_references: ['/value/ipAddressGroups/ipv6Addresses', '/value/properties/ipAddressGroups/ipv6Addresses']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'baseIpAddress'
+                          description: 'IP address itself.'
+                          required: false
+                          azure_sdk_references: ['/value/ipAddressGroups/ipv6Addresses/baseIpAddress', '/value/properties/ipAddressGroups/ipv6Addresses/baseIpAddress']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'prefixLength'
+                          description: 'The length of the prefix of the ip address.'
+                          required: false
+                          azure_sdk_references: ['/value/ipAddressGroups/ipv6Addresses/prefixLength', '/value/properties/ipAddressGroups/ipv6Addresses/prefixLength']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to get the next set of edgenode list results if there are any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

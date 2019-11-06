@@ -1,0 +1,96 @@
+--- !ruby/object:Api::Product
+name: Azure PipelineTemplateDefinition Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PipelineTemplateDefinition
+    api_name: DevOps
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevOps
+      go_client_namespace: devops
+      go_client: pipelineTemplateDefinitionsClient
+      python_client_namespace: azure.mgmt.devops
+      python_client: AzureDevOpsClient.pipeline_template_definitions
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure PipelineTemplateDefinition instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of pipeline template definitions.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Unique identifier of the pipeline template.'
+              required: true
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'Description of the pipeline enabled by the template.'
+              required: false
+              azure_sdk_references: ['/value/description']
+            - !ruby/object:Api::Type::Array
+              name: 'inputs'
+              description: 'List of input parameters required by the template to create a pipeline.'
+              required: false
+              azure_sdk_references: ['/value/inputs']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Identifier of the input parameter.'
+                    required: true
+                    azure_sdk_references: ['/value/inputs/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'description'
+                    description: 'Description of the input parameter.'
+                    required: false
+                    azure_sdk_references: ['/value/inputs/description']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'type'
+                    description: 'Data type of the value of the input parameter.'
+                    required: true
+                    azure_sdk_references: ['/value/inputs/type']
+                    values:
+                      - :String
+                      - :SecureString
+                      - :Int
+                      - :Bool
+                      - :Authorization
+                  - !ruby/object:Api::Type::Array
+                    name: 'possibleValues'
+                    description: 'List of possible values for the input parameter.'
+                    required: false
+                    azure_sdk_references: ['/value/inputs/possibleValues']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'value'
+                          description: 'Value of an input parameter.'
+                          required: false
+                          azure_sdk_references: ['/value/inputs/possibleValues/value']
+                        - !ruby/object:Api::Type::String
+                          name: 'displayValue'
+                          description: 'Description of the input parameter value.'
+                          required: false
+                          azure_sdk_references: ['/value/inputs/possibleValues/displayValue']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of pipeline template definitions, if there are any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

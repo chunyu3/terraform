@@ -1,0 +1,77 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: DataBox
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataBox
+      go_client_namespace: databox
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.databox
+      python_client: DataBoxManagementClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of operations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the operation. Format: {resourceProviderNamespace}/{resourceType}/{read|write|delete|action}'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Operation display values.'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Provider name.'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'Resource name.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Localized name of the operation for display purpose.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Localized description of the operation for display purpose.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'Origin of the operation. Can be : user|system|user,system'
+              required: false
+              azure_sdk_references: ['/value/origin']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link for the next set of operations.'
+        output: true
+        azure_sdk_references: ['/nextLink']

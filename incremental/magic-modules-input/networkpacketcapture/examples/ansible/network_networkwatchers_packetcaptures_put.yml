@@ -1,0 +1,25 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkpacketcapture
+  description: Create Packet Capture
+  code:
+    resource_group: myResourceGroup
+    network_watcher_name: myNetworkWatcher
+    name: myPacketCapture
+    target: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Compute/virtualMachines/{{ virtual_machine_name }}
+    bytes_to_capture_per_packet: '10000'
+    total_bytes_per_session: '100000'
+    time_limit_in_seconds: '100'
+    storage_location:
+      storage_id: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Storage/storageAccounts/{{ storage_account_name }}
+      storage_path: 'https://mytestaccountname.blob.core.windows.net/capture/pc1.cap'
+      file_path: 'D:\capture\pc1.cap'
+    filters:
+      - protocol: TCP
+        local_ip_address: 10.0.0.4
+        local_port: '80'
+  

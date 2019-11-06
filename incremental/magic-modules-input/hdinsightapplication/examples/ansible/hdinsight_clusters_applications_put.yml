@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_hdinsightapplication
+  description: Create Application
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    name: myApplication
+    compute_profile:
+      roles:
+        - name: edgenode
+          target_instance_count: '1'
+          hardware_profile:
+            vm_size: Standard_D12_v2
+    install_script_actions:
+      - name: app-install-app1
+        uri: 'https://.../install.sh'
+        roles:
+          - edgenode
+    uninstall_script_actions: []
+    https_endpoints:
+      - access_modes:
+          - WebPage
+        destination_port: '20000'
+        sub_domain_suffix: dss
+    application_type: CustomApplication
+    errors: []
+  

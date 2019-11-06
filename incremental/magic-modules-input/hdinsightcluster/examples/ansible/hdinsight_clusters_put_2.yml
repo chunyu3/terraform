@@ -1,0 +1,48 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_hdinsightcluster
+  description: Create Spark on Linux Cluster with SSH password
+  code:
+    resource_group: myResourceGroup
+    name: myCluster
+    tags:
+      key1: val1
+    cluster_version: '3.5'
+    os_type: Linux
+    tier: Standard
+    cluster_definition:
+      kind: Spark
+      component_version:
+        Spark: '2.0'
+      configurations:
+        gateway:
+          restAuthCredential.isEnabled: true
+          restAuthCredential.username: admin
+          restAuthCredential.password: '**********'
+    compute_profile:
+      roles:
+        - name: headnode
+          min_instance_count: '1'
+          target_instance_count: '2'
+          hardware_profile:
+            vm_size: Standard_D12_V2
+          os_profile:
+            linux_operating_system_profile:
+              username: sshuser
+              password: '**********'
+        - name: workernode
+          min_instance_count: '1'
+          target_instance_count: '4'
+          hardware_profile:
+            vm_size: Standard_D4_V2
+          os_profile:
+            linux_operating_system_profile:
+              username: sshuser
+              password: '**********'
+    storage_profile:
+      storageaccounts:
+        - name: mystorage
+          is_default: true
+          container: containername
+          key: storageapikey*
+  

@@ -1,0 +1,408 @@
+--- !ruby/object:Api::Product
+name: Azure CertificateOrder Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CertificateOrder
+    api_name: CertificateRegistration
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CertificateRegistration
+      go_client_namespace: web
+      go_client: certificateOrdersClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.certificate_orders
+
+    description: |
+      Manage Azure CertificateOrder instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Azure resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of resources'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource Name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'kind'
+              description: 'Kind of resource'
+              required: false
+              azure_sdk_references: ['/value/kind']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource Location'
+              required: true
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::KeyValuePairs
+              name: 'certificates'
+              description: 'State of the Key Vault secret'
+              required: false
+              azure_sdk_references: ['/value/certificates', '/value/properties/certificates']
+            - !ruby/object:Api::Type::String
+              name: 'distinguishedName'
+              description: 'Certificate distinguished name'
+              required: false
+              azure_sdk_references: ['/value/distinguishedName', '/value/properties/distinguishedName']
+            - !ruby/object:Api::Type::String
+              name: 'domainVerificationToken'
+              description: 'Domain Verification Token'
+              required: false
+              azure_sdk_references: ['/value/domainVerificationToken', '/value/properties/domainVerificationToken']
+            - !ruby/object:Api::Type::Integer
+              name: 'validityInYears'
+              description: 'Duration in years (must be between 1 and 3)'
+              required: false
+              azure_sdk_references: ['/value/validityInYears', '/value/properties/validityInYears']
+            - !ruby/object:Api::Type::Integer
+              name: 'keySize'
+              description: 'Certificate Key Size'
+              required: false
+              azure_sdk_references: ['/value/keySize', '/value/properties/keySize']
+            - !ruby/object:Api::Type::Enum
+              name: 'productType'
+              description: 'Certificate product type'
+              required: false
+              azure_sdk_references: ['/value/productType', '/value/properties/productType']
+              values:
+                - :StandardDomainValidatedSsl
+                - :StandardDomainValidatedWildCardSsl
+              default_value: :StandardDomainValidatedSsl
+            - !ruby/object:Api::Type::Boolean
+              name: 'autoRenew'
+              description: 'Auto renew'
+              required: false
+              azure_sdk_references: ['/value/autoRenew', '/value/properties/autoRenew']
+            - !ruby/object:Api::Type::Enum
+              name: 'provisioningState'
+              description: 'Status of certificate order'
+              required: false
+              azure_sdk_references: ['/value/provisioningState', '/value/properties/provisioningState']
+              values:
+                - :Succeeded
+                - :Failed
+                - :Canceled
+                - :InProgress
+                - :Deleting
+              default_value: :Succeeded
+            - !ruby/object:Api::Type::Enum
+              name: 'status'
+              description: 'Current order status'
+              required: false
+              azure_sdk_references: ['/value/status', '/value/properties/status']
+              values:
+                - :Pendingissuance
+                - :Issued
+                - :Revoked
+                - :Canceled
+                - :Denied
+                - :Pendingrevocation
+                - :PendingRekey
+                - :Unused
+                - :Expired
+                - :NotSubmitted
+              default_value: :Pendingissuance
+            - !ruby/object:Api::Type::NestedObject
+              name: 'signedCertificate'
+              description: 'Signed certificate'
+              required: false
+              azure_sdk_references: ['/value/signedCertificate', '/value/properties/signedCertificate']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/id', '/value/properties/signedCertificate/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Resource Name'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/name', '/value/properties/signedCertificate/name']
+                - !ruby/object:Api::Type::String
+                  name: 'kind'
+                  description: 'Kind of resource'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/kind', '/value/properties/signedCertificate/kind']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource Location'
+                  required: true
+                  input: true
+                  azure_sdk_references: ['/value/signedCertificate/location', '/value/properties/signedCertificate/location']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/type', '/value/properties/signedCertificate/type']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/tags', '/value/properties/signedCertificate/tags']
+                - !ruby/object:Api::Type::Integer
+                  name: 'version'
+                  description: 'Version'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/version', '/value/properties/signedCertificate/properties/version']
+                - !ruby/object:Api::Type::String
+                  name: 'serialNumber'
+                  description: 'Serial Number'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/serialNumber', '/value/properties/signedCertificate/properties/serialNumber']
+                - !ruby/object:Api::Type::String
+                  name: 'thumbprint'
+                  description: 'Thumbprint'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/thumbprint', '/value/properties/signedCertificate/properties/thumbprint']
+                - !ruby/object:Api::Type::String
+                  name: 'subject'
+                  description: 'Subject'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/subject', '/value/properties/signedCertificate/properties/subject']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'notBefore'
+                  description: 'Valid from'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/notBefore', '/value/properties/signedCertificate/properties/notBefore']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'notAfter'
+                  description: 'Valid to'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/notAfter', '/value/properties/signedCertificate/properties/notAfter']
+                - !ruby/object:Api::Type::String
+                  name: 'signatureAlgorithm'
+                  description: 'Signature Algorithm'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/signatureAlgorithm', '/value/properties/signedCertificate/properties/signatureAlgorithm']
+                - !ruby/object:Api::Type::String
+                  name: 'issuer'
+                  description: 'Issuer'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/issuer', '/value/properties/signedCertificate/properties/issuer']
+                - !ruby/object:Api::Type::String
+                  name: 'rawData'
+                  description: 'Raw certificate data'
+                  required: false
+                  azure_sdk_references: ['/value/signedCertificate/rawData', '/value/properties/signedCertificate/properties/rawData']
+            - !ruby/object:Api::Type::String
+              name: 'csr'
+              description: 'Last CSR that was created for this order'
+              required: false
+              azure_sdk_references: ['/value/csr', '/value/properties/csr']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'intermediate'
+              description: 'Intermediate certificate'
+              required: false
+              azure_sdk_references: ['/value/intermediate', '/value/properties/intermediate']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/id', '/value/properties/intermediate/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Resource Name'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/name', '/value/properties/intermediate/name']
+                - !ruby/object:Api::Type::String
+                  name: 'kind'
+                  description: 'Kind of resource'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/kind', '/value/properties/intermediate/kind']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource Location'
+                  required: true
+                  input: true
+                  azure_sdk_references: ['/value/intermediate/location', '/value/properties/intermediate/location']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/type', '/value/properties/intermediate/type']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/tags', '/value/properties/intermediate/tags']
+                - !ruby/object:Api::Type::Integer
+                  name: 'version'
+                  description: 'Version'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/version', '/value/properties/intermediate/properties/version']
+                - !ruby/object:Api::Type::String
+                  name: 'serialNumber'
+                  description: 'Serial Number'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/serialNumber', '/value/properties/intermediate/properties/serialNumber']
+                - !ruby/object:Api::Type::String
+                  name: 'thumbprint'
+                  description: 'Thumbprint'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/thumbprint', '/value/properties/intermediate/properties/thumbprint']
+                - !ruby/object:Api::Type::String
+                  name: 'subject'
+                  description: 'Subject'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/subject', '/value/properties/intermediate/properties/subject']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'notBefore'
+                  description: 'Valid from'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/notBefore', '/value/properties/intermediate/properties/notBefore']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'notAfter'
+                  description: 'Valid to'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/notAfter', '/value/properties/intermediate/properties/notAfter']
+                - !ruby/object:Api::Type::String
+                  name: 'signatureAlgorithm'
+                  description: 'Signature Algorithm'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/signatureAlgorithm', '/value/properties/intermediate/properties/signatureAlgorithm']
+                - !ruby/object:Api::Type::String
+                  name: 'issuer'
+                  description: 'Issuer'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/issuer', '/value/properties/intermediate/properties/issuer']
+                - !ruby/object:Api::Type::String
+                  name: 'rawData'
+                  description: 'Raw certificate data'
+                  required: false
+                  azure_sdk_references: ['/value/intermediate/rawData', '/value/properties/intermediate/properties/rawData']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'root'
+              description: 'Root certificate'
+              required: false
+              azure_sdk_references: ['/value/root', '/value/properties/root']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource Id'
+                  required: false
+                  azure_sdk_references: ['/value/root/id', '/value/properties/root/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Resource Name'
+                  required: false
+                  azure_sdk_references: ['/value/root/name', '/value/properties/root/name']
+                - !ruby/object:Api::Type::String
+                  name: 'kind'
+                  description: 'Kind of resource'
+                  required: false
+                  azure_sdk_references: ['/value/root/kind', '/value/properties/root/kind']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource Location'
+                  required: true
+                  input: true
+                  azure_sdk_references: ['/value/root/location', '/value/properties/root/location']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type'
+                  required: false
+                  azure_sdk_references: ['/value/root/type', '/value/properties/root/type']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags'
+                  required: false
+                  azure_sdk_references: ['/value/root/tags', '/value/properties/root/tags']
+                - !ruby/object:Api::Type::Integer
+                  name: 'version'
+                  description: 'Version'
+                  required: false
+                  azure_sdk_references: ['/value/root/version', '/value/properties/root/properties/version']
+                - !ruby/object:Api::Type::String
+                  name: 'serialNumber'
+                  description: 'Serial Number'
+                  required: false
+                  azure_sdk_references: ['/value/root/serialNumber', '/value/properties/root/properties/serialNumber']
+                - !ruby/object:Api::Type::String
+                  name: 'thumbprint'
+                  description: 'Thumbprint'
+                  required: false
+                  azure_sdk_references: ['/value/root/thumbprint', '/value/properties/root/properties/thumbprint']
+                - !ruby/object:Api::Type::String
+                  name: 'subject'
+                  description: 'Subject'
+                  required: false
+                  azure_sdk_references: ['/value/root/subject', '/value/properties/root/properties/subject']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'notBefore'
+                  description: 'Valid from'
+                  required: false
+                  azure_sdk_references: ['/value/root/notBefore', '/value/properties/root/properties/notBefore']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'notAfter'
+                  description: 'Valid to'
+                  required: false
+                  azure_sdk_references: ['/value/root/notAfter', '/value/properties/root/properties/notAfter']
+                - !ruby/object:Api::Type::String
+                  name: 'signatureAlgorithm'
+                  description: 'Signature Algorithm'
+                  required: false
+                  azure_sdk_references: ['/value/root/signatureAlgorithm', '/value/properties/root/properties/signatureAlgorithm']
+                - !ruby/object:Api::Type::String
+                  name: 'issuer'
+                  description: 'Issuer'
+                  required: false
+                  azure_sdk_references: ['/value/root/issuer', '/value/properties/root/properties/issuer']
+                - !ruby/object:Api::Type::String
+                  name: 'rawData'
+                  description: 'Raw certificate data'
+                  required: false
+                  azure_sdk_references: ['/value/root/rawData', '/value/properties/root/properties/rawData']
+            - !ruby/object:Api::Type::String
+              name: 'serialNumber'
+              description: 'Current serial number of the certificate'
+              required: false
+              azure_sdk_references: ['/value/serialNumber', '/value/properties/serialNumber']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'lastCertificateIssuanceTime'
+              description: 'Certificate last issuance time'
+              required: false
+              azure_sdk_references: ['/value/lastCertificateIssuanceTime', '/value/properties/lastCertificateIssuanceTime']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'expirationTime'
+              description: 'Certificate expiration time'
+              required: false
+              azure_sdk_references: ['/value/expirationTime', '/value/properties/expirationTime']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to next page of resources'
+        output: true
+        azure_sdk_references: ['/nextLink']

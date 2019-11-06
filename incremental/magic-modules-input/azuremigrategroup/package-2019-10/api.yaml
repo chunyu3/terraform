@@ -1,0 +1,238 @@
+--- !ruby/object:Api::Product
+name: Azure Group Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Group
+    api_name: Migrate
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Migrate
+      go_client_namespace: azuremigrate
+      go_client: groupsClient
+      python_client_namespace: azure.mgmt.azuremigrate
+      python_client: AzureMigrateV2Client.groups
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessmentProjects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: groups
+            go_variable_name: name
+            python_parameter_name: group_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: group
+            go_type_name: Group
+            python_parameter_name: group
+            python_variable_name: group
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupProperties
+            go_type_name: GroupProperties
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessmentProjects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: groups
+            go_variable_name: name
+            python_parameter_name: group_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessmentProjects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: groups
+            go_variable_name: name
+            python_parameter_name: group_name
+            python_variable_name: name
+        response:
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupProperties
+            go_type_name: GroupProperties
+          '/properties/groupStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: GroupStatus
+            go_enum_type_name: GroupStatus
+          '/groupStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: group_status
+          '/properties/machineCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MachineCount
+          '/machineCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: machine_count
+          '/properties/assessments': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Assessments
+          '/assessments': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: assessments
+          '/properties/areAssessmentsRunning': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AreAssessmentsRunning
+          '/areAssessmentsRunning': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: are_assessments_running
+          '/properties/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTimestamp
+          '/createdTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_timestamp
+          '/properties/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedTimestamp
+          '/updatedTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_timestamp
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByProject
+        python_func_name: list_by_project
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessmentProjects
+            go_variable_name: projectName
+            python_parameter_name: project_name
+            python_variable_name: project_name
+
+    description: |
+      Manage Azure Group instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the Azure Resource Group that project is part of.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'projectName'
+        description: 'Name of the Azure Migrate project.'
+        required: true
+        input: true
+        azure_sdk_references: ['projectName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Unique name of a group within a project.'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'For optimistic concurrency control.'
+        required: false
+        input: true
+        azure_sdk_references: ['/eTag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'groupStatus'
+        description: 'Whether the group has been created and is valid.'
+        output: true
+        azure_sdk_references: ['/groupStatus', '/properties/groupStatus']
+        values:
+          - :Created
+          - :Updated
+          - :Running
+          - :Completed
+          - :Invalid
+      - !ruby/object:Api::Type::Integer
+        name: 'machineCount'
+        description: 'Number of machines part of this group.'
+        output: true
+        azure_sdk_references: ['/machineCount', '/properties/machineCount']
+      - !ruby/object:Api::Type::Array
+        name: 'assessments'
+        description: 'List of References to Assessments created on this group.'
+        output: true
+        azure_sdk_references: ['/assessments', '/properties/assessments']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Boolean
+        name: 'areAssessmentsRunning'
+        description: 'If the assessments are in running state.'
+        output: true
+        azure_sdk_references: ['/areAssessmentsRunning', '/properties/areAssessmentsRunning']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTimestamp'
+        description: 'Time when this group was created. Date-Time represented in ISO-8601 format.'
+        output: true
+        azure_sdk_references: ['/createdTimestamp', '/properties/createdTimestamp']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedTimestamp'
+        description: 'Time when this group was last updated. Date-Time represented in ISO-8601 format.'
+        output: true
+        azure_sdk_references: ['/updatedTimestamp', '/properties/updatedTimestamp']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the group.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the object = [Microsoft.Migrate/assessmentProjects/groups].'
+        output: true
+        azure_sdk_references: ['/type']

@@ -5,12 +5,16 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     resource_group: myResourceGroup
     name: myRegistry
-    registry:
+    registry_create_parameters:
       location: westus
       tags:
         key: value
       sku:
-        name: Standard
+        name: Basic
       properties:
         adminUserEnabled: true
+        storageAccount:
+          name: mystorageaccount
+          accessKey: >-
+            0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   

@@ -1,0 +1,77 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: DevOps
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevOps
+      go_client_namespace: devops
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.devops
+      python_client: AzureDevOpsClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of operations supported by Microsoft.DevOps resource provider.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the operation.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'isDataAction'
+              description: 'Indicates whether the operation applies to data-plane.'
+              required: false
+              azure_sdk_references: ['/value/isDataAction']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Display information of the operation.'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Friendly name of the operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'Friendly name of the resource type the operation applies to.'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Friendly description of the operation.'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Friendly name of the resource provider.'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of operations, if there are any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

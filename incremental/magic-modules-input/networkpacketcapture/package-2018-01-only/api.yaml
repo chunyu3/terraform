@@ -1,0 +1,431 @@
+--- !ruby/object:Api::Product
+name: Azure PacketCapture Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PacketCapture
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: packetCapturesClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.packet_captures
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkWatcherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networkWatchers
+            go_variable_name: networkWatcherName
+            python_parameter_name: network_watcher_name
+            python_variable_name: network_watcher_name
+          'packetCaptureName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: packetCaptures
+            go_variable_name: name
+            python_parameter_name: packet_capture_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: PacketCapture
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PacketCaptureParameters
+            go_type_name: PacketCaptureParameters
+          '/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target
+          '/properties/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Target
+          '/bytesToCapturePerPacket': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: bytes_to_capture_per_packet
+          '/properties/bytesToCapturePerPacket': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: BytesToCapturePerPacket
+          '/totalBytesPerSession': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_bytes_per_session
+          '/properties/totalBytesPerSession': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalBytesPerSession
+          '/timeLimitInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: time_limit_in_seconds
+          '/properties/timeLimitInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TimeLimitInSeconds
+          '/storageLocation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_location
+          '/storageLocation/storageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_id
+          '/storageLocation/storagePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_path
+          '/storageLocation/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_path
+          '/properties/storageLocation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageLocation
+            go_type_name: PacketCaptureStorageLocation
+          '/properties/storageLocation/storageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageID
+          '/properties/storageLocation/storagePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StoragePath
+          '/properties/storageLocation/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FilePath
+          '/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: filters
+          '/filters/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol
+          '/filters/localIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: local_ip_address
+          '/filters/remoteIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: remote_ip_address
+          '/filters/localPort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: local_port
+          '/filters/remotePort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: remote_port
+          '/properties/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Filters
+            go_type_name: PacketCaptureFilter
+          '/properties/filters/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Protocol
+            go_enum_type_name: PcProtocol
+          '/properties/filters/localIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LocalIpAddress
+          '/properties/filters/remoteIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RemoteIpAddress
+          '/properties/filters/localPort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LocalPort
+          '/properties/filters/remotePort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RemotePort
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkWatcherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networkWatchers
+            go_variable_name: networkWatcherName
+            python_parameter_name: network_watcher_name
+            python_variable_name: network_watcher_name
+          'packetCaptureName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: packetCaptures
+            go_variable_name: name
+            python_parameter_name: packet_capture_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkWatcherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networkWatchers
+            go_variable_name: networkWatcherName
+            python_parameter_name: network_watcher_name
+            python_variable_name: network_watcher_name
+          'packetCaptureName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: packetCaptures
+            go_variable_name: name
+            python_parameter_name: packet_capture_name
+            python_variable_name: name
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PacketCaptureParameters
+            go_type_name: PacketCaptureParameters
+          '/properties/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Target
+          '/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target
+          '/properties/bytesToCapturePerPacket': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: BytesToCapturePerPacket
+          '/bytesToCapturePerPacket': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: bytes_to_capture_per_packet
+          '/properties/totalBytesPerSession': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalBytesPerSession
+          '/totalBytesPerSession': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_bytes_per_session
+          '/properties/timeLimitInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TimeLimitInSeconds
+          '/timeLimitInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: time_limit_in_seconds
+          '/properties/storageLocation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageLocation
+            go_type_name: PacketCaptureStorageLocation
+          '/properties/storageLocation/storageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageID
+          '/properties/storageLocation/storagePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StoragePath
+          '/properties/storageLocation/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FilePath
+          '/storageLocation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_location
+          '/storageLocation/storageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_id
+          '/storageLocation/storagePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_path
+          '/storageLocation/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_path
+          '/properties/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Filters
+            go_type_name: PacketCaptureFilter
+          '/properties/filters/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Protocol
+            go_enum_type_name: PcProtocol
+          '/properties/filters/localIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LocalIpAddress
+          '/properties/filters/remoteIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RemoteIpAddress
+          '/properties/filters/localPort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LocalPort
+          '/properties/filters/remotePort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RemotePort
+          '/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: filters
+          '/filters/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol
+          '/filters/localIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: local_ip_address
+          '/filters/remoteIPAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: remote_ip_address
+          '/filters/localPort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: local_port
+          '/filters/remotePort': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: remote_port
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'networkWatcherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networkWatchers
+            go_variable_name: networkWatcherName
+            python_parameter_name: network_watcher_name
+            python_variable_name: network_watcher_name
+
+    description: |
+      Manage Azure PacketCapture instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'networkWatcherName'
+        description: 'The name of the network watcher.'
+        required: true
+        input: true
+        azure_sdk_references: ['networkWatcherName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the packet capture session.'
+        required: true
+        input: true
+        azure_sdk_references: ['packetCaptureName']
+      - !ruby/object:Api::Type::String
+        name: 'target'
+        description: 'The ID of the targeted resource, only VM is currently supported.'
+        required: true
+        azure_sdk_references: ['/target', '/properties/target']
+      - !ruby/object:Api::Type::Integer
+        name: 'bytesToCapturePerPacket'
+        description: 'Number of bytes captured per packet, the remaining bytes are truncated.'
+        required: false
+        azure_sdk_references: ['/bytesToCapturePerPacket', '/properties/bytesToCapturePerPacket']
+      - !ruby/object:Api::Type::Integer
+        name: 'totalBytesPerSession'
+        description: 'Maximum size of the capture output.'
+        required: false
+        azure_sdk_references: ['/totalBytesPerSession', '/properties/totalBytesPerSession']
+      - !ruby/object:Api::Type::Integer
+        name: 'timeLimitInSeconds'
+        description: 'Maximum duration of the capture session in seconds.'
+        required: false
+        azure_sdk_references: ['/timeLimitInSeconds', '/properties/timeLimitInSeconds']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageLocation'
+        description: ''
+        required: true
+        azure_sdk_references: ['/storageLocation', '/properties/storageLocation']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'storageId'
+            description: 'The ID of the storage account to save the packet capture session. Required if no local file path is provided.'
+            required: false
+            azure_sdk_references: ['/storageLocation/storageId', '/properties/storageLocation/storageId']
+          - !ruby/object:Api::Type::String
+            name: 'storagePath'
+            description: 'The URI of the storage path to save the packet capture. Must be a well-formed URI describing the location to save the packet capture.'
+            required: false
+            azure_sdk_references: ['/storageLocation/storagePath', '/properties/storageLocation/storagePath']
+          - !ruby/object:Api::Type::String
+            name: 'filePath'
+            description: 'A valid local path on the targeting VM. Must include the name of the capture file (*.cap). For linux virtual machine it must start with /var/captures. Required if no storage ID is provided, otherwise optional.'
+            required: false
+            azure_sdk_references: ['/storageLocation/filePath', '/properties/storageLocation/filePath']
+      - !ruby/object:Api::Type::Array
+        name: 'filters'
+        description: ''
+        required: false
+        azure_sdk_references: ['/filters', '/properties/filters']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Enum
+              name: 'protocol'
+              description: 'Protocol to be filtered on.'
+              required: false
+              azure_sdk_references: ['/filters/protocol', '/properties/filters/protocol']
+              values:
+                - :TCP
+                - :UDP
+                - :Any
+              default_value: :TCP
+            - !ruby/object:Api::Type::String
+              name: 'localIpAddress'
+              description: 'Local IP Address to be filtered on. Notation: "127.0.0.1" for single address entry. "127.0.0.1-127.0.0.255" for range. "127.0.0.1;127.0.0.5"? for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+              required: false
+              azure_sdk_references: ['/filters/localIPAddress', '/properties/filters/localIPAddress']
+            - !ruby/object:Api::Type::String
+              name: 'remoteIpAddress'
+              description: 'Local IP Address to be filtered on. Notation: "127.0.0.1" for single address entry. "127.0.0.1-127.0.0.255" for range. "127.0.0.1;127.0.0.5;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+              required: false
+              azure_sdk_references: ['/filters/remoteIPAddress', '/properties/filters/remoteIPAddress']
+            - !ruby/object:Api::Type::String
+              name: 'localPort'
+              description: 'Local port to be filtered on. Notation: "80" for single port entry."80-85" for range. "80;443;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+              required: false
+              azure_sdk_references: ['/filters/localPort', '/properties/filters/localPort']
+            - !ruby/object:Api::Type::String
+              name: 'remotePort'
+              description: 'Remote port to be filtered on. Notation: "80" for single port entry."80-85" for range. "80;443;" for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
+              required: false
+              azure_sdk_references: ['/filters/remotePort', '/properties/filters/remotePort']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the packet capture session.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Updating
+          - :Deleting
+          - :Failed
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the packet capture.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'ID of the packet capture.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Packet capture type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: ''
+        output: true
+        azure_sdk_references: ['/etag']

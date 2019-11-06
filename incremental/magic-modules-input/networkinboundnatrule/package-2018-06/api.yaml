@@ -1,0 +1,540 @@
+--- !ruby/object:Api::Product
+name: Azure InboundNatRule Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: InboundNatRule
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: inboundNatRulesClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.inbound_nat_rules
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'loadBalancerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loadBalancers
+            go_variable_name: loadBalancerName
+            python_parameter_name: load_balancer_name
+            python_variable_name: load_balancer_name
+          'inboundNatRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: inboundNatRules
+            go_variable_name: name
+            python_parameter_name: inbound_nat_rule_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: inboundNatRuleParameters
+            go_type_name: InboundNatRule
+            python_parameter_name: inbound_nat_rule_parameters
+            python_variable_name: inbound_nat_rule_parameters
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InboundNatRulePropertiesFormat
+            go_type_name: InboundNatRulePropertiesFormat
+          '/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: frontend_ipconfiguration
+          '/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FrontendIpconfiguration
+            go_type_name: SubResource
+          '/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol
+          '/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Protocol
+            go_enum_type_name: TransportProtocol
+          '/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: frontend_port
+          '/properties/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FrontendPort
+          '/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: backend_port
+          '/properties/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: BackendPort
+          '/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: idle_timeout_in_minutes
+          '/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: IdleTimeoutInMinutes
+          '/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_floating_ip
+          '/properties/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableFloatingIp
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'loadBalancerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loadBalancers
+            go_variable_name: loadBalancerName
+            python_parameter_name: load_balancer_name
+            python_variable_name: load_balancer_name
+          'inboundNatRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: inboundNatRules
+            go_variable_name: name
+            python_parameter_name: inbound_nat_rule_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'loadBalancerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loadBalancers
+            go_variable_name: loadBalancerName
+            python_parameter_name: load_balancer_name
+            python_variable_name: load_balancer_name
+          'inboundNatRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: inboundNatRules
+            go_variable_name: name
+            python_parameter_name: inbound_nat_rule_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InboundNatRulePropertiesFormat
+            go_type_name: InboundNatRulePropertiesFormat
+          '/properties/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FrontendIpconfiguration
+            go_type_name: SubResource
+          '/properties/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/frontendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: frontend_ipconfiguration
+          '/frontendIPConfiguration/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Protocol
+            go_enum_type_name: TransportProtocol
+          '/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol
+          '/properties/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FrontendPort
+          '/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: frontend_port
+          '/properties/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: BackendPort
+          '/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: backend_port
+          '/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: IdleTimeoutInMinutes
+          '/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: idle_timeout_in_minutes
+          '/properties/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableFloatingIp
+          '/enableFloatingIP': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_floating_ip
+          '/properties/backendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackendIpconfiguration
+            go_type_name: InterfaceIPConfiguration
+          '/backendIPConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: backend_ipconfiguration
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'loadBalancerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: loadBalancers
+            go_variable_name: loadBalancerName
+            python_parameter_name: load_balancer_name
+            python_variable_name: load_balancer_name
+
+    description: |
+      Manage Azure InboundNatRule instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'loadBalancerName'
+        description: 'The name of the load balancer.'
+        required: true
+        input: true
+        azure_sdk_references: ['loadBalancerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the inbound nat rule.'
+        required: true
+        input: true
+        azure_sdk_references: ['inboundNatRuleName']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        required: false
+        input: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'frontendIpconfiguration'
+        description: 'A reference to frontend IP addresses.'
+        required: false
+        azure_sdk_references: ['/frontendIPConfiguration', '/properties/frontendIPConfiguration']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/frontendIPConfiguration/id', '/properties/frontendIPConfiguration/id']
+      - !ruby/object:Api::Type::Enum
+        name: 'protocol'
+        description: ''
+        required: false
+        azure_sdk_references: ['/protocol', '/properties/protocol']
+        values:
+          - :Udp
+          - :Tcp
+          - :All
+        default_value: :Udp
+      - !ruby/object:Api::Type::Integer
+        name: 'frontendPort'
+        description: 'The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer. Acceptable values range from 1 to 65534.'
+        required: false
+        azure_sdk_references: ['/frontendPort', '/properties/frontendPort']
+      - !ruby/object:Api::Type::Integer
+        name: 'backendPort'
+        description: 'The port used for the internal endpoint. Acceptable values range from 1 to 65535.'
+        required: false
+        azure_sdk_references: ['/backendPort', '/properties/backendPort']
+      - !ruby/object:Api::Type::Integer
+        name: 'idleTimeoutInMinutes'
+        description: 'The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The default value is 4 minutes. This element is only used when the protocol is set to TCP.'
+        required: false
+        azure_sdk_references: ['/idleTimeoutInMinutes', '/properties/idleTimeoutInMinutes']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableFloatingIp'
+        description: 'Configures a virtual machine''s endpoint for the floating IP capability required to configure a SQL AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server. This setting can''t be changed after you create the endpoint.'
+        required: false
+        azure_sdk_references: ['/enableFloatingIP', '/properties/enableFloatingIP']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'A unique read-only string that changes whenever the resource is updated.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      # read only values included only in response
+      - !ruby/object:Api::Type::NestedObject
+        name: 'backendIpconfiguration'
+        description: 'A reference to a private IP address defined on a network interface of a VM. Traffic sent to the frontend port of each of the frontend IP configurations is forwarded to the backend IP.'
+        output: true
+        azure_sdk_references: ['/backendIPConfiguration', '/properties/backendIPConfiguration']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Resource ID.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/id', '/properties/backendIPConfiguration/id']
+          - !ruby/object:Api::Type::Array
+            name: 'applicationGatewayBackendAddressPools'
+            description: 'The reference of ApplicationGatewayBackendAddressPool resource.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/applicationGatewayBackendAddressPools', '/properties/backendIPConfiguration/properties/applicationGatewayBackendAddressPools']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationGatewayBackendAddressPools/id', '/properties/backendIPConfiguration/properties/applicationGatewayBackendAddressPools/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Name of the backend address pool that is unique within an Application Gateway.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationGatewayBackendAddressPools/name', '/properties/backendIPConfiguration/properties/applicationGatewayBackendAddressPools/name']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationGatewayBackendAddressPools/etag', '/properties/backendIPConfiguration/properties/applicationGatewayBackendAddressPools/etag']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Type of the resource.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationGatewayBackendAddressPools/type', '/properties/backendIPConfiguration/properties/applicationGatewayBackendAddressPools/type']
+          - !ruby/object:Api::Type::Array
+            name: 'loadBalancerBackendAddressPools'
+            description: 'The reference of LoadBalancerBackendAddressPool resource.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/loadBalancerBackendAddressPools', '/properties/backendIPConfiguration/properties/loadBalancerBackendAddressPools']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/loadBalancerBackendAddressPools/id', '/properties/backendIPConfiguration/properties/loadBalancerBackendAddressPools/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/loadBalancerBackendAddressPools/name', '/properties/backendIPConfiguration/properties/loadBalancerBackendAddressPools/name']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/loadBalancerBackendAddressPools/etag', '/properties/backendIPConfiguration/properties/loadBalancerBackendAddressPools/etag']
+          - !ruby/object:Api::Type::Array
+            name: 'loadBalancerInboundNatRules'
+            description: 'A list of references of LoadBalancerInboundNatRules.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/loadBalancerInboundNatRules', '/properties/backendIPConfiguration/properties/loadBalancerInboundNatRules']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/loadBalancerInboundNatRules/id', '/properties/backendIPConfiguration/properties/loadBalancerInboundNatRules/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Gets name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/loadBalancerInboundNatRules/name', '/properties/backendIPConfiguration/properties/loadBalancerInboundNatRules/name']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/loadBalancerInboundNatRules/etag', '/properties/backendIPConfiguration/properties/loadBalancerInboundNatRules/etag']
+          - !ruby/object:Api::Type::String
+            name: 'privateIpAddress'
+            description: 'Private IP address of the IP configuration.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/privateIPAddress', '/properties/backendIPConfiguration/properties/privateIPAddress']
+          - !ruby/object:Api::Type::Enum
+            name: 'privateIpallocationMethod'
+            description: 'Defines how a private IP address is assigned. Possible values are: ''Static'' and ''Dynamic''.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/privateIPAllocationMethod', '/properties/backendIPConfiguration/properties/privateIPAllocationMethod']
+            values:
+              - :Static
+              - :Dynamic
+            default_value: :Static
+          - !ruby/object:Api::Type::Enum
+            name: 'privateIpAddressVersion'
+            description: 'Available from Api-Version 2016-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: ''IPv4'' and ''IPv6''.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/privateIPAddressVersion', '/properties/backendIPConfiguration/properties/privateIPAddressVersion']
+            values:
+              - :IPv4
+              - :IPv6
+            default_value: :IPv4
+          - !ruby/object:Api::Type::NestedObject
+            name: 'subnet'
+            description: 'Subnet bound to the IP configuration.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/subnet', '/properties/backendIPConfiguration/properties/subnet']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/subnet/id', '/properties/backendIPConfiguration/properties/subnet/id']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/subnet/name', '/properties/backendIPConfiguration/properties/subnet/name']
+              - !ruby/object:Api::Type::String
+                name: 'etag'
+                description: 'A unique read-only string that changes whenever the resource is updated.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/subnet/etag', '/properties/backendIPConfiguration/properties/subnet/etag']
+          - !ruby/object:Api::Type::Boolean
+            name: 'primary'
+            description: 'Gets whether this is a primary customer address on the network interface.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/primary', '/properties/backendIPConfiguration/properties/primary']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'publicIpAddress'
+            description: 'Public IP address bound to the IP configuration.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/publicIPAddress', '/properties/backendIPConfiguration/properties/publicIPAddress']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Resource ID.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/id', '/properties/backendIPConfiguration/properties/publicIPAddress/id']
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'Resource name.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/name', '/properties/backendIPConfiguration/properties/publicIPAddress/name']
+              - !ruby/object:Api::Type::String
+                name: 'type'
+                description: 'Resource type.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/type', '/properties/backendIPConfiguration/properties/publicIPAddress/type']
+              - !ruby/object:Api::Azure::Type::Location
+                name: 'location'
+                description: 'Resource location.'
+                required: false
+                input: true
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/location', '/properties/backendIPConfiguration/properties/publicIPAddress/location']
+              - !ruby/object:Api::Azure::Type::Tags
+                name: 'tags'
+                description: 'Resource tags.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/tags', '/properties/backendIPConfiguration/properties/publicIPAddress/tags']
+              - !ruby/object:Api::Type::String
+                name: 'etag'
+                description: 'A unique read-only string that changes whenever the resource is updated.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/etag', '/properties/backendIPConfiguration/properties/publicIPAddress/etag']
+              - !ruby/object:Api::Type::Array
+                name: 'zones'
+                description: 'A list of availability zones denoting the IP allocated for the resource needs to come from.'
+                required: false
+                azure_sdk_references: ['/backendIPConfiguration/publicIPAddress/zones', '/properties/backendIPConfiguration/properties/publicIPAddress/zones']
+                item_type: Api::Type::String
+          - !ruby/object:Api::Type::Array
+            name: 'applicationSecurityGroups'
+            description: 'Application security groups in which the IP configuration is included.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups', '/properties/backendIPConfiguration/properties/applicationSecurityGroups']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource ID.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups/id', '/properties/backendIPConfiguration/properties/applicationSecurityGroups/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Resource name.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups/name', '/properties/backendIPConfiguration/properties/applicationSecurityGroups/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups/type', '/properties/backendIPConfiguration/properties/applicationSecurityGroups/type']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'Resource location.'
+                  required: false
+                  input: true
+                  azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups/location', '/properties/backendIPConfiguration/properties/applicationSecurityGroups/location']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'Resource tags.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups/tags', '/properties/backendIPConfiguration/properties/applicationSecurityGroups/tags']
+                - !ruby/object:Api::Type::String
+                  name: 'etag'
+                  description: 'A unique read-only string that changes whenever the resource is updated.'
+                  required: false
+                  azure_sdk_references: ['/backendIPConfiguration/applicationSecurityGroups/etag', '/properties/backendIPConfiguration/properties/applicationSecurityGroups/etag']
+          - !ruby/object:Api::Type::String
+            name: 'provisioningState'
+            description: 'The provisioning state of the network interface IP configuration. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/provisioningState', '/properties/backendIPConfiguration/properties/provisioningState']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the resource that is unique within a resource group. This name can be used to access the resource.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/name', '/properties/backendIPConfiguration/name']
+          - !ruby/object:Api::Type::String
+            name: 'etag'
+            description: 'A unique read-only string that changes whenever the resource is updated.'
+            required: false
+            azure_sdk_references: ['/backendIPConfiguration/etag', '/properties/backendIPConfiguration/etag']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Gets the provisioning state of the public IP resource. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']

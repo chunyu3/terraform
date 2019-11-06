@@ -1,0 +1,49 @@
+--- !ruby/object:Api::Product
+name: Azure SubscriptionOperation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SubscriptionOperation
+    api_name: Subscription
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Subscription
+      go_client_namespace: subscription
+      go_client: subscriptionOperationClient
+      python_client_namespace: azure.mgmt.subscription
+      python_client: SubscriptionClient.subscription_operation
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subscriptionOperations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
+        response:
+          '/subscriptionLink': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SubscriptionLink
+            python_field_name: subscription_link
+
+    description: |
+      Manage Azure SubscriptionOperation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'The operation ID, which can be found from the Location field in the generate recommendation response header.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionLink'
+        description: 'The link to the new subscription. Use this link to check the status of subscription creation operation.'
+        output: true
+        azure_sdk_references: ['/subscriptionLink']

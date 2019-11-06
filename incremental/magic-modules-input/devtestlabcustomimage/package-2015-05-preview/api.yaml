@@ -1,0 +1,183 @@
+--- !ruby/object:Api::Product
+name: Azure CustomImage Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: CustomImage
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: devtestlab
+      go_client: customImageClient
+      python_client_namespace: azure.mgmt.devtestlab
+      python_client: DevTestLabsClient.custom_image
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure CustomImage instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Results of the list operation.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::NestedObject
+              name: 'vm'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/vm', '/value/properties/vm']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'sourceVmId'
+                  description: 'The source vm identifier.'
+                  required: false
+                  azure_sdk_references: ['/value/vm/sourceVmId', '/value/properties/vm/sourceVmId']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'sysPrep'
+                  description: 'Indicates whether sysprep has been run on the VHD.'
+                  required: false
+                  azure_sdk_references: ['/value/vm/sysPrep', '/value/properties/vm/sysPrep']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'windowsOsInfo'
+                  description: 'The Windows OS information of the VM.'
+                  required: false
+                  azure_sdk_references: ['/value/vm/windowsOsInfo', '/value/properties/vm/windowsOsInfo']
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'windowsOsState'
+                      description: 'The state of the Windows OS.'
+                      required: false
+                      azure_sdk_references: ['/value/vm/windowsOsInfo/windowsOsState', '/value/properties/vm/windowsOsInfo/windowsOsState']
+                      values:
+                        - :NonSysprepped
+                        - :SysprepRequested
+                        - :SysprepApplied
+                      default_value: :NonSysprepped
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'linuxOsInfo'
+                  description: 'The Linux OS information of the VM.'
+                  required: false
+                  azure_sdk_references: ['/value/vm/linuxOsInfo', '/value/properties/vm/linuxOsInfo']
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'linuxOsState'
+                      description: 'The state of the Linux OS.'
+                      required: false
+                      azure_sdk_references: ['/value/vm/linuxOsInfo/linuxOsState', '/value/properties/vm/linuxOsInfo/linuxOsState']
+                      values:
+                        - :NonDeprovisioned
+                        - :DeprovisionRequested
+                        - :DeprovisionApplied
+                      default_value: :NonDeprovisioned
+            - !ruby/object:Api::Type::NestedObject
+              name: 'vhd'
+              description: 'The VHD from which the image is to be created.'
+              required: false
+              azure_sdk_references: ['/value/vhd', '/value/properties/vhd']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'imageName'
+                  description: 'The image name.'
+                  required: false
+                  azure_sdk_references: ['/value/vhd/imageName', '/value/properties/vhd/imageName']
+                - !ruby/object:Api::Type::Boolean
+                  name: 'sysPrep'
+                  description: 'Indicates whether sysprep has been run on the VHD.'
+                  required: false
+                  azure_sdk_references: ['/value/vhd/sysPrep', '/value/properties/vhd/sysPrep']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'The description of the custom image.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::Enum
+              name: 'osType'
+              description: 'The OS type of the custom image.'
+              required: false
+              azure_sdk_references: ['/value/osType', '/value/properties/osType']
+              values:
+                - :Windows
+                - :Linux
+                - :None
+              default_value: :Windows
+            - !ruby/object:Api::Type::String
+              name: 'author'
+              description: 'The author of the custom image.'
+              required: false
+              azure_sdk_references: ['/value/author', '/value/properties/author']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'creationDate'
+              description: 'The creation date of the custom image.'
+              required: false
+              azure_sdk_references: ['/value/creationDate', '/value/properties/creationDate']
+            - !ruby/object:Api::Type::String
+              name: 'provisioningState'
+              description: 'The provisioning status of the resource.'
+              required: false
+              azure_sdk_references: ['/value/provisioningState', '/value/properties/provisioningState']
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'The identifier of the resource.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'The name of the resource.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'The type of the resource.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'The location of the resource.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'The tags of the resource.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link for next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

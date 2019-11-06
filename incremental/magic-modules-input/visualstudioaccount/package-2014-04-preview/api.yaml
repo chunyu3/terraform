@@ -1,0 +1,200 @@
+--- !ruby/object:Api::Product
+name: Azure Account Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Account
+    api_name: visualstudio
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.visualstudio
+      go_client_namespace: visualstudio
+      go_client: accountsClient
+      python_client_namespace: azure.mgmt.visualstudio
+      python_client: VisualStudioResourceProviderClient.accounts
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: AccountResourceRequest
+            python_parameter_name: body
+            python_variable_name: body
+          '/accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AccountName
+            python_field_name: account_name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/operationType': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_field_name: OperationType
+            python_field_name: operation_type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"87","$type":"DictionaryType","valueType":{"$id":"88","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"89","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"90","fixed":false},"deprecated":false}
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: AccountResourceRequest
+            python_parameter_name: body
+            python_variable_name: body
+          '/accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AccountName
+            python_field_name: account_name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/operationType': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_field_name: OperationType
+            python_field_name: operation_type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"87","$type":"DictionaryType","valueType":{"$id":"88","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"89","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"90","fixed":false},"deprecated":false}
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: account
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+        response:
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"87","$type":"DictionaryType","valueType":{"$id":"88","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"89","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"90","fixed":false},"deprecated":false}
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Account instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The account name.'
+        required: false
+        input: true
+        azure_sdk_references: ['/accountName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The Azure instance location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'operationType'
+        description: 'The type of the operation.'
+        required: false
+        input: true
+        azure_sdk_references: ['/operationType']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The custom tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Unique identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

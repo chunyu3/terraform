@@ -1,0 +1,250 @@
+--- !ruby/object:Api::Product
+name: Azure GuestConfigurationAssignmentReport Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: GuestConfigurationAssignmentReport
+    api_name: Compute
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Compute
+      go_client_namespace: guestconfiguration
+      go_client: guestConfigurationAssignmentReportsClient
+      python_client_namespace: azure.mgmt.guestconfiguration
+      python_client: GuestConfigurationClient.guest_configuration_assignment_reports
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: name
+            python_parameter_name: vm_name
+            python_variable_name: name
+          'guestConfigurationAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: guestConfigurationAssignments
+            go_variable_name: guestConfigurationAssignmentName
+            python_parameter_name: guest_configuration_assignment_name
+            python_variable_name: guest_configuration_assignment_name
+          '/properties/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ReportID
+          '/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: report_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AssignmentReportProperties
+            go_type_name: AssignmentReportProperties
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: name
+            python_parameter_name: vm_name
+            python_variable_name: name
+          'guestConfigurationAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: guestConfigurationAssignments
+            go_variable_name: guestConfigurationAssignmentName
+            python_parameter_name: guest_configuration_assignment_name
+            python_variable_name: guest_configuration_assignment_name
+
+    description: |
+      Manage Azure GuestConfigurationAssignmentReport instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'guestConfigurationAssignmentName'
+        description: 'The guest configuration assignment name.'
+        required: true
+        input: true
+        azure_sdk_references: ['guestConfigurationAssignmentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the virtual machine.'
+        required: true
+        input: true
+        azure_sdk_references: ['vmName']
+      - !ruby/object:Api::Type::Enum
+        name: 'complianceStatus'
+        description: 'A value indicating compliance status of the virtual machine for the assigned guest configuration.'
+        required: false
+        azure_sdk_references: ['/complianceStatus', '/properties/complianceStatus']
+        values:
+          - :Compliant
+          - :NonCompliant
+          - :Pending
+        default_value: :Compliant
+      - !ruby/object:Api::Type::String
+        name: 'reportId'
+        description: 'GUID that identifies the guest configuration assignment report under a subscription, resource group.'
+        required: false
+        azure_sdk_references: ['/reportId', '/properties/reportId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'assignment'
+        description: 'Configuration details of the guest configuration assignment.'
+        required: false
+        azure_sdk_references: ['/assignment', '/properties/assignment']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the guest configuration assignment.'
+            required: false
+            azure_sdk_references: ['/assignment/name', '/properties/assignment/name']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'configuration'
+            description: 'Information about the configuration.'
+            required: false
+            azure_sdk_references: ['/assignment/configuration', '/properties/assignment/configuration']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'name'
+                description: 'Name of the configuration.'
+                required: false
+                azure_sdk_references: ['/assignment/configuration/name', '/properties/assignment/configuration/name']
+              - !ruby/object:Api::Type::String
+                name: 'version'
+                description: 'Version of the configuration.'
+                required: false
+                azure_sdk_references: ['/assignment/configuration/version', '/properties/assignment/configuration/version']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'vm'
+        description: 'Information about the VM.'
+        required: false
+        azure_sdk_references: ['/vm', '/properties/vm']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'id'
+            description: 'Azure resource Id of the VM.'
+            required: false
+            azure_sdk_references: ['/vm/id', '/properties/vm/id']
+          - !ruby/object:Api::Type::String
+            name: 'uuid'
+            description: 'UUID(Universally Unique Identifier) of the VM.'
+            required: false
+            azure_sdk_references: ['/vm/uuid', '/properties/vm/uuid']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Start date and time of the guest configuration assignment compliance status check.'
+        required: false
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'End date and time of the guest configuration assignment compliance status check.'
+        required: false
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'details'
+        description: 'Details of the assignment report.'
+        required: false
+        azure_sdk_references: ['/details', '/properties/details']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'complianceStatus'
+            description: 'A value indicating compliance status of the virtual machine for the assigned guest configuration.'
+            required: false
+            azure_sdk_references: ['/details/complianceStatus', '/properties/details/complianceStatus']
+            values:
+              - :Compliant
+              - :NonCompliant
+              - :Pending
+            default_value: :Compliant
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'startTime'
+            description: 'Start date and time of the guest configuration assignment compliance status check.'
+            required: false
+            azure_sdk_references: ['/details/startTime', '/properties/details/startTime']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'endTime'
+            description: 'End date and time of the guest configuration assignment compliance status check.'
+            required: false
+            azure_sdk_references: ['/details/endTime', '/properties/details/endTime']
+          - !ruby/object:Api::Type::String
+            name: 'jobId'
+            description: 'GUID of the report.'
+            required: false
+            azure_sdk_references: ['/details/jobId', '/properties/details/jobId']
+          - !ruby/object:Api::Type::Enum
+            name: 'operationType'
+            description: 'Type of report, Consistency or Initial'
+            required: false
+            azure_sdk_references: ['/details/operationType', '/properties/details/operationType']
+            values:
+              - :Consistency
+              - :Initial
+            default_value: :Consistency
+          - !ruby/object:Api::Type::Array
+            name: 'resources'
+            description: 'The list of resources for which guest configuration assignment compliance is checked.'
+            required: false
+            azure_sdk_references: ['/details/resources', '/properties/details/resources']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'complianceStatus'
+                  description: 'A value indicating compliance status of the virtual machine for the assigned guest configuration.'
+                  required: false
+                  azure_sdk_references: ['/details/resources/complianceStatus', '/properties/details/resources/complianceStatus']
+                  values:
+                    - :Compliant
+                    - :NonCompliant
+                    - :Pending
+                  default_value: :Compliant
+                - !ruby/object:Api::Type::Array
+                  name: 'reasons'
+                  description: 'Compliance reason and reason code for a resource.'
+                  required: false
+                  azure_sdk_references: ['/details/resources/reasons', '/properties/details/resources/reasons']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'phrase'
+                        description: 'Reason for the compliance of the guest configuration assignment resource.'
+                        required: false
+                        azure_sdk_references: ['/details/resources/reasons/phrase', '/properties/details/resources/reasons/phrase']
+                      - !ruby/object:Api::Type::String
+                        name: 'code'
+                        description: 'Code for the compliance of the guest configuration assignment resource.'
+                        required: false
+                        azure_sdk_references: ['/details/resources/reasons/code', '/properties/details/resources/reasons/code']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'ARM resource id of the report for the guest configuration assignment.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'GUID that identifies the guest configuration assignment report under a subscription, resource group.'
+        output: true
+        azure_sdk_references: ['/name']

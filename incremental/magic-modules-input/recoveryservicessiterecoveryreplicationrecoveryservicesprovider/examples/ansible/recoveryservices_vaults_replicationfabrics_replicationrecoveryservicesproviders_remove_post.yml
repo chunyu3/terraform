@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationrecoveryservicesprovider
+  description: >-
+    Deletes provider from fabric. Note: Deleting provider for any fabric other
+    than SingleHost is unsupported. To maintain backward compatibility for
+    released clients the object "deleteRspInput" is used (if the object is empty
+    we assume that it is old client and continue the old behavior).
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    name: myReplicationRecoveryServicesProvider
+  

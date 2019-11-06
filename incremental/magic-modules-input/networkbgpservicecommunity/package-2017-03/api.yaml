@@ -1,0 +1,100 @@
+--- !ruby/object:Api::Product
+name: Azure BgpServiceCommunity Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BgpServiceCommunity
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: network
+      go_client: bgpServiceCommunitiesClient
+      python_client_namespace: azure.mgmt.network
+      python_client: NetworkManagementClient.bgp_service_communities
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure BgpServiceCommunity instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'A list of service community resources.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource location.'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'serviceName'
+              description: 'The name of the bgp community. e.g. Skype.'
+              required: false
+              azure_sdk_references: ['/value/serviceName', '/value/properties/serviceName']
+            - !ruby/object:Api::Type::Array
+              name: 'bgpCommunities'
+              description: 'Get a list of bgp communities.'
+              required: false
+              azure_sdk_references: ['/value/bgpCommunities', '/value/properties/bgpCommunities']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'serviceSupportedRegion'
+                    description: 'The region which the service support. e.g. For O365, region is Global.'
+                    required: false
+                    azure_sdk_references: ['/value/bgpCommunities/serviceSupportedRegion', '/value/properties/bgpCommunities/serviceSupportedRegion']
+                  - !ruby/object:Api::Type::String
+                    name: 'communityName'
+                    description: 'The name of the bgp community. e.g. Skype.'
+                    required: false
+                    azure_sdk_references: ['/value/bgpCommunities/communityName', '/value/properties/bgpCommunities/communityName']
+                  - !ruby/object:Api::Type::String
+                    name: 'communityValue'
+                    description: 'The value of the bgp community. For more information: https://docs.microsoft.com/en-us/azure/expressroute/expressroute-routing.'
+                    required: false
+                    azure_sdk_references: ['/value/bgpCommunities/communityValue', '/value/properties/bgpCommunities/communityValue']
+                  - !ruby/object:Api::Type::Array
+                    name: 'communityPrefixes'
+                    description: 'The prefixes that the bgp community contains.'
+                    required: false
+                    azure_sdk_references: ['/value/bgpCommunities/communityPrefixes', '/value/properties/bgpCommunities/communityPrefixes']
+                    item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'The URL to get the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

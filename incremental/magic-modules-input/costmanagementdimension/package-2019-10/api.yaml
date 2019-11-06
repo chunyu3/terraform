@@ -1,0 +1,113 @@
+--- !ruby/object:Api::Product
+name: Azure Dimension Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Dimension
+    api_name: CostManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.CostManagement
+      go_client_namespace: costmanagement
+      go_client: dimensionsClient
+      python_client_namespace: azure.mgmt.costmanagement
+      python_client: CostManagementClient.dimensions
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure Dimension instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope associated with dimension operations. This includes ''/subscriptions/{subscriptionId}/'' for subscription scope, ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'' for resourceGroup scope, ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}'' for Billing Account scope, ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'' for Department scope, ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'' for EnrollmentAccount scope, ''/providers/Microsoft.Management/managementGroups/{managementGroupId}'' for Management Group scope, ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'' for billingProfile scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'' for invoiceSection scope, and ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}'' specific for partners.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of dimensions.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id.'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource name.'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type.'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags.'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'description'
+              description: 'Dimension description.'
+              required: false
+              azure_sdk_references: ['/value/description', '/value/properties/description']
+            - !ruby/object:Api::Type::Boolean
+              name: 'filterEnabled'
+              description: 'Filter enabled.'
+              required: false
+              azure_sdk_references: ['/value/filterEnabled', '/value/properties/filterEnabled']
+            - !ruby/object:Api::Type::Boolean
+              name: 'groupingEnabled'
+              description: 'Grouping enabled.'
+              required: false
+              azure_sdk_references: ['/value/groupingEnabled', '/value/properties/groupingEnabled']
+            - !ruby/object:Api::Type::Array
+              name: 'data'
+              description: ''
+              required: false
+              azure_sdk_references: ['/value/data', '/value/properties/data']
+              item_type: Api::Type::String
+            - !ruby/object:Api::Type::Integer
+              name: 'total'
+              description: 'Total number of data for the dimension.'
+              required: false
+              azure_sdk_references: ['/value/total', '/value/properties/total']
+            - !ruby/object:Api::Type::String
+              name: 'category'
+              description: 'Dimension category.'
+              required: false
+              azure_sdk_references: ['/value/category', '/value/properties/category']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'usageStart'
+              description: 'Usage start.'
+              required: false
+              azure_sdk_references: ['/value/usageStart', '/value/properties/usageStart']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'usageEnd'
+              description: 'Usage end.'
+              required: false
+              azure_sdk_references: ['/value/usageEnd', '/value/properties/usageEnd']
+            - !ruby/object:Api::Type::String
+              name: 'nextLink'
+              description: 'The link (url) to the next page of results.'
+              required: false
+              azure_sdk_references: ['/value/nextLink', '/value/properties/nextLink']

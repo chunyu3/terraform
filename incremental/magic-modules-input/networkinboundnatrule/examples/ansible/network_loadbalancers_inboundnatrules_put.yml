@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networkinboundnatrule
+  description: InboundNatRuleCreate
+  code:
+    resource_group: myResourceGroup
+    load_balancer_name: myLoadBalancer
+    name: myInboundNatRule
+    inbound_nat_rule_parameters:
+      properties:
+        protocol: Tcp
+        frontendIPConfiguration:
+          id: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Network/loadBalancers/{{ load_balancer_name
+            }}/frontendIPConfigurations/{{ frontend_ipconfiguration_name }}
+        frontendPort: '3390'
+        backendPort: '3389'
+        idleTimeoutInMinutes: '4'
+        enableFloatingIP: false
+  

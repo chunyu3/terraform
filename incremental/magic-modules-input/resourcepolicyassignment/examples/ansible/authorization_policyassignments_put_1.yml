@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourcepolicyassignment
+  description: Create or update a policy assignment with a managed identity
+  code:
+    scope: subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2
+    name: myPolicyAssignment
+    display_name: Enforce resource naming rules
+    policy_definition_id: >-
+      /subscriptions/{{ subscription_id
+      }}/providers/Microsoft.Authorization/policyDefinitions/{{
+      policy_definition_name }}
+    description: Force resource names to begin with given DeptA and end with -LC
+    metadata:
+      assignedBy: Foo Bar
+    location: eastus
+    identity:
+      type: SystemAssigned
+  

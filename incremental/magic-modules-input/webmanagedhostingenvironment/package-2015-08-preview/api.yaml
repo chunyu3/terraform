@@ -1,0 +1,491 @@
+--- !ruby/object:Api::Product
+name: Azure ManagedHostingEnvironment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ManagedHostingEnvironment
+    api_name: Web
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Web
+      go_client_namespace: web
+      go_client: managedHostingEnvironmentsClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.managed_hosting_environments
+
+    description: |
+      Manage Azure ManagedHostingEnvironment instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of resource group'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of resources'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource Id'
+              required: false
+              azure_sdk_references: ['/value/id']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Resource Name'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::String
+              name: 'kind'
+              description: 'Kind of resource'
+              required: false
+              azure_sdk_references: ['/value/kind']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Resource Location'
+              required: true
+              input: true
+              azure_sdk_references: ['/value/location']
+            - !ruby/object:Api::Type::String
+              name: 'type'
+              description: 'Resource type'
+              required: false
+              azure_sdk_references: ['/value/type']
+            - !ruby/object:Api::Azure::Type::Tags
+              name: 'tags'
+              description: 'Resource tags'
+              required: false
+              azure_sdk_references: ['/value/tags']
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/name', '/value/properties/name']
+            - !ruby/object:Api::Azure::Type::Location
+              name: 'location'
+              description: 'Location of the hostingEnvironment (App Service Environment), e.g. "West US"'
+              required: false
+              input: true
+              azure_sdk_references: ['/value/location', '/value/properties/location']
+            - !ruby/object:Api::Type::Enum
+              name: 'provisioningState'
+              description: 'Provisioning state of the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/provisioningState', '/value/properties/provisioningState']
+              values:
+                - :Succeeded
+                - :Failed
+                - :Canceled
+                - :InProgress
+                - :Deleting
+              default_value: :Succeeded
+            - !ruby/object:Api::Type::Enum
+              name: 'status'
+              description: 'Current status of the hostingEnvironment (App Service Environment)'
+              required: true
+              azure_sdk_references: ['/value/status', '/value/properties/status']
+              values:
+                - :Preparing
+                - :Ready
+                - :Scaling
+                - :Deleting
+            - !ruby/object:Api::Type::String
+              name: 'vnetName'
+              description: 'Name of the hostingEnvironment''s (App Service Environment) virtual network'
+              required: false
+              azure_sdk_references: ['/value/vnetName', '/value/properties/vnetName']
+            - !ruby/object:Api::Type::String
+              name: 'vnetResourceGroupName'
+              description: 'Resource group of the hostingEnvironment''s (App Service Environment) virtual network'
+              required: false
+              azure_sdk_references: ['/value/vnetResourceGroupName', '/value/properties/vnetResourceGroupName']
+            - !ruby/object:Api::Type::String
+              name: 'vnetSubnetName'
+              description: 'Subnet of the hostingEnvironment''s (App Service Environment) virtual network'
+              required: false
+              azure_sdk_references: ['/value/vnetSubnetName', '/value/properties/vnetSubnetName']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'virtualNetwork'
+              description: 'Description of the hostingEnvironment''s (App Service Environment) virtual network'
+              required: false
+              azure_sdk_references: ['/value/virtualNetwork', '/value/properties/virtualNetwork']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'id'
+                  description: 'Resource id of the virtual network'
+                  required: false
+                  azure_sdk_references: ['/value/virtualNetwork/id', '/value/properties/virtualNetwork/id']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'Name of the virtual network (read-only)'
+                  required: false
+                  azure_sdk_references: ['/value/virtualNetwork/name', '/value/properties/virtualNetwork/name']
+                - !ruby/object:Api::Type::String
+                  name: 'type'
+                  description: 'Resource type of the virtual network (read-only)'
+                  required: false
+                  azure_sdk_references: ['/value/virtualNetwork/type', '/value/properties/virtualNetwork/type']
+                - !ruby/object:Api::Type::String
+                  name: 'subnet'
+                  description: 'Subnet within the virtual network'
+                  required: false
+                  azure_sdk_references: ['/value/virtualNetwork/subnet', '/value/properties/virtualNetwork/subnet']
+            - !ruby/object:Api::Type::Enum
+              name: 'internalLoadBalancingMode'
+              description: 'Specifies which endpoints to serve internally in the hostingEnvironment''s (App Service Environment) VNET'
+              required: false
+              azure_sdk_references: ['/value/internalLoadBalancingMode', '/value/properties/internalLoadBalancingMode']
+              values:
+                - :None
+                - :Web
+                - :Publishing
+              default_value: :None
+            - !ruby/object:Api::Type::String
+              name: 'multiSize'
+              description: 'Front-end VM size, e.g. "Medium", "Large"'
+              required: false
+              azure_sdk_references: ['/value/multiSize', '/value/properties/multiSize']
+            - !ruby/object:Api::Type::Integer
+              name: 'multiRoleCount'
+              description: 'Number of front-end instances'
+              required: false
+              azure_sdk_references: ['/value/multiRoleCount', '/value/properties/multiRoleCount']
+            - !ruby/object:Api::Type::Array
+              name: 'workerPools'
+              description: 'Description of worker pools with worker size ids, VM sizes, and number of workers in each pool'
+              required: false
+              azure_sdk_references: ['/value/workerPools', '/value/properties/workerPools']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Resource Id'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/id', '/value/properties/workerPools/id']
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Resource Name'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/name', '/value/properties/workerPools/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'kind'
+                    description: 'Kind of resource'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/kind', '/value/properties/workerPools/kind']
+                  - !ruby/object:Api::Azure::Type::Location
+                    name: 'location'
+                    description: 'Resource Location'
+                    required: true
+                    input: true
+                    azure_sdk_references: ['/value/workerPools/location', '/value/properties/workerPools/location']
+                  - !ruby/object:Api::Type::String
+                    name: 'type'
+                    description: 'Resource type'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/type', '/value/properties/workerPools/type']
+                  - !ruby/object:Api::Azure::Type::Tags
+                    name: 'tags'
+                    description: 'Resource tags'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/tags', '/value/properties/workerPools/tags']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'workerSizeId'
+                    description: 'Worker size id for referencing this worker pool'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/workerSizeId', '/value/properties/workerPools/properties/workerSizeId']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'computeMode'
+                    description: 'Shared or dedicated web app hosting'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/computeMode', '/value/properties/workerPools/properties/computeMode']
+                    values:
+                      - :Shared
+                      - :Dedicated
+                      - :Dynamic
+                    default_value: :Shared
+                  - !ruby/object:Api::Type::String
+                    name: 'workerSize'
+                    description: 'VM size of the worker pool instances'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/workerSize', '/value/properties/workerPools/properties/workerSize']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'workerCount'
+                    description: 'Number of instances in the worker pool'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/workerCount', '/value/properties/workerPools/properties/workerCount']
+                  - !ruby/object:Api::Type::Array
+                    name: 'instanceNames'
+                    description: 'Names of all instances in the worker pool (read only)'
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/instanceNames', '/value/properties/workerPools/properties/instanceNames']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::NestedObject
+                    name: 'sku'
+                    description: ''
+                    required: false
+                    azure_sdk_references: ['/value/workerPools/sku', '/value/properties/workerPools/sku']
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'Name of the resource sku'
+                        required: false
+                        azure_sdk_references: ['/value/workerPools/sku/name', '/value/properties/workerPools/sku/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'tier'
+                        description: 'Service Tier of the resource sku'
+                        required: false
+                        azure_sdk_references: ['/value/workerPools/sku/tier', '/value/properties/workerPools/sku/tier']
+                      - !ruby/object:Api::Type::String
+                        name: 'size'
+                        description: 'Size specifier of the resource sku'
+                        required: false
+                        azure_sdk_references: ['/value/workerPools/sku/size', '/value/properties/workerPools/sku/size']
+                      - !ruby/object:Api::Type::String
+                        name: 'family'
+                        description: 'Family code of the resource sku'
+                        required: false
+                        azure_sdk_references: ['/value/workerPools/sku/family', '/value/properties/workerPools/sku/family']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'capacity'
+                        description: 'Current number of instances assigned to the resource'
+                        required: false
+                        azure_sdk_references: ['/value/workerPools/sku/capacity', '/value/properties/workerPools/sku/capacity']
+            - !ruby/object:Api::Type::Integer
+              name: 'ipsslAddressCount'
+              description: 'Number of IP SSL addresses reserved for this hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/ipsslAddressCount', '/value/properties/ipsslAddressCount']
+            - !ruby/object:Api::Type::String
+              name: 'databaseEdition'
+              description: 'Edition of the metadata database for the hostingEnvironment (App Service Environment) e.g. "Standard"'
+              required: false
+              azure_sdk_references: ['/value/databaseEdition', '/value/properties/databaseEdition']
+            - !ruby/object:Api::Type::String
+              name: 'databaseServiceObjective'
+              description: 'Service objective of the metadata database for the hostingEnvironment (App Service Environment) e.g. "S0"'
+              required: false
+              azure_sdk_references: ['/value/databaseServiceObjective', '/value/properties/databaseServiceObjective']
+            - !ruby/object:Api::Type::Integer
+              name: 'upgradeDomains'
+              description: 'Number of upgrade domains of this hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/upgradeDomains', '/value/properties/upgradeDomains']
+            - !ruby/object:Api::Type::String
+              name: 'subscriptionId'
+              description: 'Subscription of the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/subscriptionId', '/value/properties/subscriptionId']
+            - !ruby/object:Api::Type::String
+              name: 'dnsSuffix'
+              description: 'DNS suffix of the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/dnsSuffix', '/value/properties/dnsSuffix']
+            - !ruby/object:Api::Type::String
+              name: 'lastAction'
+              description: 'Last deployment action on this hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/lastAction', '/value/properties/lastAction']
+            - !ruby/object:Api::Type::String
+              name: 'lastActionResult'
+              description: 'Result of the last deployment action on this hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/lastActionResult', '/value/properties/lastActionResult']
+            - !ruby/object:Api::Type::String
+              name: 'allowedMultiSizes'
+              description: 'List of comma separated strings describing which VM sizes are allowed for front-ends'
+              required: false
+              azure_sdk_references: ['/value/allowedMultiSizes', '/value/properties/allowedMultiSizes']
+            - !ruby/object:Api::Type::String
+              name: 'allowedWorkerSizes'
+              description: 'List of comma separated strings describing which VM sizes are allowed for workers'
+              required: false
+              azure_sdk_references: ['/value/allowedWorkerSizes', '/value/properties/allowedWorkerSizes']
+            - !ruby/object:Api::Type::Integer
+              name: 'maximumNumberOfMachines'
+              description: 'Maximum number of VMs in this hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/maximumNumberOfMachines', '/value/properties/maximumNumberOfMachines']
+            - !ruby/object:Api::Type::Array
+              name: 'vipMappings'
+              description: 'Description of IP SSL mapping for this hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/vipMappings', '/value/properties/vipMappings']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'virtualIp'
+                    description: 'Virtual IP address'
+                    required: false
+                    azure_sdk_references: ['/value/vipMappings/virtualIP', '/value/properties/vipMappings/virtualIP']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'internalHttpPort'
+                    description: 'Internal HTTP port'
+                    required: false
+                    azure_sdk_references: ['/value/vipMappings/internalHttpPort', '/value/properties/vipMappings/internalHttpPort']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'internalHttpsPort'
+                    description: 'Internal HTTPS port'
+                    required: false
+                    azure_sdk_references: ['/value/vipMappings/internalHttpsPort', '/value/properties/vipMappings/internalHttpsPort']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'inUse'
+                    description: 'Is VIP mapping in use'
+                    required: false
+                    azure_sdk_references: ['/value/vipMappings/inUse', '/value/properties/vipMappings/inUse']
+            - !ruby/object:Api::Type::Array
+              name: 'environmentCapacities'
+              description: 'Current total, used, and available worker capacities'
+              required: false
+              azure_sdk_references: ['/value/environmentCapacities', '/value/properties/environmentCapacities']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Name of the stamp'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/name', '/value/properties/environmentCapacities/name']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'availableCapacity'
+                    description: 'Available capacity (# of machines, bytes of storage etc...)'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/availableCapacity', '/value/properties/environmentCapacities/availableCapacity']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'totalCapacity'
+                    description: 'Total capacity (# of machines, bytes of storage etc...)'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/totalCapacity', '/value/properties/environmentCapacities/totalCapacity']
+                  - !ruby/object:Api::Type::String
+                    name: 'unit'
+                    description: 'Name of the unit'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/unit', '/value/properties/environmentCapacities/unit']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'computeMode'
+                    description: 'Shared/Dedicated workers'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/computeMode', '/value/properties/environmentCapacities/computeMode']
+                    values:
+                      - :Shared
+                      - :Dedicated
+                      - :Dynamic
+                    default_value: :Shared
+                  - !ruby/object:Api::Type::Enum
+                    name: 'workerSize'
+                    description: 'Size of the machines'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/workerSize', '/value/properties/environmentCapacities/workerSize']
+                    values:
+                      - :Default
+                      - :Small
+                      - :Medium
+                      - :Large
+                    default_value: :Default
+                  - !ruby/object:Api::Type::Integer
+                    name: 'workerSizeId'
+                    description: 'Size Id of machines: <br>            0 - Small<br>            1 - Medium<br>            2 - Large'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/workerSizeId', '/value/properties/environmentCapacities/workerSizeId']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'excludeFromCapacityAllocation'
+                    description: 'If true it includes basic sites<br>            Basic sites are not used for capacity allocation.'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/excludeFromCapacityAllocation', '/value/properties/environmentCapacities/excludeFromCapacityAllocation']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'isApplicableForAllComputeModes'
+                    description: 'Is capacity applicable for all sites?'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/isApplicableForAllComputeModes', '/value/properties/environmentCapacities/isApplicableForAllComputeModes']
+                  - !ruby/object:Api::Type::String
+                    name: 'siteMode'
+                    description: 'Shared or Dedicated'
+                    required: false
+                    azure_sdk_references: ['/value/environmentCapacities/siteMode', '/value/properties/environmentCapacities/siteMode']
+            - !ruby/object:Api::Type::Array
+              name: 'networkAccessControlList'
+              description: 'Access control list for controlling traffic to the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/networkAccessControlList', '/value/properties/networkAccessControlList']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Enum
+                    name: 'action'
+                    description: ''
+                    required: false
+                    azure_sdk_references: ['/value/networkAccessControlList/action', '/value/properties/networkAccessControlList/action']
+                    values:
+                      - :Permit
+                      - :Deny
+                    default_value: :Permit
+                  - !ruby/object:Api::Type::String
+                    name: 'description'
+                    description: ''
+                    required: false
+                    azure_sdk_references: ['/value/networkAccessControlList/description', '/value/properties/networkAccessControlList/description']
+                  - !ruby/object:Api::Type::Integer
+                    name: 'order'
+                    description: ''
+                    required: false
+                    azure_sdk_references: ['/value/networkAccessControlList/order', '/value/properties/networkAccessControlList/order']
+                  - !ruby/object:Api::Type::String
+                    name: 'remoteSubnet'
+                    description: ''
+                    required: false
+                    azure_sdk_references: ['/value/networkAccessControlList/remoteSubnet', '/value/properties/networkAccessControlList/remoteSubnet']
+            - !ruby/object:Api::Type::Boolean
+              name: 'environmentIsHealthy'
+              description: 'True/false indicating whether the hostingEnvironment (App Service Environment) is healthy'
+              required: false
+              azure_sdk_references: ['/value/environmentIsHealthy', '/value/properties/environmentIsHealthy']
+            - !ruby/object:Api::Type::String
+              name: 'environmentStatus'
+              description: 'Detailed message about with results of the last check of the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/environmentStatus', '/value/properties/environmentStatus']
+            - !ruby/object:Api::Type::String
+              name: 'resourceGroup'
+              description: 'Resource group of the hostingEnvironment (App Service Environment)'
+              required: false
+              azure_sdk_references: ['/value/resourceGroup', '/value/properties/resourceGroup']
+            - !ruby/object:Api::Type::String
+              name: 'apiManagementAccountId'
+              description: 'Api Management Account associated with this Hosting Environment'
+              required: false
+              azure_sdk_references: ['/value/apiManagementAccountId', '/value/properties/apiManagementAccountId']
+            - !ruby/object:Api::Type::Boolean
+              name: 'suspended'
+              description: 'True/false indicating whether the hostingEnvironment is suspended. The environment can be suspended e.g. when the management endpoint is no longer available<br>            (most likely because NSG blocked the incoming traffic)'
+              required: false
+              azure_sdk_references: ['/value/suspended', '/value/properties/suspended']
+            - !ruby/object:Api::Type::Array
+              name: 'clusterSettings'
+              description: 'Custom settings for changing the behavior of the hosting environment'
+              required: false
+              azure_sdk_references: ['/value/clusterSettings', '/value/properties/clusterSettings']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'name'
+                    description: 'Pair name'
+                    required: false
+                    azure_sdk_references: ['/value/clusterSettings/name', '/value/properties/clusterSettings/name']
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'Pair value'
+                    required: false
+                    azure_sdk_references: ['/value/clusterSettings/value', '/value/properties/clusterSettings/value']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to next page of resources'
+        output: true
+        azure_sdk_references: ['/nextLink']

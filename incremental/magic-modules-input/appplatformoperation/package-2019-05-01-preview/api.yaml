@@ -1,0 +1,164 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: AppPlatform
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AppPlatform
+      go_client_namespace: appplatform
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.appplatform
+      python_client: AppPlatformManagementClient.operations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Collection of available operation details'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'name'
+              description: 'Name of the operation'
+              required: false
+              azure_sdk_references: ['/value/name']
+            - !ruby/object:Api::Type::Boolean
+              name: 'dataAction'
+              description: 'Indicates whether the operation is a data action'
+              required: false
+              azure_sdk_references: ['/value/dataAction']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'display'
+              description: 'Display of the operation'
+              required: false
+              azure_sdk_references: ['/value/display']
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'provider'
+                  description: 'Resource provider of the operation'
+                  required: false
+                  azure_sdk_references: ['/value/display/provider']
+                - !ruby/object:Api::Type::String
+                  name: 'resource'
+                  description: 'Resource of the operation'
+                  required: false
+                  azure_sdk_references: ['/value/display/resource']
+                - !ruby/object:Api::Type::String
+                  name: 'operation'
+                  description: 'Localized friendly name for the operation'
+                  required: false
+                  azure_sdk_references: ['/value/display/operation']
+                - !ruby/object:Api::Type::String
+                  name: 'description'
+                  description: 'Localized friendly description for the operation'
+                  required: false
+                  azure_sdk_references: ['/value/display/description']
+            - !ruby/object:Api::Type::String
+              name: 'origin'
+              description: 'Origin of the operation'
+              required: false
+              azure_sdk_references: ['/value/origin']
+            - !ruby/object:Api::Type::NestedObject
+              name: 'serviceSpecification'
+              description: 'Service specifications of the operation'
+              required: false
+              azure_sdk_references: ['/value/serviceSpecification', '/value/properties/serviceSpecification']
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'logSpecifications'
+                  description: 'Specifications of the Log for Azure Monitoring'
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/logSpecifications', '/value/properties/serviceSpecification/logSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'Name of the log'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/name', '/value/properties/serviceSpecification/logSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: 'Localized friendly display name of the log'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/displayName', '/value/properties/serviceSpecification/logSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'blobDuration'
+                        description: 'Blob duration of the log'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/logSpecifications/blobDuration', '/value/properties/serviceSpecification/logSpecifications/blobDuration']
+                - !ruby/object:Api::Type::Array
+                  name: 'metricSpecifications'
+                  description: 'Specifications of the Metrics for Azure Monitoring'
+                  required: false
+                  azure_sdk_references: ['/value/serviceSpecification/metricSpecifications', '/value/properties/serviceSpecification/metricSpecifications']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'Name of the metric'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/name', '/value/properties/serviceSpecification/metricSpecifications/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayName'
+                        description: 'Localized friendly display name of the metric'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/displayName', '/value/properties/serviceSpecification/metricSpecifications/displayName']
+                      - !ruby/object:Api::Type::String
+                        name: 'displayDescription'
+                        description: 'Localized friendly description of the metric'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/displayDescription', '/value/properties/serviceSpecification/metricSpecifications/displayDescription']
+                      - !ruby/object:Api::Type::String
+                        name: 'unit'
+                        description: 'Unit that makes sense for the metric'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/unit', '/value/properties/serviceSpecification/metricSpecifications/unit']
+                      - !ruby/object:Api::Type::String
+                        name: 'category'
+                        description: 'Name of the metric category that the metric belongs to. A metric can only belong to a single category.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/category', '/value/properties/serviceSpecification/metricSpecifications/category']
+                      - !ruby/object:Api::Type::String
+                        name: 'aggregationType'
+                        description: 'Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/aggregationType', '/value/properties/serviceSpecification/metricSpecifications/aggregationType']
+                      - !ruby/object:Api::Type::Array
+                        name: 'supportedAggregationTypes'
+                        description: 'Supported aggregation types'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/supportedAggregationTypes', '/value/properties/serviceSpecification/metricSpecifications/supportedAggregationTypes']
+                        item_type: Api::Type::String
+                      - !ruby/object:Api::Type::Array
+                        name: 'supportedTimeGrainTypes'
+                        description: 'Supported time grain types'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/supportedTimeGrainTypes', '/value/properties/serviceSpecification/metricSpecifications/supportedTimeGrainTypes']
+                        item_type: Api::Type::String
+                      - !ruby/object:Api::Type::Boolean
+                        name: 'fillGapWithZero'
+                        description: 'Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published.'
+                        required: false
+                        azure_sdk_references: ['/value/serviceSpecification/metricSpecifications/fillGapWithZero', '/value/properties/serviceSpecification/metricSpecifications/fillGapWithZero']
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL client should use to fetch the next page (per server side paging).<br>It''s null for now, added for future use.'
+        output: true
+        azure_sdk_references: ['/nextLink']

@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_searchmanagementclientservice
+  description: SearchCreateOrUpdateServiceWithIdentity
+  code:
+    resource_group: myResourceGroup
+    name: mySearchService
+    service:
+      location: westus
+      tags:
+        app-name: My e-commerce app
+      sku:
+        name: standard
+      properties:
+        replicaCount: '3'
+        partitionCount: '1'
+        hostingMode: default
+      identity:
+        type: SystemAssigned
+  

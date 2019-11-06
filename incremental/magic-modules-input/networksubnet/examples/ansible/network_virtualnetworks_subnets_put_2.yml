@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_networksubnet
+  description: Create subnet with a delegation
+  code:
+    resource_group: myResourceGroup
+    virtual_network_name: myVirtualNetwork
+    name: mySubnet
+    subnet_parameters:
+      properties:
+        addressPrefix: 10.0.0.0/16
+  
