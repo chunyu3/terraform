@@ -34,14 +34,14 @@ func testCheckAzureRMSecurityContactExists(resourceName string) resource.TestChe
             return fmt.Errorf("Security Contact not found: %s", resourceName)
         }
 
-        securityContactName := rs.Primary.Attributes["security_contact_name"]
+        name := rs.Primary.Attributes["name"]
 
         client := testAccProvider.Meta().(*ArmClient).securityContactsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, securityContactName); err != nil {
+        if resp, err := client.Get(ctx, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Security Contact (Security Contact Name %q) does not exist", securityContactName)
+                return fmt.Errorf("Bad: Security Contact %q does not exist", name)
             }
             return fmt.Errorf("Bad: Get on securityContactsClient: %+v", err)
         }
@@ -59,9 +59,9 @@ func testCheckAzureRMSecurityContactDestroy(s *terraform.State) error {
             continue
         }
 
-        securityContactName := rs.Primary.Attributes["security_contact_name"]
+        name := rs.Primary.Attributes["name"]
 
-        if resp, err := client.Get(ctx, securityContactName); err != nil {
+        if resp, err := client.Get(ctx, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on securityContactsClient: %+v", err)
             }

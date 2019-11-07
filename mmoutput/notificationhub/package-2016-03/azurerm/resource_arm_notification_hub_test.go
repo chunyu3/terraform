@@ -34,16 +34,16 @@ func testCheckAzureRMNotificationHubExists(resourceName string) resource.TestChe
             return fmt.Errorf("Notification Hub not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
-        notificationHubName := rs.Primary.Attributes["notification_hub_name"]
 
         client := testAccProvider.Meta().(*ArmClient).notificationHubsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, notificationHubName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q) does not exist", notificationHubName, namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Notification Hub %q (Namespace Name %q / Resource Group %q) does not exist", name, namespaceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on notificationHubsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMNotificationHubDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
-        notificationHubName := rs.Primary.Attributes["notification_hub_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, notificationHubName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on notificationHubsClient: %+v", err)
             }

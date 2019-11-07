@@ -34,18 +34,18 @@ func testCheckAzureRMApiIssueAttachmentExists(resourceName string) resource.Test
             return fmt.Errorf("Api Issue Attachment not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         attachmentID := rs.Primary.Attributes["attachment_id"]
         issueID := rs.Primary.Attributes["issue_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiIssueAttachmentClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, attachmentID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, attachmentID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Issue Attachment (Attachment %q / Issue %q / Api %q / Service Name %q / Resource Group %q) does not exist", attachmentID, issueID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Issue Attachment %q (Attachment %q / Issue %q / Api %q / Resource Group %q) does not exist", name, attachmentID, issueID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiIssueAttachmentClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMApiIssueAttachmentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         attachmentID := rs.Primary.Attributes["attachment_id"]
         issueID := rs.Primary.Attributes["issue_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, attachmentID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, attachmentID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiIssueAttachmentClient: %+v", err)
             }

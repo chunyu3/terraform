@@ -34,14 +34,14 @@ func testCheckAzureRMWorkspaceSettingExists(resourceName string) resource.TestCh
             return fmt.Errorf("Workspace Setting not found: %s", resourceName)
         }
 
-        workspaceSettingName := rs.Primary.Attributes["workspace_setting_name"]
+        name := rs.Primary.Attributes["name"]
 
         client := testAccProvider.Meta().(*ArmClient).workspaceSettingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, workspaceSettingName); err != nil {
+        if resp, err := client.Get(ctx, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Workspace Setting (Workspace Setting Name %q) does not exist", workspaceSettingName)
+                return fmt.Errorf("Bad: Workspace Setting %q does not exist", name)
             }
             return fmt.Errorf("Bad: Get on workspaceSettingsClient: %+v", err)
         }
@@ -59,9 +59,9 @@ func testCheckAzureRMWorkspaceSettingDestroy(s *terraform.State) error {
             continue
         }
 
-        workspaceSettingName := rs.Primary.Attributes["workspace_setting_name"]
+        name := rs.Primary.Attributes["name"]
 
-        if resp, err := client.Get(ctx, workspaceSettingName); err != nil {
+        if resp, err := client.Get(ctx, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on workspaceSettingsClient: %+v", err)
             }

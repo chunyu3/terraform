@@ -34,16 +34,16 @@ func testCheckAzureRMWorkspaceExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Workspace not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        workspaceName := rs.Primary.Attributes["workspace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).workspacesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Workspace (Workspace Name %q / Account Name %q / Resource Group %q) does not exist", workspaceName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Workspace %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on workspacesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMWorkspaceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        workspaceName := rs.Primary.Attributes["workspace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on workspacesClient: %+v", err)
             }

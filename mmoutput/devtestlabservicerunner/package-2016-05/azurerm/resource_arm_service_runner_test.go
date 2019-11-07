@@ -35,15 +35,15 @@ func testCheckAzureRMServiceRunnerExists(resourceName string) resource.TestCheck
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        labName := rs.Primary.Attributes["lab_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serviceRunnersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, labName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Service Runner %q (Lab Name %q / Resource Group %q) does not exist", name, labName, resourceGroup)
+                return fmt.Errorf("Bad: Service Runner %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serviceRunnersClient: %+v", err)
         }
@@ -62,10 +62,10 @@ func testCheckAzureRMServiceRunnerDestroy(s *terraform.State) error {
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        labName := rs.Primary.Attributes["lab_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, labName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serviceRunnersClient: %+v", err)
             }

@@ -31,17 +31,17 @@ func resourceArmConsumerGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "consumer_group_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "event_hub_name": {
                 Type: schema.TypeString,
@@ -84,16 +84,16 @@ func resourceArmConsumerGroupCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).consumerGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    consumerGroupName := d.Get("consumer_group_name").(string)
     eventHubName := d.Get("event_hub_name").(string)
     namespaceName := d.Get("namespace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, consumerGroupName)
+        existing, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", consumerGroupName, eventHubName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,17 +110,17 @@ func resourceArmConsumerGroupCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, eventHubName, consumerGroupName, parameters); err != nil {
-        return fmt.Errorf("Error creating Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", consumerGroupName, eventHubName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, eventHubName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, consumerGroupName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", consumerGroupName, eventHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q) ID", consumerGroupName, eventHubName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q) ID", name, eventHubName, namespaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -138,22 +138,22 @@ func resourceArmConsumerGroupRead(d *schema.ResourceData, meta interface{}) erro
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
     eventHubName := id.Path["eventhubs"]
-    consumerGroupName := id.Path["consumergroups"]
+    name := id.Path["consumergroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, consumerGroupName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Consumer Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", consumerGroupName, eventHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("consumer_group_name", consumerGroupName)
     if consumerGroupProperties := resp.ConsumerGroup_properties; consumerGroupProperties != nil {
         d.Set("created_at", (consumerGroupProperties.CreatedAt).String())
         d.Set("updated_at", (consumerGroupProperties.UpdatedAt).String())
@@ -179,10 +179,10 @@ func resourceArmConsumerGroupDelete(d *schema.ResourceData, meta interface{}) er
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
     eventHubName := id.Path["eventhubs"]
-    consumerGroupName := id.Path["consumergroups"]
+    name := id.Path["consumergroups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, eventHubName, consumerGroupName); err != nil {
-        return fmt.Errorf("Error deleting Consumer Group (Consumer Group Name %q / Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", consumerGroupName, eventHubName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, namespaceName, eventHubName, name); err != nil {
+        return fmt.Errorf("Error deleting Consumer Group %q (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", name, eventHubName, namespaceName, resourceGroup, err)
     }
 
     return nil

@@ -34,15 +34,15 @@ func testCheckAzureRMBlockchainMemberExists(resourceName string) resource.TestCh
             return fmt.Errorf("Blockchain Member not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        blockchainMemberName := rs.Primary.Attributes["blockchain_member_name"]
 
         client := testAccProvider.Meta().(*ArmClient).blockchainMembersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, blockchainMemberName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Blockchain Member (Resource Group %q / Blockchain Member Name %q) does not exist", resourceGroup, blockchainMemberName)
+                return fmt.Errorf("Bad: Blockchain Member %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on blockchainMembersClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMBlockchainMemberDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        blockchainMemberName := rs.Primary.Attributes["blockchain_member_name"]
 
-        if resp, err := client.Get(ctx, blockchainMemberName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on blockchainMembersClient: %+v", err)
             }

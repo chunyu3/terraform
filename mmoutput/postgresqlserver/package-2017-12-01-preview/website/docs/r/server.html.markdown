@@ -28,11 +28,11 @@ Manage Azure Server instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the server. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) The location the resource resides in. Changing this forces a new resource to be created.
-
-* `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
 
 * `sku` - (Optional) One `sku` block defined below.
 

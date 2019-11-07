@@ -31,6 +31,13 @@ func resourceArmStorageDomain() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -43,13 +50,6 @@ func resourceArmStorageDomain() *schema.Resource {
                     string(storsimple.Enabled),
                     string(storsimple.Disabled),
                 }, false),
-            },
-
-            "manager_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "storage_account_credential_ids": {
@@ -107,15 +107,15 @@ func resourceArmStorageDomainCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).storageDomainsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    managerName := d.Get("manager_name").(string)
     storageDomainName := d.Get("storage_domain_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, storageDomainName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, storageDomainName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+                return fmt.Errorf("Error checking for present of existing Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -136,21 +136,21 @@ func resourceArmStorageDomainCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, storageDomainName, resourceGroup, managerName, storageDomain)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, storageDomainName, storageDomain)
     if err != nil {
-        return fmt.Errorf("Error creating Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error creating Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error waiting for creation of Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
     }
 
 
-    resp, err := client.Get(ctx, storageDomainName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, storageDomainName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error retrieving Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q) ID", managerName, resourceGroup, storageDomainName)
+        return fmt.Errorf("Cannot read Storage Domain %q (Resource Group %q / Storage Domain Name %q) ID", name, resourceGroup, storageDomainName)
     }
     d.SetId(*resp.ID)
 
@@ -165,21 +165,22 @@ func resourceArmStorageDomainRead(d *schema.ResourceData, meta interface{}) erro
     if err != nil {
         return err
     }
-    storageDomainName := id.Path["storageDomains"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    storageDomainName := id.Path["storageDomains"]
 
-    resp, err := client.Get(ctx, storageDomainName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, storageDomainName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Storage Domain %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error reading Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if storageDomainProperties := resp.StorageDomainProperties; storageDomainProperties != nil {
@@ -189,7 +190,6 @@ func resourceArmStorageDomainRead(d *schema.ResourceData, meta interface{}) erro
         d.Set("encryption_status", string(storageDomainProperties.EncryptionStatus))
         d.Set("storage_account_credential_ids", utils.FlattenStringSlice(storageDomainProperties.StorageAccountCredentialIds))
     }
-    d.Set("manager_name", managerName)
     d.Set("storage_domain_name", storageDomainName)
     d.Set("type", resp.Type)
 
@@ -206,21 +206,21 @@ func resourceArmStorageDomainDelete(d *schema.ResourceData, meta interface{}) er
     if err != nil {
         return err
     }
-    storageDomainName := id.Path["storageDomains"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    storageDomainName := id.Path["storageDomains"]
 
-    future, err := client.Delete(ctx, storageDomainName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, storageDomainName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+        return fmt.Errorf("Error deleting Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q): %+v", managerName, resourceGroup, storageDomainName, err)
+            return fmt.Errorf("Error waiting for deleting Storage Domain %q (Resource Group %q / Storage Domain Name %q): %+v", name, resourceGroup, storageDomainName, err)
         }
     }
 

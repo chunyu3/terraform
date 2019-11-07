@@ -31,19 +31,19 @@ func resourceArmPrivateZone() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "private_zone_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "etag": {
                 Type: schema.TypeString,
@@ -100,14 +100,14 @@ func resourceArmPrivateZoneCreate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).privateZonesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    privateZoneName := d.Get("private_zone_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, privateZoneName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -126,21 +126,21 @@ func resourceArmPrivateZoneCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, privateZoneName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error creating Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, privateZoneName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Private Zone (Private Zone Name %q / Resource Group %q) ID", privateZoneName, resourceGroup)
+        return fmt.Errorf("Cannot read Private Zone %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -156,19 +156,20 @@ func resourceArmPrivateZoneRead(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    privateZoneName := id.Path["privateDnsZones"]
+    name := id.Path["privateDnsZones"]
 
-    resp, err := client.Get(ctx, resourceGroup, privateZoneName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Private Zone %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error reading Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -184,7 +185,6 @@ func resourceArmPrivateZoneRead(d *schema.ResourceData, meta interface{}) error 
         d.Set("number_of_virtual_network_links_with_registration", int(*privateZoneProperties.NumberOfVirtualNetworkLinksWithRegistration))
         d.Set("provisioning_state", string(privateZoneProperties.ProvisioningState))
     }
-    d.Set("private_zone_name", privateZoneName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -194,9 +194,9 @@ func resourceArmPrivateZoneUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).privateZonesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     etag := d.Get("etag").(string)
-    privateZoneName := d.Get("private_zone_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := privatedns.PrivateZone{
@@ -206,12 +206,12 @@ func resourceArmPrivateZoneUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, privateZoneName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error updating Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmPrivateZoneRead(d, meta)
@@ -227,19 +227,19 @@ func resourceArmPrivateZoneDelete(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    privateZoneName := id.Path["privateDnsZones"]
+    name := id.Path["privateDnsZones"]
 
-    future, err := client.Delete(ctx, resourceGroup, privateZoneName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Private Zone (Private Zone Name %q / Resource Group %q): %+v", privateZoneName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Private Zone %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

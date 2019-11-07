@@ -28,9 +28,9 @@ Manage Azure AttachedDatabaseConfiguration instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the attached database configuration. Changing this forces a new resource to be created.
 
-* `attached_database_configuration_name` - (Required) The name of the attached database configuration. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
 

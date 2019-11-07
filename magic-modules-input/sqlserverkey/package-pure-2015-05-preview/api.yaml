@@ -35,9 +35,9 @@ objects:
             python_variable_name: server_name
           'keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: keys
-            go_variable_name: keyName
+            go_variable_name: name
             python_parameter_name: key_name
-            python_variable_name: key_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ServerKey
@@ -92,9 +92,9 @@ objects:
             python_variable_name: server_name
           'keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: keys
-            go_variable_name: keyName
+            go_variable_name: name
             python_parameter_name: key_name
-            python_variable_name: key_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -111,9 +111,9 @@ objects:
             python_variable_name: server_name
           'keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: keys
-            go_variable_name: keyName
+            go_variable_name: name
             python_parameter_name: key_name
-            python_variable_name: key_name
+            python_variable_name: name
         response:
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Kind
@@ -196,7 +196,7 @@ objects:
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'keyName'
+        name: 'name'
         description: 'The name of the server key to be operated on (updated or created). The key name is required to be in the format of ''vault_key_version''. For example, if the keyId is https://YourVaultName.vault.azure.net/keys/YourKeyName/01234567890123456789012345678901, then the server key name should be formatted as: YourVaultName_YourKeyName_01234567890123456789012345678901'
         required: true
         input: true

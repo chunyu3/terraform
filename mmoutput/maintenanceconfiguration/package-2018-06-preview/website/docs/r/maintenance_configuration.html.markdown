@@ -28,9 +28,9 @@ Manage Azure MaintenanceConfiguration instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Resource Group Name Changing this forces a new resource to be created.
+* `name` - (Required) Resource Identifier Changing this forces a new resource to be created.
 
-* `resource_name` - (Required) Resource Identifier Changing this forces a new resource to be created.
+* `resource_group` - (Required) Resource Group Name Changing this forces a new resource to be created.
 
 * `location` - (Optional) Gets or sets location of the resource Changing this forces a new resource to be created.
 

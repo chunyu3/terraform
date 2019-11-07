@@ -35,9 +35,9 @@ objects:
             python_variable_name: server_name
           'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: elasticPools
-            go_variable_name: elasticPoolName
+            go_variable_name: name
             python_parameter_name: elastic_pool_name
-            python_variable_name: elastic_pool_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ElasticPool
@@ -107,9 +107,9 @@ objects:
             python_variable_name: server_name
           'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: elasticPools
-            go_variable_name: elasticPoolName
+            go_variable_name: name
             python_parameter_name: elastic_pool_name
-            python_variable_name: elastic_pool_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ElasticPool
@@ -178,9 +178,9 @@ objects:
             python_variable_name: server_name
           'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: elasticPools
-            go_variable_name: elasticPoolName
+            go_variable_name: name
             python_parameter_name: elastic_pool_name
-            python_variable_name: elastic_pool_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -197,9 +197,9 @@ objects:
             python_variable_name: server_name
           'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: elasticPools
-            go_variable_name: elasticPoolName
+            go_variable_name: name
             python_parameter_name: elastic_pool_name
-            python_variable_name: elastic_pool_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -303,9 +303,9 @@ objects:
             python_variable_name: server_name
           'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: elasticPools
-            go_variable_name: elasticPoolName
+            go_variable_name: name
             python_parameter_name: elastic_pool_name
-            python_variable_name: elastic_pool_name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetricDefinitions
         python_func_name: list_metric_definitions
@@ -322,9 +322,9 @@ objects:
             python_variable_name: server_name
           'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: elasticPools
-            go_variable_name: elasticPoolName
+            go_variable_name: name
             python_parameter_name: elastic_pool_name
-            python_variable_name: elastic_pool_name
+            python_variable_name: name
 
     description: |
       Manage Azure ElasticPool instance.
@@ -342,7 +342,7 @@ objects:
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'elasticPoolName'
+        name: 'name'
         description: 'The name of the elastic pool to be operated on (updated or created).'
         required: true
         input: true

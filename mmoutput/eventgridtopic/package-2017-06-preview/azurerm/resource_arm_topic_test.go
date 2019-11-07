@@ -34,15 +34,15 @@ func testCheckAzureRMTopicExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Topic not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        topicName := rs.Primary.Attributes["topic_name"]
 
         client := testAccProvider.Meta().(*ArmClient).topicsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, topicName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Topic (Topic Name %q / Resource Group %q) does not exist", topicName, resourceGroup)
+                return fmt.Errorf("Bad: Topic %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on topicsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMTopicDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        topicName := rs.Primary.Attributes["topic_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, topicName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on topicsClient: %+v", err)
             }

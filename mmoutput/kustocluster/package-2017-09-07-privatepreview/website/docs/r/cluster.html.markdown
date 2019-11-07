@@ -28,11 +28,11 @@ Manage Azure Cluster instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
 
 * `sku` - (Required) One `sku` block defined below.
 

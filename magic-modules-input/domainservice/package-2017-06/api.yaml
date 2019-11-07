@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'domainServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: domainServices
-            go_variable_name: domainServiceName
+            go_variable_name: name
             python_parameter_name: domain_service_name
-            python_variable_name: domain_service_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: domainService
             go_type_name: DomainService
@@ -170,9 +170,9 @@ objects:
             python_variable_name: resource_group
           'domainServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: domainServices
-            go_variable_name: domainServiceName
+            go_variable_name: name
             python_parameter_name: domain_service_name
-            python_variable_name: domain_service_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: domainService
             go_type_name: DomainService
@@ -310,9 +310,9 @@ objects:
             python_variable_name: resource_group
           'domainServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: domainServices
-            go_variable_name: domainServiceName
+            go_variable_name: name
             python_parameter_name: domain_service_name
-            python_variable_name: domain_service_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -324,9 +324,9 @@ objects:
             python_variable_name: resource_group
           'domainServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: domainServices
-            go_variable_name: domainServiceName
+            go_variable_name: name
             python_parameter_name: domain_service_name
-            python_variable_name: domain_service_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -494,16 +494,76 @@ objects:
             applicable_to: [go]
             go_field_name: HealthMonitors
             go_type_name: HealthMonitor
+          '/properties/healthMonitors/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/healthMonitors/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/healthMonitors/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Details
           '/healthMonitors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: health_monitors
+          '/healthMonitors/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/healthMonitors/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/healthMonitors/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: details
           '/properties/healthAlerts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: HealthAlerts
             go_type_name: HealthAlert
+          '/properties/healthAlerts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/healthAlerts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/healthAlerts/issue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Issue
+          '/properties/healthAlerts/severity': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Severity
+          '/properties/healthAlerts/raised': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Raised
+          '/properties/healthAlerts/lastDetected': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastDetected
+          '/properties/healthAlerts/resolutionUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResolutionUri
           '/healthAlerts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: health_alerts
+          '/healthAlerts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/healthAlerts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/healthAlerts/issue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: issue
+          '/healthAlerts/severity': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: severity
+          '/healthAlerts/raised': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: raised
+          '/healthAlerts/lastDetected': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_detected
+          '/healthAlerts/resolutionUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resolution_uri
           '/properties/domainControllerIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: DomainControllerIpAddress
@@ -555,7 +615,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'domainServiceName'
+        name: 'name'
         description: 'The name of the domain service.'
         required: true
         input: true
@@ -717,21 +777,6 @@ objects:
         azure_sdk_references: ['/healthMonitors', '/properties/healthMonitors']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Health Monitor Id'
-              required: false
-              azure_sdk_references: ['/healthMonitors/id', '/properties/healthMonitors/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Health Monitor Name'
-              required: false
-              azure_sdk_references: ['/healthMonitors/name', '/properties/healthMonitors/name']
-            - !ruby/object:Api::Type::String
-              name: 'details'
-              description: 'Health Monitor Details'
-              required: false
-              azure_sdk_references: ['/healthMonitors/details', '/properties/healthMonitors/details']
       - !ruby/object:Api::Type::Array
         name: 'healthAlerts'
         description: 'List of Domain Health Alerts'
@@ -739,41 +784,6 @@ objects:
         azure_sdk_references: ['/healthAlerts', '/properties/healthAlerts']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Health Alert Id'
-              required: false
-              azure_sdk_references: ['/healthAlerts/id', '/properties/healthAlerts/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Health Alert Name'
-              required: false
-              azure_sdk_references: ['/healthAlerts/name', '/properties/healthAlerts/name']
-            - !ruby/object:Api::Type::String
-              name: 'issue'
-              description: 'Health Alert Issue'
-              required: false
-              azure_sdk_references: ['/healthAlerts/issue', '/properties/healthAlerts/issue']
-            - !ruby/object:Api::Type::String
-              name: 'severity'
-              description: 'Health Alert Severity'
-              required: false
-              azure_sdk_references: ['/healthAlerts/severity', '/properties/healthAlerts/severity']
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'raised'
-              description: 'Health Alert Raised DateTime'
-              required: false
-              azure_sdk_references: ['/healthAlerts/raised', '/properties/healthAlerts/raised']
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'lastDetected'
-              description: 'Health Alert Last Detected DateTime'
-              required: false
-              azure_sdk_references: ['/healthAlerts/lastDetected', '/properties/healthAlerts/lastDetected']
-            - !ruby/object:Api::Type::String
-              name: 'resolutionUri'
-              description: 'Health Alert TSG Link'
-              required: false
-              azure_sdk_references: ['/healthAlerts/resolutionUri', '/properties/healthAlerts/resolutionUri']
       - !ruby/object:Api::Type::Array
         name: 'domainControllerIpAddress'
         description: 'List of Domain Controller IP Address'

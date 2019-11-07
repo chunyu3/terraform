@@ -28,9 +28,9 @@ Manage Azure APIKey instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
 
-* `resource_name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `name` - (Optional) The name of the API Key. Changing this forces a new resource to be created.
 

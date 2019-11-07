@@ -31,6 +31,13 @@ func resourceArmVirtualNetworkLink() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmVirtualNetworkLink() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "private_zone_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "virtual_network_link_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -101,15 +101,15 @@ func resourceArmVirtualNetworkLinkCreate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).virtualNetworkLinksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     privateZoneName := d.Get("private_zone_name").(string)
-    virtualNetworkLinkName := d.Get("virtual_network_link_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName)
+        existing, err := client.Get(ctx, resourceGroup, privateZoneName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -134,21 +134,21 @@ func resourceArmVirtualNetworkLinkCreate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, privateZoneName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName)
+    resp, err := client.Get(ctx, resourceGroup, privateZoneName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q) ID", virtualNetworkLinkName, privateZoneName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network Link %q (Private Zone Name %q / Resource Group %q) ID", name, privateZoneName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -165,19 +165,20 @@ func resourceArmVirtualNetworkLinkRead(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     privateZoneName := id.Path["privateDnsZones"]
-    virtualNetworkLinkName := id.Path["virtualNetworkLinks"]
+    name := id.Path["virtualNetworkLinks"]
 
-    resp, err := client.Get(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName)
+    resp, err := client.Get(ctx, resourceGroup, privateZoneName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network Link %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -194,7 +195,6 @@ func resourceArmVirtualNetworkLinkRead(d *schema.ResourceData, meta interface{})
         d.Set("virtual_network_link_state", string(virtualNetworkLinkProperties.VirtualNetworkLinkState))
     }
     d.Set("type", resp.Type)
-    d.Set("virtual_network_link_name", virtualNetworkLinkName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -203,12 +203,12 @@ func resourceArmVirtualNetworkLinkUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).virtualNetworkLinksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     etag := d.Get("etag").(string)
     privateZoneName := d.Get("private_zone_name").(string)
     registrationEnabled := d.Get("registration_enabled").(bool)
     virtualNetwork := d.Get("virtual_network").([]interface{})
-    virtualNetworkLinkName := d.Get("virtual_network_link_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := privatedns.VirtualNetworkLink{
@@ -222,12 +222,12 @@ func resourceArmVirtualNetworkLinkUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName, parameters)
+    future, err := client.Update(ctx, resourceGroup, privateZoneName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error updating Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
 
     return resourceArmVirtualNetworkLinkRead(d, meta)
@@ -244,19 +244,19 @@ func resourceArmVirtualNetworkLinkDelete(d *schema.ResourceData, meta interface{
     }
     resourceGroup := id.ResourceGroup
     privateZoneName := id.Path["privateDnsZones"]
-    virtualNetworkLinkName := id.Path["virtualNetworkLinks"]
+    name := id.Path["virtualNetworkLinks"]
 
-    future, err := client.Delete(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName)
+    future, err := client.Delete(ctx, resourceGroup, privateZoneName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q): %+v", virtualNetworkLinkName, privateZoneName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network Link %q (Private Zone Name %q / Resource Group %q): %+v", name, privateZoneName, resourceGroup, err)
         }
     }
 

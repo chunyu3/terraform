@@ -34,16 +34,16 @@ func testCheckAzureRMSavedSearcheExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Saved Searche not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         savedSearchID := rs.Primary.Attributes["saved_search_id"]
-        workspaceName := rs.Primary.Attributes["workspace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).savedSearchesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, workspaceName, savedSearchID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, savedSearchID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q) does not exist", savedSearchID, workspaceName, resourceGroup)
+                return fmt.Errorf("Bad: Saved Searche %q (Saved Search %q / Resource Group %q) does not exist", name, savedSearchID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on savedSearchesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSavedSearcheDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         savedSearchID := rs.Primary.Attributes["saved_search_id"]
-        workspaceName := rs.Primary.Attributes["workspace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, workspaceName, savedSearchID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, savedSearchID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on savedSearchesClient: %+v", err)
             }

@@ -36,16 +36,16 @@ func resourceArmNotificationChannel() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "description": {
                 Type: schema.TypeString,
@@ -105,14 +105,14 @@ func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Notification Channel %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -139,17 +139,17 @@ func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, notificationChannel); err != nil {
-        return fmt.Errorf("Error creating Notification Channel %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, notificationChannel); err != nil {
+        return fmt.Errorf("Error creating Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Notification Channel %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Notification Channel %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Notification Channel %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -165,20 +165,21 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["notificationchannels"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Notification Channel %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Notification Channel %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -194,7 +195,6 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
         d.Set("unique_identifier", notificationChannelProperties.UniqueIdentifier)
         d.Set("web_hook_url", notificationChannelProperties.WebHookURL)
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -205,10 +205,10 @@ func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     events := d.Get("events").([]interface{})
-    labName := d.Get("lab_name").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
     webHookUrl := d.Get("web_hook_url").(string)
     t := d.Get("tags").(map[string]interface{})
@@ -225,8 +225,8 @@ func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, notificationChannel); err != nil {
-        return fmt.Errorf("Error updating Notification Channel %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, notificationChannel); err != nil {
+        return fmt.Errorf("Error updating Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmNotificationChannelRead(d, meta)
@@ -242,11 +242,11 @@ func resourceArmNotificationChannelDelete(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["notificationchannels"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, name); err != nil {
-        return fmt.Errorf("Error deleting Notification Channel %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
+        return fmt.Errorf("Error deleting Notification Channel %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

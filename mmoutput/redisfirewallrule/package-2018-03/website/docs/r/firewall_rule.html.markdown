@@ -28,13 +28,13 @@ Manage Azure FirewallRule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the firewall rule. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `cache_name` - (Required) The name of the Redis cache. Changing this forces a new resource to be created.
 
 * `end_ip` - (Required) highest IP address included in the range
-
-* `rule_name` - (Required) The name of the firewall rule. Changing this forces a new resource to be created.
 
 * `start_ip` - (Required) lowest IP address included in the range
 

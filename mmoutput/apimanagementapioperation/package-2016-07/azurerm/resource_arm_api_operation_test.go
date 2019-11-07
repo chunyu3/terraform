@@ -34,17 +34,17 @@ func testCheckAzureRMApiOperationExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Api Operation not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         operationID := rs.Primary.Attributes["operation_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiOperationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Operation (Operation %q / Api %q / Service Name %q / Resource Group %q) does not exist", operationID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Operation %q (Operation %q / Api %q / Resource Group %q) does not exist", name, operationID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiOperationsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMApiOperationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         operationID := rs.Primary.Attributes["operation_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiOperationsClient: %+v", err)
             }

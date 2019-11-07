@@ -28,11 +28,11 @@ Manage Azure SyncGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of Sync Group resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `storage_sync_service_name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
-
-* `sync_group_name` - (Required) Name of Sync Group resource. Changing this forces a new resource to be created.
 
 * `unique_id` - (Optional) Unique Id
 

@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageAccounts
-            go_variable_name: accountName
+            go_variable_name: name
             python_parameter_name: account_name
-            python_variable_name: account_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: AccountCreateParameters
@@ -149,9 +149,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageAccounts
-            go_variable_name: accountName
+            go_variable_name: name
             python_parameter_name: account_name
-            python_variable_name: account_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: AccountCreateParameters
@@ -268,9 +268,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageAccounts
-            go_variable_name: accountName
+            go_variable_name: name
             python_parameter_name: account_name
-            python_variable_name: account_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -295,7 +295,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'accountName'
+        name: 'name'
         description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.'
         required: true
         input: true
@@ -423,26 +423,6 @@ objects:
         output: true
         azure_sdk_references: ['/primaryEndpoints', '/properties/primaryEndpoints']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'blob'
-            description: 'Gets the blob endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/blob', '/properties/primaryEndpoints/blob']
-          - !ruby/object:Api::Type::String
-            name: 'queue'
-            description: 'Gets the queue endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/queue', '/properties/primaryEndpoints/queue']
-          - !ruby/object:Api::Type::String
-            name: 'table'
-            description: 'Gets the table endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/table', '/properties/primaryEndpoints/table']
-          - !ruby/object:Api::Type::String
-            name: 'file'
-            description: 'Gets the file endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/file', '/properties/primaryEndpoints/file']
       - !ruby/object:Api::Type::String
         name: 'primaryLocation'
         description: 'Gets the location of the primary data center for the storage account.'
@@ -485,26 +465,6 @@ objects:
         output: true
         azure_sdk_references: ['/secondaryEndpoints', '/properties/secondaryEndpoints']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'blob'
-            description: 'Gets the blob endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/blob', '/properties/secondaryEndpoints/blob']
-          - !ruby/object:Api::Type::String
-            name: 'queue'
-            description: 'Gets the queue endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/queue', '/properties/secondaryEndpoints/queue']
-          - !ruby/object:Api::Type::String
-            name: 'table'
-            description: 'Gets the table endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/table', '/properties/secondaryEndpoints/table']
-          - !ruby/object:Api::Type::String
-            name: 'file'
-            description: 'Gets the file endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/file', '/properties/secondaryEndpoints/file']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

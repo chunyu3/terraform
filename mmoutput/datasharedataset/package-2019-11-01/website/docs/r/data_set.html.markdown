@@ -28,11 +28,11 @@ Manage Azure DataSet instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the dataSet. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the share account. Changing this forces a new resource to be created.
-
-* `data_set_name` - (Required) The name of the dataSet. Changing this forces a new resource to be created.
 
 * `share_name` - (Required) The name of the share to add the data set to. Changing this forces a new resource to be created.
 

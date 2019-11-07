@@ -34,15 +34,15 @@ func testCheckAzureRMDashboardExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Dashboard not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        dashboardName := rs.Primary.Attributes["dashboard_name"]
 
         client := testAccProvider.Meta().(*ArmClient).dashboardsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, dashboardName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Dashboard (Dashboard Name %q / Resource Group %q) does not exist", dashboardName, resourceGroup)
+                return fmt.Errorf("Bad: Dashboard %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on dashboardsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMDashboardDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        dashboardName := rs.Primary.Attributes["dashboard_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, dashboardName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on dashboardsClient: %+v", err)
             }

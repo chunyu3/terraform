@@ -31,19 +31,19 @@ func resourceArmTopic() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "topic_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "endpoint": {
                 Type: schema.TypeString,
@@ -69,14 +69,14 @@ func resourceArmTopicCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).topicsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    topicName := d.Get("topic_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, topicName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -93,21 +93,21 @@ func resourceArmTopicCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, topicName, topicInfo)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, topicInfo)
     if err != nil {
-        return fmt.Errorf("Error creating Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+        return fmt.Errorf("Error creating Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, topicName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Topic (Topic Name %q / Resource Group %q) ID", topicName, resourceGroup)
+        return fmt.Errorf("Cannot read Topic %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -123,19 +123,20 @@ func resourceArmTopicRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    topicName := id.Path["topics"]
+    name := id.Path["topics"]
 
-    resp, err := client.Get(ctx, resourceGroup, topicName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Topic %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+        return fmt.Errorf("Error reading Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -145,7 +146,6 @@ func resourceArmTopicRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("endpoint", topicProperties.Endpoint)
         d.Set("provisioning_state", string(topicProperties.ProvisioningState))
     }
-    d.Set("topic_name", topicName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -162,19 +162,19 @@ func resourceArmTopicDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    topicName := id.Path["topics"]
+    name := id.Path["topics"]
 
-    future, err := client.Delete(ctx, resourceGroup, topicName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Topic (Topic Name %q / Resource Group %q): %+v", topicName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Topic %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

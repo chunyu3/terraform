@@ -36,16 +36,16 @@ func resourceArmUser() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "identity": {
                 Type: schema.TypeList,
@@ -125,14 +125,14 @@ func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing User %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -155,21 +155,21 @@ func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, user)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, user)
     if err != nil {
-        return fmt.Errorf("Error creating User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read User %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read User %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -185,20 +185,21 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["users"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] User %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -215,7 +216,6 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("unique_identifier", userProperties.UniqueIdentifier)
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -226,9 +226,9 @@ func resourceArmUserUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     identity := d.Get("identity").([]interface{})
-    labName := d.Get("lab_name").(string)
     secretStore := d.Get("secret_store").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -242,8 +242,8 @@ func resourceArmUserUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, user); err != nil {
-        return fmt.Errorf("Error updating User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, user); err != nil {
+        return fmt.Errorf("Error updating User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmUserRead(d, meta)
@@ -259,20 +259,20 @@ func resourceArmUserDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["users"]
 
-    future, err := client.Delete(ctx, resourceGroup, labName, name)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error deleting User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting User %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting User %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

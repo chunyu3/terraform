@@ -31,6 +31,13 @@ func resourceArmSecurityContact() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -58,13 +65,6 @@ func resourceArmSecurityContact() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "security_contact_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "phone": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -82,13 +82,13 @@ func resourceArmSecurityContactCreate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).securityContactsClient
     ctx := meta.(*ArmClient).StopContext
 
-    securityContactName := d.Get("security_contact_name").(string)
+    name := d.Get("name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, securityContactName)
+        existing, err := client.Get(ctx, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Security Contact (Security Contact Name %q): %+v", securityContactName, err)
+                return fmt.Errorf("Error checking for present of existing Security Contact %q: %+v", name, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -111,17 +111,17 @@ func resourceArmSecurityContactCreate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.Create(ctx, securityContactName, securityContact); err != nil {
-        return fmt.Errorf("Error creating Security Contact (Security Contact Name %q): %+v", securityContactName, err)
+    if _, err := client.Create(ctx, name, securityContact); err != nil {
+        return fmt.Errorf("Error creating Security Contact %q: %+v", name, err)
     }
 
 
-    resp, err := client.Get(ctx, securityContactName)
+    resp, err := client.Get(ctx, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Security Contact (Security Contact Name %q): %+v", securityContactName, err)
+        return fmt.Errorf("Error retrieving Security Contact %q: %+v", name, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Security Contact (Security Contact Name %q) ID", securityContactName)
+        return fmt.Errorf("Cannot read Security Contact %q ID", name)
     }
     d.SetId(*resp.ID)
 
@@ -136,19 +136,20 @@ func resourceArmSecurityContactRead(d *schema.ResourceData, meta interface{}) er
     if err != nil {
         return err
     }
-    securityContactName := id.Path["securityContacts"]
+    name := id.Path["securityContacts"]
 
-    resp, err := client.Get(ctx, securityContactName)
+    resp, err := client.Get(ctx, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Security Contact %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Security Contact (Security Contact Name %q): %+v", securityContactName, err)
+        return fmt.Errorf("Error reading Security Contact %q: %+v", name, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     if securityContactProperties := resp.SecurityContactProperties; securityContactProperties != nil {
         d.Set("alert_notifications", string(securityContactProperties.AlertNotifications))
@@ -156,7 +157,6 @@ func resourceArmSecurityContactRead(d *schema.ResourceData, meta interface{}) er
         d.Set("email", securityContactProperties.Email)
         d.Set("phone", securityContactProperties.Phone)
     }
-    d.Set("security_contact_name", securityContactName)
     d.Set("type", resp.Type)
 
     return nil
@@ -166,11 +166,11 @@ func resourceArmSecurityContactUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).securityContactsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     alertNotifications := d.Get("alert_notifications").(string)
     alertsToAdmins := d.Get("alerts_to_admins").(string)
     email := d.Get("email").(string)
     phone := d.Get("phone").(string)
-    securityContactName := d.Get("security_contact_name").(string)
 
     securityContact := securitycenter.SecurityContact{
         SecurityContactProperties: &securitycenter.SecurityContactProperties{
@@ -182,8 +182,8 @@ func resourceArmSecurityContactUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.Update(ctx, securityContactName, securityContact); err != nil {
-        return fmt.Errorf("Error updating Security Contact (Security Contact Name %q): %+v", securityContactName, err)
+    if _, err := client.Update(ctx, name, securityContact); err != nil {
+        return fmt.Errorf("Error updating Security Contact %q: %+v", name, err)
     }
 
     return resourceArmSecurityContactRead(d, meta)
@@ -198,10 +198,10 @@ func resourceArmSecurityContactDelete(d *schema.ResourceData, meta interface{}) 
     if err != nil {
         return err
     }
-    securityContactName := id.Path["securityContacts"]
+    name := id.Path["securityContacts"]
 
-    if _, err := client.Delete(ctx, securityContactName); err != nil {
-        return fmt.Errorf("Error deleting Security Contact (Security Contact Name %q): %+v", securityContactName, err)
+    if _, err := client.Delete(ctx, name); err != nil {
+        return fmt.Errorf("Error deleting Security Contact %q: %+v", name, err)
     }
 
     return nil

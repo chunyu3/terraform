@@ -28,9 +28,9 @@ Manage Azure Cluster instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The resource group name of the Log Analytics cluster. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Log Analytics cluster. Changing this forces a new resource to be created.
 
-* `cluster_name` - (Required) The name of the Log Analytics cluster. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The resource group name of the Log Analytics cluster. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location Changing this forces a new resource to be created.
 

@@ -34,16 +34,16 @@ func testCheckAzureRMRedisFirewallRuleExists(resourceName string) resource.TestC
             return fmt.Errorf("Redis Firewall Rule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         cacheName := rs.Primary.Attributes["cache_name"]
-        ruleName := rs.Primary.Attributes["rule_name"]
 
         client := testAccProvider.Meta().(*ArmClient).redisFirewallRuleClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, cacheName, ruleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, cacheName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Redis Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q) does not exist", ruleName, cacheName, resourceGroup)
+                return fmt.Errorf("Bad: Redis Firewall Rule %q (Cache Name %q / Resource Group %q) does not exist", name, cacheName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on redisFirewallRuleClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMRedisFirewallRuleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         cacheName := rs.Primary.Attributes["cache_name"]
-        ruleName := rs.Primary.Attributes["rule_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, cacheName, ruleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, cacheName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on redisFirewallRuleClient: %+v", err)
             }

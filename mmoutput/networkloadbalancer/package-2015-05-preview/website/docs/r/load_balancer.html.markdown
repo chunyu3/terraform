@@ -28,11 +28,11 @@ Manage Azure LoadBalancer instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the loadBalancer. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `load_balancer_name` - (Required) The name of the loadBalancer. Changing this forces a new resource to be created.
 
 * `backend_address_pools` - (Optional) One or more `backend_address_pool` block defined below.
 

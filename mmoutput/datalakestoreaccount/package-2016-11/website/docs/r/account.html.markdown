@@ -28,11 +28,11 @@ Manage Azure Account instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Data Lake Store account. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) The resource location. Changing this forces a new resource to be created.
-
-* `account_name` - (Required) The name of the Data Lake Store account. Changing this forces a new resource to be created.
 
 * `default_group` - (Optional) The default owner group for all new folders and files created in the Data Lake Store account.
 

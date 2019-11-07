@@ -34,16 +34,16 @@ func testCheckAzureRMTransactionNodeExists(resourceName string) resource.TestChe
             return fmt.Errorf("Transaction Node not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         blockchainMemberName := rs.Primary.Attributes["blockchain_member_name"]
-        transactionNodeName := rs.Primary.Attributes["transaction_node_name"]
 
         client := testAccProvider.Meta().(*ArmClient).transactionNodesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, blockchainMemberName, transactionNodeName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, blockchainMemberName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q) does not exist", resourceGroup, transactionNodeName, blockchainMemberName)
+                return fmt.Errorf("Bad: Transaction Node %q (Resource Group %q / Blockchain Member Name %q) does not exist", name, resourceGroup, blockchainMemberName)
             }
             return fmt.Errorf("Bad: Get on transactionNodesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMTransactionNodeDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         blockchainMemberName := rs.Primary.Attributes["blockchain_member_name"]
-        transactionNodeName := rs.Primary.Attributes["transaction_node_name"]
 
-        if resp, err := client.Get(ctx, blockchainMemberName, transactionNodeName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, blockchainMemberName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on transactionNodesClient: %+v", err)
             }

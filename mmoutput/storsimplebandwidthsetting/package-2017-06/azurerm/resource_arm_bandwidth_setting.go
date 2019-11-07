@@ -31,19 +31,19 @@ func resourceArmBandwidthSetting() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "bandwidth_setting_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -148,15 +148,15 @@ func resourceArmBandwidthSettingCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).bandwidthSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     bandwidthSettingName := d.Get("bandwidth_setting_name").(string)
-    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, bandwidthSettingName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, bandwidthSettingName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+                return fmt.Errorf("Error checking for present of existing Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -175,21 +175,21 @@ func resourceArmBandwidthSettingCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, bandwidthSettingName, resourceGroup, managerName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, bandwidthSettingName, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+        return fmt.Errorf("Error creating Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+        return fmt.Errorf("Error waiting for creation of Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
     }
 
 
-    resp, err := client.Get(ctx, bandwidthSettingName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, bandwidthSettingName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+        return fmt.Errorf("Error retrieving Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q) ID", managerName, resourceGroup, bandwidthSettingName)
+        return fmt.Errorf("Cannot read Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q) ID", name, resourceGroup, bandwidthSettingName)
     }
     d.SetId(*resp.ID)
 
@@ -204,26 +204,26 @@ func resourceArmBandwidthSettingRead(d *schema.ResourceData, meta interface{}) e
     if err != nil {
         return err
     }
-    bandwidthSettingName := id.Path["bandwidthSettings"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    bandwidthSettingName := id.Path["bandwidthSettings"]
 
-    resp, err := client.Get(ctx, bandwidthSettingName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, bandwidthSettingName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Bandwidth Setting %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+        return fmt.Errorf("Error reading Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("bandwidth_setting_name", bandwidthSettingName)
     d.Set("kind", string(resp.Kind))
-    d.Set("manager_name", managerName)
     if bandwidthRateSettingProperties := resp.BandwidthRateSettingProperties; bandwidthRateSettingProperties != nil {
         if err := d.Set("schedules", flattenArmBandwidthSettingBandwidthSchedule(bandwidthRateSettingProperties.Schedules)); err != nil {
             return fmt.Errorf("Error setting `schedules`: %+v", err)
@@ -245,21 +245,21 @@ func resourceArmBandwidthSettingDelete(d *schema.ResourceData, meta interface{})
     if err != nil {
         return err
     }
-    bandwidthSettingName := id.Path["bandwidthSettings"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    bandwidthSettingName := id.Path["bandwidthSettings"]
 
-    future, err := client.Delete(ctx, bandwidthSettingName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, bandwidthSettingName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+        return fmt.Errorf("Error deleting Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q): %+v", managerName, resourceGroup, bandwidthSettingName, err)
+            return fmt.Errorf("Error waiting for deleting Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q): %+v", name, resourceGroup, bandwidthSettingName, err)
         }
     }
 

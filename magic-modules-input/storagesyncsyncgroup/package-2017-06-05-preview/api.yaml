@@ -34,9 +34,9 @@ objects:
             python_variable_name: storage_sync_service_name
           'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: syncGroups
-            go_variable_name: syncGroupName
+            go_variable_name: name
             python_parameter_name: sync_group_name
-            python_variable_name: sync_group_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: SyncGroup
@@ -68,9 +68,9 @@ objects:
             python_variable_name: storage_sync_service_name
           'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: syncGroups
-            go_variable_name: syncGroupName
+            go_variable_name: name
             python_parameter_name: sync_group_name
-            python_variable_name: sync_group_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -87,9 +87,9 @@ objects:
             python_variable_name: storage_sync_service_name
           'syncGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: syncGroups
-            go_variable_name: syncGroupName
+            go_variable_name: name
             python_parameter_name: sync_group_name
-            python_variable_name: sync_group_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -147,7 +147,7 @@ objects:
         input: true
         azure_sdk_references: ['storageSyncServiceName']
       - !ruby/object:Api::Type::String
-        name: 'syncGroupName'
+        name: 'name'
         description: 'Name of Sync Group resource.'
         required: true
         input: true

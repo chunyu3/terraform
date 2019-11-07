@@ -34,16 +34,16 @@ func testCheckAzureRMStreamingPolicyExists(resourceName string) resource.TestChe
             return fmt.Errorf("Streaming Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        streamingPolicyName := rs.Primary.Attributes["streaming_policy_name"]
 
         client := testAccProvider.Meta().(*ArmClient).streamingPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, streamingPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q) does not exist", streamingPolicyName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Streaming Policy %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on streamingPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStreamingPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        streamingPolicyName := rs.Primary.Attributes["streaming_policy_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, streamingPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on streamingPoliciesClient: %+v", err)
             }

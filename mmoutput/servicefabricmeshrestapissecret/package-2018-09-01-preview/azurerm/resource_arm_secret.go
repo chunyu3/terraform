@@ -31,19 +31,19 @@ func resourceArmSecret() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "secret_resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "content_type": {
                 Type: schema.TypeString,
@@ -84,14 +84,14 @@ func resourceArmSecretCreateUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).secretClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    secretResourceName := d.Get("secret_resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, secretResourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Secret (Secret Resource Name %q / Resource Group %q): %+v", secretResourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Secret %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -114,17 +114,17 @@ func resourceArmSecretCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, secretResourceName, secretResourceDescription); err != nil {
-        return fmt.Errorf("Error creating Secret (Secret Resource Name %q / Resource Group %q): %+v", secretResourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, secretResourceDescription); err != nil {
+        return fmt.Errorf("Error creating Secret %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, secretResourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Secret (Secret Resource Name %q / Resource Group %q): %+v", secretResourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Secret %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Secret (Secret Resource Name %q / Resource Group %q) ID", secretResourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Secret %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -140,19 +140,20 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    secretResourceName := id.Path["secrets"]
+    name := id.Path["secrets"]
 
-    resp, err := client.Get(ctx, resourceGroup, secretResourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Secret %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Secret (Secret Resource Name %q / Resource Group %q): %+v", secretResourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Secret %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -165,7 +166,6 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("status", string(secretResourceProperties.Status))
         d.Set("status_details", secretResourceProperties.StatusDetails)
     }
-    d.Set("secret_resource_name", secretResourceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -182,10 +182,10 @@ func resourceArmSecretDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    secretResourceName := id.Path["secrets"]
+    name := id.Path["secrets"]
 
-    if _, err := client.Delete(ctx, resourceGroup, secretResourceName); err != nil {
-        return fmt.Errorf("Error deleting Secret (Secret Resource Name %q / Resource Group %q): %+v", secretResourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Secret %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

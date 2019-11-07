@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: products
             go_variable_name: productID
@@ -53,9 +53,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: products
             go_variable_name: productID
@@ -77,9 +77,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: products
             go_variable_name: productID
@@ -96,7 +96,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'serviceName'
+        name: 'name'
         description: 'The name of the API Management service.'
         required: true
         input: true
@@ -113,189 +113,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['apiId']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Description of the API. May include HTML formatting tags.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'authenticationSettings'
-        description: 'Collection of authentication settings included into this API.'
-        required: false
-        azure_sdk_references: ['/authenticationSettings', '/properties/authenticationSettings']
-        properties:
-          - !ruby/object:Api::Type::NestedObject
-            name: 'oAuth2'
-            description: 'OAuth2 Authentication settings'
-            required: false
-            azure_sdk_references: ['/authenticationSettings/oAuth2', '/properties/authenticationSettings/oAuth2']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'authorizationServerId'
-                description: 'OAuth authorization server identifier.'
-                required: false
-                azure_sdk_references: ['/authenticationSettings/oAuth2/authorizationServerId', '/properties/authenticationSettings/oAuth2/authorizationServerId']
-              - !ruby/object:Api::Type::String
-                name: 'scope'
-                description: 'operations scope.'
-                required: false
-                azure_sdk_references: ['/authenticationSettings/oAuth2/scope', '/properties/authenticationSettings/oAuth2/scope']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'openid'
-            description: 'OpenID Connect Authentication Settings'
-            required: false
-            azure_sdk_references: ['/authenticationSettings/openid', '/properties/authenticationSettings/openid']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'openidProviderId'
-                description: 'OAuth authorization server identifier.'
-                required: false
-                azure_sdk_references: ['/authenticationSettings/openid/openidProviderId', '/properties/authenticationSettings/openid/openidProviderId']
-              - !ruby/object:Api::Type::Array
-                name: 'bearerTokenSendingMethods'
-                description: 'How to send token to the server.'
-                required: false
-                azure_sdk_references: ['/authenticationSettings/openid/bearerTokenSendingMethods', '/properties/authenticationSettings/openid/bearerTokenSendingMethods']
-                item_type: !ruby/object:Api::Type::Enum
-                  name: 'TBD'
-                  description: 'TBD'
-                  values:
-                    - :authorizationHeader
-                    - :query
-                  default_value: :authorizationHeader
-          - !ruby/object:Api::Type::Boolean
-            name: 'subscriptionKeyRequired'
-            description: 'Specifies whether subscription key is required during call to this API, true - API is included into closed products only, false - API is included into open products alone, null - there is a mix of products.'
-            required: false
-            azure_sdk_references: ['/authenticationSettings/subscriptionKeyRequired', '/properties/authenticationSettings/subscriptionKeyRequired']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'subscriptionKeyParameterNames'
-        description: 'Protocols over which API is made available.'
-        required: false
-        azure_sdk_references: ['/subscriptionKeyParameterNames', '/properties/subscriptionKeyParameterNames']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'header'
-            description: 'Subscription key header name.'
-            required: false
-            azure_sdk_references: ['/subscriptionKeyParameterNames/header', '/properties/subscriptionKeyParameterNames/header']
-          - !ruby/object:Api::Type::String
-            name: 'query'
-            description: 'Subscription key query string parameter name.'
-            required: false
-            azure_sdk_references: ['/subscriptionKeyParameterNames/query', '/properties/subscriptionKeyParameterNames/query']
-      - !ruby/object:Api::Type::Enum
-        name: 'type'
-        description: 'Type of API.'
-        required: false
-        azure_sdk_references: ['/type', '/properties/type']
-        values:
-          - :http
-          - :soap
-        default_value: :http
-      - !ruby/object:Api::Type::String
-        name: 'apiRevision'
-        description: 'Describes the Revision of the Api. If no value is provided, default revision 1 is created'
-        required: false
-        azure_sdk_references: ['/apiRevision', '/properties/apiRevision']
-      - !ruby/object:Api::Type::String
-        name: 'apiVersion'
-        description: 'Indicates the Version identifier of the API if the API is versioned'
-        required: false
-        azure_sdk_references: ['/apiVersion', '/properties/apiVersion']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isCurrent'
-        description: 'Indicates if API revision is current api revision.'
-        required: false
-        azure_sdk_references: ['/isCurrent', '/properties/isCurrent']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isOnline'
-        description: 'Indicates if API revision is accessible via the gateway.'
-        required: false
-        azure_sdk_references: ['/isOnline', '/properties/isOnline']
-      - !ruby/object:Api::Type::String
-        name: 'apiRevisionDescription'
-        description: 'Description of the Api Revision.'
-        required: false
-        azure_sdk_references: ['/apiRevisionDescription', '/properties/apiRevisionDescription']
-      - !ruby/object:Api::Type::String
-        name: 'apiVersionDescription'
-        description: 'Description of the Api Version.'
-        required: false
-        azure_sdk_references: ['/apiVersionDescription', '/properties/apiVersionDescription']
-      - !ruby/object:Api::Type::String
-        name: 'apiVersionSetId'
-        description: 'A resource identifier for the related ApiVersionSet.'
-        required: false
-        azure_sdk_references: ['/apiVersionSetId', '/properties/apiVersionSetId']
-      - !ruby/object:Api::Type::Boolean
-        name: 'subscriptionRequired'
-        description: 'Specifies whether an API or Product subscription is required for accessing the API.'
-        required: false
-        azure_sdk_references: ['/subscriptionRequired', '/properties/subscriptionRequired']
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'API name.'
-        required: false
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'serviceUrl'
-        description: 'Absolute URL of the backend service implementing this API.'
-        required: false
-        azure_sdk_references: ['/serviceUrl', '/properties/serviceUrl']
-      - !ruby/object:Api::Type::String
-        name: 'path'
-        description: 'Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.'
-        required: true
-        azure_sdk_references: ['/path', '/properties/path']
-      - !ruby/object:Api::Type::Array
-        name: 'protocols'
-        description: 'Describes on which protocols the operations in this API can be invoked.'
-        required: false
-        azure_sdk_references: ['/protocols', '/properties/protocols']
-        item_type: !ruby/object:Api::Type::Enum
-          name: 'TBD'
-          description: 'TBD'
-          values:
-            - :http
-            - :https
-          default_value: :http
-      - !ruby/object:Api::Type::NestedObject
-        name: 'apiVersionSet'
-        description: ''
-        required: false
-        azure_sdk_references: ['/apiVersionSet', '/properties/apiVersionSet']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'Identifier for existing API Version Set. Omit this value to create a new Version Set.'
-            required: false
-            azure_sdk_references: ['/apiVersionSet/id', '/properties/apiVersionSet/id']
-          - !ruby/object:Api::Type::String
-            name: 'description'
-            description: 'Description of API Version Set.'
-            required: false
-            azure_sdk_references: ['/apiVersionSet/description', '/properties/apiVersionSet/description']
-          - !ruby/object:Api::Type::Enum
-            name: 'versioningScheme'
-            description: 'An value that determines where the API Version identifer will be located in a HTTP request.'
-            required: false
-            azure_sdk_references: ['/apiVersionSet/versioningScheme', '/properties/apiVersionSet/versioningScheme']
-            values:
-              - :Segment
-              - :Query
-              - :Header
-            default_value: :Segment
-          - !ruby/object:Api::Type::String
-            name: 'versionQueryName'
-            description: 'Name of query parameter that indicates the API Version if versioningScheme is set to `query`.'
-            required: false
-            azure_sdk_references: ['/apiVersionSet/versionQueryName', '/properties/apiVersionSet/versionQueryName']
-          - !ruby/object:Api::Type::String
-            name: 'versionHeaderName'
-            description: 'Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.'
-            required: false
-            azure_sdk_references: ['/apiVersionSet/versionHeaderName', '/properties/apiVersionSet/versionHeaderName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -312,3 +129,100 @@ objects:
         description: 'Resource type for API Management resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description of the API. May include HTML formatting tags.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'authenticationSettings'
+        description: 'Collection of authentication settings included into this API.'
+        output: true
+        azure_sdk_references: ['/authenticationSettings', '/properties/authenticationSettings']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'subscriptionKeyParameterNames'
+        description: 'Protocols over which API is made available.'
+        output: true
+        azure_sdk_references: ['/subscriptionKeyParameterNames', '/properties/subscriptionKeyParameterNames']
+        properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'type'
+        description: 'Type of API.'
+        output: true
+        azure_sdk_references: ['/type', '/properties/type']
+        values:
+          - :http
+          - :soap
+      - !ruby/object:Api::Type::String
+        name: 'apiRevision'
+        description: 'Describes the Revision of the Api. If no value is provided, default revision 1 is created'
+        output: true
+        azure_sdk_references: ['/apiRevision', '/properties/apiRevision']
+      - !ruby/object:Api::Type::String
+        name: 'apiVersion'
+        description: 'Indicates the Version identifier of the API if the API is versioned'
+        output: true
+        azure_sdk_references: ['/apiVersion', '/properties/apiVersion']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isCurrent'
+        description: 'Indicates if API revision is current api revision.'
+        output: true
+        azure_sdk_references: ['/isCurrent', '/properties/isCurrent']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isOnline'
+        description: 'Indicates if API revision is accessible via the gateway.'
+        output: true
+        azure_sdk_references: ['/isOnline', '/properties/isOnline']
+      - !ruby/object:Api::Type::String
+        name: 'apiRevisionDescription'
+        description: 'Description of the Api Revision.'
+        output: true
+        azure_sdk_references: ['/apiRevisionDescription', '/properties/apiRevisionDescription']
+      - !ruby/object:Api::Type::String
+        name: 'apiVersionDescription'
+        description: 'Description of the Api Version.'
+        output: true
+        azure_sdk_references: ['/apiVersionDescription', '/properties/apiVersionDescription']
+      - !ruby/object:Api::Type::String
+        name: 'apiVersionSetId'
+        description: 'A resource identifier for the related ApiVersionSet.'
+        output: true
+        azure_sdk_references: ['/apiVersionSetId', '/properties/apiVersionSetId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'subscriptionRequired'
+        description: 'Specifies whether an API or Product subscription is required for accessing the API.'
+        output: true
+        azure_sdk_references: ['/subscriptionRequired', '/properties/subscriptionRequired']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'API name.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceUrl'
+        description: 'Absolute URL of the backend service implementing this API.'
+        output: true
+        azure_sdk_references: ['/serviceUrl', '/properties/serviceUrl']
+      - !ruby/object:Api::Type::String
+        name: 'path'
+        description: 'Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.'
+        output: true
+        azure_sdk_references: ['/path', '/properties/path']
+      - !ruby/object:Api::Type::Array
+        name: 'protocols'
+        description: 'Describes on which protocols the operations in this API can be invoked.'
+        output: true
+        azure_sdk_references: ['/protocols', '/properties/protocols']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :http
+            - :https
+      - !ruby/object:Api::Type::NestedObject
+        name: 'apiVersionSet'
+        description: ''
+        output: true
+        azure_sdk_references: ['/apiVersionSet', '/properties/apiVersionSet']
+        properties:

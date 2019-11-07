@@ -34,16 +34,16 @@ func testCheckAzureRMWatcherExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Watcher not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        watcherName := rs.Primary.Attributes["watcher_name"]
 
         client := testAccProvider.Meta().(*ArmClient).watcherClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, watcherName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q) does not exist", watcherName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Watcher %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on watcherClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMWatcherDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        watcherName := rs.Primary.Attributes["watcher_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, watcherName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on watcherClient: %+v", err)
             }

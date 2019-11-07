@@ -28,11 +28,11 @@ Manage Azure PrivateEndpointConnection instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the private endpoint connection. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) Cosmos DB database account name. Changing this forces a new resource to be created.
-
-* `private_endpoint_connection_name` - (Required) The name of the private endpoint connection. Changing this forces a new resource to be created.
 
 * `private_endpoint` - (Optional) One `private_endpoint` block defined below.
 

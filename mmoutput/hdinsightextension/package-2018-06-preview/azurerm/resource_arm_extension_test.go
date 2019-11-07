@@ -34,16 +34,16 @@ func testCheckAzureRMExtensionExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Extension not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         clusterName := rs.Primary.Attributes["cluster_name"]
-        extensionName := rs.Primary.Attributes["extension_name"]
 
         client := testAccProvider.Meta().(*ArmClient).extensionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, extensionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Extension (Extension Name %q / Cluster Name %q / Resource Group %q) does not exist", extensionName, clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Extension %q (Cluster Name %q / Resource Group %q) does not exist", name, clusterName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on extensionsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMExtensionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         clusterName := rs.Primary.Attributes["cluster_name"]
-        extensionName := rs.Primary.Attributes["extension_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, extensionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on extensionsClient: %+v", err)
             }

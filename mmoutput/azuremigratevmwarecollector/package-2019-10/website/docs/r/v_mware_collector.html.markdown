@@ -28,11 +28,11 @@ Manage Azure VMwareCollector instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Unique name of a VMware collector within a project. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
 
 * `project_name` - (Required) Name of the Azure Migrate project. Changing this forces a new resource to be created.
-
-* `vm_ware_collector_name` - (Required) Unique name of a VMware collector within a project. Changing this forces a new resource to be created.
 
 * `agent_properties` - (Optional) One `agent_property` block defined below.
 

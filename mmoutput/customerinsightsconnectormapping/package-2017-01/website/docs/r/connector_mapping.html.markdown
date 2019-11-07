@@ -28,6 +28,8 @@ Manage Azure ConnectorMapping instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the connector mapping. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `connector_name` - (Required) The name of the connector. Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `entity_type_name` - (Required) The mapping entity name.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
-
-* `mapping_name` - (Required) The name of the connector mapping. Changing this forces a new resource to be created.
 
 * `mapping_properties` - (Required) One `mapping_property` block defined below.
 

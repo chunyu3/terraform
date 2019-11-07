@@ -34,15 +34,15 @@ func testCheckAzureRMRegistrationExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Registration not found: %s", resourceName)
         }
 
-        registrationName := rs.Primary.Attributes["registration_name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
 
         client := testAccProvider.Meta().(*ArmClient).registrationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, registrationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Registration (Registration Name %q / Resource Group %q) does not exist", registrationName, resourceGroup)
+                return fmt.Errorf("Bad: Registration %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on registrationsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMRegistrationDestroy(s *terraform.State) error {
             continue
         }
 
-        registrationName := rs.Primary.Attributes["registration_name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
 
-        if resp, err := client.Get(ctx, resourceGroup, registrationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on registrationsClient: %+v", err)
             }

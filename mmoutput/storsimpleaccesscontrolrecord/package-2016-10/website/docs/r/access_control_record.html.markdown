@@ -28,13 +28,13 @@ Manage Azure AccessControlRecord instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `access_control_record_name` - (Required) The name of the access control record. Changing this forces a new resource to be created.
 
 * `initiator_name` - (Required) The Iscsi initiator name (IQN)
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

@@ -28,11 +28,11 @@ Manage Azure StorageTarget instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the Storage Target. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Target resource group. Changing this forces a new resource to be created.
 
 * `cache_name` - (Required) Name of Cache. Changing this forces a new resource to be created.
-
-* `storage_target_name` - (Required) Name of the Storage Target. Changing this forces a new resource to be created.
 
 * `clfs` - (Optional) One `clf` block defined below.
 

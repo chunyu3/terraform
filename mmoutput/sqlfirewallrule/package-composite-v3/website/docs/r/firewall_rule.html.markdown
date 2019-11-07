@@ -28,11 +28,11 @@ Manage Azure FirewallRule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the firewall rule. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `end_ip_address` - (Required) The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress. Use value '0.0.0.0' to represent all Azure-internal IP addresses.
-
-* `firewall_rule_name` - (Required) The name of the firewall rule. Changing this forces a new resource to be created.
 
 * `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
 

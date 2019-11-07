@@ -31,19 +31,19 @@ func resourceArmMediaservice() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "storage_accounts": {
                 Type: schema.TypeList,
@@ -85,14 +85,14 @@ func resourceArmMediaserviceCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).mediaservicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    accountName := d.Get("account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Mediaservice (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Mediaservice %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -113,17 +113,17 @@ func resourceArmMediaserviceCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, parameters); err != nil {
-        return fmt.Errorf("Error creating Mediaservice (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Mediaservice %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Mediaservice (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Mediaservice %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Mediaservice (Account Name %q / Resource Group %q) ID", accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Mediaservice %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -139,25 +139,25 @@ func resourceArmMediaserviceRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    accountName := id.Path["mediaservices"]
+    name := id.Path["mediaservices"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Mediaservice %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Mediaservice (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Mediaservice %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("account_name", accountName)
     if mediaServiceProperties := resp.MediaServiceProperties; mediaServiceProperties != nil {
         d.Set("media_service_id", mediaServiceProperties.MediaServiceID)
         if err := d.Set("storage_accounts", flattenArmMediaserviceStorageAccount(mediaServiceProperties.StorageAccounts)); err != nil {
@@ -173,8 +173,8 @@ func resourceArmMediaserviceUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).mediaservicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    accountName := d.Get("account_name").(string)
     storageAccounts := d.Get("storage_accounts").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -187,8 +187,8 @@ func resourceArmMediaserviceUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, parameters); err != nil {
-        return fmt.Errorf("Error updating Mediaservice (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Mediaservice %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmMediaserviceRead(d, meta)
@@ -204,10 +204,10 @@ func resourceArmMediaserviceDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    accountName := id.Path["mediaservices"]
+    name := id.Path["mediaservices"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName); err != nil {
-        return fmt.Errorf("Error deleting Mediaservice (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Mediaservice %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

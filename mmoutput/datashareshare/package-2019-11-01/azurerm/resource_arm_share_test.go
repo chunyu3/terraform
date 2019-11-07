@@ -34,16 +34,16 @@ func testCheckAzureRMShareExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Share not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        shareName := rs.Primary.Attributes["share_name"]
 
         client := testAccProvider.Meta().(*ArmClient).sharesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Share (Share Name %q / Account Name %q / Resource Group %q) does not exist", shareName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Share %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on sharesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMShareDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        shareName := rs.Primary.Attributes["share_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on sharesClient: %+v", err)
             }

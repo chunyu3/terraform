@@ -34,16 +34,16 @@ func testCheckAzureRMAttachedDatabaseConfigurationExists(resourceName string) re
             return fmt.Errorf("Attached Database Configuration not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        attachedDatabaseConfigurationName := rs.Primary.Attributes["attached_database_configuration_name"]
         clusterName := rs.Primary.Attributes["cluster_name"]
 
         client := testAccProvider.Meta().(*ArmClient).attachedDatabaseConfigurationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q) does not exist", attachedDatabaseConfigurationName, clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Attached Database Configuration %q (Cluster Name %q / Resource Group %q) does not exist", name, clusterName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on attachedDatabaseConfigurationsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAttachedDatabaseConfigurationDestroy(s *terraform.State) er
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        attachedDatabaseConfigurationName := rs.Primary.Attributes["attached_database_configuration_name"]
         clusterName := rs.Primary.Attributes["cluster_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on attachedDatabaseConfigurationsClient: %+v", err)
             }

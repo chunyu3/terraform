@@ -28,11 +28,11 @@ Manage Azure ContentKeyPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Content Key Policy name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
-
-* `content_key_policy_name` - (Required) The Content Key Policy name. Changing this forces a new resource to be created.
 
 * `options` - (Required) One or more `option` block defined below.
 

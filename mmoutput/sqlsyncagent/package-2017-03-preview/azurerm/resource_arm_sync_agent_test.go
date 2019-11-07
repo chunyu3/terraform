@@ -34,16 +34,16 @@ func testCheckAzureRMSyncAgentExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Sync Agent not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serverName := rs.Primary.Attributes["server_name"]
-        syncAgentName := rs.Primary.Attributes["sync_agent_name"]
 
         client := testAccProvider.Meta().(*ArmClient).syncAgentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, syncAgentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q) does not exist", syncAgentName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Sync Agent %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on syncAgentsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSyncAgentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serverName := rs.Primary.Attributes["server_name"]
-        syncAgentName := rs.Primary.Attributes["sync_agent_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, syncAgentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on syncAgentsClient: %+v", err)
             }

@@ -28,9 +28,9 @@ Manage Azure StorageSyncService instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
 
-* `storage_sync_service_name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 

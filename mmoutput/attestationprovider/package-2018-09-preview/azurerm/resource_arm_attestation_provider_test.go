@@ -34,15 +34,15 @@ func testCheckAzureRMAttestationProviderExists(resourceName string) resource.Tes
             return fmt.Errorf("Attestation Provider not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        providerName := rs.Primary.Attributes["provider_name"]
 
         client := testAccProvider.Meta().(*ArmClient).attestationProvidersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, providerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Attestation Provider (Provider Name %q / Resource Group %q) does not exist", providerName, resourceGroup)
+                return fmt.Errorf("Bad: Attestation Provider %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on attestationProvidersClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMAttestationProviderDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        providerName := rs.Primary.Attributes["provider_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, providerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on attestationProvidersClient: %+v", err)
             }

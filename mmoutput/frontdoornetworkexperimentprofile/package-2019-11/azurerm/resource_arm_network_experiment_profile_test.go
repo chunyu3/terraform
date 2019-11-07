@@ -34,15 +34,15 @@ func testCheckAzureRMNetworkExperimentProfileExists(resourceName string) resourc
             return fmt.Errorf("Network Experiment Profile not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        profileName := rs.Primary.Attributes["profile_name"]
 
         client := testAccProvider.Meta().(*ArmClient).networkExperimentProfilesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Network Experiment Profile (Resource Group %q / Profile Name %q) does not exist", resourceGroup, profileName)
+                return fmt.Errorf("Bad: Network Experiment Profile %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on networkExperimentProfilesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMNetworkExperimentProfileDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        profileName := rs.Primary.Attributes["profile_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on networkExperimentProfilesClient: %+v", err)
             }

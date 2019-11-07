@@ -34,15 +34,15 @@ func testCheckAzureRMIotDpsResourceExists(resourceName string) resource.TestChec
             return fmt.Errorf("Iot Dps Resource not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        provisioningServiceName := rs.Primary.Attributes["provisioning_service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).iotDpsResourceClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, provisioningServiceName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Iot Dps Resource (Provisioning Service Name %q / Resource Group %q) does not exist", provisioningServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Iot Dps Resource %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on iotDpsResourceClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMIotDpsResourceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        provisioningServiceName := rs.Primary.Attributes["provisioning_service_name"]
 
-        if resp, err := client.Get(ctx, provisioningServiceName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on iotDpsResourceClient: %+v", err)
             }

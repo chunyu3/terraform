@@ -28,11 +28,11 @@ Manage Azure WorkspaceSetting instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the security setting Changing this forces a new resource to be created.
+
 * `scope` - (Required) All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope
 
 * `workspace_id` - (Required) The full Azure ID of the workspace to save the data in
-
-* `workspace_setting_name` - (Required) Name of the security setting Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

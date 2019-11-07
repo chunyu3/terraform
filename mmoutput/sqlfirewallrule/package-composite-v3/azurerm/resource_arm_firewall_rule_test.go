@@ -34,16 +34,16 @@ func testCheckAzureRMFirewallRuleExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Firewall Rule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        firewallRuleName := rs.Primary.Attributes["firewall_rule_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).firewallRulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, firewallRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q) does not exist", firewallRuleName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Firewall Rule %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on firewallRulesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMFirewallRuleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        firewallRuleName := rs.Primary.Attributes["firewall_rule_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, firewallRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on firewallRulesClient: %+v", err)
             }

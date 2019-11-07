@@ -34,16 +34,16 @@ func testCheckAzureRMSecretValueExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Secret Value not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         secretResourceName := rs.Primary.Attributes["secret_resource_name"]
-        secretValueResourceName := rs.Primary.Attributes["secret_value_resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).secretValueClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, secretResourceName, secretValueResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, secretResourceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q) does not exist", secretValueResourceName, secretResourceName, resourceGroup)
+                return fmt.Errorf("Bad: Secret Value %q (Secret Resource Name %q / Resource Group %q) does not exist", name, secretResourceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on secretValueClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSecretValueDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         secretResourceName := rs.Primary.Attributes["secret_resource_name"]
-        secretValueResourceName := rs.Primary.Attributes["secret_value_resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, secretResourceName, secretValueResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, secretResourceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on secretValueClient: %+v", err)
             }

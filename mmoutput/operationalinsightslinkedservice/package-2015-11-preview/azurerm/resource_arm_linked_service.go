@@ -31,17 +31,17 @@ func resourceArmLinkedService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "linked_service_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "resource_id": {
                 Type: schema.TypeString,
@@ -70,15 +70,15 @@ func resourceArmLinkedServiceCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).linkedServicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    linkedServiceName := d.Get("linked_service_name").(string)
     workspaceName := d.Get("workspace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, workspaceName, linkedServiceName)
+        existing, err := client.Get(ctx, resourceGroup, workspaceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q): %+v", linkedServiceName, workspaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Linked Service %q (Workspace Name %q / Resource Group %q): %+v", name, workspaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -97,17 +97,17 @@ func resourceArmLinkedServiceCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, workspaceName, linkedServiceName, parameters); err != nil {
-        return fmt.Errorf("Error creating Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q): %+v", linkedServiceName, workspaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, workspaceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Linked Service %q (Workspace Name %q / Resource Group %q): %+v", name, workspaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName, linkedServiceName)
+    resp, err := client.Get(ctx, resourceGroup, workspaceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q): %+v", linkedServiceName, workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Linked Service %q (Workspace Name %q / Resource Group %q): %+v", name, workspaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q) ID", linkedServiceName, workspaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Linked Service %q (Workspace Name %q / Resource Group %q) ID", name, workspaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -124,22 +124,22 @@ func resourceArmLinkedServiceRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.Path["resourcegroups"]
     workspaceName := id.Path["workspaces"]
-    linkedServiceName := id.Path["linkedServices"]
+    name := id.Path["linkedServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName, linkedServiceName)
+    resp, err := client.Get(ctx, resourceGroup, workspaceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Linked Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q): %+v", linkedServiceName, workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Linked Service %q (Workspace Name %q / Resource Group %q): %+v", name, workspaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("linked_service_name", linkedServiceName)
     if linkedServiceProperties := resp.LinkedServiceProperties; linkedServiceProperties != nil {
         d.Set("resource_id", linkedServiceProperties.ResourceID)
     }
@@ -161,10 +161,10 @@ func resourceArmLinkedServiceDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.Path["resourcegroups"]
     workspaceName := id.Path["workspaces"]
-    linkedServiceName := id.Path["linkedServices"]
+    name := id.Path["linkedServices"]
 
-    if _, err := client.Delete(ctx, resourceGroup, workspaceName, linkedServiceName); err != nil {
-        return fmt.Errorf("Error deleting Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q): %+v", linkedServiceName, workspaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, workspaceName, name); err != nil {
+        return fmt.Errorf("Error deleting Linked Service %q (Workspace Name %q / Resource Group %q): %+v", name, workspaceName, resourceGroup, err)
     }
 
     return nil

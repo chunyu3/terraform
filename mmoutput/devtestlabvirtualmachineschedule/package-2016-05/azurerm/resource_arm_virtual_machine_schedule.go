@@ -36,18 +36,18 @@ func resourceArmVirtualMachineSchedule() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "virtual_machine_name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -185,15 +185,15 @@ func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interf
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
-    virtualMachineName := d.Get("virtual_machine_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, virtualMachineName, name)
+        existing, err := client.Get(ctx, resourceGroup, labName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, virtualMachineName, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -230,17 +230,17 @@ func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, virtualMachineName, name, schedule); err != nil {
-        return fmt.Errorf("Error creating Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, virtualMachineName, labName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error creating Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, virtualMachineName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, virtualMachineName, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q) ID", name, virtualMachineName, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Machine Schedule %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -257,20 +257,21 @@ func resourceArmVirtualMachineScheduleRead(d *schema.ResourceData, meta interfac
     }
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
-    virtualMachineName := id.Path["virtualmachines"]
+    name := id.Path["virtualmachines"]
     name := id.Path["schedules"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, virtualMachineName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Machine Schedule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, virtualMachineName, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -299,7 +300,6 @@ func resourceArmVirtualMachineScheduleRead(d *schema.ResourceData, meta interfac
     }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
-    d.Set("virtual_machine_name", virtualMachineName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -308,6 +308,7 @@ func resourceArmVirtualMachineScheduleUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).virtualMachineSchedulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     dailyRecurrence := d.Get("daily_recurrence").([]interface{})
@@ -319,7 +320,6 @@ func resourceArmVirtualMachineScheduleUpdate(d *schema.ResourceData, meta interf
     taskType := d.Get("task_type").(string)
     timeZoneId := d.Get("time_zone_id").(string)
     uniqueIdentifier := d.Get("unique_identifier").(string)
-    virtualMachineName := d.Get("virtual_machine_name").(string)
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -340,8 +340,8 @@ func resourceArmVirtualMachineScheduleUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, virtualMachineName, name, schedule); err != nil {
-        return fmt.Errorf("Error updating Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, virtualMachineName, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error updating Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
     return resourceArmVirtualMachineScheduleRead(d, meta)
@@ -358,11 +358,11 @@ func resourceArmVirtualMachineScheduleDelete(d *schema.ResourceData, meta interf
     }
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
-    virtualMachineName := id.Path["virtualmachines"]
+    name := id.Path["virtualmachines"]
     name := id.Path["schedules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, virtualMachineName, name); err != nil {
-        return fmt.Errorf("Error deleting Virtual Machine Schedule %q (Virtual Machine Name %q / Lab Name %q / Resource Group %q): %+v", name, virtualMachineName, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, labName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Virtual Machine Schedule %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
     return nil

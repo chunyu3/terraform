@@ -31,6 +31,13 @@ func resourceArmStreamingEndpoint() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -48,13 +55,6 @@ func resourceArmStreamingEndpoint() *schema.Resource {
             "scale_units": {
                 Type: schema.TypeInt,
                 Required: true,
-            },
-
-            "streaming_endpoint_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "access_control": {
@@ -232,16 +232,16 @@ func resourceArmStreamingEndpointCreate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).streamingEndpointsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     autoStart := d.Get("auto_start").(bool)
-    streamingEndpointName := d.Get("streaming_endpoint_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, streamingEndpointName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -280,21 +280,21 @@ func resourceArmStreamingEndpointCreate(d *schema.ResourceData, meta interface{}
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, accountName, streamingEndpointName, autoStart, parameters)
+    future, err := client.Create(ctx, resourceGroup, accountName, name, autoStart, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Streaming Endpoint (Auto Start %q / Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", autoStart, streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Streaming Endpoint %q (Auto Start %q / Account Name %q / Resource Group %q): %+v", name, autoStart, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Streaming Endpoint (Auto Start %q / Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", autoStart, streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Streaming Endpoint %q (Auto Start %q / Account Name %q / Resource Group %q): %+v", name, autoStart, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, streamingEndpointName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q) ID", streamingEndpointName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Streaming Endpoint %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -311,19 +311,20 @@ func resourceArmStreamingEndpointRead(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaservices"]
-    streamingEndpointName := id.Path["streamingEndpoints"]
+    name := id.Path["streamingEndpoints"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, streamingEndpointName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Streaming Endpoint %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -352,7 +353,6 @@ func resourceArmStreamingEndpointRead(d *schema.ResourceData, meta interface{}) 
         d.Set("scale_units", int(*streamingEndpointProperties.ScaleUnits))
     }
     d.Set("account_name", accountName)
-    d.Set("streaming_endpoint_name", streamingEndpointName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -362,6 +362,7 @@ func resourceArmStreamingEndpointUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).streamingEndpointsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accessControl := d.Get("access_control").([]interface{})
     accountName := d.Get("account_name").(string)
@@ -374,7 +375,6 @@ func resourceArmStreamingEndpointUpdate(d *schema.ResourceData, meta interface{}
     description := d.Get("description").(string)
     maxCacheAge := d.Get("max_cache_age").(int)
     scaleUnits := d.Get("scale_units").(int)
-    streamingEndpointName := d.Get("streaming_endpoint_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := mediaservices.StreamingEndpoint{
@@ -395,12 +395,12 @@ func resourceArmStreamingEndpointUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, accountName, streamingEndpointName, parameters)
+    future, err := client.Update(ctx, resourceGroup, accountName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error updating Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmStreamingEndpointRead(d, meta)
@@ -417,19 +417,19 @@ func resourceArmStreamingEndpointDelete(d *schema.ResourceData, meta interface{}
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaservices"]
-    streamingEndpointName := id.Path["streamingEndpoints"]
+    name := id.Path["streamingEndpoints"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, streamingEndpointName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q): %+v", streamingEndpointName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Streaming Endpoint %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
         }
     }
 

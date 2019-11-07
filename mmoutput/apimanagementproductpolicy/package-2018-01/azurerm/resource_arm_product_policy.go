@@ -31,6 +31,13 @@ func resourceArmProductPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -50,13 +57,6 @@ func resourceArmProductPolicy() *schema.Resource {
             },
 
             "product_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -87,16 +87,16 @@ func resourceArmProductPolicyCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).productPolicyClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     policyID := d.Get("policy_id").(string)
     productID := d.Get("product_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, productID, policyID)
+        existing, err := client.Get(ctx, resourceGroup, name, productID, policyID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q): %+v", policyID, productID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Product Policy %q (Policy %q / Product %q / Resource Group %q): %+v", name, policyID, productID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -115,17 +115,17 @@ func resourceArmProductPolicyCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, productID, policyID, parameters); err != nil {
-        return fmt.Errorf("Error creating Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q): %+v", policyID, productID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, productID, policyID, parameters); err != nil {
+        return fmt.Errorf("Error creating Product Policy %q (Policy %q / Product %q / Resource Group %q): %+v", name, policyID, productID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, productID, policyID)
+    resp, err := client.Get(ctx, resourceGroup, name, productID, policyID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q): %+v", policyID, productID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Product Policy %q (Policy %q / Product %q / Resource Group %q): %+v", name, policyID, productID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q) ID", policyID, productID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Product Policy %q (Policy %q / Product %q / Resource Group %q) ID", name, policyID, productID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -141,21 +141,22 @@ func resourceArmProductPolicyRead(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     productID := id.Path["products"]
     policyID := id.Path["policies"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, productID, policyID)
+    resp, err := client.Get(ctx, resourceGroup, name, productID, policyID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Product Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q): %+v", policyID, productID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Product Policy %q (Policy %q / Product %q / Resource Group %q): %+v", name, policyID, productID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if policyContractProperties := resp.PolicyContractProperties; policyContractProperties != nil {
@@ -164,7 +165,6 @@ func resourceArmProductPolicyRead(d *schema.ResourceData, meta interface{}) erro
     }
     d.Set("policy_id", policyID)
     d.Set("product_id", productID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -181,12 +181,12 @@ func resourceArmProductPolicyDelete(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     productID := id.Path["products"]
     policyID := id.Path["policies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, productID, policyID); err != nil {
-        return fmt.Errorf("Error deleting Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q): %+v", policyID, productID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, productID, policyID); err != nil {
+        return fmt.Errorf("Error deleting Product Policy %q (Policy %q / Product %q / Resource Group %q): %+v", name, policyID, productID, resourceGroup, err)
     }
 
     return nil

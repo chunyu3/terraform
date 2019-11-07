@@ -31,6 +31,13 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -38,13 +45,6 @@ func resourceArmExpressRouteCircuitPeering() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "circuit_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "peering_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -184,15 +184,15 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
     client := meta.(*ArmClient).expressRouteCircuitPeeringsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     circuitName := d.Get("circuit_name").(string)
-    peeringName := d.Get("peering_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, circuitName, peeringName)
+        existing, err := client.Get(ctx, resourceGroup, circuitName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -237,21 +237,21 @@ func resourceArmExpressRouteCircuitPeeringCreateUpdate(d *schema.ResourceData, m
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, circuitName, peeringName, peeringParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, circuitName, name, peeringParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error creating Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName, peeringName)
+    resp, err := client.Get(ctx, resourceGroup, circuitName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q) ID", peeringName, circuitName, resourceGroup)
+        return fmt.Errorf("Cannot read Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q) ID", name, circuitName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -268,19 +268,20 @@ func resourceArmExpressRouteCircuitPeeringRead(d *schema.ResourceData, meta inte
     }
     resourceGroup := id.ResourceGroup
     circuitName := id.Path["expressRouteCircuits"]
-    peeringName := id.Path["peerings"]
+    name := id.Path["peerings"]
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName, peeringName)
+    resp, err := client.Get(ctx, resourceGroup, circuitName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Express Route Circuit Peering %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error reading Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if expressRouteCircuitPeeringPropertiesFormat := resp.ExpressRouteCircuitPeeringPropertiesFormat; expressRouteCircuitPeeringPropertiesFormat != nil {
@@ -304,7 +305,6 @@ func resourceArmExpressRouteCircuitPeeringRead(d *schema.ResourceData, meta inte
     }
     d.Set("circuit_name", circuitName)
     d.Set("etag", resp.Etag)
-    d.Set("peering_name", peeringName)
 
     return nil
 }
@@ -321,19 +321,19 @@ func resourceArmExpressRouteCircuitPeeringDelete(d *schema.ResourceData, meta in
     }
     resourceGroup := id.ResourceGroup
     circuitName := id.Path["expressRouteCircuits"]
-    peeringName := id.Path["peerings"]
+    name := id.Path["peerings"]
 
-    future, err := client.Delete(ctx, resourceGroup, circuitName, peeringName)
+    future, err := client.Delete(ctx, resourceGroup, circuitName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q): %+v", peeringName, circuitName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q): %+v", name, circuitName, resourceGroup, err)
         }
     }
 

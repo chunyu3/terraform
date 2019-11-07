@@ -28,6 +28,8 @@ Manage Azure EventHubConnection instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the event hub connection. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `consumer_group` - (Required) The event hub consumer group.
 
 * `database_name` - (Required) The name of the database in the Kusto cluster. Changing this forces a new resource to be created.
-
-* `event_hub_connection_name` - (Required) The name of the event hub connection. Changing this forces a new resource to be created.
 
 * `event_hub_resource_id` - (Required) The resource ID of the event hub to be used to create a data connection.
 

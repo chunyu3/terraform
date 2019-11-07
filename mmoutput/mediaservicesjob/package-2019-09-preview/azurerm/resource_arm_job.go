@@ -31,19 +31,19 @@ func resourceArmJob() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "job_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -119,16 +119,16 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    jobName := d.Get("job_name").(string)
     transformName := d.Get("transform_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, transformName, jobName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, transformName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q): %+v", jobName, transformName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job %q (Transform Name %q / Account Name %q / Resource Group %q): %+v", name, transformName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -151,17 +151,17 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, transformName, jobName, parameters); err != nil {
-        return fmt.Errorf("Error creating Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q): %+v", jobName, transformName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, transformName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Job %q (Transform Name %q / Account Name %q / Resource Group %q): %+v", name, transformName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, transformName, jobName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, transformName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q): %+v", jobName, transformName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job %q (Transform Name %q / Account Name %q / Resource Group %q): %+v", name, transformName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q) ID", jobName, transformName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Job %q (Transform Name %q / Account Name %q / Resource Group %q) ID", name, transformName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -179,19 +179,20 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
     transformName := id.Path["transforms"]
-    jobName := id.Path["jobs"]
+    name := id.Path["jobs"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, transformName, jobName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, transformName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q): %+v", jobName, transformName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Job %q (Transform Name %q / Account Name %q / Resource Group %q): %+v", name, transformName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -206,7 +207,6 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("priority", string(jobProperties.Priority))
         d.Set("state", string(jobProperties.State))
     }
-    d.Set("job_name", jobName)
     d.Set("transform_name", transformName)
     d.Set("type", resp.Type)
 
@@ -217,11 +217,11 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     correlationData := d.Get("correlation_data").(map[string]interface{})
     description := d.Get("description").(string)
-    jobName := d.Get("job_name").(string)
     outputs := d.Get("outputs").([]interface{})
     priority := d.Get("priority").(string)
     transformName := d.Get("transform_name").(string)
@@ -236,8 +236,8 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, transformName, jobName, parameters); err != nil {
-        return fmt.Errorf("Error updating Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q): %+v", jobName, transformName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, transformName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Job %q (Transform Name %q / Account Name %q / Resource Group %q): %+v", name, transformName, accountName, resourceGroup, err)
     }
 
     return resourceArmJobRead(d, meta)
@@ -255,10 +255,10 @@ func resourceArmJobDelete(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
     transformName := id.Path["transforms"]
-    jobName := id.Path["jobs"]
+    name := id.Path["jobs"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, transformName, jobName); err != nil {
-        return fmt.Errorf("Error deleting Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q): %+v", jobName, transformName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, transformName, name); err != nil {
+        return fmt.Errorf("Error deleting Job %q (Transform Name %q / Account Name %q / Resource Group %q): %+v", name, transformName, accountName, resourceGroup, err)
     }
 
     return nil

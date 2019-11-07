@@ -34,16 +34,16 @@ func testCheckAzureRMRelationshipLinkExists(resourceName string) resource.TestCh
             return fmt.Errorf("Relationship Link not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        relationshipLinkName := rs.Primary.Attributes["relationship_link_name"]
 
         client := testAccProvider.Meta().(*ArmClient).relationshipLinksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, relationshipLinkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q) does not exist", relationshipLinkName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: Relationship Link %q (Hub Name %q / Resource Group %q) does not exist", name, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on relationshipLinksClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMRelationshipLinkDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        relationshipLinkName := rs.Primary.Attributes["relationship_link_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, relationshipLinkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on relationshipLinksClient: %+v", err)
             }

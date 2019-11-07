@@ -34,16 +34,16 @@ func testCheckAzureRMAppExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("App not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        appName := rs.Primary.Attributes["app_name"]
         serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).appsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, appName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serviceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: App (App Name %q / Service Name %q / Resource Group %q) does not exist", appName, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: App %q (Service Name %q / Resource Group %q) does not exist", name, serviceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on appsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAppDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        appName := rs.Primary.Attributes["app_name"]
         serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, appName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serviceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on appsClient: %+v", err)
             }

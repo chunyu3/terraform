@@ -31,19 +31,19 @@ func resourceArmRoleAssignment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "principal_id": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "role_assignment_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -82,14 +82,14 @@ func resourceArmRoleAssignmentCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).roleAssignmentsClient
     ctx := meta.(*ArmClient).StopContext
 
-    roleAssignmentName := d.Get("role_assignment_name").(string)
+    name := d.Get("name").(string)
     scope := d.Get("scope").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, scope, roleAssignmentName)
+        existing, err := client.Get(ctx, scope, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Role Assignment (Role Assignment Name %q / Scope %q): %+v", roleAssignmentName, scope, err)
+                return fmt.Errorf("Error checking for present of existing Role Assignment %q (Scope %q): %+v", name, scope, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,17 +110,17 @@ func resourceArmRoleAssignmentCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    if _, err := client.Create(ctx, scope, roleAssignmentName, parameters); err != nil {
-        return fmt.Errorf("Error creating Role Assignment (Role Assignment Name %q / Scope %q): %+v", roleAssignmentName, scope, err)
+    if _, err := client.Create(ctx, scope, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Role Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
 
-    resp, err := client.Get(ctx, scope, roleAssignmentName)
+    resp, err := client.Get(ctx, scope, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Role Assignment (Role Assignment Name %q / Scope %q): %+v", roleAssignmentName, scope, err)
+        return fmt.Errorf("Error retrieving Role Assignment %q (Scope %q): %+v", name, scope, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Role Assignment (Role Assignment Name %q / Scope %q) ID", roleAssignmentName, scope)
+        return fmt.Errorf("Cannot read Role Assignment %q (Scope %q) ID", name, scope)
     }
     d.SetId(*resp.ID)
 
@@ -135,19 +135,20 @@ func resourceArmRoleAssignmentRead(d *schema.ResourceData, meta interface{}) err
     if err != nil {
         return err
     }
-    roleAssignmentName := id.Path["roleAssignments"]
+    name := id.Path["roleAssignments"]
 
-    resp, err := client.Get(ctx, scope, roleAssignmentName)
+    resp, err := client.Get(ctx, scope, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Role Assignment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Role Assignment (Role Assignment Name %q / Scope %q): %+v", roleAssignmentName, scope, err)
+        return fmt.Errorf("Error reading Role Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     if roleAssignmentProperties := resp.RoleAssignmentProperties; roleAssignmentProperties != nil {
         d.Set("can_delegate", roleAssignmentProperties.CanDelegate)
@@ -155,7 +156,6 @@ func resourceArmRoleAssignmentRead(d *schema.ResourceData, meta interface{}) err
         d.Set("role_definition_id", roleAssignmentProperties.RoleDefinitionID)
         d.Set("scope", roleAssignmentProperties.Scope)
     }
-    d.Set("role_assignment_name", roleAssignmentName)
     d.Set("scope", scope)
     d.Set("type", resp.Type)
 
@@ -172,10 +172,10 @@ func resourceArmRoleAssignmentDelete(d *schema.ResourceData, meta interface{}) e
     if err != nil {
         return err
     }
-    roleAssignmentName := id.Path["roleAssignments"]
+    name := id.Path["roleAssignments"]
 
-    if _, err := client.Delete(ctx, scope, roleAssignmentName); err != nil {
-        return fmt.Errorf("Error deleting Role Assignment (Role Assignment Name %q / Scope %q): %+v", roleAssignmentName, scope, err)
+    if _, err := client.Delete(ctx, scope, name); err != nil {
+        return fmt.Errorf("Error deleting Role Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
     return nil

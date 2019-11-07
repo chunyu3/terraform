@@ -31,6 +31,13 @@ func resourceArmRelationship() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -52,13 +59,6 @@ func resourceArmRelationship() *schema.Resource {
             "related_profile_type": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "relationship_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -234,15 +234,15 @@ func resourceArmRelationshipCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).relationshipsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hubName := d.Get("hub_name").(string)
-    relationshipName := d.Get("relationship_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, relationshipName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -273,21 +273,21 @@ func resourceArmRelationshipCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, relationshipName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error creating Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, relationshipName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Relationship (Relationship Name %q / Hub Name %q / Resource Group %q) ID", relationshipName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Relationship %q (Hub Name %q / Resource Group %q) ID", name, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -304,19 +304,20 @@ func resourceArmRelationshipRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    relationshipName := id.Path["relationships"]
+    name := id.Path["relationships"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, relationshipName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Relationship %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if relationshipDefinition := resp.RelationshipDefinition; relationshipDefinition != nil {
@@ -338,7 +339,6 @@ func resourceArmRelationshipRead(d *schema.ResourceData, meta interface{}) error
         d.Set("tenant_id", relationshipDefinition.TenantID)
     }
     d.Set("hub_name", hubName)
-    d.Set("relationship_name", relationshipName)
     d.Set("type", resp.Type)
 
     return nil
@@ -356,19 +356,19 @@ func resourceArmRelationshipDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    relationshipName := id.Path["relationships"]
+    name := id.Path["relationships"]
 
-    future, err := client.Delete(ctx, resourceGroup, hubName, relationshipName)
+    future, err := client.Delete(ctx, resourceGroup, hubName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Relationship (Relationship Name %q / Hub Name %q / Resource Group %q): %+v", relationshipName, hubName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Relationship %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
         }
     }
 

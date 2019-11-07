@@ -34,16 +34,16 @@ func testCheckAzureRMStreamingEndpointExists(resourceName string) resource.TestC
             return fmt.Errorf("Streaming Endpoint not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        streamingEndpointName := rs.Primary.Attributes["streaming_endpoint_name"]
 
         client := testAccProvider.Meta().(*ArmClient).streamingEndpointsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, streamingEndpointName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Streaming Endpoint (Streaming Endpoint Name %q / Account Name %q / Resource Group %q) does not exist", streamingEndpointName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Streaming Endpoint %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on streamingEndpointsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStreamingEndpointDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        streamingEndpointName := rs.Primary.Attributes["streaming_endpoint_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, streamingEndpointName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on streamingEndpointsClient: %+v", err)
             }

@@ -29,9 +29,9 @@ objects:
             python_variable_name: scope
           'scopeAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: scopeAssignments
-            go_variable_name: scopeAssignmentName
+            go_variable_name: name
             python_parameter_name: scope_assignment_name
-            python_variable_name: scope_assignment_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ScopeAssignment
@@ -40,19 +40,13 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
-          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties
-          '/assignedManagedNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: properties_assigned_managed_network
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ScopeAssignmentProperties
             go_type_name: ScopeAssignmentProperties
           '/properties/assignedManagedNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PropertiesAssignedManagedNetwork
+            go_field_name: AssignedManagedNetwork
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -64,9 +58,9 @@ objects:
             python_variable_name: scope
           'scopeAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: scopeAssignments
-            go_variable_name: scopeAssignmentName
+            go_variable_name: name
             python_parameter_name: scope_assignment_name
-            python_variable_name: scope_assignment_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -78,9 +72,9 @@ objects:
             python_variable_name: scope
           'scopeAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: scopeAssignments
-            go_variable_name: scopeAssignmentName
+            go_variable_name: name
             python_parameter_name: scope_assignment_name
-            python_variable_name: scope_assignment_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -91,26 +85,14 @@ objects:
             go_type_name: ScopeAssignmentProperties
           '/properties/assignedManagedNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PropertiesAssignedManagedNetwork
+            go_field_name: AssignedManagedNetwork
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PropertiesProvisioningState
+            go_field_name: ProvisioningState
             go_enum_type_name: ProvisioningState
           '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PropertiesEtag
-          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties
-          '/assignedManagedNetwork': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: properties_assigned_managed_network
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: properties_provisioning_state
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: properties_etag
+            go_field_name: Etag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -133,23 +115,6 @@ objects:
     description: |
       Manage Azure ScopeAssignment instance.
     properties:
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'The geo-location where the resource lives'
-        required: false
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'properties'
-        description: 'The Scope Assignment properties'
-        required: false
-        azure_sdk_references: ['', '/properties']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'propertiesAssignedManagedNetwork'
-            description: 'The managed network ID with scope will be assigned to.'
-            required: false
-            azure_sdk_references: ['/assignedManagedNetwork', '/properties/assignedManagedNetwork']
       - !ruby/object:Api::Type::String
         name: 'scope'
         description: 'The base resource of the scope assignment to create. The scope can be any REST resource instance. For example, use ''subscriptions/{subscription-id}'' for a subscription, ''subscriptions/{subscription-id}/resourceGroups/{resource-group-name}'' for a resource group, and ''subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'' for a resource.'
@@ -157,24 +122,9 @@ objects:
         input: true
         azure_sdk_references: ['scope']
       - !ruby/object:Api::Type::String
-        name: 'scopeAssignmentName'
+        name: 'name'
         description: 'The name of the scope assignment to create.'
         required: true
         input: true
         azure_sdk_references: ['scopeAssignmentName']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the resource'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
-        output: true
-        azure_sdk_references: ['/type']

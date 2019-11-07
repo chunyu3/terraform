@@ -28,6 +28,8 @@ Manage Azure Vault instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the vault Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Resource Group to which the server belongs. Changing this forces a new resource to be created.
 
 * `location` - (Required) The supported Azure location where the key vault should be created. Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `sku` - (Required) One `sku` block defined below.
 
 * `tenant_id` - (Required) The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-
-* `vault_name` - (Required) Name of the vault Changing this forces a new resource to be created.
 
 ---
 

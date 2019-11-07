@@ -28,11 +28,11 @@ Manage Azure SignalR instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the SignalR resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Azure GEO region: e.g. West US | East US | North Central US | South Central US | West Europe | North Europe | East Asia | Southeast Asia | etc. <br>The geo region of a resource never changes after it is created. Changing this forces a new resource to be created.
-
-* `resource_name` - (Required) The name of the SignalR resource. Changing this forces a new resource to be created.
 
 * `host_name_prefix` - (Optional) Prefix for the hostName of the SignalR service. Retained for future use.<br>The hostname will be of format: &lt;hostNamePrefix&gt;.service.signalr.net.
 

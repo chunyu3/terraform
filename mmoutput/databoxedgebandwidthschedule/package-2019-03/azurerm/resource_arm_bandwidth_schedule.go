@@ -36,6 +36,13 @@ func resourceArmBandwidthSchedule() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "days": {
@@ -53,13 +60,6 @@ func resourceArmBandwidthSchedule() *schema.Resource {
                         string(databoxedge.Saturday),
                    }, false),
                 },
-            },
-
-            "device_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "rate_in_mbps": {
@@ -92,14 +92,14 @@ func resourceArmBandwidthScheduleCreateUpdate(d *schema.ResourceData, meta inter
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    deviceName := d.Get("device_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, name, resourceGroup)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -122,21 +122,21 @@ func resourceArmBandwidthScheduleCreateUpdate(d *schema.ResourceData, meta inter
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, name, resourceGroup, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error creating Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, name, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error retrieving Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Bandwidth Schedule %q (Resource Group %q / Device Name %q) ID", name, resourceGroup, deviceName)
+        return fmt.Errorf("Cannot read Bandwidth Schedule %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -151,21 +151,22 @@ func resourceArmBandwidthScheduleRead(d *schema.ResourceData, meta interface{}) 
     if err != nil {
         return err
     }
-    deviceName := id.Path["dataBoxEdgeDevices"]
-    name := id.Path["bandwidthSchedules"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["dataBoxEdgeDevices"]
+    name := id.Path["bandwidthSchedules"]
 
-    resp, err := client.Get(ctx, deviceName, name, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Bandwidth Schedule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error reading Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if bandwidthScheduleProperties := resp.BandwidthScheduleProperties; bandwidthScheduleProperties != nil {
@@ -176,7 +177,6 @@ func resourceArmBandwidthScheduleRead(d *schema.ResourceData, meta interface{}) 
         d.Set("start", bandwidthScheduleProperties.Start)
         d.Set("stop", bandwidthScheduleProperties.Stop)
     }
-    d.Set("device_name", deviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -192,21 +192,21 @@ func resourceArmBandwidthScheduleDelete(d *schema.ResourceData, meta interface{}
     if err != nil {
         return err
     }
-    deviceName := id.Path["dataBoxEdgeDevices"]
-    name := id.Path["bandwidthSchedules"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["dataBoxEdgeDevices"]
+    name := id.Path["bandwidthSchedules"]
 
-    future, err := client.Delete(ctx, deviceName, name, resourceGroup)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error deleting Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Bandwidth Schedule %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Bandwidth Schedule %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

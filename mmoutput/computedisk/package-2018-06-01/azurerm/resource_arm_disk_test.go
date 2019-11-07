@@ -34,15 +34,15 @@ func testCheckAzureRMDiskExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Disk not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        diskName := rs.Primary.Attributes["disk_name"]
 
         client := testAccProvider.Meta().(*ArmClient).disksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, diskName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Disk (Disk Name %q / Resource Group %q) does not exist", diskName, resourceGroup)
+                return fmt.Errorf("Bad: Disk %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on disksClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMDiskDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        diskName := rs.Primary.Attributes["disk_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, diskName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on disksClient: %+v", err)
             }

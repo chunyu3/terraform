@@ -31,19 +31,19 @@ func resourceArmServerCommunicationLink() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "communication_link_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "partner_server": {
                 Type: schema.TypeString,
@@ -80,15 +80,15 @@ func resourceArmServerCommunicationLinkCreateUpdate(d *schema.ResourceData, meta
     client := meta.(*ArmClient).serverCommunicationLinksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    communicationLinkName := d.Get("communication_link_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, communicationLinkName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q): %+v", communicationLinkName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Server Communication Link %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -105,21 +105,21 @@ func resourceArmServerCommunicationLinkCreateUpdate(d *schema.ResourceData, meta
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, communicationLinkName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q): %+v", communicationLinkName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Server Communication Link %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q): %+v", communicationLinkName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Server Communication Link %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, communicationLinkName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q): %+v", communicationLinkName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Server Communication Link %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q) ID", communicationLinkName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Server Communication Link %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -136,25 +136,25 @@ func resourceArmServerCommunicationLinkRead(d *schema.ResourceData, meta interfa
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    communicationLinkName := id.Path["communicationLinks"]
+    name := id.Path["communicationLinks"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, communicationLinkName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Server Communication Link %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q): %+v", communicationLinkName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Server Communication Link %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("communication_link_name", communicationLinkName)
     d.Set("kind", resp.Kind)
     if serverCommunicationLinkProperties := resp.ServerCommunicationLinkProperties; serverCommunicationLinkProperties != nil {
         d.Set("partner_server", serverCommunicationLinkProperties.PartnerServer)
@@ -178,10 +178,10 @@ func resourceArmServerCommunicationLinkDelete(d *schema.ResourceData, meta inter
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    communicationLinkName := id.Path["communicationLinks"]
+    name := id.Path["communicationLinks"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serverName, communicationLinkName); err != nil {
-        return fmt.Errorf("Error deleting Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q): %+v", communicationLinkName, serverName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serverName, name); err != nil {
+        return fmt.Errorf("Error deleting Server Communication Link %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     return nil

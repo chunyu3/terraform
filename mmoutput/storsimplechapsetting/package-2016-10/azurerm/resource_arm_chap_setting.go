@@ -31,6 +31,13 @@ func resourceArmChapSetting() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -44,13 +51,6 @@ func resourceArmChapSetting() *schema.Resource {
             },
 
             "device_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -97,16 +97,16 @@ func resourceArmChapSettingCreateUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).chapSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     chapUserName := d.Get("chap_user_name").(string)
     deviceName := d.Get("device_name").(string)
-    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, chapUserName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, deviceName, chapUserName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -123,21 +123,21 @@ func resourceArmChapSettingCreateUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, chapUserName, resourceGroup, managerName, chapSetting)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, chapUserName, chapSetting)
     if err != nil {
-        return fmt.Errorf("Error creating Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+        return fmt.Errorf("Error creating Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, chapUserName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, chapUserName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+        return fmt.Errorf("Error retrieving Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q) ID", managerName, resourceGroup, chapUserName, deviceName)
+        return fmt.Errorf("Cannot read Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q) ID", name, resourceGroup, chapUserName, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -152,27 +152,27 @@ func resourceArmChapSettingRead(d *schema.ResourceData, meta interface{}) error 
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     chapUserName := id.Path["chapSettings"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    resp, err := client.Get(ctx, deviceName, chapUserName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, chapUserName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Chap Setting %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+        return fmt.Errorf("Error reading Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("chap_user_name", chapUserName)
     d.Set("device_name", deviceName)
-    d.Set("manager_name", managerName)
     if chapProperties := resp.ChapProperties; chapProperties != nil {
         if err := d.Set("password", flattenArmChapSettingAsymmetricEncryptedSecret(chapProperties.Password)); err != nil {
             return fmt.Errorf("Error setting `password`: %+v", err)
@@ -193,22 +193,22 @@ func resourceArmChapSettingDelete(d *schema.ResourceData, meta interface{}) erro
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     chapUserName := id.Path["chapSettings"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    future, err := client.Delete(ctx, deviceName, chapUserName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, deviceName, chapUserName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+        return fmt.Errorf("Error deleting Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Chap Setting (Manager Name %q / Resource Group %q / Chap User Name %q / Device Name %q): %+v", managerName, resourceGroup, chapUserName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Chap Setting %q (Resource Group %q / Chap User Name %q / Device Name %q): %+v", name, resourceGroup, chapUserName, deviceName, err)
         }
     }
 

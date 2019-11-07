@@ -34,15 +34,15 @@ func testCheckAzureRMQueryPackExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Query Pack not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        queryPackName := rs.Primary.Attributes["query_pack_name"]
 
         client := testAccProvider.Meta().(*ArmClient).queryPacksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, queryPackName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Query Pack (Query Pack Name %q / Resource Group %q) does not exist", queryPackName, resourceGroup)
+                return fmt.Errorf("Bad: Query Pack %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on queryPacksClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMQueryPackDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        queryPackName := rs.Primary.Attributes["query_pack_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, queryPackName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on queryPacksClient: %+v", err)
             }

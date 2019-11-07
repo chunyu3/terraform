@@ -28,9 +28,9 @@ Manage Azure Experiment instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
+* `name` - (Required) The Experiment identifier associated with the Experiment Changing this forces a new resource to be created.
 
-* `experiment_name` - (Required) The Experiment identifier associated with the Experiment Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `profile_name` - (Required) The Profile identifier associated with the Tenant and Partner Changing this forces a new resource to be created.
 

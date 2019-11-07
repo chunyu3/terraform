@@ -1,0 +1,176 @@
+--- !ruby/object:Api::Product
+name: Azure DscNode Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DscNode
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: automation
+      go_client: dscNodeClient
+      python_client_namespace: azure.mgmt.automation
+      python_client: AutomationClient.dsc_node
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: name
+            python_parameter_name: automation_account_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/lastSeen': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: LastSeen
+            python_field_name: last_seen
+          '/registrationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: RegistrationTime
+            python_field_name: registration_time
+          '/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Ip
+            python_field_name: ip
+          '/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AccountID
+            python_field_name: account_id
+          '/nodeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: NodeConfiguration
+            go_type_name: DscNodeConfigurationAssociationProperty
+            python_field_name: node_configuration
+          '/nodeConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            python_field_name: status
+          '/nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: NodeID
+            python_field_name: node_id
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/extensionHandler': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: ExtensionHandler
+            go_type_name: DscNodeExtensionHandlerAssociationProperty
+            python_field_name: extension_handler
+          '/extensionHandler/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/extensionHandler/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAutomationAccount
+        python_func_name: list_by_automation_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: name
+            python_parameter_name: automation_account_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure DscNode instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastSeen'
+        description: 'Gets or sets the last seen time of the node.'
+        output: true
+        azure_sdk_references: ['/lastSeen']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'registrationTime'
+        description: 'Gets or sets the registration time of the node.'
+        output: true
+        azure_sdk_references: ['/registrationTime']
+      - !ruby/object:Api::Type::String
+        name: 'ip'
+        description: 'Gets or sets the ip of the node.'
+        output: true
+        azure_sdk_references: ['/ip']
+      - !ruby/object:Api::Type::String
+        name: 'accountId'
+        description: 'Gets or sets the account id of the node.'
+        output: true
+        azure_sdk_references: ['/accountId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'nodeConfiguration'
+        description: 'Gets or sets the configuration of the node.'
+        output: true
+        azure_sdk_references: ['/nodeConfiguration']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Gets or sets the status of the node.'
+        output: true
+        azure_sdk_references: ['/status']
+      - !ruby/object:Api::Type::String
+        name: 'nodeId'
+        description: 'Gets or sets the node id.'
+        output: true
+        azure_sdk_references: ['/nodeId']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets or sets the etag of the resource.'
+        output: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::Array
+        name: 'extensionHandler'
+        description: 'Gets or sets the list of extensionHandler properties for a Node.'
+        output: true
+        azure_sdk_references: ['/extensionHandler']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

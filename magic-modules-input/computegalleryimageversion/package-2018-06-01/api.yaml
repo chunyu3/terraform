@@ -40,9 +40,9 @@ objects:
             python_variable_name: gallery_image_name
           'galleryImageVersionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
-            go_variable_name: galleryImageVersionName
+            go_variable_name: name
             python_parameter_name: gallery_image_version_name
-            python_variable_name: gallery_image_version_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: galleryImageVersion
             go_type_name: GalleryImageVersion
@@ -144,9 +144,9 @@ objects:
             python_variable_name: gallery_image_name
           'galleryImageVersionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
-            go_variable_name: galleryImageVersionName
+            go_variable_name: name
             python_parameter_name: gallery_image_version_name
-            python_variable_name: gallery_image_version_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -168,9 +168,9 @@ objects:
             python_variable_name: gallery_image_name
           'galleryImageVersionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
-            go_variable_name: galleryImageVersionName
+            go_variable_name: name
             python_parameter_name: gallery_image_version_name
-            python_variable_name: gallery_image_version_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -263,16 +263,101 @@ objects:
             applicable_to: [go]
             go_field_name: StorageProfile
             go_type_name: GalleryImageVersionStorageProfile
+          '/properties/storageProfile/osDiskImage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OsDiskImage
+            go_type_name: GalleryOSDiskImage
+          '/properties/storageProfile/osDiskImage/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SizeInGb
+          '/properties/storageProfile/osDiskImage/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HostCaching
+            go_enum_type_name: HostCaching
+          '/properties/storageProfile/dataDiskImages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DataDiskImages
+            go_type_name: GalleryDataDiskImage
+          '/properties/storageProfile/dataDiskImages/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SizeInGb
+          '/properties/storageProfile/dataDiskImages/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HostCaching
+            go_enum_type_name: HostCaching
+          '/properties/storageProfile/dataDiskImages/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Lun
           '/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: storage_profile
+          '/storageProfile/osDiskImage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: os_disk_image
+          '/storageProfile/osDiskImage/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: size_in_gb
+          '/storageProfile/osDiskImage/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: host_caching
+          '/storageProfile/dataDiskImages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: data_disk_images
+          '/storageProfile/dataDiskImages/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: size_in_gb
+          '/storageProfile/dataDiskImages/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: host_caching
+          '/storageProfile/dataDiskImages/lun': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: lun
           '/properties/replicationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ReplicationStatus
             go_type_name: ReplicationStatus
+          '/properties/replicationStatus/aggregatedState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AggregatedState
+            go_enum_type_name: AggregatedReplicationState
+          '/properties/replicationStatus/summary': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Summary
+            go_type_name: RegionalReplicationStatus
+          '/properties/replicationStatus/summary/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/properties/replicationStatus/summary/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: ReplicationState
+          '/properties/replicationStatus/summary/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Details
+          '/properties/replicationStatus/summary/progress': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Progress
           '/replicationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: replication_status
+          '/replicationStatus/aggregatedState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: aggregated_state
+          '/replicationStatus/summary': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: summary
+          '/replicationStatus/summary/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/replicationStatus/summary/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/replicationStatus/summary/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: details
+          '/replicationStatus/summary/progress': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: progress
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -324,7 +409,7 @@ objects:
         input: true
         azure_sdk_references: ['galleryImageName']
       - !ruby/object:Api::Type::String
-        name: 'galleryImageVersionName'
+        name: 'name'
         description: 'The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
         required: true
         input: true
@@ -415,104 +500,12 @@ objects:
         output: true
         azure_sdk_references: ['/storageProfile', '/properties/storageProfile']
         properties:
-          - !ruby/object:Api::Type::NestedObject
-            name: 'osDiskImage'
-            description: ''
-            required: false
-            azure_sdk_references: ['/storageProfile/osDiskImage', '/properties/storageProfile/osDiskImage']
-            properties:
-              - !ruby/object:Api::Type::Integer
-                name: 'sizeInGb'
-                description: 'This property indicates the size of the VHD to be created.'
-                required: false
-                azure_sdk_references: ['/storageProfile/osDiskImage/sizeInGB', '/properties/storageProfile/osDiskImage/sizeInGB']
-              - !ruby/object:Api::Type::Enum
-                name: 'hostCaching'
-                description: 'The host caching of the disk. Valid values are ''None'', ''ReadOnly'', and ''ReadWrite'''
-                required: false
-                azure_sdk_references: ['/storageProfile/osDiskImage/hostCaching', '/properties/storageProfile/osDiskImage/hostCaching']
-                values:
-                  - :None
-                  - :ReadOnly
-                  - :ReadWrite
-                default_value: :None
-          - !ruby/object:Api::Type::Array
-            name: 'dataDiskImages'
-            description: 'A list of data disk images.'
-            required: false
-            azure_sdk_references: ['/storageProfile/dataDiskImages', '/properties/storageProfile/dataDiskImages']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::Integer
-                  name: 'sizeInGb'
-                  description: 'This property indicates the size of the VHD to be created.'
-                  required: false
-                  azure_sdk_references: ['/storageProfile/dataDiskImages/sizeInGB', '/properties/storageProfile/dataDiskImages/sizeInGB']
-                - !ruby/object:Api::Type::Enum
-                  name: 'hostCaching'
-                  description: 'The host caching of the disk. Valid values are ''None'', ''ReadOnly'', and ''ReadWrite'''
-                  required: false
-                  azure_sdk_references: ['/storageProfile/dataDiskImages/hostCaching', '/properties/storageProfile/dataDiskImages/hostCaching']
-                  values:
-                    - :None
-                    - :ReadOnly
-                    - :ReadWrite
-                  default_value: :None
-                - !ruby/object:Api::Type::Integer
-                  name: 'lun'
-                  description: 'This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.'
-                  required: false
-                  azure_sdk_references: ['/storageProfile/dataDiskImages/lun', '/properties/storageProfile/dataDiskImages/lun']
       - !ruby/object:Api::Type::NestedObject
         name: 'replicationStatus'
         description: ''
         output: true
         azure_sdk_references: ['/replicationStatus', '/properties/replicationStatus']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'aggregatedState'
-            description: 'This is the aggregated replication status based on all the regional replication status flags.'
-            required: false
-            azure_sdk_references: ['/replicationStatus/aggregatedState', '/properties/replicationStatus/aggregatedState']
-            values:
-              - :Unknown
-              - :InProgress
-              - :Completed
-              - :Failed
-            default_value: :Unknown
-          - !ruby/object:Api::Type::Array
-            name: 'summary'
-            description: 'This is a summary of replication status for each region.'
-            required: false
-            azure_sdk_references: ['/replicationStatus/summary', '/properties/replicationStatus/summary']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'region'
-                  description: 'The region to which the gallery Image Version is being replicated to.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/region', '/properties/replicationStatus/summary/region']
-                - !ruby/object:Api::Type::Enum
-                  name: 'state'
-                  description: 'This is the regional replication state.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/state', '/properties/replicationStatus/summary/state']
-                  values:
-                    - :Unknown
-                    - :Replicating
-                    - :Completed
-                    - :Failed
-                  default_value: :Unknown
-                - !ruby/object:Api::Type::String
-                  name: 'details'
-                  description: 'The details of the replication status.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/details', '/properties/replicationStatus/summary/details']
-                - !ruby/object:Api::Type::Integer
-                  name: 'progress'
-                  description: 'It indicates progress of the replication job.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/progress', '/properties/replicationStatus/summary/progress']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

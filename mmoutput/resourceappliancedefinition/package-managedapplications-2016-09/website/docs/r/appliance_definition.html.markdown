@@ -28,9 +28,9 @@ Manage Azure ApplianceDefinition instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the appliance definition. Changing this forces a new resource to be created.
 
-* `appliance_definition_name` - (Required) The name of the appliance definition. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `authorizations` - (Required) One or more `authorization` block defined below.
 

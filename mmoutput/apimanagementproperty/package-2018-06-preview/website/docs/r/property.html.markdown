@@ -28,13 +28,13 @@ Manage Azure Property instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `display_name` - (Required) Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
 
 * `prop_id` - (Required) Identifier of the property. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `value` - (Required) Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
 

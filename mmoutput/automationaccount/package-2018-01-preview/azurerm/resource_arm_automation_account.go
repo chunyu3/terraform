@@ -31,6 +31,13 @@ func resourceArmAutomationAccount() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -38,13 +45,6 @@ func resourceArmAutomationAccount() *schema.Resource {
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "automation_account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "sku": {
                 Type: schema.TypeList,
@@ -116,14 +116,14 @@ func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).automationAccountClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    automationAccountName := d.Get("automation_account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Automation Account (Automation Account Name %q / Resource Group %q): %+v", automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -146,17 +146,17 @@ func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, parameters); err != nil {
-        return fmt.Errorf("Error creating Automation Account (Automation Account Name %q / Resource Group %q): %+v", automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Automation Account (Automation Account Name %q / Resource Group %q): %+v", automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Automation Account (Automation Account Name %q / Resource Group %q) ID", automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Automation Account %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -172,25 +172,25 @@ func resourceArmAutomationAccountRead(d *schema.ResourceData, meta interface{}) 
         return err
     }
     resourceGroup := id.ResourceGroup
-    automationAccountName := id.Path["automationAccounts"]
+    name := id.Path["automationAccounts"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Automation Account %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Automation Account (Automation Account Name %q / Resource Group %q): %+v", automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("automation_account_name", automationAccountName)
     if accountCreateOrUpdateProperties := resp.AccountCreateOrUpdateProperties; accountCreateOrUpdateProperties != nil {
         d.Set("creation_time", (accountCreateOrUpdateProperties.CreationTime).String())
         d.Set("description", accountCreateOrUpdateProperties.Description)
@@ -212,8 +212,8 @@ func resourceArmAutomationAccountUpdate(d *schema.ResourceData, meta interface{}
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    automationAccountName := d.Get("automation_account_name").(string)
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -227,8 +227,8 @@ func resourceArmAutomationAccountUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, parameters); err != nil {
-        return fmt.Errorf("Error updating Automation Account (Automation Account Name %q / Resource Group %q): %+v", automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmAutomationAccountRead(d, meta)
@@ -244,10 +244,10 @@ func resourceArmAutomationAccountDelete(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    automationAccountName := id.Path["automationAccounts"]
+    name := id.Path["automationAccounts"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName); err != nil {
-        return fmt.Errorf("Error deleting Automation Account (Automation Account Name %q / Resource Group %q): %+v", automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Automation Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

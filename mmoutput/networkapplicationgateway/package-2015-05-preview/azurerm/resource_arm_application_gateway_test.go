@@ -34,15 +34,15 @@ func testCheckAzureRMApplicationGatewayExists(resourceName string) resource.Test
             return fmt.Errorf("Application Gateway not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationGatewayName := rs.Primary.Attributes["application_gateway_name"]
 
         client := testAccProvider.Meta().(*ArmClient).applicationGatewaysClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, applicationGatewayName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Application Gateway (Application Gateway Name %q / Resource Group %q) does not exist", applicationGatewayName, resourceGroup)
+                return fmt.Errorf("Bad: Application Gateway %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on applicationGatewaysClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMApplicationGatewayDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationGatewayName := rs.Primary.Attributes["application_gateway_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, applicationGatewayName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on applicationGatewaysClient: %+v", err)
             }

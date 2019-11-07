@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'proximityPlacementGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: proximityPlacementGroups
-            go_variable_name: proximityPlacementGroupName
+            go_variable_name: name
             python_parameter_name: proximity_placement_group_name
-            python_variable_name: proximity_placement_group_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ProximityPlacementGroup
@@ -65,9 +65,9 @@ objects:
             python_variable_name: resource_group
           'proximityPlacementGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: proximityPlacementGroups
-            go_variable_name: proximityPlacementGroupName
+            go_variable_name: name
             python_parameter_name: proximity_placement_group_name
-            python_variable_name: proximity_placement_group_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ProximityPlacementGroup
@@ -101,9 +101,9 @@ objects:
             python_variable_name: resource_group
           'proximityPlacementGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: proximityPlacementGroups
-            go_variable_name: proximityPlacementGroupName
+            go_variable_name: name
             python_parameter_name: proximity_placement_group_name
-            python_variable_name: proximity_placement_group_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -115,9 +115,9 @@ objects:
             python_variable_name: resource_group
           'proximityPlacementGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: proximityPlacementGroups
-            go_variable_name: proximityPlacementGroupName
+            go_variable_name: name
             python_parameter_name: proximity_placement_group_name
-            python_variable_name: proximity_placement_group_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -140,23 +140,41 @@ objects:
             applicable_to: [go]
             go_field_name: VirtualMachines
             go_type_name: SubResource
+          '/properties/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: virtual_machines
+          '/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/properties/virtualMachineScaleSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VirtualMachineScaleSets
             go_type_name: SubResource
+          '/properties/virtualMachineScaleSets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/virtualMachineScaleSets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: virtual_machine_scale_sets
+          '/virtualMachineScaleSets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/properties/availabilitySets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: AvailabilitySets
             go_type_name: SubResource
+          '/properties/availabilitySets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/availabilitySets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: availability_sets
+          '/availabilitySets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -190,7 +208,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'proximityPlacementGroupName'
+        name: 'name'
         description: 'The name of the proximity placement group.'
         required: true
         input: true
@@ -224,11 +242,6 @@ objects:
         azure_sdk_references: ['/virtualMachines', '/properties/virtualMachines']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource Id'
-              required: false
-              azure_sdk_references: ['/virtualMachines/id', '/properties/virtualMachines/id']
       - !ruby/object:Api::Type::Array
         name: 'virtualMachineScaleSets'
         description: 'A list of references to all virtual machine scale sets in the proximity placement group.'
@@ -236,11 +249,6 @@ objects:
         azure_sdk_references: ['/virtualMachineScaleSets', '/properties/virtualMachineScaleSets']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource Id'
-              required: false
-              azure_sdk_references: ['/virtualMachineScaleSets/id', '/properties/virtualMachineScaleSets/id']
       - !ruby/object:Api::Type::Array
         name: 'availabilitySets'
         description: 'A list of references to all availability sets in the proximity placement group.'
@@ -248,11 +256,6 @@ objects:
         azure_sdk_references: ['/availabilitySets', '/properties/availabilitySets']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource Id'
-              required: false
-              azure_sdk_references: ['/availabilitySets/id', '/properties/availabilitySets/id']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

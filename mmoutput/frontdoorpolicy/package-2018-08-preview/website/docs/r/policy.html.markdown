@@ -28,9 +28,9 @@ Manage Azure Policy instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `policy_name` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 

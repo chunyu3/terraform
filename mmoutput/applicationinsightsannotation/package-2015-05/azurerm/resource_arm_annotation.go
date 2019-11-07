@@ -31,17 +31,17 @@ func resourceArmAnnotation() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Optional: true,
+                Required: true,
                 ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "resource_name": {
+            "annotation_name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "category": {
@@ -76,14 +76,14 @@ func resourceArmAnnotationCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).annotationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Annotation (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Annotation %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -92,14 +92,14 @@ func resourceArmAnnotationCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
     id := d.Get("id").(string)
-    name := d.Get("name").(string)
+    annotationName := d.Get("annotation_name").(string)
     category := d.Get("category").(string)
     eventTime := d.Get("event_time").(string)
     properties := d.Get("properties").(string)
     relatedAnnotation := d.Get("related_annotation").(string)
 
     annotationProperties := applicationinsights.Annotation{
-        name: utils.String(name),
+        AnnotationName: utils.String(annotationName),
         Category: utils.String(category),
         EventTime: convertStringToDate(eventTime),
         ID: utils.String(id),
@@ -108,17 +108,17 @@ func resourceArmAnnotationCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, resourceName, annotationProperties); err != nil {
-        return fmt.Errorf("Error creating Annotation (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, annotationProperties); err != nil {
+        return fmt.Errorf("Error creating Annotation %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Annotation (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Annotation %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Annotation (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Annotation %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -134,21 +134,21 @@ func resourceArmAnnotationRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["components"]
+    name := id.Path["components"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Annotation %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Annotation (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Annotation %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    d.Set("resource_name", resourceName)
 
     return nil
 }
@@ -164,10 +164,10 @@ func resourceArmAnnotationDelete(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["components"]
+    name := id.Path["components"]
 
-    if _, err := client.Delete(ctx, resourceGroup, resourceName); err != nil {
-        return fmt.Errorf("Error deleting Annotation (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Annotation %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

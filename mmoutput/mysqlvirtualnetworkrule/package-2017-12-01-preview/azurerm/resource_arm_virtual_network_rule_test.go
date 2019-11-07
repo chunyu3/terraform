@@ -34,16 +34,16 @@ func testCheckAzureRMVirtualNetworkRuleExists(resourceName string) resource.Test
             return fmt.Errorf("Virtual Network Rule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serverName := rs.Primary.Attributes["server_name"]
-        virtualNetworkRuleName := rs.Primary.Attributes["virtual_network_rule_name"]
 
         client := testAccProvider.Meta().(*ArmClient).virtualNetworkRulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, virtualNetworkRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Virtual Network Rule (Virtual Network Rule Name %q / Server Name %q / Resource Group %q) does not exist", virtualNetworkRuleName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Virtual Network Rule %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on virtualNetworkRulesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMVirtualNetworkRuleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serverName := rs.Primary.Attributes["server_name"]
-        virtualNetworkRuleName := rs.Primary.Attributes["virtual_network_rule_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, virtualNetworkRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on virtualNetworkRulesClient: %+v", err)
             }

@@ -28,6 +28,8 @@ Manage Azure DscNodeConfiguration instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The create or update parameters for configuration. Changing this forces a new resource to be created.
+
 * `name` - (Required) Name of the node configuration. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
 * `configuration` - (Required) One `configuration` block defined below.
-
-* `node_configuration_name` - (Required) The create or update parameters for configuration. Changing this forces a new resource to be created.
 
 * `source` - (Required) One `source` block defined below.
 

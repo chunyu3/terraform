@@ -28,11 +28,11 @@ Manage Azure EventHub instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Event Hub name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group within the azure subscription. Changing this forces a new resource to be created.
 
 * `location` - (Required) Location of the resource. Changing this forces a new resource to be created.
-
-* `event_hub_name` - (Required) The Event Hub name Changing this forces a new resource to be created.
 
 * `namespace_name` - (Required) The Namespace name Changing this forces a new resource to be created.
 

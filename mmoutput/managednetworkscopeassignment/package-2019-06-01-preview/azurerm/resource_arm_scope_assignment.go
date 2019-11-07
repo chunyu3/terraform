@@ -31,42 +31,16 @@ func resourceArmScopeAssignment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
-
-            "location": azure.SchemaLocation(),
 
             "scope": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "scope_assignment_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "properties": {
-                Type: schema.TypeList,
-                Optional: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "properties_assigned_managed_network": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "type": {
-                Type: schema.TypeString,
-                Computed: true,
             },
         },
     }
@@ -76,14 +50,14 @@ func resourceArmScopeAssignmentCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).scopeAssignmentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     scope := d.Get("scope").(string)
-    scopeAssignmentName := d.Get("scope_assignment_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, scope, scopeAssignmentName)
+        existing, err := client.Get(ctx, scope, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", scopeAssignmentName, scope, err)
+                return fmt.Errorf("Error checking for present of existing Scope Assignment %q (Scope %q): %+v", name, scope, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -91,26 +65,22 @@ func resourceArmScopeAssignmentCreateUpdate(d *schema.ResourceData, meta interfa
         }
     }
 
-    location := azure.NormalizeLocation(d.Get("location").(string))
-    properties := d.Get("properties").([]interface{})
 
     parameters := managednetwork.ScopeAssignment{
-        Location: utils.String(location),
-        ScopeAssignmentProperties: expandArmScopeAssignmentScopeAssignmentProperties(properties),
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, scope, scopeAssignmentName, parameters); err != nil {
-        return fmt.Errorf("Error creating Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", scopeAssignmentName, scope, err)
+    if _, err := client.CreateOrUpdate(ctx, scope, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Scope Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
 
-    resp, err := client.Get(ctx, scope, scopeAssignmentName)
+    resp, err := client.Get(ctx, scope, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", scopeAssignmentName, scope, err)
+        return fmt.Errorf("Error retrieving Scope Assignment %q (Scope %q): %+v", name, scope, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Scope Assignment (Scope Assignment Name %q / Scope %q) ID", scopeAssignmentName, scope)
+        return fmt.Errorf("Cannot read Scope Assignment %q (Scope %q) ID", name, scope)
     }
     d.SetId(*resp.ID)
 
@@ -125,29 +95,21 @@ func resourceArmScopeAssignmentRead(d *schema.ResourceData, meta interface{}) er
     if err != nil {
         return err
     }
-    scopeAssignmentName := id.Path["scopeAssignments"]
+    name := id.Path["scopeAssignments"]
 
-    resp, err := client.Get(ctx, scope, scopeAssignmentName)
+    resp, err := client.Get(ctx, scope, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Scope Assignment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", scopeAssignmentName, scope, err)
+        return fmt.Errorf("Error reading Scope Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
 
-    d.Set("name", resp.Name)
-    if location := resp.Location; location != nil {
-        d.Set("location", azure.NormalizeLocation(*location))
-    }
-    if err := d.Set("properties", flattenArmScopeAssignmentScopeAssignmentProperties(resp.ScopeAssignmentProperties)); err != nil {
-        return fmt.Errorf("Error setting `properties`: %+v", err)
-    }
+    d.Set("name", name)
     d.Set("scope", scope)
-    d.Set("scope_assignment_name", scopeAssignmentName)
-    d.Set("type", resp.Type)
 
     return nil
 }
@@ -162,40 +124,11 @@ func resourceArmScopeAssignmentDelete(d *schema.ResourceData, meta interface{}) 
     if err != nil {
         return err
     }
-    scopeAssignmentName := id.Path["scopeAssignments"]
+    name := id.Path["scopeAssignments"]
 
-    if _, err := client.Delete(ctx, scope, scopeAssignmentName); err != nil {
-        return fmt.Errorf("Error deleting Scope Assignment (Scope Assignment Name %q / Scope %q): %+v", scopeAssignmentName, scope, err)
+    if _, err := client.Delete(ctx, scope, name); err != nil {
+        return fmt.Errorf("Error deleting Scope Assignment %q (Scope %q): %+v", name, scope, err)
     }
 
     return nil
-}
-
-func expandArmScopeAssignmentScopeAssignmentProperties(input []interface{}) *managednetwork.ScopeAssignmentProperties {
-    if len(input) == 0 {
-        return nil
-    }
-    v := input[0].(map[string]interface{})
-
-    propertiesAssignedManagedNetwork := v["properties_assigned_managed_network"].(string)
-
-    result := managednetwork.ScopeAssignmentProperties{
-        PropertiesAssignedManagedNetwork: utils.String(propertiesAssignedManagedNetwork),
-    }
-    return &result
-}
-
-
-func flattenArmScopeAssignmentScopeAssignmentProperties(input *managednetwork.ScopeAssignmentProperties) []interface{} {
-    if input == nil {
-        return make([]interface{}, 0)
-    }
-
-    result := make(map[string]interface{})
-
-    if propertiesAssignedManagedNetwork := input.PropertiesAssignedManagedNetwork; propertiesAssignedManagedNetwork != nil {
-        result["properties_assigned_managed_network"] = *propertiesAssignedManagedNetwork
-    }
-
-    return []interface{}{result}
 }

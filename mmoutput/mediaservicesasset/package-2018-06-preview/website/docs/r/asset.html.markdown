@@ -28,11 +28,11 @@ Manage Azure Asset instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Asset name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
-
-* `asset_name` - (Required) The Asset name. Changing this forces a new resource to be created.
 
 * `alternate_id` - (Optional) The alternate ID of the Asset.
 

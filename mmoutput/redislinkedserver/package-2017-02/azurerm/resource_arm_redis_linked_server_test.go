@@ -35,15 +35,15 @@ func testCheckAzureRMRedisLinkedServerExists(resourceName string) resource.TestC
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        linkedServerName := rs.Primary.Attributes["linked_server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).redisLinkedServerClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, linkedServerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Redis Linked Server %q (Linked Server Name %q / Resource Group %q) does not exist", name, linkedServerName, resourceGroup)
+                return fmt.Errorf("Bad: Redis Linked Server %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on redisLinkedServerClient: %+v", err)
         }
@@ -62,10 +62,10 @@ func testCheckAzureRMRedisLinkedServerDestroy(s *terraform.State) error {
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        linkedServerName := rs.Primary.Attributes["linked_server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, linkedServerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on redisLinkedServerClient: %+v", err)
             }

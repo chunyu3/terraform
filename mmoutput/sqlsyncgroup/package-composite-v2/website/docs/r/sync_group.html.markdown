@@ -28,13 +28,13 @@ Manage Azure SyncGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the sync group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `database_name` - (Required) The name of the database on which the sync group is hosted. Changing this forces a new resource to be created.
 
 * `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
-
-* `sync_group_name` - (Required) The name of the sync group. Changing this forces a new resource to be created.
 
 * `conflict_resolution_policy` - (Optional) Conflict resolution policy of the sync group. Defaults to `HubWin`.
 

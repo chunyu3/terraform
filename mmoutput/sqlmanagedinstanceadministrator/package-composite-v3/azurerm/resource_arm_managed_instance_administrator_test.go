@@ -34,16 +34,16 @@ func testCheckAzureRMManagedInstanceAdministratorExists(resourceName string) res
             return fmt.Errorf("Managed Instance Administrator not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        administratorName := rs.Primary.Attributes["administrator_name"]
         managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managedInstanceAdministratorsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, administratorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Managed Instance Administrator (Administrator Name %q / Managed Instance Name %q / Resource Group %q) does not exist", administratorName, managedInstanceName, resourceGroup)
+                return fmt.Errorf("Bad: Managed Instance Administrator %q (Managed Instance Name %q / Resource Group %q) does not exist", name, managedInstanceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managedInstanceAdministratorsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMManagedInstanceAdministratorDestroy(s *terraform.State) err
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        administratorName := rs.Primary.Attributes["administrator_name"]
         managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, administratorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managedInstanceAdministratorsClient: %+v", err)
             }

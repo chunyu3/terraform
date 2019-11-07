@@ -28,11 +28,11 @@ Manage Azure NetworkInterface instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the network interface. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `network_interface_name` - (Required) The name of the network interface. Changing this forces a new resource to be created.
 
 * `dns_settings` - (Optional) One `dns_setting` block defined below.
 

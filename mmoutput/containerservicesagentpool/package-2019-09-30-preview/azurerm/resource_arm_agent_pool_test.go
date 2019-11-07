@@ -34,16 +34,16 @@ func testCheckAzureRMAgentPoolExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Agent Pool not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        agentPoolName := rs.Primary.Attributes["agent_pool_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).agentPoolsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, resourceName, agentPoolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q) does not exist", agentPoolName, resourceName, resourceGroup)
+                return fmt.Errorf("Bad: Agent Pool %q (Resource Name %q / Resource Group %q) does not exist", name, resourceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on agentPoolsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAgentPoolDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        agentPoolName := rs.Primary.Attributes["agent_pool_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, resourceName, agentPoolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on agentPoolsClient: %+v", err)
             }

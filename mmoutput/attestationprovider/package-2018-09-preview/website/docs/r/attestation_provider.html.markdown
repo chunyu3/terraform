@@ -28,13 +28,9 @@ Manage Azure AttestationProvider instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the attestation service Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
-
-* `provider_name` - (Required) Name of the attestation service Changing this forces a new resource to be created.
-
-* `status` - (Required) Status of attestation service.
-
-* `attest_uri` - (Optional) Gets the uri of attestation service
 
 * `attestation_policy` - (Optional) Name of attestation policy. Changing this forces a new resource to be created.
 
@@ -94,3 +90,7 @@ The following attributes are exported:
 * `name` - The name of the resource
 
 * `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+
+* `status` - Status of attestation service.
+
+* `attest_uri` - Gets the uri of attestation service

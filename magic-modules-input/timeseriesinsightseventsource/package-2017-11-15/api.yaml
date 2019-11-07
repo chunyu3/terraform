@@ -34,9 +34,9 @@ objects:
             python_variable_name: environment_name
           'eventSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSources
-            go_variable_name: eventSourceName
+            go_variable_name: name
             python_parameter_name: event_source_name
-            python_variable_name: event_source_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: EventSourceCreateOrUpdateParameters
@@ -64,9 +64,9 @@ objects:
             python_variable_name: environment_name
           'eventSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSources
-            go_variable_name: eventSourceName
+            go_variable_name: name
             python_parameter_name: event_source_name
-            python_variable_name: event_source_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -83,9 +83,9 @@ objects:
             python_variable_name: environment_name
           'eventSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSources
-            go_variable_name: eventSourceName
+            go_variable_name: name
             python_parameter_name: event_source_name
-            python_variable_name: event_source_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -102,9 +102,9 @@ objects:
             python_variable_name: environment_name
           'eventSourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSources
-            go_variable_name: eventSourceName
+            go_variable_name: name
             python_parameter_name: event_source_name
-            python_variable_name: event_source_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -152,7 +152,7 @@ objects:
         input: true
         azure_sdk_references: ['environmentName']
       - !ruby/object:Api::Type::String
-        name: 'eventSourceName'
+        name: 'name'
         description: 'Name of the event source.'
         required: true
         input: true

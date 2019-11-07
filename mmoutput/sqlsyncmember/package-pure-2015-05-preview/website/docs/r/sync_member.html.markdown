@@ -28,6 +28,8 @@ Manage Azure SyncMember instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the sync member. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `database_name` - (Required) The name of the database on which the sync group is hosted. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
 
 * `sync_group_name` - (Required) The name of the sync group on which the sync member is hosted. Changing this forces a new resource to be created.
-
-* `sync_member_name` - (Required) The name of the sync member. Changing this forces a new resource to be created.
 
 * `database_name` - (Optional) Database name of the member database in the sync member.
 

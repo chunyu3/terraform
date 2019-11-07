@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ClusterCreateParametersExtended
@@ -182,9 +182,36 @@ objects:
           '/computeProfile/roles/autoscale/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: capacity
+          '/computeProfile/roles/autoscale/capacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: min_instance_count
+          '/computeProfile/roles/autoscale/capacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_instance_count
           '/computeProfile/roles/autoscale/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: recurrence
+          '/computeProfile/roles/autoscale/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone
+          '/computeProfile/roles/autoscale/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/computeProfile/roles/autoscale/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: days
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_and_capacity
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: min_instance_count
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_instance_count
           '/computeProfile/roles/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: hardware_profile
@@ -197,6 +224,21 @@ objects:
           '/computeProfile/roles/osProfile/linuxOperatingSystemProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: linux_operating_system_profile
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: username
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh_profile
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: public_keys
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_data
           '/computeProfile/roles/virtualNetworkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: virtual_network_profile
@@ -249,10 +291,39 @@ objects:
             applicable_to: [go]
             go_field_name: Capacity
             go_type_name: AutoscaleCapacity
+          '/properties/computeProfile/roles/autoscale/capacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MinInstanceCount
+          '/properties/computeProfile/roles/autoscale/capacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxInstanceCount
           '/properties/computeProfile/roles/autoscale/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Recurrence
             go_type_name: AutoscaleRecurrence
+          '/properties/computeProfile/roles/autoscale/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZone
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: AutoscaleSchedule
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Days
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimeAndCapacity
+            go_type_name: AutoscaleTimeAndCapacity
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MinInstanceCount
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxInstanceCount
           '/properties/computeProfile/roles/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HardwareProfile
@@ -268,6 +339,23 @@ objects:
             applicable_to: [go]
             go_field_name: LinuxOperatingSystemProfile
             go_type_name: LinuxOperatingSystemProfile
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Username
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SshProfile
+            go_type_name: SshProfile
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PublicKeys
+            go_type_name: SshPublicKey
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateData
           '/properties/computeProfile/roles/virtualNetworkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: VirtualNetworkProfile
@@ -414,9 +502,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ClusterCreateParametersExtended
@@ -566,9 +654,36 @@ objects:
           '/computeProfile/roles/autoscale/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: capacity
+          '/computeProfile/roles/autoscale/capacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: min_instance_count
+          '/computeProfile/roles/autoscale/capacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_instance_count
           '/computeProfile/roles/autoscale/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: recurrence
+          '/computeProfile/roles/autoscale/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone
+          '/computeProfile/roles/autoscale/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/computeProfile/roles/autoscale/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: days
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_and_capacity
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: min_instance_count
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_instance_count
           '/computeProfile/roles/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: hardware_profile
@@ -581,6 +696,21 @@ objects:
           '/computeProfile/roles/osProfile/linuxOperatingSystemProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: linux_operating_system_profile
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: username
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh_profile
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: public_keys
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_data
           '/computeProfile/roles/virtualNetworkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: virtual_network_profile
@@ -633,10 +763,39 @@ objects:
             applicable_to: [go]
             go_field_name: Capacity
             go_type_name: AutoscaleCapacity
+          '/properties/computeProfile/roles/autoscale/capacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MinInstanceCount
+          '/properties/computeProfile/roles/autoscale/capacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxInstanceCount
           '/properties/computeProfile/roles/autoscale/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Recurrence
             go_type_name: AutoscaleRecurrence
+          '/properties/computeProfile/roles/autoscale/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZone
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: AutoscaleSchedule
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Days
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimeAndCapacity
+            go_type_name: AutoscaleTimeAndCapacity
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MinInstanceCount
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxInstanceCount
           '/properties/computeProfile/roles/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HardwareProfile
@@ -652,6 +811,23 @@ objects:
             applicable_to: [go]
             go_field_name: LinuxOperatingSystemProfile
             go_type_name: LinuxOperatingSystemProfile
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Username
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SshProfile
+            go_type_name: SshProfile
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PublicKeys
+            go_type_name: SshPublicKey
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateData
           '/properties/computeProfile/roles/virtualNetworkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: VirtualNetworkProfile
@@ -799,9 +975,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -813,9 +989,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -965,10 +1141,39 @@ objects:
             applicable_to: [go]
             go_field_name: Capacity
             go_type_name: AutoscaleCapacity
+          '/properties/computeProfile/roles/autoscale/capacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MinInstanceCount
+          '/properties/computeProfile/roles/autoscale/capacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxInstanceCount
           '/properties/computeProfile/roles/autoscale/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Recurrence
             go_type_name: AutoscaleRecurrence
+          '/properties/computeProfile/roles/autoscale/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZone
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Schedule
+            go_type_name: AutoscaleSchedule
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Days
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TimeAndCapacity
+            go_type_name: AutoscaleTimeAndCapacity
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MinInstanceCount
+          '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxInstanceCount
           '/properties/computeProfile/roles/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HardwareProfile
@@ -984,6 +1189,23 @@ objects:
             applicable_to: [go]
             go_field_name: LinuxOperatingSystemProfile
             go_type_name: LinuxOperatingSystemProfile
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Username
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SshProfile
+            go_type_name: SshProfile
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PublicKeys
+            go_type_name: SshPublicKey
+          '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateData
           '/properties/computeProfile/roles/virtualNetworkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: VirtualNetworkProfile
@@ -1041,9 +1263,36 @@ objects:
           '/computeProfile/roles/autoscale/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: capacity
+          '/computeProfile/roles/autoscale/capacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: min_instance_count
+          '/computeProfile/roles/autoscale/capacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_instance_count
           '/computeProfile/roles/autoscale/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: recurrence
+          '/computeProfile/roles/autoscale/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone
+          '/computeProfile/roles/autoscale/recurrence/schedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: schedule
+          '/computeProfile/roles/autoscale/recurrence/schedule/days': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: days
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: time_and_capacity
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: min_instance_count
+          '/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_instance_count
           '/computeProfile/roles/hardwareProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: hardware_profile
@@ -1056,6 +1305,21 @@ objects:
           '/computeProfile/roles/osProfile/linuxOperatingSystemProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: linux_operating_system_profile
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: username
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ssh_profile
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: public_keys
+          '/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_data
           '/computeProfile/roles/virtualNetworkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: virtual_network_profile
@@ -1150,23 +1414,65 @@ objects:
             applicable_to: [go]
             go_field_name: QuotaInfo
             go_type_name: QuotaInfo
+          '/properties/quotaInfo/coresUsed': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: CoresUsed
           '/quotaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: quota_info
+          '/quotaInfo/coresUsed': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: cores_used
           '/properties/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Errors
             go_type_name: Errors
+          '/properties/errors/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/errors/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
           '/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: errors
+          '/errors/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/errors/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
           '/properties/connectivityEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ConnectivityEndpoints
             go_type_name: ConnectivityEndpoint
+          '/properties/connectivityEndpoints/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/connectivityEndpoints/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Protocol
+          '/properties/connectivityEndpoints/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/connectivityEndpoints/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
           '/connectivityEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: connectivity_endpoints
+          '/connectivityEndpoints/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/connectivityEndpoints/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: protocol
+          '/connectivityEndpoints/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/connectivityEndpoints/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
           '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Identity
             go_type_name: ClusterIdentity
@@ -1220,7 +1526,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'clusterName'
+        name: 'name'
         description: 'The name of the cluster.'
         required: true
         input: true
@@ -1376,6 +1682,78 @@ objects:
                   required: false
                   azure_sdk_references: ['/computeProfile/roles/autoscale', '/properties/computeProfile/roles/autoscale']
                   properties:
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'capacity'
+                      description: 'Parameters for load-based autoscale'
+                      required: false
+                      azure_sdk_references: ['/computeProfile/roles/autoscale/capacity', '/properties/computeProfile/roles/autoscale/capacity']
+                      properties:
+                        - !ruby/object:Api::Type::Integer
+                          name: 'minInstanceCount'
+                          description: 'The minimum instance count of the cluster'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/autoscale/capacity/minInstanceCount', '/properties/computeProfile/roles/autoscale/capacity/minInstanceCount']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'maxInstanceCount'
+                          description: 'The maximum instance count of the cluster'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/autoscale/capacity/maxInstanceCount', '/properties/computeProfile/roles/autoscale/capacity/maxInstanceCount']
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'recurrence'
+                      description: 'Parameters for schedule-based autoscale'
+                      required: false
+                      azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence', '/properties/computeProfile/roles/autoscale/recurrence']
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'timeZone'
+                          description: 'The time zone for the autoscale schedule times'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/timeZone', '/properties/computeProfile/roles/autoscale/recurrence/timeZone']
+                        - !ruby/object:Api::Type::Array
+                          name: 'schedule'
+                          description: 'Array of schedule-based autoscale rules'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/schedule', '/properties/computeProfile/roles/autoscale/recurrence/schedule']
+                          item_type: !ruby/object:Api::Type::NestedObject
+                            properties:
+                              - !ruby/object:Api::Type::Array
+                                name: 'days'
+                                description: 'Days of the week for a schedule-based autoscale rule'
+                                required: false
+                                azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/schedule/days', '/properties/computeProfile/roles/autoscale/recurrence/schedule/days']
+                                item_type: !ruby/object:Api::Type::Enum
+                                  name: 'TBD'
+                                  description: 'TBD'
+                                  values:
+                                    - :Monday
+                                    - :Tuesday
+                                    - :Wednesday
+                                    - :Thursday
+                                    - :Friday
+                                    - :Saturday
+                                    - :Sunday
+                                  default_value: :Monday
+                              - !ruby/object:Api::Type::NestedObject
+                                name: 'timeAndCapacity'
+                                description: 'Time and capacity for a schedule-based autoscale rule'
+                                required: false
+                                azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity', '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity']
+                                properties:
+                                  - !ruby/object:Api::Type::String
+                                    name: 'time'
+                                    description: '24-hour time in the form xx:xx'
+                                    required: false
+                                    azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time', '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/time']
+                                  - !ruby/object:Api::Type::Integer
+                                    name: 'minInstanceCount'
+                                    description: 'The minimum instance count of the cluster'
+                                    required: false
+                                    azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount', '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/minInstanceCount']
+                                  - !ruby/object:Api::Type::Integer
+                                    name: 'maxInstanceCount'
+                                    description: 'The maximum instance count of the cluster'
+                                    required: false
+                                    azure_sdk_references: ['/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount', '/properties/computeProfile/roles/autoscale/recurrence/schedule/timeAndCapacity/maxInstanceCount']
                 - !ruby/object:Api::Type::NestedObject
                   name: 'hardwareProfile'
                   description: 'The hardware profile.'
@@ -1393,6 +1771,40 @@ objects:
                   required: false
                   azure_sdk_references: ['/computeProfile/roles/osProfile', '/properties/computeProfile/roles/osProfile']
                   properties:
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'linuxOperatingSystemProfile'
+                      description: 'The Linux OS profile.'
+                      required: false
+                      azure_sdk_references: ['/computeProfile/roles/osProfile/linuxOperatingSystemProfile', '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile']
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'username'
+                          description: 'The username.'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username', '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/username']
+                        - !ruby/object:Api::Type::String
+                          name: 'password'
+                          description: 'The password.'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password', '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/password']
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'sshProfile'
+                          description: 'The SSH profile.'
+                          required: false
+                          azure_sdk_references: ['/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile', '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile']
+                          properties:
+                            - !ruby/object:Api::Type::Array
+                              name: 'publicKeys'
+                              description: 'The list of SSH public keys.'
+                              required: false
+                              azure_sdk_references: ['/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys', '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys']
+                              item_type: !ruby/object:Api::Type::NestedObject
+                                properties:
+                                  - !ruby/object:Api::Type::String
+                                    name: 'certificateData'
+                                    description: 'The certificate for SSH.'
+                                    required: false
+                                    azure_sdk_references: ['/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData', '/properties/computeProfile/roles/osProfile/linuxOperatingSystemProfile/sshProfile/publicKeys/certificateData']
                 - !ruby/object:Api::Type::NestedObject
                   name: 'virtualNetworkProfile'
                   description: 'The virtual network profile.'
@@ -1577,11 +1989,6 @@ objects:
         output: true
         azure_sdk_references: ['/quotaInfo', '/properties/quotaInfo']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'coresUsed'
-            description: 'The cores used by the cluster.'
-            required: false
-            azure_sdk_references: ['/quotaInfo/coresUsed', '/properties/quotaInfo/coresUsed']
       - !ruby/object:Api::Type::Array
         name: 'errors'
         description: 'The list of errors.'
@@ -1589,16 +1996,6 @@ objects:
         azure_sdk_references: ['/errors', '/properties/errors']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'code'
-              description: 'The error code.'
-              required: false
-              azure_sdk_references: ['/errors/code', '/properties/errors/code']
-            - !ruby/object:Api::Type::String
-              name: 'message'
-              description: 'The error message.'
-              required: false
-              azure_sdk_references: ['/errors/message', '/properties/errors/message']
       - !ruby/object:Api::Type::Array
         name: 'connectivityEndpoints'
         description: 'The list of connectivity endpoints.'
@@ -1606,27 +2003,6 @@ objects:
         azure_sdk_references: ['/connectivityEndpoints', '/properties/connectivityEndpoints']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'The name of the endpoint.'
-              required: false
-              azure_sdk_references: ['/connectivityEndpoints/name', '/properties/connectivityEndpoints/name']
-            - !ruby/object:Api::Type::String
-              name: 'protocol'
-              description: 'The protocol of the endpoint.'
-              required: false
-              azure_sdk_references: ['/connectivityEndpoints/protocol', '/properties/connectivityEndpoints/protocol']
-            - !ruby/object:Api::Azure::Type::Location
-              name: 'location'
-              description: 'The location of the endpoint.'
-              required: false
-              input: true
-              azure_sdk_references: ['/connectivityEndpoints/location', '/properties/connectivityEndpoints/location']
-            - !ruby/object:Api::Type::Integer
-              name: 'port'
-              description: 'The port to connect to.'
-              required: false
-              azure_sdk_references: ['/connectivityEndpoints/port', '/properties/connectivityEndpoints/port']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource.'

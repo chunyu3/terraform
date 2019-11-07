@@ -24,9 +24,9 @@ objects:
         request:
           'peerAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peerAsns
-            go_variable_name: peerAsnName
+            go_variable_name: name
             python_parameter_name: peer_asn_name
-            python_variable_name: peer_asn_name
+            python_variable_name: name
           '/properties/peerAsn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: PeerAsn
@@ -39,18 +39,18 @@ objects:
         request:
           'peerAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peerAsns
-            go_variable_name: peerAsnName
+            go_variable_name: name
             python_parameter_name: peer_asn_name
-            python_variable_name: peer_asn_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
           'peerAsnName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peerAsns
-            go_variable_name: peerAsnName
+            go_variable_name: name
             python_parameter_name: peer_asn_name
-            python_variable_name: peer_asn_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -115,7 +115,7 @@ objects:
       Manage Azure PeerAsn instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'peerAsnName'
+        name: 'name'
         description: 'The peer ASN name.'
         required: true
         input: true

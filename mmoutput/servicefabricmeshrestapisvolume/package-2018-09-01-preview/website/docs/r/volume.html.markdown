@@ -28,13 +28,13 @@ Manage Azure Volume instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The identity of the volume. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Azure resource group name Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
 
 * `provider` - (Required) Provider of the volume.
-
-* `volume_resource_name` - (Required) The identity of the volume. Changing this forces a new resource to be created.
 
 * `azure_file_parameters` - (Optional) One `azure_file_parameter` block defined below.
 

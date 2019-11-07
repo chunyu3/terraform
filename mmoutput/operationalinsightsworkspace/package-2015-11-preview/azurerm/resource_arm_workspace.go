@@ -31,19 +31,19 @@ func resourceArmWorkspace() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "workspace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "e_tag": {
                 Type: schema.TypeString,
@@ -112,14 +112,14 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).workspacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    workspaceName := d.Get("workspace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, workspaceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,21 +144,21 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, workspaceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Workspace (Workspace Name %q / Resource Group %q) ID", workspaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Workspace %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -174,19 +174,20 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Workspace %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -204,7 +205,6 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("e_tag", resp.ETag)
     d.Set("type", resp.Type)
-    d.Set("workspace_name", workspaceName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -213,11 +213,11 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).workspacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     eTag := d.Get("e_tag").(string)
     retentionInDays := d.Get("retention_in_days").(int)
     sku := d.Get("sku").([]interface{})
-    workspaceName := d.Get("workspace_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := operationalinsights.Workspace{
@@ -231,8 +231,8 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, workspaceName, parameters); err != nil {
-        return fmt.Errorf("Error updating Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmWorkspaceRead(d, meta)
@@ -248,10 +248,10 @@ func resourceArmWorkspaceDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    if _, err := client.Delete(ctx, resourceGroup, workspaceName); err != nil {
-        return fmt.Errorf("Error deleting Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

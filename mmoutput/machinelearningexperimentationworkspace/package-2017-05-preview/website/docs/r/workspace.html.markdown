@@ -28,6 +28,8 @@ Manage Azure Workspace instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the machine learning team account workspace. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group to which the machine learning team account belongs. Changing this forces a new resource to be created.
 
 * `location` - (Required) The location of the resource. This cannot be changed after the resource is created. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `account_name` - (Required) The name of the machine learning team account. Changing this forces a new resource to be created.
 
 * `friendly_name` - (Required) The friendly name for this workspace. This will be the workspace name in the arm id when the workspace object gets created
-
-* `workspace_name` - (Required) The name of the machine learning team account workspace. Changing this forces a new resource to be created.
 
 * `description` - (Optional) The description of this workspace.
 

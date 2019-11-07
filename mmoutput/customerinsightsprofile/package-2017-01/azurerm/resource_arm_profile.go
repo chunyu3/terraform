@@ -31,19 +31,19 @@ func resourceArmProfile() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "hub_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "profile_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -268,15 +268,15 @@ func resourceArmProfileCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).profilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hubName := d.Get("hub_name").(string)
-    profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, profileName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -321,21 +321,21 @@ func resourceArmProfileCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, profileName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error creating Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, profileName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Profile (Profile Name %q / Hub Name %q / Resource Group %q) ID", profileName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Profile %q (Hub Name %q / Resource Group %q) ID", name, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -352,19 +352,20 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    profileName := id.Path["profiles"]
+    name := id.Path["profiles"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, profileName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Profile %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if profileTypeDefinition := resp.ProfileTypeDefinition; profileTypeDefinition != nil {
@@ -392,7 +393,6 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("type_name", profileTypeDefinition.TypeName)
     }
     d.Set("hub_name", hubName)
-    d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
     return nil
@@ -410,19 +410,19 @@ func resourceArmProfileDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    profileName := id.Path["profiles"]
+    name := id.Path["profiles"]
 
-    future, err := client.Delete(ctx, resourceGroup, hubName, profileName)
+    future, err := client.Delete(ctx, resourceGroup, hubName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Profile (Profile Name %q / Hub Name %q / Resource Group %q): %+v", profileName, hubName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Profile %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
         }
     }
 

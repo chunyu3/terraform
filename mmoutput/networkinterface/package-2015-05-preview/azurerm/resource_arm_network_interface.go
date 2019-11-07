@@ -31,19 +31,19 @@ func resourceArmNetworkInterface() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "network_interface_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "dns_settings": {
                 Type: schema.TypeList,
@@ -234,14 +234,14 @@ func resourceArmNetworkInterfaceCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).networkInterfacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    networkInterfaceName := d.Get("network_interface_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, networkInterfaceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -278,21 +278,21 @@ func resourceArmNetworkInterfaceCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, networkInterfaceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, networkInterfaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Network Interface (Network Interface Name %q / Resource Group %q) ID", networkInterfaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Network Interface %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -308,19 +308,20 @@ func resourceArmNetworkInterfaceRead(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    networkInterfaceName := id.Path["networkInterfaces"]
+    name := id.Path["networkInterfaces"]
 
-    resp, err := client.Get(ctx, resourceGroup, networkInterfaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Network Interface %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -346,7 +347,6 @@ func resourceArmNetworkInterfaceRead(d *schema.ResourceData, meta interface{}) e
         }
     }
     d.Set("etag", resp.Etag)
-    d.Set("network_interface_name", networkInterfaceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -363,19 +363,19 @@ func resourceArmNetworkInterfaceDelete(d *schema.ResourceData, meta interface{})
         return err
     }
     resourceGroup := id.ResourceGroup
-    networkInterfaceName := id.Path["networkInterfaces"]
+    name := id.Path["networkInterfaces"]
 
-    future, err := client.Delete(ctx, resourceGroup, networkInterfaceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Network Interface (Network Interface Name %q / Resource Group %q): %+v", networkInterfaceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Network Interface %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

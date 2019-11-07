@@ -36,16 +36,16 @@ func resourceArmGroup() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "group_id": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "service_name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "group_id": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -88,15 +88,15 @@ func resourceArmGroupCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).groupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     groupID := d.Get("group_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, groupID)
+        existing, err := client.Get(ctx, resourceGroup, name, groupID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Group (Group %q / Service Name %q / Resource Group %q): %+v", groupID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Group %q (Group %q / Resource Group %q): %+v", name, groupID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -117,17 +117,17 @@ func resourceArmGroupCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, groupID, parameters); err != nil {
-        return fmt.Errorf("Error creating Group (Group %q / Service Name %q / Resource Group %q): %+v", groupID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, groupID, parameters); err != nil {
+        return fmt.Errorf("Error creating Group %q (Group %q / Resource Group %q): %+v", name, groupID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, groupID)
+    resp, err := client.Get(ctx, resourceGroup, name, groupID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Group (Group %q / Service Name %q / Resource Group %q): %+v", groupID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Group %q (Group %q / Resource Group %q): %+v", name, groupID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Group (Group %q / Service Name %q / Resource Group %q) ID", groupID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Group %q (Group %q / Resource Group %q) ID", name, groupID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -143,27 +143,27 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     groupID := id.Path["groups"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, groupID)
+    resp, err := client.Get(ctx, resourceGroup, name, groupID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Group (Group %q / Service Name %q / Resource Group %q): %+v", groupID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Group %q (Group %q / Resource Group %q): %+v", name, groupID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("built_in", resp.BuiltIn)
     d.Set("description", resp.Description)
     d.Set("external_id", resp.ExternalID)
     d.Set("group_id", groupID)
-    d.Set("service_name", serviceName)
     d.Set("type", string(resp.Type))
 
     return nil
@@ -174,11 +174,11 @@ func resourceArmGroupUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     externalId := d.Get("external_id").(string)
     groupID := d.Get("group_id").(string)
-    serviceName := d.Get("service_name").(string)
     type := d.Get("type").(string)
 
     parameters := apimanagement.GroupCreateParameters{
@@ -189,8 +189,8 @@ func resourceArmGroupUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, groupID, parameters); err != nil {
-        return fmt.Errorf("Error updating Group (Group %q / Service Name %q / Resource Group %q): %+v", groupID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, groupID, parameters); err != nil {
+        return fmt.Errorf("Error updating Group %q (Group %q / Resource Group %q): %+v", name, groupID, resourceGroup, err)
     }
 
     return resourceArmGroupRead(d, meta)
@@ -206,11 +206,11 @@ func resourceArmGroupDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     groupID := id.Path["groups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, groupID); err != nil {
-        return fmt.Errorf("Error deleting Group (Group %q / Service Name %q / Resource Group %q): %+v", groupID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, groupID); err != nil {
+        return fmt.Errorf("Error deleting Group %q (Group %q / Resource Group %q): %+v", name, groupID, resourceGroup, err)
     }
 
     return nil

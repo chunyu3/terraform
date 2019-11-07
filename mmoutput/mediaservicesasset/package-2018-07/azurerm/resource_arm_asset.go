@@ -31,19 +31,19 @@ func resourceArmAsset() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "asset_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -102,15 +102,15 @@ func resourceArmAssetCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).assetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    assetName := d.Get("asset_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, assetName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Asset (Asset Name %q / Account Name %q / Resource Group %q): %+v", assetName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Asset %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -133,17 +133,17 @@ func resourceArmAssetCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, assetName, parameters); err != nil {
-        return fmt.Errorf("Error creating Asset (Asset Name %q / Account Name %q / Resource Group %q): %+v", assetName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Asset %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, assetName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Asset (Asset Name %q / Account Name %q / Resource Group %q): %+v", assetName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Asset %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Asset (Asset Name %q / Account Name %q / Resource Group %q) ID", assetName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Asset %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -160,19 +160,20 @@ func resourceArmAssetRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    assetName := id.Path["assets"]
+    name := id.Path["assets"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, assetName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Asset %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Asset (Asset Name %q / Account Name %q / Resource Group %q): %+v", assetName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Asset %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -186,7 +187,6 @@ func resourceArmAssetRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("storage_account_name", assetProperties.StorageAccountName)
         d.Set("storage_encryption_format", string(assetProperties.StorageEncryptionFormat))
     }
-    d.Set("asset_name", assetName)
     d.Set("type", resp.Type)
 
     return nil
@@ -196,10 +196,10 @@ func resourceArmAssetUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).assetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     alternateId := d.Get("alternate_id").(string)
-    assetName := d.Get("asset_name").(string)
     container := d.Get("container").(string)
     description := d.Get("description").(string)
     storageAccountName := d.Get("storage_account_name").(string)
@@ -214,8 +214,8 @@ func resourceArmAssetUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, assetName, parameters); err != nil {
-        return fmt.Errorf("Error updating Asset (Asset Name %q / Account Name %q / Resource Group %q): %+v", assetName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Asset %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmAssetRead(d, meta)
@@ -232,10 +232,10 @@ func resourceArmAssetDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    assetName := id.Path["assets"]
+    name := id.Path["assets"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, assetName); err != nil {
-        return fmt.Errorf("Error deleting Asset (Asset Name %q / Account Name %q / Resource Group %q): %+v", assetName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Asset %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

@@ -28,13 +28,13 @@ Manage Azure SoftwareUpdateConfiguration instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the software update configuration to be created. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
 * `schedule_info` - (Required) One `schedule_info` block defined below.
-
-* `software_update_configuration_name` - (Required) The name of the software update configuration to be created. Changing this forces a new resource to be created.
 
 * `update_configuration` - (Required) One `update_configuration` block defined below.
 
@@ -147,6 +147,17 @@ The `azure_query` block supports the following:
 * `scope` - (Optional) List of Subscription or Resource Group ARM Ids.
 
 * `locations` - (Optional) List of locations to scope the query to.
+
+* `tag_settings` - (Optional) One `tag_setting` block defined below.
+
+
+---
+
+The `tag_setting` block supports the following:
+
+* `tags` - (Optional) Dictionary of tags with its list of values.
+
+* `filter_operator` - (Optional) Filter VMs by Any or All specified tags. Defaults to `All`.
 
 ---
 

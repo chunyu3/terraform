@@ -23,16 +23,16 @@ objects:
         go_func_name: CreateOrUpdate
         python_func_name: create_or_update
         request:
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: NetworkExperimentProfiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: NetworkExperimentProfiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Profile
@@ -77,9 +77,9 @@ objects:
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: NetworkExperimentProfiles
-            go_variable_name: profileName
+            go_variable_name: name
             python_parameter_name: profile_name
-            python_variable_name: profile_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Profile
@@ -124,9 +124,9 @@ objects:
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: NetworkExperimentProfiles
-            go_variable_name: profileName
+            go_variable_name: name
             python_parameter_name: profile_name
-            python_variable_name: profile_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -138,9 +138,9 @@ objects:
             python_variable_name: resource_group
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: NetworkExperimentProfiles
-            go_variable_name: profileName
+            go_variable_name: name
             python_parameter_name: profile_name
-            python_variable_name: profile_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -196,7 +196,7 @@ objects:
       Manage Azure NetworkExperimentProfile instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'profileName'
+        name: 'name'
         description: 'The Profile identifier associated with the Tenant and Partner'
         required: true
         input: true

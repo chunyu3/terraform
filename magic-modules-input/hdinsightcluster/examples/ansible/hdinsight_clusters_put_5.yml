@@ -4,7 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: Create HDInsight cluster with Autoscale configuration
   code:
     resource_group: myResourceGroup
-    cluster_name: myCluster
+    name: myCluster
     cluster_version: '3.6'
     os_type: Linux
     tier: Standard
@@ -23,7 +23,7 @@ task: !ruby/object:Provider::Ansible::Task
           target_instance_count: '4'
           autoscale:
             recurrence:
-              timeZone: China Standard Time
+              time_zone: China Standard Time
               schedule:
                 - days:
                     - Monday
@@ -31,34 +31,34 @@ task: !ruby/object:Provider::Ansible::Task
                     - Wednesday
                     - Thursday
                     - Friday
-                  timeAndCapacity:
+                  time_and_capacity:
                     time: '09:00'
-                    minInstanceCount: '3'
-                    maxInstanceCount: '3'
+                    min_instance_count: '3'
+                    max_instance_count: '3'
                 - days:
                     - Monday
                     - Tuesday
                     - Wednesday
                     - Thursday
                     - Friday
-                  timeAndCapacity:
+                  time_and_capacity:
                     time: '18:00'
-                    minInstanceCount: '6'
-                    maxInstanceCount: '6'
+                    min_instance_count: '6'
+                    max_instance_count: '6'
                 - days:
                     - Saturday
                     - Sunday
-                  timeAndCapacity:
+                  time_and_capacity:
                     time: '09:00'
-                    minInstanceCount: '2'
-                    maxInstanceCount: '2'
+                    min_instance_count: '2'
+                    max_instance_count: '2'
                 - days:
                     - Saturday
                     - Sunday
-                  timeAndCapacity:
+                  time_and_capacity:
                     time: '18:00'
-                    minInstanceCount: '4'
-                    maxInstanceCount: '4'
+                    min_instance_count: '4'
+                    max_instance_count: '4'
           hardware_profile:
             vm_size: Standard_D4_V2
           os_profile:

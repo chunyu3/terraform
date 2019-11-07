@@ -28,13 +28,13 @@ Manage Azure Diagnostic instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `diagnostic_id` - (Required) Diagnostic identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
 * `logger_id` - (Required) Resource Id of a target logger.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `always_log` - (Optional) Specifies for what type of messages sampling settings should not apply. Defaults to `allErrors`.
 

@@ -28,9 +28,9 @@ Manage Azure Profile instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group containing the Traffic Manager profile. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Traffic Manager profile. Changing this forces a new resource to be created.
 
-* `profile_name` - (Required) The name of the Traffic Manager profile. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group containing the Traffic Manager profile. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location Changing this forces a new resource to be created.
 

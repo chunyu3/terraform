@@ -36,16 +36,16 @@ func resourceArmCustomImage() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "author": {
                 Type: schema.TypeString,
@@ -226,14 +226,14 @@ func resourceArmCustomImageCreate(d *schema.ResourceData, meta interface{}) erro
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -270,21 +270,21 @@ func resourceArmCustomImageCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, customImage)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, customImage)
     if err != nil {
-        return fmt.Errorf("Error creating Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Custom Image %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Custom Image %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -300,20 +300,21 @@ func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["customimages"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Custom Image %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -341,7 +342,6 @@ func resourceArmCustomImageRead(d *schema.ResourceData, meta interface{}) error 
             return fmt.Errorf("Error setting `vm`: %+v", err)
         }
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -352,13 +352,13 @@ func resourceArmCustomImageUpdate(d *schema.ResourceData, meta interface{}) erro
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     author := d.Get("author").(string)
     customImagePlan := d.Get("custom_image_plan").([]interface{})
     dataDiskStorageInfo := d.Get("data_disk_storage_info").([]interface{})
     description := d.Get("description").(string)
     isPlanAuthorized := d.Get("is_plan_authorized").(bool)
-    labName := d.Get("lab_name").(string)
     managedImageId := d.Get("managed_image_id").(string)
     managedSnapshotId := d.Get("managed_snapshot_id").(string)
     vhd := d.Get("vhd").([]interface{})
@@ -382,8 +382,8 @@ func resourceArmCustomImageUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, customImage); err != nil {
-        return fmt.Errorf("Error updating Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, customImage); err != nil {
+        return fmt.Errorf("Error updating Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmCustomImageRead(d, meta)
@@ -399,20 +399,20 @@ func resourceArmCustomImageDelete(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["customimages"]
 
-    future, err := client.Delete(ctx, resourceGroup, labName, name)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Custom Image %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Custom Image %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

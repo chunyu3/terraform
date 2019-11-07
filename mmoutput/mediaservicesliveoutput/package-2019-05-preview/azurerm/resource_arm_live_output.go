@@ -31,6 +31,13 @@ func resourceArmLiveOutput() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -57,13 +64,6 @@ func resourceArmLiveOutput() *schema.Resource {
             },
 
             "live_event_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "live_output_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -131,16 +131,16 @@ func resourceArmLiveOutputCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).liveOutputsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     liveEventName := d.Get("live_event_name").(string)
-    liveOutputName := d.Get("live_output_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, liveEventName, liveOutputName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, liveEventName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -167,21 +167,21 @@ func resourceArmLiveOutputCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, accountName, liveEventName, liveOutputName, parameters)
+    future, err := client.Create(ctx, resourceGroup, accountName, liveEventName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, liveOutputName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q) ID", liveOutputName, liveEventName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q) ID", name, liveEventName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -199,19 +199,20 @@ func resourceArmLiveOutputRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaservices"]
     liveEventName := id.Path["liveEvents"]
-    liveOutputName := id.Path["liveOutputs"]
+    name := id.Path["liveOutputs"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, liveOutputName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Live Output %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -230,7 +231,6 @@ func resourceArmLiveOutputRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("resource_state", string(liveOutputProperties.ResourceState))
     }
     d.Set("live_event_name", liveEventName)
-    d.Set("live_output_name", liveOutputName)
     d.Set("type", resp.Type)
 
     return nil
@@ -249,19 +249,19 @@ func resourceArmLiveOutputDelete(d *schema.ResourceData, meta interface{}) error
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaservices"]
     liveEventName := id.Path["liveEvents"]
-    liveOutputName := id.Path["liveOutputs"]
+    name := id.Path["liveOutputs"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, liveEventName, liveOutputName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, liveEventName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q): %+v", liveOutputName, liveEventName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q): %+v", name, liveEventName, accountName, resourceGroup, err)
         }
     }
 

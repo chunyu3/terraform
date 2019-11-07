@@ -31,6 +31,13 @@ func resourceArmMetricAlert() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -69,13 +76,6 @@ func resourceArmMetricAlert() *schema.Resource {
                 Required: true,
                 ValidateFunc: validate.NoEmptyStrings,
                 ValidateFunc: validateIso8601Duration(),
-            },
-
-            "rule_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "severity": {
@@ -150,14 +150,14 @@ func resourceArmMetricAlertCreate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).metricAlertsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    ruleName := d.Get("rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, ruleName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Metric Alert (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Metric Alert %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -198,17 +198,17 @@ func resourceArmMetricAlertCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, ruleName, parameters); err != nil {
-        return fmt.Errorf("Error creating Metric Alert (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Metric Alert %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, ruleName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Metric Alert (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Metric Alert %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Metric Alert (Rule Name %q / Resource Group %q) ID", ruleName, resourceGroup)
+        return fmt.Errorf("Cannot read Metric Alert %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -224,19 +224,20 @@ func resourceArmMetricAlertRead(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    ruleName := id.Path["metricAlerts"]
+    name := id.Path["metricAlerts"]
 
-    resp, err := client.Get(ctx, resourceGroup, ruleName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Metric Alert %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Metric Alert (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+        return fmt.Errorf("Error reading Metric Alert %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -260,7 +261,6 @@ func resourceArmMetricAlertRead(d *schema.ResourceData, meta interface{}) error 
         d.Set("target_resource_type", metricAlertProperties.TargetResourceType)
         d.Set("window_size", metricAlertProperties.WindowSize)
     }
-    d.Set("rule_name", ruleName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -270,6 +270,7 @@ func resourceArmMetricAlertUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).metricAlertsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     actions := d.Get("actions").([]interface{})
     autoMitigate := d.Get("auto_mitigate").(bool)
@@ -277,7 +278,6 @@ func resourceArmMetricAlertUpdate(d *schema.ResourceData, meta interface{}) erro
     description := d.Get("description").(string)
     enabled := d.Get("enabled").(bool)
     evaluationFrequency := d.Get("evaluation_frequency").(string)
-    ruleName := d.Get("rule_name").(string)
     scopes := d.Get("scopes").([]interface{})
     severity := d.Get("severity").(int)
     targetResourceRegion := d.Get("target_resource_region").(string)
@@ -304,8 +304,8 @@ func resourceArmMetricAlertUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, ruleName, parameters); err != nil {
-        return fmt.Errorf("Error updating Metric Alert (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Metric Alert %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmMetricAlertRead(d, meta)
@@ -321,10 +321,10 @@ func resourceArmMetricAlertDelete(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    ruleName := id.Path["metricAlerts"]
+    name := id.Path["metricAlerts"]
 
-    if _, err := client.Delete(ctx, resourceGroup, ruleName); err != nil {
-        return fmt.Errorf("Error deleting Metric Alert (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Metric Alert %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

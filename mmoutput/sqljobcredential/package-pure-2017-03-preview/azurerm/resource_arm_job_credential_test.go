@@ -34,17 +34,17 @@ func testCheckAzureRMJobCredentialExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Job Credential not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        credentialName := rs.Primary.Attributes["credential_name"]
         jobAgentName := rs.Primary.Attributes["job_agent_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).jobCredentialsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, credentialName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) does not exist", credentialName, jobAgentName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q) does not exist", name, jobAgentName, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on jobCredentialsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMJobCredentialDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        credentialName := rs.Primary.Attributes["credential_name"]
         jobAgentName := rs.Primary.Attributes["job_agent_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, credentialName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on jobCredentialsClient: %+v", err)
             }

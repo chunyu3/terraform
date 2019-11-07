@@ -34,15 +34,15 @@ func testCheckAzureRMGatewayExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Gateway not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        gatewayResourceName := rs.Primary.Attributes["gateway_resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).gatewayClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, gatewayResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Gateway (Gateway Resource Name %q / Resource Group %q) does not exist", gatewayResourceName, resourceGroup)
+                return fmt.Errorf("Bad: Gateway %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on gatewayClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMGatewayDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        gatewayResourceName := rs.Primary.Attributes["gateway_resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, gatewayResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on gatewayClient: %+v", err)
             }

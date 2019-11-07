@@ -854,16 +854,108 @@ objects:
             applicable_to: [go]
             go_field_name: VipMappings
             go_type_name: VirtualIPMapping
+          '/properties/vipMappings/virtualIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualIp
+          '/properties/vipMappings/internalHttpPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InternalHttpPort
+          '/properties/vipMappings/internalHttpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InternalHttpsPort
+          '/properties/vipMappings/inUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: InUse
           '/vipMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: vip_mappings
+          '/vipMappings/virtualIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_ip
+          '/vipMappings/internalHttpPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: internal_http_port
+          '/vipMappings/internalHttpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: internal_https_port
+          '/vipMappings/inUse': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: in_use
           '/properties/environmentCapacities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: EnvironmentCapacities
             go_type_name: StampCapacity
+          '/properties/environmentCapacities/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/environmentCapacities/availableCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: AvailableCapacity
+          '/properties/environmentCapacities/totalCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TotalCapacity
+          '/properties/environmentCapacities/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/properties/environmentCapacities/computeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ComputeMode
+            go_enum_type_name: ComputeModeOptions
+          '/properties/environmentCapacities/workerSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: WorkerSize
+            go_enum_type_name: WorkerSizeOptions
+          '/properties/environmentCapacities/workerSizeId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: WorkerSizeID
+          '/properties/environmentCapacities/excludeFromCapacityAllocation': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ExcludeFromCapacityAllocation
+          '/properties/environmentCapacities/isApplicableForAllComputeModes': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsApplicableForAllComputeModes
+          '/properties/environmentCapacities/siteMode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SiteMode
+          '/properties/environmentCapacities/isLinux': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsLinux
           '/environmentCapacities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: environment_capacities
+          '/environmentCapacities/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/environmentCapacities/availableCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: available_capacity
+          '/environmentCapacities/totalCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: total_capacity
+          '/environmentCapacities/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/environmentCapacities/computeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: compute_mode
+          '/environmentCapacities/workerSize': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: worker_size
+          '/environmentCapacities/workerSizeId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: worker_size_id
+          '/environmentCapacities/excludeFromCapacityAllocation': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: exclude_from_capacity_allocation
+          '/environmentCapacities/isApplicableForAllComputeModes': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_applicable_for_all_compute_modes
+          '/environmentCapacities/siteMode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: site_mode
+          '/environmentCapacities/isLinux': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_linux
           '/properties/environmentIsHealthy': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: EnvironmentIsHealthy
@@ -1530,26 +1622,6 @@ objects:
         azure_sdk_references: ['/vipMappings', '/properties/vipMappings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'virtualIp'
-              description: 'Virtual IP address.'
-              required: false
-              azure_sdk_references: ['/vipMappings/virtualIP', '/properties/vipMappings/virtualIP']
-            - !ruby/object:Api::Type::Integer
-              name: 'internalHttpPort'
-              description: 'Internal HTTP port.'
-              required: false
-              azure_sdk_references: ['/vipMappings/internalHttpPort', '/properties/vipMappings/internalHttpPort']
-            - !ruby/object:Api::Type::Integer
-              name: 'internalHttpsPort'
-              description: 'Internal HTTPS port.'
-              required: false
-              azure_sdk_references: ['/vipMappings/internalHttpsPort', '/properties/vipMappings/internalHttpsPort']
-            - !ruby/object:Api::Type::Boolean
-              name: 'inUse'
-              description: 'Is virtual IP mapping in use.'
-              required: false
-              azure_sdk_references: ['/vipMappings/inUse', '/properties/vipMappings/inUse']
       - !ruby/object:Api::Type::Array
         name: 'environmentCapacities'
         description: 'Current total, used, and available worker capacities.'
@@ -1557,75 +1629,6 @@ objects:
         azure_sdk_references: ['/environmentCapacities', '/properties/environmentCapacities']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Name of the stamp.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/name', '/properties/environmentCapacities/name']
-            - !ruby/object:Api::Type::Integer
-              name: 'availableCapacity'
-              description: 'Available capacity (# of machines, bytes of storage etc...).'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/availableCapacity', '/properties/environmentCapacities/availableCapacity']
-            - !ruby/object:Api::Type::Integer
-              name: 'totalCapacity'
-              description: 'Total capacity (# of machines, bytes of storage etc...).'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/totalCapacity', '/properties/environmentCapacities/totalCapacity']
-            - !ruby/object:Api::Type::String
-              name: 'unit'
-              description: 'Name of the unit.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/unit', '/properties/environmentCapacities/unit']
-            - !ruby/object:Api::Type::Enum
-              name: 'computeMode'
-              description: 'Shared/dedicated workers.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/computeMode', '/properties/environmentCapacities/computeMode']
-              values:
-                - :Shared
-                - :Dedicated
-                - :Dynamic
-              default_value: :Shared
-            - !ruby/object:Api::Type::Enum
-              name: 'workerSize'
-              description: 'Size of the machines.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/workerSize', '/properties/environmentCapacities/workerSize']
-              values:
-                - :Small
-                - :Medium
-                - :Large
-                - :D1
-                - :D2
-                - :D3
-                - :Default
-              default_value: :Small
-            - !ruby/object:Api::Type::Integer
-              name: 'workerSizeId'
-              description: 'Size ID of machines: <br>0 - Small<br>1 - Medium<br>2 - Large'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/workerSizeId', '/properties/environmentCapacities/workerSizeId']
-            - !ruby/object:Api::Type::Boolean
-              name: 'excludeFromCapacityAllocation'
-              description: 'If <code>true</code>, it includes basic apps.<br>Basic apps are not used for capacity allocation.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/excludeFromCapacityAllocation', '/properties/environmentCapacities/excludeFromCapacityAllocation']
-            - !ruby/object:Api::Type::Boolean
-              name: 'isApplicableForAllComputeModes'
-              description: '<code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/isApplicableForAllComputeModes', '/properties/environmentCapacities/isApplicableForAllComputeModes']
-            - !ruby/object:Api::Type::String
-              name: 'siteMode'
-              description: 'Shared or Dedicated.'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/siteMode', '/properties/environmentCapacities/siteMode']
-            - !ruby/object:Api::Type::Boolean
-              name: 'isLinux'
-              description: 'Is this a linux stamp capacity'
-              required: false
-              azure_sdk_references: ['/environmentCapacities/isLinux', '/properties/environmentCapacities/isLinux']
       - !ruby/object:Api::Type::Boolean
         name: 'environmentIsHealthy'
         description: 'True/false indicating whether the App Service Environment is healthy.'

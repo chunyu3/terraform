@@ -31,19 +31,19 @@ func resourceArmSolution() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "solution_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "workspace_resource_id": {
                 Type: schema.TypeString,
@@ -112,14 +112,14 @@ func resourceArmSolutionCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).solutionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    solutionName := d.Get("solution_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, solutionName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -146,21 +146,21 @@ func resourceArmSolutionCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, solutionName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error creating Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, solutionName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Solution (Solution Name %q / Resource Group %q) ID", solutionName, resourceGroup)
+        return fmt.Errorf("Cannot read Solution %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -176,19 +176,20 @@ func resourceArmSolutionRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    solutionName := id.Path["solutions"]
+    name := id.Path["solutions"]
 
-    resp, err := client.Get(ctx, resourceGroup, solutionName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Solution %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error reading Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -203,7 +204,6 @@ func resourceArmSolutionRead(d *schema.ResourceData, meta interface{}) error {
     if err := d.Set("plan", flattenArmSolutionSolutionPlan(resp.Plan)); err != nil {
         return fmt.Errorf("Error setting `plan`: %+v", err)
     }
-    d.Set("solution_name", solutionName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -213,11 +213,11 @@ func resourceArmSolutionUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).solutionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     containedResources := d.Get("contained_resources").([]interface{})
     plan := d.Get("plan").([]interface{})
     referencedResources := d.Get("referenced_resources").([]interface{})
-    solutionName := d.Get("solution_name").(string)
     workspaceResourceId := d.Get("workspace_resource_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
@@ -233,12 +233,12 @@ func resourceArmSolutionUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, solutionName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error updating Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmSolutionRead(d, meta)
@@ -254,19 +254,19 @@ func resourceArmSolutionDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    solutionName := id.Path["solutions"]
+    name := id.Path["solutions"]
 
-    future, err := client.Delete(ctx, resourceGroup, solutionName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Solution (Solution Name %q / Resource Group %q): %+v", solutionName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Solution %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

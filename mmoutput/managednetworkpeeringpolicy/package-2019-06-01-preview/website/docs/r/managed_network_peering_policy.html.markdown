@@ -28,53 +28,12 @@ Manage Azure ManagedNetworkPeeringPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Managed Network Peering Policy. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `managed_network_name` - (Required) The name of the Managed Network. Changing this forces a new resource to be created.
 
-* `managed_network_peering_policy_name` - (Required) The name of the Managed Network Peering Policy. Changing this forces a new resource to be created.
-
-* `location` - (Optional) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `properties` - (Optional) One `property` block defined below.
-
----
-
-The `property` block supports the following:
-
-* `properties_type` - (Required) Gets or sets the connectivity type of a network structure policy
-
-* `properties_hub` - (Optional) One `properties_hub` block defined below.
-
-* `properties_spokes` - (Optional) One or more `properties_spoke` block defined below.
-
-* `properties_mesh` - (Optional) One or more `properties_mesh` block defined below.
-
-
----
-
-The `properties_hub` block supports the following:
-
-* `hub_id` - (Optional) Resource Id
-
----
-
-The `properties_spoke` block supports the following:
-
-* `spokes_id` - (Optional) Resource Id
-
----
-
-The `properties_mesh` block supports the following:
-
-* `mesh_id` - (Optional) Resource Id
-
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-
-* `name` - The name of the resource
-
-* `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.

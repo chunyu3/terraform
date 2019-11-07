@@ -31,19 +31,19 @@ func resourceArmDataSetMapping() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "data_set_mapping_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -69,16 +69,16 @@ func resourceArmDataSetMappingCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).dataSetMappingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    dataSetMappingName := d.Get("data_set_mapping_name").(string)
     shareSubscriptionName := d.Get("share_subscription_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -91,17 +91,17 @@ func resourceArmDataSetMappingCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName, dataSetMapping); err != nil {
-        return fmt.Errorf("Error creating Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, shareSubscriptionName, name, dataSetMapping); err != nil {
+        return fmt.Errorf("Error creating Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q) ID", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q) ID", name, shareSubscriptionName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -119,23 +119,23 @@ func resourceArmDataSetMappingRead(d *schema.ResourceData, meta interface{}) err
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareSubscriptionName := id.Path["shareSubscriptions"]
-    dataSetMappingName := id.Path["dataSetMappings"]
+    name := id.Path["dataSetMappings"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Data Set Mapping %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    d.Set("data_set_mapping_name", dataSetMappingName)
     d.Set("share_subscription_name", shareSubscriptionName)
     d.Set("type", resp.Type)
 
@@ -155,10 +155,10 @@ func resourceArmDataSetMappingDelete(d *schema.ResourceData, meta interface{}) e
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareSubscriptionName := id.Path["shareSubscriptions"]
-    dataSetMappingName := id.Path["dataSetMappings"]
+    name := id.Path["dataSetMappings"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName); err != nil {
-        return fmt.Errorf("Error deleting Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, shareSubscriptionName, name); err != nil {
+        return fmt.Errorf("Error deleting Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
 
     return nil

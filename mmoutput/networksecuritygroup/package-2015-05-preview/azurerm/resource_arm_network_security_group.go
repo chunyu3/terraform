@@ -31,19 +31,19 @@ func resourceArmNetworkSecurityGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "network_security_group_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "default_security_rules": {
                 Type: schema.TypeList,
@@ -245,14 +245,14 @@ func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta in
     client := meta.(*ArmClient).networkSecurityGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    networkSecurityGroupName := d.Get("network_security_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, networkSecurityGroupName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -283,21 +283,21 @@ func resourceArmNetworkSecurityGroupCreateUpdate(d *schema.ResourceData, meta in
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, networkSecurityGroupName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error creating Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Network Security Group (Network Security Group Name %q / Resource Group %q) ID", networkSecurityGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Network Security Group %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -313,19 +313,20 @@ func resourceArmNetworkSecurityGroupRead(d *schema.ResourceData, meta interface{
         return err
     }
     resourceGroup := id.ResourceGroup
-    networkSecurityGroupName := id.Path["networkSecurityGroups"]
+    name := id.Path["networkSecurityGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Network Security Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -348,7 +349,6 @@ func resourceArmNetworkSecurityGroupRead(d *schema.ResourceData, meta interface{
         }
     }
     d.Set("etag", resp.Etag)
-    d.Set("network_security_group_name", networkSecurityGroupName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -365,19 +365,19 @@ func resourceArmNetworkSecurityGroupDelete(d *schema.ResourceData, meta interfac
         return err
     }
     resourceGroup := id.ResourceGroup
-    networkSecurityGroupName := id.Path["networkSecurityGroups"]
+    name := id.Path["networkSecurityGroups"]
 
-    future, err := client.Delete(ctx, resourceGroup, networkSecurityGroupName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Network Security Group (Network Security Group Name %q / Resource Group %q): %+v", networkSecurityGroupName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Network Security Group %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

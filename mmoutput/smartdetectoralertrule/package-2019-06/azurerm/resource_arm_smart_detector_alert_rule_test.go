@@ -34,15 +34,15 @@ func testCheckAzureRMSmartDetectorAlertRuleExists(resourceName string) resource.
             return fmt.Errorf("Smart Detector Alert Rule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        alertRuleName := rs.Primary.Attributes["alert_rule_name"]
 
         client := testAccProvider.Meta().(*ArmClient).smartDetectorAlertRulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, alertRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q) does not exist", alertRuleName, resourceGroup)
+                return fmt.Errorf("Bad: Smart Detector Alert Rule %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on smartDetectorAlertRulesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMSmartDetectorAlertRuleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        alertRuleName := rs.Primary.Attributes["alert_rule_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, alertRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on smartDetectorAlertRulesClient: %+v", err)
             }

@@ -23,21 +23,21 @@ objects:
         go_func_name: CreateOrUpdate
         python_func_name: create_or_update
         request:
-          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: dataBoxEdgeDevices
-            go_variable_name: deviceName
-            python_parameter_name: device_name
-            python_variable_name: device_name
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: shares
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: share
             go_type_name: Share
@@ -183,40 +183,40 @@ objects:
         go_func_name: Delete
         python_func_name: delete
         request:
-          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: dataBoxEdgeDevices
-            go_variable_name: deviceName
-            python_parameter_name: device_name
-            python_variable_name: device_name
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: shares
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: dataBoxEdgeDevices
-            go_variable_name: deviceName
-            python_parameter_name: device_name
-            python_variable_name: device_name
-          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: shares
-            go_variable_name: name
-            python_parameter_name: name
-            python_variable_name: name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
         response:
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: shares
@@ -362,9 +362,34 @@ objects:
             applicable_to: [go]
             go_field_name: ShareMappings
             go_type_name: MountPointMap
+          '/properties/shareMappings/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ShareID
+          '/properties/shareMappings/roleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RoleID
+          '/properties/shareMappings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPoint
+          '/properties/shareMappings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RoleType
+            go_enum_type_name: RoleTypes
           '/shareMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: share_mappings
+          '/shareMappings/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_id
+          '/shareMappings/roleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role_id
+          '/shareMappings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_point
+          '/shareMappings/roleType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role_type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -375,22 +400,22 @@ objects:
         go_func_name: ListByDataBoxEdgeDevice
         python_func_name: list_by_data_box_edge_device
         request:
-          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: dataBoxEdgeDevices
-            go_variable_name: deviceName
-            python_parameter_name: device_name
-            python_variable_name: device_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dataBoxEdgeDevices
+            go_variable_name: name
+            python_parameter_name: device_name
+            python_variable_name: name
 
     description: |
       Manage Azure Share instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'deviceName'
+        name: 'name'
         description: 'The device name.'
         required: true
         input: true
@@ -549,32 +574,6 @@ objects:
         azure_sdk_references: ['/shareMappings', '/properties/shareMappings']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'shareId'
-              description: 'ID of the share mounted to the role VM.'
-              required: true
-              azure_sdk_references: ['/shareMappings/shareId', '/properties/shareMappings/shareId']
-            - !ruby/object:Api::Type::String
-              name: 'roleId'
-              description: 'ID of the role to which share is mounted.'
-              required: false
-              azure_sdk_references: ['/shareMappings/roleId', '/properties/shareMappings/roleId']
-            - !ruby/object:Api::Type::String
-              name: 'mountPoint'
-              description: 'Mount point for the share.'
-              required: false
-              azure_sdk_references: ['/shareMappings/mountPoint', '/properties/shareMappings/mountPoint']
-            - !ruby/object:Api::Type::Enum
-              name: 'roleType'
-              description: 'Role type.'
-              required: false
-              azure_sdk_references: ['/shareMappings/roleType', '/properties/shareMappings/roleType']
-              values:
-                - :IOT
-                - :ASA
-                - :Functions
-                - :Cognitive
-              default_value: :IOT
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The path ID that uniquely identifies the object.'

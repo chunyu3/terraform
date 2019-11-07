@@ -31,17 +31,17 @@ func resourceArmHyperVCollector() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "hyper_vcollector_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "project_name": {
                 Type: schema.TypeString,
@@ -122,15 +122,15 @@ func resourceArmHyperVCollectorCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).hyperVCollectorsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    hyperVcollectorName := d.Get("hyper_vcollector_name").(string)
     projectName := d.Get("project_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, projectName, hyperVcollectorName)
+        existing, err := client.Get(ctx, resourceGroup, projectName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q): %+v", hyperVcollectorName, projectName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Hyper V Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -151,17 +151,17 @@ func resourceArmHyperVCollectorCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, projectName, hyperVcollectorName, collectorBody); err != nil {
-        return fmt.Errorf("Error creating Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q): %+v", hyperVcollectorName, projectName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, projectName, name, collectorBody); err != nil {
+        return fmt.Errorf("Error creating Hyper V Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, projectName, hyperVcollectorName)
+    resp, err := client.Get(ctx, resourceGroup, projectName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q): %+v", hyperVcollectorName, projectName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Hyper V Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q) ID", hyperVcollectorName, projectName, resourceGroup)
+        return fmt.Errorf("Cannot read Hyper V Collector %q (Project Name %q / Resource Group %q) ID", name, projectName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -178,19 +178,20 @@ func resourceArmHyperVCollectorRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     projectName := id.Path["assessmentProjects"]
-    hyperVcollectorName := id.Path["hypervcollectors"]
+    name := id.Path["hypervcollectors"]
 
-    resp, err := client.Get(ctx, resourceGroup, projectName, hyperVcollectorName)
+    resp, err := client.Get(ctx, resourceGroup, projectName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Hyper V Collector %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q): %+v", hyperVcollectorName, projectName, resourceGroup, err)
+        return fmt.Errorf("Error reading Hyper V Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if collectorProperties := resp.CollectorProperties; collectorProperties != nil {
@@ -202,7 +203,6 @@ func resourceArmHyperVCollectorRead(d *schema.ResourceData, meta interface{}) er
         d.Set("updated_timestamp", collectorProperties.UpdatedTimestamp)
     }
     d.Set("e_tag", resp.ETag)
-    d.Set("hyper_vcollector_name", hyperVcollectorName)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 
@@ -221,10 +221,10 @@ func resourceArmHyperVCollectorDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     projectName := id.Path["assessmentProjects"]
-    hyperVcollectorName := id.Path["hypervcollectors"]
+    name := id.Path["hypervcollectors"]
 
-    if _, err := client.Delete(ctx, resourceGroup, projectName, hyperVcollectorName); err != nil {
-        return fmt.Errorf("Error deleting Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q): %+v", hyperVcollectorName, projectName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, projectName, name); err != nil {
+        return fmt.Errorf("Error deleting Hyper V Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
 
     return nil

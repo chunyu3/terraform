@@ -34,15 +34,15 @@ func testCheckAzureRMVirtualNetworkGatewayExists(resourceName string) resource.T
             return fmt.Errorf("Virtual Network Gateway not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        virtualNetworkGatewayName := rs.Primary.Attributes["virtual_network_gateway_name"]
 
         client := testAccProvider.Meta().(*ArmClient).virtualNetworkGatewaysClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkGatewayName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q) does not exist", virtualNetworkGatewayName, resourceGroup)
+                return fmt.Errorf("Bad: Virtual Network Gateway %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on virtualNetworkGatewaysClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMVirtualNetworkGatewayDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        virtualNetworkGatewayName := rs.Primary.Attributes["virtual_network_gateway_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkGatewayName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on virtualNetworkGatewaysClient: %+v", err)
             }

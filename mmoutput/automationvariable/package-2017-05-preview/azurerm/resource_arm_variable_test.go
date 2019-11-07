@@ -34,16 +34,16 @@ func testCheckAzureRMVariableExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Variable not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        variableName := rs.Primary.Attributes["variable_name"]
 
         client := testAccProvider.Meta().(*ArmClient).variableClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, variableName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Variable (Variable Name %q / Automation Account Name %q / Resource Group %q) does not exist", variableName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Variable %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on variableClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMVariableDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        variableName := rs.Primary.Attributes["variable_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, variableName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on variableClient: %+v", err)
             }

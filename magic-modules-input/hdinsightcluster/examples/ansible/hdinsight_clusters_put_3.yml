@@ -4,7 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: Create Secure Hadoop cluster
   code:
     resource_group: myResourceGroup
-    cluster_name: myCluster
+    name: myCluster
     tags:
       key1: val1
     cluster_version: '3.5'
@@ -38,9 +38,9 @@ task: !ruby/object:Provider::Ansible::Task
             linux_operating_system_profile:
               username: sshuser
               password: '**********'
-              sshProfile:
-                publicKeys:
-                  - certificateData: '**********'
+              ssh_profile:
+                public_keys:
+                  - certificate_data: '**********'
           virtual_network_profile:
             id: >-
               /subscriptions/{{ subscription_id }}/resourceGroups/{{
@@ -60,9 +60,9 @@ task: !ruby/object:Provider::Ansible::Task
             linux_operating_system_profile:
               username: sshuser
               password: '**********'
-              sshProfile:
-                publicKeys:
-                  - certificateData: '**********'
+              ssh_profile:
+                public_keys:
+                  - certificate_data: '**********'
           virtual_network_profile:
             id: >-
               /subscriptions/{{ subscription_id }}/resourceGroups/{{
@@ -82,9 +82,9 @@ task: !ruby/object:Provider::Ansible::Task
             linux_operating_system_profile:
               username: sshuser
               password: '**********'
-              sshProfile:
-                publicKeys:
-                  - certificateData: '**********'
+              ssh_profile:
+                public_keys:
+                  - certificate_data: '**********'
           virtual_network_profile:
             id: >-
               /subscriptions/{{ subscription_id }}/resourceGroups/{{

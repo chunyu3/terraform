@@ -31,19 +31,19 @@ func resourceArmDataSet() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "data_set_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -69,16 +69,16 @@ func resourceArmDataSetCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).dataSetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    dataSetName := d.Get("data_set_name").(string)
     shareName := d.Get("share_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, shareName, dataSetName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", dataSetName, shareName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Data Set %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -91,17 +91,17 @@ func resourceArmDataSetCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, dataSetName, dataSet); err != nil {
-        return fmt.Errorf("Error creating Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", dataSetName, shareName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, name, dataSet); err != nil {
+        return fmt.Errorf("Error creating Data Set %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, dataSetName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", dataSetName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Data Set %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q) ID", dataSetName, shareName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Data Set %q (Share Name %q / Account Name %q / Resource Group %q) ID", name, shareName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -119,23 +119,23 @@ func resourceArmDataSetRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareName := id.Path["shares"]
-    dataSetName := id.Path["dataSets"]
+    name := id.Path["dataSets"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, dataSetName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Data Set %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", dataSetName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Data Set %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    d.Set("data_set_name", dataSetName)
     d.Set("share_name", shareName)
     d.Set("type", resp.Type)
 
@@ -155,19 +155,19 @@ func resourceArmDataSetDelete(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareName := id.Path["shares"]
-    dataSetName := id.Path["dataSets"]
+    name := id.Path["dataSets"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, shareName, dataSetName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", dataSetName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Data Set %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", dataSetName, shareName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Data Set %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
         }
     }
 

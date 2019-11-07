@@ -31,19 +31,19 @@ func resourceArmServerKey() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "key_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "server_key_type": {
                 Type: schema.TypeString,
@@ -100,15 +100,15 @@ func resourceArmServerKeyCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).serverKeysClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    keyName := d.Get("key_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, keyName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -133,21 +133,21 @@ func resourceArmServerKeyCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, keyName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, keyName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Server Key (Key Name %q / Server Name %q / Resource Group %q) ID", keyName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Server Key %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -164,19 +164,20 @@ func resourceArmServerKeyRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    keyName := id.Path["keys"]
+    name := id.Path["keys"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, keyName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Server Key %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -189,7 +190,6 @@ func resourceArmServerKeyRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("thumbprint", serverKeyProperties.Thumbprint)
         d.Set("uri", serverKeyProperties.Uri)
     }
-    d.Set("key_name", keyName)
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
@@ -209,19 +209,19 @@ func resourceArmServerKeyDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    keyName := id.Path["keys"]
+    name := id.Path["keys"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, keyName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Server Key (Key Name %q / Server Name %q / Resource Group %q): %+v", keyName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Server Key %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
         }
     }
 

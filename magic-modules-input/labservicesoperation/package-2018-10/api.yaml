@@ -1,0 +1,76 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: LabServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.LabServices
+      go_client_namespace: labservices
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.labservices
+      python_client: ManagedLabsClient.operations
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: locationName
+            python_parameter_name: location_name
+            python_variable_name: location_name
+          'operationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: name
+            python_parameter_name: operation_name
+            python_variable_name: name
+        response:
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            python_field_name: status
+          '/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Error
+            go_type_name: OperationError
+            python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'locationName'
+        description: 'The name of the location.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the operation.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'The operation status.'
+        output: true
+        azure_sdk_references: ['/status']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'error'
+        description: 'Error details for the operation in case of a failure.'
+        output: true
+        azure_sdk_references: ['/error']
+        properties:

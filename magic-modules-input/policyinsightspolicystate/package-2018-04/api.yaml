@@ -1,0 +1,31 @@
+--- !ruby/object:Api::Product
+name: Azure PolicyState Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PolicyState
+    api_name: PolicyInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.PolicyInsights
+      go_client_namespace: policyinsights
+      go_client: policyStatesClient
+      python_client_namespace: azure.mgmt.policyinsights
+      python_client: PolicyInsightsClient.policy_states
+
+    description: |
+      Manage Azure PolicyState instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'A valid scope, i.e. management group, subscription, resource group, or resource ID. Scope used has no effect on metadata returned.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response

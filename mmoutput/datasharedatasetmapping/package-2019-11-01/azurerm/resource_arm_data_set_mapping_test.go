@@ -34,17 +34,17 @@ func testCheckAzureRMDataSetMappingExists(resourceName string) resource.TestChec
             return fmt.Errorf("Data Set Mapping not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        dataSetMappingName := rs.Primary.Attributes["data_set_mapping_name"]
         shareSubscriptionName := rs.Primary.Attributes["share_subscription_name"]
 
         client := testAccProvider.Meta().(*ArmClient).dataSetMappingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Data Set Mapping (Data Set Mapping Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q) does not exist", dataSetMappingName, shareSubscriptionName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Data Set Mapping %q (Share Subscription Name %q / Account Name %q / Resource Group %q) does not exist", name, shareSubscriptionName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on dataSetMappingsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMDataSetMappingDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        dataSetMappingName := rs.Primary.Attributes["data_set_mapping_name"]
         shareSubscriptionName := rs.Primary.Attributes["share_subscription_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, dataSetMappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on dataSetMappingsClient: %+v", err)
             }

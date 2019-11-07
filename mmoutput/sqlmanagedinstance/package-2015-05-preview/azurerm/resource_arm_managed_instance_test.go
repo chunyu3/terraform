@@ -34,15 +34,15 @@ func testCheckAzureRMManagedInstanceExists(resourceName string) resource.TestChe
             return fmt.Errorf("Managed Instance not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managedInstancesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Managed Instance (Managed Instance Name %q / Resource Group %q) does not exist", managedInstanceName, resourceGroup)
+                return fmt.Errorf("Bad: Managed Instance %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managedInstancesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMManagedInstanceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managedInstancesClient: %+v", err)
             }

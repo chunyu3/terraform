@@ -34,15 +34,15 @@ func testCheckAzureRMJobExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Job not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        jobName := rs.Primary.Attributes["job_name"]
 
         client := testAccProvider.Meta().(*ArmClient).jobsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, jobName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Job (Resource Group %q / Job Name %q) does not exist", resourceGroup, jobName)
+                return fmt.Errorf("Bad: Job %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on jobsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMJobDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        jobName := rs.Primary.Attributes["job_name"]
 
-        if resp, err := client.Get(ctx, jobName, resourceGroup); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on jobsClient: %+v", err)
             }

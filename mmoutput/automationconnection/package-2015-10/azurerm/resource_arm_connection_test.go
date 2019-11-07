@@ -34,16 +34,16 @@ func testCheckAzureRMConnectionExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Connection not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        connectionName := rs.Primary.Attributes["connection_name"]
 
         client := testAccProvider.Meta().(*ArmClient).connectionClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, connectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Connection (Connection Name %q / Automation Account Name %q / Resource Group %q) does not exist", connectionName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Connection %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on connectionClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMConnectionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        connectionName := rs.Primary.Attributes["connection_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, connectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on connectionClient: %+v", err)
             }

@@ -34,17 +34,17 @@ func testCheckAzureRMSoftwareUpdateConfigurationExists(resourceName string) reso
             return fmt.Errorf("Software Update Configuration not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
         clientRequestID := rs.Primary.Attributes["client_request_id"]
-        softwareUpdateConfigurationName := rs.Primary.Attributes["software_update_configuration_name"]
 
         client := testAccProvider.Meta().(*ArmClient).softwareUpdateConfigurationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.GetByName(ctx, resourceGroup, automationAccountName, softwareUpdateConfigurationName, clientRequestID); err != nil {
+        if resp, err := client.GetByName(ctx, resourceGroup, automationAccountName, name, clientRequestID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Software Update Configuration (Client Request %q / Software Update Configuration Name %q / Automation Account Name %q / Resource Group %q) does not exist", clientRequestID, softwareUpdateConfigurationName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Software Update Configuration %q (Client Request %q / Automation Account Name %q / Resource Group %q) does not exist", name, clientRequestID, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on softwareUpdateConfigurationsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMSoftwareUpdateConfigurationDestroy(s *terraform.State) erro
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
         clientRequestID := rs.Primary.Attributes["client_request_id"]
-        softwareUpdateConfigurationName := rs.Primary.Attributes["software_update_configuration_name"]
 
-        if resp, err := client.GetByName(ctx, resourceGroup, automationAccountName, softwareUpdateConfigurationName, clientRequestID); err != nil {
+        if resp, err := client.GetByName(ctx, resourceGroup, automationAccountName, name, clientRequestID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on softwareUpdateConfigurationsClient: %+v", err)
             }

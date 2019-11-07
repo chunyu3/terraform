@@ -34,17 +34,17 @@ func testCheckAzureRMServerEndpointExists(resourceName string) resource.TestChec
             return fmt.Errorf("Server Endpoint not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serverEndpointName := rs.Primary.Attributes["server_endpoint_name"]
         storageSyncServiceName := rs.Primary.Attributes["storage_sync_service_name"]
         syncGroupName := rs.Primary.Attributes["sync_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serverEndpointsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, serverEndpointName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Server Endpoint (Server Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q) does not exist", serverEndpointName, syncGroupName, storageSyncServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Server Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q) does not exist", name, syncGroupName, storageSyncServiceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serverEndpointsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMServerEndpointDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serverEndpointName := rs.Primary.Attributes["server_endpoint_name"]
         storageSyncServiceName := rs.Primary.Attributes["storage_sync_service_name"]
         syncGroupName := rs.Primary.Attributes["sync_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, serverEndpointName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serverEndpointsClient: %+v", err)
             }

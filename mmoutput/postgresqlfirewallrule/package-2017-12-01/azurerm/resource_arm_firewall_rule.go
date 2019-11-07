@@ -31,6 +31,13 @@ func resourceArmFirewallRule() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmFirewallRule() *schema.Resource {
             "end_ip_address": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "firewall_rule_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -74,15 +74,15 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).firewallRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    firewallRuleName := d.Get("firewall_rule_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, firewallRuleName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -101,21 +101,21 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, firewallRuleName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, firewallRuleName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q) ID", firewallRuleName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Firewall Rule %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -132,26 +132,26 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    firewallRuleName := id.Path["firewallRules"]
+    name := id.Path["firewallRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, firewallRuleName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Firewall Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if firewallRuleProperties := resp.FirewallRuleProperties; firewallRuleProperties != nil {
         d.Set("end_ip_address", firewallRuleProperties.EndIpAddress)
         d.Set("start_ip_address", firewallRuleProperties.StartIpAddress)
     }
-    d.Set("firewall_rule_name", firewallRuleName)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
@@ -170,19 +170,19 @@ func resourceArmFirewallRuleDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    firewallRuleName := id.Path["firewallRules"]
+    name := id.Path["firewallRules"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, firewallRuleName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Firewall Rule (Firewall Rule Name %q / Server Name %q / Resource Group %q): %+v", firewallRuleName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Firewall Rule %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
         }
     }
 

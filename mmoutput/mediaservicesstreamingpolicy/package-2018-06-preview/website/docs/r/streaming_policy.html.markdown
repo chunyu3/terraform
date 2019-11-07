@@ -28,11 +28,11 @@ Manage Azure StreamingPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Streaming Policy name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
-
-* `streaming_policy_name` - (Required) The Streaming Policy name. Changing this forces a new resource to be created.
 
 * `common_encryption_cbcs` - (Optional) One `common_encryption_cbc` block defined below.
 
@@ -110,6 +110,26 @@ The `key_to_track_mapping` block supports the following:
 * `label` - (Optional) Label can be used to specify Content Key when creating a Streaming Locator
 
 * `policy_name` - (Optional) Policy used by Content Key
+
+* `tracks` - (Optional) One or more `track` block defined below.
+
+
+---
+
+The `track` block supports the following:
+
+* `track_selections` - (Optional) One or more `track_selection` block defined below.
+
+
+---
+
+The `track_selection` block supports the following:
+
+* `property` - (Required) Track property type
+
+* `operation` - (Required) Track property condition operation
+
+* `value` - (Optional) Track property value
 
 ---
 
@@ -211,6 +231,26 @@ The `key_to_track_mapping` block supports the following:
 
 * `policy_name` - (Optional) Policy used by Content Key
 
+* `tracks` - (Optional) One or more `track` block defined below.
+
+
+---
+
+The `track` block supports the following:
+
+* `track_selections` - (Optional) One or more `track_selection` block defined below.
+
+
+---
+
+The `track_selection` block supports the following:
+
+* `property` - (Required) Track property type
+
+* `operation` - (Required) Track property condition operation
+
+* `value` - (Optional) Track property value
+
 ---
 
 The `drm` block supports the following:
@@ -300,6 +340,26 @@ The `key_to_track_mapping` block supports the following:
 * `label` - (Optional) Label can be used to specify Content Key when creating a Streaming Locator
 
 * `policy_name` - (Optional) Policy used by Content Key
+
+* `tracks` - (Optional) One or more `track` block defined below.
+
+
+---
+
+The `track` block supports the following:
+
+* `track_selections` - (Optional) One or more `track_selection` block defined below.
+
+
+---
+
+The `track_selection` block supports the following:
+
+* `property` - (Required) Track property type
+
+* `operation` - (Required) Track property condition operation
+
+* `value` - (Optional) Track property value
 
 ---
 

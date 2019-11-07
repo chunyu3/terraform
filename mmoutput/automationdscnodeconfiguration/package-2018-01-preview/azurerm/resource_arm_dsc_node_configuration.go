@@ -31,6 +31,13 @@ func resourceArmDscNodeConfiguration() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -56,13 +63,6 @@ func resourceArmDscNodeConfiguration() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "node_configuration_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "source": {
@@ -145,15 +145,15 @@ func resourceArmDscNodeConfigurationCreateUpdate(d *schema.ResourceData, meta in
     client := meta.(*ArmClient).dscNodeConfigurationClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    nodeConfigurationName := d.Get("node_configuration_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, nodeConfigurationName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", nodeConfigurationName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -178,21 +178,21 @@ func resourceArmDscNodeConfigurationCreateUpdate(d *schema.ResourceData, meta in
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, nodeConfigurationName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", nodeConfigurationName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", nodeConfigurationName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, nodeConfigurationName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", nodeConfigurationName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q) ID", nodeConfigurationName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -209,19 +209,20 @@ func resourceArmDscNodeConfigurationRead(d *schema.ResourceData, meta interface{
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    nodeConfigurationName := id.Path["nodeConfigurations"]
+    name := id.Path["nodeConfigurations"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, nodeConfigurationName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Dsc Node Configuration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", nodeConfigurationName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
@@ -237,7 +238,6 @@ func resourceArmDscNodeConfigurationRead(d *schema.ResourceData, meta interface{
             return fmt.Errorf("Error setting `source`: %+v", err)
         }
     }
-    d.Set("node_configuration_name", nodeConfigurationName)
     d.Set("type", resp.Type)
 
     return nil
@@ -255,10 +255,10 @@ func resourceArmDscNodeConfigurationDelete(d *schema.ResourceData, meta interfac
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    nodeConfigurationName := id.Path["nodeConfigurations"]
+    name := id.Path["nodeConfigurations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, nodeConfigurationName); err != nil {
-        return fmt.Errorf("Error deleting Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q): %+v", nodeConfigurationName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil

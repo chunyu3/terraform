@@ -34,16 +34,16 @@ func testCheckAzureRMSqlServerExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Sql Server not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlServerName := rs.Primary.Attributes["sql_server_name"]
         sqlServerRegistrationName := rs.Primary.Attributes["sql_server_registration_name"]
 
         client := testAccProvider.Meta().(*ArmClient).sqlServersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, sqlServerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Sql Server (Sql Server Name %q / Sql Server Registration Name %q / Resource Group %q) does not exist", sqlServerName, sqlServerRegistrationName, resourceGroup)
+                return fmt.Errorf("Bad: Sql Server %q (Sql Server Registration Name %q / Resource Group %q) does not exist", name, sqlServerRegistrationName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on sqlServersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSqlServerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlServerName := rs.Primary.Attributes["sql_server_name"]
         sqlServerRegistrationName := rs.Primary.Attributes["sql_server_registration_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, sqlServerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on sqlServersClient: %+v", err)
             }

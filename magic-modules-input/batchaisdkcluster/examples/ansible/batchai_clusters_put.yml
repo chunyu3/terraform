@@ -4,7 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: Create or update cluster
   code:
     resource_group: myResourceGroup
-    cluster_name: myCluster
+    name: myCluster
     location: eastus
     vm_size: STANDARD_NC6
     vm_priority: dedicated
@@ -19,7 +19,7 @@ task: !ruby/object:Provider::Ansible::Task
             azure_file_url: >-
               https://storage_account_name.file.core.windows.net/azure_file_share_name
             credentials:
-              accountKey: >-
+              account_key: >-
                 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000==
             relative_mount_path: azfiles
             file_mode: '0777'

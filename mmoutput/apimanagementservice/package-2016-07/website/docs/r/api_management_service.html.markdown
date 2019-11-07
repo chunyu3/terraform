@@ -28,6 +28,8 @@ Manage Azure ApiManagementService instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Datacenter location of the API Management service. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `publisher_email` - (Required) Publisher email.
 
 * `publisher_name` - (Required) Publisher name.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `additional_locations` - (Optional) One or more `additional_location` block defined below.
 

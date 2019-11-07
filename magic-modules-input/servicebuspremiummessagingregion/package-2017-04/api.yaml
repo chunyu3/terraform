@@ -1,0 +1,41 @@
+--- !ruby/object:Api::Product
+name: Azure PremiumMessagingRegion Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: PremiumMessagingRegion
+    api_name: ServiceBus
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ServiceBus
+      go_client_namespace: servicebus
+      go_client: premiumMessagingRegionsClient
+      python_client_namespace: azure.mgmt.servicebus
+      python_client: ServiceBusManagementClient.premium_messaging_regions
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure PremiumMessagingRegion instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Result of the List PremiumMessagingRegions type.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link to the next set of results. Not empty if Value contains incomplete list of PremiumMessagingRegions.'
+        output: true
+        azure_sdk_references: ['/nextLink']

@@ -28,11 +28,11 @@ Manage Azure Dashboard instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the dashboard. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `dashboard_name` - (Required) The name of the dashboard. Changing this forces a new resource to be created.
 
 * `lenses` - (Optional) The dashboard lenses.
 

@@ -28,13 +28,13 @@ Manage Azure Disk instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
 * `creation_data` - (Required) One `creation_datum` block defined below.
-
-* `disk_name` - (Required) The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. Changing this forces a new resource to be created.
 
 ---
 
@@ -103,13 +103,31 @@ The `encryption_setting` block supports the following:
 
 The `disk_encryption_key` block supports the following:
 
+* `source_vault` - (Required) One `source_vault` block defined below.
+
 * `secret_url` - (Required) Url pointing to a key or secret in KeyVault
+
+
+---
+
+The `source_vault` block supports the following:
+
+* `id` - (Optional) Resource Id
 
 ---
 
 The `key_encryption_key` block supports the following:
 
+* `source_vault` - (Required) One `source_vault` block defined below.
+
 * `key_url` - (Required) Url pointing to a key or secret in KeyVault
+
+
+---
+
+The `source_vault` block supports the following:
+
+* `id` - (Optional) Resource Id
 
 ---
 

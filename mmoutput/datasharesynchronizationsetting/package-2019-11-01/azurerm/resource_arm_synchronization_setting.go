@@ -31,6 +31,13 @@ func resourceArmSynchronizationSetting() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -50,13 +57,6 @@ func resourceArmSynchronizationSetting() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "synchronization_setting_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -69,16 +69,16 @@ func resourceArmSynchronizationSettingCreateUpdate(d *schema.ResourceData, meta 
     client := meta.(*ArmClient).synchronizationSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     shareName := d.Get("share_name").(string)
-    synchronizationSettingName := d.Get("synchronization_setting_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, shareName, synchronizationSettingName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", synchronizationSettingName, shareName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -91,17 +91,17 @@ func resourceArmSynchronizationSettingCreateUpdate(d *schema.ResourceData, meta 
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, synchronizationSettingName, synchronizationSetting); err != nil {
-        return fmt.Errorf("Error creating Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", synchronizationSettingName, shareName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, name, synchronizationSetting); err != nil {
+        return fmt.Errorf("Error creating Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, synchronizationSettingName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", synchronizationSettingName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q) ID", synchronizationSettingName, shareName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q) ID", name, shareName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -119,24 +119,24 @@ func resourceArmSynchronizationSettingRead(d *schema.ResourceData, meta interfac
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareName := id.Path["shares"]
-    synchronizationSettingName := id.Path["synchronizationSettings"]
+    name := id.Path["synchronizationSettings"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, synchronizationSettingName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Synchronization Setting %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", synchronizationSettingName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     d.Set("share_name", shareName)
-    d.Set("synchronization_setting_name", synchronizationSettingName)
     d.Set("type", resp.Type)
 
     return nil
@@ -155,19 +155,19 @@ func resourceArmSynchronizationSettingDelete(d *schema.ResourceData, meta interf
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareName := id.Path["shares"]
-    synchronizationSettingName := id.Path["synchronizationSettings"]
+    name := id.Path["synchronizationSettings"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, shareName, synchronizationSettingName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", synchronizationSettingName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", synchronizationSettingName, shareName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
         }
     }
 

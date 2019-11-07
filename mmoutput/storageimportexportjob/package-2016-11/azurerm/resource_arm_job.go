@@ -31,19 +31,19 @@ func resourceArmJob() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "job_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "backup_drive_manifest": {
                 Type: schema.TypeBool,
@@ -392,14 +392,14 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    jobName := d.Get("job_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, jobName, resourceGroup)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job (Resource Group %q / Job Name %q): %+v", resourceGroup, jobName, err)
+                return fmt.Errorf("Error checking for present of existing Job %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -450,17 +450,17 @@ func resourceArmJobCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Create(ctx, jobName, resourceGroup, body); err != nil {
-        return fmt.Errorf("Error creating Job (Resource Group %q / Job Name %q): %+v", resourceGroup, jobName, err)
+    if _, err := client.Create(ctx, resourceGroup, name, body); err != nil {
+        return fmt.Errorf("Error creating Job %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, jobName, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job (Resource Group %q / Job Name %q): %+v", resourceGroup, jobName, err)
+        return fmt.Errorf("Error retrieving Job %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job (Resource Group %q / Job Name %q) ID", resourceGroup, jobName)
+        return fmt.Errorf("Cannot read Job %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -475,20 +475,21 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    jobName := id.Path["jobs"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["jobs"]
 
-    resp, err := client.Get(ctx, jobName, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job (Resource Group %q / Job Name %q): %+v", resourceGroup, jobName, err)
+        return fmt.Errorf("Error reading Job %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -527,7 +528,6 @@ func resourceArmJobRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("state", jobDetails.State)
         d.Set("storage_account_id", jobDetails.StorageAccountID)
     }
-    d.Set("job_name", jobName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -537,6 +537,7 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     backupDriveManifest := d.Get("backup_drive_manifest").(bool)
     cancelRequested := d.Get("cancel_requested").(bool)
@@ -545,7 +546,6 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     driveList := d.Get("drive_list").([]interface{})
     export := d.Get("export").([]interface{})
     incompleteBlobListUri := d.Get("incomplete_blob_list_uri").(string)
-    jobName := d.Get("job_name").(string)
     jobType := d.Get("job_type").(string)
     logLevel := d.Get("log_level").(string)
     percentComplete := d.Get("percent_complete").(int)
@@ -581,8 +581,8 @@ func resourceArmJobUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, jobName, resourceGroup, body); err != nil {
-        return fmt.Errorf("Error updating Job (Resource Group %q / Job Name %q): %+v", resourceGroup, jobName, err)
+    if _, err := client.Update(ctx, resourceGroup, name, body); err != nil {
+        return fmt.Errorf("Error updating Job %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmJobRead(d, meta)
@@ -597,11 +597,11 @@ func resourceArmJobDelete(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    jobName := id.Path["jobs"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["jobs"]
 
-    if _, err := client.Delete(ctx, jobName, resourceGroup); err != nil {
-        return fmt.Errorf("Error deleting Job (Resource Group %q / Job Name %q): %+v", resourceGroup, jobName, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Job %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

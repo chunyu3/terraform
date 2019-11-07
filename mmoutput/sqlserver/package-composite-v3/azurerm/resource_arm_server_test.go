@@ -34,15 +34,15 @@ func testCheckAzureRMServerExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Server not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serversClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Server (Server Name %q / Resource Group %q) does not exist", serverName, resourceGroup)
+                return fmt.Errorf("Bad: Server %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serversClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMServerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serversClient: %+v", err)
             }

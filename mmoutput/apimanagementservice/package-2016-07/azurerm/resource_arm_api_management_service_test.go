@@ -34,15 +34,15 @@ func testCheckAzureRMApiManagementServiceExists(resourceName string) resource.Te
             return fmt.Errorf("Api Management Service not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiManagementServicesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Management Service (Service Name %q / Resource Group %q) does not exist", serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Management Service %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiManagementServicesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMApiManagementServiceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiManagementServicesClient: %+v", err)
             }

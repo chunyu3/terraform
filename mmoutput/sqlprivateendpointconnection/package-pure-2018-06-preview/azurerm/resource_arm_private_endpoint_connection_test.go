@@ -34,16 +34,16 @@ func testCheckAzureRMPrivateEndpointConnectionExists(resourceName string) resour
             return fmt.Errorf("Private Endpoint Connection not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        privateEndpointConnectionName := rs.Primary.Attributes["private_endpoint_connection_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).privateEndpointConnectionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, privateEndpointConnectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Private Endpoint Connection (Private Endpoint Connection Name %q / Server Name %q / Resource Group %q) does not exist", privateEndpointConnectionName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Private Endpoint Connection %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on privateEndpointConnectionsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMPrivateEndpointConnectionDestroy(s *terraform.State) error 
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        privateEndpointConnectionName := rs.Primary.Attributes["private_endpoint_connection_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, privateEndpointConnectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on privateEndpointConnectionsClient: %+v", err)
             }

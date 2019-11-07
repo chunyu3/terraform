@@ -31,6 +31,13 @@ func resourceArmStorageAccountCredential() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmStorageAccountCredential() *schema.Resource {
             "end_point": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -120,15 +120,15 @@ func resourceArmStorageAccountCredentialCreateUpdate(d *schema.ResourceData, met
     client := meta.(*ArmClient).storageAccountCredentialsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    managerName := d.Get("manager_name").(string)
     storageAccountCredentialName := d.Get("storage_account_credential_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, storageAccountCredentialName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+                return fmt.Errorf("Error checking for present of existing Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -151,21 +151,21 @@ func resourceArmStorageAccountCredentialCreateUpdate(d *schema.ResourceData, met
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, storageAccountCredentialName, resourceGroup, managerName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, storageAccountCredentialName, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error creating Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error waiting for creation of Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
     }
 
 
-    resp, err := client.Get(ctx, storageAccountCredentialName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error retrieving Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q) ID", managerName, resourceGroup, storageAccountCredentialName)
+        return fmt.Errorf("Cannot read Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q) ID", name, resourceGroup, storageAccountCredentialName)
     }
     d.SetId(*resp.ID)
 
@@ -180,21 +180,22 @@ func resourceArmStorageAccountCredentialRead(d *schema.ResourceData, meta interf
     if err != nil {
         return err
     }
-    storageAccountCredentialName := id.Path["storageAccountCredentials"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    storageAccountCredentialName := id.Path["storageAccountCredentials"]
 
-    resp, err := client.Get(ctx, storageAccountCredentialName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Storage Account Credential %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error reading Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if storageAccountCredentialProperties := resp.StorageAccountCredentialProperties; storageAccountCredentialProperties != nil {
@@ -206,7 +207,6 @@ func resourceArmStorageAccountCredentialRead(d *schema.ResourceData, meta interf
         d.Set("volumes_count", int(*storageAccountCredentialProperties.VolumesCount))
     }
     d.Set("kind", string(resp.Kind))
-    d.Set("manager_name", managerName)
     d.Set("storage_account_credential_name", storageAccountCredentialName)
     d.Set("type", resp.Type)
 
@@ -223,21 +223,21 @@ func resourceArmStorageAccountCredentialDelete(d *schema.ResourceData, meta inte
     if err != nil {
         return err
     }
-    storageAccountCredentialName := id.Path["storageAccountCredentials"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    storageAccountCredentialName := id.Path["storageAccountCredentials"]
 
-    future, err := client.Delete(ctx, storageAccountCredentialName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, storageAccountCredentialName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+        return fmt.Errorf("Error deleting Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q): %+v", managerName, resourceGroup, storageAccountCredentialName, err)
+            return fmt.Errorf("Error waiting for deleting Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q): %+v", name, resourceGroup, storageAccountCredentialName, err)
         }
     }
 

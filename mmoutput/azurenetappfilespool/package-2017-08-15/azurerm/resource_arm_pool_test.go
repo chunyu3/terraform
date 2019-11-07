@@ -34,16 +34,16 @@ func testCheckAzureRMPoolExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Pool not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        poolName := rs.Primary.Attributes["pool_name"]
 
         client := testAccProvider.Meta().(*ArmClient).poolsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Pool (Pool Name %q / Account Name %q / Resource Group %q) does not exist", poolName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Pool %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on poolsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMPoolDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        poolName := rs.Primary.Attributes["pool_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on poolsClient: %+v", err)
             }

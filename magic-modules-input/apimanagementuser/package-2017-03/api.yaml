@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: users
             go_variable_name: uid
@@ -101,9 +101,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: users
             go_variable_name: uid
@@ -173,9 +173,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: users
             go_variable_name: uid
@@ -192,9 +192,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'uid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: users
             go_variable_name: uid
@@ -240,9 +240,21 @@ objects:
             applicable_to: [go]
             go_field_name: Identities
             go_type_name: UserIdentityContract
+          '/properties/identities/provider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Provider
+          '/properties/identities/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/identities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: identities
+          '/identities/provider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provider
+          '/identities/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/properties/registrationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: RegistrationDate
@@ -253,9 +265,62 @@ objects:
             applicable_to: [go]
             go_field_name: Groups
             go_type_name: GroupContract
+          '/properties/groups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/groups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/groups/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/groups/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupContractProperties
+            go_type_name: GroupContractProperties
+          '/properties/groups/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/properties/groups/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/groups/properties/builtIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: BuiltIn
+          '/properties/groups/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: GroupType
+          '/properties/groups/properties/externalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalID
           '/groups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: groups
+          '/groups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/groups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/groups/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/groups/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/groups/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/groups/builtIn': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: built_in
+          '/groups/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/groups/externalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -276,9 +341,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
 
     description: |
       Manage Azure User instance.
@@ -290,7 +355,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'serviceName'
+        name: 'name'
         description: 'The name of the API Management service.'
         required: true
         input: true
@@ -354,16 +419,6 @@ objects:
         azure_sdk_references: ['/identities', '/properties/identities']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'provider'
-              description: 'Identity provider name.'
-              required: false
-              azure_sdk_references: ['/identities/provider', '/properties/identities/provider']
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Identifier value within provider.'
-              required: false
-              azure_sdk_references: ['/identities/id', '/properties/identities/id']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'registrationDate'
         description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
@@ -376,51 +431,6 @@ objects:
         azure_sdk_references: ['/groups', '/properties/groups']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource ID.'
-              required: false
-              azure_sdk_references: ['/groups/id', '/properties/groups/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Resource name.'
-              required: false
-              azure_sdk_references: ['/groups/name', '/properties/groups/name']
-            - !ruby/object:Api::Type::String
-              name: 'type'
-              description: 'Resource type for API Management resource.'
-              required: false
-              azure_sdk_references: ['/groups/type', '/properties/groups/type']
-            - !ruby/object:Api::Type::String
-              name: 'displayName'
-              description: 'Group name.'
-              required: true
-              azure_sdk_references: ['/groups/displayName', '/properties/groups/properties/displayName']
-            - !ruby/object:Api::Type::String
-              name: 'description'
-              description: 'Group description. Can contain HTML formatting tags.'
-              required: false
-              azure_sdk_references: ['/groups/description', '/properties/groups/properties/description']
-            - !ruby/object:Api::Type::Boolean
-              name: 'builtIn'
-              description: 'true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.'
-              required: false
-              azure_sdk_references: ['/groups/builtIn', '/properties/groups/properties/builtIn']
-            - !ruby/object:Api::Type::Enum
-              name: 'type'
-              description: 'Group type.'
-              required: false
-              azure_sdk_references: ['/groups/type', '/properties/groups/properties/type']
-              values:
-                - :custom
-                - :system
-                - :external
-              default_value: :custom
-            - !ruby/object:Api::Type::String
-              name: 'externalId'
-              description: 'For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.'
-              required: false
-              azure_sdk_references: ['/groups/externalId', '/properties/groups/properties/externalId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

@@ -31,6 +31,13 @@ func resourceArmAuthorizationServer() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -79,13 +86,6 @@ func resourceArmAuthorizationServer() *schema.Resource {
                         string(apimanagement.clientCredentials),
                    }, false),
                 },
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "authorization_methods": {
@@ -196,15 +196,15 @@ func resourceArmAuthorizationServerCreate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).authorizationServerClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     authsid := d.Get("authsid").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, authsid)
+        existing, err := client.Get(ctx, resourceGroup, name, authsid)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Authorization Server (Authsid %q / Service Name %q / Resource Group %q): %+v", authsid, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Authorization Server %q (Authsid %q / Resource Group %q): %+v", name, authsid, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -251,17 +251,17 @@ func resourceArmAuthorizationServerCreate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, authsid, parameters); err != nil {
-        return fmt.Errorf("Error creating Authorization Server (Authsid %q / Service Name %q / Resource Group %q): %+v", authsid, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, authsid, parameters); err != nil {
+        return fmt.Errorf("Error creating Authorization Server %q (Authsid %q / Resource Group %q): %+v", name, authsid, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, authsid)
+    resp, err := client.Get(ctx, resourceGroup, name, authsid)
     if err != nil {
-        return fmt.Errorf("Error retrieving Authorization Server (Authsid %q / Service Name %q / Resource Group %q): %+v", authsid, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Authorization Server %q (Authsid %q / Resource Group %q): %+v", name, authsid, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Authorization Server (Authsid %q / Service Name %q / Resource Group %q) ID", authsid, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Authorization Server %q (Authsid %q / Resource Group %q) ID", name, authsid, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -277,20 +277,21 @@ func resourceArmAuthorizationServerRead(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     authsid := id.Path["authorizationServers"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, authsid)
+    resp, err := client.Get(ctx, resourceGroup, name, authsid)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Authorization Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Authorization Server (Authsid %q / Service Name %q / Resource Group %q): %+v", authsid, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Authorization Server %q (Authsid %q / Resource Group %q): %+v", name, authsid, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if authorizationServerContractProperties := resp.AuthorizationServerContractProperties; authorizationServerContractProperties != nil {
@@ -322,7 +323,6 @@ func resourceArmAuthorizationServerRead(d *schema.ResourceData, meta interface{}
         d.Set("token_endpoint", authorizationServerContractProperties.TokenEndpoint)
     }
     d.Set("authsid", authsid)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -332,6 +332,7 @@ func resourceArmAuthorizationServerUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).authorizationServerClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     authorizationEndpoint := d.Get("authorization_endpoint").(string)
     authorizationMethods := d.Get("authorization_methods").([]interface{})
@@ -347,7 +348,6 @@ func resourceArmAuthorizationServerUpdate(d *schema.ResourceData, meta interface
     grantTypes := d.Get("grant_types").([]interface{})
     resourceOwnerPassword := d.Get("resource_owner_password").(string)
     resourceOwnerUsername := d.Get("resource_owner_username").(string)
-    serviceName := d.Get("service_name").(string)
     supportState := d.Get("support_state").(bool)
     tokenBodyParameters := d.Get("token_body_parameters").([]interface{})
     tokenEndpoint := d.Get("token_endpoint").(string)
@@ -374,8 +374,8 @@ func resourceArmAuthorizationServerUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, authsid, parameters); err != nil {
-        return fmt.Errorf("Error updating Authorization Server (Authsid %q / Service Name %q / Resource Group %q): %+v", authsid, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, authsid, parameters); err != nil {
+        return fmt.Errorf("Error updating Authorization Server %q (Authsid %q / Resource Group %q): %+v", name, authsid, resourceGroup, err)
     }
 
     return resourceArmAuthorizationServerRead(d, meta)
@@ -391,11 +391,11 @@ func resourceArmAuthorizationServerDelete(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     authsid := id.Path["authorizationServers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, authsid); err != nil {
-        return fmt.Errorf("Error deleting Authorization Server (Authsid %q / Service Name %q / Resource Group %q): %+v", authsid, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, authsid); err != nil {
+        return fmt.Errorf("Error deleting Authorization Server %q (Authsid %q / Resource Group %q): %+v", name, authsid, resourceGroup, err)
     }
 
     return nil

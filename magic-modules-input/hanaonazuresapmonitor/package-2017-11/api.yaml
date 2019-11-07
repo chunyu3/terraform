@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sapMonitors
-            go_variable_name: sapMonitorName
+            go_variable_name: name
             python_parameter_name: sap_monitor_name
-            python_variable_name: sap_monitor_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: sapMonitorParameter
             go_type_name: SapMonitor
@@ -110,9 +110,9 @@ objects:
             python_variable_name: resource_group
           'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sapMonitors
-            go_variable_name: sapMonitorName
+            go_variable_name: name
             python_parameter_name: sap_monitor_name
-            python_variable_name: sap_monitor_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -125,9 +125,9 @@ objects:
             python_variable_name: resource_group
           'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sapMonitors
-            go_variable_name: sapMonitorName
+            go_variable_name: name
             python_parameter_name: sap_monitor_name
-            python_variable_name: sap_monitor_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -139,9 +139,9 @@ objects:
             python_variable_name: resource_group
           'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sapMonitors
-            go_variable_name: sapMonitorName
+            go_variable_name: name
             python_parameter_name: sap_monitor_name
-            python_variable_name: sap_monitor_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -250,7 +250,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'sapMonitorName'
+        name: 'name'
         description: 'Name of the SAP monitor resource.'
         required: true
         input: true

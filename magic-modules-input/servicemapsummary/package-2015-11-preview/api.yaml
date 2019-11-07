@@ -1,0 +1,90 @@
+--- !ruby/object:Api::Product
+name: Azure Summary Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Summary
+    api_name: OperationalInsights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.OperationalInsights
+      go_client_namespace: servicemap
+      go_client: summariesClient
+      python_client_namespace: azure.mgmt.servicemap
+      python_client: ServiceMapClient.summaries
+
+    description: |
+      Manage Azure Summary instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Resource group name within the specified subscriptionId.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'OMS workspace containing the resources of interest.'
+        required: true
+        input: true
+        azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m'
+        required: false
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow'
+        required: false
+        input: true
+        azure_sdk_references: ['endTime']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Summary interval start time.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'Summary interval end time.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::Integer
+        name: 'total'
+        description: 'Total number of machines.'
+        output: true
+        azure_sdk_references: ['/total', '/properties/total']
+      - !ruby/object:Api::Type::Integer
+        name: 'live'
+        description: 'Number of live machines.'
+        output: true
+        azure_sdk_references: ['/live', '/properties/live']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'os'
+        description: 'Machine counts by operating system.'
+        output: true
+        azure_sdk_references: ['/os', '/properties/os']
+        properties:

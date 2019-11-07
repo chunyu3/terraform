@@ -28,11 +28,11 @@ Manage Azure SmartDetectorAlertRule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the alert rule. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `action_groups` - (Required) One `action_group` block defined below.
-
-* `alert_rule_name` - (Required) The name of the alert rule. Changing this forces a new resource to be created.
 
 * `detector` - (Required) One `detector` block defined below.
 

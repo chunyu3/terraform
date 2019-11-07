@@ -31,17 +31,17 @@ func resourceArmApp() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "app_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "service_name": {
                 Type: schema.TypeString,
@@ -123,15 +123,15 @@ func resourceArmAppCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).appsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    appName := d.Get("app_name").(string)
     serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, appName)
+        existing, err := client.Get(ctx, resourceGroup, serviceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -154,21 +154,21 @@ func resourceArmAppCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, appName, appResource)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, name, appResource)
     if err != nil {
-        return fmt.Errorf("Error creating App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error creating App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, appName)
+    resp, err := client.Get(ctx, resourceGroup, serviceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read App (App Name %q / Service Name %q / Resource Group %q) ID", appName, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read App %q (Service Name %q / Resource Group %q) ID", name, serviceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -185,19 +185,20 @@ func resourceArmAppRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serviceName := id.Path["Spring"]
-    appName := id.Path["apps"]
+    name := id.Path["apps"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, appName)
+    resp, err := client.Get(ctx, resourceGroup, serviceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] App %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if appResourceProperties := resp.AppResourceProperties; appResourceProperties != nil {
@@ -213,7 +214,6 @@ func resourceArmAppRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("url", appResourceProperties.URL)
     }
-    d.Set("app_name", appName)
     d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
@@ -224,9 +224,9 @@ func resourceArmAppUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).appsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     activeDeploymentName := d.Get("active_deployment_name").(string)
-    appName := d.Get("app_name").(string)
     persistentDisk := d.Get("persistent_disk").([]interface{})
     public := d.Get("public").(bool)
     serviceName := d.Get("service_name").(string)
@@ -242,12 +242,12 @@ func resourceArmAppUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serviceName, appName, appResource)
+    future, err := client.Update(ctx, resourceGroup, serviceName, name, appResource)
     if err != nil {
-        return fmt.Errorf("Error updating App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error updating App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
 
     return resourceArmAppRead(d, meta)
@@ -264,10 +264,10 @@ func resourceArmAppDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serviceName := id.Path["Spring"]
-    appName := id.Path["apps"]
+    name := id.Path["apps"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, appName); err != nil {
-        return fmt.Errorf("Error deleting App (App Name %q / Service Name %q / Resource Group %q): %+v", appName, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serviceName, name); err != nil {
+        return fmt.Errorf("Error deleting App %q (Service Name %q / Resource Group %q): %+v", name, serviceName, resourceGroup, err)
     }
 
     return nil

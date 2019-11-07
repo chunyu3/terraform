@@ -28,13 +28,13 @@ Manage Azure BandwidthSchedule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The device name. Changing this forces a new resource to be created.
+
 * `name` - (Required) The bandwidth schedule name which needs to be added/updated. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `days` - (Required) The days of the week when this schedule is applicable.
-
-* `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
 * `rate_in_mbps` - (Required) The bandwidth rate in Mbps.
 

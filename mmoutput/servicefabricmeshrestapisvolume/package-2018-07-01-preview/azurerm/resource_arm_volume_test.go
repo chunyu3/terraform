@@ -34,15 +34,15 @@ func testCheckAzureRMVolumeExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Volume not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        volumeName := rs.Primary.Attributes["volume_name"]
 
         client := testAccProvider.Meta().(*ArmClient).volumeClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, volumeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Volume (Volume Name %q / Resource Group %q) does not exist", volumeName, resourceGroup)
+                return fmt.Errorf("Bad: Volume %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on volumeClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMVolumeDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        volumeName := rs.Primary.Attributes["volume_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, volumeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on volumeClient: %+v", err)
             }

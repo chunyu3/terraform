@@ -28,6 +28,8 @@ Manage Azure Api instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `name` - (Required) API name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `path` - (Required) Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. Changing this forces a new resource to be created.
 
 * `protocols` - (Required) Describes on which protocols the operations in this API can be invoked. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `service_url` - (Required) Absolute URL of the backend service implementing this API. Changing this forces a new resource to be created.
 

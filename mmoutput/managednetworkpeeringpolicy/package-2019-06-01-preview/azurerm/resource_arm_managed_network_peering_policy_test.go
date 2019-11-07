@@ -34,16 +34,16 @@ func testCheckAzureRMManagedNetworkPeeringPolicyExists(resourceName string) reso
             return fmt.Errorf("Managed Network Peering Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         managedNetworkName := rs.Primary.Attributes["managed_network_name"]
-        managedNetworkPeeringPolicyName := rs.Primary.Attributes["managed_network_peering_policy_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managedNetworkPeeringPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, managedNetworkPeeringPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Managed Network Peering Policy (Managed Network Peering Policy Name %q / Managed Network Name %q / Resource Group %q) does not exist", managedNetworkPeeringPolicyName, managedNetworkName, resourceGroup)
+                return fmt.Errorf("Bad: Managed Network Peering Policy %q (Managed Network Name %q / Resource Group %q) does not exist", name, managedNetworkName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managedNetworkPeeringPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMManagedNetworkPeeringPolicyDestroy(s *terraform.State) erro
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         managedNetworkName := rs.Primary.Attributes["managed_network_name"]
-        managedNetworkPeeringPolicyName := rs.Primary.Attributes["managed_network_peering_policy_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, managedNetworkPeeringPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managedNetworkPeeringPoliciesClient: %+v", err)
             }

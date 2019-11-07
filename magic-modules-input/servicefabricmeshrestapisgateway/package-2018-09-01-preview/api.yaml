@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'gatewayResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: gateways
-            go_variable_name: gatewayResourceName
+            go_variable_name: name
             python_parameter_name: gateway_resource_name
-            python_variable_name: gateway_resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: gatewayResourceDescription
             go_type_name: GatewayResourceDescription
@@ -173,9 +173,42 @@ objects:
           '/http/hosts/routes/match': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: match
+          '/http/hosts/routes/match/path': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: path
+          '/http/hosts/routes/match/path/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/http/hosts/routes/match/path/rewrite': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rewrite
+          '/http/hosts/routes/match/path/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/http/hosts/routes/match/headers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: headers
+          '/http/hosts/routes/match/headers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/hosts/routes/match/headers/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/http/hosts/routes/match/headers/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
           '/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: destination
+          '/http/hosts/routes/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_name
+          '/http/hosts/routes/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/http/hosts/routes/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint_name
           '/properties/http': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Http
@@ -204,10 +237,46 @@ objects:
             applicable_to: [go]
             go_field_name: Match
             go_type_name: HttpRouteMatchRule
+          '/properties/http/hosts/routes/match/path': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Path
+            go_type_name: HttpRouteMatchPath
+          '/properties/http/hosts/routes/match/path/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/http/hosts/routes/match/path/rewrite': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Rewrite
+          '/properties/http/hosts/routes/match/path/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/http/hosts/routes/match/headers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Headers
+            go_type_name: HttpRouteMatchHeader
+          '/properties/http/hosts/routes/match/headers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/hosts/routes/match/headers/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/http/hosts/routes/match/headers/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: HeaderMatchType
           '/properties/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Destination
             go_type_name: GatewayDestination
+          '/properties/http/hosts/routes/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationName
+          '/properties/http/hosts/routes/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/properties/http/hosts/routes/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndpointName
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -219,9 +288,9 @@ objects:
             python_variable_name: resource_group
           'gatewayResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: gateways
-            go_variable_name: gatewayResourceName
+            go_variable_name: name
             python_parameter_name: gateway_resource_name
-            python_variable_name: gateway_resource_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -233,9 +302,9 @@ objects:
             python_variable_name: resource_group
           'gatewayResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: gateways
-            go_variable_name: gatewayResourceName
+            go_variable_name: name
             python_parameter_name: gateway_resource_name
-            python_variable_name: gateway_resource_name
+            python_variable_name: name
         response:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
@@ -377,10 +446,46 @@ objects:
             applicable_to: [go]
             go_field_name: Match
             go_type_name: HttpRouteMatchRule
+          '/properties/http/hosts/routes/match/path': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Path
+            go_type_name: HttpRouteMatchPath
+          '/properties/http/hosts/routes/match/path/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/http/hosts/routes/match/path/rewrite': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Rewrite
+          '/properties/http/hosts/routes/match/path/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/http/hosts/routes/match/headers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Headers
+            go_type_name: HttpRouteMatchHeader
+          '/properties/http/hosts/routes/match/headers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/http/hosts/routes/match/headers/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/http/hosts/routes/match/headers/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: HeaderMatchType
           '/properties/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Destination
             go_type_name: GatewayDestination
+          '/properties/http/hosts/routes/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApplicationName
+          '/properties/http/hosts/routes/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceName
+          '/properties/http/hosts/routes/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndpointName
           '/http': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: http
@@ -405,9 +510,42 @@ objects:
           '/http/hosts/routes/match': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: match
+          '/http/hosts/routes/match/path': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: path
+          '/http/hosts/routes/match/path/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/http/hosts/routes/match/path/rewrite': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rewrite
+          '/http/hosts/routes/match/path/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/http/hosts/routes/match/headers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: headers
+          '/http/hosts/routes/match/headers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/http/hosts/routes/match/headers/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/http/hosts/routes/match/headers/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
           '/http/hosts/routes/destination': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: destination
+          '/http/hosts/routes/destination/applicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: application_name
+          '/http/hosts/routes/destination/serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_name
+          '/http/hosts/routes/destination/endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint_name
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -466,7 +604,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'gatewayResourceName'
+        name: 'name'
         description: 'The identity of the gateway.'
         required: true
         input: true
@@ -613,6 +751,79 @@ objects:
                           description: 'http route name.'
                           required: true
                           azure_sdk_references: ['/http/hosts/routes/name', '/properties/http/hosts/routes/name']
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'match'
+                          description: 'Describes a rule for http route matching.'
+                          required: true
+                          azure_sdk_references: ['/http/hosts/routes/match', '/properties/http/hosts/routes/match']
+                          properties:
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'path'
+                              description: 'Path to match for routing.'
+                              required: true
+                              azure_sdk_references: ['/http/hosts/routes/match/path', '/properties/http/hosts/routes/match/path']
+                              properties:
+                                - !ruby/object:Api::Type::String
+                                  name: 'value'
+                                  description: 'Uri path to match for request.'
+                                  required: true
+                                  azure_sdk_references: ['/http/hosts/routes/match/path/value', '/properties/http/hosts/routes/match/path/value']
+                                - !ruby/object:Api::Type::String
+                                  name: 'rewrite'
+                                  description: 'replacement string for matched part of the Uri.'
+                                  required: false
+                                  azure_sdk_references: ['/http/hosts/routes/match/path/rewrite', '/properties/http/hosts/routes/match/path/rewrite']
+                                - !ruby/object:Api::Type::String
+                                  name: 'type'
+                                  description: 'how to match value in the Uri'
+                                  required: true
+                                  azure_sdk_references: ['/http/hosts/routes/match/path/type', '/properties/http/hosts/routes/match/path/type']
+                            - !ruby/object:Api::Type::Array
+                              name: 'headers'
+                              description: 'headers and their values to match in request.'
+                              required: false
+                              azure_sdk_references: ['/http/hosts/routes/match/headers', '/properties/http/hosts/routes/match/headers']
+                              item_type: !ruby/object:Api::Type::NestedObject
+                                properties:
+                                  - !ruby/object:Api::Type::String
+                                    name: 'name'
+                                    description: 'Name of header to match in request.'
+                                    required: true
+                                    azure_sdk_references: ['/http/hosts/routes/match/headers/name', '/properties/http/hosts/routes/match/headers/name']
+                                  - !ruby/object:Api::Type::String
+                                    name: 'value'
+                                    description: 'Value of header to match in request.'
+                                    required: false
+                                    azure_sdk_references: ['/http/hosts/routes/match/headers/value', '/properties/http/hosts/routes/match/headers/value']
+                                  - !ruby/object:Api::Type::Enum
+                                    name: 'type'
+                                    description: 'how to match header value'
+                                    required: false
+                                    azure_sdk_references: ['/http/hosts/routes/match/headers/type', '/properties/http/hosts/routes/match/headers/type']
+                                    values:
+                                      - :exact
+                                    default_value: :exact
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'destination'
+                          description: 'Describes destination endpoint for routing traffic.'
+                          required: true
+                          azure_sdk_references: ['/http/hosts/routes/destination', '/properties/http/hosts/routes/destination']
+                          properties:
+                            - !ruby/object:Api::Type::String
+                              name: 'applicationName'
+                              description: 'Name of the service fabric Mesh application.'
+                              required: true
+                              azure_sdk_references: ['/http/hosts/routes/destination/applicationName', '/properties/http/hosts/routes/destination/applicationName']
+                            - !ruby/object:Api::Type::String
+                              name: 'serviceName'
+                              description: 'service that contains the endpoint.'
+                              required: true
+                              azure_sdk_references: ['/http/hosts/routes/destination/serviceName', '/properties/http/hosts/routes/destination/serviceName']
+                            - !ruby/object:Api::Type::String
+                              name: 'endpointName'
+                              description: 'name of the endpoint in the service.'
+                              required: true
+                              azure_sdk_references: ['/http/hosts/routes/destination/endpointName', '/properties/http/hosts/routes/destination/endpointName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'

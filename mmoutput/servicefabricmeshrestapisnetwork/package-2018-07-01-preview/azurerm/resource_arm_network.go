@@ -31,6 +31,13 @@ func resourceArmNetwork() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -41,13 +48,6 @@ func resourceArmNetwork() *schema.Resource {
             "address_prefix": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "network_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -121,14 +121,14 @@ func resourceArmNetworkCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).networkClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    networkName := d.Get("network_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, networkName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Network (Network Name %q / Resource Group %q): %+v", networkName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Network %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -153,17 +153,17 @@ func resourceArmNetworkCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, networkName, networkResourceDescription); err != nil {
-        return fmt.Errorf("Error creating Network (Network Name %q / Resource Group %q): %+v", networkName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, networkResourceDescription); err != nil {
+        return fmt.Errorf("Error creating Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, networkName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Network (Network Name %q / Resource Group %q): %+v", networkName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Network (Network Name %q / Resource Group %q) ID", networkName, resourceGroup)
+        return fmt.Errorf("Cannot read Network %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -179,19 +179,20 @@ func resourceArmNetworkRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    networkName := id.Path["networks"]
+    name := id.Path["networks"]
 
-    resp, err := client.Get(ctx, resourceGroup, networkName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Network %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Network (Network Name %q / Resource Group %q): %+v", networkName, resourceGroup, err)
+        return fmt.Errorf("Error reading Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -205,7 +206,6 @@ func resourceArmNetworkRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("provisioning_state", networkResourceProperties.ProvisioningState)
     }
-    d.Set("network_name", networkName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -222,10 +222,10 @@ func resourceArmNetworkDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    networkName := id.Path["networks"]
+    name := id.Path["networks"]
 
-    if _, err := client.Delete(ctx, resourceGroup, networkName); err != nil {
-        return fmt.Errorf("Error deleting Network (Network Name %q / Resource Group %q): %+v", networkName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

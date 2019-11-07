@@ -35,9 +35,9 @@ objects:
             python_variable_name: registry_name
           'tokenName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tokens
-            go_variable_name: tokenName
+            go_variable_name: name
             python_parameter_name: token_name
-            python_variable_name: token_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: tokenCreateParameters
             go_type_name: Token
@@ -148,9 +148,9 @@ objects:
             python_variable_name: registry_name
           'tokenName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tokens
-            go_variable_name: tokenName
+            go_variable_name: name
             python_parameter_name: token_name
-            python_variable_name: token_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -168,9 +168,9 @@ objects:
             python_variable_name: registry_name
           'tokenName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tokens
-            go_variable_name: tokenName
+            go_variable_name: name
             python_parameter_name: token_name
-            python_variable_name: token_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -187,9 +187,9 @@ objects:
             python_variable_name: registry_name
           'tokenName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tokens
-            go_variable_name: tokenName
+            go_variable_name: name
             python_parameter_name: token_name
-            python_variable_name: token_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -338,7 +338,7 @@ objects:
         input: true
         azure_sdk_references: ['registryName']
       - !ruby/object:Api::Type::String
-        name: 'tokenName'
+        name: 'name'
         description: 'The name of the token.'
         required: true
         input: true

@@ -28,9 +28,9 @@ Manage Azure Assessment instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
+* `name` - (Required) Unique name of an assessment within a project. Changing this forces a new resource to be created.
 
-* `assessment_name` - (Required) Unique name of an assessment within a project. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
 
 * `azure_hybrid_use_benefit` - (Required) AHUB discount on windows virtual machines.
 

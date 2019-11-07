@@ -28,9 +28,9 @@ Manage Azure HyperVCollector instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
+* `name` - (Required) Unique name of a Hyper-V collector within a project. Changing this forces a new resource to be created.
 
-* `hyper_vcollector_name` - (Required) Unique name of a Hyper-V collector within a project. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
 
 * `project_name` - (Required) Name of the Azure Migrate project. Changing this forces a new resource to be created.
 

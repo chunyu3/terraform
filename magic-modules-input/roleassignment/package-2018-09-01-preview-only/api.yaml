@@ -29,9 +29,9 @@ objects:
             python_variable_name: scope
           'roleAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: roleAssignments
-            go_variable_name: roleAssignmentName
+            go_variable_name: name
             python_parameter_name: role_assignment_name
-            python_variable_name: role_assignment_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: RoleAssignmentCreateParameters
@@ -77,9 +77,9 @@ objects:
             python_variable_name: scope
           'roleAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: roleAssignments
-            go_variable_name: roleAssignmentName
+            go_variable_name: name
             python_parameter_name: role_assignment_name
-            python_variable_name: role_assignment_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -91,9 +91,9 @@ objects:
             python_variable_name: scope
           'roleAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: roleAssignments
-            go_variable_name: roleAssignmentName
+            go_variable_name: name
             python_parameter_name: role_assignment_name
-            python_variable_name: role_assignment_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -171,7 +171,7 @@ objects:
         input: true
         azure_sdk_references: ['scope']
       - !ruby/object:Api::Type::String
-        name: 'roleAssignmentName'
+        name: 'name'
         description: 'The name of the role assignment to create. It can be any valid GUID.'
         required: true
         input: true

@@ -35,9 +35,9 @@ objects:
             python_variable_name: registry_name
           'buildTaskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: buildTasks
-            go_variable_name: buildTaskName
+            go_variable_name: name
             python_parameter_name: build_task_name
-            python_variable_name: build_task_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: buildTaskCreateParameters
             go_type_name: BuildTask
@@ -173,9 +173,9 @@ objects:
             python_variable_name: registry_name
           'buildTaskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: buildTasks
-            go_variable_name: buildTaskName
+            go_variable_name: name
             python_parameter_name: build_task_name
-            python_variable_name: build_task_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -193,9 +193,9 @@ objects:
             python_variable_name: registry_name
           'buildTaskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: buildTasks
-            go_variable_name: buildTaskName
+            go_variable_name: name
             python_parameter_name: build_task_name
-            python_variable_name: build_task_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -212,9 +212,9 @@ objects:
             python_variable_name: registry_name
           'buildTaskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: buildTasks
-            go_variable_name: buildTaskName
+            go_variable_name: name
             python_parameter_name: build_task_name
-            python_variable_name: build_task_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -382,7 +382,7 @@ objects:
         input: true
         azure_sdk_references: ['registryName']
       - !ruby/object:Api::Type::String
-        name: 'buildTaskName'
+        name: 'name'
         description: 'The name of the container registry build task.'
         required: true
         input: true

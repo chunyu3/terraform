@@ -31,6 +31,13 @@ func resourceArmRoute() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -47,13 +54,6 @@ func resourceArmRoute() *schema.Resource {
                     string(network.VirtualAppliance),
                     string(network.None),
                 }, false),
-            },
-
-            "route_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "route_table_name": {
@@ -91,15 +91,15 @@ func resourceArmRouteCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).routesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    routeName := d.Get("route_name").(string)
     routeTableName := d.Get("route_table_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, routeTableName, routeName)
+        existing, err := client.Get(ctx, resourceGroup, routeTableName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -126,21 +126,21 @@ func resourceArmRouteCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, routeTableName, routeName, routeParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, routeTableName, name, routeParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error creating Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, routeTableName, routeName)
+    resp, err := client.Get(ctx, resourceGroup, routeTableName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Route (Route Name %q / Route Table Name %q / Resource Group %q) ID", routeName, routeTableName, resourceGroup)
+        return fmt.Errorf("Cannot read Route %q (Route Table Name %q / Resource Group %q) ID", name, routeTableName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -157,19 +157,20 @@ func resourceArmRouteRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     routeTableName := id.Path["routeTables"]
-    routeName := id.Path["routes"]
+    name := id.Path["routes"]
 
-    resp, err := client.Get(ctx, resourceGroup, routeTableName, routeName)
+    resp, err := client.Get(ctx, resourceGroup, routeTableName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Route %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error reading Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if routePropertiesFormat := resp.RoutePropertiesFormat; routePropertiesFormat != nil {
@@ -179,7 +180,6 @@ func resourceArmRouteRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("provisioning_state", routePropertiesFormat.ProvisioningState)
     }
     d.Set("etag", resp.Etag)
-    d.Set("route_name", routeName)
     d.Set("route_table_name", routeTableName)
 
     return nil
@@ -197,19 +197,19 @@ func resourceArmRouteDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     routeTableName := id.Path["routeTables"]
-    routeName := id.Path["routes"]
+    name := id.Path["routes"]
 
-    future, err := client.Delete(ctx, resourceGroup, routeTableName, routeName)
+    future, err := client.Delete(ctx, resourceGroup, routeTableName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Route (Route Name %q / Route Table Name %q / Resource Group %q): %+v", routeName, routeTableName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Route %q (Route Table Name %q / Resource Group %q): %+v", name, routeTableName, resourceGroup, err)
         }
     }
 

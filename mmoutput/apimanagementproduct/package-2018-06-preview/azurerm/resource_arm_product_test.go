@@ -34,16 +34,16 @@ func testCheckAzureRMProductExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Product not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         productID := rs.Primary.Attributes["product_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).productClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, productID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, productID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Product (Product %q / Service Name %q / Resource Group %q) does not exist", productID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Product %q (Product %q / Resource Group %q) does not exist", name, productID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on productClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMProductDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         productID := rs.Primary.Attributes["product_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, productID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, productID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on productClient: %+v", err)
             }

@@ -22,16 +22,16 @@ objects:
         go_func_name: Create
         python_func_name: create
         request:
-          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: jobs
-            go_variable_name: jobName
-            python_parameter_name: job_name
-            python_variable_name: job_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
             go_type_name: PutJobParameters
@@ -414,16 +414,16 @@ objects:
         go_func_name: Update
         python_func_name: update
         request:
-          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: jobs
-            go_variable_name: jobName
-            python_parameter_name: job_name
-            python_variable_name: job_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
             go_type_name: PutJobParameters
@@ -806,30 +806,30 @@ objects:
         go_func_name: Delete
         python_func_name: delete
         request:
-          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: jobs
-            go_variable_name: jobName
-            python_parameter_name: job_name
-            python_variable_name: job_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: jobs
-            go_variable_name: jobName
-            python_parameter_name: job_name
-            python_variable_name: job_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -1237,7 +1237,7 @@ objects:
       Manage Azure Job instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'jobName'
+        name: 'name'
         description: 'The name of the import/export job.'
         required: true
         input: true

@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'diagnosticId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: diagnostics
             go_variable_name: diagnosticID
@@ -53,9 +53,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'diagnosticId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: diagnostics
             go_variable_name: diagnosticID
@@ -77,9 +77,9 @@ objects:
             python_variable_name: resource_group
           'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: service
-            go_variable_name: serviceName
+            go_variable_name: name
             python_parameter_name: service_name
-            python_variable_name: service_name
+            python_variable_name: name
           'diagnosticId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: diagnostics
             go_variable_name: diagnosticID
@@ -96,7 +96,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'serviceName'
+        name: 'name'
         description: 'The name of the API Management service.'
         required: true
         input: true
@@ -113,29 +113,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['loggerid']
-      - !ruby/object:Api::Type::Enum
-        name: 'loggerType'
-        description: 'Logger type.'
-        required: true
-        azure_sdk_references: ['/loggerType', '/properties/loggerType']
-        values:
-          - :azureEventHub
-          - :applicationInsights
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Logger description.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'credentials'
-        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
-        required: true
-        azure_sdk_references: ['/credentials', '/properties/credentials']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isBuffered'
-        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
-        required: false
-        azure_sdk_references: ['/isBuffered', '/properties/isBuffered']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -152,3 +129,26 @@ objects:
         description: 'Resource type for API Management resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'loggerType'
+        description: 'Logger type.'
+        output: true
+        azure_sdk_references: ['/loggerType', '/properties/loggerType']
+        values:
+          - :azureEventHub
+          - :applicationInsights
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Logger description.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'credentials'
+        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
+        output: true
+        azure_sdk_references: ['/credentials', '/properties/credentials']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isBuffered'
+        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
+        output: true
+        azure_sdk_references: ['/isBuffered', '/properties/isBuffered']

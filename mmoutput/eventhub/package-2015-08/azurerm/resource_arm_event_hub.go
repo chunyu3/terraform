@@ -31,6 +31,13 @@ func resourceArmEventHub() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -38,13 +45,6 @@ func resourceArmEventHub() *schema.Resource {
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "event_hub_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "namespace_name": {
                 Type: schema.TypeString,
@@ -111,15 +111,15 @@ func resourceArmEventHubCreateUpdate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).eventHubsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    eventHubName := d.Get("event_hub_name").(string)
     namespaceName := d.Get("namespace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName)
+        existing, err := client.Get(ctx, resourceGroup, namespaceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", eventHubName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Event Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -146,17 +146,17 @@ func resourceArmEventHubCreateUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, eventHubName, parameters); err != nil {
-        return fmt.Errorf("Error creating Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", eventHubName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Event Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", eventHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Event Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q) ID", eventHubName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Event Hub %q (Namespace Name %q / Resource Group %q) ID", name, namespaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -173,19 +173,20 @@ func resourceArmEventHubRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    eventHubName := id.Path["eventhubs"]
+    name := id.Path["eventhubs"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Event Hub %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", eventHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Event Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -199,7 +200,6 @@ func resourceArmEventHubRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("status", string(properties.Status))
         d.Set("updated_at", (properties.UpdatedAt).String())
     }
-    d.Set("event_hub_name", eventHubName)
     d.Set("namespace_name", namespaceName)
     d.Set("type", resp.Type)
 
@@ -218,10 +218,10 @@ func resourceArmEventHubDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    eventHubName := id.Path["eventhubs"]
+    name := id.Path["eventhubs"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, eventHubName); err != nil {
-        return fmt.Errorf("Error deleting Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q): %+v", eventHubName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, namespaceName, name); err != nil {
+        return fmt.Errorf("Error deleting Event Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
     return nil

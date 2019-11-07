@@ -28,11 +28,11 @@ Manage Azure SpatialAnchorsAccount instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of an Mixed Reality Spatial Anchors Account. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of an Azure resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `spatial_anchors_account_name` - (Required) Name of an Mixed Reality Spatial Anchors Account. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 

@@ -34,18 +34,18 @@ func testCheckAzureRMSyncMemberExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Sync Member not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         databaseName := rs.Primary.Attributes["database_name"]
         serverName := rs.Primary.Attributes["server_name"]
         syncGroupName := rs.Primary.Attributes["sync_group_name"]
-        syncMemberName := rs.Primary.Attributes["sync_member_name"]
 
         client := testAccProvider.Meta().(*ArmClient).syncMembersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName, syncMemberName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Sync Member (Sync Member Name %q / Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q) does not exist", syncMemberName, syncGroupName, databaseName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Sync Member %q (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q) does not exist", name, syncGroupName, databaseName, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on syncMembersClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMSyncMemberDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         databaseName := rs.Primary.Attributes["database_name"]
         serverName := rs.Primary.Attributes["server_name"]
         syncGroupName := rs.Primary.Attributes["sync_group_name"]
-        syncMemberName := rs.Primary.Attributes["sync_member_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName, syncMemberName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on syncMembersClient: %+v", err)
             }

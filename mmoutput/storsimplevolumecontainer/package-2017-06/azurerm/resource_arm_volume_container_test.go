@@ -34,17 +34,17 @@ func testCheckAzureRMVolumeContainerExists(resourceName string) resource.TestChe
             return fmt.Errorf("Volume Container not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
         volumeContainerName := rs.Primary.Attributes["volume_container_name"]
 
         client := testAccProvider.Meta().(*ArmClient).volumeContainersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, volumeContainerName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, volumeContainerName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q) does not exist", managerName, resourceGroup, volumeContainerName, deviceName)
+                return fmt.Errorf("Bad: Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q) does not exist", name, resourceGroup, volumeContainerName, deviceName)
             }
             return fmt.Errorf("Bad: Get on volumeContainersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMVolumeContainerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
         volumeContainerName := rs.Primary.Attributes["volume_container_name"]
 
-        if resp, err := client.Get(ctx, deviceName, volumeContainerName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, volumeContainerName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on volumeContainersClient: %+v", err)
             }

@@ -34,17 +34,17 @@ func testCheckAzureRMTriggerExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Trigger not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         shareSubscriptionName := rs.Primary.Attributes["share_subscription_name"]
-        triggerName := rs.Primary.Attributes["trigger_name"]
 
         client := testAccProvider.Meta().(*ArmClient).triggersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q) does not exist", triggerName, shareSubscriptionName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q) does not exist", name, shareSubscriptionName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on triggersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMTriggerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         shareSubscriptionName := rs.Primary.Attributes["share_subscription_name"]
-        triggerName := rs.Primary.Attributes["trigger_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on triggersClient: %+v", err)
             }

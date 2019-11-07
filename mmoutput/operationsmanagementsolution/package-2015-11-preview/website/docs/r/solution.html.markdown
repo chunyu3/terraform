@@ -28,9 +28,9 @@ Manage Azure Solution instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group to get. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) User Solution Name. Changing this forces a new resource to be created.
 
-* `solution_name` - (Required) User Solution Name. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group to get. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `workspace_resource_id` - (Required) The azure resourceId for the workspace where the solution will be deployed/enabled.
 

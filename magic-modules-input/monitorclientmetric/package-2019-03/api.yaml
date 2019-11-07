@@ -1,0 +1,150 @@
+--- !ruby/object:Api::Product
+name: Azure Metric Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Metric
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: metricsClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.metrics
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'timespan': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: timespan
+            python_parameter_name: timespan
+            python_variable_name: timespan
+          'interval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            id_portion: null
+            go_variable_name: interval
+            python_parameter_name: interval
+            python_variable_name: interval
+          'metricnames': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: metricnames
+            python_parameter_name: metricnames
+            python_variable_name: metricnames
+          'aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: aggregation
+            python_parameter_name: aggregation
+            python_variable_name: aggregation
+          'top': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: top
+            python_parameter_name: top
+            python_variable_name: top
+          'orderby': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: orderby
+            python_parameter_name: orderby
+            python_variable_name: orderby
+          'resultType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: resultType
+            python_parameter_name: result_type
+            python_variable_name: result_type
+          'metricnamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: metricnamespace
+            python_parameter_name: metricnamespace
+            python_variable_name: metricnamespace
+
+    description: |
+      Manage Azure Metric instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'timespan'
+        description: 'The timespan of the query. It is a string with the following format ''startDateTime_ISO/endDateTime_ISO''.'
+        required: false
+        input: true
+        azure_sdk_references: ['timespan']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'interval'
+        description: 'The interval (i.e. timegrain) of the query.'
+        required: false
+        input: true
+        azure_sdk_references: ['interval']
+      - !ruby/object:Api::Type::String
+        name: 'metricnames'
+        description: 'The names of the metrics (comma separated) to retrieve.'
+        required: false
+        input: true
+        azure_sdk_references: ['metricnames']
+      - !ruby/object:Api::Type::String
+        name: 'aggregation'
+        description: 'The list of aggregation types (comma separated) to retrieve.'
+        required: false
+        input: true
+        azure_sdk_references: ['aggregation']
+      - !ruby/object:Api::Type::Integer
+        name: 'top'
+        description: 'The maximum number of records to retrieve.<br>Valid only if $filter is specified.<br>Defaults to 10.'
+        required: false
+        input: true
+        azure_sdk_references: ['top']
+      - !ruby/object:Api::Type::String
+        name: 'orderby'
+        description: 'The aggregation to use for sorting results and the direction of the sort.<br>Only one order can be specified.<br>Examples: sum asc.'
+        required: false
+        input: true
+        azure_sdk_references: ['orderby']
+      - !ruby/object:Api::Type::String
+        name: 'resultType'
+        description: 'Reduces the set of data collected. The syntax allowed depends on the operation. See the operation''s description for details.'
+        required: false
+        input: true
+        azure_sdk_references: ['resultType']
+      - !ruby/object:Api::Type::String
+        name: 'metricnamespace'
+        description: 'Metric namespace to query metric definitions for.'
+        required: false
+        input: true
+        azure_sdk_references: ['metricnamespace']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'cost'
+        description: 'The integer value representing the cost of the query, for data case.'
+        output: true
+        azure_sdk_references: ['/cost']
+      - !ruby/object:Api::Type::String
+        name: 'namespace'
+        description: 'The namespace of the metrics been queried'
+        output: true
+        azure_sdk_references: ['/namespace']
+      - !ruby/object:Api::Type::String
+        name: 'resourceregion'
+        description: 'The region of the resource been queried for metrics.'
+        output: true
+        azure_sdk_references: ['/resourceregion']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'the value of the collection.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

@@ -4,7 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: Create Hadoop on Linux cluster with SSH public key
   code:
     resource_group: myResourceGroup
-    cluster_name: myCluster
+    name: myCluster
     tags:
       key1: val1
     cluster_version: '3.5'
@@ -27,9 +27,9 @@ task: !ruby/object:Provider::Ansible::Task
           os_profile:
             linux_operating_system_profile:
               username: sshuser
-              sshProfile:
-                publicKeys:
-                  - certificateData: '**********'
+              ssh_profile:
+                public_keys:
+                  - certificate_data: '**********'
         - name: workernode
           min_instance_count: '1'
           target_instance_count: '4'

@@ -28,11 +28,11 @@ Manage Azure SqlServerRegistration instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the SQL Server registration. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
-
-* `sql_server_registration_name` - (Required) Name of the SQL Server registration. Changing this forces a new resource to be created.
 
 * `property_bag` - (Optional) Optional Properties as JSON string
 

@@ -34,16 +34,16 @@ func testCheckAzureRMAssetExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Asset not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        assetName := rs.Primary.Attributes["asset_name"]
 
         client := testAccProvider.Meta().(*ArmClient).assetsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, assetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Asset (Asset Name %q / Account Name %q / Resource Group %q) does not exist", assetName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Asset %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on assetsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAssetDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        assetName := rs.Primary.Attributes["asset_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, assetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on assetsClient: %+v", err)
             }

@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'networkResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: networks
-            go_variable_name: networkResourceName
+            go_variable_name: name
             python_parameter_name: network_resource_name
-            python_variable_name: network_resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: networkResourceDescription
             go_type_name: NetworkResourceDescription
@@ -64,9 +64,9 @@ objects:
             python_variable_name: resource_group
           'networkResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: networks
-            go_variable_name: networkResourceName
+            go_variable_name: name
             python_parameter_name: network_resource_name
-            python_variable_name: network_resource_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -78,9 +78,9 @@ objects:
             python_variable_name: resource_group
           'networkResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: networks
-            go_variable_name: networkResourceName
+            go_variable_name: name
             python_parameter_name: network_resource_name
-            python_variable_name: network_resource_name
+            python_variable_name: name
         response:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
@@ -150,7 +150,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'networkResourceName'
+        name: 'name'
         description: 'The identity of the network.'
         required: true
         input: true

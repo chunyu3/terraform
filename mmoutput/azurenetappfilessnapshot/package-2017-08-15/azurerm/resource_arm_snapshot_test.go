@@ -34,18 +34,18 @@ func testCheckAzureRMSnapshotExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Snapshot not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         poolName := rs.Primary.Attributes["pool_name"]
-        snapshotName := rs.Primary.Attributes["snapshot_name"]
         volumeName := rs.Primary.Attributes["volume_name"]
 
         client := testAccProvider.Meta().(*ArmClient).snapshotsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q) does not exist", snapshotName, volumeName, poolName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q) does not exist", name, volumeName, poolName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on snapshotsClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMSnapshotDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         poolName := rs.Primary.Attributes["pool_name"]
-        snapshotName := rs.Primary.Attributes["snapshot_name"]
         volumeName := rs.Primary.Attributes["volume_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on snapshotsClient: %+v", err)
             }

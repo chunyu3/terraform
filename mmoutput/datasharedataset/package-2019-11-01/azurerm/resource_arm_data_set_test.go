@@ -34,17 +34,17 @@ func testCheckAzureRMDataSetExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Data Set not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        dataSetName := rs.Primary.Attributes["data_set_name"]
         shareName := rs.Primary.Attributes["share_name"]
 
         client := testAccProvider.Meta().(*ArmClient).dataSetsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, dataSetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Data Set (Data Set Name %q / Share Name %q / Account Name %q / Resource Group %q) does not exist", dataSetName, shareName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Data Set %q (Share Name %q / Account Name %q / Resource Group %q) does not exist", name, shareName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on dataSetsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMDataSetDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        dataSetName := rs.Primary.Attributes["data_set_name"]
         shareName := rs.Primary.Attributes["share_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, dataSetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on dataSetsClient: %+v", err)
             }

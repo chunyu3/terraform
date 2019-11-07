@@ -34,16 +34,16 @@ func testCheckAzureRMSourceControlExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Source Control not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        sourceControlName := rs.Primary.Attributes["source_control_name"]
 
         client := testAccProvider.Meta().(*ArmClient).sourceControlClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, sourceControlName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Source Control (Source Control Name %q / Automation Account Name %q / Resource Group %q) does not exist", sourceControlName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Source Control %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on sourceControlClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSourceControlDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        sourceControlName := rs.Primary.Attributes["source_control_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, sourceControlName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on sourceControlClient: %+v", err)
             }

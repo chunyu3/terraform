@@ -31,6 +31,13 @@ func resourceArmApiIssue() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -50,13 +57,6 @@ func resourceArmApiIssue() *schema.Resource {
             },
 
             "issue_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -111,16 +111,16 @@ func resourceArmApiIssueCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).apiIssueClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     issueID := d.Get("issue_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID)
+        existing, err := client.Get(ctx, resourceGroup, name, apiID, issueID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", issueID, apiID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Issue %q (Issue %q / Api %q / Resource Group %q): %+v", name, issueID, apiID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -147,17 +147,17 @@ func resourceArmApiIssueCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, apiID, issueID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", issueID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, issueID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Issue %q (Issue %q / Api %q / Resource Group %q): %+v", name, issueID, apiID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", issueID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Issue %q (Issue %q / Api %q / Resource Group %q): %+v", name, issueID, apiID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q) ID", issueID, apiID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Issue %q (Issue %q / Api %q / Resource Group %q) ID", name, issueID, apiID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -173,21 +173,22 @@ func resourceArmApiIssueRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     issueID := id.Path["issues"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Issue %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", issueID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Issue %q (Issue %q / Api %q / Resource Group %q): %+v", name, issueID, apiID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
@@ -200,7 +201,6 @@ func resourceArmApiIssueRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("user_id", issueContractProperties.UserID)
     }
     d.Set("issue_id", issueID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -210,13 +210,13 @@ func resourceArmApiIssueUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).apiIssueClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     apiId := d.Get("api_id").(string)
     createdDate := d.Get("created_date").(string)
     description := d.Get("description").(string)
     issueID := d.Get("issue_id").(string)
-    serviceName := d.Get("service_name").(string)
     state := d.Get("state").(string)
     title := d.Get("title").(string)
     userId := d.Get("user_id").(string)
@@ -233,8 +233,8 @@ func resourceArmApiIssueUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, apiID, issueID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", issueID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, apiID, issueID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api Issue %q (Issue %q / Api %q / Resource Group %q): %+v", name, issueID, apiID, resourceGroup, err)
     }
 
     return resourceArmApiIssueRead(d, meta)
@@ -250,12 +250,12 @@ func resourceArmApiIssueDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     issueID := id.Path["issues"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, apiID, issueID); err != nil {
-        return fmt.Errorf("Error deleting Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", issueID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, apiID, issueID); err != nil {
+        return fmt.Errorf("Error deleting Api Issue %q (Issue %q / Api %q / Resource Group %q): %+v", name, issueID, apiID, resourceGroup, err)
     }
 
     return nil

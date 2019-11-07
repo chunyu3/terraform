@@ -31,19 +31,19 @@ func resourceArmCluster() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "cluster_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "sku": {
                 Type: schema.TypeList,
@@ -250,14 +250,14 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).clustersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    clusterName := d.Get("cluster_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -294,21 +294,21 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Cluster (Cluster Name %q / Resource Group %q) ID", clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Cluster %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -324,25 +324,25 @@ func resourceArmClusterRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    clusterName := id.Path["clusters"]
+    name := id.Path["clusters"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Cluster %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("cluster_name", clusterName)
     if clusterProperties := resp.ClusterProperties; clusterProperties != nil {
         d.Set("data_ingestion_uri", clusterProperties.DataIngestionUri)
         d.Set("enable_disk_encryption", clusterProperties.EnableDiskEncryption)
@@ -379,8 +379,8 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).clustersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    clusterName := d.Get("cluster_name").(string)
     enableDiskEncryption := d.Get("enable_disk_encryption").(bool)
     enableStreamingIngest := d.Get("enable_streaming_ingest").(bool)
     identity := d.Get("identity").([]interface{})
@@ -409,12 +409,12 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmClusterRead(d, meta)
@@ -430,19 +430,19 @@ func resourceArmClusterDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    clusterName := id.Path["clusters"]
+    name := id.Path["clusters"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Cluster (Cluster Name %q / Resource Group %q): %+v", clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

@@ -35,9 +35,9 @@ objects:
             python_variable_name: managed_network_name
           'managedNetworkPeeringPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworkPeeringPolicies
-            go_variable_name: managedNetworkPeeringPolicyName
+            go_variable_name: name
             python_parameter_name: managed_network_peering_policy_name
-            python_variable_name: managed_network_peering_policy_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: managedNetworkPolicy
             go_type_name: PeeringPolicy
@@ -46,59 +46,35 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
-          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: properties_type
-          '/hub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties_hub
-          '/hub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: hub_id
-          '/spokes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: properties_spokes
-          '/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: spokes_id
-          '/mesh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: properties_mesh
-          '/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: mesh_id
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: PeeringPolicyProperties
             go_type_name: PeeringPolicyProperties
           '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PropertiesType
+            go_field_name: Type
             go_enum_type_name: Type
           '/properties/hub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertiesHub
+            go_field_name: Hub
             go_type_name: ResourceId
           '/properties/hub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: HubID
+            go_field_name: Hubhub_id
           '/properties/spokes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: PropertiesSpokes
+            go_field_name: Spokes
             go_type_name: ResourceId
-          '/properties/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: SpokesID
+            go_field_name: Spokes
           '/properties/mesh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: PropertiesMesh
+            go_field_name: Mesh
             go_type_name: ResourceId
-          '/properties/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: MeshID
+            go_field_name: Mesh
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -116,9 +92,9 @@ objects:
             python_variable_name: managed_network_name
           'managedNetworkPeeringPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworkPeeringPolicies
-            go_variable_name: managedNetworkPeeringPolicyName
+            go_variable_name: name
             python_parameter_name: managed_network_peering_policy_name
-            python_variable_name: managed_network_peering_policy_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -135,9 +111,9 @@ objects:
             python_variable_name: managed_network_name
           'managedNetworkPeeringPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworkPeeringPolicies
-            go_variable_name: managedNetworkPeeringPolicyName
+            go_variable_name: name
             python_parameter_name: managed_network_peering_policy_name
-            python_variable_name: managed_network_peering_policy_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -148,66 +124,36 @@ objects:
             go_type_name: PeeringPolicyProperties
           '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PropertiesType
+            go_field_name: Type
             go_enum_type_name: Type
           '/properties/hub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertiesHub
+            go_field_name: Hub
             go_type_name: ResourceId
           '/properties/hub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: HubID
+            go_field_name: Hubhub_id
           '/properties/spokes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: PropertiesSpokes
+            go_field_name: Spokes
             go_type_name: ResourceId
-          '/properties/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: SpokesID
+            go_field_name: Spokes
           '/properties/mesh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: PropertiesMesh
+            go_field_name: Mesh
             go_type_name: ResourceId
-          '/properties/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: MeshID
+            go_field_name: Mesh
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PropertiesProvisioningState
+            go_field_name: ProvisioningState
             go_enum_type_name: ProvisioningState
           '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PropertiesEtag
-          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: properties_type
-          '/hub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties_hub
-          '/hub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: hub_id
-          '/spokes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: properties_spokes
-          '/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: spokes_id
-          '/mesh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: properties_mesh
-          '/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: mesh_id
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: properties_provisioning_state
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: properties_etag
+            go_field_name: Etag
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -235,61 +181,6 @@ objects:
     description: |
       Manage Azure ManagedNetworkPeeringPolicy instance.
     properties:
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'The geo-location where the resource lives'
-        required: false
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'properties'
-        description: 'Gets or sets the properties of a Managed Network Policy'
-        required: false
-        azure_sdk_references: ['', '/properties']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'propertiesType'
-            description: 'Gets or sets the connectivity type of a network structure policy'
-            required: true
-            azure_sdk_references: ['/type', '/properties/type']
-            values:
-              - :HubAndSpokeTopology
-              - :MeshTopology
-          - !ruby/object:Api::Type::NestedObject
-            name: 'propertiesHub'
-            description: 'Gets or sets the hub virtual network ID'
-            required: false
-            azure_sdk_references: ['/hub', '/properties/hub']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'hubId'
-                description: 'Resource Id'
-                required: false
-                azure_sdk_references: ['/hub/id', '/properties/hub/id']
-          - !ruby/object:Api::Type::Array
-            name: 'propertiesSpokes'
-            description: 'Gets or sets the spokes group IDs'
-            required: false
-            azure_sdk_references: ['/spokes', '/properties/spokes']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'spokesId'
-                  description: 'Resource Id'
-                  required: false
-                  azure_sdk_references: ['/spokes/id', '/properties/spokes/id']
-          - !ruby/object:Api::Type::Array
-            name: 'propertiesMesh'
-            description: 'Gets or sets the mesh group IDs'
-            required: false
-            azure_sdk_references: ['/mesh', '/properties/mesh']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'meshId'
-                  description: 'Resource Id'
-                  required: false
-                  azure_sdk_references: ['/mesh/id', '/properties/mesh/id']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group.'
@@ -303,24 +194,9 @@ objects:
         input: true
         azure_sdk_references: ['managedNetworkName']
       - !ruby/object:Api::Type::String
-        name: 'managedNetworkPeeringPolicyName'
+        name: 'name'
         description: 'The name of the Managed Network Peering Policy.'
         required: true
         input: true
         azure_sdk_references: ['managedNetworkPeeringPolicyName']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-        output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the resource'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
-        output: true
-        azure_sdk_references: ['/type']

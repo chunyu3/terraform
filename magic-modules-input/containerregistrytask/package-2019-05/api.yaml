@@ -35,9 +35,9 @@ objects:
             python_variable_name: registry_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: taskCreateParameters
             go_type_name: Task
@@ -176,6 +176,21 @@ objects:
           '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: source_control_auth_properties
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: token_type
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: token
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: refresh_token
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: expires_in
           '/trigger/sourceTriggers/sourceTriggerEvents': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: source_trigger_events
@@ -237,6 +252,22 @@ objects:
             applicable_to: [go]
             go_field_name: SourceControlAuthProperties
             go_type_name: AuthInfo
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TokenType
+            go_enum_type_name: TokenType
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Token
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RefreshToken
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ExpiresIn
           '/properties/trigger/sourceTriggers/sourceTriggerEvents': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: SourceTriggerEvents
@@ -306,9 +337,9 @@ objects:
             python_variable_name: registry_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -326,9 +357,9 @@ objects:
             python_variable_name: registry_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -345,9 +376,9 @@ objects:
             python_variable_name: registry_name
           'taskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tasks
-            go_variable_name: taskName
+            go_variable_name: name
             python_parameter_name: task_name
-            python_variable_name: task_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -444,6 +475,22 @@ objects:
             applicable_to: [go]
             go_field_name: BaseImageDependencies
             go_type_name: BaseImageDependency
+          '/properties/step/baseImageDependencies/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: BaseImageDependencyType
+          '/properties/step/baseImageDependencies/registry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Registry
+          '/properties/step/baseImageDependencies/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Repository
+          '/properties/step/baseImageDependencies/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Tag
+          '/properties/step/baseImageDependencies/digest': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Digest
           '/step': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: step
@@ -456,6 +503,21 @@ objects:
           '/step/baseImageDependencies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: base_image_dependencies
+          '/step/baseImageDependencies/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/step/baseImageDependencies/registry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registry
+          '/step/baseImageDependencies/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: repository
+          '/step/baseImageDependencies/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/step/baseImageDependencies/digest': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: digest
           '/properties/trigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Trigger
@@ -496,6 +558,22 @@ objects:
             applicable_to: [go]
             go_field_name: SourceControlAuthProperties
             go_type_name: AuthInfo
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TokenType
+            go_enum_type_name: TokenType
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Token
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RefreshToken
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ExpiresIn
           '/properties/trigger/sourceTriggers/sourceTriggerEvents': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: SourceTriggerEvents
@@ -554,6 +632,21 @@ objects:
           '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: source_control_auth_properties
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: token_type
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: token
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: refresh_token
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: expires_in
           '/trigger/sourceTriggers/sourceTriggerEvents': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: source_trigger_events
@@ -655,7 +748,7 @@ objects:
         input: true
         azure_sdk_references: ['registryName']
       - !ruby/object:Api::Type::String
-        name: 'taskName'
+        name: 'name'
         description: 'The name of the container registry task.'
         required: true
         input: true
@@ -842,6 +935,40 @@ objects:
                       description: 'The branch name of the source code.'
                       required: false
                       azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/branch', '/properties/trigger/sourceTriggers/sourceRepository/branch']
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'sourceControlAuthProperties'
+                      description: 'The authorization properties for accessing the source code repository and to set up<br>webhooks for notifications.'
+                      required: false
+                      azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties', '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties']
+                      properties:
+                        - !ruby/object:Api::Type::Enum
+                          name: 'tokenType'
+                          description: 'The type of Auth token.'
+                          required: true
+                          azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/tokenType', '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/tokenType']
+                          values:
+                            - :PAT
+                            - :OAuth
+                        - !ruby/object:Api::Type::String
+                          name: 'token'
+                          description: 'The access token used to access the source control provider.'
+                          required: true
+                          azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/token', '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/token']
+                        - !ruby/object:Api::Type::String
+                          name: 'refreshToken'
+                          description: 'The refresh token used to refresh the access token.'
+                          required: false
+                          azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/refreshToken', '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/refreshToken']
+                        - !ruby/object:Api::Type::String
+                          name: 'scope'
+                          description: 'The scope of the access token.'
+                          required: false
+                          azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/scope', '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/scope']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'expiresIn'
+                          description: 'Time in seconds that the token remains valid'
+                          required: false
+                          azure_sdk_references: ['/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/expiresIn', '/properties/trigger/sourceTriggers/sourceRepository/sourceControlAuthProperties/expiresIn']
                 - !ruby/object:Api::Type::Array
                   name: 'sourceTriggerEvents'
                   description: 'The source event corresponding to the trigger.'

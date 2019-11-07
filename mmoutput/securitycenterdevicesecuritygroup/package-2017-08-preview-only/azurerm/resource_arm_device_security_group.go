@@ -31,14 +31,14 @@ func resourceArmDeviceSecurityGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "device_security_group_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "resource_id": {
@@ -168,14 +168,14 @@ func resourceArmDeviceSecurityGroupCreateUpdate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).deviceSecurityGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
-    deviceSecurityGroupName := d.Get("device_security_group_name").(string)
+    name := d.Get("name").(string)
     resourceID := d.Get("resource_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceID, deviceSecurityGroupName)
+        existing, err := client.Get(ctx, resourceID, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Device Security Group (Device Security Group Name %q / Resource %q): %+v", deviceSecurityGroupName, resourceID, err)
+                return fmt.Errorf("Error checking for present of existing Device Security Group %q (Resource %q): %+v", name, resourceID, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -198,17 +198,17 @@ func resourceArmDeviceSecurityGroupCreateUpdate(d *schema.ResourceData, meta int
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceID, deviceSecurityGroupName, deviceSecurityGroup); err != nil {
-        return fmt.Errorf("Error creating Device Security Group (Device Security Group Name %q / Resource %q): %+v", deviceSecurityGroupName, resourceID, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceID, name, deviceSecurityGroup); err != nil {
+        return fmt.Errorf("Error creating Device Security Group %q (Resource %q): %+v", name, resourceID, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceID, deviceSecurityGroupName)
+    resp, err := client.Get(ctx, resourceID, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Device Security Group (Device Security Group Name %q / Resource %q): %+v", deviceSecurityGroupName, resourceID, err)
+        return fmt.Errorf("Error retrieving Device Security Group %q (Resource %q): %+v", name, resourceID, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Device Security Group (Device Security Group Name %q / Resource %q) ID", deviceSecurityGroupName, resourceID)
+        return fmt.Errorf("Cannot read Device Security Group %q (Resource %q) ID", name, resourceID)
     }
     d.SetId(*resp.ID)
 
@@ -223,19 +223,20 @@ func resourceArmDeviceSecurityGroupRead(d *schema.ResourceData, meta interface{}
     if err != nil {
         return err
     }
-    deviceSecurityGroupName := id.Path["deviceSecurityGroups"]
+    name := id.Path["deviceSecurityGroups"]
 
-    resp, err := client.Get(ctx, resourceID, deviceSecurityGroupName)
+    resp, err := client.Get(ctx, resourceID, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Device Security Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Device Security Group (Device Security Group Name %q / Resource %q): %+v", deviceSecurityGroupName, resourceID, err)
+        return fmt.Errorf("Error reading Device Security Group %q (Resource %q): %+v", name, resourceID, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     if deviceSecurityGroupProperties := resp.DeviceSecurityGroupProperties; deviceSecurityGroupProperties != nil {
         if err := d.Set("allowlist_rules", flattenArmDeviceSecurityGroupAllowlistCustomAlertRule(deviceSecurityGroupProperties.AllowlistRules)); err != nil {
@@ -251,7 +252,6 @@ func resourceArmDeviceSecurityGroupRead(d *schema.ResourceData, meta interface{}
             return fmt.Errorf("Error setting `time_window_rules`: %+v", err)
         }
     }
-    d.Set("device_security_group_name", deviceSecurityGroupName)
     d.Set("resource_id", resourceID)
     d.Set("type", resp.Type)
 
@@ -268,10 +268,10 @@ func resourceArmDeviceSecurityGroupDelete(d *schema.ResourceData, meta interface
     if err != nil {
         return err
     }
-    deviceSecurityGroupName := id.Path["deviceSecurityGroups"]
+    name := id.Path["deviceSecurityGroups"]
 
-    if _, err := client.Delete(ctx, resourceID, deviceSecurityGroupName); err != nil {
-        return fmt.Errorf("Error deleting Device Security Group (Device Security Group Name %q / Resource %q): %+v", deviceSecurityGroupName, resourceID, err)
+    if _, err := client.Delete(ctx, resourceID, name); err != nil {
+        return fmt.Errorf("Error deleting Device Security Group %q (Resource %q): %+v", name, resourceID, err)
     }
 
     return nil

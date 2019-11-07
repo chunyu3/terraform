@@ -28,9 +28,9 @@ Manage Azure FirewallRule instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the firewall rule. Changing this forces a new resource to be created.
 
-* `firewall_rule_name` - (Required) The name of the firewall rule. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
 

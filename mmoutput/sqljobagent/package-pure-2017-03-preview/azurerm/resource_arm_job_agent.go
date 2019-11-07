@@ -31,6 +31,13 @@ func resourceArmJobAgent() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -41,13 +48,6 @@ func resourceArmJobAgent() *schema.Resource {
             "database_id": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "job_agent_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -108,15 +108,15 @@ func resourceArmJobAgentCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobAgentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    jobAgentName := d.Get("job_agent_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -139,21 +139,21 @@ func resourceArmJobAgentCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q) ID", jobAgentName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Job Agent %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -170,19 +170,20 @@ func resourceArmJobAgentRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    jobAgentName := id.Path["jobAgents"]
+    name := id.Path["jobAgents"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job Agent %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -192,7 +193,6 @@ func resourceArmJobAgentRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("database_id", jobAgentProperties.DatabaseID)
         d.Set("state", string(jobAgentProperties.State))
     }
-    d.Set("job_agent_name", jobAgentName)
     d.Set("server_name", serverName)
     if err := d.Set("sku", flattenArmJobAgentSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
@@ -206,9 +206,9 @@ func resourceArmJobAgentUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).jobAgentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     databaseId := d.Get("database_id").(string)
-    jobAgentName := d.Get("job_agent_name").(string)
     serverName := d.Get("server_name").(string)
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
@@ -223,12 +223,12 @@ func resourceArmJobAgentUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serverName, jobAgentName, parameters)
+    future, err := client.Update(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error updating Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     return resourceArmJobAgentRead(d, meta)
@@ -245,19 +245,19 @@ func resourceArmJobAgentDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    jobAgentName := id.Path["jobAgents"]
+    name := id.Path["jobAgents"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Job Agent (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", jobAgentName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Job Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
         }
     }
 

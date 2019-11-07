@@ -34,15 +34,15 @@ func testCheckAzureRMScheduledQueryRuleExists(resourceName string) resource.Test
             return fmt.Errorf("Scheduled Query Rule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        ruleName := rs.Primary.Attributes["rule_name"]
 
         client := testAccProvider.Meta().(*ArmClient).scheduledQueryRulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, ruleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Scheduled Query Rule (Rule Name %q / Resource Group %q) does not exist", ruleName, resourceGroup)
+                return fmt.Errorf("Bad: Scheduled Query Rule %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on scheduledQueryRulesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMScheduledQueryRuleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        ruleName := rs.Primary.Attributes["rule_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, ruleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on scheduledQueryRulesClient: %+v", err)
             }

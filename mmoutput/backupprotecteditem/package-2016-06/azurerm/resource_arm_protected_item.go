@@ -31,6 +31,13 @@ func resourceArmProtectedItem() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -47,13 +54,6 @@ func resourceArmProtectedItem() *schema.Resource {
             },
 
             "fabric_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "protected_item_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -134,17 +134,17 @@ func resourceArmProtectedItemCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).protectedItemsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     containerName := d.Get("container_name").(string)
     fabricName := d.Get("fabric_name").(string)
-    protectedItemName := d.Get("protected_item_name").(string)
     vaultName := d.Get("vault_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName)
+        existing, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", protectedItemName, containerName, fabricName, resourceGroup, vaultName, err)
+                return fmt.Errorf("Error checking for present of existing Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -181,17 +181,17 @@ func resourceArmProtectedItemCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName, resourceProtectedItem); err != nil {
-        return fmt.Errorf("Error creating Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", protectedItemName, containerName, fabricName, resourceGroup, vaultName, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, vaultName, fabricName, containerName, name, resourceProtectedItem); err != nil {
+        return fmt.Errorf("Error creating Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
     }
 
 
-    resp, err := client.Get(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName)
+    resp, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", protectedItemName, containerName, fabricName, resourceGroup, vaultName, err)
+        return fmt.Errorf("Error retrieving Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q) ID", protectedItemName, containerName, fabricName, resourceGroup, vaultName)
+        return fmt.Errorf("Cannot read Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q) ID", name, containerName, fabricName, resourceGroup, vaultName)
     }
     d.SetId(*resp.ID)
 
@@ -206,23 +206,24 @@ func resourceArmProtectedItemRead(d *schema.ResourceData, meta interface{}) erro
     if err != nil {
         return err
     }
-    vaultName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    vaultName := id.Path["vaults"]
     fabricName := id.Path["backupFabrics"]
     containerName := id.Path["protectionContainers"]
-    protectedItemName := id.Path["protectedItems"]
+    name := id.Path["protectedItems"]
 
-    resp, err := client.Get(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName)
+    resp, err := client.Get(ctx, resourceGroup, vaultName, fabricName, containerName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Protected Item %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", protectedItemName, containerName, fabricName, resourceGroup, vaultName, err)
+        return fmt.Errorf("Error reading Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -238,7 +239,6 @@ func resourceArmProtectedItemRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("container_name", containerName)
     d.Set("e_tag", resp.ETag)
     d.Set("fabric_name", fabricName)
-    d.Set("protected_item_name", protectedItemName)
     d.Set("type", resp.Type)
     d.Set("vault_name", vaultName)
 
@@ -255,14 +255,14 @@ func resourceArmProtectedItemDelete(d *schema.ResourceData, meta interface{}) er
     if err != nil {
         return err
     }
-    vaultName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
+    vaultName := id.Path["vaults"]
     fabricName := id.Path["backupFabrics"]
     containerName := id.Path["protectionContainers"]
-    protectedItemName := id.Path["protectedItems"]
+    name := id.Path["protectedItems"]
 
-    if _, err := client.Delete(ctx, vaultName, resourceGroup, fabricName, containerName, protectedItemName); err != nil {
-        return fmt.Errorf("Error deleting Protected Item (Protected Item Name %q / Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", protectedItemName, containerName, fabricName, resourceGroup, vaultName, err)
+    if _, err := client.Delete(ctx, resourceGroup, vaultName, fabricName, containerName, name); err != nil {
+        return fmt.Errorf("Error deleting Protected Item %q (Container Name %q / Fabric Name %q / Resource Group %q / Vault Name %q): %+v", name, containerName, fabricName, resourceGroup, vaultName, err)
     }
 
     return nil

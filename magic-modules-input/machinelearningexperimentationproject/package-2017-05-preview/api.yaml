@@ -39,9 +39,9 @@ objects:
             python_variable_name: workspace_name
           'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: projects
-            go_variable_name: projectName
+            go_variable_name: name
             python_parameter_name: project_name
-            python_variable_name: project_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Project
@@ -96,9 +96,9 @@ objects:
             python_variable_name: workspace_name
           'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: projects
-            go_variable_name: projectName
+            go_variable_name: name
             python_parameter_name: project_name
-            python_variable_name: project_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Project
@@ -153,9 +153,9 @@ objects:
             python_variable_name: workspace_name
           'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: projects
-            go_variable_name: projectName
+            go_variable_name: name
             python_parameter_name: project_name
-            python_variable_name: project_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -177,9 +177,9 @@ objects:
             python_variable_name: workspace_name
           'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: projects
-            go_variable_name: projectName
+            go_variable_name: name
             python_parameter_name: project_name
-            python_variable_name: project_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -253,21 +253,16 @@ objects:
         go_func_name: ListByWorkspace
         python_func_name: list_by_workspace
         request:
-          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: accounts
-            go_variable_name: accountName
-            python_parameter_name: account_name
-            python_variable_name: account_name
-          'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: workspaces
-            go_variable_name: workspaceName
-            python_parameter_name: workspace_name
-            python_variable_name: workspace_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
 
     description: |
       Manage Azure Project instance.
@@ -291,7 +286,7 @@ objects:
         input: true
         azure_sdk_references: ['workspaceName']
       - !ruby/object:Api::Type::String
-        name: 'projectName'
+        name: 'name'
         description: 'The name of the machine learning project under a team account workspace.'
         required: true
         input: true

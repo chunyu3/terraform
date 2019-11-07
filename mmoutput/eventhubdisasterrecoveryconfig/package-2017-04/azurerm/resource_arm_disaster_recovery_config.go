@@ -31,19 +31,19 @@ func resourceArmDisasterRecoveryConfig() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "alias": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "namespace_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -87,15 +87,15 @@ func resourceArmDisasterRecoveryConfigCreateUpdate(d *schema.ResourceData, meta 
     client := meta.(*ArmClient).disasterRecoveryConfigsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     alias := d.Get("alias").(string)
-    namespaceName := d.Get("namespace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, alias)
+        existing, err := client.Get(ctx, resourceGroup, name, alias)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q): %+v", alias, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Disaster Recovery Config %q (Alias %q / Resource Group %q): %+v", name, alias, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -114,17 +114,17 @@ func resourceArmDisasterRecoveryConfigCreateUpdate(d *schema.ResourceData, meta 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, alias, parameters); err != nil {
-        return fmt.Errorf("Error creating Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q): %+v", alias, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, alias, parameters); err != nil {
+        return fmt.Errorf("Error creating Disaster Recovery Config %q (Alias %q / Resource Group %q): %+v", name, alias, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, alias)
+    resp, err := client.Get(ctx, resourceGroup, name, alias)
     if err != nil {
-        return fmt.Errorf("Error retrieving Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q): %+v", alias, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Disaster Recovery Config %q (Alias %q / Resource Group %q): %+v", name, alias, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q) ID", alias, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Disaster Recovery Config %q (Alias %q / Resource Group %q) ID", name, alias, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -140,20 +140,21 @@ func resourceArmDisasterRecoveryConfigRead(d *schema.ResourceData, meta interfac
         return err
     }
     resourceGroup := id.ResourceGroup
-    namespaceName := id.Path["namespaces"]
+    name := id.Path["namespaces"]
     alias := id.Path["disasterRecoveryConfigs"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, alias)
+    resp, err := client.Get(ctx, resourceGroup, name, alias)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Disaster Recovery Config %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q): %+v", alias, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Disaster Recovery Config %q (Alias %q / Resource Group %q): %+v", name, alias, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("alias", alias)
@@ -164,7 +165,6 @@ func resourceArmDisasterRecoveryConfigRead(d *schema.ResourceData, meta interfac
         d.Set("provisioning_state", string(armDisasterRecoveryProperties.ProvisioningState))
         d.Set("role", string(armDisasterRecoveryProperties.Role))
     }
-    d.Set("namespace_name", namespaceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -181,11 +181,11 @@ func resourceArmDisasterRecoveryConfigDelete(d *schema.ResourceData, meta interf
         return err
     }
     resourceGroup := id.ResourceGroup
-    namespaceName := id.Path["namespaces"]
+    name := id.Path["namespaces"]
     alias := id.Path["disasterRecoveryConfigs"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, alias); err != nil {
-        return fmt.Errorf("Error deleting Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q): %+v", alias, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, alias); err != nil {
+        return fmt.Errorf("Error deleting Disaster Recovery Config %q (Alias %q / Resource Group %q): %+v", name, alias, resourceGroup, err)
     }
 
     return nil

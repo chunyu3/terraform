@@ -31,6 +31,13 @@ func resourceArmSnapshot() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -52,13 +59,6 @@ func resourceArmSnapshot() *schema.Resource {
             },
 
             "pool_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "snapshot_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -101,17 +101,17 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).snapshotsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     poolName := d.Get("pool_name").(string)
-    snapshotName := d.Get("snapshot_name").(string)
     volumeName := d.Get("volume_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -132,21 +132,21 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName, body)
+    future, err := client.Create(ctx, resourceGroup, accountName, poolName, volumeName, name, body)
     if err != nil {
-        return fmt.Errorf("Error creating Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q) ID", snapshotName, volumeName, poolName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q) ID", name, volumeName, poolName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -165,19 +165,20 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
     accountName := id.Path["netAppAccounts"]
     poolName := id.Path["capacityPools"]
     volumeName := id.Path["volumes"]
-    snapshotName := id.Path["snapshots"]
+    name := id.Path["snapshots"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Snapshot %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -191,7 +192,6 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("snapshot_id", snapshotProperties.SnapshotID)
     }
     d.Set("pool_name", poolName)
-    d.Set("snapshot_name", snapshotName)
     d.Set("type", resp.Type)
     d.Set("volume_name", volumeName)
 
@@ -202,11 +202,11 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).snapshotsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     fileSystemId := d.Get("file_system_id").(string)
     poolName := d.Get("pool_name").(string)
-    snapshotName := d.Get("snapshot_name").(string)
     volumeName := d.Get("volume_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
@@ -219,8 +219,8 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName, body); err != nil {
-        return fmt.Errorf("Error updating Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, poolName, volumeName, name, body); err != nil {
+        return fmt.Errorf("Error updating Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
     }
 
     return resourceArmSnapshotRead(d, meta)
@@ -239,19 +239,19 @@ func resourceArmSnapshotDelete(d *schema.ResourceData, meta interface{}) error {
     accountName := id.Path["netAppAccounts"]
     poolName := id.Path["capacityPools"]
     volumeName := id.Path["volumes"]
-    snapshotName := id.Path["snapshots"]
+    name := id.Path["snapshots"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, poolName, volumeName, snapshotName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, poolName, volumeName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Snapshot (Snapshot Name %q / Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", snapshotName, volumeName, poolName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Snapshot %q (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", name, volumeName, poolName, accountName, resourceGroup, err)
         }
     }
 

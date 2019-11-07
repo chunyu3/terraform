@@ -28,11 +28,11 @@ Manage Azure BandwidthSetting instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `bandwidth_setting_name` - (Required) The bandwidth setting name. Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `schedules` - (Required) One or more `schedule` block defined below.
 

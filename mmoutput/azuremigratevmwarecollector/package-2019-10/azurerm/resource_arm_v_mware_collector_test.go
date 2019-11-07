@@ -34,16 +34,16 @@ func testCheckAzureRMVMwareCollectorExists(resourceName string) resource.TestChe
             return fmt.Errorf("V Mware Collector not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         projectName := rs.Primary.Attributes["project_name"]
-        vmWareCollectorName := rs.Primary.Attributes["vm_ware_collector_name"]
 
         client := testAccProvider.Meta().(*ArmClient).vMwareCollectorsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, vmWareCollectorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q) does not exist", vmWareCollectorName, projectName, resourceGroup)
+                return fmt.Errorf("Bad: V Mware Collector %q (Project Name %q / Resource Group %q) does not exist", name, projectName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on vMwareCollectorsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMVMwareCollectorDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         projectName := rs.Primary.Attributes["project_name"]
-        vmWareCollectorName := rs.Primary.Attributes["vm_ware_collector_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, vmWareCollectorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on vMwareCollectorsClient: %+v", err)
             }

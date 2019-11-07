@@ -34,17 +34,17 @@ func testCheckAzureRMApiIssueExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Api Issue not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         issueID := rs.Primary.Attributes["issue_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiIssueClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Issue (Issue %q / Api %q / Service Name %q / Resource Group %q) does not exist", issueID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Issue %q (Issue %q / Api %q / Resource Group %q) does not exist", name, issueID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiIssueClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMApiIssueDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         issueID := rs.Primary.Attributes["issue_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiIssueClient: %+v", err)
             }

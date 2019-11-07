@@ -28,11 +28,11 @@ Manage Azure JitNetworkAccessPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of a Just-in-Time access configuration policy. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `asc_location` - (Required) The location where ASC stores the data of the subscription. can be retrieved from Get locations Changing this forces a new resource to be created.
-
-* `jit_network_access_policy_name` - (Required) Name of a Just-in-Time access configuration policy. Changing this forces a new resource to be created.
 
 * `virtual_machines` - (Required) One or more `virtual_machine` block defined below.
 

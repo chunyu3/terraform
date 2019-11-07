@@ -31,6 +31,13 @@ func resourceArmAccessControlRecord() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -49,13 +56,6 @@ func resourceArmAccessControlRecord() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "manager_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -68,15 +68,15 @@ func resourceArmAccessControlRecordCreateUpdate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).accessControlRecordsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accessControlRecordName := d.Get("access_control_record_name").(string)
-    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, accessControlRecordName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, accessControlRecordName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+                return fmt.Errorf("Error checking for present of existing Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -93,21 +93,21 @@ func resourceArmAccessControlRecordCreateUpdate(d *schema.ResourceData, meta int
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, accessControlRecordName, resourceGroup, managerName, accessControlRecord)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, accessControlRecordName, accessControlRecord)
     if err != nil {
-        return fmt.Errorf("Error creating Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+        return fmt.Errorf("Error creating Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+        return fmt.Errorf("Error waiting for creation of Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
     }
 
 
-    resp, err := client.Get(ctx, accessControlRecordName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, accessControlRecordName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+        return fmt.Errorf("Error retrieving Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q) ID", managerName, resourceGroup, accessControlRecordName)
+        return fmt.Errorf("Cannot read Access Control Record %q (Resource Group %q / Access Control Record Name %q) ID", name, resourceGroup, accessControlRecordName)
     }
     d.SetId(*resp.ID)
 
@@ -122,28 +122,28 @@ func resourceArmAccessControlRecordRead(d *schema.ResourceData, meta interface{}
     if err != nil {
         return err
     }
-    accessControlRecordName := id.Path["accessControlRecords"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    accessControlRecordName := id.Path["accessControlRecords"]
 
-    resp, err := client.Get(ctx, accessControlRecordName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, accessControlRecordName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Access Control Record %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+        return fmt.Errorf("Error reading Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("access_control_record_name", accessControlRecordName)
     if accessControlRecordProperties := resp.AccessControlRecordProperties; accessControlRecordProperties != nil {
         d.Set("initiator_name", accessControlRecordProperties.InitiatorName)
     }
-    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -159,21 +159,21 @@ func resourceArmAccessControlRecordDelete(d *schema.ResourceData, meta interface
     if err != nil {
         return err
     }
-    accessControlRecordName := id.Path["accessControlRecords"]
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
+    accessControlRecordName := id.Path["accessControlRecords"]
 
-    future, err := client.Delete(ctx, accessControlRecordName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, accessControlRecordName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+        return fmt.Errorf("Error deleting Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q): %+v", managerName, resourceGroup, accessControlRecordName, err)
+            return fmt.Errorf("Error waiting for deleting Access Control Record %q (Resource Group %q / Access Control Record Name %q): %+v", name, resourceGroup, accessControlRecordName, err)
         }
     }
 

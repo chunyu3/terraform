@@ -34,15 +34,15 @@ func testCheckAzureRMInstancePoolExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Instance Pool not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        instancePoolName := rs.Primary.Attributes["instance_pool_name"]
 
         client := testAccProvider.Meta().(*ArmClient).instancePoolsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, instancePoolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Instance Pool (Instance Pool Name %q / Resource Group %q) does not exist", instancePoolName, resourceGroup)
+                return fmt.Errorf("Bad: Instance Pool %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on instancePoolsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMInstancePoolDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        instancePoolName := rs.Primary.Attributes["instance_pool_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, instancePoolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on instancePoolsClient: %+v", err)
             }

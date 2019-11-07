@@ -29,16 +29,16 @@ func resourceArmExtension() *schema.Resource {
 
 
         Schema: map[string]*schema.Schema{
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "cluster_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "extension_name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "cluster_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -64,15 +64,15 @@ func resourceArmExtensionCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).extensionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
-    extensionName := d.Get("extension_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, extensionName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -89,21 +89,21 @@ func resourceArmExtensionCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, clusterName, extensionName, parameters)
+    future, err := client.Create(ctx, resourceGroup, clusterName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, extensionName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Extension (Extension Name %q / Cluster Name %q / Resource Group %q) ID", extensionName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Extension %q (Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -120,22 +120,22 @@ func resourceArmExtensionRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    extensionName := id.Path["extensions"]
+    name := id.Path["extensions"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, extensionName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Extension %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("cluster_name", clusterName)
-    d.Set("extension_name", extensionName)
     d.Set("primary_key", resp.PrimaryKey)
     d.Set("workspace_id", resp.WorkspaceID)
 
@@ -154,19 +154,19 @@ func resourceArmExtensionDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    extensionName := id.Path["extensions"]
+    name := id.Path["extensions"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, extensionName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Extension (Extension Name %q / Cluster Name %q / Resource Group %q): %+v", extensionName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Extension %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
         }
     }
 

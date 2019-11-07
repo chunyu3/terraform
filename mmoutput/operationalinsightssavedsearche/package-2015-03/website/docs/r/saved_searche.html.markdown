@@ -28,6 +28,8 @@ Manage Azure SavedSearche instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Log Analytics Workspace name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The Resource Group name. Changing this forces a new resource to be created.
 
 * `category` - (Required) The category of the saved search. This helps the user to find a saved search faster.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `query` - (Required) The query expression for the saved search. Please see https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-search-reference for reference.
 
 * `saved_search_id` - (Required) The id of the saved search. Changing this forces a new resource to be created.
-
-* `workspace_name` - (Required) The Log Analytics Workspace name. Changing this forces a new resource to be created.
 
 * `e_tag` - (Optional) The ETag of the saved search. Changing this forces a new resource to be created.
 

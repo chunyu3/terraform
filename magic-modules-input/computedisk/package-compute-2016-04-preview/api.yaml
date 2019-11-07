@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disks
-            go_variable_name: diskName
+            go_variable_name: name
             python_parameter_name: disk_name
-            python_variable_name: disk_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: disk
             go_type_name: Disk
@@ -196,9 +196,9 @@ objects:
             python_variable_name: resource_group
           'diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disks
-            go_variable_name: diskName
+            go_variable_name: name
             python_parameter_name: disk_name
-            python_variable_name: disk_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: disk
             go_type_name: Disk
@@ -362,9 +362,9 @@ objects:
             python_variable_name: resource_group
           'diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disks
-            go_variable_name: diskName
+            go_variable_name: name
             python_parameter_name: disk_name
-            python_variable_name: disk_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -376,9 +376,9 @@ objects:
             python_variable_name: resource_group
           'diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disks
-            go_variable_name: diskName
+            go_variable_name: name
             python_parameter_name: disk_name
-            python_variable_name: disk_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -577,7 +577,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'diskName'
+        name: 'name'
         description: 'The name of the managed disk that is being created. The name can''t be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.'
         required: true
         input: true

@@ -34,17 +34,17 @@ func testCheckAzureRMVolumeExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Volume not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         poolName := rs.Primary.Attributes["pool_name"]
-        volumeName := rs.Primary.Attributes["volume_name"]
 
         client := testAccProvider.Meta().(*ArmClient).volumesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q) does not exist", volumeName, poolName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Volume %q (Pool Name %q / Account Name %q / Resource Group %q) does not exist", name, poolName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on volumesClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMVolumeDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         poolName := rs.Primary.Attributes["pool_name"]
-        volumeName := rs.Primary.Attributes["volume_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, poolName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on volumesClient: %+v", err)
             }

@@ -34,16 +34,16 @@ func testCheckAzureRMTriggerExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Trigger not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         factoryName := rs.Primary.Attributes["factory_name"]
-        triggerName := rs.Primary.Attributes["trigger_name"]
 
         client := testAccProvider.Meta().(*ArmClient).triggersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, factoryName, triggerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, factoryName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Trigger (Trigger Name %q / Factory Name %q / Resource Group %q) does not exist", triggerName, factoryName, resourceGroup)
+                return fmt.Errorf("Bad: Trigger %q (Factory Name %q / Resource Group %q) does not exist", name, factoryName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on triggersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMTriggerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         factoryName := rs.Primary.Attributes["factory_name"]
-        triggerName := rs.Primary.Attributes["trigger_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, factoryName, triggerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, factoryName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on triggersClient: %+v", err)
             }

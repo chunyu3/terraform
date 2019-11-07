@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'dedicatedCapacityName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: capacities
-            go_variable_name: dedicatedCapacityName
+            go_variable_name: name
             python_parameter_name: dedicated_capacity_name
-            python_variable_name: dedicated_capacity_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: capacityParameters
             go_type_name: DedicatedCapacity
@@ -84,9 +84,9 @@ objects:
             python_variable_name: resource_group
           'dedicatedCapacityName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: capacities
-            go_variable_name: dedicatedCapacityName
+            go_variable_name: name
             python_parameter_name: dedicated_capacity_name
-            python_variable_name: dedicated_capacity_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -99,9 +99,9 @@ objects:
             python_variable_name: resource_group
           'dedicatedCapacityName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: capacities
-            go_variable_name: dedicatedCapacityName
+            go_variable_name: name
             python_parameter_name: dedicated_capacity_name
-            python_variable_name: dedicated_capacity_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSkus
         python_func_name: list_skus
@@ -130,9 +130,9 @@ objects:
             python_variable_name: resource_group
           'dedicatedCapacityName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: capacities
-            go_variable_name: dedicatedCapacityName
+            go_variable_name: name
             python_parameter_name: dedicated_capacity_name
-            python_variable_name: dedicated_capacity_name
+            python_variable_name: name
 
     description: |
       Manage Azure Capacity instance.
@@ -144,7 +144,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'dedicatedCapacityName'
+        name: 'name'
         description: 'The name of the Dedicated capacity. It must be a minimum of 3 characters, and a maximum of 63.'
         required: true
         input: true

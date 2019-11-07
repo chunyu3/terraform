@@ -31,6 +31,13 @@ func resourceArmApiManagementService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -47,13 +54,6 @@ func resourceArmApiManagementService() *schema.Resource {
             "publisher_name": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -314,14 +314,14 @@ func resourceArmApiManagementServiceCreate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).apiManagementServiceClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -362,21 +362,21 @@ func resourceArmApiManagementServiceCreate(d *schema.ResourceData, meta interfac
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Management Service (Service Name %q / Resource Group %q) ID", serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Management Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -392,19 +392,20 @@ func resourceArmApiManagementServiceRead(d *schema.ResourceData, meta interface{
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Management Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -442,7 +443,6 @@ func resourceArmApiManagementServiceRead(d *schema.ResourceData, meta interface{
     if err := d.Set("identity", flattenArmApiManagementServiceServiceIdentity(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
     }
-    d.Set("service_name", serviceName)
     if err := d.Set("sku", flattenArmApiManagementServiceServiceSkuProperties(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -455,6 +455,7 @@ func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).apiManagementServiceClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     additionalLocations := d.Get("additional_locations").([]interface{})
     certificates := d.Get("certificates").([]interface{})
@@ -464,7 +465,6 @@ func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interfac
     notificationSenderEmail := d.Get("notification_sender_email").(string)
     publisherEmail := d.Get("publisher_email").(string)
     publisherName := d.Get("publisher_name").(string)
-    serviceName := d.Get("service_name").(string)
     sku := d.Get("sku").([]interface{})
     virtualNetworkConfiguration := d.Get("virtual_network_configuration").([]interface{})
     virtualNetworkType := d.Get("virtual_network_type").(string)
@@ -489,12 +489,12 @@ func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serviceName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error updating Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmApiManagementServiceRead(d, meta)
@@ -510,10 +510,10 @@ func resourceArmApiManagementServiceDelete(d *schema.ResourceData, meta interfac
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName); err != nil {
-        return fmt.Errorf("Error deleting Api Management Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Api Management Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

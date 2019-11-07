@@ -31,6 +31,13 @@ func resourceArmAssetFilter() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -44,13 +51,6 @@ func resourceArmAssetFilter() *schema.Resource {
             },
 
             "asset_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "filter_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -159,16 +159,16 @@ func resourceArmAssetFilterCreate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).assetFiltersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     assetName := d.Get("asset_name").(string)
-    filterName := d.Get("filter_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, assetName, filterName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, assetName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q): %+v", filterName, assetName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q): %+v", name, assetName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -189,17 +189,17 @@ func resourceArmAssetFilterCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, assetName, filterName, parameters); err != nil {
-        return fmt.Errorf("Error creating Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q): %+v", filterName, assetName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, assetName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q): %+v", name, assetName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, assetName, filterName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, assetName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q): %+v", filterName, assetName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q): %+v", name, assetName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q) ID", filterName, assetName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q) ID", name, assetName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -217,24 +217,24 @@ func resourceArmAssetFilterRead(d *schema.ResourceData, meta interface{}) error 
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
     assetName := id.Path["assets"]
-    filterName := id.Path["assetFilters"]
+    name := id.Path["assetFilters"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, assetName, filterName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, assetName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Asset Filter %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q): %+v", filterName, assetName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q): %+v", name, assetName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     d.Set("asset_name", assetName)
-    d.Set("filter_name", filterName)
     if mediaFilterProperties := resp.MediaFilterProperties; mediaFilterProperties != nil {
         if err := d.Set("first_quality", flattenArmAssetFilterFirstQuality(mediaFilterProperties.FirstQuality)); err != nil {
             return fmt.Errorf("Error setting `first_quality`: %+v", err)
@@ -255,10 +255,10 @@ func resourceArmAssetFilterUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).assetFiltersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     assetName := d.Get("asset_name").(string)
-    filterName := d.Get("filter_name").(string)
     firstQuality := d.Get("first_quality").([]interface{})
     presentationTimeRange := d.Get("presentation_time_range").([]interface{})
     tracks := d.Get("tracks").([]interface{})
@@ -272,8 +272,8 @@ func resourceArmAssetFilterUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, assetName, filterName, parameters); err != nil {
-        return fmt.Errorf("Error updating Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q): %+v", filterName, assetName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, assetName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q): %+v", name, assetName, accountName, resourceGroup, err)
     }
 
     return resourceArmAssetFilterRead(d, meta)
@@ -291,10 +291,10 @@ func resourceArmAssetFilterDelete(d *schema.ResourceData, meta interface{}) erro
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
     assetName := id.Path["assets"]
-    filterName := id.Path["assetFilters"]
+    name := id.Path["assetFilters"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, assetName, filterName); err != nil {
-        return fmt.Errorf("Error deleting Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q): %+v", filterName, assetName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, assetName, name); err != nil {
+        return fmt.Errorf("Error deleting Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q): %+v", name, assetName, accountName, resourceGroup, err)
     }
 
     return nil

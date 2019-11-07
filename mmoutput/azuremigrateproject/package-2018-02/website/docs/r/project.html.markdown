@@ -28,9 +28,9 @@ Manage Azure Project instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the Azure Migrate project. Changing this forces a new resource to be created.
 
-* `project_name` - (Required) Name of the Azure Migrate project. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Azure location in which project is created. Changing this forces a new resource to be created.
 

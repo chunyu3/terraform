@@ -31,18 +31,18 @@ func resourceArmAPIKey() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "linked_read_properties": {
                 Type: schema.TypeList,
@@ -79,14 +79,14 @@ func resourceArmAPIKeyCreateUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).aPIKeysClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Key (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Key %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -105,17 +105,17 @@ func resourceArmAPIKeyCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, resourceName, apikeyProperties); err != nil {
-        return fmt.Errorf("Error creating Api Key (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, apikeyProperties); err != nil {
+        return fmt.Errorf("Error creating Api Key %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Key (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Key %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Key (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Key %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -131,26 +131,26 @@ func resourceArmAPIKeyRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["components"]
+    name := id.Path["components"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Key %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Key (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Key %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_key", resp.ApiKey)
     d.Set("created_date", resp.CreatedDate)
     d.Set("linked_read_properties", utils.FlattenStringSlice(resp.LinkedReadProperties))
     d.Set("linked_write_properties", utils.FlattenStringSlice(resp.LinkedWriteProperties))
-    d.Set("resource_name", resourceName)
 
     return nil
 }
@@ -166,10 +166,10 @@ func resourceArmAPIKeyDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["components"]
+    name := id.Path["components"]
 
-    if _, err := client.Delete(ctx, resourceGroup, resourceName); err != nil {
-        return fmt.Errorf("Error deleting Api Key (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Api Key %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

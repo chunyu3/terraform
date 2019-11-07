@@ -36,16 +36,16 @@ func resourceArmVirtualMachine() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "allow_claim": {
                 Type: schema.TypeBool,
@@ -64,8 +64,105 @@ func resourceArmVirtualMachine() *schema.Resource {
                             MaxItems: 1,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "location": azure.SchemaLocation(),
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Disabled),
+                                                        string(devtestlab.Enabled),
+                                                    }, false),
+                                                    Default: string(devtestlab.Disabled),
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.Enabled),
+                                            string(devtestlab.Disabled),
+                                        }, false),
+                                        Default: string(devtestlab.Enabled),
+                                    },
                                     "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "unique_identifier": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -75,8 +172,105 @@ func resourceArmVirtualMachine() *schema.Resource {
                             MaxItems: 1,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "location": azure.SchemaLocation(),
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Disabled),
+                                                        string(devtestlab.Enabled),
+                                                    }, false),
+                                                    Default: string(devtestlab.Disabled),
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.Enabled),
+                                            string(devtestlab.Disabled),
+                                        }, false),
+                                        Default: string(devtestlab.Enabled),
+                                    },
                                     "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "unique_identifier": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -479,14 +673,14 @@ func resourceArmVirtualMachineCreate(d *schema.ResourceData, meta interface{}) e
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -563,21 +757,21 @@ func resourceArmVirtualMachineCreate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, labVirtualMachine)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, labVirtualMachine)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Machine %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Machine %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -593,20 +787,21 @@ func resourceArmVirtualMachineRead(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["virtualmachines"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Machine %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -657,7 +852,6 @@ func resourceArmVirtualMachineRead(d *schema.ResourceData, meta interface{}) err
         d.Set("user_name", labVirtualMachineProperties.UserName)
         d.Set("virtual_machine_creation_source", string(labVirtualMachineProperties.VirtualMachineCreationSource))
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -667,6 +861,7 @@ func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).virtualMachinesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     allowClaim := d.Get("allow_claim").(bool)
@@ -684,7 +879,6 @@ func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) e
     fqdn := d.Get("fqdn").(string)
     galleryImageReference := d.Get("gallery_image_reference").([]interface{})
     isAuthenticationWithSshKey := d.Get("is_authentication_with_ssh_key").(bool)
-    labName := d.Get("lab_name").(string)
     labSubnetName := d.Get("lab_subnet_name").(string)
     labVirtualNetworkId := d.Get("lab_virtual_network_id").(string)
     networkInterface := d.Get("network_interface").([]interface{})
@@ -738,8 +932,8 @@ func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, labVirtualMachine); err != nil {
-        return fmt.Errorf("Error updating Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, labVirtualMachine); err != nil {
+        return fmt.Errorf("Error updating Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmVirtualMachineRead(d, meta)
@@ -755,20 +949,20 @@ func resourceArmVirtualMachineDelete(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["virtualmachines"]
 
-    future, err := client.Delete(ctx, resourceGroup, labName, name)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Machine %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Machine %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 
@@ -941,9 +1135,29 @@ func expandArmVirtualMachineSchedule(input []interface{}) *devtestlab.Schedule {
 
     location := azure.NormalizeLocation(v["location"].(string))
     t := v["tags"].(map[string]interface{})
+    status := v["status"].(string)
+    taskType := v["task_type"].(string)
+    weeklyRecurrence := v["weekly_recurrence"].([]interface{})
+    dailyRecurrence := v["daily_recurrence"].([]interface{})
+    hourlyRecurrence := v["hourly_recurrence"].([]interface{})
+    timeZoneId := v["time_zone_id"].(string)
+    notificationSettings := v["notification_settings"].([]interface{})
+    targetResourceId := v["target_resource_id"].(string)
+    uniqueIdentifier := v["unique_identifier"].(string)
 
     result := devtestlab.Schedule{
         Location: utils.String(location),
+        ScheduleProperties: &devtestlab.ScheduleProperties{
+            DailyRecurrence: expandArmVirtualMachineDayDetails(dailyRecurrence),
+            HourlyRecurrence: expandArmVirtualMachineHourDetails(hourlyRecurrence),
+            NotificationSettings: expandArmVirtualMachineNotificationSettings(notificationSettings),
+            Status: devtestlab.EnableStatus(status),
+            TargetResourceID: utils.String(targetResourceId),
+            TaskType: utils.String(taskType),
+            TimeZoneID: utils.String(timeZoneId),
+            UniqueIdentifier: utils.String(uniqueIdentifier),
+            WeeklyRecurrence: expandArmVirtualMachineWeekDetails(weeklyRecurrence),
+        },
         Tags: tags.Expand(t),
     }
     return &result
@@ -1016,6 +1230,68 @@ func expandArmVirtualMachineSharedPublicIpAddressConfiguration(input []interface
 
     result := devtestlab.SharedPublicIpAddressConfiguration{
         InboundNatRules: expandArmVirtualMachineInboundNatRule(inboundNatRules),
+    }
+    return &result
+}
+
+func expandArmVirtualMachineDayDetails(input []interface{}) *devtestlab.DayDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    time := v["time"].(string)
+
+    result := devtestlab.DayDetails{
+        Time: utils.String(time),
+    }
+    return &result
+}
+
+func expandArmVirtualMachineHourDetails(input []interface{}) *devtestlab.HourDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    minute := v["minute"].(int)
+
+    result := devtestlab.HourDetails{
+        Minute: utils.Int32(int32(minute)),
+    }
+    return &result
+}
+
+func expandArmVirtualMachineNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    status := v["status"].(string)
+    timeInMinutes := v["time_in_minutes"].(int)
+    webhookUrl := v["webhook_url"].(string)
+
+    result := devtestlab.NotificationSettings{
+        Status: devtestlab.NotificationStatus(status),
+        TimeInMinutes: utils.Int32(int32(timeInMinutes)),
+        WebhookURL: utils.String(webhookUrl),
+    }
+    return &result
+}
+
+func expandArmVirtualMachineWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    weekdays := v["weekdays"].([]interface{})
+    time := v["time"].(string)
+
+    result := devtestlab.WeekDetails{
+        Time: utils.String(time),
+        Weekdays: utils.ExpandStringSlice(weekdays),
     }
     return &result
 }
@@ -1208,6 +1484,25 @@ func flattenArmVirtualMachineSchedule(input *devtestlab.Schedule) []interface{} 
     if location := input.Location; location != nil {
         result["location"] = azure.NormalizeLocation(*location)
     }
+    if scheduleProperties := input.ScheduleProperties; scheduleProperties != nil {
+        result["daily_recurrence"] = flattenArmVirtualMachineDayDetails(scheduleProperties.DailyRecurrence)
+        result["hourly_recurrence"] = flattenArmVirtualMachineHourDetails(scheduleProperties.HourlyRecurrence)
+        result["notification_settings"] = flattenArmVirtualMachineNotificationSettings(scheduleProperties.NotificationSettings)
+        result["status"] = string(scheduleProperties.Status)
+        if targetResourceId := scheduleProperties.TargetResourceID; targetResourceId != nil {
+            result["target_resource_id"] = *targetResourceId
+        }
+        if taskType := scheduleProperties.TaskType; taskType != nil {
+            result["task_type"] = *taskType
+        }
+        if timeZoneId := scheduleProperties.TimeZoneID; timeZoneId != nil {
+            result["time_zone_id"] = *timeZoneId
+        }
+        if uniqueIdentifier := scheduleProperties.UniqueIdentifier; uniqueIdentifier != nil {
+            result["unique_identifier"] = *uniqueIdentifier
+        }
+        result["weekly_recurrence"] = flattenArmVirtualMachineWeekDetails(scheduleProperties.WeeklyRecurrence)
+    }
 
     return []interface{}{result}
 }
@@ -1295,6 +1590,67 @@ func flattenArmVirtualMachineSharedPublicIpAddressConfiguration(input *devtestla
     result := make(map[string]interface{})
 
     result["inbound_nat_rules"] = flattenArmVirtualMachineInboundNatRule(input.InboundNatRules)
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineDayDetails(input *devtestlab.DayDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineHourDetails(input *devtestlab.HourDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmVirtualMachineWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
 
     return []interface{}{result}
 }

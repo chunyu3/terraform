@@ -31,6 +31,13 @@ func resourceArmMachineGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmMachineGroup() *schema.Resource {
             "display_name": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "workspace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -99,14 +99,14 @@ func resourceArmMachineGroupCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).machineGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    workspaceName := d.Get("workspace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, workspaceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Machine Group (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -131,17 +131,17 @@ func resourceArmMachineGroupCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, workspaceName, machineGroup); err != nil {
-        return fmt.Errorf("Error creating Machine Group (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, machineGroup); err != nil {
+        return fmt.Errorf("Error creating Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Machine Group (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Machine Group (Workspace Name %q / Resource Group %q) ID", workspaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Machine Group %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -157,19 +157,20 @@ func resourceArmMachineGroupRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Machine Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Machine Group (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if machineGroupProperties := resp.MachineGroup_properties; machineGroupProperties != nil {
@@ -182,7 +183,6 @@ func resourceArmMachineGroupRead(d *schema.ResourceData, meta interface{}) error
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
-    d.Set("workspace_name", workspaceName)
 
     return nil
 }
@@ -191,13 +191,13 @@ func resourceArmMachineGroupUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).machineGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     count := d.Get("count").(int)
     displayName := d.Get("display_name").(string)
     etag := d.Get("etag").(string)
     groupType := d.Get("group_type").(string)
     machines := d.Get("machines").([]interface{})
-    workspaceName := d.Get("workspace_name").(string)
 
     machineGroup := servicemap.MachineGroup{
         Etag: utils.String(etag),
@@ -210,8 +210,8 @@ func resourceArmMachineGroupUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, workspaceName, machineGroup); err != nil {
-        return fmt.Errorf("Error updating Machine Group (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, machineGroup); err != nil {
+        return fmt.Errorf("Error updating Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmMachineGroupRead(d, meta)
@@ -227,10 +227,10 @@ func resourceArmMachineGroupDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    if _, err := client.Delete(ctx, resourceGroup, workspaceName); err != nil {
-        return fmt.Errorf("Error deleting Machine Group (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

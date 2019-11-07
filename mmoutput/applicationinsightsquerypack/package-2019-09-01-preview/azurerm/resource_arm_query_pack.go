@@ -31,19 +31,19 @@ func resourceArmQueryPack() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "query_pack_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "provisioning_state": {
                 Type: schema.TypeString,
@@ -79,14 +79,14 @@ func resourceArmQueryPackCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).queryPacksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    queryPackName := d.Get("query_pack_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, queryPackName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Query Pack (Query Pack Name %q / Resource Group %q): %+v", queryPackName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Query Pack %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -103,17 +103,17 @@ func resourceArmQueryPackCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, queryPackName, logAnalyticsQueryPackPayload); err != nil {
-        return fmt.Errorf("Error creating Query Pack (Query Pack Name %q / Resource Group %q): %+v", queryPackName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, logAnalyticsQueryPackPayload); err != nil {
+        return fmt.Errorf("Error creating Query Pack %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, queryPackName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Query Pack (Query Pack Name %q / Resource Group %q): %+v", queryPackName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Query Pack %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Query Pack (Query Pack Name %q / Resource Group %q) ID", queryPackName, resourceGroup)
+        return fmt.Errorf("Cannot read Query Pack %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -129,19 +129,20 @@ func resourceArmQueryPackRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    queryPackName := id.Path["queryPacks"]
+    name := id.Path["queryPacks"]
 
-    resp, err := client.Get(ctx, resourceGroup, queryPackName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Query Pack %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Query Pack (Query Pack Name %q / Resource Group %q): %+v", queryPackName, resourceGroup, err)
+        return fmt.Errorf("Error reading Query Pack %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -153,7 +154,6 @@ func resourceArmQueryPackRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("time_created", (logAnalyticsQueryPackProperties.TimeCreated).String())
         d.Set("time_modified", (logAnalyticsQueryPackProperties.TimeModified).String())
     }
-    d.Set("query_pack_name", queryPackName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -170,10 +170,10 @@ func resourceArmQueryPackDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    queryPackName := id.Path["queryPacks"]
+    name := id.Path["queryPacks"]
 
-    if _, err := client.Delete(ctx, resourceGroup, queryPackName); err != nil {
-        return fmt.Errorf("Error deleting Query Pack (Query Pack Name %q / Resource Group %q): %+v", queryPackName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Query Pack %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

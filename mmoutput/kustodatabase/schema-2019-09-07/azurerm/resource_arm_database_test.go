@@ -34,16 +34,16 @@ func testCheckAzureRMDatabaseExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Database not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         clusterName := rs.Primary.Attributes["cluster_name"]
-        databaseName := rs.Primary.Attributes["database_name"]
 
         client := testAccProvider.Meta().(*ArmClient).databasesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Database (Database Name %q / Cluster Name %q / Resource Group %q) does not exist", databaseName, clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Database %q (Cluster Name %q / Resource Group %q) does not exist", name, clusterName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on databasesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMDatabaseDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         clusterName := rs.Primary.Attributes["cluster_name"]
-        databaseName := rs.Primary.Attributes["database_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on databasesClient: %+v", err)
             }

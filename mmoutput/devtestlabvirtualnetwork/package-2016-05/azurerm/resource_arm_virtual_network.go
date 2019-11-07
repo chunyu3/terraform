@@ -36,16 +36,16 @@ func resourceArmVirtualNetwork() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "allowed_subnets": {
                 Type: schema.TypeList,
@@ -202,14 +202,14 @@ func resourceArmVirtualNetworkCreate(d *schema.ResourceData, meta interface{}) e
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -240,21 +240,21 @@ func resourceArmVirtualNetworkCreate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, virtualNetwork)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, virtualNetwork)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -270,20 +270,21 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["virtualnetworks"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -305,7 +306,6 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
         }
         d.Set("unique_identifier", virtualNetworkProperties.UniqueIdentifier)
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -316,12 +316,12 @@ func resourceArmVirtualNetworkUpdate(d *schema.ResourceData, meta interface{}) e
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     allowedSubnets := d.Get("allowed_subnets").([]interface{})
     description := d.Get("description").(string)
     externalProviderResourceId := d.Get("external_provider_resource_id").(string)
     externalSubnets := d.Get("external_subnets").([]interface{})
-    labName := d.Get("lab_name").(string)
     subnetOverrides := d.Get("subnet_overrides").([]interface{})
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
@@ -340,8 +340,8 @@ func resourceArmVirtualNetworkUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, virtualNetwork); err != nil {
-        return fmt.Errorf("Error updating Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, virtualNetwork); err != nil {
+        return fmt.Errorf("Error updating Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmVirtualNetworkRead(d, meta)
@@ -357,20 +357,20 @@ func resourceArmVirtualNetworkDelete(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["virtualnetworks"]
 
-    future, err := client.Delete(ctx, resourceGroup, labName, name)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

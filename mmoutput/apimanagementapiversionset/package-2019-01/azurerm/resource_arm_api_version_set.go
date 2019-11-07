@@ -31,6 +31,13 @@ func resourceArmApiVersionSet() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmApiVersionSet() *schema.Resource {
             "display_name": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -93,15 +93,15 @@ func resourceArmApiVersionSetCreate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).apiVersionSetClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    serviceName := d.Get("service_name").(string)
     versionSetID := d.Get("version_set_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, versionSetID)
+        existing, err := client.Get(ctx, resourceGroup, name, versionSetID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Version Set (Version Set %q / Service Name %q / Resource Group %q): %+v", versionSetID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Version Set %q (Version Set %q / Resource Group %q): %+v", name, versionSetID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -126,17 +126,17 @@ func resourceArmApiVersionSetCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, versionSetID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Version Set (Version Set %q / Service Name %q / Resource Group %q): %+v", versionSetID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, versionSetID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Version Set %q (Version Set %q / Resource Group %q): %+v", name, versionSetID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, versionSetID)
+    resp, err := client.Get(ctx, resourceGroup, name, versionSetID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Version Set (Version Set %q / Service Name %q / Resource Group %q): %+v", versionSetID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Version Set %q (Version Set %q / Resource Group %q): %+v", name, versionSetID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Version Set (Version Set %q / Service Name %q / Resource Group %q) ID", versionSetID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Version Set %q (Version Set %q / Resource Group %q) ID", name, versionSetID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -152,20 +152,21 @@ func resourceArmApiVersionSetRead(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     versionSetID := id.Path["apiVersionSets"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, versionSetID)
+    resp, err := client.Get(ctx, resourceGroup, name, versionSetID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Version Set %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Version Set (Version Set %q / Service Name %q / Resource Group %q): %+v", versionSetID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Version Set %q (Version Set %q / Resource Group %q): %+v", name, versionSetID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if apiVersionSetContractProperties := resp.ApiVersionSetContractProperties; apiVersionSetContractProperties != nil {
@@ -175,7 +176,6 @@ func resourceArmApiVersionSetRead(d *schema.ResourceData, meta interface{}) erro
         d.Set("version_query_name", apiVersionSetContractProperties.VersionQueryName)
         d.Set("versioning_scheme", string(apiVersionSetContractProperties.VersioningScheme))
     }
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
     d.Set("version_set_id", versionSetID)
 
@@ -186,10 +186,10 @@ func resourceArmApiVersionSetUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).apiVersionSetClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     displayName := d.Get("display_name").(string)
-    serviceName := d.Get("service_name").(string)
     versionHeaderName := d.Get("version_header_name").(string)
     versionQueryName := d.Get("version_query_name").(string)
     versionSetID := d.Get("version_set_id").(string)
@@ -206,8 +206,8 @@ func resourceArmApiVersionSetUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, versionSetID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api Version Set (Version Set %q / Service Name %q / Resource Group %q): %+v", versionSetID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, versionSetID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api Version Set %q (Version Set %q / Resource Group %q): %+v", name, versionSetID, resourceGroup, err)
     }
 
     return resourceArmApiVersionSetRead(d, meta)
@@ -223,11 +223,11 @@ func resourceArmApiVersionSetDelete(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     versionSetID := id.Path["apiVersionSets"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, versionSetID); err != nil {
-        return fmt.Errorf("Error deleting Api Version Set (Version Set %q / Service Name %q / Resource Group %q): %+v", versionSetID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, versionSetID); err != nil {
+        return fmt.Errorf("Error deleting Api Version Set %q (Version Set %q / Resource Group %q): %+v", name, versionSetID, resourceGroup, err)
     }
 
     return nil

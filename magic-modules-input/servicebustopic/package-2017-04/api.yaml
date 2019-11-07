@@ -34,9 +34,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: topicName
+            go_variable_name: name
             python_parameter_name: topic_name
-            python_variable_name: topic_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: SBTopic
@@ -123,9 +123,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: topicName
+            go_variable_name: name
             python_parameter_name: topic_name
-            python_variable_name: topic_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -142,9 +142,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: topicName
+            go_variable_name: name
             python_parameter_name: topic_name
-            python_variable_name: topic_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -245,9 +245,39 @@ objects:
             applicable_to: [go]
             go_field_name: CountDetails
             go_type_name: MessageCountDetails
+          '/properties/countDetails/activeMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ActiveMessageCount
+          '/properties/countDetails/deadLetterMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: DeadLetterMessageCount
+          '/properties/countDetails/scheduledMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ScheduledMessageCount
+          '/properties/countDetails/transferMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TransferMessageCount
+          '/properties/countDetails/transferDeadLetterMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TransferDeadLetterMessageCount
           '/countDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: count_details
+          '/countDetails/activeMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: active_message_count
+          '/countDetails/deadLetterMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: dead_letter_message_count
+          '/countDetails/scheduledMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: scheduled_message_count
+          '/countDetails/transferMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: transfer_message_count
+          '/countDetails/transferDeadLetterMessageCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: transfer_dead_letter_message_count
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -287,9 +317,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: topicName
+            go_variable_name: name
             python_parameter_name: topic_name
-            python_variable_name: topic_name
+            python_variable_name: name
 
     description: |
       Manage Azure Topic instance.
@@ -307,7 +337,7 @@ objects:
         input: true
         azure_sdk_references: ['namespaceName']
       - !ruby/object:Api::Type::String
-        name: 'topicName'
+        name: 'name'
         description: 'The topic name.'
         required: true
         input: true
@@ -405,31 +435,6 @@ objects:
         output: true
         azure_sdk_references: ['/countDetails', '/properties/countDetails']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'activeMessageCount'
-            description: 'Number of active messages in the queue, topic, or subscription.'
-            required: false
-            azure_sdk_references: ['/countDetails/activeMessageCount', '/properties/countDetails/activeMessageCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'deadLetterMessageCount'
-            description: 'Number of messages that are dead lettered.'
-            required: false
-            azure_sdk_references: ['/countDetails/deadLetterMessageCount', '/properties/countDetails/deadLetterMessageCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'scheduledMessageCount'
-            description: 'Number of scheduled messages.'
-            required: false
-            azure_sdk_references: ['/countDetails/scheduledMessageCount', '/properties/countDetails/scheduledMessageCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'transferMessageCount'
-            description: 'Number of messages transferred to another queue, topic, or subscription.'
-            required: false
-            azure_sdk_references: ['/countDetails/transferMessageCount', '/properties/countDetails/transferMessageCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'transferDeadLetterMessageCount'
-            description: 'Number of messages transferred into dead letters.'
-            required: false
-            azure_sdk_references: ['/countDetails/transferDeadLetterMessageCount', '/properties/countDetails/transferDeadLetterMessageCount']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

@@ -34,16 +34,16 @@ func testCheckAzureRMInstanceFailoverGroupExists(resourceName string) resource.T
             return fmt.Errorf("Instance Failover Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        failoverGroupName := rs.Primary.Attributes["failover_group_name"]
         locationName := rs.Primary.Attributes["location_name"]
 
         client := testAccProvider.Meta().(*ArmClient).instanceFailoverGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, locationName, failoverGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, locationName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Instance Failover Group (Failover Group Name %q / Location Name %q / Resource Group %q) does not exist", failoverGroupName, locationName, resourceGroup)
+                return fmt.Errorf("Bad: Instance Failover Group %q (Location Name %q / Resource Group %q) does not exist", name, locationName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on instanceFailoverGroupsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMInstanceFailoverGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        failoverGroupName := rs.Primary.Attributes["failover_group_name"]
         locationName := rs.Primary.Attributes["location_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, locationName, failoverGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, locationName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on instanceFailoverGroupsClient: %+v", err)
             }

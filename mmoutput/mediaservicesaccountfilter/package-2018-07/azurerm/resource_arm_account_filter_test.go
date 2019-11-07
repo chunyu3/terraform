@@ -34,16 +34,16 @@ func testCheckAzureRMAccountFilterExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Account Filter not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        filterName := rs.Primary.Attributes["filter_name"]
 
         client := testAccProvider.Meta().(*ArmClient).accountFiltersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, filterName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Account Filter (Filter Name %q / Account Name %q / Resource Group %q) does not exist", filterName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Account Filter %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on accountFiltersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAccountFilterDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        filterName := rs.Primary.Attributes["filter_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, filterName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on accountFiltersClient: %+v", err)
             }

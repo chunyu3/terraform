@@ -36,14 +36,14 @@ func resourceArmUser() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "device_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "encrypted_password": {
                 Type: schema.TypeList,
@@ -109,14 +109,14 @@ func resourceArmUserCreateUpdate(d *schema.ResourceData, meta interface{}) error
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    deviceName := d.Get("device_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, name, resourceGroup)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing User %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -135,21 +135,21 @@ func resourceArmUserCreateUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, name, resourceGroup, user)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, user)
     if err != nil {
-        return fmt.Errorf("Error creating User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error creating User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, name, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error retrieving User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read User %q (Resource Group %q / Device Name %q) ID", name, resourceGroup, deviceName)
+        return fmt.Errorf("Cannot read User %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -164,24 +164,24 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    deviceName := id.Path["dataBoxEdgeDevices"]
-    name := id.Path["users"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["dataBoxEdgeDevices"]
+    name := id.Path["users"]
 
-    resp, err := client.Get(ctx, deviceName, name, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] User %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error reading User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
     d.Set("name", name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    d.Set("device_name", deviceName)
     if userProperties := resp.UserProperties; userProperties != nil {
         if err := d.Set("encrypted_password", flattenArmUserAsymmetricEncryptedSecret(userProperties.EncryptedPassword)); err != nil {
             return fmt.Errorf("Error setting `encrypted_password`: %+v", err)
@@ -205,21 +205,21 @@ func resourceArmUserDelete(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    deviceName := id.Path["dataBoxEdgeDevices"]
-    name := id.Path["users"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["dataBoxEdgeDevices"]
+    name := id.Path["users"]
 
-    future, err := client.Delete(ctx, deviceName, name, resourceGroup)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error deleting User %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting User %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting User %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

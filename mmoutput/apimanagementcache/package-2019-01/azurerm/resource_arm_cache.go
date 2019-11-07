@@ -31,6 +31,13 @@ func resourceArmCache() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -46,13 +53,6 @@ func resourceArmCache() *schema.Resource {
             "connection_string": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -78,15 +78,15 @@ func resourceArmCacheCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).cacheClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     cacheID := d.Get("cache_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, cacheID)
+        existing, err := client.Get(ctx, resourceGroup, name, cacheID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Cache (Cache %q / Service Name %q / Resource Group %q): %+v", cacheID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Cache %q (Cache %q / Resource Group %q): %+v", name, cacheID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -107,17 +107,17 @@ func resourceArmCacheCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, cacheID, parameters); err != nil {
-        return fmt.Errorf("Error creating Cache (Cache %q / Service Name %q / Resource Group %q): %+v", cacheID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, cacheID, parameters); err != nil {
+        return fmt.Errorf("Error creating Cache %q (Cache %q / Resource Group %q): %+v", name, cacheID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, cacheID)
+    resp, err := client.Get(ctx, resourceGroup, name, cacheID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Cache (Cache %q / Service Name %q / Resource Group %q): %+v", cacheID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Cache %q (Cache %q / Resource Group %q): %+v", name, cacheID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Cache (Cache %q / Service Name %q / Resource Group %q) ID", cacheID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Cache %q (Cache %q / Resource Group %q) ID", name, cacheID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -133,20 +133,21 @@ func resourceArmCacheRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     cacheID := id.Path["caches"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, cacheID)
+    resp, err := client.Get(ctx, resourceGroup, name, cacheID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Cache %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Cache (Cache %q / Service Name %q / Resource Group %q): %+v", cacheID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Cache %q (Cache %q / Resource Group %q): %+v", name, cacheID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_id", cacheID)
@@ -155,7 +156,6 @@ func resourceArmCacheRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("description", cacheContractProperties.Description)
         d.Set("resource_id", cacheContractProperties.ResourceID)
     }
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -165,12 +165,12 @@ func resourceArmCacheUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).cacheClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     cacheID := d.Get("cache_id").(string)
     connectionString := d.Get("connection_string").(string)
     description := d.Get("description").(string)
     resourceId := d.Get("resource_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     parameters := apimanagement.CacheContract{
         CacheContractProperties: &apimanagement.CacheContractProperties{
@@ -181,8 +181,8 @@ func resourceArmCacheUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, cacheID, parameters); err != nil {
-        return fmt.Errorf("Error updating Cache (Cache %q / Service Name %q / Resource Group %q): %+v", cacheID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, cacheID, parameters); err != nil {
+        return fmt.Errorf("Error updating Cache %q (Cache %q / Resource Group %q): %+v", name, cacheID, resourceGroup, err)
     }
 
     return resourceArmCacheRead(d, meta)
@@ -198,11 +198,11 @@ func resourceArmCacheDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     cacheID := id.Path["caches"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, cacheID); err != nil {
-        return fmt.Errorf("Error deleting Cache (Cache %q / Service Name %q / Resource Group %q): %+v", cacheID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, cacheID); err != nil {
+        return fmt.Errorf("Error deleting Cache %q (Cache %q / Resource Group %q): %+v", name, cacheID, resourceGroup, err)
     }
 
     return nil

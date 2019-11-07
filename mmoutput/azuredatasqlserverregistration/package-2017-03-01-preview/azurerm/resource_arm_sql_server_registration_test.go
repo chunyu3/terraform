@@ -34,15 +34,15 @@ func testCheckAzureRMSqlServerRegistrationExists(resourceName string) resource.T
             return fmt.Errorf("Sql Server Registration not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlServerRegistrationName := rs.Primary.Attributes["sql_server_registration_name"]
 
         client := testAccProvider.Meta().(*ArmClient).sqlServerRegistrationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Sql Server Registration (Sql Server Registration Name %q / Resource Group %q) does not exist", sqlServerRegistrationName, resourceGroup)
+                return fmt.Errorf("Bad: Sql Server Registration %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on sqlServerRegistrationsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMSqlServerRegistrationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlServerRegistrationName := rs.Primary.Attributes["sql_server_registration_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlServerRegistrationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on sqlServerRegistrationsClient: %+v", err)
             }

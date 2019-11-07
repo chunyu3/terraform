@@ -28,13 +28,13 @@ Manage Azure Variable instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The variable name. Changing this forces a new resource to be created.
+
 * `name` - (Required) Gets or sets the name of the variable. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
-
-* `variable_name` - (Required) The variable name. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Gets or sets the description of the variable.
 

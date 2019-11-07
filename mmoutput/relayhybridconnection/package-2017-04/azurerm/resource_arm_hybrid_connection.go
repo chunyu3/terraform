@@ -31,17 +31,17 @@ func resourceArmHybridConnection() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "hybrid_connection_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "namespace_name": {
                 Type: schema.TypeString,
@@ -87,15 +87,15 @@ func resourceArmHybridConnectionCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).hybridConnectionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    hybridConnectionName := d.Get("hybrid_connection_name").(string)
     namespaceName := d.Get("namespace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, hybridConnectionName)
+        existing, err := client.Get(ctx, resourceGroup, namespaceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q): %+v", hybridConnectionName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Hybrid Connection %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -114,17 +114,17 @@ func resourceArmHybridConnectionCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, hybridConnectionName, parameters); err != nil {
-        return fmt.Errorf("Error creating Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q): %+v", hybridConnectionName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Hybrid Connection %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, hybridConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q): %+v", hybridConnectionName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Hybrid Connection %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q) ID", hybridConnectionName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Hybrid Connection %q (Namespace Name %q / Resource Group %q) ID", name, namespaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -141,19 +141,20 @@ func resourceArmHybridConnectionRead(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    hybridConnectionName := id.Path["hybridConnections"]
+    name := id.Path["hybridConnections"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, hybridConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Hybrid Connection %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q): %+v", hybridConnectionName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Hybrid Connection %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if hybridConnectionProperties := resp.HybridConnection_properties; hybridConnectionProperties != nil {
@@ -163,7 +164,6 @@ func resourceArmHybridConnectionRead(d *schema.ResourceData, meta interface{}) e
         d.Set("updated_at", (hybridConnectionProperties.UpdatedAt).String())
         d.Set("user_metadata", hybridConnectionProperties.UserMetadata)
     }
-    d.Set("hybrid_connection_name", hybridConnectionName)
     d.Set("namespace_name", namespaceName)
     d.Set("type", resp.Type)
 
@@ -182,10 +182,10 @@ func resourceArmHybridConnectionDelete(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    hybridConnectionName := id.Path["hybridConnections"]
+    name := id.Path["hybridConnections"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, hybridConnectionName); err != nil {
-        return fmt.Errorf("Error deleting Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q): %+v", hybridConnectionName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, namespaceName, name); err != nil {
+        return fmt.Errorf("Error deleting Hybrid Connection %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
     return nil

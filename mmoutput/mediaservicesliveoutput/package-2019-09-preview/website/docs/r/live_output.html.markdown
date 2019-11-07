@@ -28,6 +28,8 @@ Manage Azure LiveOutput instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Live Output. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `asset_name` - (Required) The asset name.
 
 * `live_event_name` - (Required) The name of the Live Event. Changing this forces a new resource to be created.
-
-* `live_output_name` - (Required) The name of the Live Output. Changing this forces a new resource to be created.
 
 * `description` - (Optional) The description of the Live Output.
 

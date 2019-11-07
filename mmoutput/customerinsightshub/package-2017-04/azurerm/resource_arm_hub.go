@@ -31,19 +31,19 @@ func resourceArmHub() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "hub_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "hub_billing_info": {
                 Type: schema.TypeList,
@@ -101,14 +101,14 @@ func resourceArmHubCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).hubsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    hubName := d.Get("hub_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -131,17 +131,17 @@ func resourceArmHubCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, parameters); err != nil {
-        return fmt.Errorf("Error creating Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Hub (Hub Name %q / Resource Group %q) ID", hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Hub %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -157,19 +157,20 @@ func resourceArmHubRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    hubName := id.Path["hubs"]
+    name := id.Path["hubs"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Hub %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -184,7 +185,6 @@ func resourceArmHubRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("tenant_features", hubPropertiesFormat.TenantFeatures)
         d.Set("web_endpoint", hubPropertiesFormat.WebEndpoint)
     }
-    d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -194,9 +194,9 @@ func resourceArmHubUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).hubsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hubBillingInfo := d.Get("hub_billing_info").([]interface{})
-    hubName := d.Get("hub_name").(string)
     tenantFeatures := d.Get("tenant_features").(int)
     t := d.Get("tags").(map[string]interface{})
 
@@ -210,8 +210,8 @@ func resourceArmHubUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, hubName, parameters); err != nil {
-        return fmt.Errorf("Error updating Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmHubRead(d, meta)
@@ -227,19 +227,19 @@ func resourceArmHubDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    hubName := id.Path["hubs"]
+    name := id.Path["hubs"]
 
-    future, err := client.Delete(ctx, resourceGroup, hubName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Hub (Hub Name %q / Resource Group %q): %+v", hubName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Hub %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

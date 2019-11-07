@@ -28,6 +28,8 @@ Manage Azure JobTargetGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the target group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `job_agent_name` - (Required) The name of the job agent. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `members` - (Required) One or more `member` block defined below.
 
 * `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
-
-* `target_group_name` - (Required) The name of the target group. Changing this forces a new resource to be created.
 
 ---
 

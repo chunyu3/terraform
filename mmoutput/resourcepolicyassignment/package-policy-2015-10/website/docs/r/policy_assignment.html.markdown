@@ -28,7 +28,7 @@ Manage Azure PolicyAssignment instance.
 
 The following arguments are supported:
 
-* `policy_assignment_name` - (Required) The name of the policy assignment. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the policy assignment. Changing this forces a new resource to be created.
 
 * `scope` - (Required) The scope of the policy assignment. Changing this forces a new resource to be created.
 

@@ -35,9 +35,9 @@ objects:
             python_variable_name: service_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: deploymentResource
             go_type_name: DeploymentResource
@@ -140,9 +140,9 @@ objects:
             python_variable_name: service_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: deploymentResource
             go_type_name: DeploymentResource
@@ -244,9 +244,9 @@ objects:
             python_variable_name: service_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -263,9 +263,9 @@ objects:
             python_variable_name: service_name
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -383,9 +383,33 @@ objects:
             applicable_to: [go]
             go_field_name: Instances
             go_type_name: DeploymentInstance
+          '/properties/instances/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/instances/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/instances/reason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Reason
+          '/properties/instances/discoveryStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiscoveryStatus
           '/instances': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: instances
+          '/instances/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/instances/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/instances/reason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: reason
+          '/instances/discoveryStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: discovery_status
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -516,7 +540,7 @@ objects:
         input: true
         azure_sdk_references: ['appName']
       - !ruby/object:Api::Type::String
-        name: 'deploymentName'
+        name: 'name'
         description: 'The name of the Deployment resource.'
         required: true
         input: true
@@ -567,26 +591,6 @@ objects:
         azure_sdk_references: ['/instances', '/properties/instances']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Name of the deployment instance'
-              required: false
-              azure_sdk_references: ['/instances/name', '/properties/instances/name']
-            - !ruby/object:Api::Type::String
-              name: 'status'
-              description: 'Status of the deployment instance'
-              required: false
-              azure_sdk_references: ['/instances/status', '/properties/instances/status']
-            - !ruby/object:Api::Type::String
-              name: 'reason'
-              description: 'Failed reason of the deployment instance'
-              required: false
-              azure_sdk_references: ['/instances/reason', '/properties/instances/reason']
-            - !ruby/object:Api::Type::String
-              name: 'discoveryStatus'
-              description: 'Discovery status of the deployment instance'
-              required: false
-              azure_sdk_references: ['/instances/discoveryStatus', '/properties/instances/discoveryStatus']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource.'

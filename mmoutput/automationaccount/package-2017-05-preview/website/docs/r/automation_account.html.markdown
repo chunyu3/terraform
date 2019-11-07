@@ -28,9 +28,9 @@ Manage Azure AutomationAccount instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `name` - (Optional) Gets or sets name of the resource. Changing this forces a new resource to be created.
 

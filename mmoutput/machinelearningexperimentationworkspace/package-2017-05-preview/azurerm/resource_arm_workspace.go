@@ -31,6 +31,13 @@ func resourceArmWorkspace() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -48,13 +55,6 @@ func resourceArmWorkspace() *schema.Resource {
             "friendly_name": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "workspace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -97,15 +97,15 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).workspacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    workspaceName := d.Get("workspace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, workspaceName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Workspace (Workspace Name %q / Account Name %q / Resource Group %q): %+v", workspaceName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Workspace %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -128,17 +128,17 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, workspaceName, parameters); err != nil {
-        return fmt.Errorf("Error creating Workspace (Workspace Name %q / Account Name %q / Resource Group %q): %+v", workspaceName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Workspace %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Workspace (Workspace Name %q / Account Name %q / Resource Group %q): %+v", workspaceName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Workspace %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Workspace (Workspace Name %q / Account Name %q / Resource Group %q) ID", workspaceName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Workspace %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -155,19 +155,20 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Workspace %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Workspace (Workspace Name %q / Account Name %q / Resource Group %q): %+v", workspaceName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Workspace %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -183,7 +184,6 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("account_name", accountName)
     d.Set("type", resp.Type)
-    d.Set("workspace_name", workspaceName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -192,11 +192,11 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).workspacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     description := d.Get("description").(string)
     friendlyName := d.Get("friendly_name").(string)
-    workspaceName := d.Get("workspace_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := machinelearningexperimentation.Workspace{
@@ -209,8 +209,8 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, workspaceName, parameters); err != nil {
-        return fmt.Errorf("Error updating Workspace (Workspace Name %q / Account Name %q / Resource Group %q): %+v", workspaceName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Workspace %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmWorkspaceRead(d, meta)
@@ -227,10 +227,10 @@ func resourceArmWorkspaceDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, workspaceName); err != nil {
-        return fmt.Errorf("Error deleting Workspace (Workspace Name %q / Account Name %q / Resource Group %q): %+v", workspaceName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Workspace %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

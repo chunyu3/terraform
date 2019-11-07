@@ -34,16 +34,16 @@ func testCheckAzureRMRegisteredServerExists(resourceName string) resource.TestCh
             return fmt.Errorf("Registered Server not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serverID := rs.Primary.Attributes["server_id"]
-        storageSyncServiceName := rs.Primary.Attributes["storage_sync_service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).registeredServersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, serverID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, serverID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Registered Server (Server %q / Storage Sync Service Name %q / Resource Group %q) does not exist", serverID, storageSyncServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Registered Server %q (Server %q / Resource Group %q) does not exist", name, serverID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on registeredServersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMRegisteredServerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         serverID := rs.Primary.Attributes["server_id"]
-        storageSyncServiceName := rs.Primary.Attributes["storage_sync_service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, serverID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, serverID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on registeredServersClient: %+v", err)
             }

@@ -39,9 +39,9 @@ objects:
             python_variable_name: job_agent_name
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: jobName
+            go_variable_name: name
             python_parameter_name: job_name
-            python_variable_name: job_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Job
@@ -116,9 +116,9 @@ objects:
             python_variable_name: job_agent_name
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: jobName
+            go_variable_name: name
             python_parameter_name: job_name
-            python_variable_name: job_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -140,9 +140,9 @@ objects:
             python_variable_name: job_agent_name
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: jobName
+            go_variable_name: name
             python_parameter_name: job_name
-            python_variable_name: job_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -249,7 +249,7 @@ objects:
         input: true
         azure_sdk_references: ['jobAgentName']
       - !ruby/object:Api::Type::String
-        name: 'jobName'
+        name: 'name'
         description: 'The name of the job to get.'
         required: true
         input: true

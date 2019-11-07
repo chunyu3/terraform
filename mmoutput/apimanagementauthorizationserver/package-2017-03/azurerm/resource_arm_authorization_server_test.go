@@ -34,16 +34,16 @@ func testCheckAzureRMAuthorizationServerExists(resourceName string) resource.Tes
             return fmt.Errorf("Authorization Server not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         authsid := rs.Primary.Attributes["authsid"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).authorizationServerClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, authsid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, authsid); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Authorization Server (Authsid %q / Service Name %q / Resource Group %q) does not exist", authsid, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Authorization Server %q (Authsid %q / Resource Group %q) does not exist", name, authsid, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on authorizationServerClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAuthorizationServerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         authsid := rs.Primary.Attributes["authsid"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, authsid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, authsid); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on authorizationServerClient: %+v", err)
             }

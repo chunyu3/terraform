@@ -31,19 +31,19 @@ func resourceArmService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "config_server_properties": {
                 Type: schema.TypeList,
@@ -87,6 +87,66 @@ func resourceArmService() *schema.Resource {
                                                 "private_key": {
                                                     Type: schema.TypeString,
                                                     Optional: true,
+                                                },
+                                                "repositories": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "name": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                            "uri": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                            "host_key": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "host_key_algorithm": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "label": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "password": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "pattern": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Schema{
+                                                                    Type: schema.TypeString,
+                                                                },
+                                                            },
+                                                            "private_key": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "search_paths": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Schema{
+                                                                    Type: schema.TypeString,
+                                                                },
+                                                            },
+                                                            "strict_host_key_checking": {
+                                                                Type: schema.TypeBool,
+                                                                Optional: true,
+                                                            },
+                                                            "username": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
                                                 },
                                                 "search_paths": {
                                                     Type: schema.TypeList,
@@ -194,14 +254,14 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -224,21 +284,21 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, resource)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, resource)
     if err != nil {
-        return fmt.Errorf("Error creating Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service (Service Name %q / Resource Group %q) ID", serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -254,19 +314,20 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["Spring"]
+    name := id.Path["Spring"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -283,7 +344,6 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("version", int(*clusterResourceProperties.Version))
     }
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -293,9 +353,9 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     configServerProperties := d.Get("config_server_properties").([]interface{})
-    serviceName := d.Get("service_name").(string)
     trace := d.Get("trace").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -309,12 +369,12 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serviceName, resource)
+    future, err := client.Update(ctx, resourceGroup, name, resource)
     if err != nil {
-        return fmt.Errorf("Error updating Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error updating Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmServiceRead(d, meta)
@@ -330,19 +390,19 @@ func resourceArmServiceDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["Spring"]
+    name := id.Path["Spring"]
 
-    future, err := client.Delete(ctx, resourceGroup, serviceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Service (Service Name %q / Resource Group %q): %+v", serviceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Service %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 
@@ -419,6 +479,7 @@ func expandArmServiceConfigServerGitProperty(input []interface{}) *appplatform.C
     }
     v := input[0].(map[string]interface{})
 
+    repositories := v["repositories"].([]interface{})
     uri := v["uri"].(string)
     label := v["label"].(string)
     searchPaths := v["search_paths"].([]interface{})
@@ -435,12 +496,48 @@ func expandArmServiceConfigServerGitProperty(input []interface{}) *appplatform.C
         Label: utils.String(label),
         Password: utils.String(password),
         PrivateKey: utils.String(privateKey),
+        Repositories: expandArmServiceGitPatternRepository(repositories),
         SearchPaths: utils.ExpandStringSlice(searchPaths),
         StrictHostKeyChecking: utils.Bool(strictHostKeyChecking),
         Uri: utils.String(uri),
         Username: utils.String(username),
     }
     return &result
+}
+
+func expandArmServiceGitPatternRepository(input []interface{}) *[]appplatform.GitPatternRepository {
+    results := make([]appplatform.GitPatternRepository, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        pattern := v["pattern"].([]interface{})
+        uri := v["uri"].(string)
+        label := v["label"].(string)
+        searchPaths := v["search_paths"].([]interface{})
+        username := v["username"].(string)
+        password := v["password"].(string)
+        hostKey := v["host_key"].(string)
+        hostKeyAlgorithm := v["host_key_algorithm"].(string)
+        privateKey := v["private_key"].(string)
+        strictHostKeyChecking := v["strict_host_key_checking"].(bool)
+
+        result := appplatform.GitPatternRepository{
+            HostKey: utils.String(hostKey),
+            HostKeyAlgorithm: utils.String(hostKeyAlgorithm),
+            Label: utils.String(label),
+            Name: utils.String(name),
+            Password: utils.String(password),
+            Pattern: utils.ExpandStringSlice(pattern),
+            PrivateKey: utils.String(privateKey),
+            SearchPaths: utils.ExpandStringSlice(searchPaths),
+            StrictHostKeyChecking: utils.Bool(strictHostKeyChecking),
+            Uri: utils.String(uri),
+            Username: utils.String(username),
+        }
+
+        results = append(results, result)
+    }
+    return &results
 }
 
 
@@ -526,6 +623,7 @@ func flattenArmServiceConfigServerGitProperty(input *appplatform.ConfigServerGit
     if privateKey := input.PrivateKey; privateKey != nil {
         result["private_key"] = *privateKey
     }
+    result["repositories"] = flattenArmServiceGitPatternRepository(input.Repositories)
     result["search_paths"] = utils.FlattenStringSlice(input.SearchPaths)
     if strictHostKeyChecking := input.StrictHostKeyChecking; strictHostKeyChecking != nil {
         result["strict_host_key_checking"] = *strictHostKeyChecking
@@ -538,4 +636,49 @@ func flattenArmServiceConfigServerGitProperty(input *appplatform.ConfigServerGit
     }
 
     return []interface{}{result}
+}
+
+func flattenArmServiceGitPatternRepository(input *[]appplatform.GitPatternRepository) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if hostKey := item.HostKey; hostKey != nil {
+            v["host_key"] = *hostKey
+        }
+        if hostKeyAlgorithm := item.HostKeyAlgorithm; hostKeyAlgorithm != nil {
+            v["host_key_algorithm"] = *hostKeyAlgorithm
+        }
+        if label := item.Label; label != nil {
+            v["label"] = *label
+        }
+        if password := item.Password; password != nil {
+            v["password"] = *password
+        }
+        v["pattern"] = utils.FlattenStringSlice(item.Pattern)
+        if privateKey := item.PrivateKey; privateKey != nil {
+            v["private_key"] = *privateKey
+        }
+        v["search_paths"] = utils.FlattenStringSlice(item.SearchPaths)
+        if strictHostKeyChecking := item.StrictHostKeyChecking; strictHostKeyChecking != nil {
+            v["strict_host_key_checking"] = *strictHostKeyChecking
+        }
+        if uri := item.Uri; uri != nil {
+            v["uri"] = *uri
+        }
+        if username := item.Username; username != nil {
+            v["username"] = *username
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

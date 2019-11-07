@@ -28,13 +28,13 @@ Manage Azure Backend instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `backendid` - (Required) User identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
 * `host` - (Required) Host attribute of the backend. Host is a pure hostname without a port or suffix, for example backend.contoso.com. Must not be empty. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `skip_certificate_chain_validation` - (Optional) Flag indicating whether SSL certificate chain validation should be skipped when using self-signed certificates for this backend host. Changing this forces a new resource to be created.
 

@@ -31,6 +31,13 @@ func resourceArmRelationshipLink() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -85,13 +92,6 @@ func resourceArmRelationshipLink() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "relationship_link_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "relationship_name": {
@@ -172,15 +172,15 @@ func resourceArmRelationshipLinkCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).relationshipLinksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hubName := d.Get("hub_name").(string)
-    relationshipLinkName := d.Get("relationship_link_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, relationshipLinkName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -209,21 +209,21 @@ func resourceArmRelationshipLinkCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, relationshipLinkName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error creating Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, relationshipLinkName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q) ID", relationshipLinkName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Relationship Link %q (Hub Name %q / Resource Group %q) ID", name, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -240,19 +240,20 @@ func resourceArmRelationshipLinkRead(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    relationshipLinkName := id.Path["relationshipLinks"]
+    name := id.Path["relationshipLinks"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, relationshipLinkName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Relationship Link %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if relationshipLinkDefinition := resp.RelationshipLinkDefinition; relationshipLinkDefinition != nil {
@@ -275,7 +276,6 @@ func resourceArmRelationshipLinkRead(d *schema.ResourceData, meta interface{}) e
         d.Set("tenant_id", relationshipLinkDefinition.TenantID)
     }
     d.Set("hub_name", hubName)
-    d.Set("relationship_link_name", relationshipLinkName)
     d.Set("type", resp.Type)
 
     return nil
@@ -293,19 +293,19 @@ func resourceArmRelationshipLinkDelete(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    relationshipLinkName := id.Path["relationshipLinks"]
+    name := id.Path["relationshipLinks"]
 
-    future, err := client.Delete(ctx, resourceGroup, hubName, relationshipLinkName)
+    future, err := client.Delete(ctx, resourceGroup, hubName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Relationship Link (Relationship Link Name %q / Hub Name %q / Resource Group %q): %+v", relationshipLinkName, hubName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Relationship Link %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
         }
     }
 

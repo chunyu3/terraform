@@ -34,16 +34,16 @@ func testCheckAzureRMApplicationTypeExists(resourceName string) resource.TestChe
             return fmt.Errorf("Application Type not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationTypeName := rs.Primary.Attributes["application_type_name"]
         clusterName := rs.Primary.Attributes["cluster_name"]
 
         client := testAccProvider.Meta().(*ArmClient).applicationTypesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q) does not exist", applicationTypeName, clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Application Type %q (Cluster Name %q / Resource Group %q) does not exist", name, clusterName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on applicationTypesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMApplicationTypeDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationTypeName := rs.Primary.Attributes["application_type_name"]
         clusterName := rs.Primary.Attributes["cluster_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on applicationTypesClient: %+v", err)
             }

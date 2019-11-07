@@ -34,16 +34,16 @@ func testCheckAzureRMDisasterRecoveryConfigExists(resourceName string) resource.
             return fmt.Errorf("Disaster Recovery Config not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         alias := rs.Primary.Attributes["alias"]
-        namespaceName := rs.Primary.Attributes["namespace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).disasterRecoveryConfigsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, alias); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, alias); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Disaster Recovery Config (Alias %q / Namespace Name %q / Resource Group %q) does not exist", alias, namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Disaster Recovery Config %q (Alias %q / Resource Group %q) does not exist", name, alias, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on disasterRecoveryConfigsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMDisasterRecoveryConfigDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         alias := rs.Primary.Attributes["alias"]
-        namespaceName := rs.Primary.Attributes["namespace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, alias); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, alias); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on disasterRecoveryConfigsClient: %+v", err)
             }

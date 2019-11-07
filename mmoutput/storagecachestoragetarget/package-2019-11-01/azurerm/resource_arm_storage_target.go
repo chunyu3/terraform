@@ -31,19 +31,19 @@ func resourceArmStorageTarget() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "cache_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "storage_target_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -146,15 +146,15 @@ func resourceArmStorageTargetCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).storageTargetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     cacheName := d.Get("cache_name").(string)
-    storageTargetName := d.Get("storage_target_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, cacheName, storageTargetName)
+        existing, err := client.Get(ctx, resourceGroup, cacheName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -179,21 +179,21 @@ func resourceArmStorageTargetCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, cacheName, storageTargetName, storagetarget)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, cacheName, name, storagetarget)
     if err != nil {
-        return fmt.Errorf("Error creating Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error creating Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, cacheName, storageTargetName)
+    resp, err := client.Get(ctx, resourceGroup, cacheName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q) ID", storageTargetName, cacheName, resourceGroup)
+        return fmt.Errorf("Cannot read Storage Target %q (Cache Name %q / Resource Group %q) ID", name, cacheName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -210,19 +210,20 @@ func resourceArmStorageTargetRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.Path["resourcegroups"]
     cacheName := id.Path["caches"]
-    storageTargetName := id.Path["storageTargets"]
+    name := id.Path["storageTargets"]
 
-    resp, err := client.Get(ctx, resourceGroup, cacheName, storageTargetName)
+    resp, err := client.Get(ctx, resourceGroup, cacheName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Storage Target %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error reading Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_name", cacheName)
@@ -242,7 +243,6 @@ func resourceArmStorageTargetRead(d *schema.ResourceData, meta interface{}) erro
             return fmt.Errorf("Error setting `unknown`: %+v", err)
         }
     }
-    d.Set("storage_target_name", storageTargetName)
     d.Set("type", resp.Type)
 
     return nil
@@ -260,19 +260,19 @@ func resourceArmStorageTargetDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.Path["resourcegroups"]
     cacheName := id.Path["caches"]
-    storageTargetName := id.Path["storageTargets"]
+    name := id.Path["storageTargets"]
 
-    future, err := client.Delete(ctx, resourceGroup, cacheName, storageTargetName)
+    future, err := client.Delete(ctx, resourceGroup, cacheName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q): %+v", storageTargetName, cacheName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Storage Target %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
         }
     }
 

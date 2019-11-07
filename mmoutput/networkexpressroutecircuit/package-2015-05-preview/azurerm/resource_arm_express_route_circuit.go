@@ -31,19 +31,19 @@ func resourceArmExpressRouteCircuit() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "circuit_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "authorizations": {
                 Type: schema.TypeList,
@@ -309,14 +309,14 @@ func resourceArmExpressRouteCircuitCreateUpdate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).expressRouteCircuitsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    circuitName := d.Get("circuit_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, circuitName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -353,21 +353,21 @@ func resourceArmExpressRouteCircuitCreateUpdate(d *schema.ResourceData, meta int
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, circuitName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+        return fmt.Errorf("Error creating Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Express Route Circuit (Circuit Name %q / Resource Group %q) ID", circuitName, resourceGroup)
+        return fmt.Errorf("Cannot read Express Route Circuit %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -383,19 +383,20 @@ func resourceArmExpressRouteCircuitRead(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    circuitName := id.Path["expressRouteCircuits"]
+    name := id.Path["expressRouteCircuits"]
 
-    resp, err := client.Get(ctx, resourceGroup, circuitName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Express Route Circuit %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+        return fmt.Errorf("Error reading Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -417,7 +418,6 @@ func resourceArmExpressRouteCircuitRead(d *schema.ResourceData, meta interface{}
         }
         d.Set("service_provider_provisioning_state", string(expressRouteCircuitPropertiesFormat.ServiceProviderProvisioningState))
     }
-    d.Set("circuit_name", circuitName)
     d.Set("etag", resp.Etag)
     if err := d.Set("sku", flattenArmExpressRouteCircuitExpressRouteCircuitSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
@@ -438,19 +438,19 @@ func resourceArmExpressRouteCircuitDelete(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    circuitName := id.Path["expressRouteCircuits"]
+    name := id.Path["expressRouteCircuits"]
 
-    future, err := client.Delete(ctx, resourceGroup, circuitName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Express Route Circuit (Circuit Name %q / Resource Group %q): %+v", circuitName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Express Route Circuit %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

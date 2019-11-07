@@ -28,9 +28,9 @@ Manage Azure NetworkExperimentProfile instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
+* `name` - (Required) The Profile identifier associated with the Tenant and Partner Changing this forces a new resource to be created.
 
-* `profile_name` - (Required) The Profile identifier associated with the Tenant and Partner Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 

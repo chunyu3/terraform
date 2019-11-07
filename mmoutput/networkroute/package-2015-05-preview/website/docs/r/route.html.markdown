@@ -28,11 +28,11 @@ Manage Azure Route instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the route. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `next_hop_type` - (Required) Gets or sets the type of Azure hop the packet should be sent to.
-
-* `route_name` - (Required) The name of the route. Changing this forces a new resource to be created.
 
 * `route_table_name` - (Required) The name of the route table. Changing this forces a new resource to be created.
 

@@ -28,13 +28,13 @@ Manage Azure IdentityProvider instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Identity Provider Type identifier. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `client_id` - (Required) Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. Changing this forces a new resource to be created.
 
 * `client_secret` - (Required) Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. Changing this forces a new resource to be created.
-
-* `identity_provider_name` - (Required) Identity Provider Type identifier. Changing this forces a new resource to be created.
 
 * `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 

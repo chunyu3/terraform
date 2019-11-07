@@ -28,11 +28,11 @@ Manage Azure IotHubResource instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the IoT hub to create or update. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the IoT hub. Changing this forces a new resource to be created.
 
 * `location` - (Required) The resource location. Changing this forces a new resource to be created.
-
-* `resource_name` - (Required) The name of the IoT hub to create or update. Changing this forces a new resource to be created.
 
 * `resourcegroup` - (Required) The name of the resource group that contains the IoT hub. A resource group name uniquely identifies the resource group within the subscription. Changing this forces a new resource to be created.
 

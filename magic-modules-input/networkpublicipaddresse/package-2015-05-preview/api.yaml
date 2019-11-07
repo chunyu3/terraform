@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'publicIpAddressName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: publicIPAddresses
-            go_variable_name: publicIpAddressName
+            go_variable_name: name
             python_parameter_name: public_ip_address_name
-            python_variable_name: public_ip_address_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: PublicIpAddress
@@ -126,9 +126,9 @@ objects:
             python_variable_name: resource_group
           'publicIpAddressName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: publicIPAddresses
-            go_variable_name: publicIpAddressName
+            go_variable_name: name
             python_parameter_name: public_ip_address_name
-            python_variable_name: public_ip_address_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -140,9 +140,9 @@ objects:
             python_variable_name: resource_group
           'publicIpAddressName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: publicIPAddresses
-            go_variable_name: publicIpAddressName
+            go_variable_name: name
             python_parameter_name: public_ip_address_name
-            python_variable_name: public_ip_address_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -259,7 +259,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'publicIpAddressName'
+        name: 'name'
         description: 'The name of the publicIpAddress.'
         required: true
         input: true

@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedClusters
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ManagedCluster
@@ -308,12 +308,18 @@ objects:
           '/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: public_ipprefixes
+          '/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/networkProfile/loadBalancerProfile/outboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: outbound_ips
           '/networkProfile/loadBalancerProfile/outboundIPs/publicIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: public_ips
+          '/networkProfile/loadBalancerProfile/outboundIPs/publicIPs/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/networkProfile/loadBalancerProfile/effectiveOutboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: effective_outbound_ips
@@ -367,6 +373,9 @@ objects:
             applicable_to: [go]
             go_field_name: PublicIpprefixes
             go_type_name: ResourceReference
+          '/properties/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/networkProfile/loadBalancerProfile/outboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OutboundIps
@@ -375,6 +384,9 @@ objects:
             applicable_to: [go]
             go_field_name: PublicIps
             go_type_name: ResourceReference
+          '/properties/networkProfile/loadBalancerProfile/outboundIPs/publicIPs/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/networkProfile/loadBalancerProfile/effectiveOutboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: EffectiveOutboundIps
@@ -452,9 +464,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedClusters
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -466,9 +478,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedClusters
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -754,6 +766,9 @@ objects:
             applicable_to: [go]
             go_field_name: PublicIpprefixes
             go_type_name: ResourceReference
+          '/properties/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/networkProfile/loadBalancerProfile/outboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OutboundIps
@@ -762,6 +777,9 @@ objects:
             applicable_to: [go]
             go_field_name: PublicIps
             go_type_name: ResourceReference
+          '/properties/networkProfile/loadBalancerProfile/outboundIPs/publicIPs/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/networkProfile/loadBalancerProfile/effectiveOutboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: EffectiveOutboundIps
@@ -808,12 +826,18 @@ objects:
           '/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: public_ipprefixes
+          '/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/networkProfile/loadBalancerProfile/outboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: outbound_ips
           '/networkProfile/loadBalancerProfile/outboundIPs/publicIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: public_ips
+          '/networkProfile/loadBalancerProfile/outboundIPs/publicIPs/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/networkProfile/loadBalancerProfile/effectiveOutboundIPs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: effective_outbound_ips
@@ -935,7 +959,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'resourceName'
+        name: 'name'
         description: 'The name of the managed cluster resource.'
         required: true
         input: true
@@ -1404,12 +1428,36 @@ objects:
                 required: false
                 azure_sdk_references: ['/networkProfile/loadBalancerProfile/outboundIPPrefixes', '/properties/networkProfile/loadBalancerProfile/outboundIPPrefixes']
                 properties:
+                  - !ruby/object:Api::Type::Array
+                    name: 'publicIpprefixes'
+                    description: 'A list of public IP prefix resources.'
+                    required: false
+                    azure_sdk_references: ['/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes', '/properties/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'id'
+                          description: 'The fully qualified Azure resource id.'
+                          required: false
+                          azure_sdk_references: ['/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes/id', '/properties/networkProfile/loadBalancerProfile/outboundIPPrefixes/publicIPPrefixes/id']
               - !ruby/object:Api::Type::NestedObject
                 name: 'outboundIps'
                 description: 'Desired outbound IP resources for the cluster load balancer.'
                 required: false
                 azure_sdk_references: ['/networkProfile/loadBalancerProfile/outboundIPs', '/properties/networkProfile/loadBalancerProfile/outboundIPs']
                 properties:
+                  - !ruby/object:Api::Type::Array
+                    name: 'publicIps'
+                    description: 'A list of public IP resources.'
+                    required: false
+                    azure_sdk_references: ['/networkProfile/loadBalancerProfile/outboundIPs/publicIPs', '/properties/networkProfile/loadBalancerProfile/outboundIPs/publicIPs']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'id'
+                          description: 'The fully qualified Azure resource id.'
+                          required: false
+                          azure_sdk_references: ['/networkProfile/loadBalancerProfile/outboundIPs/publicIPs/id', '/properties/networkProfile/loadBalancerProfile/outboundIPs/publicIPs/id']
               - !ruby/object:Api::Type::Array
                 name: 'effectiveOutboundIps'
                 description: 'The effective outbound IP resources of the cluster load balancer.'

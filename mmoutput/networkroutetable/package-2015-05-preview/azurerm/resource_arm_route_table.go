@@ -31,19 +31,19 @@ func resourceArmRouteTable() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "route_table_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "etag": {
                 Type: schema.TypeString,
@@ -123,14 +123,14 @@ func resourceArmRouteTableCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).routeTablesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    routeTableName := d.Get("route_table_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, routeTableName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -155,21 +155,21 @@ func resourceArmRouteTableCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, routeTableName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error creating Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, routeTableName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Route Table (Route Table Name %q / Resource Group %q) ID", routeTableName, resourceGroup)
+        return fmt.Errorf("Cannot read Route Table %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -185,19 +185,20 @@ func resourceArmRouteTableRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    routeTableName := id.Path["routeTables"]
+    name := id.Path["routeTables"]
 
-    resp, err := client.Get(ctx, resourceGroup, routeTableName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Route Table %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error reading Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -213,7 +214,6 @@ func resourceArmRouteTableRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `subnets`: %+v", err)
         }
     }
-    d.Set("route_table_name", routeTableName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -230,19 +230,19 @@ func resourceArmRouteTableDelete(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    routeTableName := id.Path["routeTables"]
+    name := id.Path["routeTables"]
 
-    future, err := client.Delete(ctx, resourceGroup, routeTableName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Route Table (Route Table Name %q / Resource Group %q): %+v", routeTableName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Route Table %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

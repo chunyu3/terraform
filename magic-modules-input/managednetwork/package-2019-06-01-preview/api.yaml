@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworks
-            go_variable_name: managedNetworkName
+            go_variable_name: name
             python_parameter_name: managed_network_name
-            python_variable_name: managed_network_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: managedNetwork
             go_type_name: 
@@ -43,72 +43,42 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties
-          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties_scope
-          '/scope/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_management_groups
-          '/scope/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_groups_id
-          '/scope/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_subscriptions
-          '/scope/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscriptions_id
-          '/scope/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_virtual_networks
-          '/scope/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: virtual_networks_id
-          '/scope/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_subnets
-          '/scope/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnets_id
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Properties
             go_type_name: Properties
           '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertiesScope
+            go_field_name: Scope
             go_type_name: Scope
           '/properties/scope/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeManagementGroups
+            go_field_name: Scopescope_management_groups
             go_type_name: ResourceId
-          '/properties/scope/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: ManagementGroupsID
+            go_field_name: Scopescope_management_groups
           '/properties/scope/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeSubscriptions
+            go_field_name: Scopescope_subscriptions
             go_type_name: ResourceId
-          '/properties/scope/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: SubscriptionsID
+            go_field_name: Scopescope_subscriptions
           '/properties/scope/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeVirtualNetworks
+            go_field_name: Scopescope_virtual_networks
             go_type_name: ResourceId
-          '/properties/scope/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: VirtualNetworksID
+            go_field_name: Scopescope_virtual_networks
           '/properties/scope/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeSubnets
+            go_field_name: Scopescope_subnets
             go_type_name: ResourceId
-          '/properties/scope/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: SubnetsID
+            go_field_name: Scopescope_subnets
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -121,9 +91,9 @@ objects:
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworks
-            go_variable_name: managedNetworkName
+            go_variable_name: name
             python_parameter_name: managed_network_name
-            python_variable_name: managed_network_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -136,9 +106,9 @@ objects:
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworks
-            go_variable_name: managedNetworkName
+            go_variable_name: name
             python_parameter_name: managed_network_name
-            python_variable_name: managed_network_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -150,9 +120,9 @@ objects:
             python_variable_name: resource_group
           'managedNetworkName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedNetworks
-            go_variable_name: managedNetworkName
+            go_variable_name: name
             python_parameter_name: managed_network_name
-            python_variable_name: managed_network_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -166,86 +136,164 @@ objects:
             go_type_name: Properties
           '/properties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertiesScope
+            go_field_name: Scope
             go_type_name: Scope
           '/properties/scope/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeManagementGroups
+            go_field_name: Scopescope_management_groups
             go_type_name: ResourceId
-          '/properties/scope/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: ManagementGroupsID
+            go_field_name: Scopescope_management_groups
           '/properties/scope/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeSubscriptions
+            go_field_name: Scopescope_subscriptions
             go_type_name: ResourceId
-          '/properties/scope/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: SubscriptionsID
+            go_field_name: Scopescope_subscriptions
           '/properties/scope/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeVirtualNetworks
+            go_field_name: Scopescope_virtual_networks
             go_type_name: ResourceId
-          '/properties/scope/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: VirtualNetworksID
+            go_field_name: Scopescope_virtual_networks
           '/properties/scope/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
-            go_field_name: ScopeSubnets
+            go_field_name: Scopescope_subnets
             go_type_name: ResourceId
-          '/properties/scope/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/scope/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
-            go_field_name: SubnetsID
+            go_field_name: Scopescope_subnets
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: PropertiesProvisioningState
+            go_field_name: ProvisioningState
             go_enum_type_name: ProvisioningState
           '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: PropertiesEtag
+            go_field_name: Etag
           '/properties/connectivity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertiesConnectivity
+            go_field_name: Connectivity
             go_type_name: ConnectivityCollection
-          '': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+          '/properties/connectivity/groups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Connectivityconnectivity_groups
+            go_type_name: Group
+          '/properties/connectivity/groups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/connectivity/groups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/connectivity/groups/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/connectivity/groups/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/connectivity/groups/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GroupProperties
+            go_type_name: GroupProperties
+          '/properties/connectivity/groups/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_provisioning_state
+            go_enum_type_name: ProvisioningState
+          '/properties/connectivity/groups/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_etag
+          '/properties/connectivity/groups/properties/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_management_groups
+            go_type_name: ResourceId
+          '/properties/connectivity/groups/properties/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_management_groups
+          '/properties/connectivity/groups/properties/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_subscriptions
+            go_type_name: ResourceId
+          '/properties/connectivity/groups/properties/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_subscriptions
+          '/properties/connectivity/groups/properties/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_virtual_networks
+            go_type_name: ResourceId
+          '/properties/connectivity/groups/properties/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_virtual_networks
+          '/properties/connectivity/groups/properties/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_subnets
+            go_type_name: ResourceId
+          '/properties/connectivity/groups/properties/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_subnets
+          '/properties/connectivity/groups/kind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Kind
+            go_enum_type_name: Kind
+          '/connectivity/groups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
-            python_field_name: properties
-          '/scope': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            python_field_name: groups
+          '/properties/connectivity/peerings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Connectivityconnectivity_peerings
+            go_type_name: PeeringPolicy
+          '/properties/connectivity/peerings/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/connectivity/peerings/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/connectivity/peerings/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/connectivity/peerings/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/connectivity/peerings/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PeeringPolicyProperties
+            go_type_name: PeeringPolicyProperties
+          '/properties/connectivity/peerings/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_provisioning_state
+            go_enum_type_name: ProvisioningState
+          '/properties/connectivity/peerings/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_etag
+          '/properties/connectivity/peerings/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_type
+            go_enum_type_name: Type
+          '/properties/connectivity/peerings/properties/hub': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_hub
+            go_type_name: ResourceId
+          '/properties/connectivity/peerings/properties/hub/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_hub_id
+          '/properties/connectivity/peerings/properties/spokes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_spokes
+            go_type_name: ResourceId
+          '/properties/connectivity/peerings/properties/spokes/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_spokes
+          '/properties/connectivity/peerings/properties/mesh': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_mesh
+            go_type_name: ResourceId
+          '/properties/connectivity/peerings/properties/mesh/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Propertiesproperties_mesh
+          '/connectivity/peerings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
-            python_field_name: properties_scope
-          '/scope/managementGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_management_groups
-          '/scope/managementGroups/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_groups_id
-          '/scope/subscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_subscriptions
-          '/scope/subscriptions/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subscriptions_id
-          '/scope/virtualNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_virtual_networks
-          '/scope/virtualNetworks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: virtual_networks_id
-          '/scope/subnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: scope_subnets
-          '/scope/subnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnets_id
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: properties_provisioning_state
-          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: properties_etag
-          '/connectivity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: properties_connectivity
+            python_field_name: peerings
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -272,78 +320,6 @@ objects:
     description: |
       Manage Azure ManagedNetwork instance.
     properties:
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'The geo-location where the resource lives'
-        required: false
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
-        description: 'Resource tags'
-        required: false
-        input: true
-        azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'properties'
-        description: 'The MNC properties'
-        required: false
-        azure_sdk_references: ['', '/properties']
-        properties:
-          - !ruby/object:Api::Type::NestedObject
-            name: 'propertiesScope'
-            description: 'The collection of management groups, subscriptions, virtual networks, and subnets by the Managed Network. This is a read-only property that is reflective of all ScopeAssignments for this Managed Network'
-            required: false
-            azure_sdk_references: ['/scope', '/properties/scope']
-            properties:
-              - !ruby/object:Api::Type::Array
-                name: 'scopeManagementGroups'
-                description: 'The collection of management groups covered by the Managed Network'
-                required: false
-                azure_sdk_references: ['/scope/managementGroups', '/properties/scope/managementGroups']
-                item_type: !ruby/object:Api::Type::NestedObject
-                  properties:
-                    - !ruby/object:Api::Type::String
-                      name: 'managementGroupsId'
-                      description: 'Resource Id'
-                      required: false
-                      azure_sdk_references: ['/scope/managementGroups/id', '/properties/scope/managementGroups/id']
-              - !ruby/object:Api::Type::Array
-                name: 'scopeSubscriptions'
-                description: 'The collection of subscriptions covered by the Managed Network'
-                required: false
-                azure_sdk_references: ['/scope/subscriptions', '/properties/scope/subscriptions']
-                item_type: !ruby/object:Api::Type::NestedObject
-                  properties:
-                    - !ruby/object:Api::Type::String
-                      name: 'subscriptionsId'
-                      description: 'Resource Id'
-                      required: false
-                      azure_sdk_references: ['/scope/subscriptions/id', '/properties/scope/subscriptions/id']
-              - !ruby/object:Api::Type::Array
-                name: 'scopeVirtualNetworks'
-                description: 'The collection of virtual nets covered by the Managed Network'
-                required: false
-                azure_sdk_references: ['/scope/virtualNetworks', '/properties/scope/virtualNetworks']
-                item_type: !ruby/object:Api::Type::NestedObject
-                  properties:
-                    - !ruby/object:Api::Type::String
-                      name: 'virtualNetworksId'
-                      description: 'Resource Id'
-                      required: false
-                      azure_sdk_references: ['/scope/virtualNetworks/id', '/properties/scope/virtualNetworks/id']
-              - !ruby/object:Api::Type::Array
-                name: 'scopeSubnets'
-                description: 'The collection of  subnets covered by the Managed Network'
-                required: false
-                azure_sdk_references: ['/scope/subnets', '/properties/scope/subnets']
-                item_type: !ruby/object:Api::Type::NestedObject
-                  properties:
-                    - !ruby/object:Api::Type::String
-                      name: 'subnetsId'
-                      description: 'Resource Id'
-                      required: false
-                      azure_sdk_references: ['/scope/subnets/id', '/properties/scope/subnets/id']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group.'
@@ -351,24 +327,23 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'managedNetworkName'
+        name: 'name'
         description: 'The name of the Managed Network.'
         required: true
         input: true
         azure_sdk_references: ['managedNetworkName']
       # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+      - !ruby/object:Api::Type::Array
+        name: 'connectivityGroups'
+        description: 'The collection of connectivity related Managed Network Groups within the Managed Network'
         output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the resource'
+        azure_sdk_references: ['/connectivity/groups', '/properties/connectivity/groups']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'connectivityPeerings'
+        description: 'The collection of Managed Network Peering Policies within the Managed Network'
         output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
-        output: true
-        azure_sdk_references: ['/type']
+        azure_sdk_references: ['/connectivity/peerings', '/properties/connectivity/peerings']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

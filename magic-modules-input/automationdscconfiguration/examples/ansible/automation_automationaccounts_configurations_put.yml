@@ -5,7 +5,7 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     resource_group: myResourceGroup
     automation_account_name: myAutomationAccount
-    configuration_name: myConfiguration
+    name: SetupServer
     source:
       hash:
         algorithm: sha256
@@ -13,6 +13,5 @@ task: !ruby/object:Provider::Ansible::Task
       type: embeddedContent
       value: "Configuration SetupServer {\r\n    Node localhost {\r\n                               WindowsFeature IIS {\r\n                               Name = \"Web-Server\";\r\n            Ensure = \"Present\"\r\n        }\r\n    }\r\n}"
     description: sample configuration
-    name: SetupServer
     location: East US 2
   

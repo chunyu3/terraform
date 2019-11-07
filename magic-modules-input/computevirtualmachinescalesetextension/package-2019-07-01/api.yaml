@@ -35,9 +35,9 @@ objects:
             python_variable_name: vm_scale_set_name
           'vmssExtensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: extensions
-            go_variable_name: vmssExtensionName
+            go_variable_name: name
             python_parameter_name: vmss_extension_name
-            python_variable_name: vmss_extension_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: extensionParameters
             go_type_name: VirtualMachineScaleSetExtension
@@ -115,9 +115,9 @@ objects:
             python_variable_name: vm_scale_set_name
           'vmssExtensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: extensions
-            go_variable_name: vmssExtensionName
+            go_variable_name: name
             python_parameter_name: vmss_extension_name
-            python_variable_name: vmss_extension_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -134,9 +134,9 @@ objects:
             python_variable_name: vm_scale_set_name
           'vmssExtensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: extensions
-            go_variable_name: vmssExtensionName
+            go_variable_name: name
             python_parameter_name: vmss_extension_name
-            python_variable_name: vmss_extension_name
+            python_variable_name: name
         response:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
@@ -233,7 +233,7 @@ objects:
         input: true
         azure_sdk_references: ['vmScaleSetName']
       - !ruby/object:Api::Type::String
-        name: 'vmssExtensionName'
+        name: 'name'
         description: 'The name of the VM scale set extension.'
         required: true
         input: true

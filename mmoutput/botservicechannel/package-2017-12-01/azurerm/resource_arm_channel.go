@@ -31,19 +31,19 @@ func resourceArmChannel() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "channel_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "resource_name": {
                 Type: schema.TypeString,
@@ -103,15 +103,15 @@ func resourceArmChannelCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).channelsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    channelName := d.Get("channel_name").(string)
     resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName, channelName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Channel (Channel Name %q / Resource Name %q / Resource Group %q): %+v", channelName, resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Channel %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -134,17 +134,17 @@ func resourceArmChannelCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, resourceName, channelName, parameters); err != nil {
-        return fmt.Errorf("Error creating Channel (Channel Name %q / Resource Name %q / Resource Group %q): %+v", channelName, resourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, resourceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Channel %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName, channelName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Channel (Channel Name %q / Resource Name %q / Resource Group %q): %+v", channelName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Channel %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Channel (Channel Name %q / Resource Name %q / Resource Group %q) ID", channelName, resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Channel %q (Resource Name %q / Resource Group %q) ID", name, resourceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -161,25 +161,25 @@ func resourceArmChannelRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     resourceName := id.Path["botServices"]
-    channelName := id.Path["channels"]
+    name := id.Path["channels"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName, channelName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Channel %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Channel (Channel Name %q / Resource Name %q / Resource Group %q): %+v", channelName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Channel %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("channel_name", channelName)
     d.Set("etag", resp.Etag)
     d.Set("kind", string(resp.Kind))
     d.Set("resource_name", resourceName)
@@ -195,8 +195,8 @@ func resourceArmChannelUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).channelsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    channelName := d.Get("channel_name").(string)
     etag := d.Get("etag").(string)
     kind := d.Get("kind").(string)
     resourceName := d.Get("resource_name").(string)
@@ -212,8 +212,8 @@ func resourceArmChannelUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, resourceName, channelName, parameters); err != nil {
-        return fmt.Errorf("Error updating Channel (Channel Name %q / Resource Name %q / Resource Group %q): %+v", channelName, resourceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, resourceName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Channel %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
     return resourceArmChannelRead(d, meta)
@@ -230,10 +230,10 @@ func resourceArmChannelDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     resourceName := id.Path["botServices"]
-    channelName := id.Path["channels"]
+    name := id.Path["channels"]
 
-    if _, err := client.Delete(ctx, resourceGroup, resourceName, channelName); err != nil {
-        return fmt.Errorf("Error deleting Channel (Channel Name %q / Resource Name %q / Resource Group %q): %+v", channelName, resourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, resourceName, name); err != nil {
+        return fmt.Errorf("Error deleting Channel %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
     return nil

@@ -31,6 +31,13 @@ func resourceArmDataConnection() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmDataConnection() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "cluster_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "data_connection_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -71,16 +71,16 @@ func resourceArmDataConnectionCreate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).dataConnectionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
-    dataConnectionName := d.Get("data_connection_name").(string)
     databaseName := d.Get("database_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, databaseName, dataConnectionName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -95,21 +95,21 @@ func resourceArmDataConnectionCreate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, databaseName, dataConnectionName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, databaseName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, dataConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q) ID", dataConnectionName, databaseName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q) ID", name, databaseName, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -127,26 +127,26 @@ func resourceArmDataConnectionRead(d *schema.ResourceData, meta interface{}) err
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
     databaseName := id.Path["databases"]
-    dataConnectionName := id.Path["dataConnections"]
+    name := id.Path["dataConnections"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, dataConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Data Connection %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("cluster_name", clusterName)
-    d.Set("data_connection_name", dataConnectionName)
     d.Set("database_name", databaseName)
     d.Set("type", resp.Type)
 
@@ -157,9 +157,9 @@ func resourceArmDataConnectionUpdate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).dataConnectionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
-    dataConnectionName := d.Get("data_connection_name").(string)
     databaseName := d.Get("database_name").(string)
 
     parameters := kusto.DataConnection{
@@ -167,12 +167,12 @@ func resourceArmDataConnectionUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, databaseName, dataConnectionName, parameters)
+    future, err := client.Update(ctx, resourceGroup, clusterName, databaseName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
     return resourceArmDataConnectionRead(d, meta)
@@ -190,19 +190,19 @@ func resourceArmDataConnectionDelete(d *schema.ResourceData, meta interface{}) e
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
     databaseName := id.Path["databases"]
-    dataConnectionName := id.Path["dataConnections"]
+    name := id.Path["dataConnections"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, databaseName, dataConnectionName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, databaseName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Data Connection (Data Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", dataConnectionName, databaseName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Data Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
         }
     }
 

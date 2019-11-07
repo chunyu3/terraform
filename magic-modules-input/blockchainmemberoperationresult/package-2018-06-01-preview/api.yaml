@@ -1,0 +1,76 @@
+--- !ruby/object:Api::Product
+name: Azure BlockchainMemberOperationResult Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BlockchainMemberOperationResult
+    api_name: Blockchain
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Blockchain
+      go_client_namespace: blockchain
+      go_client: blockchainMemberOperationResultsClient
+      python_client_namespace: azure.mgmt.blockchain
+      python_client: BlockchainManagementClient.blockchain_member_operation_results
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: name
+            python_parameter_name: location_name
+            python_variable_name: name
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blockchainMemberOperationResults
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
+        response:
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: StartTime
+            python_field_name: start_time
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EndTime
+            python_field_name: end_time
+
+    description: |
+      Manage Azure BlockchainMemberOperationResult instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Location name.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationName']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'Operation Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets the operation name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Gets or sets the operation start time.'
+        output: true
+        azure_sdk_references: ['/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'Gets or sets the operation end time.'
+        output: true
+        azure_sdk_references: ['/endTime']

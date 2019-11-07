@@ -28,6 +28,8 @@ Manage Azure Certificate instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `certificate_id` - (Required) Identifier of the certificate entity. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `data` - (Required) Base 64 encoded certificate using the application/x-pkcs12 representation.
 
 * `password` - (Required) Password for the Certificate
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

@@ -23,21 +23,21 @@ objects:
         go_func_name: Create
         python_func_name: create
         request:
-          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: endpoints
-            go_variable_name: endpointName
-            python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
+          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: endpoints
+            go_variable_name: endpointName
+            python_parameter_name: endpoint_name
+            python_variable_name: endpoint_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: endpointProperties
             go_type_name: EndpointCreateParameters
@@ -136,21 +136,21 @@ objects:
         go_func_name: Update
         python_func_name: update
         request:
-          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: endpoints
-            go_variable_name: endpointName
-            python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
+          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: endpoints
+            go_variable_name: endpointName
+            python_parameter_name: endpoint_name
+            python_variable_name: endpoint_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: endpointProperties
             go_type_name: EndpointCreateParameters
@@ -248,21 +248,21 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
-          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: endpoints
-            go_variable_name: endpointName
-            python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
+          'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: endpoints
+            go_variable_name: endpointName
+            python_parameter_name: endpoint_name
+            python_variable_name: endpoint_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -385,16 +385,16 @@ objects:
         go_func_name: ListByProfile
         python_func_name: list_by_profile
         request:
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
 
     description: |
       Manage Azure Endpoint instance.
@@ -487,7 +487,7 @@ objects:
               required: false
               azure_sdk_references: ['/origins/httpsPort', '/properties/origins/properties/httpsPort']
       - !ruby/object:Api::Type::String
-        name: 'profileName'
+        name: 'name'
         description: 'Name of the CDN profile within the resource group.'
         required: true
         input: true

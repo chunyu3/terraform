@@ -31,6 +31,13 @@ func resourceArmEventHubConnection() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -52,13 +59,6 @@ func resourceArmEventHubConnection() *schema.Resource {
             },
 
             "database_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "event_hub_connection_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -104,16 +104,16 @@ func resourceArmEventHubConnectionCreate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).eventHubConnectionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
     databaseName := d.Get("database_name").(string)
-    eventHubConnectionName := d.Get("event_hub_connection_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -140,21 +140,21 @@ func resourceArmEventHubConnectionCreate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, databaseName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q) ID", eventHubConnectionName, databaseName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q) ID", name, databaseName, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -172,19 +172,20 @@ func resourceArmEventHubConnectionRead(d *schema.ResourceData, meta interface{})
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
     databaseName := id.Path["databases"]
-    eventHubConnectionName := id.Path["eventhubconnections"]
+    name := id.Path["eventhubconnections"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Event Hub Connection %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -199,7 +200,6 @@ func resourceArmEventHubConnectionRead(d *schema.ResourceData, meta interface{})
         d.Set("table_name", eventHubConnectionProperties.TableName)
     }
     d.Set("database_name", databaseName)
-    d.Set("event_hub_connection_name", eventHubConnectionName)
     d.Set("type", resp.Type)
 
     return nil
@@ -209,12 +209,12 @@ func resourceArmEventHubConnectionUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).eventHubConnectionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
     consumerGroup := d.Get("consumer_group").(string)
     dataFormat := d.Get("data_format").(string)
     databaseName := d.Get("database_name").(string)
-    eventHubConnectionName := d.Get("event_hub_connection_name").(string)
     eventHubResourceId := d.Get("event_hub_resource_id").(string)
     mappingRuleName := d.Get("mapping_rule_name").(string)
     tableName := d.Get("table_name").(string)
@@ -231,12 +231,12 @@ func resourceArmEventHubConnectionUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName, parameters)
+    future, err := client.Update(ctx, resourceGroup, clusterName, databaseName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
     return resourceArmEventHubConnectionRead(d, meta)
@@ -254,19 +254,19 @@ func resourceArmEventHubConnectionDelete(d *schema.ResourceData, meta interface{
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
     databaseName := id.Path["databases"]
-    eventHubConnectionName := id.Path["eventhubconnections"]
+    name := id.Path["eventhubconnections"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, databaseName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q): %+v", eventHubConnectionName, databaseName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q): %+v", name, databaseName, clusterName, resourceGroup, err)
         }
     }
 

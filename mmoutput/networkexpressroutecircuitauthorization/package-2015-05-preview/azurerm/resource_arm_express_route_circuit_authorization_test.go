@@ -34,16 +34,16 @@ func testCheckAzureRMExpressRouteCircuitAuthorizationExists(resourceName string)
             return fmt.Errorf("Express Route Circuit Authorization not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        authorizationName := rs.Primary.Attributes["authorization_name"]
         circuitName := rs.Primary.Attributes["circuit_name"]
 
         client := testAccProvider.Meta().(*ArmClient).expressRouteCircuitAuthorizationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, circuitName, authorizationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, circuitName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Express Route Circuit Authorization (Authorization Name %q / Circuit Name %q / Resource Group %q) does not exist", authorizationName, circuitName, resourceGroup)
+                return fmt.Errorf("Bad: Express Route Circuit Authorization %q (Circuit Name %q / Resource Group %q) does not exist", name, circuitName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on expressRouteCircuitAuthorizationsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMExpressRouteCircuitAuthorizationDestroy(s *terraform.State)
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        authorizationName := rs.Primary.Attributes["authorization_name"]
         circuitName := rs.Primary.Attributes["circuit_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, circuitName, authorizationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, circuitName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on expressRouteCircuitAuthorizationsClient: %+v", err)
             }

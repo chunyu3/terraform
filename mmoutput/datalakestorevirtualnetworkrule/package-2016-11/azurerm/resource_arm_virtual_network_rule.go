@@ -31,6 +31,13 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -49,13 +56,6 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "virtual_network_rule_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -68,15 +68,15 @@ func resourceArmVirtualNetworkRuleCreate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).virtualNetworkRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    virtualNetworkRuleName := d.Get("virtual_network_rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, virtualNetworkRuleName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q): %+v", virtualNetworkRuleName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network Rule %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -93,17 +93,17 @@ func resourceArmVirtualNetworkRuleCreate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, virtualNetworkRuleName, parameters); err != nil {
-        return fmt.Errorf("Error creating Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q): %+v", virtualNetworkRuleName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Virtual Network Rule %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, virtualNetworkRuleName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q): %+v", virtualNetworkRuleName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network Rule %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q) ID", virtualNetworkRuleName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network Rule %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -120,19 +120,20 @@ func resourceArmVirtualNetworkRuleRead(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    virtualNetworkRuleName := id.Path["virtualNetworkRules"]
+    name := id.Path["virtualNetworkRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, virtualNetworkRuleName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q): %+v", virtualNetworkRuleName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network Rule %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -140,7 +141,6 @@ func resourceArmVirtualNetworkRuleRead(d *schema.ResourceData, meta interface{})
         d.Set("subnet_id", createOrUpdateVirtualNetworkRuleProperties.SubnetID)
     }
     d.Set("type", resp.Type)
-    d.Set("virtual_network_rule_name", virtualNetworkRuleName)
 
     return nil
 }
@@ -149,10 +149,10 @@ func resourceArmVirtualNetworkRuleUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).virtualNetworkRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     subnetId := d.Get("subnet_id").(string)
-    virtualNetworkRuleName := d.Get("virtual_network_rule_name").(string)
 
     parameters := datalakestore.CreateOrUpdateVirtualNetworkRuleParameters{
         CreateOrUpdateVirtualNetworkRuleProperties: &datalakestore.CreateOrUpdateVirtualNetworkRuleProperties{
@@ -161,8 +161,8 @@ func resourceArmVirtualNetworkRuleUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, virtualNetworkRuleName, parameters); err != nil {
-        return fmt.Errorf("Error updating Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q): %+v", virtualNetworkRuleName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Virtual Network Rule %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmVirtualNetworkRuleRead(d, meta)
@@ -179,10 +179,10 @@ func resourceArmVirtualNetworkRuleDelete(d *schema.ResourceData, meta interface{
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    virtualNetworkRuleName := id.Path["virtualNetworkRules"]
+    name := id.Path["virtualNetworkRules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, virtualNetworkRuleName); err != nil {
-        return fmt.Errorf("Error deleting Virtual Network Rule (Virtual Network Rule Name %q / Account Name %q / Resource Group %q): %+v", virtualNetworkRuleName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Virtual Network Rule %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

@@ -31,6 +31,13 @@ func resourceArmSnapshot() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -95,13 +102,6 @@ func resourceArmSnapshot() *schema.Resource {
                 },
             },
 
-            "snapshot_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "disk_size_gb": {
                 Type: schema.TypeInt,
                 Optional: true,
@@ -133,6 +133,19 @@ func resourceArmSnapshot() *schema.Resource {
                                                     Required: true,
                                                     ValidateFunc: validate.NoEmptyStrings,
                                                 },
+                                                "source_vault": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "id": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -146,6 +159,19 @@ func resourceArmSnapshot() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Required: true,
                                                     ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "source_vault": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "id": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
                                                 },
                                             },
                                         },
@@ -245,14 +271,14 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).snapshotsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    snapshotName := d.Get("snapshot_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, snapshotName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -285,21 +311,21 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, snapshotName, snapshot)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, snapshot)
     if err != nil {
-        return fmt.Errorf("Error creating Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error creating Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, snapshotName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Snapshot (Snapshot Name %q / Resource Group %q) ID", snapshotName, resourceGroup)
+        return fmt.Errorf("Cannot read Snapshot %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -315,19 +341,20 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    snapshotName := id.Path["snapshots"]
+    name := id.Path["snapshots"]
 
-    resp, err := client.Get(ctx, resourceGroup, snapshotName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Snapshot %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error reading Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -353,7 +380,6 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
     if err := d.Set("sku", flattenArmSnapshotSnapshotSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
-    d.Set("snapshot_name", snapshotName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -363,6 +389,7 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).snapshotsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     creationData := d.Get("creation_data").([]interface{})
     diskSizeGb := d.Get("disk_size_gb").(int)
@@ -371,7 +398,6 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     incremental := d.Get("incremental").(bool)
     osType := d.Get("os_type").(string)
     sku := d.Get("sku").([]interface{})
-    snapshotName := d.Get("snapshot_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     snapshot := compute.Snapshot{
@@ -389,12 +415,12 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, snapshotName, snapshot)
+    future, err := client.Update(ctx, resourceGroup, name, snapshot)
     if err != nil {
-        return fmt.Errorf("Error updating Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error updating Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmSnapshotRead(d, meta)
@@ -410,19 +436,19 @@ func resourceArmSnapshotDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    snapshotName := id.Path["snapshots"]
+    name := id.Path["snapshots"]
 
-    future, err := client.Delete(ctx, resourceGroup, snapshotName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Snapshot (Snapshot Name %q / Resource Group %q): %+v", snapshotName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Snapshot %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 
@@ -524,10 +550,12 @@ func expandArmSnapshotKeyVaultAndSecretReference(input []interface{}) *compute.K
     }
     v := input[0].(map[string]interface{})
 
+    sourceVault := v["source_vault"].([]interface{})
     secretUrl := v["secret_url"].(string)
 
     result := compute.KeyVaultAndSecretReference{
         SecretURL: utils.String(secretUrl),
+        SourceVault: expandArmSnapshotSourceVault(sourceVault),
     }
     return &result
 }
@@ -538,10 +566,26 @@ func expandArmSnapshotKeyVaultAndKeyReference(input []interface{}) *compute.KeyV
     }
     v := input[0].(map[string]interface{})
 
+    sourceVault := v["source_vault"].([]interface{})
     keyUrl := v["key_url"].(string)
 
     result := compute.KeyVaultAndKeyReference{
         KeyURL: utils.String(keyUrl),
+        SourceVault: expandArmSnapshotSourceVault(sourceVault),
+    }
+    return &result
+}
+
+func expandArmSnapshotSourceVault(input []interface{}) *compute.SourceVault {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    id := v["id"].(string)
+
+    result := compute.SourceVault{
+        ID: utils.String(id),
     }
     return &result
 }
@@ -647,6 +691,7 @@ func flattenArmSnapshotKeyVaultAndSecretReference(input *compute.KeyVaultAndSecr
     if secretUrl := input.SecretURL; secretUrl != nil {
         result["secret_url"] = *secretUrl
     }
+    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
 
     return []interface{}{result}
 }
@@ -660,6 +705,21 @@ func flattenArmSnapshotKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyRefe
 
     if keyUrl := input.KeyURL; keyUrl != nil {
         result["key_url"] = *keyUrl
+    }
+    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotSourceVault(input *compute.SourceVault) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
     }
 
     return []interface{}{result}

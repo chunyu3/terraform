@@ -28,11 +28,11 @@ Manage Azure Job instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Job name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
-
-* `job_name` - (Required) The Job name. Changing this forces a new resource to be created.
 
 * `outputs` - (Required) One or more `output` block defined below.
 

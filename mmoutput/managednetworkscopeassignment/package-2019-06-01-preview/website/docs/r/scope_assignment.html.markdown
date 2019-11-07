@@ -28,26 +28,10 @@ Manage Azure ScopeAssignment instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the scope assignment to create. Changing this forces a new resource to be created.
+
 * `scope` - (Required) The base resource of the scope assignment to create. The scope can be any REST resource instance. For example, use 'subscriptions/{subscription-id}' for a subscription, 'subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and 'subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource. Changing this forces a new resource to be created.
-
-* `scope_assignment_name` - (Required) The name of the scope assignment to create. Changing this forces a new resource to be created.
-
-* `location` - (Optional) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `properties` - (Optional) One `property` block defined below.
-
----
-
-The `property` block supports the following:
-
-* `properties_assigned_managed_network` - (Optional) The managed network ID with scope will be assigned to.
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-
-* `name` - The name of the resource
-
-* `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.

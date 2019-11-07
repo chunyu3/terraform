@@ -35,9 +35,9 @@ objects:
             python_variable_name: registry_name
           'replicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replications
-            go_variable_name: replicationName
+            go_variable_name: name
             python_parameter_name: replication_name
-            python_variable_name: replication_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: replication
             go_type_name: Replication
@@ -70,9 +70,9 @@ objects:
             python_variable_name: registry_name
           'replicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replications
-            go_variable_name: replicationName
+            go_variable_name: name
             python_parameter_name: replication_name
-            python_variable_name: replication_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -90,9 +90,9 @@ objects:
             python_variable_name: registry_name
           'replicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replications
-            go_variable_name: replicationName
+            go_variable_name: name
             python_parameter_name: replication_name
-            python_variable_name: replication_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -109,9 +109,9 @@ objects:
             python_variable_name: registry_name
           'replicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: replications
-            go_variable_name: replicationName
+            go_variable_name: name
             python_parameter_name: replication_name
-            python_variable_name: replication_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -134,9 +134,27 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_type_name: Status
+          '/properties/status/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayStatus
+          '/properties/status/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Timestamp
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: status
+          '/status/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_status
+          '/status/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: timestamp
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -177,7 +195,7 @@ objects:
         input: true
         azure_sdk_references: ['registryName']
       - !ruby/object:Api::Type::String
-        name: 'replicationName'
+        name: 'name'
         description: 'The name of the replication.'
         required: true
         input: true
@@ -213,21 +231,6 @@ objects:
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'displayStatus'
-            description: 'The short label for the status.'
-            required: false
-            azure_sdk_references: ['/status/displayStatus', '/properties/status/displayStatus']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The detailed message for the status, including alerts and error messages.'
-            required: false
-            azure_sdk_references: ['/status/message', '/properties/status/message']
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'timestamp'
-            description: 'The timestamp when the status was changed to the current value.'
-            required: false
-            azure_sdk_references: ['/status/timestamp', '/properties/status/timestamp']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

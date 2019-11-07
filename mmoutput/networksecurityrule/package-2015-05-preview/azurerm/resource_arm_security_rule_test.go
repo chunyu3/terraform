@@ -34,16 +34,16 @@ func testCheckAzureRMSecurityRuleExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Security Rule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         networkSecurityGroupName := rs.Primary.Attributes["network_security_group_name"]
-        securityRuleName := rs.Primary.Attributes["security_rule_name"]
 
         client := testAccProvider.Meta().(*ArmClient).securityRulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, securityRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Security Rule (Security Rule Name %q / Network Security Group Name %q / Resource Group %q) does not exist", securityRuleName, networkSecurityGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Security Rule %q (Network Security Group Name %q / Resource Group %q) does not exist", name, networkSecurityGroupName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on securityRulesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSecurityRuleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         networkSecurityGroupName := rs.Primary.Attributes["network_security_group_name"]
-        securityRuleName := rs.Primary.Attributes["security_rule_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, securityRuleName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on securityRulesClient: %+v", err)
             }

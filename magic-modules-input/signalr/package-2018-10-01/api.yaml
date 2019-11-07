@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: signalR
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: CreateParameters
@@ -122,9 +122,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: signalR
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: CreateParameters
@@ -214,9 +214,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: signalR
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -228,9 +228,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: signalR
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
         response:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
@@ -432,7 +432,7 @@ objects:
                 - :EnableConnectivityLogs
             - !ruby/object:Api::Type::String
               name: 'value'
-              description: 'Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/en-us/azure/azure-signalr/ for allowed values.'
+              description: 'Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for allowed values.'
               required: true
               azure_sdk_references: ['/features/value', '/properties/features/value']
       - !ruby/object:Api::Type::NestedObject
@@ -460,7 +460,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'resourceName'
+        name: 'name'
         description: 'The name of the SignalR resource.'
         required: true
         input: true

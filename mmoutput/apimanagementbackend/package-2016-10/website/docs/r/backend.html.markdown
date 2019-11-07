@@ -28,13 +28,13 @@ Manage Azure Backend instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `backendid` - (Required) Identifier of the Backend entity. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
 * `protocol` - (Required) Backend communication protocol. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `url` - (Required) WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings. Changing this forces a new resource to be created.
 

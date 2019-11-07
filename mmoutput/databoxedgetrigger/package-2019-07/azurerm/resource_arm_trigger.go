@@ -36,14 +36,14 @@ func resourceArmTrigger() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "device_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "type": {
                 Type: schema.TypeString,
@@ -58,14 +58,14 @@ func resourceArmTriggerCreateUpdate(d *schema.ResourceData, meta interface{}) er
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    deviceName := d.Get("device_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, name, resourceGroup)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -78,21 +78,21 @@ func resourceArmTriggerCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, name, resourceGroup, trigger)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, trigger)
     if err != nil {
-        return fmt.Errorf("Error creating Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error creating Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, name, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error retrieving Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Trigger %q (Resource Group %q / Device Name %q) ID", name, resourceGroup, deviceName)
+        return fmt.Errorf("Cannot read Trigger %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -107,24 +107,24 @@ func resourceArmTriggerRead(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    deviceName := id.Path["dataBoxEdgeDevices"]
-    name := id.Path["triggers"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["dataBoxEdgeDevices"]
+    name := id.Path["triggers"]
 
-    resp, err := client.Get(ctx, deviceName, name, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Trigger %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error reading Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
     d.Set("name", name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
-    d.Set("device_name", deviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -140,21 +140,21 @@ func resourceArmTriggerDelete(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
-    deviceName := id.Path["dataBoxEdgeDevices"]
-    name := id.Path["triggers"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["dataBoxEdgeDevices"]
+    name := id.Path["triggers"]
 
-    future, err := client.Delete(ctx, deviceName, name, resourceGroup)
+    future, err := client.Delete(ctx, resourceGroup, name, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+        return fmt.Errorf("Error deleting Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Trigger %q (Resource Group %q / Device Name %q): %+v", name, resourceGroup, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Trigger %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

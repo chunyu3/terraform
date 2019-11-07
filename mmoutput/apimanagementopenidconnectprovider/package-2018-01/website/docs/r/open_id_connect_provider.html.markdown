@@ -28,6 +28,8 @@ Manage Azure OpenIdConnectProvider instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `client_id` - (Required) Client ID of developer console which is the client application.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `metadata_endpoint` - (Required) Metadata endpoint URI.
 
 * `opid` - (Required) Identifier of the OpenID Connect Provider. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `client_secret` - (Optional) Client Secret of developer console which is the client application.
 

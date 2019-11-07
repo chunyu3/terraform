@@ -28,9 +28,9 @@ Manage Azure WorkflowAccessKey instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
+* `name` - (Required) The workflow access key name. Changing this forces a new resource to be created.
 
-* `access_key_name` - (Required) The workflow access key name. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `workflow_name` - (Required) The workflow name. Changing this forces a new resource to be created.
 

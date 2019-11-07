@@ -28,13 +28,13 @@ Manage Azure SecretValue instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the secret resource value which is typically the version identifier for the value. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Azure resource group name Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
 
 * `secret_resource_name` - (Required) The name of the secret resource. Changing this forces a new resource to be created.
-
-* `secret_value_resource_name` - (Required) The name of the secret resource value which is typically the version identifier for the value. Changing this forces a new resource to be created.
 
 * `value` - (Optional) The actual value of the secret.
 

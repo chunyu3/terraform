@@ -34,16 +34,16 @@ func testCheckAzureRMElasticPoolExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Elastic Pool not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        elasticPoolName := rs.Primary.Attributes["elastic_pool_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).elasticPoolsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, elasticPoolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q) does not exist", elasticPoolName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Elastic Pool %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on elasticPoolsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMElasticPoolDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        elasticPoolName := rs.Primary.Attributes["elastic_pool_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, elasticPoolName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on elasticPoolsClient: %+v", err)
             }

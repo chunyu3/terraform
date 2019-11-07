@@ -34,16 +34,16 @@ func testCheckAzureRMManagementPolicyExists(resourceName string) resource.TestCh
             return fmt.Errorf("Management Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        managementPolicyName := rs.Primary.Attributes["management_policy_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managementPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, managementPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q) does not exist", managementPolicyName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Management Policy %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managementPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMManagementPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        managementPolicyName := rs.Primary.Attributes["management_policy_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, managementPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managementPoliciesClient: %+v", err)
             }

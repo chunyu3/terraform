@@ -35,9 +35,9 @@ objects:
             python_variable_name: domain_name
           'domainTopicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: domainTopicName
+            go_variable_name: name
             python_parameter_name: domain_topic_name
-            python_variable_name: domain_topic_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -55,9 +55,9 @@ objects:
             python_variable_name: domain_name
           'domainTopicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: domainTopicName
+            go_variable_name: name
             python_parameter_name: domain_topic_name
-            python_variable_name: domain_topic_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -74,9 +74,9 @@ objects:
             python_variable_name: domain_name
           'domainTopicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: domainTopicName
+            go_variable_name: name
             python_parameter_name: domain_topic_name
-            python_variable_name: domain_topic_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -91,6 +91,13 @@ objects:
             applicable_to: [go]
             go_field_name: DomainTopicProperties
             go_type_name: DomainTopicProperties
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: DomainTopicProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByDomain
         python_func_name: list_by_domain
@@ -122,24 +129,11 @@ objects:
         input: true
         azure_sdk_references: ['domainName']
       - !ruby/object:Api::Type::String
-        name: 'domainTopicName'
+        name: 'name'
         description: 'Name of the domain topic'
         required: true
         input: true
         azure_sdk_references: ['domainTopicName']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning state of the domain topic.'
-        required: false
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Updating
-          - :Deleting
-          - :Succeeded
-          - :Canceled
-          - :Failed
-        default_value: :Creating
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -156,3 +150,15 @@ objects:
         description: 'Type of the resource'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning state of the domain topic.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Canceled
+          - :Failed

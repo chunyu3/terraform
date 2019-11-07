@@ -28,6 +28,8 @@ Manage Azure BackupSchedule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `backup_policy_name` - (Required) The backup policy name. Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `backup_type` - (Required) The type of backup which needs to be taken.
 
 * `device_name` - (Required) The device name Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `retention_count` - (Required) The number of backups to be retained.
 

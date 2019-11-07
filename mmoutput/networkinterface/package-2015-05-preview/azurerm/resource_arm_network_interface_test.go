@@ -34,15 +34,15 @@ func testCheckAzureRMNetworkInterfaceExists(resourceName string) resource.TestCh
             return fmt.Errorf("Network Interface not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        networkInterfaceName := rs.Primary.Attributes["network_interface_name"]
 
         client := testAccProvider.Meta().(*ArmClient).networkInterfacesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, networkInterfaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Network Interface (Network Interface Name %q / Resource Group %q) does not exist", networkInterfaceName, resourceGroup)
+                return fmt.Errorf("Bad: Network Interface %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on networkInterfacesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMNetworkInterfaceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        networkInterfaceName := rs.Primary.Attributes["network_interface_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, networkInterfaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on networkInterfacesClient: %+v", err)
             }

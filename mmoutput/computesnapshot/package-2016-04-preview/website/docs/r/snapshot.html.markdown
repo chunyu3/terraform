@@ -28,13 +28,13 @@ Manage Azure Snapshot instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the snapshot within the given subscription and resource group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
 * `creation_data` - (Required) One `creation_datum` block defined below.
-
-* `snapshot_name` - (Required) The name of the snapshot within the given subscription and resource group. Changing this forces a new resource to be created.
 
 ---
 

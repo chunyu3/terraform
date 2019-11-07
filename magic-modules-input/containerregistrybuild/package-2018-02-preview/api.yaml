@@ -1,0 +1,389 @@
+--- !ruby/object:Api::Product
+name: Azure Build Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Build
+    api_name: ContainerRegistry
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerRegistry
+      go_client_namespace: containerregistry
+      go_client: buildsClient
+      python_client_namespace: azure.mgmt.containerregistry
+      python_client: ContainerRegistryManagementClient.builds
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: name
+            python_parameter_name: registry_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BuildProperties
+            go_type_name: BuildProperties
+          '/properties/buildId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BuildID
+          '/buildId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: build_id
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: BuildStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/lastUpdatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastUpdatedTime
+          '/lastUpdatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_updated_time
+          '/properties/buildType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BuildType
+            go_enum_type_name: BuildType
+          '/buildType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: build_type
+          '/properties/createTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreateTime
+          '/createTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: create_time
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: FinishTime
+          '/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: finish_time
+          '/properties/outputImages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: OutputImages
+            go_type_name: ImageDescriptor
+          '/properties/outputImages/registry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Registry
+          '/properties/outputImages/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Repository
+          '/properties/outputImages/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Tag
+          '/properties/outputImages/digest': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Digest
+          '/outputImages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: output_images
+          '/outputImages/registry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registry
+          '/outputImages/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: repository
+          '/outputImages/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/outputImages/digest': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: digest
+          '/properties/buildTask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BuildTask
+          '/buildTask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: build_task
+          '/properties/imageUpdateTrigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImageUpdateTrigger
+            go_type_name: ImageUpdateTrigger
+          '/properties/imageUpdateTrigger/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/imageUpdateTrigger/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Timestamp
+          '/properties/imageUpdateTrigger/images': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Images
+            go_type_name: ImageDescriptor
+          '/properties/imageUpdateTrigger/images/registry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Registry
+          '/properties/imageUpdateTrigger/images/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Repository
+          '/properties/imageUpdateTrigger/images/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Tag
+          '/properties/imageUpdateTrigger/images/digest': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Digest
+          '/imageUpdateTrigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: image_update_trigger
+          '/imageUpdateTrigger/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/imageUpdateTrigger/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: timestamp
+          '/imageUpdateTrigger/images': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: images
+          '/imageUpdateTrigger/images/registry': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registry
+          '/imageUpdateTrigger/images/repository': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: repository
+          '/imageUpdateTrigger/images/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/imageUpdateTrigger/images/digest': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: digest
+          '/properties/gitCommitTrigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GitCommitTrigger
+            go_type_name: GitCommitTrigger
+          '/properties/gitCommitTrigger/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/gitCommitTrigger/commitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CommitID
+          '/properties/gitCommitTrigger/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RepositoryURL
+          '/properties/gitCommitTrigger/branchName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BranchName
+          '/properties/gitCommitTrigger/providerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProviderType
+          '/gitCommitTrigger': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: git_commit_trigger
+          '/gitCommitTrigger/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/gitCommitTrigger/commitId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: commit_id
+          '/gitCommitTrigger/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: repository_url
+          '/gitCommitTrigger/branchName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: branch_name
+          '/gitCommitTrigger/providerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provider_type
+          '/properties/isArchiveEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsArchiveEnabled
+          '/isArchiveEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_archive_enabled
+          '/properties/platform': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Platform
+            go_type_name: PlatformProperties
+          '/properties/platform/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OsType
+            go_enum_type_name: OsType
+          '/properties/platform/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Cpu
+          '/platform': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: platform
+          '/platform/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/platform/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: cpu
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'registryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registries
+            go_variable_name: name
+            python_parameter_name: registry_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Build instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group to which the container registry belongs.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the container registry.'
+        required: true
+        input: true
+        azure_sdk_references: ['registryName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'buildId'
+        description: 'The unique identifier for the build.'
+        output: true
+        azure_sdk_references: ['/buildId', '/properties/buildId']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The current status of the build.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Queued
+          - :Started
+          - :Running
+          - :Succeeded
+          - :Failed
+          - :Canceled
+          - :Error
+          - :Timeout
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastUpdatedTime'
+        description: 'The last updated time for the build.'
+        output: true
+        azure_sdk_references: ['/lastUpdatedTime', '/properties/lastUpdatedTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'buildType'
+        description: 'The type of build.'
+        output: true
+        azure_sdk_references: ['/buildType', '/properties/buildType']
+        values:
+          - :AutoBuild
+          - :QuickBuild
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTime'
+        description: 'The time the build was created.'
+        output: true
+        azure_sdk_references: ['/createTime', '/properties/createTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The time the build started.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'finishTime'
+        description: 'The time the build finished.'
+        output: true
+        azure_sdk_references: ['/finishTime', '/properties/finishTime']
+      - !ruby/object:Api::Type::Array
+        name: 'outputImages'
+        description: 'The list of all images that were generated from the build.'
+        output: true
+        azure_sdk_references: ['/outputImages', '/properties/outputImages']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'buildTask'
+        description: 'The build task with which the build was started.'
+        output: true
+        azure_sdk_references: ['/buildTask', '/properties/buildTask']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'imageUpdateTrigger'
+        description: 'The image update trigger that caused the build.'
+        output: true
+        azure_sdk_references: ['/imageUpdateTrigger', '/properties/imageUpdateTrigger']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'gitCommitTrigger'
+        description: 'The git commit trigger that caused the build.'
+        output: true
+        azure_sdk_references: ['/gitCommitTrigger', '/properties/gitCommitTrigger']
+        properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'isArchiveEnabled'
+        description: 'The value that indicates whether archiving is enabled or not.'
+        output: true
+        azure_sdk_references: ['/isArchiveEnabled', '/properties/isArchiveEnabled']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'platform'
+        description: 'The platform properties against which the build will happen.'
+        output: true
+        azure_sdk_references: ['/platform', '/properties/platform']
+        properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of a build.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Updating
+          - :Deleting
+          - :Succeeded
+          - :Failed
+          - :Canceled

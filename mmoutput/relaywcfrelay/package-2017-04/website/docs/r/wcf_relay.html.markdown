@@ -28,11 +28,11 @@ Manage Azure WCFRelay instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The relay name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `namespace_name` - (Required) The namespace name Changing this forces a new resource to be created.
-
-* `relay_name` - (Required) The relay name. Changing this forces a new resource to be created.
 
 * `relay_type` - (Optional) WCF relay type. Defaults to `NetTcp`.
 

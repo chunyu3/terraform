@@ -31,19 +31,19 @@ func resourceArmVirtualNetworkGateway() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "virtual_network_gateway_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "enable_bgp": {
                 Type: schema.TypeBool,
@@ -174,14 +174,14 @@ func resourceArmVirtualNetworkGatewayCreateUpdate(d *schema.ResourceData, meta i
     client := meta.(*ArmClient).virtualNetworkGatewaysClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    virtualNetworkGatewayName := d.Get("virtual_network_gateway_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, virtualNetworkGatewayName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -214,21 +214,21 @@ func resourceArmVirtualNetworkGatewayCreateUpdate(d *schema.ResourceData, meta i
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, virtualNetworkGatewayName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, virtualNetworkGatewayName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q) ID", virtualNetworkGatewayName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network Gateway %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -244,19 +244,20 @@ func resourceArmVirtualNetworkGatewayRead(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    virtualNetworkGatewayName := id.Path["virtualnetworkgateways"]
+    name := id.Path["virtualnetworkgateways"]
 
-    resp, err := client.Get(ctx, resourceGroup, virtualNetworkGatewayName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network Gateway %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -277,7 +278,6 @@ func resourceArmVirtualNetworkGatewayRead(d *schema.ResourceData, meta interface
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
-    d.Set("virtual_network_gateway_name", virtualNetworkGatewayName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -293,19 +293,19 @@ func resourceArmVirtualNetworkGatewayDelete(d *schema.ResourceData, meta interfa
         return err
     }
     resourceGroup := id.ResourceGroup
-    virtualNetworkGatewayName := id.Path["virtualnetworkgateways"]
+    name := id.Path["virtualnetworkgateways"]
 
-    future, err := client.Delete(ctx, resourceGroup, virtualNetworkGatewayName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network Gateway (Virtual Network Gateway Name %q / Resource Group %q): %+v", virtualNetworkGatewayName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

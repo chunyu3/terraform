@@ -31,6 +31,13 @@ func resourceArmSmartDetectorAlertRule() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -59,13 +66,6 @@ func resourceArmSmartDetectorAlertRule() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "alert_rule_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "detector": {
@@ -178,14 +178,14 @@ func resourceArmSmartDetectorAlertRuleCreateUpdate(d *schema.ResourceData, meta 
     client := meta.(*ArmClient).smartDetectorAlertRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    alertRuleName := d.Get("alert_rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, alertRuleName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q): %+v", alertRuleName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Smart Detector Alert Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -216,17 +216,17 @@ func resourceArmSmartDetectorAlertRuleCreateUpdate(d *schema.ResourceData, meta 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, alertRuleName, parameters); err != nil {
-        return fmt.Errorf("Error creating Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q): %+v", alertRuleName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Smart Detector Alert Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, alertRuleName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q): %+v", alertRuleName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Smart Detector Alert Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q) ID", alertRuleName, resourceGroup)
+        return fmt.Errorf("Cannot read Smart Detector Alert Rule %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -242,19 +242,20 @@ func resourceArmSmartDetectorAlertRuleRead(d *schema.ResourceData, meta interfac
         return err
     }
     resourceGroup := id.ResourceGroup
-    alertRuleName := id.Path["smartDetectorAlertRules"]
+    name := id.Path["smartDetectorAlertRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, alertRuleName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Smart Detector Alert Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q): %+v", alertRuleName, resourceGroup, err)
+        return fmt.Errorf("Error reading Smart Detector Alert Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if alertRuleProperties := resp.AlertRuleProperties; alertRuleProperties != nil {
@@ -273,7 +274,6 @@ func resourceArmSmartDetectorAlertRuleRead(d *schema.ResourceData, meta interfac
             return fmt.Errorf("Error setting `throttling`: %+v", err)
         }
     }
-    d.Set("alert_rule_name", alertRuleName)
     d.Set("type", resp.Type)
 
     return nil
@@ -290,10 +290,10 @@ func resourceArmSmartDetectorAlertRuleDelete(d *schema.ResourceData, meta interf
         return err
     }
     resourceGroup := id.ResourceGroup
-    alertRuleName := id.Path["smartDetectorAlertRules"]
+    name := id.Path["smartDetectorAlertRules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, alertRuleName); err != nil {
-        return fmt.Errorf("Error deleting Smart Detector Alert Rule (Alert Rule Name %q / Resource Group %q): %+v", alertRuleName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Smart Detector Alert Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

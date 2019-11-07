@@ -28,9 +28,9 @@ Manage Azure ProtectionPolicy instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group associated with the Recovery Services vault. Changing this forces a new resource to be created.
+* `name` - (Required) The backup policy to be created. Changing this forces a new resource to be created.
 
-* `policy_name` - (Required) The backup policy to be created. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group associated with the Recovery Services vault. Changing this forces a new resource to be created.
 
 * `vault_name` - (Required) The name of the Recovery Services vault. Changing this forces a new resource to be created.
 

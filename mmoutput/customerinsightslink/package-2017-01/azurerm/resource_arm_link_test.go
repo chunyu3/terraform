@@ -34,16 +34,16 @@ func testCheckAzureRMLinkExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Link not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        linkName := rs.Primary.Attributes["link_name"]
 
         client := testAccProvider.Meta().(*ArmClient).linksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, linkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Link (Link Name %q / Hub Name %q / Resource Group %q) does not exist", linkName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: Link %q (Hub Name %q / Resource Group %q) does not exist", name, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on linksClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMLinkDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        linkName := rs.Primary.Attributes["link_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, linkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on linksClient: %+v", err)
             }

@@ -34,16 +34,16 @@ func testCheckAzureRMJitNetworkAccessPolicyExists(resourceName string) resource.
             return fmt.Errorf("Jit Network Access Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         ascLocation := rs.Primary.Attributes["asc_location"]
-        jitNetworkAccessPolicyName := rs.Primary.Attributes["jit_network_access_policy_name"]
 
         client := testAccProvider.Meta().(*ArmClient).jitNetworkAccessPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, ascLocation, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q) does not exist", jitNetworkAccessPolicyName, ascLocation, resourceGroup)
+                return fmt.Errorf("Bad: Jit Network Access Policy %q (Asc Location %q / Resource Group %q) does not exist", name, ascLocation, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on jitNetworkAccessPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMJitNetworkAccessPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         ascLocation := rs.Primary.Attributes["asc_location"]
-        jitNetworkAccessPolicyName := rs.Primary.Attributes["jit_network_access_policy_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, ascLocation, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on jitNetworkAccessPoliciesClient: %+v", err)
             }

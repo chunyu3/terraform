@@ -34,16 +34,16 @@ func testCheckAzureRMLinkedServiceExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Linked Service not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        linkedServiceName := rs.Primary.Attributes["linked_service_name"]
         workspaceName := rs.Primary.Attributes["workspace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).linkedServicesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, workspaceName, linkedServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, workspaceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Linked Service (Linked Service Name %q / Workspace Name %q / Resource Group %q) does not exist", linkedServiceName, workspaceName, resourceGroup)
+                return fmt.Errorf("Bad: Linked Service %q (Workspace Name %q / Resource Group %q) does not exist", name, workspaceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on linkedServicesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMLinkedServiceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        linkedServiceName := rs.Primary.Attributes["linked_service_name"]
         workspaceName := rs.Primary.Attributes["workspace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, workspaceName, linkedServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, workspaceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on linkedServicesClient: %+v", err)
             }

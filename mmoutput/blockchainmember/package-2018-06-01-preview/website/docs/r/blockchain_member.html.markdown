@@ -28,9 +28,9 @@ Manage Azure BlockchainMember instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
+* `name` - (Required) Blockchain member name. Changing this forces a new resource to be created.
 
-* `blockchain_member_name` - (Required) Blockchain member name. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The GEO location of the blockchain service. Changing this forces a new resource to be created.
 

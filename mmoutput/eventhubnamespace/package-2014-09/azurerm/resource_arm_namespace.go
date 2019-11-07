@@ -31,19 +31,19 @@ func resourceArmNamespace() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "namespace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "created_at": {
                 Type: schema.TypeString,
@@ -144,14 +144,14 @@ func resourceArmNamespaceCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).namespacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    namespaceName := d.Get("namespace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -182,21 +182,21 @@ func resourceArmNamespaceCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Namespace (Namespace Name %q / Resource Group %q) ID", namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Namespace %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -212,19 +212,20 @@ func resourceArmNamespaceRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    namespaceName := id.Path["namespaces"]
+    name := id.Path["namespaces"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Namespace %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -239,7 +240,6 @@ func resourceArmNamespaceRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("status", string(namespaceProperties.Status))
         d.Set("updated_at", (namespaceProperties.UpdatedAt).String())
     }
-    d.Set("namespace_name", namespaceName)
     if err := d.Set("sku", flattenArmNamespaceSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -252,10 +252,10 @@ func resourceArmNamespaceUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).namespacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     createdAt := d.Get("created_at").(string)
     enabled := d.Get("enabled").(bool)
-    namespaceName := d.Get("namespace_name").(string)
     serviceBusEndpoint := d.Get("service_bus_endpoint").(string)
     sku := d.Get("sku").([]interface{})
     status := d.Get("status").(string)
@@ -276,8 +276,8 @@ func resourceArmNamespaceUpdate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, namespaceName, parameters); err != nil {
-        return fmt.Errorf("Error updating Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmNamespaceRead(d, meta)
@@ -293,19 +293,19 @@ func resourceArmNamespaceDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    namespaceName := id.Path["namespaces"]
+    name := id.Path["namespaces"]
 
-    future, err := client.Delete(ctx, resourceGroup, namespaceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Namespace (Namespace Name %q / Resource Group %q): %+v", namespaceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Namespace %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

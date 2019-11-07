@@ -23,11 +23,6 @@ objects:
         go_func_name: CreateOrUpdate
         python_func_name: create_or_update
         request:
-          'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: storageDomains
-            go_variable_name: storageDomainName
-            python_parameter_name: storage_domain_name
-            python_variable_name: storage_domain_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
@@ -35,9 +30,14 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: managerName
+            go_variable_name: name
             python_parameter_name: manager_name
-            python_variable_name: manager_name
+            python_variable_name: name
+          'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageDomains
+            go_variable_name: storageDomainName
+            python_parameter_name: storage_domain_name
+            python_variable_name: storage_domain_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: storageDomain
             go_type_name: StorageDomain
@@ -91,11 +91,6 @@ objects:
         go_func_name: Delete
         python_func_name: delete
         request:
-          'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: storageDomains
-            go_variable_name: storageDomainName
-            python_parameter_name: storage_domain_name
-            python_variable_name: storage_domain_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
@@ -103,18 +98,18 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: managerName
+            go_variable_name: name
             python_parameter_name: manager_name
-            python_variable_name: manager_name
+            python_variable_name: name
+          'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageDomains
+            go_variable_name: storageDomainName
+            python_parameter_name: storage_domain_name
+            python_variable_name: storage_domain_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: storageDomains
-            go_variable_name: storageDomainName
-            python_parameter_name: storage_domain_name
-            python_variable_name: storage_domain_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
@@ -122,9 +117,14 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: managerName
+            go_variable_name: name
             python_parameter_name: manager_name
-            python_variable_name: manager_name
+            python_variable_name: name
+          'storageDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageDomains
+            go_variable_name: storageDomainName
+            python_parameter_name: storage_domain_name
+            python_variable_name: storage_domain_name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -189,9 +189,9 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: managerName
+            go_variable_name: name
             python_parameter_name: manager_name
-            python_variable_name: manager_name
+            python_variable_name: name
 
     description: |
       Manage Azure StorageDomain instance.
@@ -248,7 +248,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'managerName'
+        name: 'name'
         description: 'The manager name'
         required: true
         input: true

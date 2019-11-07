@@ -28,6 +28,8 @@ Manage Azure MetricAlert instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the rule. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
@@ -39,8 +41,6 @@ The following arguments are supported:
 * `enabled` - (Required) the flag that indicates whether the metric alert is enabled.
 
 * `evaluation_frequency` - (Required) how often the metric alert is evaluated represented in ISO 8601 duration format.
-
-* `rule_name` - (Required) The name of the rule. Changing this forces a new resource to be created.
 
 * `severity` - (Required) Alert severity {0, 1, 2, 3, 4}
 

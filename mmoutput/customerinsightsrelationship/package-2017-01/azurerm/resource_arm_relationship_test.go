@@ -34,16 +34,16 @@ func testCheckAzureRMRelationshipExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Relationship not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        relationshipName := rs.Primary.Attributes["relationship_name"]
 
         client := testAccProvider.Meta().(*ArmClient).relationshipsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, relationshipName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Relationship (Relationship Name %q / Hub Name %q / Resource Group %q) does not exist", relationshipName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: Relationship %q (Hub Name %q / Resource Group %q) does not exist", name, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on relationshipsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMRelationshipDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
-        relationshipName := rs.Primary.Attributes["relationship_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, relationshipName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on relationshipsClient: %+v", err)
             }

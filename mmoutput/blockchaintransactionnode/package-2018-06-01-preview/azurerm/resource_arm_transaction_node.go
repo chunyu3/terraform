@@ -31,6 +31,13 @@ func resourceArmTransactionNode() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmTransactionNode() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "blockchain_member_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "transaction_node_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -110,15 +110,15 @@ func resourceArmTransactionNodeCreate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).transactionNodesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     blockchainMemberName := d.Get("blockchain_member_name").(string)
-    transactionNodeName := d.Get("transaction_node_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, blockchainMemberName, transactionNodeName, resourceGroup)
+        existing, err := client.Get(ctx, resourceGroup, blockchainMemberName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+                return fmt.Errorf("Error checking for present of existing Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -139,21 +139,21 @@ func resourceArmTransactionNodeCreate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.Create(ctx, blockchainMemberName, transactionNodeName, resourceGroup, transactionNode)
+    future, err := client.Create(ctx, resourceGroup, blockchainMemberName, name, transactionNode)
     if err != nil {
-        return fmt.Errorf("Error creating Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+        return fmt.Errorf("Error creating Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+        return fmt.Errorf("Error waiting for creation of Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
     }
 
 
-    resp, err := client.Get(ctx, blockchainMemberName, transactionNodeName, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, blockchainMemberName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+        return fmt.Errorf("Error retrieving Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q) ID", resourceGroup, transactionNodeName, blockchainMemberName)
+        return fmt.Errorf("Cannot read Transaction Node %q (Resource Group %q / Blockchain Member Name %q) ID", name, resourceGroup, blockchainMemberName)
     }
     d.SetId(*resp.ID)
 
@@ -168,21 +168,22 @@ func resourceArmTransactionNodeRead(d *schema.ResourceData, meta interface{}) er
     if err != nil {
         return err
     }
-    blockchainMemberName := id.Path["blockchainMembers"]
-    transactionNodeName := id.Path["transactionNodes"]
     resourceGroup := id.ResourceGroup
+    blockchainMemberName := id.Path["blockchainMembers"]
+    name := id.Path["transactionNodes"]
 
-    resp, err := client.Get(ctx, blockchainMemberName, transactionNodeName, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, blockchainMemberName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Transaction Node %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+        return fmt.Errorf("Error reading Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -199,7 +200,6 @@ func resourceArmTransactionNodeRead(d *schema.ResourceData, meta interface{}) er
         d.Set("public_key", transactionNodeProperties.PublicKey)
         d.Set("user_name", transactionNodeProperties.UserName)
     }
-    d.Set("transaction_node_name", transactionNodeName)
     d.Set("type", resp.Type)
 
     return nil
@@ -209,11 +209,11 @@ func resourceArmTransactionNodeUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).transactionNodesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     blockchainMemberName := d.Get("blockchain_member_name").(string)
     firewallRules := d.Get("firewall_rules").([]interface{})
     password := d.Get("password").(string)
-    transactionNodeName := d.Get("transaction_node_name").(string)
 
     transactionNode := blockchain.TransactionNode{
         Location: utils.String(location),
@@ -224,8 +224,8 @@ func resourceArmTransactionNodeUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.Update(ctx, blockchainMemberName, transactionNodeName, resourceGroup, transactionNode); err != nil {
-        return fmt.Errorf("Error updating Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+    if _, err := client.Update(ctx, resourceGroup, blockchainMemberName, name, transactionNode); err != nil {
+        return fmt.Errorf("Error updating Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
     }
 
     return resourceArmTransactionNodeRead(d, meta)
@@ -240,21 +240,21 @@ func resourceArmTransactionNodeDelete(d *schema.ResourceData, meta interface{}) 
     if err != nil {
         return err
     }
-    blockchainMemberName := id.Path["blockchainMembers"]
-    transactionNodeName := id.Path["transactionNodes"]
     resourceGroup := id.ResourceGroup
+    blockchainMemberName := id.Path["blockchainMembers"]
+    name := id.Path["transactionNodes"]
 
-    future, err := client.Delete(ctx, blockchainMemberName, transactionNodeName, resourceGroup)
+    future, err := client.Delete(ctx, resourceGroup, blockchainMemberName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+        return fmt.Errorf("Error deleting Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Transaction Node (Resource Group %q / Transaction Node Name %q / Blockchain Member Name %q): %+v", resourceGroup, transactionNodeName, blockchainMemberName, err)
+            return fmt.Errorf("Error waiting for deleting Transaction Node %q (Resource Group %q / Blockchain Member Name %q): %+v", name, resourceGroup, blockchainMemberName, err)
         }
     }
 

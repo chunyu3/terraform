@@ -28,7 +28,7 @@ Manage Azure RoleAssignment instance.
 
 The following arguments are supported:
 
-* `role_assignment_name` - (Required) The name of the role assignment to create. It can be any valid GUID. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the role assignment to create. It can be any valid GUID. Changing this forces a new resource to be created.
 
 * `scope` - (Required) The scope of the role assignment to create. The scope can be any REST resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription, '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource. Changing this forces a new resource to be created.
 

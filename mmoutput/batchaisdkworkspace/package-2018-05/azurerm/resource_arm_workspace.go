@@ -31,6 +31,13 @@ func resourceArmWorkspace() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -38,35 +45,19 @@ func resourceArmWorkspace() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "workspace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "creation_time": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validateRFC3339Date,
+                Computed: true,
             },
 
             "provisioning_state": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(batchaisdk.creating),
-                    string(batchaisdk.succeeded),
-                    string(batchaisdk.failed),
-                    string(batchaisdk.deleting),
-                }, false),
-                Default: string(batchaisdk.creating),
+                Computed: true,
             },
 
             "provisioning_state_transition_time": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validateRFC3339Date,
+                Computed: true,
             },
 
             "type": {
@@ -83,14 +74,14 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).workspacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    workspaceName := d.Get("workspace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, workspaceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -99,33 +90,29 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    creationTime := d.Get("creation_time").(string)
-    provisioningState := d.Get("provisioning_state").(string)
-    provisioningStateTransitionTime := d.Get("provisioning_state_transition_time").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := batchaisdk.WorkspaceCreateParameters{
         Location: utils.String(location),
-        // TODO: SDK Reference /properties is not supported
         Tags: tags.Expand(t),
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, workspaceName, parameters)
+    future, err := client.Create(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Workspace (Workspace Name %q / Resource Group %q) ID", workspaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Workspace %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -141,26 +128,31 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Workspace %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if workspaceProperties := resp.WorkspaceProperties; workspaceProperties != nil {
+        d.Set("creation_time", (workspaceProperties.CreationTime).String())
+        d.Set("provisioning_state", string(workspaceProperties.ProvisioningState))
+        d.Set("provisioning_state_transition_time", (workspaceProperties.ProvisioningStateTransitionTime).String())
+    }
     d.Set("type", resp.Type)
-    d.Set("workspace_name", workspaceName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -169,22 +161,18 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).workspacesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    creationTime := d.Get("creation_time").(string)
-    provisioningState := d.Get("provisioning_state").(string)
-    provisioningStateTransitionTime := d.Get("provisioning_state_transition_time").(string)
-    workspaceName := d.Get("workspace_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := batchaisdk.WorkspaceCreateParameters{
         Location: utils.String(location),
-        // TODO: SDK Reference /properties is not supported
         Tags: tags.Expand(t),
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, workspaceName, parameters); err != nil {
-        return fmt.Errorf("Error updating Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmWorkspaceRead(d, meta)
@@ -200,19 +188,19 @@ func resourceArmWorkspaceDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
 
-    future, err := client.Delete(ctx, resourceGroup, workspaceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Workspace (Workspace Name %q / Resource Group %q): %+v", workspaceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Workspace %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

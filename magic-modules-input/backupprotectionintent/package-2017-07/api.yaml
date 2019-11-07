@@ -1,5 +1,5 @@
 --- !ruby/object:Api::Product
-name: Azure ProtectionIntent Management
+name: Azure BackupProtectionIntent Management
 versions:
   - !ruby/object:Api::Product::Version
     name: ga
@@ -8,199 +8,36 @@ scopes:
   - NotUsedInAzure
 objects:
   - !ruby/object:Api::Resource
-    name: ProtectionIntent
+    name: BackupProtectionIntent
     api_name: RecoveryServices
     base_url: NotUsedInAzure
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
       provider_name: Microsoft.RecoveryServices
       go_client_namespace: backup
-      go_client: protectionIntentClient
+      go_client: backupProtectionIntentClient
       python_client_namespace: azure.mgmt.recoveryservices.backup
-      python_client: RecoveryServicesBackupClient.protection_intent
-      create: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: CreateOrUpdate
-        python_func_name: create_or_update
+      python_client: RecoveryServicesBackupClient.backup_protection_intent
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
         request:
-          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: vaultName
-            python_parameter_name: vault_name
-            python_variable_name: vault_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
-          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: backupFabrics
-            go_variable_name: fabricName
-            python_parameter_name: fabric_name
-            python_variable_name: fabric_name
-          'intentObjectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: backupProtectionIntent
-            go_variable_name: intentObjectName
-            python_parameter_name: intent_object_name
-            python_variable_name: intent_object_name
-          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            go_variable_name: parameters
-            go_type_name: ProtectionIntentResource
-            python_parameter_name: parameters
-            python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ETag
-            python_field_name: e_tag
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProtectionIntent
-            go_type_name: ProtectionIntent
-          '/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: backup_management_type
-          '/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: BackupManagementType
-            go_enum_type_name: ManagementType
-          '/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: source_resource_id
-          '/properties/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SourceResourceID
-          '/itemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: item_id
-          '/properties/itemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ItemID
-          '/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: policy_id
-          '/properties/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PolicyID
-          '/protectionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protection_state
-          '/properties/protectionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProtectionState
-            go_enum_type_name: ProtectionStatus
-      delete: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: Delete
-        python_func_name: delete
-        request:
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: vaults
-            go_variable_name: vaultName
+            go_variable_name: name
             python_parameter_name: vault_name
-            python_variable_name: vault_name
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: backupFabrics
-            go_variable_name: fabricName
-            python_parameter_name: fabric_name
-            python_variable_name: fabric_name
-          'intentObjectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: backupProtectionIntent
-            go_variable_name: intentObjectName
-            python_parameter_name: intent_object_name
-            python_variable_name: intent_object_name
-      read: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: Get
-        python_func_name: get
-        request:
-          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: vaultName
-            python_parameter_name: vault_name
-            python_variable_name: vault_name
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: backupFabrics
-            go_variable_name: fabricName
-            python_parameter_name: fabric_name
-            python_variable_name: fabric_name
-          'intentObjectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: backupProtectionIntent
-            go_variable_name: intentObjectName
-            python_parameter_name: intent_object_name
-            python_variable_name: intent_object_name
-        response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
-          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ETag
-            python_field_name: e_tag
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ProtectionIntent
-            go_type_name: ProtectionIntent
-          '/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: BackupManagementType
-            go_enum_type_name: ManagementType
-          '/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: backup_management_type
-          '/properties/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SourceResourceID
-          '/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: source_resource_id
-          '/properties/itemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ItemID
-          '/itemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: item_id
-          '/properties/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PolicyID
-          '/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: policy_id
-          '/properties/protectionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProtectionState
-            go_enum_type_name: ProtectionStatus
-          '/protectionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: protection_state
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
+            python_variable_name: name
 
     description: |
-      Manage Azure ProtectionIntent instance.
+      Manage Azure BackupProtectionIntent instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'vaultName'
+        name: 'name'
         description: 'The name of the recovery services vault.'
         required: true
         input: true
@@ -211,92 +48,16 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::String
-        name: 'fabricName'
-        description: 'Fabric name associated with the backup item.'
-        required: true
-        input: true
-        azure_sdk_references: ['fabricName']
-      - !ruby/object:Api::Type::String
-        name: 'intentObjectName'
-        description: 'Intent object name.'
-        required: true
-        input: true
-        azure_sdk_references: ['intentObjectName']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Resource location.'
-        required: false
-        input: true
-        azure_sdk_references: ['/location']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
-        description: 'Resource tags.'
-        required: false
-        input: true
-        azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::String
-        name: 'eTag'
-        description: 'Optional ETag.'
-        required: false
-        input: true
-        azure_sdk_references: ['/eTag']
-      - !ruby/object:Api::Type::Enum
-        name: 'backupManagementType'
-        description: 'Type of backup management for the backed up item.'
-        required: false
-        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
-        values:
-          - :Invalid
-          - :AzureIaasVM
-          - :MAB
-          - :DPM
-          - :AzureBackupServer
-          - :AzureSql
-          - :AzureStorage
-          - :AzureWorkload
-          - :DefaultBackup
-        default_value: :Invalid
-      - !ruby/object:Api::Type::String
-        name: 'sourceResourceId'
-        description: 'ARM ID of the resource to be backed up.'
-        required: false
-        azure_sdk_references: ['/sourceResourceId', '/properties/sourceResourceId']
-      - !ruby/object:Api::Type::String
-        name: 'itemId'
-        description: 'ID of the item which is getting protected, In case of Azure Vm , it is ProtectedItemId'
-        required: false
-        azure_sdk_references: ['/itemId', '/properties/itemId']
-      - !ruby/object:Api::Type::String
-        name: 'policyId'
-        description: 'ID of the backup policy with which this item is backed up.'
-        required: false
-        azure_sdk_references: ['/policyId', '/properties/policyId']
-      - !ruby/object:Api::Type::Enum
-        name: 'protectionState'
-        description: 'Backup state of this backup item.'
-        required: false
-        azure_sdk_references: ['/protectionState', '/properties/protectionState']
-        values:
-          - :Invalid
-          - :NotProtected
-          - :Protecting
-          - :Protected
-          - :ProtectionFailed
-        default_value: :Invalid
       # read only values included only in response
       - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Resource Id represents the complete path to the resource.'
+        name: 'nextLink'
+        description: 'The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.'
         output: true
-        azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Resource name associated with the resource.'
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of resources.'
         output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
-        output: true
-        azure_sdk_references: ['/type']
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

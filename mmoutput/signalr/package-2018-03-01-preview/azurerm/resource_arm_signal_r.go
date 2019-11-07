@@ -31,19 +31,19 @@ func resourceArmSignalR() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "host_name_prefix": {
                 Type: schema.TypeString,
@@ -132,14 +132,14 @@ func resourceArmSignalRCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).signalRClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -162,21 +162,21 @@ func resourceArmSignalRCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, resourceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Signal R (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Signal R %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -192,19 +192,20 @@ func resourceArmSignalRRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["SignalR"]
+    name := id.Path["SignalR"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Signal R %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -219,7 +220,6 @@ func resourceArmSignalRRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("server_port", int(*createOrUpdateProperties.ServerPort))
         d.Set("version", createOrUpdateProperties.Version)
     }
-    d.Set("resource_name", resourceName)
     if err := d.Set("sku", flattenArmSignalRResourceSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -232,9 +232,9 @@ func resourceArmSignalRUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).signalRClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hostNamePrefix := d.Get("host_name_prefix").(string)
-    resourceName := d.Get("resource_name").(string)
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -248,12 +248,12 @@ func resourceArmSignalRUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, resourceName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error updating Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmSignalRRead(d, meta)
@@ -269,19 +269,19 @@ func resourceArmSignalRDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["SignalR"]
+    name := id.Path["SignalR"]
 
-    future, err := client.Delete(ctx, resourceGroup, resourceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Signal R (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Signal R %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

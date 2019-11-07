@@ -28,13 +28,13 @@ Manage Azure Volume instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `access_control_record_ids` - (Required) The IDs of the access control records, associated with the volume.
 
 * `device_name` - (Required) The device name Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `monitoring_status` - (Required) The monitoring status of the volume.
 

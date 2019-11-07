@@ -31,19 +31,19 @@ func resourceArmMaintenanceConfiguration() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "extension_properties": {
                 Type: schema.TypeMap,
@@ -82,14 +82,14 @@ func resourceArmMaintenanceConfigurationCreateUpdate(d *schema.ResourceData, met
     client := meta.(*ArmClient).maintenanceConfigurationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Maintenance Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Maintenance Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -114,17 +114,17 @@ func resourceArmMaintenanceConfigurationCreateUpdate(d *schema.ResourceData, met
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, resourceName, configuration); err != nil {
-        return fmt.Errorf("Error creating Maintenance Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, configuration); err != nil {
+        return fmt.Errorf("Error creating Maintenance Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Maintenance Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Maintenance Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Maintenance Configuration (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Maintenance Configuration %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -140,19 +140,20 @@ func resourceArmMaintenanceConfigurationRead(d *schema.ResourceData, meta interf
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    resourceName := id.Path["maintenanceConfigurations"]
+    name := id.Path["maintenanceConfigurations"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Maintenance Configuration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Maintenance Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Maintenance Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -163,7 +164,6 @@ func resourceArmMaintenanceConfigurationRead(d *schema.ResourceData, meta interf
         d.Set("maintenance_scope", string(configurationProperties.MaintenanceScope))
         d.Set("namespace", configurationProperties.Namespace)
     }
-    d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -180,10 +180,10 @@ func resourceArmMaintenanceConfigurationDelete(d *schema.ResourceData, meta inte
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    resourceName := id.Path["maintenanceConfigurations"]
+    name := id.Path["maintenanceConfigurations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, resourceName); err != nil {
-        return fmt.Errorf("Error deleting Maintenance Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Maintenance Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

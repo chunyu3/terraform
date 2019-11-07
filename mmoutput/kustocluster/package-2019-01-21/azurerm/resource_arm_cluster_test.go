@@ -34,15 +34,15 @@ func testCheckAzureRMClusterExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Cluster not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        clusterName := rs.Primary.Attributes["cluster_name"]
 
         client := testAccProvider.Meta().(*ArmClient).clustersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Cluster (Cluster Name %q / Resource Group %q) does not exist", clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Cluster %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on clustersClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMClusterDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        clusterName := rs.Primary.Attributes["cluster_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on clustersClient: %+v", err)
             }

@@ -31,6 +31,13 @@ func resourceArmWatcher() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmWatcher() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "automation_account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "watcher_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -118,15 +118,15 @@ func resourceArmWatcherCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).watcherClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    watcherName := d.Get("watcher_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, watcherName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q): %+v", watcherName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Watcher %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -157,17 +157,17 @@ func resourceArmWatcherCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, watcherName, parameters); err != nil {
-        return fmt.Errorf("Error creating Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q): %+v", watcherName, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Watcher %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, watcherName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q): %+v", watcherName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Watcher %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q) ID", watcherName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Watcher %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -184,19 +184,20 @@ func resourceArmWatcherRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    watcherName := id.Path["watchers"]
+    name := id.Path["watchers"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, watcherName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Watcher %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q): %+v", watcherName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Watcher %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -216,7 +217,6 @@ func resourceArmWatcherRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
-    d.Set("watcher_name", watcherName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -225,6 +225,7 @@ func resourceArmWatcherUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).watcherClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     description := d.Get("description").(string)
@@ -233,7 +234,6 @@ func resourceArmWatcherUpdate(d *schema.ResourceData, meta interface{}) error {
     scriptName := d.Get("script_name").(string)
     scriptParameters := d.Get("script_parameters").(map[string]interface{})
     scriptRunOn := d.Get("script_run_on").(string)
-    watcherName := d.Get("watcher_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := automation.Watcher{
@@ -250,8 +250,8 @@ func resourceArmWatcherUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, watcherName, parameters); err != nil {
-        return fmt.Errorf("Error updating Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q): %+v", watcherName, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Watcher %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return resourceArmWatcherRead(d, meta)
@@ -268,10 +268,10 @@ func resourceArmWatcherDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    watcherName := id.Path["watchers"]
+    name := id.Path["watchers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, watcherName); err != nil {
-        return fmt.Errorf("Error deleting Watcher (Watcher Name %q / Automation Account Name %q / Resource Group %q): %+v", watcherName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Watcher %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil

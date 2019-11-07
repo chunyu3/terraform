@@ -31,6 +31,13 @@ func resourceArmFileShare() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -61,13 +68,6 @@ func resourceArmFileShare() *schema.Resource {
             },
 
             "file_server_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -131,17 +131,17 @@ func resourceArmFileShareCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).fileSharesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
     fileServerName := d.Get("file_server_name").(string)
-    managerName := d.Get("manager_name").(string)
     shareName := d.Get("share_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -168,21 +168,21 @@ func resourceArmFileShareCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName, fileShare)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, fileServerName, shareName, fileShare)
     if err != nil {
-        return fmt.Errorf("Error creating File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error creating File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
     if err != nil {
-        return fmt.Errorf("Error retrieving File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error retrieving File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q) ID", managerName, resourceGroup, shareName, fileServerName, deviceName)
+        return fmt.Errorf("Cannot read File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q) ID", name, resourceGroup, shareName, fileServerName, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -197,23 +197,24 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     fileServerName := id.Path["fileservers"]
     shareName := id.Path["shares"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    resp, err := client.Get(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] File Share %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error reading File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if fileShareProperties := resp.FileShareProperties; fileShareProperties != nil {
@@ -228,7 +229,6 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("device_name", deviceName)
     d.Set("file_server_name", fileServerName)
-    d.Set("manager_name", managerName)
     d.Set("share_name", shareName)
     d.Set("type", resp.Type)
 
@@ -245,23 +245,23 @@ func resourceArmFileShareDelete(d *schema.ResourceData, meta interface{}) error 
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     fileServerName := id.Path["fileservers"]
     shareName := id.Path["shares"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    future, err := client.Delete(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, deviceName, fileServerName, shareName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+        return fmt.Errorf("Error deleting File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", managerName, resourceGroup, shareName, fileServerName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q): %+v", name, resourceGroup, shareName, fileServerName, deviceName, err)
         }
     }
 

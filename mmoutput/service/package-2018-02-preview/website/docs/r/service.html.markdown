@@ -28,9 +28,9 @@ Manage Azure Service instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group that contains the Windows IoT Device Service. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Windows IoT Device Service. Changing this forces a new resource to be created.
 
-* `device_name` - (Required) The name of the Windows IoT Device Service. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group that contains the Windows IoT Device Service. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The Azure Region where the resource lives Changing this forces a new resource to be created.
 

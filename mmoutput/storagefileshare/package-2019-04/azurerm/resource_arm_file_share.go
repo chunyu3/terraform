@@ -31,19 +31,19 @@ func resourceArmFileShare() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "share_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -83,15 +83,15 @@ func resourceArmFileShareCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).fileSharesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    shareName := d.Get("share_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, shareName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing File Share (Share Name %q / Account Name %q / Resource Group %q): %+v", shareName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing File Share %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,17 +110,17 @@ func resourceArmFileShareCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, fileShare); err != nil {
-        return fmt.Errorf("Error creating File Share (Share Name %q / Account Name %q / Resource Group %q): %+v", shareName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, name, fileShare); err != nil {
+        return fmt.Errorf("Error creating File Share %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving File Share (Share Name %q / Account Name %q / Resource Group %q): %+v", shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving File Share %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read File Share (Share Name %q / Account Name %q / Resource Group %q) ID", shareName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read File Share %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -137,19 +137,20 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["storageAccounts"]
-    shareName := id.Path["shares"]
+    name := id.Path["shares"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] File Share %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading File Share (Share Name %q / Account Name %q / Resource Group %q): %+v", shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading File Share %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -159,7 +160,6 @@ func resourceArmFileShareRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("metadata", utils.FlattenKeyValuePairs(fileShareProperties.Metadata))
         d.Set("share_quota", fileShareProperties.ShareQuota)
     }
-    d.Set("share_name", shareName)
     d.Set("type", resp.Type)
 
     return nil
@@ -169,10 +169,10 @@ func resourceArmFileShareUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).fileSharesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     metadata := d.Get("metadata").(map[string]interface{})
-    shareName := d.Get("share_name").(string)
     shareQuota := d.Get("share_quota").(int)
 
     fileShare := storage.FileShare{
@@ -183,8 +183,8 @@ func resourceArmFileShareUpdate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, shareName, fileShare); err != nil {
-        return fmt.Errorf("Error updating File Share (Share Name %q / Account Name %q / Resource Group %q): %+v", shareName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, fileShare); err != nil {
+        return fmt.Errorf("Error updating File Share %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmFileShareRead(d, meta)
@@ -201,10 +201,10 @@ func resourceArmFileShareDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["storageAccounts"]
-    shareName := id.Path["shares"]
+    name := id.Path["shares"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, shareName); err != nil {
-        return fmt.Errorf("Error deleting File Share (Share Name %q / Account Name %q / Resource Group %q): %+v", shareName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting File Share %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

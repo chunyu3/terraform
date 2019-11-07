@@ -31,19 +31,19 @@ func resourceArmElasticPool() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "elastic_pool_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "server_name": {
                 Type: schema.TypeString,
@@ -150,15 +150,15 @@ func resourceArmElasticPoolCreate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).elasticPoolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    elasticPoolName := d.Get("elastic_pool_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, elasticPoolName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -187,21 +187,21 @@ func resourceArmElasticPoolCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, elasticPoolName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, elasticPoolName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q) ID", elasticPoolName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Elastic Pool %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -218,19 +218,20 @@ func resourceArmElasticPoolRead(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    elasticPoolName := id.Path["elasticPools"]
+    name := id.Path["elasticPools"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, elasticPoolName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Elastic Pool %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -246,7 +247,6 @@ func resourceArmElasticPoolRead(d *schema.ResourceData, meta interface{}) error 
         d.Set("state", string(elasticPoolProperties.State))
         d.Set("zone_redundant", elasticPoolProperties.ZoneRedundant)
     }
-    d.Set("elastic_pool_name", elasticPoolName)
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
     if err := d.Set("sku", flattenArmElasticPoolSku(resp.Sku)); err != nil {
@@ -261,8 +261,8 @@ func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).elasticPoolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    elasticPoolName := d.Get("elastic_pool_name").(string)
     licenseType := d.Get("license_type").(string)
     maxSizeBytes := d.Get("max_size_bytes").(int)
     perDatabaseSettings := d.Get("per_database_settings").([]interface{})
@@ -284,12 +284,12 @@ func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serverName, elasticPoolName, parameters)
+    future, err := client.Update(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error updating Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     return resourceArmElasticPoolRead(d, meta)
@@ -306,19 +306,19 @@ func resourceArmElasticPoolDelete(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    elasticPoolName := id.Path["elasticPools"]
+    name := id.Path["elasticPools"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, elasticPoolName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Elastic Pool (Elastic Pool Name %q / Server Name %q / Resource Group %q): %+v", elasticPoolName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Elastic Pool %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
         }
     }
 

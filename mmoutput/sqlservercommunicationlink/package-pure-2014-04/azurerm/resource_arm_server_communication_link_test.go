@@ -34,16 +34,16 @@ func testCheckAzureRMServerCommunicationLinkExists(resourceName string) resource
             return fmt.Errorf("Server Communication Link not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        communicationLinkName := rs.Primary.Attributes["communication_link_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serverCommunicationLinksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, communicationLinkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Server Communication Link (Communication Link Name %q / Server Name %q / Resource Group %q) does not exist", communicationLinkName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Server Communication Link %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serverCommunicationLinksClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMServerCommunicationLinkDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        communicationLinkName := rs.Primary.Attributes["communication_link_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, communicationLinkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serverCommunicationLinksClient: %+v", err)
             }

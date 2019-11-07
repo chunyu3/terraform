@@ -28,6 +28,8 @@ Manage Azure Relationship instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Relationship. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `profile_type` - (Required) Profile type.
 
 * `related_profile_type` - (Required) Related profile being referenced.
-
-* `relationship_name` - (Required) The name of the Relationship. Changing this forces a new resource to be created.
 
 * `cardinality` - (Optional) The Relationship Cardinality. Defaults to `OneToOne`.
 

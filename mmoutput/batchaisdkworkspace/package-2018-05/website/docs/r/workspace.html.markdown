@@ -28,17 +28,11 @@ Manage Azure Workspace instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group to which the resource belongs. Changing this forces a new resource to be created.
 
 * `location` - (Required) The region in which to create the Workspace. Changing this forces a new resource to be created.
-
-* `workspace_name` - (Required) The name of the workspace. Workspace names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long. Changing this forces a new resource to be created.
-
-* `creation_time` - (Optional) Time when the Workspace was created.
-
-* `provisioning_state` - (Optional) The provisioned state of the Workspace Defaults to `creating`.
-
-* `provisioning_state_transition_time` - (Optional) The time at which the workspace entered its current provisioning state.
 
 * `tags` - (Optional) The user specified tags associated with the Workspace. Changing this forces a new resource to be created.
 
@@ -51,3 +45,9 @@ The following attributes are exported:
 * `name` - The name of the resource
 
 * `type` - The type of the resource
+
+* `creation_time` - Time when the Workspace was created.
+
+* `provisioning_state` - The provisioned state of the Workspace
+
+* `provisioning_state_transition_time` - The time at which the workspace entered its current provisioning state.

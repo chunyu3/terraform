@@ -34,18 +34,18 @@ func testCheckAzureRMProductPolicyExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Product Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
          := rs.Primary.Attributes["format"]
         policyID := rs.Primary.Attributes["policy_id"]
         productID := rs.Primary.Attributes["product_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).productPolicyClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, productID, policyID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, productID, policyID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Product Policy (Policy %q / Product %q / Service Name %q / Resource Group %q) does not exist", policyID, productID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Product Policy %q (Policy %q / Product %q / Resource Group %q) does not exist", name, policyID, productID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on productPolicyClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMProductPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
          := rs.Primary.Attributes["format"]
         policyID := rs.Primary.Attributes["policy_id"]
         productID := rs.Primary.Attributes["product_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, productID, policyID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, productID, policyID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on productPolicyClient: %+v", err)
             }

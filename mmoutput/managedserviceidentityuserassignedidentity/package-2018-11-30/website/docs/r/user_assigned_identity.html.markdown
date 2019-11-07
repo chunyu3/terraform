@@ -28,9 +28,9 @@ Manage Azure UserAssignedIdentity instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the Resource Group to which the identity belongs. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the identity resource. Changing this forces a new resource to be created.
 
-* `resource_name` - (Required) The name of the identity resource. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the Resource Group to which the identity belongs. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The Azure region where the identity lives. Changing this forces a new resource to be created.
 

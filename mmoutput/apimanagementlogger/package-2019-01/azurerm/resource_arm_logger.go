@@ -31,6 +31,13 @@ func resourceArmLogger() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -56,13 +63,6 @@ func resourceArmLogger() *schema.Resource {
                     string(apimanagement.azureEventHub),
                     string(apimanagement.applicationInsights),
                 }, false),
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "description": {
@@ -92,15 +92,15 @@ func resourceArmLoggerCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).loggerClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     loggerID := d.Get("logger_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, loggerID)
+        existing, err := client.Get(ctx, resourceGroup, name, loggerID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Logger (Logger %q / Service Name %q / Resource Group %q): %+v", loggerID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Logger %q (Logger %q / Resource Group %q): %+v", name, loggerID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -125,17 +125,17 @@ func resourceArmLoggerCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, loggerID, parameters); err != nil {
-        return fmt.Errorf("Error creating Logger (Logger %q / Service Name %q / Resource Group %q): %+v", loggerID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, loggerID, parameters); err != nil {
+        return fmt.Errorf("Error creating Logger %q (Logger %q / Resource Group %q): %+v", name, loggerID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, loggerID)
+    resp, err := client.Get(ctx, resourceGroup, name, loggerID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Logger (Logger %q / Service Name %q / Resource Group %q): %+v", loggerID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Logger %q (Logger %q / Resource Group %q): %+v", name, loggerID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Logger (Logger %q / Service Name %q / Resource Group %q) ID", loggerID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Logger %q (Logger %q / Resource Group %q) ID", name, loggerID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -151,20 +151,21 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     loggerID := id.Path["loggers"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, loggerID)
+    resp, err := client.Get(ctx, resourceGroup, name, loggerID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Logger %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Logger (Logger %q / Service Name %q / Resource Group %q): %+v", loggerID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Logger %q (Logger %q / Resource Group %q): %+v", name, loggerID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if loggerContractProperties := resp.LoggerContractProperties; loggerContractProperties != nil {
@@ -175,7 +176,6 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("resource_id", loggerContractProperties.ResourceID)
     }
     d.Set("logger_id", loggerID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -185,6 +185,7 @@ func resourceArmLoggerUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).loggerClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     credentials := d.Get("credentials").(map[string]interface{})
     description := d.Get("description").(string)
@@ -192,7 +193,6 @@ func resourceArmLoggerUpdate(d *schema.ResourceData, meta interface{}) error {
     loggerID := d.Get("logger_id").(string)
     loggerType := d.Get("logger_type").(string)
     resourceId := d.Get("resource_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     parameters := apimanagement.LoggerContract{
         LoggerContractProperties: &apimanagement.LoggerContractProperties{
@@ -205,8 +205,8 @@ func resourceArmLoggerUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, loggerID, parameters); err != nil {
-        return fmt.Errorf("Error updating Logger (Logger %q / Service Name %q / Resource Group %q): %+v", loggerID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, loggerID, parameters); err != nil {
+        return fmt.Errorf("Error updating Logger %q (Logger %q / Resource Group %q): %+v", name, loggerID, resourceGroup, err)
     }
 
     return resourceArmLoggerRead(d, meta)
@@ -222,11 +222,11 @@ func resourceArmLoggerDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     loggerID := id.Path["loggers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, loggerID); err != nil {
-        return fmt.Errorf("Error deleting Logger (Logger %q / Service Name %q / Resource Group %q): %+v", loggerID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, loggerID); err != nil {
+        return fmt.Errorf("Error deleting Logger %q (Logger %q / Resource Group %q): %+v", name, loggerID, resourceGroup, err)
     }
 
     return nil

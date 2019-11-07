@@ -34,15 +34,15 @@ func testCheckAzureRMApplianceDefinitionExists(resourceName string) resource.Tes
             return fmt.Errorf("Appliance Definition not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applianceDefinitionName := rs.Primary.Attributes["appliance_definition_name"]
 
         client := testAccProvider.Meta().(*ArmClient).applianceDefinitionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, applianceDefinitionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Appliance Definition (Appliance Definition Name %q / Resource Group %q) does not exist", applianceDefinitionName, resourceGroup)
+                return fmt.Errorf("Bad: Appliance Definition %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on applianceDefinitionsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMApplianceDefinitionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applianceDefinitionName := rs.Primary.Attributes["appliance_definition_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, applianceDefinitionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on applianceDefinitionsClient: %+v", err)
             }

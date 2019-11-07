@@ -34,17 +34,17 @@ func testCheckAzureRMApiDiagnosticExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Api Diagnostic not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         diagnosticID := rs.Primary.Attributes["diagnostic_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiDiagnosticClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, diagnosticID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Diagnostic (Diagnostic %q / Api %q / Service Name %q / Resource Group %q) does not exist", diagnosticID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Diagnostic %q (Diagnostic %q / Api %q / Resource Group %q) does not exist", name, diagnosticID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiDiagnosticClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMApiDiagnosticDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         diagnosticID := rs.Primary.Attributes["diagnostic_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, diagnosticID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, diagnosticID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiDiagnosticClient: %+v", err)
             }

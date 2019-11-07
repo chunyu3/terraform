@@ -31,6 +31,13 @@ func resourceArmVolume() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -41,13 +48,6 @@ func resourceArmVolume() *schema.Resource {
             "provider": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "volume_resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -109,14 +109,14 @@ func resourceArmVolumeCreateUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).volumeClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    volumeResourceName := d.Get("volume_resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, volumeResourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Volume (Volume Resource Name %q / Resource Group %q): %+v", volumeResourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Volume %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -141,17 +141,17 @@ func resourceArmVolumeCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, volumeResourceName, volumeResourceDescription); err != nil {
-        return fmt.Errorf("Error creating Volume (Volume Resource Name %q / Resource Group %q): %+v", volumeResourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, volumeResourceDescription); err != nil {
+        return fmt.Errorf("Error creating Volume %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, volumeResourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Volume (Volume Resource Name %q / Resource Group %q): %+v", volumeResourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Volume %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Volume (Volume Resource Name %q / Resource Group %q) ID", volumeResourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Volume %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -167,19 +167,20 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    volumeResourceName := id.Path["volumes"]
+    name := id.Path["volumes"]
 
-    resp, err := client.Get(ctx, resourceGroup, volumeResourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Volume %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Volume (Volume Resource Name %q / Resource Group %q): %+v", volumeResourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Volume %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -196,7 +197,6 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("status_details", volumeResourceProperties.StatusDetails)
     }
     d.Set("type", resp.Type)
-    d.Set("volume_resource_name", volumeResourceName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -212,10 +212,10 @@ func resourceArmVolumeDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    volumeResourceName := id.Path["volumes"]
+    name := id.Path["volumes"]
 
-    if _, err := client.Delete(ctx, resourceGroup, volumeResourceName); err != nil {
-        return fmt.Errorf("Error deleting Volume (Volume Resource Name %q / Resource Group %q): %+v", volumeResourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Volume %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

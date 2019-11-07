@@ -34,15 +34,15 @@ func testCheckAzureRMApplicationExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Application not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationResourceName := rs.Primary.Attributes["application_resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).applicationClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, applicationResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Application (Application Resource Name %q / Resource Group %q) does not exist", applicationResourceName, resourceGroup)
+                return fmt.Errorf("Bad: Application %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on applicationClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMApplicationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationResourceName := rs.Primary.Attributes["application_resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, applicationResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on applicationClient: %+v", err)
             }

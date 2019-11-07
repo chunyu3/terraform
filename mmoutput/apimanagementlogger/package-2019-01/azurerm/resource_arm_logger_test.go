@@ -34,16 +34,16 @@ func testCheckAzureRMLoggerExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Logger not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         loggerID := rs.Primary.Attributes["logger_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).loggerClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, loggerID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, loggerID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Logger (Logger %q / Service Name %q / Resource Group %q) does not exist", loggerID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Logger %q (Logger %q / Resource Group %q) does not exist", name, loggerID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on loggerClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMLoggerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         loggerID := rs.Primary.Attributes["logger_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, loggerID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, loggerID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on loggerClient: %+v", err)
             }

@@ -34,17 +34,17 @@ func testCheckAzureRMBackupPolicyExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Backup Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         backupPolicyName := rs.Primary.Attributes["backup_policy_name"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).backupPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, backupPolicyName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, backupPolicyName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Backup Policy (Manager Name %q / Resource Group %q / Backup Policy Name %q / Device Name %q) does not exist", managerName, resourceGroup, backupPolicyName, deviceName)
+                return fmt.Errorf("Bad: Backup Policy %q (Resource Group %q / Backup Policy Name %q / Device Name %q) does not exist", name, resourceGroup, backupPolicyName, deviceName)
             }
             return fmt.Errorf("Bad: Get on backupPoliciesClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMBackupPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         backupPolicyName := rs.Primary.Attributes["backup_policy_name"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, deviceName, backupPolicyName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, backupPolicyName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on backupPoliciesClient: %+v", err)
             }

@@ -36,16 +36,16 @@ func resourceArmVariable() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "automation_account_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "variable_name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -89,15 +89,15 @@ func resourceArmVariableCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).variableClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    variableName := d.Get("variable_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, variableName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Variable (Variable Name %q / Automation Account Name %q / Resource Group %q): %+v", variableName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Variable %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -120,17 +120,17 @@ func resourceArmVariableCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, variableName, parameters); err != nil {
-        return fmt.Errorf("Error creating Variable (Variable Name %q / Automation Account Name %q / Resource Group %q): %+v", variableName, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Variable %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, variableName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Variable (Variable Name %q / Automation Account Name %q / Resource Group %q): %+v", variableName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Variable %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Variable (Variable Name %q / Automation Account Name %q / Resource Group %q) ID", variableName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Variable %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -147,19 +147,20 @@ func resourceArmVariableRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    variableName := id.Path["variables"]
+    name := id.Path["variables"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, variableName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Variable %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Variable (Variable Name %q / Automation Account Name %q / Resource Group %q): %+v", variableName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Variable %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
@@ -171,7 +172,6 @@ func resourceArmVariableRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("value", variableCreateOrUpdateProperties.Value)
     }
     d.Set("type", resp.Type)
-    d.Set("variable_name", variableName)
 
     return nil
 }
@@ -181,12 +181,12 @@ func resourceArmVariableUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     description := d.Get("description").(string)
     isEncrypted := d.Get("is_encrypted").(bool)
     value := d.Get("value").(string)
-    variableName := d.Get("variable_name").(string)
 
     parameters := automation.VariableCreateOrUpdateParameters{
         Name: utils.String(name),
@@ -198,8 +198,8 @@ func resourceArmVariableUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, variableName, parameters); err != nil {
-        return fmt.Errorf("Error updating Variable (Variable Name %q / Automation Account Name %q / Resource Group %q): %+v", variableName, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Variable %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return resourceArmVariableRead(d, meta)
@@ -216,10 +216,10 @@ func resourceArmVariableDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    variableName := id.Path["variables"]
+    name := id.Path["variables"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, variableName); err != nil {
-        return fmt.Errorf("Error deleting Variable (Variable Name %q / Automation Account Name %q / Resource Group %q): %+v", variableName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Variable %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil

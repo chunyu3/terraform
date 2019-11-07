@@ -28,6 +28,8 @@ Manage Azure Volume instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the volume Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
@@ -39,8 +41,6 @@ The following arguments are supported:
 * `pool_name` - (Required) The name of the capacity pool Changing this forces a new resource to be created.
 
 * `service_level` - (Required) The service level of the file system
-
-* `volume_name` - (Required) The name of the volume Changing this forces a new resource to be created.
 
 * `export_policy` - (Optional) One `export_policy` block defined below.
 

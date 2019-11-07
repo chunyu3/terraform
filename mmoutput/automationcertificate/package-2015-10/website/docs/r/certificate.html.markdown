@@ -28,6 +28,8 @@ Manage Azure Certificate instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The parameters supplied to the create or update certificate operation. Changing this forces a new resource to be created.
+
 * `name` - (Required) Gets or sets the name of the certificate. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
 * `base64value` - (Required) Gets or sets the base64 encoded value of the certificate.
-
-* `certificate_name` - (Required) The parameters supplied to the create or update certificate operation. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Gets or sets the description of the certificate.
 

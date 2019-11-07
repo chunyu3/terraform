@@ -34,15 +34,15 @@ func testCheckAzureRMJobCollectionExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Job Collection not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        jobCollectionName := rs.Primary.Attributes["job_collection_name"]
 
         client := testAccProvider.Meta().(*ArmClient).jobCollectionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, jobCollectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Job Collection (Job Collection Name %q / Resource Group %q) does not exist", jobCollectionName, resourceGroup)
+                return fmt.Errorf("Bad: Job Collection %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on jobCollectionsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMJobCollectionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        jobCollectionName := rs.Primary.Attributes["job_collection_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, jobCollectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on jobCollectionsClient: %+v", err)
             }

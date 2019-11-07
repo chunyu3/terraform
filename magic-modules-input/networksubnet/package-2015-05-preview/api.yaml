@@ -35,9 +35,9 @@ objects:
             python_variable_name: virtual_network_name
           'subnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: subnets
-            go_variable_name: subnetName
+            go_variable_name: name
             python_parameter_name: subnet_name
-            python_variable_name: subnet_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: subnetParameters
             go_type_name: Subnet
@@ -118,9 +118,9 @@ objects:
             python_variable_name: virtual_network_name
           'subnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: subnets
-            go_variable_name: subnetName
+            go_variable_name: name
             python_parameter_name: subnet_name
-            python_variable_name: subnet_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -137,9 +137,9 @@ objects:
             python_variable_name: virtual_network_name
           'subnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: subnets
-            go_variable_name: subnetName
+            go_variable_name: name
             python_parameter_name: subnet_name
-            python_variable_name: subnet_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -236,7 +236,7 @@ objects:
         input: true
         azure_sdk_references: ['virtualNetworkName']
       - !ruby/object:Api::Type::String
-        name: 'subnetName'
+        name: 'name'
         description: 'The name of the subnet.'
         required: true
         input: true

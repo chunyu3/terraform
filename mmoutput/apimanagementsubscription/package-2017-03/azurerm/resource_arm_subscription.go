@@ -31,6 +31,13 @@ func resourceArmSubscription() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -45,13 +52,6 @@ func resourceArmSubscription() *schema.Resource {
             "product_id": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -134,15 +134,15 @@ func resourceArmSubscriptionCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).subscriptionClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    serviceName := d.Get("service_name").(string)
     sid := d.Get("sid").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, sid)
+        existing, err := client.Get(ctx, resourceGroup, name, sid)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Subscription (Sid %q / Service Name %q / Resource Group %q): %+v", sid, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Subscription %q (Sid %q / Resource Group %q): %+v", name, sid, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -169,17 +169,17 @@ func resourceArmSubscriptionCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, sid, parameters); err != nil {
-        return fmt.Errorf("Error creating Subscription (Sid %q / Service Name %q / Resource Group %q): %+v", sid, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, sid, parameters); err != nil {
+        return fmt.Errorf("Error creating Subscription %q (Sid %q / Resource Group %q): %+v", name, sid, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, sid)
+    resp, err := client.Get(ctx, resourceGroup, name, sid)
     if err != nil {
-        return fmt.Errorf("Error retrieving Subscription (Sid %q / Service Name %q / Resource Group %q): %+v", sid, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Subscription %q (Sid %q / Resource Group %q): %+v", name, sid, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Subscription (Sid %q / Service Name %q / Resource Group %q) ID", sid, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Subscription %q (Sid %q / Resource Group %q) ID", name, sid, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -195,20 +195,21 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     sid := id.Path["subscriptions"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, sid)
+    resp, err := client.Get(ctx, resourceGroup, name, sid)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Subscription %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Subscription (Sid %q / Service Name %q / Resource Group %q): %+v", sid, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Subscription %q (Sid %q / Resource Group %q): %+v", name, sid, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if subscriptionCreateParameterProperties := resp.SubscriptionCreateParameterProperties; subscriptionCreateParameterProperties != nil {
@@ -225,7 +226,6 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
         d.Set("state_comment", subscriptionCreateParameterProperties.StateComment)
         d.Set("user_id", subscriptionCreateParameterProperties.UserID)
     }
-    d.Set("service_name", serviceName)
     d.Set("sid", sid)
     d.Set("type", resp.Type)
 
@@ -236,12 +236,12 @@ func resourceArmSubscriptionUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).subscriptionClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     displayName := d.Get("display_name").(string)
     primaryKey := d.Get("primary_key").(string)
     productId := d.Get("product_id").(string)
     secondaryKey := d.Get("secondary_key").(string)
-    serviceName := d.Get("service_name").(string)
     sid := d.Get("sid").(string)
     state := d.Get("state").(string)
     userId := d.Get("user_id").(string)
@@ -258,8 +258,8 @@ func resourceArmSubscriptionUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, sid, parameters); err != nil {
-        return fmt.Errorf("Error updating Subscription (Sid %q / Service Name %q / Resource Group %q): %+v", sid, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, sid, parameters); err != nil {
+        return fmt.Errorf("Error updating Subscription %q (Sid %q / Resource Group %q): %+v", name, sid, resourceGroup, err)
     }
 
     return resourceArmSubscriptionRead(d, meta)
@@ -275,11 +275,11 @@ func resourceArmSubscriptionDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     sid := id.Path["subscriptions"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, sid); err != nil {
-        return fmt.Errorf("Error deleting Subscription (Sid %q / Service Name %q / Resource Group %q): %+v", sid, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, sid); err != nil {
+        return fmt.Errorf("Error deleting Subscription %q (Sid %q / Resource Group %q): %+v", name, sid, resourceGroup, err)
     }
 
     return nil

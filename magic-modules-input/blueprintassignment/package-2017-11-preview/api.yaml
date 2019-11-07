@@ -24,9 +24,9 @@ objects:
         request:
           'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprintAssignments
-            go_variable_name: assignmentName
+            go_variable_name: name
             python_parameter_name: assignment_name
-            python_variable_name: assignment_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: assignment
             go_type_name: Assignment
@@ -103,18 +103,18 @@ objects:
         request:
           'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprintAssignments
-            go_variable_name: assignmentName
+            go_variable_name: name
             python_parameter_name: assignment_name
-            python_variable_name: assignment_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
           'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprintAssignments
-            go_variable_name: assignmentName
+            go_variable_name: name
             python_parameter_name: assignment_name
-            python_variable_name: assignment_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -185,9 +185,21 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_type_name: AssignmentStatus
+          '/properties/status/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeCreated
+          '/properties/status/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastModified
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: status
+          '/status/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_created
+          '/status/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_modified
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -213,7 +225,7 @@ objects:
       Manage Azure Assignment instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'assignmentName'
+        name: 'name'
         description: 'name of the assignment.'
         required: true
         input: true
@@ -296,16 +308,6 @@ objects:
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'timeCreated'
-            description: 'Creation time of this blueprint.'
-            required: false
-            azure_sdk_references: ['/status/timeCreated', '/properties/status/timeCreated']
-          - !ruby/object:Api::Type::String
-            name: 'lastModified'
-            description: 'Last modified time of this blueprint.'
-            required: false
-            azure_sdk_references: ['/status/lastModified', '/properties/status/lastModified']
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'State of the assignment.'

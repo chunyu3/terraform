@@ -28,11 +28,11 @@ Manage Azure Manager instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo location of the resource. Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `cis_intrinsic_settings` - (Optional) One `cis_intrinsic_setting` block defined below.
 

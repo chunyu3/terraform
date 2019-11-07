@@ -34,16 +34,16 @@ func testCheckAzureRMWorkflowAccessKeyExists(resourceName string) resource.TestC
             return fmt.Errorf("Workflow Access Key not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        accessKeyName := rs.Primary.Attributes["access_key_name"]
         workflowName := rs.Primary.Attributes["workflow_name"]
 
         client := testAccProvider.Meta().(*ArmClient).workflowAccessKeysClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, workflowName, accessKeyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, workflowName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Workflow Access Key (Access Key Name %q / Workflow Name %q / Resource Group %q) does not exist", accessKeyName, workflowName, resourceGroup)
+                return fmt.Errorf("Bad: Workflow Access Key %q (Workflow Name %q / Resource Group %q) does not exist", name, workflowName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on workflowAccessKeysClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMWorkflowAccessKeyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        accessKeyName := rs.Primary.Attributes["access_key_name"]
         workflowName := rs.Primary.Attributes["workflow_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, workflowName, accessKeyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, workflowName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on workflowAccessKeysClient: %+v", err)
             }

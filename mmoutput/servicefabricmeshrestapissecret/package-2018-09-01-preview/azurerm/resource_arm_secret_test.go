@@ -34,15 +34,15 @@ func testCheckAzureRMSecretExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Secret not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        secretResourceName := rs.Primary.Attributes["secret_resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).secretClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, secretResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Secret (Secret Resource Name %q / Resource Group %q) does not exist", secretResourceName, resourceGroup)
+                return fmt.Errorf("Bad: Secret %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on secretClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMSecretDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        secretResourceName := rs.Primary.Attributes["secret_resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, secretResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on secretClient: %+v", err)
             }

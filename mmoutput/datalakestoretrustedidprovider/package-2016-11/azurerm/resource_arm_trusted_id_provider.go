@@ -31,6 +31,13 @@ func resourceArmTrustedIdProvider() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -49,13 +56,6 @@ func resourceArmTrustedIdProvider() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "trusted_id_provider_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -68,15 +68,15 @@ func resourceArmTrustedIdProviderCreate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).trustedIdProvidersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    trustedIDProviderName := d.Get("trusted_id_provider_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, trustedIDProviderName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q): %+v", trustedIDProviderName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Trusted Id Provider %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -93,17 +93,17 @@ func resourceArmTrustedIdProviderCreate(d *schema.ResourceData, meta interface{}
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, trustedIDProviderName, parameters); err != nil {
-        return fmt.Errorf("Error creating Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q): %+v", trustedIDProviderName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Trusted Id Provider %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, trustedIDProviderName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q): %+v", trustedIDProviderName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Trusted Id Provider %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q) ID", trustedIDProviderName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Trusted Id Provider %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -120,26 +120,26 @@ func resourceArmTrustedIdProviderRead(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    trustedIDProviderName := id.Path["trustedIdProviders"]
+    name := id.Path["trustedIdProviders"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, trustedIDProviderName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Trusted Id Provider %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q): %+v", trustedIDProviderName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Trusted Id Provider %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     if createOrUpdateTrustedIdProviderProperties := resp.CreateOrUpdateTrustedIdProviderProperties; createOrUpdateTrustedIdProviderProperties != nil {
         d.Set("id_provider", createOrUpdateTrustedIdProviderProperties.IDProvider)
     }
-    d.Set("trusted_id_provider_name", trustedIDProviderName)
     d.Set("type", resp.Type)
 
     return nil
@@ -149,10 +149,10 @@ func resourceArmTrustedIdProviderUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).trustedIdProvidersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     idProvider := d.Get("id_provider").(string)
-    trustedIDProviderName := d.Get("trusted_id_provider_name").(string)
 
     parameters := datalakestore.CreateOrUpdateTrustedIdProviderParameters{
         CreateOrUpdateTrustedIdProviderProperties: &datalakestore.CreateOrUpdateTrustedIdProviderProperties{
@@ -161,8 +161,8 @@ func resourceArmTrustedIdProviderUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, trustedIDProviderName, parameters); err != nil {
-        return fmt.Errorf("Error updating Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q): %+v", trustedIDProviderName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Trusted Id Provider %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmTrustedIdProviderRead(d, meta)
@@ -179,10 +179,10 @@ func resourceArmTrustedIdProviderDelete(d *schema.ResourceData, meta interface{}
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    trustedIDProviderName := id.Path["trustedIdProviders"]
+    name := id.Path["trustedIdProviders"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, trustedIDProviderName); err != nil {
-        return fmt.Errorf("Error deleting Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q): %+v", trustedIDProviderName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Trusted Id Provider %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

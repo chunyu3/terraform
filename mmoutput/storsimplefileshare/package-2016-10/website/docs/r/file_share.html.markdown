@@ -28,6 +28,8 @@ Manage Azure FileShare instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `admin_user` - (Required) The user/group who will have full permission in this share. Active directory email address. Example: xyz@contoso.com or Contoso\xyz.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
 * `file_server_name` - (Required) The file server name. Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `monitoring_status` - (Required) The monitoring status
 

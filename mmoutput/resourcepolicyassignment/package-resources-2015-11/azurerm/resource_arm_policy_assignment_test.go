@@ -34,15 +34,15 @@ func testCheckAzureRMPolicyAssignmentExists(resourceName string) resource.TestCh
             return fmt.Errorf("Policy Assignment not found: %s", resourceName)
         }
 
-        policyAssignmentName := rs.Primary.Attributes["policy_assignment_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
 
         client := testAccProvider.Meta().(*ArmClient).policyAssignmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, scope, policyAssignmentName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Policy Assignment (Policy Assignment Name %q / Scope %q) does not exist", policyAssignmentName, scope)
+                return fmt.Errorf("Bad: Policy Assignment %q (Scope %q) does not exist", name, scope)
             }
             return fmt.Errorf("Bad: Get on policyAssignmentsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMPolicyAssignmentDestroy(s *terraform.State) error {
             continue
         }
 
-        policyAssignmentName := rs.Primary.Attributes["policy_assignment_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
 
-        if resp, err := client.Get(ctx, scope, policyAssignmentName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on policyAssignmentsClient: %+v", err)
             }

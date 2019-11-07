@@ -31,19 +31,19 @@ func resourceArmDedicatedCloudService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "dedicated_cloud_service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "gateway_subnet": {
                 Type: schema.TypeString,
@@ -80,14 +80,14 @@ func resourceArmDedicatedCloudServiceCreate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).dedicatedCloudServicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    dedicatedCloudServiceName := d.Get("dedicated_cloud_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, dedicatedCloudServiceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -108,17 +108,17 @@ func resourceArmDedicatedCloudServiceCreate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, dedicatedCloudServiceName, dedicatedCloudServiceRequest); err != nil {
-        return fmt.Errorf("Error creating Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, dedicatedCloudServiceRequest); err != nil {
+        return fmt.Errorf("Error creating Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, dedicatedCloudServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q) ID", dedicatedCloudServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Dedicated Cloud Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -134,25 +134,25 @@ func resourceArmDedicatedCloudServiceRead(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    dedicatedCloudServiceName := id.Path["dedicatedCloudServices"]
+    name := id.Path["dedicatedCloudServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, dedicatedCloudServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Dedicated Cloud Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("dedicated_cloud_service_name", dedicatedCloudServiceName)
     if dedicatedCloudServiceProperties := resp.DedicatedCloudServiceProperties; dedicatedCloudServiceProperties != nil {
         d.Set("gateway_subnet", dedicatedCloudServiceProperties.GatewaySubnet)
         d.Set("is_account_onboarded", string(dedicatedCloudServiceProperties.IsAccountOnboarded))
@@ -168,8 +168,8 @@ func resourceArmDedicatedCloudServiceUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).dedicatedCloudServicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    dedicatedCloudServiceName := d.Get("dedicated_cloud_service_name").(string)
     gatewaySubnet := d.Get("gateway_subnet").(string)
     t := d.Get("tags").(map[string]interface{})
 
@@ -182,8 +182,8 @@ func resourceArmDedicatedCloudServiceUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, dedicatedCloudServiceName, dedicatedCloudServiceRequest); err != nil {
-        return fmt.Errorf("Error updating Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, dedicatedCloudServiceRequest); err != nil {
+        return fmt.Errorf("Error updating Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmDedicatedCloudServiceRead(d, meta)
@@ -199,19 +199,19 @@ func resourceArmDedicatedCloudServiceDelete(d *schema.ResourceData, meta interfa
         return err
     }
     resourceGroup := id.ResourceGroup
-    dedicatedCloudServiceName := id.Path["dedicatedCloudServices"]
+    name := id.Path["dedicatedCloudServices"]
 
-    future, err := client.Delete(ctx, resourceGroup, dedicatedCloudServiceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q): %+v", dedicatedCloudServiceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Dedicated Cloud Service %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

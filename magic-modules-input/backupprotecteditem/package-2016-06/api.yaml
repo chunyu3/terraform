@@ -22,16 +22,16 @@ objects:
         go_func_name: CreateOrUpdate
         python_func_name: create_or_update
         request:
-          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: vaultName
-            python_parameter_name: vault_name
-            python_variable_name: vault_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: backupFabrics
             go_variable_name: fabricName
@@ -44,9 +44,9 @@ objects:
             python_variable_name: container_name
           'protectedItemName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: protectedItems
-            go_variable_name: protectedItemName
+            go_variable_name: name
             python_parameter_name: protected_item_name
-            python_variable_name: protected_item_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: resourceProtectedItem
             go_type_name: ProtectedItemResource
@@ -110,16 +110,16 @@ objects:
         go_func_name: Delete
         python_func_name: delete
         request:
-          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: vaultName
-            python_parameter_name: vault_name
-            python_variable_name: vault_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: backupFabrics
             go_variable_name: fabricName
@@ -132,23 +132,23 @@ objects:
             python_variable_name: container_name
           'protectedItemName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: protectedItems
-            go_variable_name: protectedItemName
+            go_variable_name: name
             python_parameter_name: protected_item_name
-            python_variable_name: protected_item_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: vaultName
-            python_parameter_name: vault_name
-            python_variable_name: vault_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
           'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: backupFabrics
             go_variable_name: fabricName
@@ -161,9 +161,9 @@ objects:
             python_variable_name: container_name
           'protectedItemName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: protectedItems
-            go_variable_name: protectedItemName
+            go_variable_name: name
             python_parameter_name: protected_item_name
-            python_variable_name: protected_item_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -223,16 +223,16 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
-          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: vaults
-            go_variable_name: vaultName
-            python_parameter_name: vault_name
-            python_variable_name: vault_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
 
     description: |
       Manage Azure ProtectedItem instance.
@@ -262,7 +262,7 @@ objects:
         input: true
         azure_sdk_references: ['containerName']
       - !ruby/object:Api::Type::String
-        name: 'protectedItemName'
+        name: 'name'
         description: 'The name of the backup item.'
         required: true
         input: true

@@ -28,9 +28,9 @@ Manage Azure ExpressRouteCircuitAuthorization instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the authorization. Changing this forces a new resource to be created.
 
-* `authorization_name` - (Required) The name of the authorization. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `circuit_name` - (Required) The name of the express route circuit. Changing this forces a new resource to be created.
 

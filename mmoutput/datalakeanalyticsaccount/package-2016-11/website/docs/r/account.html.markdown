@@ -28,11 +28,11 @@ Manage Azure Account instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Data Lake Analytics account. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) The resource location. Changing this forces a new resource to be created.
-
-* `account_name` - (Required) The name of the Data Lake Analytics account. Changing this forces a new resource to be created.
 
 * `data_lake_store_accounts` - (Required) One or more `data_lake_store_account` block defined below.
 

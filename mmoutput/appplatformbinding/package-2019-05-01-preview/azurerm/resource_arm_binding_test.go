@@ -34,17 +34,17 @@ func testCheckAzureRMBindingExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Binding not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         appName := rs.Primary.Attributes["app_name"]
-        bindingName := rs.Primary.Attributes["binding_name"]
         serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).bindingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, appName, bindingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serviceName, appName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q) does not exist", bindingName, appName, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Binding %q (App Name %q / Service Name %q / Resource Group %q) does not exist", name, appName, serviceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on bindingsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMBindingDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         appName := rs.Primary.Attributes["app_name"]
-        bindingName := rs.Primary.Attributes["binding_name"]
         serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, appName, bindingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serviceName, appName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on bindingsClient: %+v", err)
             }

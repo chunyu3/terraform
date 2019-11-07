@@ -29,9 +29,9 @@ objects:
             python_variable_name: management_group_name
           'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprints
-            go_variable_name: blueprintName
+            go_variable_name: name
             python_parameter_name: blueprint_name
-            python_variable_name: blueprint_name
+            python_variable_name: name
           'versionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
             go_variable_name: versionID
@@ -48,9 +48,9 @@ objects:
             python_variable_name: management_group_name
           'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprints
-            go_variable_name: blueprintName
+            go_variable_name: name
             python_parameter_name: blueprint_name
-            python_variable_name: blueprint_name
+            python_variable_name: name
           'versionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
             go_variable_name: versionID
@@ -67,9 +67,9 @@ objects:
             python_variable_name: management_group_name
           'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprints
-            go_variable_name: blueprintName
+            go_variable_name: name
             python_parameter_name: blueprint_name
-            python_variable_name: blueprint_name
+            python_variable_name: name
           'versionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
             go_variable_name: versionID
@@ -89,6 +89,68 @@ objects:
             applicable_to: [go]
             go_field_name: PublishedBlueprintProperties
             go_type_name: PublishedBlueprintProperties
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_type_name: Status
+          '/properties/status/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeCreated
+          '/properties/status/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastModified
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: status
+          '/status/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_created
+          '/status/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_modified
+          '/properties/targetScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TargetScope
+            go_enum_type_name: TargetScope
+          '/targetScope': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: target_scope
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/resourceGroups': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ResourceGroups
+          '/resourceGroups': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: resource_groups
+          '/properties/blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BlueprintName
+          '/blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: blueprint_name
+          '/properties/changeNotes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ChangeNotes
+          '/changeNotes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: change_notes
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -100,9 +162,9 @@ objects:
             python_variable_name: management_group_name
           'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprints
-            go_variable_name: blueprintName
+            go_variable_name: name
             python_parameter_name: blueprint_name
-            python_variable_name: blueprint_name
+            python_variable_name: name
 
     description: |
       Manage Azure PublishedBlueprint instance.
@@ -114,7 +176,7 @@ objects:
         input: true
         azure_sdk_references: ['managementGroupName']
       - !ruby/object:Api::Type::String
-        name: 'blueprintName'
+        name: 'name'
         description: 'name of the blueprint.'
         required: true
         input: true
@@ -125,61 +187,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['versionId']
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'One-liner string explain this resource.'
-        required: false
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Multi-line explain this resource.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'status'
-        description: 'Status of the Blueprint. This field is readonly.'
-        required: false
-        azure_sdk_references: ['/status', '/properties/status']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'timeCreated'
-            description: 'Creation time of this blueprint.'
-            required: false
-            azure_sdk_references: ['/status/timeCreated', '/properties/status/timeCreated']
-          - !ruby/object:Api::Type::String
-            name: 'lastModified'
-            description: 'Last modified time of this blueprint.'
-            required: false
-            azure_sdk_references: ['/status/lastModified', '/properties/status/lastModified']
-      - !ruby/object:Api::Type::Enum
-        name: 'targetScope'
-        description: 'The scope where this Blueprint can be applied.'
-        required: false
-        azure_sdk_references: ['/targetScope', '/properties/targetScope']
-        values:
-          - :subscription
-          - :managementGroup
-        default_value: :subscription
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'parameters'
-        description: 'Parameters required by this Blueprint definition.'
-        required: false
-        azure_sdk_references: ['/parameters', '/properties/parameters']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'resourceGroups'
-        description: 'Resource group placeholders defined by this Blueprint definition.'
-        required: false
-        azure_sdk_references: ['/resourceGroups', '/properties/resourceGroups']
-      - !ruby/object:Api::Type::String
-        name: 'blueprintName'
-        description: 'Name of the Blueprint definition.'
-        required: false
-        azure_sdk_references: ['/blueprintName', '/properties/blueprintName']
-      - !ruby/object:Api::Type::String
-        name: 'changeNotes'
-        description: 'Version-specific change notes'
-        required: false
-        azure_sdk_references: ['/changeNotes', '/properties/changeNotes']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -196,3 +203,47 @@ objects:
         description: 'Name of this resource.'
         output: true
         azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'One-liner string explain this resource.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Multi-line explain this resource.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'status'
+        description: 'Status of the Blueprint. This field is readonly.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'targetScope'
+        description: 'The scope where this Blueprint can be applied.'
+        output: true
+        azure_sdk_references: ['/targetScope', '/properties/targetScope']
+        values:
+          - :subscription
+          - :managementGroup
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'parameters'
+        description: 'Parameters required by this Blueprint definition.'
+        output: true
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'resourceGroups'
+        description: 'Resource group placeholders defined by this Blueprint definition.'
+        output: true
+        azure_sdk_references: ['/resourceGroups', '/properties/resourceGroups']
+      - !ruby/object:Api::Type::String
+        name: 'blueprintName'
+        description: 'Name of the Blueprint definition.'
+        output: true
+        azure_sdk_references: ['/blueprintName', '/properties/blueprintName']
+      - !ruby/object:Api::Type::String
+        name: 'changeNotes'
+        description: 'Version-specific change notes'
+        output: true
+        azure_sdk_references: ['/changeNotes', '/properties/changeNotes']

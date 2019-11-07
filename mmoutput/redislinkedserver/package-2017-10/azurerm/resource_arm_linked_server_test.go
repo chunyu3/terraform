@@ -35,15 +35,15 @@ func testCheckAzureRMLinkedServerExists(resourceName string) resource.TestCheckF
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        linkedServerName := rs.Primary.Attributes["linked_server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).linkedServerClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, name, linkedServerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Linked Server %q (Linked Server Name %q / Resource Group %q) does not exist", name, linkedServerName, resourceGroup)
+                return fmt.Errorf("Bad: Linked Server %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on linkedServerClient: %+v", err)
         }
@@ -62,10 +62,10 @@ func testCheckAzureRMLinkedServerDestroy(s *terraform.State) error {
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        linkedServerName := rs.Primary.Attributes["linked_server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, name, linkedServerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on linkedServerClient: %+v", err)
             }

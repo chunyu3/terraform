@@ -34,15 +34,15 @@ func testCheckAzureRMPublicIpAddresseExists(resourceName string) resource.TestCh
             return fmt.Errorf("Public Ip Addresse not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        publicIpAddressName := rs.Primary.Attributes["public_ip_address_name"]
 
         client := testAccProvider.Meta().(*ArmClient).publicIpAddressesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, publicIpAddressName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Public Ip Addresse (Public Ip Address Name %q / Resource Group %q) does not exist", publicIpAddressName, resourceGroup)
+                return fmt.Errorf("Bad: Public Ip Addresse %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on publicIpAddressesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMPublicIpAddresseDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        publicIpAddressName := rs.Primary.Attributes["public_ip_address_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, publicIpAddressName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on publicIpAddressesClient: %+v", err)
             }

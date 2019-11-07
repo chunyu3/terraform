@@ -28,13 +28,13 @@ Manage Azure Service instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the service resource in the format of {applicationName}~{serviceName}. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `application_name` - (Required) The name of the application resource. Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the cluster resource. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the service resource in the format of {applicationName}~{serviceName}. Changing this forces a new resource to be created.
 
 * `location` - (Optional) It will be deprecated in New API, resource location depends on the parent resource. Changing this forces a new resource to be created.
 

@@ -34,15 +34,15 @@ func testCheckAzureRMSolutionExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Solution not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        solutionName := rs.Primary.Attributes["solution_name"]
 
         client := testAccProvider.Meta().(*ArmClient).solutionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, solutionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Solution (Solution Name %q / Resource Group %q) does not exist", solutionName, resourceGroup)
+                return fmt.Errorf("Bad: Solution %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on solutionsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMSolutionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        solutionName := rs.Primary.Attributes["solution_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, solutionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on solutionsClient: %+v", err)
             }

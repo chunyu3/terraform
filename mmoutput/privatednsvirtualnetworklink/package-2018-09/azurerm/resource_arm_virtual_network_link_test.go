@@ -34,16 +34,16 @@ func testCheckAzureRMVirtualNetworkLinkExists(resourceName string) resource.Test
             return fmt.Errorf("Virtual Network Link not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         privateZoneName := rs.Primary.Attributes["private_zone_name"]
-        virtualNetworkLinkName := rs.Primary.Attributes["virtual_network_link_name"]
 
         client := testAccProvider.Meta().(*ArmClient).virtualNetworkLinksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, privateZoneName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Virtual Network Link (Virtual Network Link Name %q / Private Zone Name %q / Resource Group %q) does not exist", virtualNetworkLinkName, privateZoneName, resourceGroup)
+                return fmt.Errorf("Bad: Virtual Network Link %q (Private Zone Name %q / Resource Group %q) does not exist", name, privateZoneName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on virtualNetworkLinksClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMVirtualNetworkLinkDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         privateZoneName := rs.Primary.Attributes["private_zone_name"]
-        virtualNetworkLinkName := rs.Primary.Attributes["virtual_network_link_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, privateZoneName, virtualNetworkLinkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, privateZoneName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on virtualNetworkLinksClient: %+v", err)
             }

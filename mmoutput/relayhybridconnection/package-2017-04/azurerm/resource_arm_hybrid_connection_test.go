@@ -34,16 +34,16 @@ func testCheckAzureRMHybridConnectionExists(resourceName string) resource.TestCh
             return fmt.Errorf("Hybrid Connection not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        hybridConnectionName := rs.Primary.Attributes["hybrid_connection_name"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).hybridConnectionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, hybridConnectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Hybrid Connection (Hybrid Connection Name %q / Namespace Name %q / Resource Group %q) does not exist", hybridConnectionName, namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Hybrid Connection %q (Namespace Name %q / Resource Group %q) does not exist", name, namespaceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on hybridConnectionsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMHybridConnectionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        hybridConnectionName := rs.Primary.Attributes["hybrid_connection_name"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, hybridConnectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on hybridConnectionsClient: %+v", err)
             }

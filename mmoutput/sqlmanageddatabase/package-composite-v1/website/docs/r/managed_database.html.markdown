@@ -28,11 +28,11 @@ Manage Azure ManagedDatabase instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the database. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
-
-* `database_name` - (Required) The name of the database. Changing this forces a new resource to be created.
 
 * `managed_instance_name` - (Required) The name of the managed instance. Changing this forces a new resource to be created.
 

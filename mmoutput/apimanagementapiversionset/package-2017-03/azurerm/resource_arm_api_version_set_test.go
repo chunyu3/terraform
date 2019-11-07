@@ -34,16 +34,16 @@ func testCheckAzureRMApiVersionSetExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Api Version Set not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
         versionSetID := rs.Primary.Attributes["version_set_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiVersionSetClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, versionSetID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, versionSetID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Version Set (Version Set %q / Service Name %q / Resource Group %q) does not exist", versionSetID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Version Set %q (Version Set %q / Resource Group %q) does not exist", name, versionSetID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiVersionSetClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMApiVersionSetDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
         versionSetID := rs.Primary.Attributes["version_set_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, versionSetID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, versionSetID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiVersionSetClient: %+v", err)
             }

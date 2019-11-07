@@ -34,17 +34,17 @@ func testCheckAzureRMJobExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Job not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        jobName := rs.Primary.Attributes["job_name"]
         transformName := rs.Primary.Attributes["transform_name"]
 
         client := testAccProvider.Meta().(*ArmClient).jobsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, transformName, jobName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, transformName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Job (Job Name %q / Transform Name %q / Account Name %q / Resource Group %q) does not exist", jobName, transformName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Job %q (Transform Name %q / Account Name %q / Resource Group %q) does not exist", name, transformName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on jobsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMJobDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        jobName := rs.Primary.Attributes["job_name"]
         transformName := rs.Primary.Attributes["transform_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, transformName, jobName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, transformName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on jobsClient: %+v", err)
             }

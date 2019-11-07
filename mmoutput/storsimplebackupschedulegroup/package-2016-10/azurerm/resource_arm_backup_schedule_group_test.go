@@ -34,17 +34,17 @@ func testCheckAzureRMBackupScheduleGroupExists(resourceName string) resource.Tes
             return fmt.Errorf("Backup Schedule Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
         scheduleGroupName := rs.Primary.Attributes["schedule_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).backupScheduleGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, scheduleGroupName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q) does not exist", managerName, resourceGroup, scheduleGroupName, deviceName)
+                return fmt.Errorf("Bad: Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q) does not exist", name, resourceGroup, scheduleGroupName, deviceName)
             }
             return fmt.Errorf("Bad: Get on backupScheduleGroupsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMBackupScheduleGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
         scheduleGroupName := rs.Primary.Attributes["schedule_group_name"]
 
-        if resp, err := client.Get(ctx, deviceName, scheduleGroupName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on backupScheduleGroupsClient: %+v", err)
             }

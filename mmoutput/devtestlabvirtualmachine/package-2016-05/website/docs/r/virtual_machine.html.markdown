@@ -28,11 +28,11 @@ Manage Azure VirtualMachine instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the lab. Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the virtual machine. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
-
-* `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
@@ -117,6 +117,55 @@ The `lab_vms_shutdown` block supports the following:
 
 * `tags` - (Optional) The tags of the resource.
 
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Disabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
+
 ---
 
 The `lab_vms_startup` block supports the following:
@@ -124,6 +173,55 @@ The `lab_vms_startup` block supports the following:
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) The tags of the resource.
+
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Disabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
 
 ---
 

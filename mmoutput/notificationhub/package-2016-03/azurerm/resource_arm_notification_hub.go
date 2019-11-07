@@ -31,6 +31,13 @@ func resourceArmNotificationHub() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
             },
 
@@ -44,13 +51,6 @@ func resourceArmNotificationHub() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "namespace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "notification_hub_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -264,15 +264,15 @@ func resourceArmNotificationHubCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).notificationHubsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     namespaceName := d.Get("namespace_name").(string)
-    notificationHubName := d.Get("notification_hub_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, notificationHubName)
+        existing, err := client.Get(ctx, resourceGroup, namespaceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q): %+v", notificationHubName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Notification Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -311,17 +311,17 @@ func resourceArmNotificationHubCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, notificationHubName, parameters); err != nil {
-        return fmt.Errorf("Error creating Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q): %+v", notificationHubName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Notification Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, notificationHubName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q): %+v", notificationHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Notification Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q) ID", notificationHubName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Notification Hub %q (Namespace Name %q / Resource Group %q) ID", name, namespaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -338,19 +338,20 @@ func resourceArmNotificationHubRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    notificationHubName := id.Path["notificationHubs"]
+    name := id.Path["notificationHubs"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, notificationHubName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Notification Hub %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q): %+v", notificationHubName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Notification Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     if notificationHubProperties := resp.NotificationHubProperties; notificationHubProperties != nil {
         d.Set("name", notificationHubProperties.Name)
         if err := d.Set("adm_credential", flattenArmNotificationHubAdmCredential(notificationHubProperties.AdmCredential)); err != nil {
@@ -385,7 +386,6 @@ func resourceArmNotificationHubRead(d *schema.ResourceData, meta interface{}) er
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("namespace_name", namespaceName)
-    d.Set("notification_hub_name", notificationHubName)
     if err := d.Set("sku", flattenArmNotificationHubSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -406,10 +406,10 @@ func resourceArmNotificationHubDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    notificationHubName := id.Path["notificationHubs"]
+    name := id.Path["notificationHubs"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, notificationHubName); err != nil {
-        return fmt.Errorf("Error deleting Notification Hub (Notification Hub Name %q / Namespace Name %q / Resource Group %q): %+v", notificationHubName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, namespaceName, name); err != nil {
+        return fmt.Errorf("Error deleting Notification Hub %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
     return nil

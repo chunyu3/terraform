@@ -31,6 +31,13 @@ func resourceArmPool() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmPool() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "pool_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -91,15 +91,15 @@ func resourceArmPoolCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).poolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    poolName := d.Get("pool_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, poolName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -122,21 +122,21 @@ func resourceArmPoolCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, poolName, body)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, body)
     if err != nil {
-        return fmt.Errorf("Error creating Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, poolName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Pool (Pool Name %q / Account Name %q / Resource Group %q) ID", poolName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Pool %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -153,19 +153,20 @@ func resourceArmPoolRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["netAppAccounts"]
-    poolName := id.Path["capacityPools"]
+    name := id.Path["capacityPools"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, poolName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Pool %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -178,7 +179,6 @@ func resourceArmPoolRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("service_level", string(poolProperties.ServiceLevel))
         d.Set("size", int(*poolProperties.Size))
     }
-    d.Set("pool_name", poolName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -188,9 +188,9 @@ func resourceArmPoolUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).poolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    poolName := d.Get("pool_name").(string)
     serviceLevel := d.Get("service_level").(string)
     size := d.Get("size").(int)
     t := d.Get("tags").(map[string]interface{})
@@ -205,8 +205,8 @@ func resourceArmPoolUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, poolName, body); err != nil {
-        return fmt.Errorf("Error updating Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, body); err != nil {
+        return fmt.Errorf("Error updating Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmPoolRead(d, meta)
@@ -223,19 +223,19 @@ func resourceArmPoolDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["netAppAccounts"]
-    poolName := id.Path["capacityPools"]
+    name := id.Path["capacityPools"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, poolName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Pool (Pool Name %q / Account Name %q / Resource Group %q): %+v", poolName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Pool %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
         }
     }
 

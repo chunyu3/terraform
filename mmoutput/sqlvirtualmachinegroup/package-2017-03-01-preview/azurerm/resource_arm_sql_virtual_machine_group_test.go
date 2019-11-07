@@ -34,15 +34,15 @@ func testCheckAzureRMSqlVirtualMachineGroupExists(resourceName string) resource.
             return fmt.Errorf("Sql Virtual Machine Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).sqlVirtualMachineGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q) does not exist", sqlVirtualMachineGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Sql Virtual Machine Group %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on sqlVirtualMachineGroupsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMSqlVirtualMachineGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        sqlVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on sqlVirtualMachineGroupsClient: %+v", err)
             }

@@ -24,18 +24,18 @@ objects:
         request:
           'tagName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tagNames
-            go_variable_name: tagName
+            go_variable_name: name
             python_parameter_name: tag_name
-            python_variable_name: tag_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
         request:
           'tagName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: tagNames
-            go_variable_name: tagName
+            go_variable_name: name
             python_parameter_name: tag_name
-            python_variable_name: tag_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -45,7 +45,7 @@ objects:
       Manage Azure Tag instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'tagName'
+        name: 'name'
         description: 'The name of the tag.'
         required: true
         input: true
@@ -62,16 +62,6 @@ objects:
         output: true
         azure_sdk_references: ['/count']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'type'
-            description: 'Type of count.'
-            required: false
-            azure_sdk_references: ['/count/type']
-          - !ruby/object:Api::Type::String
-            name: 'value'
-            description: 'Value of count.'
-            required: false
-            azure_sdk_references: ['/count/value']
       - !ruby/object:Api::Type::Array
         name: 'values'
         description: 'Gets or sets the list of tag values.'
@@ -79,29 +69,3 @@ objects:
         azure_sdk_references: ['/values']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Gets or sets the tag ID.'
-              required: false
-              azure_sdk_references: ['/values/id']
-            - !ruby/object:Api::Type::String
-              name: 'tagValue'
-              description: 'Gets or sets the tag value.'
-              required: false
-              azure_sdk_references: ['/values/tagValue']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'count'
-              description: 'Gets or sets the tag value count.'
-              required: false
-              azure_sdk_references: ['/values/count']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'type'
-                  description: 'Type of count.'
-                  required: false
-                  azure_sdk_references: ['/values/count/type']
-                - !ruby/object:Api::Type::String
-                  name: 'value'
-                  description: 'Value of count.'
-                  required: false
-                  azure_sdk_references: ['/values/count/value']

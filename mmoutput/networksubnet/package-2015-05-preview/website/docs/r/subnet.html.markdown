@@ -28,11 +28,11 @@ Manage Azure Subnet instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the subnet. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `address_prefix` - (Required) Gets or sets Address prefix for the subnet.
-
-* `subnet_name` - (Required) The name of the subnet. Changing this forces a new resource to be created.
 
 * `virtual_network_name` - (Required) The name of the virtual network. Changing this forces a new resource to be created.
 

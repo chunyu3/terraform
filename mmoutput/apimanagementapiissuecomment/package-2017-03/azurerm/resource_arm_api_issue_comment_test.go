@@ -34,18 +34,18 @@ func testCheckAzureRMApiIssueCommentExists(resourceName string) resource.TestChe
             return fmt.Errorf("Api Issue Comment not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         commentID := rs.Primary.Attributes["comment_id"]
         issueID := rs.Primary.Attributes["issue_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiIssueCommentClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, commentID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q) does not exist", commentID, issueID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q) does not exist", name, commentID, issueID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiIssueCommentClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMApiIssueCommentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
         commentID := rs.Primary.Attributes["comment_id"]
         issueID := rs.Primary.Attributes["issue_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, commentID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiIssueCommentClient: %+v", err)
             }

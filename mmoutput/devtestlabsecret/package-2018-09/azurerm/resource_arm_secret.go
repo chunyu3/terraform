@@ -36,18 +36,18 @@ func resourceArmSecret() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "user_name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -84,15 +84,15 @@ func resourceArmSecretCreate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
-    userName := d.Get("user_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, userName, name)
+        existing, err := client.Get(ctx, resourceGroup, labName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -113,21 +113,21 @@ func resourceArmSecretCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, userName, name, secret)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, name, secret)
     if err != nil {
-        return fmt.Errorf("Error creating Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, userName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Secret %q (User Name %q / Lab Name %q / Resource Group %q) ID", name, userName, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Secret %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -144,20 +144,21 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
-    userName := id.Path["users"]
+    name := id.Path["users"]
     name := id.Path["secrets"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, userName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Secret %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -170,7 +171,6 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("value", secretProperties.Value)
     }
     d.Set("type", resp.Type)
-    d.Set("user_name", userName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -180,9 +180,9 @@ func resourceArmSecretUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
-    userName := d.Get("user_name").(string)
     value := d.Get("value").(string)
     t := d.Get("tags").(map[string]interface{})
 
@@ -195,8 +195,8 @@ func resourceArmSecretUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, userName, name, secret); err != nil {
-        return fmt.Errorf("Error updating Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labName, name, name, secret); err != nil {
+        return fmt.Errorf("Error updating Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
     return resourceArmSecretRead(d, meta)
@@ -213,11 +213,11 @@ func resourceArmSecretDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
-    userName := id.Path["users"]
+    name := id.Path["users"]
     name := id.Path["secrets"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, userName, name); err != nil {
-        return fmt.Errorf("Error deleting Secret %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, labName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Secret %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
     }
 
     return nil

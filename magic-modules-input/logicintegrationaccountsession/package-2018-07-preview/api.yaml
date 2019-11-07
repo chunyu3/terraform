@@ -34,9 +34,9 @@ objects:
             python_variable_name: integration_account_name
           'sessionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sessions
-            go_variable_name: sessionName
+            go_variable_name: name
             python_parameter_name: session_name
-            python_variable_name: session_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: session
             go_type_name: IntegrationAccountSession
@@ -74,9 +74,9 @@ objects:
             python_variable_name: integration_account_name
           'sessionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sessions
-            go_variable_name: sessionName
+            go_variable_name: name
             python_parameter_name: session_name
-            python_variable_name: session_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -93,9 +93,9 @@ objects:
             python_variable_name: integration_account_name
           'sessionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sessions
-            go_variable_name: sessionName
+            go_variable_name: name
             python_parameter_name: session_name
-            python_variable_name: session_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -165,7 +165,7 @@ objects:
         input: true
         azure_sdk_references: ['integrationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'sessionName'
+        name: 'name'
         description: 'The integration account session name.'
         required: true
         input: true

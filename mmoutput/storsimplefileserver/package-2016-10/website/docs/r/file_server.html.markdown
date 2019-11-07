@@ -28,6 +28,8 @@ Manage Azure FileServer instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `backup_schedule_group_id` - (Required) The backup policy id.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `domain_name` - (Required) Domain of the file server
 
 * `file_server_name` - (Required) The file server name. Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `storage_domain_id` - (Required) The storage domain id.
 

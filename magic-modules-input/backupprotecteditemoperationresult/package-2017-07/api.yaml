@@ -1,0 +1,324 @@
+--- !ruby/object:Api::Product
+name: Azure ProtectedItemOperationResult Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ProtectedItemOperationResult
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: backup
+      go_client: protectedItemOperationResultsClient
+      python_client_namespace: azure.mgmt.recoveryservices.backup
+      python_client: RecoveryServicesBackupClient.protected_item_operation_results
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupFabrics
+            go_variable_name: fabricName
+            python_parameter_name: fabric_name
+            python_variable_name: fabric_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectionContainers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+          'protectedItemName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectedItems
+            go_variable_name: name
+            python_parameter_name: protected_item_name
+            python_variable_name: name
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationResults
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProtectedItem
+            go_type_name: ProtectedItem
+          '/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupManagementType
+            go_enum_type_name: ManagementType
+          '/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_management_type
+          '/properties/workloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: WorkloadType
+            go_enum_type_name: DataSourceType
+          '/workloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: workload_type
+          '/properties/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContainerName
+          '/containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container_name
+          '/properties/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceResourceID
+          '/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_resource_id
+          '/properties/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyID
+          '/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_id
+          '/properties/lastRecoveryPoint': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastRecoveryPoint
+          '/lastRecoveryPoint': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_recovery_point
+          '/properties/backupSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BackupSetName
+          '/backupSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: backup_set_name
+          '/properties/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateMode
+            go_enum_type_name: CreateMode
+          '/createMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_mode
+          '/properties/deferredDeleteTimeInUTC': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: DeferredDeleteTimeInUtc
+          '/deferredDeleteTimeInUTC': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: deferred_delete_time_in_utc
+          '/properties/isScheduledForDeferredDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsScheduledForDeferredDelete
+          '/isScheduledForDeferredDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_scheduled_for_deferred_delete
+          '/properties/deferredDeleteTimeRemaining': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeferredDeleteTimeRemaining
+          '/deferredDeleteTimeRemaining': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: deferred_delete_time_remaining
+          '/properties/isDeferredDeleteScheduleUpcoming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsDeferredDeleteScheduleUpcoming
+          '/isDeferredDeleteScheduleUpcoming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_deferred_delete_schedule_upcoming
+          '/properties/isRehydrate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsRehydrate
+          '/isRehydrate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_rehydrate
+
+    description: |
+      Manage Azure ProtectedItemOperationResult instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'vaultName'
+        description: 'The name of the recovery services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group where the recovery services vault is present.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'fabricName'
+        description: 'Fabric name associated with the backup item.'
+        required: true
+        input: true
+        azure_sdk_references: ['fabricName']
+      - !ruby/object:Api::Type::String
+        name: 'containerName'
+        description: 'Container name associated with the backup item.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Backup item name whose details are to be fetched.'
+        required: true
+        input: true
+        azure_sdk_references: ['protectedItemName']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'OperationID which represents the operation whose result needs to be fetched.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id represents the complete path to the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name associated with the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        output: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'Optional ETag.'
+        output: true
+        azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::Enum
+        name: 'backupManagementType'
+        description: 'Type of backup management for the backed up item.'
+        output: true
+        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
+        values:
+          - :Invalid
+          - :AzureIaasVM
+          - :MAB
+          - :DPM
+          - :AzureBackupServer
+          - :AzureSql
+          - :AzureStorage
+          - :AzureWorkload
+          - :DefaultBackup
+      - !ruby/object:Api::Type::Enum
+        name: 'workloadType'
+        description: 'Type of workload this item represents.'
+        output: true
+        azure_sdk_references: ['/workloadType', '/properties/workloadType']
+        values:
+          - :Invalid
+          - :VM
+          - :FileFolder
+          - :AzureSqlDb
+          - :SQLDB
+          - :Exchange
+          - :Sharepoint
+          - :VMwareVM
+          - :SystemState
+          - :Client
+          - :GenericDataSource
+          - :SQLDataBase
+          - :AzureFileShare
+          - :SAPHanaDatabase
+          - :SAPAseDatabase
+      - !ruby/object:Api::Type::String
+        name: 'containerName'
+        description: 'Unique name of container'
+        output: true
+        azure_sdk_references: ['/containerName', '/properties/containerName']
+      - !ruby/object:Api::Type::String
+        name: 'sourceResourceId'
+        description: 'ARM ID of the resource to be backed up.'
+        output: true
+        azure_sdk_references: ['/sourceResourceId', '/properties/sourceResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'policyId'
+        description: 'ID of the backup policy with which this item is backed up.'
+        output: true
+        azure_sdk_references: ['/policyId', '/properties/policyId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastRecoveryPoint'
+        description: 'Timestamp when the last (latest) backup copy was created for this backup item.'
+        output: true
+        azure_sdk_references: ['/lastRecoveryPoint', '/properties/lastRecoveryPoint']
+      - !ruby/object:Api::Type::String
+        name: 'backupSetName'
+        description: 'Name of the backup set the backup item belongs to'
+        output: true
+        azure_sdk_references: ['/backupSetName', '/properties/backupSetName']
+      - !ruby/object:Api::Type::Enum
+        name: 'createMode'
+        description: 'Create mode to indicate recovery of existing soft deleted data source or creation of new data source.'
+        output: true
+        azure_sdk_references: ['/createMode', '/properties/createMode']
+        values:
+          - :Invalid
+          - :Default
+          - :Recover
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'deferredDeleteTimeInUtc'
+        description: 'Time for deferred deletion in UTC'
+        output: true
+        azure_sdk_references: ['/deferredDeleteTimeInUTC', '/properties/deferredDeleteTimeInUTC']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isScheduledForDeferredDelete'
+        description: 'Flag to identify whether the DS is scheduled for deferred delete'
+        output: true
+        azure_sdk_references: ['/isScheduledForDeferredDelete', '/properties/isScheduledForDeferredDelete']
+      - !ruby/object:Api::Type::String
+        name: 'deferredDeleteTimeRemaining'
+        description: 'Time remaining before the DS marked for deferred delete is permanently deleted'
+        output: true
+        azure_sdk_references: ['/deferredDeleteTimeRemaining', '/properties/deferredDeleteTimeRemaining']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isDeferredDeleteScheduleUpcoming'
+        description: 'Flag to identify whether the deferred deleted DS is to be purged soon'
+        output: true
+        azure_sdk_references: ['/isDeferredDeleteScheduleUpcoming', '/properties/isDeferredDeleteScheduleUpcoming']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isRehydrate'
+        description: 'Flag to identify that deferred deleted DS is to be moved into Pause state'
+        output: true
+        azure_sdk_references: ['/isRehydrate', '/properties/isRehydrate']

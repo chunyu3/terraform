@@ -34,9 +34,9 @@ objects:
             python_variable_name: factory_name
           'datasetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: datasets
-            go_variable_name: datasetName
+            go_variable_name: name
             python_parameter_name: dataset_name
-            python_variable_name: dataset_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: dataset
             go_type_name: DatasetResource
@@ -117,9 +117,9 @@ objects:
             python_variable_name: factory_name
           'datasetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: datasets
-            go_variable_name: datasetName
+            go_variable_name: name
             python_parameter_name: dataset_name
-            python_variable_name: dataset_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -136,9 +136,9 @@ objects:
             python_variable_name: factory_name
           'datasetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: datasets
-            go_variable_name: datasetName
+            go_variable_name: name
             python_parameter_name: dataset_name
-            python_variable_name: dataset_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -242,7 +242,7 @@ objects:
         input: true
         azure_sdk_references: ['factoryName']
       - !ruby/object:Api::Type::String
-        name: 'datasetName'
+        name: 'name'
         description: 'The dataset name.'
         required: true
         input: true

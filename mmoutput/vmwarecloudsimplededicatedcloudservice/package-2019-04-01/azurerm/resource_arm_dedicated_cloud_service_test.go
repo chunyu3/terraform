@@ -34,15 +34,15 @@ func testCheckAzureRMDedicatedCloudServiceExists(resourceName string) resource.T
             return fmt.Errorf("Dedicated Cloud Service not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        dedicatedCloudServiceName := rs.Primary.Attributes["dedicated_cloud_service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).dedicatedCloudServicesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, dedicatedCloudServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Dedicated Cloud Service (Dedicated Cloud Service Name %q / Resource Group %q) does not exist", dedicatedCloudServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Dedicated Cloud Service %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on dedicatedCloudServicesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMDedicatedCloudServiceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        dedicatedCloudServiceName := rs.Primary.Attributes["dedicated_cloud_service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, dedicatedCloudServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on dedicatedCloudServicesClient: %+v", err)
             }

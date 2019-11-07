@@ -31,6 +31,13 @@ func resourceArmStreamingLocator() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -46,13 +53,6 @@ func resourceArmStreamingLocator() *schema.Resource {
             "asset_name": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "streaming_locator_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -164,15 +164,15 @@ func resourceArmStreamingLocatorCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).streamingLocatorsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    streamingLocatorName := d.Get("streaming_locator_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, streamingLocatorName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q): %+v", streamingLocatorName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Streaming Locator %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -203,17 +203,17 @@ func resourceArmStreamingLocatorCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, streamingLocatorName, parameters); err != nil {
-        return fmt.Errorf("Error creating Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q): %+v", streamingLocatorName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Streaming Locator %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, streamingLocatorName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q): %+v", streamingLocatorName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Streaming Locator %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q) ID", streamingLocatorName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Streaming Locator %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -230,19 +230,20 @@ func resourceArmStreamingLocatorRead(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    streamingLocatorName := id.Path["streamingLocators"]
+    name := id.Path["streamingLocators"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, streamingLocatorName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Streaming Locator %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q): %+v", streamingLocatorName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Streaming Locator %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -259,7 +260,6 @@ func resourceArmStreamingLocatorRead(d *schema.ResourceData, meta interface{}) e
         d.Set("streaming_locator_id", streamingLocatorProperties.StreamingLocatorID)
         d.Set("streaming_policy_name", streamingLocatorProperties.StreamingPolicyName)
     }
-    d.Set("streaming_locator_name", streamingLocatorName)
     d.Set("type", resp.Type)
 
     return nil
@@ -277,10 +277,10 @@ func resourceArmStreamingLocatorDelete(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    streamingLocatorName := id.Path["streamingLocators"]
+    name := id.Path["streamingLocators"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, streamingLocatorName); err != nil {
-        return fmt.Errorf("Error deleting Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q): %+v", streamingLocatorName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Streaming Locator %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

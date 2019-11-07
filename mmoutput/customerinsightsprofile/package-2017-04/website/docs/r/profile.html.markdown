@@ -28,11 +28,11 @@ Manage Azure Profile instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the profile. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
-
-* `profile_name` - (Required) The name of the profile. Changing this forces a new resource to be created.
 
 * `api_entity_set_name` - (Optional) The api entity set name. This becomes the odata entity set name for the entity Type being referred in this object.
 

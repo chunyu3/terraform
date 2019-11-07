@@ -28,9 +28,9 @@ Manage Azure ConsumerGroup instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the resource group within the azure subscription. Changing this forces a new resource to be created.
+* `name` - (Required) The consumer group name Changing this forces a new resource to be created.
 
-* `consumer_group_name` - (Required) The consumer group name Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the resource group within the azure subscription. Changing this forces a new resource to be created.
 
 * `event_hub_name` - (Required) The Event Hub name Changing this forces a new resource to be created.
 

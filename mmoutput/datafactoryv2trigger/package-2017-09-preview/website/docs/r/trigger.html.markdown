@@ -28,11 +28,11 @@ Manage Azure Trigger instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The trigger name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `factory_name` - (Required) The factory name. Changing this forces a new resource to be created.
-
-* `trigger_name` - (Required) The trigger name. Changing this forces a new resource to be created.
 
 * `additional_properties` - (Optional) Unmatched properties from the message are deserialized this collection
 

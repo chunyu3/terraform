@@ -31,6 +31,13 @@ func resourceArmOpenShiftManagedCluster() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -41,13 +48,6 @@ func resourceArmOpenShiftManagedCluster() *schema.Resource {
             "open_shift_version": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -312,14 +312,14 @@ func resourceArmOpenShiftManagedClusterCreateUpdate(d *schema.ResourceData, meta
     client := meta.(*ArmClient).openShiftManagedClustersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -356,21 +356,21 @@ func resourceArmOpenShiftManagedClusterCreateUpdate(d *schema.ResourceData, meta
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, resourceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Open Shift Managed Cluster (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Open Shift Managed Cluster %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -386,19 +386,20 @@ func resourceArmOpenShiftManagedClusterRead(d *schema.ResourceData, meta interfa
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["openShiftManagedClusters"]
+    name := id.Path["openShiftManagedClusters"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Open Shift Managed Cluster %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -428,7 +429,6 @@ func resourceArmOpenShiftManagedClusterRead(d *schema.ResourceData, meta interfa
     if err := d.Set("plan", flattenArmOpenShiftManagedClusterPurchasePlan(resp.Plan)); err != nil {
         return fmt.Errorf("Error setting `plan`: %+v", err)
     }
-    d.Set("resource_name", resourceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -445,19 +445,19 @@ func resourceArmOpenShiftManagedClusterDelete(d *schema.ResourceData, meta inter
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["openShiftManagedClusters"]
+    name := id.Path["openShiftManagedClusters"]
 
-    future, err := client.Delete(ctx, resourceGroup, resourceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Open Shift Managed Cluster (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Open Shift Managed Cluster %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

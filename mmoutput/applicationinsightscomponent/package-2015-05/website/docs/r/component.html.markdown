@@ -28,6 +28,8 @@ Manage Azure Component instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `application_type` - (Required) Type of application being monitored.
 
 * `kind` - (Required) The kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone. Changing this forces a new resource to be created.
-
-* `resource_name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
 
 * `flow_type` - (Optional) Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to 'Bluefield' when creating/updating a component via the REST API. Defaults to `Bluefield`.
 

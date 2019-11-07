@@ -28,11 +28,11 @@ Manage Azure User instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The device name. Changing this forces a new resource to be created.
+
 * `name` - (Required) The user name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
-
-* `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
 * `encrypted_password` - (Optional) One `encrypted_password` block defined below.
 

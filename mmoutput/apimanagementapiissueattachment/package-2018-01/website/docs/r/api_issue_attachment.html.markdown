@@ -28,6 +28,8 @@ Manage Azure ApiIssueAttachment instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `api_id` - (Required) API identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
@@ -39,8 +41,6 @@ The following arguments are supported:
 * `content_format` - (Required) Either 'link' if content is provided via an HTTP link or the MIME type of the Base64-encoded binary data provided in the 'content' property.
 
 * `issue_id` - (Required) Issue identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `title` - (Required) Filename by which the binary data will be saved.
 

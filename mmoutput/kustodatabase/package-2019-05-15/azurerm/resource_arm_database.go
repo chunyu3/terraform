@@ -31,6 +31,13 @@ func resourceArmDatabase() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmDatabase() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "cluster_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "database_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -95,15 +95,15 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
-    databaseName := d.Get("database_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, databaseName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -126,21 +126,21 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, databaseName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Database (Database Name %q / Cluster Name %q / Resource Group %q) ID", databaseName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Database %q (Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -157,26 +157,26 @@ func resourceArmDatabaseRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    databaseName := id.Path["databases"]
+    name := id.Path["databases"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Database %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("cluster_name", clusterName)
-    d.Set("database_name", databaseName)
     if databaseProperties := resp.DatabaseProperties; databaseProperties != nil {
         d.Set("hot_cache_period", databaseProperties.HotCachePeriod)
         d.Set("provisioning_state", string(databaseProperties.ProvisioningState))
@@ -194,9 +194,9 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).databasesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     clusterName := d.Get("cluster_name").(string)
-    databaseName := d.Get("database_name").(string)
     hotCachePeriod := d.Get("hot_cache_period").(string)
     softDeletePeriod := d.Get("soft_delete_period").(string)
     statistics := d.Get("statistics").([]interface{})
@@ -211,12 +211,12 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, databaseName, parameters)
+    future, err := client.Update(ctx, resourceGroup, clusterName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
     return resourceArmDatabaseRead(d, meta)
@@ -233,19 +233,19 @@ func resourceArmDatabaseDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    databaseName := id.Path["databases"]
+    name := id.Path["databases"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, databaseName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Database (Database Name %q / Cluster Name %q / Resource Group %q): %+v", databaseName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Database %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
         }
     }
 

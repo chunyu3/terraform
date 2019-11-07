@@ -34,9 +34,9 @@ objects:
             python_variable_name: account_name
           'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: shares
-            go_variable_name: shareName
+            go_variable_name: name
             python_parameter_name: share_name
-            python_variable_name: share_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: fileShare
             go_type_name: FileShare
@@ -74,9 +74,9 @@ objects:
             python_variable_name: account_name
           'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: shares
-            go_variable_name: shareName
+            go_variable_name: name
             python_parameter_name: share_name
-            python_variable_name: share_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: fileShare
             go_type_name: FileShare
@@ -114,9 +114,9 @@ objects:
             python_variable_name: account_name
           'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: shares
-            go_variable_name: shareName
+            go_variable_name: name
             python_parameter_name: share_name
-            python_variable_name: share_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -133,9 +133,9 @@ objects:
             python_variable_name: account_name
           'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: shares
-            go_variable_name: shareName
+            go_variable_name: name
             python_parameter_name: share_name
-            python_variable_name: share_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -202,7 +202,7 @@ objects:
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
-        name: 'shareName'
+        name: 'name'
         description: 'The name of the file share within the specified storage account. File share names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number.'
         required: true
         input: true

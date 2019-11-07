@@ -1,0 +1,260 @@
+--- !ruby/object:Api::Product
+name: Azure MetricBaseline Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: MetricBaseline
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: metricBaselineClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.metric_baseline
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'metricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: baseline
+            go_variable_name: name
+            python_parameter_name: metric_name
+            python_variable_name: name
+          'timespan': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: timespan
+            python_parameter_name: timespan
+            python_variable_name: timespan
+          'interval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            id_portion: null
+            go_variable_name: interval
+            python_parameter_name: interval
+            python_variable_name: interval
+          'aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: aggregation
+            python_parameter_name: aggregation
+            python_variable_name: aggregation
+          'sensitivities': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: sensitivities
+            python_parameter_name: sensitivities
+            python_variable_name: sensitivities
+          'resultType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: resultType
+            python_parameter_name: result_type
+            python_variable_name: result_type
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Name
+            go_type_name: LocalizableString
+            python_field_name: name
+          '/name/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Value
+            python_field_name: value
+          '/name/localizedValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LocalizedValue
+            python_field_name: localized_value
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BaselineProperties
+            go_type_name: BaselineProperties
+          '/properties/timespan': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Timespan
+          '/timespan': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: timespan
+          '/properties/interval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: Interval
+          '/interval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: interval
+          '/properties/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Aggregation
+          '/aggregation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: aggregation
+          '/properties/timestamps': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Timestamps
+          '/timestamps': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: timestamps
+          '/properties/baseline': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Baseline
+            go_type_name: Baseline
+          '/properties/baseline/sensitivity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Sensitivity
+            go_enum_type_name: Sensitivity
+          '/properties/baseline/lowThresholds': !ruby/object:Api::Azure::SDKTypeDefinition::FloatArrayObject
+            applicable_to: [go]
+            go_field_name: LowThresholds
+          '/properties/baseline/highThresholds': !ruby/object:Api::Azure::SDKTypeDefinition::FloatArrayObject
+            applicable_to: [go]
+            go_field_name: HighThresholds
+          '/baseline': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: baseline
+          '/baseline/sensitivity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: sensitivity
+          '/baseline/lowThresholds': !ruby/object:Api::Azure::SDKTypeDefinition::FloatArrayObject
+            applicable_to: [python]
+            python_field_name: low_thresholds
+          '/baseline/highThresholds': !ruby/object:Api::Azure::SDKTypeDefinition::FloatArrayObject
+            applicable_to: [python]
+            python_field_name: high_thresholds
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Metadata
+            go_type_name: BaselineMetadataValue
+          '/properties/metadata/name': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_type_name: LocalizableString
+          '/properties/metadata/name/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/metadata/name/localizedValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LocalizedValue
+          '/properties/metadata/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: metadata
+          '/metadata/name': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: name
+          '/metadata/name/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/metadata/name/localizedValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: localized_value
+          '/metadata/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+
+    description: |
+      Manage Azure MetricBaseline instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The identifier of the resource. It has the following structure: subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/{providerName}/{resourceName}. For example: subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourceGroups/vms/providers/Microsoft.Compute/virtualMachines/vm1'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the metric to retrieve the baseline for.'
+        required: true
+        input: true
+        azure_sdk_references: ['metricName']
+      - !ruby/object:Api::Type::String
+        name: 'timespan'
+        description: 'The timespan of the query. It is a string with the following format ''startDateTime_ISO/endDateTime_ISO''.'
+        required: false
+        input: true
+        azure_sdk_references: ['timespan']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'interval'
+        description: 'The interval (i.e. timegrain) of the query.'
+        required: false
+        input: true
+        azure_sdk_references: ['interval']
+      - !ruby/object:Api::Type::String
+        name: 'aggregation'
+        description: 'The aggregation type of the metric to retrieve the baseline for.'
+        required: false
+        input: true
+        azure_sdk_references: ['aggregation']
+      - !ruby/object:Api::Type::String
+        name: 'sensitivities'
+        description: 'The list of sensitivities (comma separated) to retrieve.'
+        required: false
+        input: true
+        azure_sdk_references: ['sensitivities']
+      - !ruby/object:Api::Type::String
+        name: 'resultType'
+        description: 'Allows retrieving only metadata of the baseline. On data request all information is retrieved.'
+        required: false
+        input: true
+        azure_sdk_references: ['resultType']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'the metric baseline Id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'the resource type of the baseline resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'name'
+        description: 'the name and the display name of the metric, i.e. it is localizable string.'
+        output: true
+        azure_sdk_references: ['/name']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'timespan'
+        description: 'The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by ''/''.  This may be adjusted in the future and returned back from what was originally requested.'
+        output: true
+        azure_sdk_references: ['/timespan', '/properties/timespan']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'interval'
+        description: 'The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.'
+        output: true
+        azure_sdk_references: ['/interval', '/properties/interval']
+      - !ruby/object:Api::Type::String
+        name: 'aggregation'
+        description: 'The aggregation type of the metric.'
+        output: true
+        azure_sdk_references: ['/aggregation', '/properties/aggregation']
+      - !ruby/object:Api::Type::Array
+        name: 'timestamps'
+        description: 'the array of timestamps of the baselines.'
+        output: true
+        azure_sdk_references: ['/timestamps', '/properties/timestamps']
+        item_type: Api::Azure::Type::ISO8601DateTime
+      - !ruby/object:Api::Type::Array
+        name: 'baseline'
+        description: 'the baseline values for each sensitivity.'
+        output: true
+        azure_sdk_references: ['/baseline', '/properties/baseline']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'metadata'
+        description: 'the baseline metadata values.'
+        output: true
+        azure_sdk_references: ['/metadata', '/properties/metadata']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

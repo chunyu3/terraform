@@ -34,9 +34,9 @@ objects:
             python_variable_name: automation_account_name
           'softwareUpdateConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: softwareUpdateConfigurations
-            go_variable_name: softwareUpdateConfigurationName
+            go_variable_name: name
             python_parameter_name: software_update_configuration_name
-            python_variable_name: software_update_configuration_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: SoftwareUpdateConfiguration
@@ -106,6 +106,12 @@ objects:
           '/updateConfiguration/targets/azureQueries/tagSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: tag_settings
+          '/updateConfiguration/targets/azureQueries/tagSettings/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/updateConfiguration/targets/azureQueries/tagSettings/filterOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: filter_operator
           '/updateConfiguration/targets/nonAzureQueries': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: non_azure_queries
@@ -184,6 +190,13 @@ objects:
             applicable_to: [go]
             go_field_name: TagSettings
             go_type_name: TagSettingsProperties
+          '/properties/updateConfiguration/targets/azureQueries/tagSettings/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/updateConfiguration/targets/azureQueries/tagSettings/filterOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FilterOperator
+            go_enum_type_name: TagOperators
           '/properties/updateConfiguration/targets/nonAzureQueries': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: NonAzureQueries
@@ -398,9 +411,9 @@ objects:
             python_variable_name: automation_account_name
           'softwareUpdateConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: softwareUpdateConfigurations
-            go_variable_name: softwareUpdateConfigurationName
+            go_variable_name: name
             python_parameter_name: software_update_configuration_name
-            python_variable_name: software_update_configuration_name
+            python_variable_name: name
           'clientRequestId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: clientRequestID
@@ -422,9 +435,9 @@ objects:
             python_variable_name: automation_account_name
           'softwareUpdateConfigurationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: softwareUpdateConfigurations
-            go_variable_name: softwareUpdateConfigurationName
+            go_variable_name: name
             python_parameter_name: software_update_configuration_name
-            python_variable_name: software_update_configuration_name
+            python_variable_name: name
           'clientRequestId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: clientRequestID
@@ -504,6 +517,13 @@ objects:
             applicable_to: [go]
             go_field_name: TagSettings
             go_type_name: TagSettingsProperties
+          '/properties/updateConfiguration/targets/azureQueries/tagSettings/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/updateConfiguration/targets/azureQueries/tagSettings/filterOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FilterOperator
+            go_enum_type_name: TagOperators
           '/properties/updateConfiguration/targets/nonAzureQueries': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: NonAzureQueries
@@ -574,6 +594,12 @@ objects:
           '/updateConfiguration/targets/azureQueries/tagSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: tag_settings
+          '/updateConfiguration/targets/azureQueries/tagSettings/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/updateConfiguration/targets/azureQueries/tagSettings/filterOperator': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: filter_operator
           '/updateConfiguration/targets/nonAzureQueries': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: non_azure_queries
@@ -847,7 +873,7 @@ objects:
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'softwareUpdateConfigurationName'
+        name: 'name'
         description: 'The name of the software update configuration to be created.'
         required: true
         input: true
@@ -987,6 +1013,26 @@ objects:
                       required: false
                       azure_sdk_references: ['/updateConfiguration/targets/azureQueries/locations', '/properties/updateConfiguration/targets/azureQueries/locations']
                       item_type: Api::Type::String
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'tagSettings'
+                      description: 'Tag settings for the VM.'
+                      required: false
+                      azure_sdk_references: ['/updateConfiguration/targets/azureQueries/tagSettings', '/properties/updateConfiguration/targets/azureQueries/tagSettings']
+                      properties:
+                        - !ruby/object:Api::Azure::Type::Tags
+                          name: 'tags'
+                          description: 'Dictionary of tags with its list of values.'
+                          required: false
+                          azure_sdk_references: ['/updateConfiguration/targets/azureQueries/tagSettings/tags', '/properties/updateConfiguration/targets/azureQueries/tagSettings/tags']
+                        - !ruby/object:Api::Type::Enum
+                          name: 'filterOperator'
+                          description: 'Filter VMs by Any or All specified tags.'
+                          required: false
+                          azure_sdk_references: ['/updateConfiguration/targets/azureQueries/tagSettings/filterOperator', '/properties/updateConfiguration/targets/azureQueries/tagSettings/filterOperator']
+                          values:
+                            - :All
+                            - :Any
+                          default_value: :All
               - !ruby/object:Api::Type::Array
                 name: 'nonAzureQueries'
                 description: 'List of non Azure queries in the software update configuration.'

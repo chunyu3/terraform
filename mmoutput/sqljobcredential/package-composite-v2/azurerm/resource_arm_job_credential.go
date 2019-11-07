@@ -31,17 +31,17 @@ func resourceArmJobCredential() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "credential_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "job_agent_name": {
                 Type: schema.TypeString,
@@ -81,16 +81,16 @@ func resourceArmJobCredentialCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).jobCredentialsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    credentialName := d.Get("credential_name").(string)
     jobAgentName := d.Get("job_agent_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, credentialName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", credentialName, jobAgentName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -109,17 +109,17 @@ func resourceArmJobCredentialCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, credentialName, parameters); err != nil {
-        return fmt.Errorf("Error creating Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", credentialName, jobAgentName, serverName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, credentialName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", credentialName, jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) ID", credentialName, jobAgentName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q) ID", name, jobAgentName, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -137,22 +137,22 @@ func resourceArmJobCredentialRead(d *schema.ResourceData, meta interface{}) erro
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
     jobAgentName := id.Path["jobAgents"]
-    credentialName := id.Path["credentials"]
+    name := id.Path["credentials"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, credentialName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job Credential %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", credentialName, jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("credential_name", credentialName)
     d.Set("job_agent_name", jobAgentName)
     if jobCredentialProperties := resp.JobCredentialProperties; jobCredentialProperties != nil {
         d.Set("password", jobCredentialProperties.Password)
@@ -177,10 +177,10 @@ func resourceArmJobCredentialDelete(d *schema.ResourceData, meta interface{}) er
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
     jobAgentName := id.Path["jobAgents"]
-    credentialName := id.Path["credentials"]
+    name := id.Path["credentials"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName, credentialName); err != nil {
-        return fmt.Errorf("Error deleting Job Credential (Credential Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", credentialName, jobAgentName, serverName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName, name); err != nil {
+        return fmt.Errorf("Error deleting Job Credential %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
 
     return nil

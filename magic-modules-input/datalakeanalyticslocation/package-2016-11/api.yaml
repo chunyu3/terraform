@@ -1,0 +1,62 @@
+--- !ruby/object:Api::Product
+name: Azure Location Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Location
+    api_name: DataLakeAnalytics
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataLakeAnalytics
+      go_client_namespace: datalakeanalytics
+      go_client: locationsClient
+      python_client_namespace: azure.mgmt.datalakeanalytics
+      python_client: DataLakeAnalyticsAccountManagementClient.locations
+
+    description: |
+      Manage Azure Location instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The resource location without whitespace.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'The subscription credentials that uniquely identifies the subscription.'
+        output: true
+        azure_sdk_references: ['/subscriptionId']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'The subscription state.'
+        output: true
+        azure_sdk_references: ['/state']
+        values:
+          - :Registered
+          - :Suspended
+          - :Deleted
+          - :Unregistered
+          - :Warned
+      - !ruby/object:Api::Type::Integer
+        name: 'maxAccountCount'
+        description: 'The maximum supported number of accounts under this subscription.'
+        output: true
+        azure_sdk_references: ['/maxAccountCount']
+      - !ruby/object:Api::Type::Integer
+        name: 'accountCount'
+        description: 'The current number of accounts under this subscription.'
+        output: true
+        azure_sdk_references: ['/accountCount']
+      - !ruby/object:Api::Type::Boolean
+        name: 'migrationState'
+        description: 'The Boolean value of true or false to indicate the maintenance state.'
+        output: true
+        azure_sdk_references: ['/migrationState']

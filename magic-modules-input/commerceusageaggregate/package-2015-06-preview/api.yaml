@@ -1,0 +1,96 @@
+--- !ruby/object:Api::Product
+name: Azure UsageAggregate Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: UsageAggregate
+    api_name: Commerce
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Commerce
+      go_client_namespace: commerce
+      go_client: usageAggregatesClient
+      python_client_namespace: azure.mgmt.commerce
+      python_client: UsageManagementClient.usage_aggregates
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'reportedStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: reportedStartTime
+            python_parameter_name: reported_start_time
+            python_variable_name: reported_start_time
+          'reportedEndTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: reportedEndTime
+            python_parameter_name: reported_end_time
+            python_variable_name: reported_end_time
+          'showDetails': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: showDetails
+            python_parameter_name: show_details
+            python_variable_name: show_details
+          'aggregationGranularity': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: aggregationGranularity
+            python_parameter_name: aggregation_granularity
+            python_variable_name: aggregation_granularity
+          'continuationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: continuationToken
+            python_parameter_name: continuation_token
+            python_variable_name: continuation_token
+
+    description: |
+      Manage Azure UsageAggregate instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'reportedStartTime'
+        description: 'The start of the time range to retrieve data for.'
+        required: true
+        input: true
+        azure_sdk_references: ['reportedStartTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'reportedEndTime'
+        description: 'The end of the time range to retrieve data for.'
+        required: true
+        input: true
+        azure_sdk_references: ['reportedEndTime']
+      - !ruby/object:Api::Type::Boolean
+        name: 'showDetails'
+        description: '`True` returns usage data in instance-level detail, `false` causes server-side aggregation with fewer details. For example, if you have 3 website instances, by default you will get 3 line items for website consumption. If you specify showDetails = false, the data will be aggregated as a single line item for website consumption within the time period (for the given subscriptionId, meterId, usageStartTime and usageEndTime).'
+        required: false
+        input: true
+        azure_sdk_references: ['showDetails']
+      - !ruby/object:Api::Type::String
+        name: 'aggregationGranularity'
+        description: '`Daily` (default) returns the data in daily granularity, `Hourly` returns the data in hourly granularity.'
+        required: false
+        input: true
+        azure_sdk_references: ['aggregationGranularity']
+      - !ruby/object:Api::Type::String
+        name: 'continuationToken'
+        description: 'Used when a continuation token string is provided in the response body of the previous call, enabling paging through a large result set. If not present, the data is retrieved from the beginning of the day/hour (based on the granularity) passed in. '
+        required: false
+        input: true
+        azure_sdk_references: ['continuationToken']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Gets or sets details for the requested aggregation.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Gets or sets the link to the next set of results.'
+        output: true
+        azure_sdk_references: ['/nextLink']

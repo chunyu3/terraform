@@ -34,16 +34,16 @@ func testCheckAzureRMStorageTargetExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Storage Target not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         cacheName := rs.Primary.Attributes["cache_name"]
-        storageTargetName := rs.Primary.Attributes["storage_target_name"]
 
         client := testAccProvider.Meta().(*ArmClient).storageTargetsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, cacheName, storageTargetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, cacheName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Storage Target (Storage Target Name %q / Cache Name %q / Resource Group %q) does not exist", storageTargetName, cacheName, resourceGroup)
+                return fmt.Errorf("Bad: Storage Target %q (Cache Name %q / Resource Group %q) does not exist", name, cacheName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on storageTargetsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStorageTargetDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         cacheName := rs.Primary.Attributes["cache_name"]
-        storageTargetName := rs.Primary.Attributes["storage_target_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, cacheName, storageTargetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, cacheName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on storageTargetsClient: %+v", err)
             }

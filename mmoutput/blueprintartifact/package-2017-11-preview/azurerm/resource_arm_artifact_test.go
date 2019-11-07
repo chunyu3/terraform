@@ -34,16 +34,16 @@ func testCheckAzureRMArtifactExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Artifact not found: %s", resourceName)
         }
 
-        artifactName := rs.Primary.Attributes["artifact_name"]
+        name := rs.Primary.Attributes["name"]
         blueprintName := rs.Primary.Attributes["blueprint_name"]
         managementGroupName := rs.Primary.Attributes["management_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).artifactsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, managementGroupName, blueprintName, artifactName); err != nil {
+        if resp, err := client.Get(ctx, managementGroupName, blueprintName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q) does not exist", artifactName, blueprintName, managementGroupName)
+                return fmt.Errorf("Bad: Artifact %q (Blueprint Name %q / Management Group Name %q) does not exist", name, blueprintName, managementGroupName)
             }
             return fmt.Errorf("Bad: Get on artifactsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMArtifactDestroy(s *terraform.State) error {
             continue
         }
 
-        artifactName := rs.Primary.Attributes["artifact_name"]
+        name := rs.Primary.Attributes["name"]
         blueprintName := rs.Primary.Attributes["blueprint_name"]
         managementGroupName := rs.Primary.Attributes["management_group_name"]
 
-        if resp, err := client.Get(ctx, managementGroupName, blueprintName, artifactName); err != nil {
+        if resp, err := client.Get(ctx, managementGroupName, blueprintName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on artifactsClient: %+v", err)
             }

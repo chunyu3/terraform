@@ -28,11 +28,11 @@ Manage Azure Invitation instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the invitation. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the share account. Changing this forces a new resource to be created.
-
-* `invitation_name` - (Required) The name of the invitation. Changing this forces a new resource to be created.
 
 * `share_name` - (Required) The name of the share to send the invitation for. Changing this forces a new resource to be created.
 

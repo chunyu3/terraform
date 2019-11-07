@@ -28,11 +28,11 @@ Manage Azure Watcher instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The watcher name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
-
-* `watcher_name` - (Required) The watcher name. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The Azure Region where the resource lives Changing this forces a new resource to be created.
 

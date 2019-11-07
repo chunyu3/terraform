@@ -34,15 +34,15 @@ func testCheckAzureRMNetworkSecurityGroupExists(resourceName string) resource.Te
             return fmt.Errorf("Network Security Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        networkSecurityGroupName := rs.Primary.Attributes["network_security_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).networkSecurityGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Network Security Group (Network Security Group Name %q / Resource Group %q) does not exist", networkSecurityGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Network Security Group %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on networkSecurityGroupsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMNetworkSecurityGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        networkSecurityGroupName := rs.Primary.Attributes["network_security_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, networkSecurityGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on networkSecurityGroupsClient: %+v", err)
             }

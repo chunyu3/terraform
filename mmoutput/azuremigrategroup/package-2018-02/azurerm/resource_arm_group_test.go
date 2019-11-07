@@ -34,16 +34,16 @@ func testCheckAzureRMGroupExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        groupName := rs.Primary.Attributes["group_name"]
         projectName := rs.Primary.Attributes["project_name"]
 
         client := testAccProvider.Meta().(*ArmClient).groupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, groupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Group (Group Name %q / Project Name %q / Resource Group %q) does not exist", groupName, projectName, resourceGroup)
+                return fmt.Errorf("Bad: Group %q (Project Name %q / Resource Group %q) does not exist", name, projectName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on groupsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        groupName := rs.Primary.Attributes["group_name"]
         projectName := rs.Primary.Attributes["project_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, groupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on groupsClient: %+v", err)
             }

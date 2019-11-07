@@ -28,7 +28,7 @@ Manage Azure Artifact instance.
 
 The following arguments are supported:
 
-* `artifact_name` - (Required) Name of the blueprint artifact. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the blueprint artifact. Changing this forces a new resource to be created.
 
 * `blueprint_name` - (Required) Name of the blueprint definition. Changing this forces a new resource to be created.
 

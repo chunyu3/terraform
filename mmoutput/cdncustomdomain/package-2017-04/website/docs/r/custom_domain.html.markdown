@@ -28,9 +28,9 @@ Manage Azure CustomDomain instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the custom domain within an endpoint. Changing this forces a new resource to be created.
 
-* `custom_domain_name` - (Required) Name of the custom domain within an endpoint. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `endpoint_name` - (Required) Name of the endpoint under the profile which is unique globally. Changing this forces a new resource to be created.
 

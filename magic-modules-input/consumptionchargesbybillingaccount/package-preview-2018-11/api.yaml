@@ -1,0 +1,69 @@
+--- !ruby/object:Api::Product
+name: Azure ChargesByBillingAccount Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ChargesByBillingAccount
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: consumption
+      go_client: chargesByBillingAccountClient
+      python_client_namespace: azure.mgmt.consumption
+      python_client: ConsumptionManagementClient.charges_by_billing_account
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'billingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountID
+            python_parameter_name: billing_account_id
+            python_variable_name: billing_account_id
+          'startDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: startDate
+            python_parameter_name: start_date
+            python_variable_name: start_date
+          'endDate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: endDate
+            python_parameter_name: end_date
+            python_variable_name: end_date
+
+    description: |
+      Manage Azure ChargesByBillingAccount instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountId'
+        description: 'BillingAccount ID'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'startDate'
+        description: 'Start date'
+        required: true
+        input: true
+        azure_sdk_references: ['startDate']
+      - !ruby/object:Api::Type::String
+        name: 'endDate'
+        description: 'End date'
+        required: true
+        input: true
+        azure_sdk_references: ['endDate']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The list of charge summary by billing account.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

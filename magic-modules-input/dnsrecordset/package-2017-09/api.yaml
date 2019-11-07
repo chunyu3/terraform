@@ -32,16 +32,16 @@ objects:
             go_variable_name: zoneName
             python_parameter_name: zone_name
             python_variable_name: zone_name
-          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {recordType}
-            go_variable_name: relativeRecordSetName
-            python_parameter_name: relative_record_set_name
-            python_variable_name: relative_record_set_name
           'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {zoneName}
             go_variable_name: recordType
             python_parameter_name: record_type
             python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: RecordSet
@@ -282,16 +282,16 @@ objects:
             go_variable_name: zoneName
             python_parameter_name: zone_name
             python_variable_name: zone_name
-          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {recordType}
-            go_variable_name: relativeRecordSetName
-            python_parameter_name: relative_record_set_name
-            python_variable_name: relative_record_set_name
           'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {zoneName}
             go_variable_name: recordType
             python_parameter_name: record_type
             python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: RecordSet
@@ -532,16 +532,16 @@ objects:
             go_variable_name: zoneName
             python_parameter_name: zone_name
             python_variable_name: zone_name
-          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {recordType}
-            go_variable_name: relativeRecordSetName
-            python_parameter_name: relative_record_set_name
-            python_variable_name: relative_record_set_name
           'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {zoneName}
             go_variable_name: recordType
             python_parameter_name: record_type
             python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -556,16 +556,16 @@ objects:
             go_variable_name: zoneName
             python_parameter_name: zone_name
             python_variable_name: zone_name
-          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {recordType}
-            go_variable_name: relativeRecordSetName
-            python_parameter_name: relative_record_set_name
-            python_variable_name: relative_record_set_name
           'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {zoneName}
             go_variable_name: recordType
             python_parameter_name: record_type
             python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
         response:
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
@@ -853,7 +853,7 @@ objects:
         input: true
         azure_sdk_references: ['zoneName']
       - !ruby/object:Api::Type::String
-        name: 'relativeRecordSetName'
+        name: 'name'
         description: 'The name of the record set, relative to the name of the zone.'
         required: true
         input: true

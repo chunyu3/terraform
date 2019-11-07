@@ -34,15 +34,15 @@ func testCheckAzureRMRouteTableExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Route Table not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        routeTableName := rs.Primary.Attributes["route_table_name"]
 
         client := testAccProvider.Meta().(*ArmClient).routeTablesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, routeTableName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Route Table (Route Table Name %q / Resource Group %q) does not exist", routeTableName, resourceGroup)
+                return fmt.Errorf("Bad: Route Table %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on routeTablesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMRouteTableDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        routeTableName := rs.Primary.Attributes["route_table_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, routeTableName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on routeTablesClient: %+v", err)
             }

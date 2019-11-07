@@ -31,19 +31,19 @@ func resourceArmContentKeyPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "content_key_policy_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -95,15 +95,15 @@ func resourceArmContentKeyPolicyCreate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).contentKeyPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    contentKeyPolicyName := d.Get("content_key_policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, contentKeyPolicyName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q): %+v", contentKeyPolicyName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Content Key Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -122,17 +122,17 @@ func resourceArmContentKeyPolicyCreate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, contentKeyPolicyName, parameters); err != nil {
-        return fmt.Errorf("Error creating Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q): %+v", contentKeyPolicyName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Content Key Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, contentKeyPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q): %+v", contentKeyPolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Content Key Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q) ID", contentKeyPolicyName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Content Key Policy %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -149,23 +149,23 @@ func resourceArmContentKeyPolicyRead(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    contentKeyPolicyName := id.Path["contentKeyPolicies"]
+    name := id.Path["contentKeyPolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, contentKeyPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Content Key Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q): %+v", contentKeyPolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Content Key Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    d.Set("content_key_policy_name", contentKeyPolicyName)
     if contentKeyPolicyProperties := resp.ContentKeyPolicyProperties; contentKeyPolicyProperties != nil {
         d.Set("created", (contentKeyPolicyProperties.Created).String())
         d.Set("description", contentKeyPolicyProperties.Description)
@@ -184,9 +184,9 @@ func resourceArmContentKeyPolicyUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).contentKeyPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    contentKeyPolicyName := d.Get("content_key_policy_name").(string)
     description := d.Get("description").(string)
     options := d.Get("options").([]interface{})
 
@@ -198,8 +198,8 @@ func resourceArmContentKeyPolicyUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, contentKeyPolicyName, parameters); err != nil {
-        return fmt.Errorf("Error updating Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q): %+v", contentKeyPolicyName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Content Key Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmContentKeyPolicyRead(d, meta)
@@ -216,10 +216,10 @@ func resourceArmContentKeyPolicyDelete(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    contentKeyPolicyName := id.Path["contentKeyPolicies"]
+    name := id.Path["contentKeyPolicies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, contentKeyPolicyName); err != nil {
-        return fmt.Errorf("Error deleting Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q): %+v", contentKeyPolicyName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Content Key Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

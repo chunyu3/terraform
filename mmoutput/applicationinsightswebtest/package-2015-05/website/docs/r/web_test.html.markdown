@@ -28,6 +28,8 @@ Manage Azure WebTest instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Application Insights webtest resource. Changing this forces a new resource to be created.
+
 * `name` - (Required) User defined name if this WebTest.
 
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
@@ -39,8 +41,6 @@ The following arguments are supported:
 * `locations` - (Required) One or more `location` block defined below.
 
 * `synthetic_monitor_id` - (Required) Unique ID of this WebTest. This is typically the same value as the Name field.
-
-* `web_test_name` - (Required) The name of the Application Insights webtest resource. Changing this forces a new resource to be created.
 
 ---
 

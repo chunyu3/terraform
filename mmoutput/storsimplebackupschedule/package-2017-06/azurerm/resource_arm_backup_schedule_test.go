@@ -34,18 +34,18 @@ func testCheckAzureRMBackupScheduleExists(resourceName string) resource.TestChec
             return fmt.Errorf("Backup Schedule not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         backupPolicyName := rs.Primary.Attributes["backup_policy_name"]
         backupScheduleName := rs.Primary.Attributes["backup_schedule_name"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).backupSchedulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, backupPolicyName, backupScheduleName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, backupPolicyName, backupScheduleName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Backup Schedule (Manager Name %q / Resource Group %q / Backup Schedule Name %q / Backup Policy Name %q / Device Name %q) does not exist", managerName, resourceGroup, backupScheduleName, backupPolicyName, deviceName)
+                return fmt.Errorf("Bad: Backup Schedule %q (Resource Group %q / Backup Schedule Name %q / Backup Policy Name %q / Device Name %q) does not exist", name, resourceGroup, backupScheduleName, backupPolicyName, deviceName)
             }
             return fmt.Errorf("Bad: Get on backupSchedulesClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMBackupScheduleDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         backupPolicyName := rs.Primary.Attributes["backup_policy_name"]
         backupScheduleName := rs.Primary.Attributes["backup_schedule_name"]
         deviceName := rs.Primary.Attributes["device_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, deviceName, backupPolicyName, backupScheduleName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, backupPolicyName, backupScheduleName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on backupSchedulesClient: %+v", err)
             }

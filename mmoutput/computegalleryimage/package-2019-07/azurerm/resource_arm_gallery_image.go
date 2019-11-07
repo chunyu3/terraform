@@ -31,19 +31,19 @@ func resourceArmGalleryImage() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "gallery_image_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "gallery_name": {
                 Type: schema.TypeString,
@@ -233,15 +233,15 @@ func resourceArmGalleryImageCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).galleryImagesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    galleryImageName := d.Get("gallery_image_name").(string)
     galleryName := d.Get("gallery_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, galleryName, galleryImageName)
+        existing, err := client.Get(ctx, resourceGroup, galleryName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -284,21 +284,21 @@ func resourceArmGalleryImageCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, galleryName, galleryImageName, galleryImage)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, galleryName, name, galleryImage)
     if err != nil {
-        return fmt.Errorf("Error creating Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+        return fmt.Errorf("Error creating Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, galleryName, galleryImageName)
+    resp, err := client.Get(ctx, resourceGroup, galleryName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q) ID", galleryImageName, galleryName, resourceGroup)
+        return fmt.Errorf("Cannot read Gallery Image %q (Gallery Name %q / Resource Group %q) ID", name, galleryName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -315,19 +315,20 @@ func resourceArmGalleryImageRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     galleryName := id.Path["galleries"]
-    galleryImageName := id.Path["images"]
+    name := id.Path["images"]
 
-    resp, err := client.Get(ctx, resourceGroup, galleryName, galleryImageName)
+    resp, err := client.Get(ctx, resourceGroup, galleryName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Gallery Image %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+        return fmt.Errorf("Error reading Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -356,7 +357,6 @@ func resourceArmGalleryImageRead(d *schema.ResourceData, meta interface{}) error
         }
         d.Set("release_note_uri", galleryImageProperties.ReleaseNoteUri)
     }
-    d.Set("gallery_image_name", galleryImageName)
     d.Set("gallery_name", galleryName)
     d.Set("type", resp.Type)
 
@@ -375,19 +375,19 @@ func resourceArmGalleryImageDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     galleryName := id.Path["galleries"]
-    galleryImageName := id.Path["images"]
+    name := id.Path["images"]
 
-    future, err := client.Delete(ctx, resourceGroup, galleryName, galleryImageName)
+    future, err := client.Delete(ctx, resourceGroup, galleryName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q): %+v", galleryImageName, galleryName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
         }
     }
 

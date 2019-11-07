@@ -28,9 +28,9 @@ Manage Azure ExportConfiguration instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
 
-* `resource_name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `destination_account_id` - (Optional) The name of destination storage account. Changing this forces a new resource to be created.
 
@@ -78,4 +78,4 @@ The following attributes are exported:
 
 * `storage_name` - The name of the destination storage account.
 
-* `name` - The name of the destination storage container.
+* `container_name` - The name of the destination storage container.

@@ -31,19 +31,19 @@ func resourceArmInvitation() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "invitation_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -114,16 +114,16 @@ func resourceArmInvitationCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).invitationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    invitationName := d.Get("invitation_name").(string)
     shareName := d.Get("share_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, shareName, invitationName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", invitationName, shareName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Invitation %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,17 +144,17 @@ func resourceArmInvitationCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, invitationName, invitation); err != nil {
-        return fmt.Errorf("Error creating Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", invitationName, shareName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, shareName, name, invitation); err != nil {
+        return fmt.Errorf("Error creating Invitation %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, invitationName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", invitationName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Invitation %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q) ID", invitationName, shareName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Invitation %q (Share Name %q / Account Name %q / Resource Group %q) ID", name, shareName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -172,19 +172,20 @@ func resourceArmInvitationRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareName := id.Path["shares"]
-    invitationName := id.Path["invitations"]
+    name := id.Path["invitations"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, invitationName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Invitation %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", invitationName, shareName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Invitation %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -199,7 +200,6 @@ func resourceArmInvitationRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("user_email", invitationProperties.UserEmail)
         d.Set("user_name", invitationProperties.UserName)
     }
-    d.Set("invitation_name", invitationName)
     d.Set("share_name", shareName)
     d.Set("type", resp.Type)
 
@@ -219,10 +219,10 @@ func resourceArmInvitationDelete(d *schema.ResourceData, meta interface{}) error
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareName := id.Path["shares"]
-    invitationName := id.Path["invitations"]
+    name := id.Path["invitations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, shareName, invitationName); err != nil {
-        return fmt.Errorf("Error deleting Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q): %+v", invitationName, shareName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, shareName, name); err != nil {
+        return fmt.Errorf("Error deleting Invitation %q (Share Name %q / Account Name %q / Resource Group %q): %+v", name, shareName, accountName, resourceGroup, err)
     }
 
     return nil

@@ -28,13 +28,13 @@ Manage Azure Subscription instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `name` - (Required) Subscription name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `product_id` - (Required) Product (product id path) for which subscription is being created in form /products/{productId} Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `sid` - (Required) Subscription entity Identifier. The entity represents the association between a user and a product in API Management. Changing this forces a new resource to be created.
 

@@ -31,6 +31,13 @@ func resourceArmApiRelease() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -44,13 +51,6 @@ func resourceArmApiRelease() *schema.Resource {
             },
 
             "release_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -89,16 +89,16 @@ func resourceArmApiReleaseCreate(d *schema.ResourceData, meta interface{}) error
     client := meta.(*ArmClient).apiReleaseClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     releaseID := d.Get("release_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, apiID, releaseID)
+        existing, err := client.Get(ctx, resourceGroup, name, apiID, releaseID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Release (Release %q / Api %q / Service Name %q / Resource Group %q): %+v", releaseID, apiID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Release %q (Release %q / Api %q / Resource Group %q): %+v", name, releaseID, apiID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -117,17 +117,17 @@ func resourceArmApiReleaseCreate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, serviceName, apiID, releaseID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Release (Release %q / Api %q / Service Name %q / Resource Group %q): %+v", releaseID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, apiID, releaseID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Release %q (Release %q / Api %q / Resource Group %q): %+v", name, releaseID, apiID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, releaseID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, releaseID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Release (Release %q / Api %q / Service Name %q / Resource Group %q): %+v", releaseID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Release %q (Release %q / Api %q / Resource Group %q): %+v", name, releaseID, apiID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Release (Release %q / Api %q / Service Name %q / Resource Group %q) ID", releaseID, apiID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Release %q (Release %q / Api %q / Resource Group %q) ID", name, releaseID, apiID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -143,21 +143,22 @@ func resourceArmApiReleaseRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     releaseID := id.Path["releases"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, releaseID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, releaseID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Release %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Release (Release %q / Api %q / Service Name %q / Resource Group %q): %+v", releaseID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Release %q (Release %q / Api %q / Resource Group %q): %+v", name, releaseID, apiID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
@@ -168,7 +169,6 @@ func resourceArmApiReleaseRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("updated_date_time", (apiReleaseContractProperties.UpdatedDateTime).String())
     }
     d.Set("release_id", releaseID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -178,12 +178,12 @@ func resourceArmApiReleaseUpdate(d *schema.ResourceData, meta interface{}) error
     client := meta.(*ArmClient).apiReleaseClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     apiId := d.Get("api_id").(string)
     notes := d.Get("notes").(string)
     releaseID := d.Get("release_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     parameters := apimanagement.ApiReleaseContract{
         ApiReleaseContractProperties: &apimanagement.ApiReleaseContractProperties{
@@ -193,8 +193,8 @@ func resourceArmApiReleaseUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, apiID, releaseID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api Release (Release %q / Api %q / Service Name %q / Resource Group %q): %+v", releaseID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, apiID, releaseID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api Release %q (Release %q / Api %q / Resource Group %q): %+v", name, releaseID, apiID, resourceGroup, err)
     }
 
     return resourceArmApiReleaseRead(d, meta)
@@ -210,12 +210,12 @@ func resourceArmApiReleaseDelete(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     releaseID := id.Path["releases"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, apiID, releaseID); err != nil {
-        return fmt.Errorf("Error deleting Api Release (Release %q / Api %q / Service Name %q / Resource Group %q): %+v", releaseID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, apiID, releaseID); err != nil {
+        return fmt.Errorf("Error deleting Api Release %q (Release %q / Api %q / Resource Group %q): %+v", name, releaseID, apiID, resourceGroup, err)
     }
 
     return nil

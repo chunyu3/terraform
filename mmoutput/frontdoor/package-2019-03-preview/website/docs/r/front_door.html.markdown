@@ -28,9 +28,9 @@ Manage Azure FrontDoor instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the Front Door which is globally unique. Changing this forces a new resource to be created.
 
-* `front_door_name` - (Required) Name of the Front Door which is globally unique. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 

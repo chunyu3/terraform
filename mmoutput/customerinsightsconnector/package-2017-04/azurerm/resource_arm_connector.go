@@ -31,17 +31,17 @@ func resourceArmConnector() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "connector_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "connector_properties": {
                 Type: schema.TypeMap,
@@ -126,15 +126,15 @@ func resourceArmConnectorCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).connectorsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    connectorName := d.Get("connector_name").(string)
     hubName := d.Get("hub_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, connectorName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -161,21 +161,21 @@ func resourceArmConnectorCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, connectorName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error creating Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, connectorName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Connector (Connector Name %q / Hub Name %q / Resource Group %q) ID", connectorName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Connector %q (Hub Name %q / Resource Group %q) ID", name, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -192,19 +192,20 @@ func resourceArmConnectorRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    connectorName := id.Path["connectors"]
+    name := id.Path["connectors"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, connectorName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Connector %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if connector := resp.Connector; connector != nil {
@@ -220,7 +221,6 @@ func resourceArmConnectorRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("state", string(connector.State))
         d.Set("tenant_id", connector.TenantID)
     }
-    d.Set("connector_name", connectorName)
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
 
@@ -239,19 +239,19 @@ func resourceArmConnectorDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    connectorName := id.Path["connectors"]
+    name := id.Path["connectors"]
 
-    future, err := client.Delete(ctx, resourceGroup, hubName, connectorName)
+    future, err := client.Delete(ctx, resourceGroup, hubName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Connector (Connector Name %q / Hub Name %q / Resource Group %q): %+v", connectorName, hubName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Connector %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
         }
     }
 

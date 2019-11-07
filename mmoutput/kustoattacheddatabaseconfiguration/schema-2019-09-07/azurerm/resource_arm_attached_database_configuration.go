@@ -31,19 +31,19 @@ func resourceArmAttachedDatabaseConfiguration() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "attached_database_configuration_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "cluster_name": {
                 Type: schema.TypeString,
@@ -99,15 +99,15 @@ func resourceArmAttachedDatabaseConfigurationCreateUpdate(d *schema.ResourceData
     client := meta.(*ArmClient).attachedDatabaseConfigurationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    attachedDatabaseConfigurationName := d.Get("attached_database_configuration_name").(string)
     clusterName := d.Get("cluster_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -130,21 +130,21 @@ func resourceArmAttachedDatabaseConfigurationCreateUpdate(d *schema.ResourceData
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q) ID", attachedDatabaseConfigurationName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Attached Database Configuration %q (Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -161,25 +161,25 @@ func resourceArmAttachedDatabaseConfigurationRead(d *schema.ResourceData, meta i
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    attachedDatabaseConfigurationName := id.Path["attachedDatabaseConfigurations"]
+    name := id.Path["attachedDatabaseConfigurations"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Attached Database Configuration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("attached_database_configuration_name", attachedDatabaseConfigurationName)
     if attachedDatabaseConfigurationProperties := resp.AttachedDatabaseConfigurationProperties; attachedDatabaseConfigurationProperties != nil {
         d.Set("attached_database_names", utils.FlattenStringSlice(attachedDatabaseConfigurationProperties.AttachedDatabaseNames))
         d.Set("cluster_resource_id", attachedDatabaseConfigurationProperties.ClusterResourceID)
@@ -205,19 +205,19 @@ func resourceArmAttachedDatabaseConfigurationDelete(d *schema.ResourceData, meta
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    attachedDatabaseConfigurationName := id.Path["attachedDatabaseConfigurations"]
+    name := id.Path["attachedDatabaseConfigurations"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, attachedDatabaseConfigurationName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Attached Database Configuration (Attached Database Configuration Name %q / Cluster Name %q / Resource Group %q): %+v", attachedDatabaseConfigurationName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Attached Database Configuration %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
         }
     }
 

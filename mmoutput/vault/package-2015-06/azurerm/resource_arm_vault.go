@@ -31,6 +31,13 @@ func resourceArmVault() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -167,13 +174,6 @@ func resourceArmVault() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "vault_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "enable_soft_delete": {
                 Type: schema.TypeBool,
                 Optional: true,
@@ -213,14 +213,14 @@ func resourceArmVaultCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).vaultsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    vaultName := d.Get("vault_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, vaultName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Vault (Vault Name %q / Resource Group %q): %+v", vaultName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Vault %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -255,17 +255,17 @@ func resourceArmVaultCreateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, vaultName, parameters); err != nil {
-        return fmt.Errorf("Error creating Vault (Vault Name %q / Resource Group %q): %+v", vaultName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Vault %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, vaultName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Vault (Vault Name %q / Resource Group %q): %+v", vaultName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Vault %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Vault (Vault Name %q / Resource Group %q) ID", vaultName, resourceGroup)
+        return fmt.Errorf("Cannot read Vault %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -281,19 +281,20 @@ func resourceArmVaultRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    vaultName := id.Path["vaults"]
+    name := id.Path["vaults"]
 
-    resp, err := client.Get(ctx, resourceGroup, vaultName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Vault %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Vault (Vault Name %q / Resource Group %q): %+v", vaultName, resourceGroup, err)
+        return fmt.Errorf("Error reading Vault %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -314,7 +315,6 @@ func resourceArmVaultRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("vault_uri", vaultProperties.VaultUri)
     }
     d.Set("type", resp.Type)
-    d.Set("vault_name", vaultName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -330,10 +330,10 @@ func resourceArmVaultDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    vaultName := id.Path["vaults"]
+    name := id.Path["vaults"]
 
-    if _, err := client.Delete(ctx, resourceGroup, vaultName); err != nil {
-        return fmt.Errorf("Error deleting Vault (Vault Name %q / Resource Group %q): %+v", vaultName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Vault %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

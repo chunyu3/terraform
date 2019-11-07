@@ -28,11 +28,11 @@ Manage Azure MachineGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) OMS workspace containing the resources of interest. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Resource group name within the specified subscriptionId. Changing this forces a new resource to be created.
 
 * `display_name` - (Required) User defined name for the group
-
-* `workspace_name` - (Required) OMS workspace containing the resources of interest. Changing this forces a new resource to be created.
 
 * `count` - (Optional) Count of machines in this group. The value of count may be bigger than the number of machines in case of the group has been truncated due to exceeding the max number of machines a group can handle.
 

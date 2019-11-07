@@ -28,11 +28,11 @@ Manage Azure IotDpsResource instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of provisioning service to create or update. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Resource group identifier. Changing this forces a new resource to be created.
 
 * `location` - (Required) The resource location. Changing this forces a new resource to be created.
-
-* `provisioning_service_name` - (Required) Name of provisioning service to create or update. Changing this forces a new resource to be created.
 
 * `sku` - (Required) One `sku` block defined below.
 

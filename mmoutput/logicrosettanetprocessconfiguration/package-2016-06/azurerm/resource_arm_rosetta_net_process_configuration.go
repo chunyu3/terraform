@@ -31,6 +31,13 @@ func resourceArmRosettaNetProcessConfiguration() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -294,13 +301,6 @@ func resourceArmRosettaNetProcessConfiguration() *schema.Resource {
                 },
             },
 
-            "rosetta_net_process_configuration_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "description": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -336,15 +336,15 @@ func resourceArmRosettaNetProcessConfigurationCreateUpdate(d *schema.ResourceDat
     client := meta.(*ArmClient).rosettaNetProcessConfigurationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     integrationAccountName := d.Get("integration_account_name").(string)
-    rosettaNetProcessConfigurationName := d.Get("rosetta_net_process_configuration_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName)
+        existing, err := client.Get(ctx, resourceGroup, integrationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q): %+v", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q): %+v", name, integrationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -379,17 +379,17 @@ func resourceArmRosettaNetProcessConfigurationCreateUpdate(d *schema.ResourceDat
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName, rosettaNetProcessConfiguration); err != nil {
-        return fmt.Errorf("Error creating Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q): %+v", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, integrationAccountName, name, rosettaNetProcessConfiguration); err != nil {
+        return fmt.Errorf("Error creating Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q): %+v", name, integrationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName)
+    resp, err := client.Get(ctx, resourceGroup, integrationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q): %+v", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q): %+v", name, integrationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q) ID", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q) ID", name, integrationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -406,19 +406,20 @@ func resourceArmRosettaNetProcessConfigurationRead(d *schema.ResourceData, meta 
     }
     resourceGroup := id.ResourceGroup
     integrationAccountName := id.Path["integrationAccounts"]
-    rosettaNetProcessConfigurationName := id.Path["rosettanetprocessconfigurations"]
+    name := id.Path["rosettanetprocessconfigurations"]
 
-    resp, err := client.Get(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName)
+    resp, err := client.Get(ctx, resourceGroup, integrationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Rosetta Net Process Configuration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q): %+v", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q): %+v", name, integrationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -443,7 +444,6 @@ func resourceArmRosettaNetProcessConfigurationRead(d *schema.ResourceData, meta 
         }
     }
     d.Set("integration_account_name", integrationAccountName)
-    d.Set("rosetta_net_process_configuration_name", rosettaNetProcessConfigurationName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -461,10 +461,10 @@ func resourceArmRosettaNetProcessConfigurationDelete(d *schema.ResourceData, met
     }
     resourceGroup := id.ResourceGroup
     integrationAccountName := id.Path["integrationAccounts"]
-    rosettaNetProcessConfigurationName := id.Path["rosettanetprocessconfigurations"]
+    name := id.Path["rosettanetprocessconfigurations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName); err != nil {
-        return fmt.Errorf("Error deleting Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q): %+v", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, integrationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q): %+v", name, integrationAccountName, resourceGroup, err)
     }
 
     return nil

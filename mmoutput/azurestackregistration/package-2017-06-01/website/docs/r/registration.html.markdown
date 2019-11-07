@@ -28,7 +28,7 @@ Manage Azure Registration instance.
 
 The following arguments are supported:
 
-* `registration_name` - (Required) Name of the Azure Stack registration. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the Azure Stack registration. Changing this forces a new resource to be created.
 
 * `registration_token` - (Required) The token identifying registered Azure Stack
 

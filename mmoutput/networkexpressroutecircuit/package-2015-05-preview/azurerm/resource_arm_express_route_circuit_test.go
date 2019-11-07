@@ -34,15 +34,15 @@ func testCheckAzureRMExpressRouteCircuitExists(resourceName string) resource.Tes
             return fmt.Errorf("Express Route Circuit not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        circuitName := rs.Primary.Attributes["circuit_name"]
 
         client := testAccProvider.Meta().(*ArmClient).expressRouteCircuitsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, circuitName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Express Route Circuit (Circuit Name %q / Resource Group %q) does not exist", circuitName, resourceGroup)
+                return fmt.Errorf("Bad: Express Route Circuit %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on expressRouteCircuitsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMExpressRouteCircuitDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        circuitName := rs.Primary.Attributes["circuit_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, circuitName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on expressRouteCircuitsClient: %+v", err)
             }

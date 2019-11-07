@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: virtualnetworks
             go_variable_name: name
@@ -168,9 +168,9 @@ objects:
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: virtualnetworks
             go_variable_name: name
@@ -307,9 +307,9 @@ objects:
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: virtualnetworks
             go_variable_name: name
@@ -326,9 +326,9 @@ objects:
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
           'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: virtualnetworks
             go_variable_name: name
@@ -458,9 +458,21 @@ objects:
             applicable_to: [go]
             go_field_name: ExternalSubnets
             go_type_name: ExternalSubnet
+          '/properties/externalSubnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/externalSubnets/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
           '/externalSubnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: external_subnets
+          '/externalSubnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/externalSubnets/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
           '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreatedDate
@@ -496,9 +508,9 @@ objects:
             python_variable_name: resource_group
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
 
     description: |
       Manage Azure VirtualNetwork instance.
@@ -510,7 +522,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'labName'
+        name: 'name'
         description: 'The name of the lab.'
         required: true
         input: true
@@ -647,16 +659,6 @@ objects:
         azure_sdk_references: ['/externalSubnets', '/properties/externalSubnets']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Gets or sets the identifier.'
-              required: false
-              azure_sdk_references: ['/externalSubnets/id', '/properties/externalSubnets/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Gets or sets the name.'
-              required: false
-              azure_sdk_references: ['/externalSubnets/name', '/properties/externalSubnets/name']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdDate'
         description: 'The creation date of the virtual network.'

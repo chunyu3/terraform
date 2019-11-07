@@ -1,0 +1,31 @@
+--- !ruby/object:Api::Product
+name: Azure Recommendation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Recommendation
+    api_name: Web
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Web
+      go_client_namespace: web
+      go_client: recommendationsClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.recommendations
+
+    description: |
+      Manage Azure Recommendation instance.
+    properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'featured'
+        description: 'If set, this API returns only the most critical recommendation among the others. Otherwise this API returns all recommendations available'
+        required: false
+        input: true
+        azure_sdk_references: ['featured']
+      # read only values included only in response

@@ -34,17 +34,17 @@ func testCheckAzureRMProjectExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Project not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        projectName := rs.Primary.Attributes["project_name"]
         workspaceName := rs.Primary.Attributes["workspace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).projectsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName, projectName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Project (Project Name %q / Workspace Name %q / Account Name %q / Resource Group %q) does not exist", projectName, workspaceName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Project %q (Workspace Name %q / Account Name %q / Resource Group %q) does not exist", name, workspaceName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on projectsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMProjectDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        projectName := rs.Primary.Attributes["project_name"]
         workspaceName := rs.Primary.Attributes["workspace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName, projectName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, workspaceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on projectsClient: %+v", err)
             }

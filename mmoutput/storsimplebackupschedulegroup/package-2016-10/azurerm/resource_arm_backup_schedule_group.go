@@ -31,19 +31,19 @@ func resourceArmBackupScheduleGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "device_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -87,16 +87,16 @@ func resourceArmBackupScheduleGroupCreateUpdate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).backupScheduleGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
-    managerName := d.Get("manager_name").(string)
     scheduleGroupName := d.Get("schedule_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, scheduleGroupName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -113,21 +113,21 @@ func resourceArmBackupScheduleGroupCreateUpdate(d *schema.ResourceData, meta int
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, scheduleGroupName, resourceGroup, managerName, scheduleGroup)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, scheduleGroupName, scheduleGroup)
     if err != nil {
-        return fmt.Errorf("Error creating Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+        return fmt.Errorf("Error creating Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, scheduleGroupName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+        return fmt.Errorf("Error retrieving Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q) ID", managerName, resourceGroup, scheduleGroupName, deviceName)
+        return fmt.Errorf("Cannot read Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q) ID", name, resourceGroup, scheduleGroupName, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -142,26 +142,26 @@ func resourceArmBackupScheduleGroupRead(d *schema.ResourceData, meta interface{}
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     scheduleGroupName := id.Path["backupScheduleGroups"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    resp, err := client.Get(ctx, deviceName, scheduleGroupName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, scheduleGroupName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Backup Schedule Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+        return fmt.Errorf("Error reading Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("device_name", deviceName)
-    d.Set("manager_name", managerName)
     d.Set("schedule_group_name", scheduleGroupName)
     if backupScheduleGroupProperties := resp.BackupScheduleGroupProperties; backupScheduleGroupProperties != nil {
         if err := d.Set("start_time", flattenArmBackupScheduleGroupTime(backupScheduleGroupProperties.StartTime)); err != nil {
@@ -183,22 +183,22 @@ func resourceArmBackupScheduleGroupDelete(d *schema.ResourceData, meta interface
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     scheduleGroupName := id.Path["backupScheduleGroups"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    future, err := client.Delete(ctx, deviceName, scheduleGroupName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, deviceName, scheduleGroupName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+        return fmt.Errorf("Error deleting Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Backup Schedule Group (Manager Name %q / Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", managerName, resourceGroup, scheduleGroupName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Backup Schedule Group %q (Resource Group %q / Schedule Group Name %q / Device Name %q): %+v", name, resourceGroup, scheduleGroupName, deviceName, err)
         }
     }
 

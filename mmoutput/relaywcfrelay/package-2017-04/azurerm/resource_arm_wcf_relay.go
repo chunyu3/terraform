@@ -31,19 +31,19 @@ func resourceArmWCFRelay() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "namespace_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "relay_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -107,15 +107,15 @@ func resourceArmWCFRelayCreateUpdate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).wCFRelaysClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     namespaceName := d.Get("namespace_name").(string)
-    relayName := d.Get("relay_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, namespaceName, relayName)
+        existing, err := client.Get(ctx, resourceGroup, namespaceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q): %+v", relayName, namespaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Wcf Relay %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -138,17 +138,17 @@ func resourceArmWCFRelayCreateUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, relayName, parameters); err != nil {
-        return fmt.Errorf("Error creating Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q): %+v", relayName, namespaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, namespaceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Wcf Relay %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, relayName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q): %+v", relayName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Wcf Relay %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q) ID", relayName, namespaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Wcf Relay %q (Namespace Name %q / Resource Group %q) ID", name, namespaceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -165,19 +165,20 @@ func resourceArmWCFRelayRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    relayName := id.Path["wcfRelays"]
+    name := id.Path["wcfRelays"]
 
-    resp, err := client.Get(ctx, resourceGroup, namespaceName, relayName)
+    resp, err := client.Get(ctx, resourceGroup, namespaceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Wcf Relay %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q): %+v", relayName, namespaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Wcf Relay %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if wcfRelayProperties := resp.WcfRelay_properties; wcfRelayProperties != nil {
@@ -191,7 +192,6 @@ func resourceArmWCFRelayRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("user_metadata", wcfRelayProperties.UserMetadata)
     }
     d.Set("namespace_name", namespaceName)
-    d.Set("relay_name", relayName)
     d.Set("type", resp.Type)
 
     return nil
@@ -209,10 +209,10 @@ func resourceArmWCFRelayDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     namespaceName := id.Path["namespaces"]
-    relayName := id.Path["wcfRelays"]
+    name := id.Path["wcfRelays"]
 
-    if _, err := client.Delete(ctx, resourceGroup, namespaceName, relayName); err != nil {
-        return fmt.Errorf("Error deleting Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q): %+v", relayName, namespaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, namespaceName, name); err != nil {
+        return fmt.Errorf("Error deleting Wcf Relay %q (Namespace Name %q / Resource Group %q): %+v", name, namespaceName, resourceGroup, err)
     }
 
     return nil

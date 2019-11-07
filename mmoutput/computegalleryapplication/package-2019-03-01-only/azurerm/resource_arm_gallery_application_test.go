@@ -34,16 +34,16 @@ func testCheckAzureRMGalleryApplicationExists(resourceName string) resource.Test
             return fmt.Errorf("Gallery Application not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        galleryApplicationName := rs.Primary.Attributes["gallery_application_name"]
         galleryName := rs.Primary.Attributes["gallery_name"]
 
         client := testAccProvider.Meta().(*ArmClient).galleryApplicationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, galleryName, galleryApplicationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, galleryName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Gallery Application (Gallery Application Name %q / Gallery Name %q / Resource Group %q) does not exist", galleryApplicationName, galleryName, resourceGroup)
+                return fmt.Errorf("Bad: Gallery Application %q (Gallery Name %q / Resource Group %q) does not exist", name, galleryName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on galleryApplicationsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMGalleryApplicationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        galleryApplicationName := rs.Primary.Attributes["gallery_application_name"]
         galleryName := rs.Primary.Attributes["gallery_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, galleryName, galleryApplicationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, galleryName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on galleryApplicationsClient: %+v", err)
             }

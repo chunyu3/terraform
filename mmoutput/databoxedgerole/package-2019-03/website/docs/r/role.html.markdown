@@ -28,11 +28,11 @@ Manage Azure Role instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The device name. Changing this forces a new resource to be created.
+
 * `name` - (Required) The role name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
-
-* `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

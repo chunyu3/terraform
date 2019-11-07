@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'containerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containerGroups
-            go_variable_name: containerGroupName
+            go_variable_name: name
             python_parameter_name: container_group_name
-            python_variable_name: container_group_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: containerGroup
             go_type_name: ContainerGroup
@@ -83,9 +83,21 @@ objects:
           '/containers/resources/requests': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: requests
+          '/containers/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: memory_in_gb
+          '/containers/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: cpu
           '/containers/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: limits
+          '/containers/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: memory_in_gb
+          '/containers/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: cpu
           '/containers/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: volume_mounts
@@ -144,10 +156,22 @@ objects:
             applicable_to: [go]
             go_field_name: Requests
             go_type_name: ResourceRequests
+          '/properties/containers/properties/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MemoryInGb
+          '/properties/containers/properties/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Cpu
           '/properties/containers/properties/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Limits
             go_type_name: ResourceLimits
+          '/properties/containers/properties/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MemoryInGb
+          '/properties/containers/properties/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Cpu
           '/properties/containers/properties/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VolumeMounts
@@ -300,9 +324,9 @@ objects:
             python_variable_name: resource_group
           'containerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containerGroups
-            go_variable_name: containerGroupName
+            go_variable_name: name
             python_parameter_name: container_group_name
-            python_variable_name: container_group_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -314,9 +338,9 @@ objects:
             python_variable_name: resource_group
           'containerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containerGroups
-            go_variable_name: containerGroupName
+            go_variable_name: name
             python_parameter_name: container_group_name
-            python_variable_name: container_group_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -374,10 +398,22 @@ objects:
             applicable_to: [go]
             go_field_name: Requests
             go_type_name: ResourceRequests
+          '/properties/containers/properties/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MemoryInGb
+          '/properties/containers/properties/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Cpu
           '/properties/containers/properties/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Limits
             go_type_name: ResourceLimits
+          '/properties/containers/properties/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MemoryInGb
+          '/properties/containers/properties/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Cpu
           '/properties/containers/properties/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VolumeMounts
@@ -395,6 +431,69 @@ objects:
             applicable_to: [go]
             go_field_name: InstanceView
             go_type_name: ContainerProperties_instanceView
+          '/properties/containers/properties/instanceView/restartCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: RestartCount
+          '/properties/containers/properties/instanceView/currentState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CurrentState
+            go_type_name: ContainerState
+          '/properties/containers/properties/instanceView/currentState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/properties/containers/properties/instanceView/currentState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/containers/properties/instanceView/currentState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ExitCode
+          '/properties/containers/properties/instanceView/currentState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: FinishTime
+          '/properties/containers/properties/instanceView/currentState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DetailStatus
+          '/properties/containers/properties/instanceView/previousState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PreviousState
+            go_type_name: ContainerState
+          '/properties/containers/properties/instanceView/previousState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/properties/containers/properties/instanceView/previousState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/containers/properties/instanceView/previousState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ExitCode
+          '/properties/containers/properties/instanceView/previousState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: FinishTime
+          '/properties/containers/properties/instanceView/previousState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DetailStatus
+          '/properties/containers/properties/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Events
+            go_type_name: Event
+          '/properties/containers/properties/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Count
+          '/properties/containers/properties/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: FirstTimestamp
+          '/properties/containers/properties/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastTimestamp
+          '/properties/containers/properties/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/containers/properties/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/containers/properties/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
           '/containers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: containers
@@ -431,9 +530,21 @@ objects:
           '/containers/resources/requests': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: requests
+          '/containers/resources/requests/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: memory_in_gb
+          '/containers/resources/requests/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: cpu
           '/containers/resources/limits': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: limits
+          '/containers/resources/limits/memoryInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: memory_in_gb
+          '/containers/resources/limits/cpu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: cpu
           '/containers/volumeMounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: volume_mounts
@@ -449,6 +560,66 @@ objects:
           '/containers/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: instance_view
+          '/containers/instanceView/restartCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: restart_count
+          '/containers/instanceView/currentState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: current_state
+          '/containers/instanceView/currentState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/containers/instanceView/currentState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/containers/instanceView/currentState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: exit_code
+          '/containers/instanceView/currentState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: finish_time
+          '/containers/instanceView/currentState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: detail_status
+          '/containers/instanceView/previousState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: previous_state
+          '/containers/instanceView/previousState/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/containers/instanceView/previousState/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/containers/instanceView/previousState/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: exit_code
+          '/containers/instanceView/previousState/finishTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: finish_time
+          '/containers/instanceView/previousState/detailStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: detail_status
+          '/containers/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: events
+          '/containers/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: count
+          '/containers/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: first_timestamp
+          '/containers/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_timestamp
+          '/containers/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/containers/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/containers/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
           '/properties/imageRegistryCredentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ImageRegistryCredentials
@@ -587,9 +758,58 @@ objects:
             applicable_to: [go]
             go_field_name: InstanceView
             go_type_name: ContainerGroup_properties_instanceView
+          '/properties/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Events
+            go_type_name: Event
+          '/properties/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Count
+          '/properties/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: FirstTimestamp
+          '/properties/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastTimestamp
+          '/properties/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/instanceView/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
           '/instanceView': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: instance_view
+          '/instanceView/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: events
+          '/instanceView/events/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: count
+          '/instanceView/events/firstTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: first_timestamp
+          '/instanceView/events/lastTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_timestamp
+          '/instanceView/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/instanceView/events/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/instanceView/events/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/instanceView/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -623,7 +843,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'containerGroupName'
+        name: 'name'
         description: 'The name of the container group.'
         required: true
         input: true
@@ -707,6 +927,38 @@ objects:
               required: true
               azure_sdk_references: ['/containers/resources', '/properties/containers/properties/resources']
               properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'requests'
+                  description: 'The resource requests of this container instance.'
+                  required: true
+                  azure_sdk_references: ['/containers/resources/requests', '/properties/containers/properties/resources/requests']
+                  properties:
+                    - !ruby/object:Api::Type::Double
+                      name: 'memoryInGb'
+                      description: 'The memory request in GB of this container instance.'
+                      required: true
+                      azure_sdk_references: ['/containers/resources/requests/memoryInGB', '/properties/containers/properties/resources/requests/memoryInGB']
+                    - !ruby/object:Api::Type::Double
+                      name: 'cpu'
+                      description: 'The CPU request of this container instance.'
+                      required: true
+                      azure_sdk_references: ['/containers/resources/requests/cpu', '/properties/containers/properties/resources/requests/cpu']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'limits'
+                  description: 'The resource limits of this container instance.'
+                  required: false
+                  azure_sdk_references: ['/containers/resources/limits', '/properties/containers/properties/resources/limits']
+                  properties:
+                    - !ruby/object:Api::Type::Double
+                      name: 'memoryInGb'
+                      description: 'The memory limit in GB of this container instance.'
+                      required: false
+                      azure_sdk_references: ['/containers/resources/limits/memoryInGB', '/properties/containers/properties/resources/limits/memoryInGB']
+                    - !ruby/object:Api::Type::Double
+                      name: 'cpu'
+                      description: 'The CPU limit of this container instance.'
+                      required: false
+                      azure_sdk_references: ['/containers/resources/limits/cpu', '/properties/containers/properties/resources/limits/cpu']
             - !ruby/object:Api::Type::Array
               name: 'volumeMounts'
               description: 'The volume mounts available to the container instance.'
@@ -861,48 +1113,6 @@ objects:
         output: true
         azure_sdk_references: ['/instanceView', '/properties/instanceView']
         properties:
-          - !ruby/object:Api::Type::Array
-            name: 'events'
-            description: 'The events of this container group.'
-            required: false
-            azure_sdk_references: ['/instanceView/events', '/properties/instanceView/events']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::Integer
-                  name: 'count'
-                  description: 'The count of the event.'
-                  required: false
-                  azure_sdk_references: ['/instanceView/events/count', '/properties/instanceView/events/count']
-                - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                  name: 'firstTimestamp'
-                  description: 'The date-time of the earliest logged event.'
-                  required: false
-                  azure_sdk_references: ['/instanceView/events/firstTimestamp', '/properties/instanceView/events/firstTimestamp']
-                - !ruby/object:Api::Azure::Type::ISO8601DateTime
-                  name: 'lastTimestamp'
-                  description: 'The date-time of the latest logged event.'
-                  required: false
-                  azure_sdk_references: ['/instanceView/events/lastTimestamp', '/properties/instanceView/events/lastTimestamp']
-                - !ruby/object:Api::Type::String
-                  name: 'name'
-                  description: 'The event name.'
-                  required: false
-                  azure_sdk_references: ['/instanceView/events/name', '/properties/instanceView/events/name']
-                - !ruby/object:Api::Type::String
-                  name: 'message'
-                  description: 'The event message.'
-                  required: false
-                  azure_sdk_references: ['/instanceView/events/message', '/properties/instanceView/events/message']
-                - !ruby/object:Api::Type::String
-                  name: 'type'
-                  description: 'The event type.'
-                  required: false
-                  azure_sdk_references: ['/instanceView/events/type', '/properties/instanceView/events/type']
-          - !ruby/object:Api::Type::String
-            name: 'state'
-            description: 'The state of the container group. Only valid in response.'
-            required: false
-            azure_sdk_references: ['/instanceView/state', '/properties/instanceView/state']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource id.'

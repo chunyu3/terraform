@@ -31,17 +31,17 @@ func resourceArmAgentPool() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "agent_pool_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "count": {
                 Type: schema.TypeInt,
@@ -349,15 +349,15 @@ func resourceArmAgentPoolCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).agentPoolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    agentPoolName := d.Get("agent_pool_name").(string)
     resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName, agentPoolName)
+        existing, err := client.Get(ctx, resourceGroup, resourceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -404,21 +404,21 @@ func resourceArmAgentPoolCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, resourceName, agentPoolName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, resourceName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName, agentPoolName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q) ID", agentPoolName, resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Agent Pool %q (Resource Name %q / Resource Group %q) ID", name, resourceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -435,22 +435,22 @@ func resourceArmAgentPoolRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     resourceName := id.Path["managedClusters"]
-    agentPoolName := id.Path["agentPools"]
+    name := id.Path["agentPools"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName, agentPoolName)
+    resp, err := client.Get(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Agent Pool %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("agent_pool_name", agentPoolName)
     if managedClusterAgentPoolProfileProperties := resp.ManagedClusterAgentPoolProfileProperties; managedClusterAgentPoolProfileProperties != nil {
         d.Set("availability_zones", utils.FlattenStringSlice(managedClusterAgentPoolProfileProperties.AvailabilityZones))
         d.Set("count", int(*managedClusterAgentPoolProfileProperties.Count))
@@ -491,19 +491,19 @@ func resourceArmAgentPoolDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     resourceName := id.Path["managedClusters"]
-    agentPoolName := id.Path["agentPools"]
+    name := id.Path["agentPools"]
 
-    future, err := client.Delete(ctx, resourceGroup, resourceName, agentPoolName)
+    future, err := client.Delete(ctx, resourceGroup, resourceName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Agent Pool (Agent Pool Name %q / Resource Name %q / Resource Group %q): %+v", agentPoolName, resourceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Agent Pool %q (Resource Name %q / Resource Group %q): %+v", name, resourceName, resourceGroup, err)
         }
     }
 

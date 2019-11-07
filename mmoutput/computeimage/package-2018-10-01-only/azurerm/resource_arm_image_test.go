@@ -34,15 +34,15 @@ func testCheckAzureRMImageExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Image not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        imageName := rs.Primary.Attributes["image_name"]
 
         client := testAccProvider.Meta().(*ArmClient).imagesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, imageName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Image (Image Name %q / Resource Group %q) does not exist", imageName, resourceGroup)
+                return fmt.Errorf("Bad: Image %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on imagesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMImageDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        imageName := rs.Primary.Attributes["image_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, imageName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on imagesClient: %+v", err)
             }

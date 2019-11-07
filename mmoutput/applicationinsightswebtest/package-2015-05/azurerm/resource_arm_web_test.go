@@ -32,6 +32,13 @@ func resourceArmWebTest() *schema.Resource {
             "name": {
                 Type: schema.TypeString,
                 Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -69,13 +76,6 @@ func resourceArmWebTest() *schema.Resource {
             "synthetic_monitor_id": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "web_test_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -148,14 +148,14 @@ func resourceArmWebTestCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).webTestsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    webTestName := d.Get("web_test_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, webTestName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Web Test (Web Test Name %q / Resource Group %q): %+v", webTestName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Web Test %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -196,17 +196,17 @@ func resourceArmWebTestCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, webTestName, webTestDefinition); err != nil {
-        return fmt.Errorf("Error creating Web Test (Web Test Name %q / Resource Group %q): %+v", webTestName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, webTestDefinition); err != nil {
+        return fmt.Errorf("Error creating Web Test %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, webTestName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Web Test (Web Test Name %q / Resource Group %q): %+v", webTestName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Web Test %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Web Test (Web Test Name %q / Resource Group %q) ID", webTestName, resourceGroup)
+        return fmt.Errorf("Cannot read Web Test %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -222,19 +222,20 @@ func resourceArmWebTestRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    webTestName := id.Path["webtests"]
+    name := id.Path["webtests"]
 
-    resp, err := client.Get(ctx, resourceGroup, webTestName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Web Test %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Web Test (Web Test Name %q / Resource Group %q): %+v", webTestName, resourceGroup, err)
+        return fmt.Errorf("Error reading Web Test %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     if webTestProperties := resp.WebTestProperties; webTestProperties != nil {
         d.Set("name", webTestProperties.Name)
         if err := d.Set("configuration", flattenArmWebTestWebTestProperties_Configuration(webTestProperties.Configuration)); err != nil {
@@ -259,7 +260,6 @@ func resourceArmWebTestRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("kind", string(resp.Kind))
     d.Set("type", resp.Type)
-    d.Set("web_test_name", webTestName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -275,10 +275,10 @@ func resourceArmWebTestDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    webTestName := id.Path["webtests"]
+    name := id.Path["webtests"]
 
-    if _, err := client.Delete(ctx, resourceGroup, webTestName); err != nil {
-        return fmt.Errorf("Error deleting Web Test (Web Test Name %q / Resource Group %q): %+v", webTestName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Web Test %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

@@ -28,9 +28,9 @@ Manage Azure Job instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The resource group name uniquely identifies the resource group within the user subscription. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the import/export job. Changing this forces a new resource to be created.
 
-* `job_name` - (Required) The name of the import/export job. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The resource group name uniquely identifies the resource group within the user subscription. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Specifies the supported Azure location where the job should be created Changing this forces a new resource to be created.
 

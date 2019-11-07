@@ -31,17 +31,17 @@ func resourceArmAssessment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "assessment_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "azure_disk_type": {
                 Type: schema.TypeString,
@@ -423,16 +423,16 @@ func resourceArmAssessmentCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).assessmentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    assessmentName := d.Get("assessment_name").(string)
     groupName := d.Get("group_name").(string)
     projectName := d.Get("project_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, projectName, groupName, assessmentName)
+        existing, err := client.Get(ctx, resourceGroup, projectName, groupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q): %+v", assessmentName, groupName, projectName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Assessment %q (Group Name %q / Project Name %q / Resource Group %q): %+v", name, groupName, projectName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -481,17 +481,17 @@ func resourceArmAssessmentCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, projectName, groupName, assessmentName, assessment); err != nil {
-        return fmt.Errorf("Error creating Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q): %+v", assessmentName, groupName, projectName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, projectName, groupName, name, assessment); err != nil {
+        return fmt.Errorf("Error creating Assessment %q (Group Name %q / Project Name %q / Resource Group %q): %+v", name, groupName, projectName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, projectName, groupName, assessmentName)
+    resp, err := client.Get(ctx, resourceGroup, projectName, groupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q): %+v", assessmentName, groupName, projectName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Assessment %q (Group Name %q / Project Name %q / Resource Group %q): %+v", name, groupName, projectName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q) ID", assessmentName, groupName, projectName, resourceGroup)
+        return fmt.Errorf("Cannot read Assessment %q (Group Name %q / Project Name %q / Resource Group %q) ID", name, groupName, projectName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -509,22 +509,22 @@ func resourceArmAssessmentRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     projectName := id.Path["assessmentProjects"]
     groupName := id.Path["groups"]
-    assessmentName := id.Path["assessments"]
+    name := id.Path["assessments"]
 
-    resp, err := client.Get(ctx, resourceGroup, projectName, groupName, assessmentName)
+    resp, err := client.Get(ctx, resourceGroup, projectName, groupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Assessment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q): %+v", assessmentName, groupName, projectName, resourceGroup, err)
+        return fmt.Errorf("Error reading Assessment %q (Group Name %q / Project Name %q / Resource Group %q): %+v", name, groupName, projectName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("assessment_name", assessmentName)
     if assessmentProperties := resp.AssessmentProperties; assessmentProperties != nil {
         d.Set("azure_disk_type", string(assessmentProperties.AzureDiskType))
         d.Set("azure_hybrid_use_benefit", string(assessmentProperties.AzureHybridUseBenefit))
@@ -582,10 +582,10 @@ func resourceArmAssessmentDelete(d *schema.ResourceData, meta interface{}) error
     resourceGroup := id.ResourceGroup
     projectName := id.Path["assessmentProjects"]
     groupName := id.Path["groups"]
-    assessmentName := id.Path["assessments"]
+    name := id.Path["assessments"]
 
-    if _, err := client.Delete(ctx, resourceGroup, projectName, groupName, assessmentName); err != nil {
-        return fmt.Errorf("Error deleting Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q): %+v", assessmentName, groupName, projectName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, projectName, groupName, name); err != nil {
+        return fmt.Errorf("Error deleting Assessment %q (Group Name %q / Project Name %q / Resource Group %q): %+v", name, groupName, projectName, resourceGroup, err)
     }
 
     return nil

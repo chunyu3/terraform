@@ -31,19 +31,19 @@ func resourceArmBlockchainMember() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "blockchain_member_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "consortium": {
                 Type: schema.TypeString,
@@ -179,14 +179,14 @@ func resourceArmBlockchainMemberCreate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).blockchainMembersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    blockchainMemberName := d.Get("blockchain_member_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, blockchainMemberName, resourceGroup)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+                return fmt.Errorf("Error checking for present of existing Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -223,21 +223,21 @@ func resourceArmBlockchainMemberCreate(d *schema.ResourceData, meta interface{})
     }
 
 
-    future, err := client.Create(ctx, blockchainMemberName, resourceGroup, blockchainMember)
+    future, err := client.Create(ctx, resourceGroup, name, blockchainMember)
     if err != nil {
-        return fmt.Errorf("Error creating Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+        return fmt.Errorf("Error creating Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+        return fmt.Errorf("Error waiting for creation of Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, blockchainMemberName, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+        return fmt.Errorf("Error retrieving Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Blockchain Member (Resource Group %q / Blockchain Member Name %q) ID", resourceGroup, blockchainMemberName)
+        return fmt.Errorf("Cannot read Blockchain Member %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -252,26 +252,26 @@ func resourceArmBlockchainMemberRead(d *schema.ResourceData, meta interface{}) e
     if err != nil {
         return err
     }
-    blockchainMemberName := id.Path["blockchainMembers"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["blockchainMembers"]
 
-    resp, err := client.Get(ctx, blockchainMemberName, resourceGroup)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Blockchain Member %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+        return fmt.Errorf("Error reading Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("blockchain_member_name", blockchainMemberName)
     if memberProperties := resp.MemberProperties; memberProperties != nil {
         d.Set("consortium", memberProperties.Consortium)
         d.Set("consortium_management_account_address", memberProperties.ConsortiumManagementAccountAddress)
@@ -304,8 +304,8 @@ func resourceArmBlockchainMemberUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).blockchainMembersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    blockchainMemberName := d.Get("blockchain_member_name").(string)
     consortium := d.Get("consortium").(string)
     consortiumManagementAccountPassword := d.Get("consortium_management_account_password").(string)
     consortiumMemberDisplayName := d.Get("consortium_member_display_name").(string)
@@ -334,8 +334,8 @@ func resourceArmBlockchainMemberUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Update(ctx, blockchainMemberName, resourceGroup, blockchainMember); err != nil {
-        return fmt.Errorf("Error updating Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+    if _, err := client.Update(ctx, resourceGroup, name, blockchainMember); err != nil {
+        return fmt.Errorf("Error updating Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmBlockchainMemberRead(d, meta)
@@ -350,20 +350,20 @@ func resourceArmBlockchainMemberDelete(d *schema.ResourceData, meta interface{})
     if err != nil {
         return err
     }
-    blockchainMemberName := id.Path["blockchainMembers"]
     resourceGroup := id.ResourceGroup
+    name := id.Path["blockchainMembers"]
 
-    future, err := client.Delete(ctx, blockchainMemberName, resourceGroup)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+        return fmt.Errorf("Error deleting Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Blockchain Member (Resource Group %q / Blockchain Member Name %q): %+v", resourceGroup, blockchainMemberName, err)
+            return fmt.Errorf("Error waiting for deleting Blockchain Member %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

@@ -34,16 +34,16 @@ func testCheckAzureRMManagedDatabaseExists(resourceName string) resource.TestChe
             return fmt.Errorf("Managed Database not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        databaseName := rs.Primary.Attributes["database_name"]
         managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managedDatabasesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q) does not exist", databaseName, managedInstanceName, resourceGroup)
+                return fmt.Errorf("Bad: Managed Database %q (Managed Instance Name %q / Resource Group %q) does not exist", name, managedInstanceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managedDatabasesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMManagedDatabaseDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        databaseName := rs.Primary.Attributes["database_name"]
         managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managedDatabasesClient: %+v", err)
             }

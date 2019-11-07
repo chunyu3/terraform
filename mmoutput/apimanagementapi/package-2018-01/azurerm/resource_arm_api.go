@@ -31,6 +31,13 @@ func resourceArmApi() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -46,13 +53,6 @@ func resourceArmApi() *schema.Resource {
             "path": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -296,15 +296,15 @@ func resourceArmApiCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).apiClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, apiID)
+        existing, err := client.Get(ctx, resourceGroup, name, apiID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api (Api %q / Service Name %q / Resource Group %q): %+v", apiID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api %q (Api %q / Resource Group %q): %+v", name, apiID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -355,17 +355,17 @@ func resourceArmApiCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, apiID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api (Api %q / Service Name %q / Resource Group %q): %+v", apiID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api %q (Api %q / Resource Group %q): %+v", name, apiID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api (Api %q / Service Name %q / Resource Group %q): %+v", apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api %q (Api %q / Resource Group %q): %+v", name, apiID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api (Api %q / Service Name %q / Resource Group %q) ID", apiID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api %q (Api %q / Resource Group %q) ID", name, apiID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -381,20 +381,21 @@ func resourceArmApiRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api (Api %q / Service Name %q / Resource Group %q): %+v", apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api %q (Api %q / Resource Group %q): %+v", name, apiID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
@@ -424,7 +425,6 @@ func resourceArmApiRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("type", string(apiCreateOrUpdateProperties.Type))
     }
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
     d.Set("type", resp.Type)
     d.Set("type", resp.Type)
@@ -437,6 +437,7 @@ func resourceArmApiUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).apiClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     apiRevision := d.Get("api_revision").(string)
@@ -453,7 +454,6 @@ func resourceArmApiUpdate(d *schema.ResourceData, meta interface{}) error {
     displayName := d.Get("display_name").(string)
     path := d.Get("path").(string)
     protocols := d.Get("protocols").([]interface{})
-    serviceName := d.Get("service_name").(string)
     serviceUrl := d.Get("service_url").(string)
     subscriptionKeyParameterNames := d.Get("subscription_key_parameter_names").([]interface{})
     type := d.Get("type").(string)
@@ -483,8 +483,8 @@ func resourceArmApiUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, apiID, parameters); err != nil {
-        return fmt.Errorf("Error updating Api (Api %q / Service Name %q / Resource Group %q): %+v", apiID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, apiID, parameters); err != nil {
+        return fmt.Errorf("Error updating Api %q (Api %q / Resource Group %q): %+v", name, apiID, resourceGroup, err)
     }
 
     return resourceArmApiRead(d, meta)
@@ -500,11 +500,11 @@ func resourceArmApiDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, apiID); err != nil {
-        return fmt.Errorf("Error deleting Api (Api %q / Service Name %q / Resource Group %q): %+v", apiID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, apiID); err != nil {
+        return fmt.Errorf("Error deleting Api %q (Api %q / Resource Group %q): %+v", name, apiID, resourceGroup, err)
     }
 
     return nil

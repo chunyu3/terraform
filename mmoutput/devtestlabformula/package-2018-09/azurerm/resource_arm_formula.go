@@ -36,16 +36,16 @@ func resourceArmFormula() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "author": {
                 Type: schema.TypeString,
@@ -110,6 +110,22 @@ func resourceArmFormula() *schema.Resource {
                                         Optional: true,
                                         ValidateFunc: validateRFC3339Date,
                                     },
+                                    "parameters": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "value": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "status": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -160,6 +176,33 @@ func resourceArmFormula() *schema.Resource {
                             Optional: true,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
+                                    "attach_new_data_disk_options": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "disk_name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "disk_size_gi_b": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "disk_type": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Standard),
+                                                        string(devtestlab.Premium),
+                                                        string(devtestlab.StandardSSD),
+                                                    }, false),
+                                                    Default: string(devtestlab.Standard),
+                                                },
+                                            },
+                                        },
+                                    },
                                     "existing_lab_disk_id": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -270,6 +313,40 @@ func resourceArmFormula() *schema.Resource {
                                         Type: schema.TypeString,
                                         Optional: true,
                                     },
+                                    "shared_public_ip_address_configuration": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "inbound_nat_rules": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "backend_port": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                            "frontend_port": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                            "transport_protocol": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                                ValidateFunc: validation.StringInSlice([]string{
+                                                                    string(devtestlab.Tcp),
+                                                                    string(devtestlab.Udp),
+                                                                }, false),
+                                                                Default: string(devtestlab.Tcp),
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                     "ssh_authority": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -314,12 +391,113 @@ func resourceArmFormula() *schema.Resource {
                             Optional: true,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
+                                    "daily_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "hourly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "minute": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "location": azure.SchemaLocation(),
                                     "name": {
                                         Type: schema.TypeString,
                                         Optional: true,
                                     },
+                                    "notification_settings": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "email_recipient": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "notification_locale": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Enabled),
+                                                        string(devtestlab.Disabled),
+                                                    }, false),
+                                                    Default: string(devtestlab.Enabled),
+                                                },
+                                                "time_in_minutes": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "webhook_url": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "status": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(devtestlab.Enabled),
+                                            string(devtestlab.Disabled),
+                                        }, false),
+                                        Default: string(devtestlab.Enabled),
+                                    },
                                     "tags": tags.Schema(),
+                                    "target_resource_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "task_type": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "time_zone_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "weekly_recurrence": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "time": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "weekdays": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -403,14 +581,14 @@ func resourceArmFormulaCreate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -439,21 +617,21 @@ func resourceArmFormulaCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, formula)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, formula)
     if err != nil {
-        return fmt.Errorf("Error creating Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error creating Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Formula %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Formula %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -469,20 +647,21 @@ func resourceArmFormulaRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["formulas"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Formula %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -502,7 +681,6 @@ func resourceArmFormulaRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `vm`: %+v", err)
         }
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -513,11 +691,11 @@ func resourceArmFormulaUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     author := d.Get("author").(string)
     description := d.Get("description").(string)
     formulaContent := d.Get("formula_content").([]interface{})
-    labName := d.Get("lab_name").(string)
     osType := d.Get("os_type").(string)
     vm := d.Get("vm").([]interface{})
     t := d.Get("tags").(map[string]interface{})
@@ -535,8 +713,8 @@ func resourceArmFormulaUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, formula); err != nil {
-        return fmt.Errorf("Error updating Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, formula); err != nil {
+        return fmt.Errorf("Error updating Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmFormulaRead(d, meta)
@@ -552,11 +730,11 @@ func resourceArmFormulaDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["formulas"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, name); err != nil {
-        return fmt.Errorf("Error deleting Formula %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
+        return fmt.Errorf("Error deleting Formula %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
@@ -684,6 +862,7 @@ func expandArmFormulaArtifactInstallProperties(input []interface{}) *[]devtestla
         v := item.(map[string]interface{})
         artifactId := v["artifact_id"].(string)
         artifactTitle := v["artifact_title"].(string)
+        parameters := v["parameters"].([]interface{})
         status := v["status"].(string)
         deploymentStatusMessage := v["deployment_status_message"].(string)
         vmExtensionStatusMessage := v["vm_extension_status_message"].(string)
@@ -694,6 +873,7 @@ func expandArmFormulaArtifactInstallProperties(input []interface{}) *[]devtestla
             ArtifactTitle: utils.String(artifactTitle),
             DeploymentStatusMessage: utils.String(deploymentStatusMessage),
             InstallTime: convertStringToDate(installTime),
+            Parameters: expandArmFormulaArtifactParameterProperties(parameters),
             Status: utils.String(status),
             VmExtensionStatusMessage: utils.String(vmExtensionStatusMessage),
         }
@@ -736,10 +916,12 @@ func expandArmFormulaDataDiskProperties(input []interface{}) *[]devtestlab.DataD
     results := make([]devtestlab.DataDiskProperties, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
+        attachNewDataDiskOptions := v["attach_new_data_disk_options"].([]interface{})
         existingLabDiskId := v["existing_lab_disk_id"].(string)
         hostCaching := v["host_caching"].(string)
 
         result := devtestlab.DataDiskProperties{
+            AttachNewDataDiskOptions: expandArmFormulaAttachNewDataDiskOptions(attachNewDataDiskOptions),
             ExistingLabDiskID: utils.String(existingLabDiskId),
             HostCaching: devtestlab.HostCachingOptions(hostCaching),
         }
@@ -785,6 +967,7 @@ func expandArmFormulaNetworkInterfaceProperties(input []interface{}) *devtestlab
     dnsName := v["dns_name"].(string)
     rdpAuthority := v["rdp_authority"].(string)
     sshAuthority := v["ssh_authority"].(string)
+    sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
 
     result := devtestlab.NetworkInterfaceProperties{
         DnsName: utils.String(dnsName),
@@ -792,6 +975,7 @@ func expandArmFormulaNetworkInterfaceProperties(input []interface{}) *devtestlab
         PublicIpAddress: utils.String(publicIpAddress),
         PublicIpAddressID: utils.String(publicIpAddressId),
         RdpAuthority: utils.String(rdpAuthority),
+        SharedPublicIpAddressConfiguration: expandArmFormulaSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
         SshAuthority: utils.String(sshAuthority),
         SubnetID: utils.String(subnetId),
         VirtualNetworkID: utils.String(virtualNetworkId),
@@ -803,6 +987,14 @@ func expandArmFormulaScheduleCreationParameter(input []interface{}) *[]devtestla
     results := make([]devtestlab.ScheduleCreationParameter, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
+        status := v["status"].(string)
+        taskType := v["task_type"].(string)
+        weeklyRecurrence := v["weekly_recurrence"].([]interface{})
+        dailyRecurrence := v["daily_recurrence"].([]interface{})
+        hourlyRecurrence := v["hourly_recurrence"].([]interface{})
+        timeZoneId := v["time_zone_id"].(string)
+        notificationSettings := v["notification_settings"].([]interface{})
+        targetResourceId := v["target_resource_id"].(string)
         name := v["name"].(string)
         location := azure.NormalizeLocation(v["location"].(string))
         t := v["tags"].(map[string]interface{})
@@ -810,7 +1002,151 @@ func expandArmFormulaScheduleCreationParameter(input []interface{}) *[]devtestla
         result := devtestlab.ScheduleCreationParameter{
             Location: utils.String(location),
             Name: utils.String(name),
+            ScheduleCreationParameterProperties: &devtestlab.ScheduleCreationParameterProperties{
+                DailyRecurrence: expandArmFormulaDayDetails(dailyRecurrence),
+                HourlyRecurrence: expandArmFormulaHourDetails(hourlyRecurrence),
+                NotificationSettings: expandArmFormulaNotificationSettings(notificationSettings),
+                Status: devtestlab.EnableStatus(status),
+                TargetResourceID: utils.String(targetResourceId),
+                TaskType: utils.String(taskType),
+                TimeZoneID: utils.String(timeZoneId),
+                WeeklyRecurrence: expandArmFormulaWeekDetails(weeklyRecurrence),
+            },
             Tags: tags.Expand(t),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmFormulaArtifactParameterProperties(input []interface{}) *[]devtestlab.ArtifactParameterProperties {
+    results := make([]devtestlab.ArtifactParameterProperties, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+
+        result := devtestlab.ArtifactParameterProperties{
+            Name: utils.String(name),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmFormulaAttachNewDataDiskOptions(input []interface{}) *devtestlab.AttachNewDataDiskOptions {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    diskSizeGiB := v["disk_size_gi_b"].(int)
+    diskName := v["disk_name"].(string)
+    diskType := v["disk_type"].(string)
+
+    result := devtestlab.AttachNewDataDiskOptions{
+        DiskName: utils.String(diskName),
+        DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
+        DiskType: devtestlab.StorageType(diskType),
+    }
+    return &result
+}
+
+func expandArmFormulaSharedPublicIpAddressConfiguration(input []interface{}) *devtestlab.SharedPublicIpAddressConfiguration {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    inboundNatRules := v["inbound_nat_rules"].([]interface{})
+
+    result := devtestlab.SharedPublicIpAddressConfiguration{
+        InboundNatRules: expandArmFormulaInboundNatRule(inboundNatRules),
+    }
+    return &result
+}
+
+func expandArmFormulaDayDetails(input []interface{}) *devtestlab.DayDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    time := v["time"].(string)
+
+    result := devtestlab.DayDetails{
+        Time: utils.String(time),
+    }
+    return &result
+}
+
+func expandArmFormulaHourDetails(input []interface{}) *devtestlab.HourDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    minute := v["minute"].(int)
+
+    result := devtestlab.HourDetails{
+        Minute: utils.Int32(int32(minute)),
+    }
+    return &result
+}
+
+func expandArmFormulaNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    status := v["status"].(string)
+    timeInMinutes := v["time_in_minutes"].(int)
+    webhookUrl := v["webhook_url"].(string)
+    emailRecipient := v["email_recipient"].(string)
+    notificationLocale := v["notification_locale"].(string)
+
+    result := devtestlab.NotificationSettings{
+        EmailRecipient: utils.String(emailRecipient),
+        NotificationLocale: utils.String(notificationLocale),
+        Status: devtestlab.EnableStatus(status),
+        TimeInMinutes: utils.Int32(int32(timeInMinutes)),
+        WebhookURL: utils.String(webhookUrl),
+    }
+    return &result
+}
+
+func expandArmFormulaWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    weekdays := v["weekdays"].([]interface{})
+    time := v["time"].(string)
+
+    result := devtestlab.WeekDetails{
+        Time: utils.String(time),
+        Weekdays: utils.ExpandStringSlice(weekdays),
+    }
+    return &result
+}
+
+func expandArmFormulaInboundNatRule(input []interface{}) *[]devtestlab.InboundNatRule {
+    results := make([]devtestlab.InboundNatRule, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        transportProtocol := v["transport_protocol"].(string)
+        frontendPort := v["frontend_port"].(int)
+        backendPort := v["backend_port"].(int)
+
+        result := devtestlab.InboundNatRule{
+            BackendPort: utils.Int32(int32(backendPort)),
+            FrontendPort: utils.Int32(int32(frontendPort)),
+            TransportProtocol: devtestlab.TransportProtocol(transportProtocol),
         }
 
         results = append(results, result)
@@ -973,6 +1309,7 @@ func flattenArmFormulaArtifactInstallProperties(input *[]devtestlab.ArtifactInst
         if installTime := item.InstallTime; installTime != nil {
             v["install_time"] = (*installTime).String()
         }
+        v["parameters"] = flattenArmFormulaArtifactParameterProperties(item.Parameters)
         if status := item.Status; status != nil {
             v["status"] = *status
         }
@@ -1009,6 +1346,7 @@ func flattenArmFormulaDataDiskProperties(input *[]devtestlab.DataDiskProperties)
     for _, item := range *input {
         v := make(map[string]interface{})
 
+        v["attach_new_data_disk_options"] = flattenArmFormulaAttachNewDataDiskOptions(item.AttachNewDataDiskOptions)
         if existingLabDiskId := item.ExistingLabDiskID; existingLabDiskId != nil {
             v["existing_lab_disk_id"] = *existingLabDiskId
         }
@@ -1068,6 +1406,7 @@ func flattenArmFormulaNetworkInterfaceProperties(input *devtestlab.NetworkInterf
     if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
         result["rdp_authority"] = *rdpAuthority
     }
+    result["shared_public_ip_address_configuration"] = flattenArmFormulaSharedPublicIpAddressConfiguration(input.SharedPublicIpAddressConfiguration)
     if sshAuthority := input.SshAuthority; sshAuthority != nil {
         result["ssh_authority"] = *sshAuthority
     }
@@ -1096,6 +1435,164 @@ func flattenArmFormulaScheduleCreationParameter(input *[]devtestlab.ScheduleCrea
         if location := item.Location; location != nil {
             v["location"] = azure.NormalizeLocation(*location)
         }
+        if scheduleCreationParameterProperties := item.ScheduleCreationParameterProperties; scheduleCreationParameterProperties != nil {
+            v["daily_recurrence"] = flattenArmFormulaDayDetails(scheduleCreationParameterProperties.DailyRecurrence)
+            v["hourly_recurrence"] = flattenArmFormulaHourDetails(scheduleCreationParameterProperties.HourlyRecurrence)
+            v["notification_settings"] = flattenArmFormulaNotificationSettings(scheduleCreationParameterProperties.NotificationSettings)
+            v["status"] = string(scheduleCreationParameterProperties.Status)
+            if targetResourceId := scheduleCreationParameterProperties.TargetResourceID; targetResourceId != nil {
+                v["target_resource_id"] = *targetResourceId
+            }
+            if taskType := scheduleCreationParameterProperties.TaskType; taskType != nil {
+                v["task_type"] = *taskType
+            }
+            if timeZoneId := scheduleCreationParameterProperties.TimeZoneID; timeZoneId != nil {
+                v["time_zone_id"] = *timeZoneId
+            }
+            v["weekly_recurrence"] = flattenArmFormulaWeekDetails(scheduleCreationParameterProperties.WeeklyRecurrence)
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmFormulaArtifactParameterProperties(input *[]devtestlab.ArtifactParameterProperties) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmFormulaAttachNewDataDiskOptions(input *devtestlab.AttachNewDataDiskOptions) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if diskName := input.DiskName; diskName != nil {
+        result["disk_name"] = *diskName
+    }
+    if diskSizeGiB := input.DiskSizeGiB; diskSizeGiB != nil {
+        result["disk_size_gi_b"] = int(*diskSizeGiB)
+    }
+    result["disk_type"] = string(input.DiskType)
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaSharedPublicIpAddressConfiguration(input *devtestlab.SharedPublicIpAddressConfiguration) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["inbound_nat_rules"] = flattenArmFormulaInboundNatRule(input.InboundNatRules)
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaDayDetails(input *devtestlab.DayDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaHourDetails(input *devtestlab.HourDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if emailRecipient := input.EmailRecipient; emailRecipient != nil {
+        result["email_recipient"] = *emailRecipient
+    }
+    if notificationLocale := input.NotificationLocale; notificationLocale != nil {
+        result["notification_locale"] = *notificationLocale
+    }
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaInboundNatRule(input *[]devtestlab.InboundNatRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if backendPort := item.BackendPort; backendPort != nil {
+            v["backend_port"] = int(*backendPort)
+        }
+        if frontendPort := item.FrontendPort; frontendPort != nil {
+            v["frontend_port"] = int(*frontendPort)
+        }
+        v["transport_protocol"] = string(item.TransportProtocol)
 
         results = append(results, v)
     }

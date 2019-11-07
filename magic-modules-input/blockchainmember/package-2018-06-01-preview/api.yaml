@@ -23,16 +23,16 @@ objects:
         go_func_name: Create
         python_func_name: create
         request:
-          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: blockchainMembers
-            go_variable_name: blockchainMemberName
-            python_parameter_name: blockchain_member_name
-            python_variable_name: blockchain_member_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blockchainMembers
+            go_variable_name: name
+            python_parameter_name: blockchain_member_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: blockchainMember
             go_type_name: Member
@@ -137,16 +137,16 @@ objects:
         go_func_name: Update
         python_func_name: update
         request:
-          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: blockchainMembers
-            go_variable_name: blockchainMemberName
-            python_parameter_name: blockchain_member_name
-            python_variable_name: blockchain_member_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blockchainMembers
+            go_variable_name: name
+            python_parameter_name: blockchain_member_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: blockchainMember
             go_type_name: Member
@@ -252,30 +252,30 @@ objects:
         go_func_name: Delete
         python_func_name: delete
         request:
-          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: blockchainMembers
-            go_variable_name: blockchainMemberName
-            python_parameter_name: blockchain_member_name
-            python_variable_name: blockchain_member_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blockchainMembers
+            go_variable_name: name
+            python_parameter_name: blockchain_member_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: blockchainMembers
-            go_variable_name: blockchainMemberName
-            python_parameter_name: blockchain_member_name
-            python_variable_name: blockchain_member_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blockchainMembers
+            go_variable_name: name
+            python_parameter_name: blockchain_member_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -435,22 +435,22 @@ objects:
         go_func_name: ListConsortiumMembers
         python_func_name: list_consortium_members
         request:
-          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: blockchainMembers
-            go_variable_name: blockchainMemberName
-            python_parameter_name: blockchain_member_name
-            python_variable_name: blockchain_member_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'blockchainMemberName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blockchainMembers
+            go_variable_name: name
+            python_parameter_name: blockchain_member_name
+            python_variable_name: name
 
     description: |
       Manage Azure BlockchainMember instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'blockchainMemberName'
+        name: 'name'
         description: 'Blockchain member name.'
         required: true
         input: true

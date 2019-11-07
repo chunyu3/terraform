@@ -34,16 +34,16 @@ func testCheckAzureRMTagExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Tag not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
         tagID := rs.Primary.Attributes["tag_id"]
 
         client := testAccProvider.Meta().(*ArmClient).tagClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, tagID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, tagID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Tag (Tag %q / Service Name %q / Resource Group %q) does not exist", tagID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Tag %q (Tag %q / Resource Group %q) does not exist", name, tagID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on tagClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMTagDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
         tagID := rs.Primary.Attributes["tag_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, tagID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, tagID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on tagClient: %+v", err)
             }

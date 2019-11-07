@@ -1,0 +1,31 @@
+--- !ruby/object:Api::Product
+name: Azure Alert Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Alert
+    api_name: AlertsManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AlertsManagement
+      go_client_namespace: alertsmanagement
+      go_client: alertsClient
+      python_client_namespace: azure.mgmt.alertsmanagement
+      python_client: AlertsManagementClient.alerts
+
+    description: |
+      Manage Azure Alert instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'identifier'
+        description: 'Identification of the information to be retrieved by API call.'
+        required: true
+        input: true
+        azure_sdk_references: ['identifier']
+      # read only values included only in response

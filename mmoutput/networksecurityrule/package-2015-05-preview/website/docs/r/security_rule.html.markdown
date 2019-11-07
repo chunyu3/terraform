@@ -28,6 +28,8 @@ Manage Azure SecurityRule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the security rule. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `access` - (Required) Gets or sets network traffic is allowed or denied. Possible values are 'Allow' and 'Deny'
@@ -39,8 +41,6 @@ The following arguments are supported:
 * `network_security_group_name` - (Required) The name of the network security group. Changing this forces a new resource to be created.
 
 * `protocol` - (Required) Gets or sets Network protocol this rule applies to. Can be Tcp, Udp or All(*).
-
-* `security_rule_name` - (Required) The name of the security rule. Changing this forces a new resource to be created.
 
 * `source_address_prefix` - (Required) Gets or sets source address prefix. CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from.
 

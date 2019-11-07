@@ -28,11 +28,11 @@ Manage Azure Topic instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the topic Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the user's subscription. Changing this forces a new resource to be created.
 
 * `location` - (Required) Location of the resource Changing this forces a new resource to be created.
-
-* `topic_name` - (Required) Name of the topic Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Tags of the resource Changing this forces a new resource to be created.
 

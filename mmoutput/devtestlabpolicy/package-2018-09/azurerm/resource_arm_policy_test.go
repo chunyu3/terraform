@@ -35,16 +35,16 @@ func testCheckAzureRMPolicyExists(resourceName string) resource.TestCheckFunc {
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labName := rs.Primary.Attributes["lab_name"]
-        policySetName := rs.Primary.Attributes["policy_set_name"]
 
         client := testAccProvider.Meta().(*ArmClient).policiesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, labName, policySetName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labName, name, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Policy %q (Policy Set Name %q / Lab Name %q / Resource Group %q) does not exist", name, policySetName, labName, resourceGroup)
+                return fmt.Errorf("Bad: Policy %q (Lab Name %q / Resource Group %q) does not exist", name, labName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on policiesClient: %+v", err)
         }
@@ -63,11 +63,11 @@ func testCheckAzureRMPolicyDestroy(s *terraform.State) error {
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labName := rs.Primary.Attributes["lab_name"]
-        policySetName := rs.Primary.Attributes["policy_set_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, labName, policySetName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labName, name, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on policiesClient: %+v", err)
             }

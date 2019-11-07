@@ -36,6 +36,13 @@ func resourceArmLinkedServer() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "linked_redis_cache_id": {
@@ -47,13 +54,6 @@ func resourceArmLinkedServer() *schema.Resource {
             "linked_redis_cache_location": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "linked_server_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -84,14 +84,14 @@ func resourceArmLinkedServerCreateUpdate(d *schema.ResourceData, meta interface{
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    linkedServerName := d.Get("linked_server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, name, linkedServerName)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Linked Server %q (Linked Server Name %q / Resource Group %q): %+v", name, linkedServerName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Linked Server %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -112,21 +112,21 @@ func resourceArmLinkedServerCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, name, linkedServerName, parameters)
+    future, err := client.Create(ctx, resourceGroup, name, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Linked Server %q (Linked Server Name %q / Resource Group %q): %+v", name, linkedServerName, resourceGroup, err)
+        return fmt.Errorf("Error creating Linked Server %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Linked Server %q (Linked Server Name %q / Resource Group %q): %+v", name, linkedServerName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Linked Server %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, name, linkedServerName)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Linked Server %q (Linked Server Name %q / Resource Group %q): %+v", name, linkedServerName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Linked Server %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Linked Server %q (Linked Server Name %q / Resource Group %q) ID", name, linkedServerName, resourceGroup)
+        return fmt.Errorf("Cannot read Linked Server %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -143,19 +143,20 @@ func resourceArmLinkedServerRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["Redis"]
-    linkedServerName := id.Path["linkedServers"]
+    name := id.Path["linkedServers"]
 
-    resp, err := client.Get(ctx, resourceGroup, name, linkedServerName)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Linked Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Linked Server %q (Linked Server Name %q / Resource Group %q): %+v", name, linkedServerName, resourceGroup, err)
+        return fmt.Errorf("Error reading Linked Server %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if linkedServerCreateProperties := resp.LinkedServerCreateProperties; linkedServerCreateProperties != nil {
@@ -164,7 +165,6 @@ func resourceArmLinkedServerRead(d *schema.ResourceData, meta interface{}) error
         d.Set("provisioning_state", linkedServerCreateProperties.ProvisioningState)
         d.Set("server_role", string(linkedServerCreateProperties.ServerRole))
     }
-    d.Set("linked_server_name", linkedServerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -182,10 +182,10 @@ func resourceArmLinkedServerDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     name := id.Path["Redis"]
-    linkedServerName := id.Path["linkedServers"]
+    name := id.Path["linkedServers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, name, linkedServerName); err != nil {
-        return fmt.Errorf("Error deleting Linked Server %q (Linked Server Name %q / Resource Group %q): %+v", name, linkedServerName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
+        return fmt.Errorf("Error deleting Linked Server %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

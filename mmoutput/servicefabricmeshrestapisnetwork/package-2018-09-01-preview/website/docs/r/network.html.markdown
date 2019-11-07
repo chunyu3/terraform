@@ -28,11 +28,11 @@ Manage Azure Network instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The identity of the network. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Azure resource group name Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `network_resource_name` - (Required) The identity of the network. Changing this forces a new resource to be created.
 
 * `description` - (Optional) User readable description of the network.
 

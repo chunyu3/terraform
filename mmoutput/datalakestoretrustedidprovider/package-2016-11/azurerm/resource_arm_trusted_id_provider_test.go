@@ -34,16 +34,16 @@ func testCheckAzureRMTrustedIdProviderExists(resourceName string) resource.TestC
             return fmt.Errorf("Trusted Id Provider not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        trustedIDProviderName := rs.Primary.Attributes["trusted_id_provider_name"]
 
         client := testAccProvider.Meta().(*ArmClient).trustedIdProvidersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, trustedIDProviderName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Trusted Id Provider (Trusted Id Provider Name %q / Account Name %q / Resource Group %q) does not exist", trustedIDProviderName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Trusted Id Provider %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on trustedIdProvidersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMTrustedIdProviderDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        trustedIDProviderName := rs.Primary.Attributes["trusted_id_provider_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, trustedIDProviderName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on trustedIdProvidersClient: %+v", err)
             }

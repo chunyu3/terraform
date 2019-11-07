@@ -28,13 +28,13 @@ Manage Azure ContainerService instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the container service in the specified subscription and resource group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
 * `agent_pool_profiles` - (Required) One or more `agent_pool_profile` block defined below.
-
-* `container_service_name` - (Required) The name of the container service in the specified subscription and resource group. Changing this forces a new resource to be created.
 
 * `linux_profile` - (Required) One `linux_profile` block defined below.
 

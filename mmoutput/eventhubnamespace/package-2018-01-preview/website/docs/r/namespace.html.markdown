@@ -28,9 +28,9 @@ Manage Azure Namespace instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
+* `name` - (Required) The Namespace name Changing this forces a new resource to be created.
 
-* `namespace_name` - (Required) The Namespace name Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location Changing this forces a new resource to be created.
 

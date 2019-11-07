@@ -31,6 +31,13 @@ func resourceArmApiIssueComment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -51,13 +58,6 @@ func resourceArmApiIssueComment() *schema.Resource {
             },
 
             "issue_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -94,17 +94,17 @@ func resourceArmApiIssueCommentCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).apiIssueCommentClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     commentID := d.Get("comment_id").(string)
     issueID := d.Get("issue_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, commentID)
+        existing, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", commentID, issueID, apiID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -125,17 +125,17 @@ func resourceArmApiIssueCommentCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, apiID, issueID, commentID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", commentID, issueID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, issueID, commentID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, commentID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", commentID, issueID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q) ID", commentID, issueID, apiID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q) ID", name, commentID, issueID, apiID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -151,22 +151,23 @@ func resourceArmApiIssueCommentRead(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     issueID := id.Path["issues"]
     commentID := id.Path["comments"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, issueID, commentID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, issueID, commentID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Issue Comment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", commentID, issueID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
@@ -177,7 +178,6 @@ func resourceArmApiIssueCommentRead(d *schema.ResourceData, meta interface{}) er
         d.Set("user_id", issueCommentContractProperties.UserID)
     }
     d.Set("issue_id", issueID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -194,13 +194,13 @@ func resourceArmApiIssueCommentDelete(d *schema.ResourceData, meta interface{}) 
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     issueID := id.Path["issues"]
     commentID := id.Path["comments"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, apiID, issueID, commentID); err != nil {
-        return fmt.Errorf("Error deleting Api Issue Comment (Comment %q / Issue %q / Api %q / Service Name %q / Resource Group %q): %+v", commentID, issueID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, apiID, issueID, commentID); err != nil {
+        return fmt.Errorf("Error deleting Api Issue Comment %q (Comment %q / Issue %q / Api %q / Resource Group %q): %+v", name, commentID, issueID, apiID, resourceGroup, err)
     }
 
     return nil

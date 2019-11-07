@@ -34,17 +34,17 @@ func testCheckAzureRMAssetFilterExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Asset Filter not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         assetName := rs.Primary.Attributes["asset_name"]
-        filterName := rs.Primary.Attributes["filter_name"]
 
         client := testAccProvider.Meta().(*ArmClient).assetFiltersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, assetName, filterName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, assetName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Asset Filter (Filter Name %q / Asset Name %q / Account Name %q / Resource Group %q) does not exist", filterName, assetName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Asset Filter %q (Asset Name %q / Account Name %q / Resource Group %q) does not exist", name, assetName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on assetFiltersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMAssetFilterDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         assetName := rs.Primary.Attributes["asset_name"]
-        filterName := rs.Primary.Attributes["filter_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, assetName, filterName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, assetName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on assetFiltersClient: %+v", err)
             }

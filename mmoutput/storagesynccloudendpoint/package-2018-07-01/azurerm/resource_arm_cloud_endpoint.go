@@ -31,17 +31,17 @@ func resourceArmCloudEndpoint() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "cloud_endpoint_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "storage_sync_service_name": {
                 Type: schema.TypeString,
@@ -114,16 +114,16 @@ func resourceArmCloudEndpointCreateUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).cloudEndpointsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    cloudEndpointName := d.Get("cloud_endpoint_name").(string)
     storageSyncServiceName := d.Get("storage_sync_service_name").(string)
     syncGroupName := d.Get("sync_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, cloudEndpointName)
+        existing, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,21 +144,21 @@ func resourceArmCloudEndpointCreateUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, storageSyncServiceName, syncGroupName, cloudEndpointName, parameters)
+    future, err := client.Create(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, cloudEndpointName)
+    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q) ID", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q) ID", name, syncGroupName, storageSyncServiceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -176,19 +176,20 @@ func resourceArmCloudEndpointRead(d *schema.ResourceData, meta interface{}) erro
     resourceGroup := id.ResourceGroup
     storageSyncServiceName := id.Path["storageSyncServices"]
     syncGroupName := id.Path["syncGroups"]
-    cloudEndpointName := id.Path["cloudEndpoints"]
+    name := id.Path["cloudEndpoints"]
 
-    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, cloudEndpointName)
+    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Cloud Endpoint %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if cloudEndpointCreateParametersProperties := resp.CloudEndpointCreateParametersProperties; cloudEndpointCreateParametersProperties != nil {
@@ -202,7 +203,6 @@ func resourceArmCloudEndpointRead(d *schema.ResourceData, meta interface{}) erro
         d.Set("storage_account_share_name", cloudEndpointCreateParametersProperties.StorageAccountShareName)
         d.Set("storage_account_tenant_id", cloudEndpointCreateParametersProperties.StorageAccountTenantID)
     }
-    d.Set("cloud_endpoint_name", cloudEndpointName)
     d.Set("storage_sync_service_name", storageSyncServiceName)
     d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)
@@ -223,19 +223,19 @@ func resourceArmCloudEndpointDelete(d *schema.ResourceData, meta interface{}) er
     resourceGroup := id.ResourceGroup
     storageSyncServiceName := id.Path["storageSyncServices"]
     syncGroupName := id.Path["syncGroups"]
-    cloudEndpointName := id.Path["cloudEndpoints"]
+    name := id.Path["cloudEndpoints"]
 
-    future, err := client.Delete(ctx, resourceGroup, storageSyncServiceName, syncGroupName, cloudEndpointName)
+    future, err := client.Delete(ctx, resourceGroup, storageSyncServiceName, syncGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Cloud Endpoint (Cloud Endpoint Name %q / Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", cloudEndpointName, syncGroupName, storageSyncServiceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Cloud Endpoint %q (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", name, syncGroupName, storageSyncServiceName, resourceGroup, err)
         }
     }
 

@@ -31,19 +31,19 @@ func resourceArmManagedDatabase() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "database_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "managed_instance_name": {
                 Type: schema.TypeString,
@@ -149,15 +149,15 @@ func resourceArmManagedDatabaseCreate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).managedDatabasesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    databaseName := d.Get("database_name").(string)
     managedInstanceName := d.Get("managed_instance_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName)
+        existing, err := client.Get(ctx, resourceGroup, managedInstanceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -194,21 +194,21 @@ func resourceArmManagedDatabaseCreate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, databaseName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName)
+    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q) ID", databaseName, managedInstanceName, resourceGroup)
+        return fmt.Errorf("Cannot read Managed Database %q (Managed Instance Name %q / Resource Group %q) ID", name, managedInstanceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -225,19 +225,20 @@ func resourceArmManagedDatabaseRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     managedInstanceName := id.Path["managedInstances"]
-    databaseName := id.Path["databases"]
+    name := id.Path["databases"]
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName)
+    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Managed Database %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -259,7 +260,6 @@ func resourceArmManagedDatabaseRead(d *schema.ResourceData, meta interface{}) er
         d.Set("storage_container_sas_token", managedDatabaseProperties.StorageContainerSasToken)
         d.Set("storage_container_uri", managedDatabaseProperties.StorageContainerUri)
     }
-    d.Set("database_name", databaseName)
     d.Set("managed_instance_name", managedInstanceName)
     d.Set("type", resp.Type)
 
@@ -270,11 +270,11 @@ func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).managedDatabasesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     catalogCollation := d.Get("catalog_collation").(string)
     collation := d.Get("collation").(string)
     createMode := d.Get("create_mode").(string)
-    databaseName := d.Get("database_name").(string)
     managedInstanceName := d.Get("managed_instance_name").(string)
     recoverableDatabaseId := d.Get("recoverable_database_id").(string)
     restorableDroppedDatabaseId := d.Get("restorable_dropped_database_id").(string)
@@ -301,12 +301,12 @@ func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, managedInstanceName, databaseName, parameters)
+    future, err := client.Update(ctx, resourceGroup, managedInstanceName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error updating Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
     return resourceArmManagedDatabaseRead(d, meta)
@@ -323,19 +323,19 @@ func resourceArmManagedDatabaseDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     managedInstanceName := id.Path["managedInstances"]
-    databaseName := id.Path["databases"]
+    name := id.Path["databases"]
 
-    future, err := client.Delete(ctx, resourceGroup, managedInstanceName, databaseName)
+    future, err := client.Delete(ctx, resourceGroup, managedInstanceName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Managed Database (Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", databaseName, managedInstanceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Managed Database %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
         }
     }
 

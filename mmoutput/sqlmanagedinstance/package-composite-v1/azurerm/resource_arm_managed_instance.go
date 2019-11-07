@@ -31,19 +31,19 @@ func resourceArmManagedInstance() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "managed_instance_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "administrator_login": {
                 Type: schema.TypeString,
@@ -215,14 +215,14 @@ func resourceArmManagedInstanceCreate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).managedInstancesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    managedInstanceName := d.Get("managed_instance_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managedInstanceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -275,21 +275,21 @@ func resourceArmManagedInstanceCreate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Managed Instance (Managed Instance Name %q / Resource Group %q) ID", managedInstanceName, resourceGroup)
+        return fmt.Errorf("Cannot read Managed Instance %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -305,19 +305,20 @@ func resourceArmManagedInstanceRead(d *schema.ResourceData, meta interface{}) er
         return err
     }
     resourceGroup := id.ResourceGroup
-    managedInstanceName := id.Path["managedInstances"]
+    name := id.Path["managedInstances"]
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Managed Instance %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -346,7 +347,6 @@ func resourceArmManagedInstanceRead(d *schema.ResourceData, meta interface{}) er
     if err := d.Set("identity", flattenArmManagedInstanceResourceIdentity(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
     }
-    d.Set("managed_instance_name", managedInstanceName)
     if err := d.Set("sku", flattenArmManagedInstanceSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -359,6 +359,7 @@ func resourceArmManagedInstanceUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).managedInstancesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     administratorLogin := d.Get("administrator_login").(string)
     administratorLoginPassword := d.Get("administrator_login_password").(string)
@@ -368,7 +369,6 @@ func resourceArmManagedInstanceUpdate(d *schema.ResourceData, meta interface{}) 
     instancePoolId := d.Get("instance_pool_id").(string)
     licenseType := d.Get("license_type").(string)
     managedInstanceCreateMode := d.Get("managed_instance_create_mode").(string)
-    managedInstanceName := d.Get("managed_instance_name").(string)
     proxyOverride := d.Get("proxy_override").(string)
     publicDataEndpointEnabled := d.Get("public_data_endpoint_enabled").(bool)
     restorePointInTime := d.Get("restore_point_in_time").(string)
@@ -405,12 +405,12 @@ func resourceArmManagedInstanceUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, managedInstanceName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error updating Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmManagedInstanceRead(d, meta)
@@ -426,19 +426,19 @@ func resourceArmManagedInstanceDelete(d *schema.ResourceData, meta interface{}) 
         return err
     }
     resourceGroup := id.ResourceGroup
-    managedInstanceName := id.Path["managedInstances"]
+    name := id.Path["managedInstances"]
 
-    future, err := client.Delete(ctx, resourceGroup, managedInstanceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Managed Instance (Managed Instance Name %q / Resource Group %q): %+v", managedInstanceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Managed Instance %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

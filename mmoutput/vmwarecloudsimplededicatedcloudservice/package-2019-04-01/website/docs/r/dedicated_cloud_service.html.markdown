@@ -28,11 +28,11 @@ Manage Azure DedicatedCloudService instance.
 
 The following arguments are supported:
 
+* `name` - (Required) dedicated cloud Service name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group Changing this forces a new resource to be created.
 
 * `location` - (Required) Azure region Changing this forces a new resource to be created.
-
-* `dedicated_cloud_service_name` - (Required) dedicated cloud Service name Changing this forces a new resource to be created.
 
 * `gateway_subnet` - (Required) gateway Subnet for the account. It will collect the subnet address and always treat it as /28
 

@@ -31,19 +31,19 @@ func resourceArmTrigger() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "factory_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "trigger_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -83,15 +83,15 @@ func resourceArmTriggerCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).triggersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     factoryName := d.Get("factory_name").(string)
-    triggerName := d.Get("trigger_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, factoryName, triggerName)
+        existing, err := client.Get(ctx, resourceGroup, factoryName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Trigger (Trigger Name %q / Factory Name %q / Resource Group %q): %+v", triggerName, factoryName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Trigger %q (Factory Name %q / Resource Group %q): %+v", name, factoryName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,17 +110,17 @@ func resourceArmTriggerCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, factoryName, triggerName, trigger); err != nil {
-        return fmt.Errorf("Error creating Trigger (Trigger Name %q / Factory Name %q / Resource Group %q): %+v", triggerName, factoryName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, factoryName, name, trigger); err != nil {
+        return fmt.Errorf("Error creating Trigger %q (Factory Name %q / Resource Group %q): %+v", name, factoryName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, factoryName, triggerName)
+    resp, err := client.Get(ctx, resourceGroup, factoryName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Trigger (Trigger Name %q / Factory Name %q / Resource Group %q): %+v", triggerName, factoryName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Trigger %q (Factory Name %q / Resource Group %q): %+v", name, factoryName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Trigger (Trigger Name %q / Factory Name %q / Resource Group %q) ID", triggerName, factoryName, resourceGroup)
+        return fmt.Errorf("Cannot read Trigger %q (Factory Name %q / Resource Group %q) ID", name, factoryName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -137,19 +137,20 @@ func resourceArmTriggerRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     factoryName := id.Path["factories"]
-    triggerName := id.Path["triggers"]
+    name := id.Path["triggers"]
 
-    resp, err := client.Get(ctx, resourceGroup, factoryName, triggerName)
+    resp, err := client.Get(ctx, resourceGroup, factoryName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Trigger %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Trigger (Trigger Name %q / Factory Name %q / Resource Group %q): %+v", triggerName, factoryName, resourceGroup, err)
+        return fmt.Errorf("Error reading Trigger %q (Factory Name %q / Resource Group %q): %+v", name, factoryName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if trigger := resp.Trigger; trigger != nil {
@@ -159,7 +160,6 @@ func resourceArmTriggerRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("etag", resp.Etag)
     d.Set("factory_name", factoryName)
-    d.Set("trigger_name", triggerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -177,10 +177,10 @@ func resourceArmTriggerDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     factoryName := id.Path["factories"]
-    triggerName := id.Path["triggers"]
+    name := id.Path["triggers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, factoryName, triggerName); err != nil {
-        return fmt.Errorf("Error deleting Trigger (Trigger Name %q / Factory Name %q / Resource Group %q): %+v", triggerName, factoryName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, factoryName, name); err != nil {
+        return fmt.Errorf("Error deleting Trigger %q (Factory Name %q / Resource Group %q): %+v", name, factoryName, resourceGroup, err)
     }
 
     return nil

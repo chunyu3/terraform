@@ -28,7 +28,7 @@ Manage Azure DeviceSecurityGroup instance.
 
 The following arguments are supported:
 
-* `device_security_group_name` - (Required) The name of the device security group. Note that the name of the device security group is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the device security group. Note that the name of the device security group is case insensitive. Changing this forces a new resource to be created.
 
 * `resource_id` - (Required) The identifier of the resource. Changing this forces a new resource to be created.
 

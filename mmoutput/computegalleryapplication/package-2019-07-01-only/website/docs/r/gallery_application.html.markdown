@@ -28,11 +28,11 @@ Manage Azure GalleryApplication instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the gallery Application Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `gallery_application_name` - (Required) The name of the gallery Application Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters. Changing this forces a new resource to be created.
 
 * `gallery_name` - (Required) The name of the Shared Application Gallery in which the Application Definition is to be created. Changing this forces a new resource to be created.
 

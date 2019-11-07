@@ -31,19 +31,19 @@ func resourceArmScheduledQueryRule() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "rule_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "source": {
                 Type: schema.TypeList,
@@ -136,14 +136,14 @@ func resourceArmScheduledQueryRuleCreate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).scheduledQueryRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    ruleName := d.Get("rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, ruleName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Scheduled Query Rule (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Scheduled Query Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -170,17 +170,17 @@ func resourceArmScheduledQueryRuleCreate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, ruleName, parameters); err != nil {
-        return fmt.Errorf("Error creating Scheduled Query Rule (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Scheduled Query Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, ruleName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Scheduled Query Rule (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Scheduled Query Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Scheduled Query Rule (Rule Name %q / Resource Group %q) ID", ruleName, resourceGroup)
+        return fmt.Errorf("Cannot read Scheduled Query Rule %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -196,19 +196,20 @@ func resourceArmScheduledQueryRuleRead(d *schema.ResourceData, meta interface{})
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    ruleName := id.Path["scheduledQueryRules"]
+    name := id.Path["scheduledQueryRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, ruleName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Scheduled Query Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Scheduled Query Rule (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+        return fmt.Errorf("Error reading Scheduled Query Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -226,7 +227,6 @@ func resourceArmScheduledQueryRuleRead(d *schema.ResourceData, meta interface{})
             return fmt.Errorf("Error setting `source`: %+v", err)
         }
     }
-    d.Set("rule_name", ruleName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -236,10 +236,10 @@ func resourceArmScheduledQueryRuleUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).scheduledQueryRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     enabled := d.Get("enabled").(string)
-    ruleName := d.Get("rule_name").(string)
     schedule := d.Get("schedule").([]interface{})
     source := d.Get("source").([]interface{})
     t := d.Get("tags").(map[string]interface{})
@@ -256,8 +256,8 @@ func resourceArmScheduledQueryRuleUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, ruleName, parameters); err != nil {
-        return fmt.Errorf("Error updating Scheduled Query Rule (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Scheduled Query Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmScheduledQueryRuleRead(d, meta)
@@ -273,10 +273,10 @@ func resourceArmScheduledQueryRuleDelete(d *schema.ResourceData, meta interface{
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    ruleName := id.Path["scheduledQueryRules"]
+    name := id.Path["scheduledQueryRules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, ruleName); err != nil {
-        return fmt.Errorf("Error deleting Scheduled Query Rule (Rule Name %q / Resource Group %q): %+v", ruleName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Scheduled Query Rule %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

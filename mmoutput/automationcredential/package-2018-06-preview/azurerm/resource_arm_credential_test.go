@@ -34,16 +34,16 @@ func testCheckAzureRMCredentialExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Credential not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        credentialName := rs.Primary.Attributes["credential_name"]
 
         client := testAccProvider.Meta().(*ArmClient).credentialClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, credentialName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Credential (Credential Name %q / Automation Account Name %q / Resource Group %q) does not exist", credentialName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Credential %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on credentialClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMCredentialDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        credentialName := rs.Primary.Attributes["credential_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, credentialName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on credentialClient: %+v", err)
             }

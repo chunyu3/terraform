@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: imageTemplateName
+            go_variable_name: name
             python_parameter_name: image_template_name
-            python_variable_name: image_template_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ImageTemplate
@@ -98,9 +98,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: imageTemplateName
+            go_variable_name: name
             python_parameter_name: image_template_name
-            python_variable_name: image_template_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ImageTemplate
@@ -167,9 +167,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: imageTemplateName
+            go_variable_name: name
             python_parameter_name: image_template_name
-            python_variable_name: image_template_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -181,9 +181,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: imageTemplateName
+            go_variable_name: name
             python_parameter_name: image_template_name
-            python_variable_name: image_template_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -245,16 +245,61 @@ objects:
             applicable_to: [go]
             go_field_name: ProvisioningError
             go_type_name: ProvisioningError
+          '/properties/provisioningError/provisioningErrorCode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningErrorCode
+            go_enum_type_name: 
+          '/properties/provisioningError/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
           '/provisioningError': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: provisioning_error
+          '/provisioningError/provisioningErrorCode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_error_code
+          '/provisioningError/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
           '/properties/lastRunStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LastRunStatus
             go_type_name: ImageTemplateLastRunStatus
+          '/properties/lastRunStatus/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/lastRunStatus/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/properties/lastRunStatus/runState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RunState
+            go_enum_type_name: 
+          '/properties/lastRunStatus/runSubState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RunSubState
+            go_enum_type_name: 
+          '/properties/lastRunStatus/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
           '/lastRunStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: last_run_status
+          '/lastRunStatus/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/lastRunStatus/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/lastRunStatus/runState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: run_state
+          '/lastRunStatus/runSubState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: run_sub_state
+          '/lastRunStatus/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -288,9 +333,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: imageTemplateName
+            go_variable_name: name
             python_parameter_name: image_template_name
-            python_variable_name: image_template_name
+            python_variable_name: name
 
     description: |
       Manage Azure VirtualMachineImageTemplate instance.
@@ -343,7 +388,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'imageTemplateName'
+        name: 'name'
         description: 'The name of the image Template'
         required: true
         input: true
@@ -365,69 +410,12 @@ objects:
         output: true
         azure_sdk_references: ['/provisioningError', '/properties/provisioningError']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'provisioningErrorCode'
-            description: 'Error code of the provisioning failure'
-            required: false
-            azure_sdk_references: ['/provisioningError/provisioningErrorCode', '/properties/provisioningError/provisioningErrorCode']
-            values:
-              - :BadSourceType
-              - :BadPIRSource
-              - :BadISOSource
-              - :BadCustomizerType
-              - :NoCustomizerShellScript
-              - :ServerError
-              - :Other
-            default_value: :BadSourceType
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'Verbose error message about the provisioning failure'
-            required: false
-            azure_sdk_references: ['/provisioningError/message', '/properties/provisioningError/message']
       - !ruby/object:Api::Type::NestedObject
         name: 'lastRunStatus'
         description: 'State of ''run'' that is currently executing or was last executed.'
         output: true
         azure_sdk_references: ['/lastRunStatus', '/properties/lastRunStatus']
         properties:
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'startTime'
-            description: 'Start time of the last run (UTC)'
-            required: false
-            azure_sdk_references: ['/lastRunStatus/startTime', '/properties/lastRunStatus/startTime']
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'endTime'
-            description: 'End time of the last run (UTC)'
-            required: false
-            azure_sdk_references: ['/lastRunStatus/endTime', '/properties/lastRunStatus/endTime']
-          - !ruby/object:Api::Type::Enum
-            name: 'runState'
-            description: 'State of the last run'
-            required: false
-            azure_sdk_references: ['/lastRunStatus/runState', '/properties/lastRunStatus/runState']
-            values:
-              - :ready
-              - :running
-              - :succeeded
-              - :partiallySucceeded
-              - :failed
-            default_value: :ready
-          - !ruby/object:Api::Type::Enum
-            name: 'runSubState'
-            description: 'Sub state of the last run'
-            required: false
-            azure_sdk_references: ['/lastRunStatus/runSubState', '/properties/lastRunStatus/runSubState']
-            values:
-              - :queued
-              - :building
-              - :customizing
-              - :distributing
-            default_value: :queued
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'Verbose information about the last run state'
-            required: false
-            azure_sdk_references: ['/lastRunStatus/message', '/properties/lastRunStatus/message']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

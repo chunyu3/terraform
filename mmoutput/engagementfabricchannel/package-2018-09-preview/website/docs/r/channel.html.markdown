@@ -28,11 +28,11 @@ Manage Azure Channel instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Channel Name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Resource Group Name Changing this forces a new resource to be created.
 
 * `account_name` - (Required) Account Name Changing this forces a new resource to be created.
-
-* `channel_name` - (Required) Channel Name Changing this forces a new resource to be created.
 
 * `channel_type` - (Required) The channel type
 

@@ -34,9 +34,9 @@ objects:
             python_variable_name: automation_account_name
           'packageName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: python2Packages
-            go_variable_name: packageName
+            go_variable_name: name
             python_parameter_name: package_name
-            python_variable_name: package_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: PythonPackageCreateParameters
@@ -103,9 +103,9 @@ objects:
             python_variable_name: automation_account_name
           'packageName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: python2Packages
-            go_variable_name: packageName
+            go_variable_name: name
             python_parameter_name: package_name
-            python_variable_name: package_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: PythonPackageCreateParameters
@@ -172,9 +172,9 @@ objects:
             python_variable_name: automation_account_name
           'packageName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: python2Packages
-            go_variable_name: packageName
+            go_variable_name: name
             python_parameter_name: package_name
-            python_variable_name: package_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -191,9 +191,9 @@ objects:
             python_variable_name: automation_account_name
           'packageName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: python2Packages
-            go_variable_name: packageName
+            go_variable_name: name
             python_parameter_name: package_name
-            python_variable_name: package_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -272,9 +272,21 @@ objects:
             applicable_to: [go]
             go_field_name: Error
             go_type_name: ModuleErrorInfo
+          '/properties/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
           '/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
           '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreationTime
@@ -348,7 +360,7 @@ objects:
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'packageName'
+        name: 'name'
         description: 'The name of python package.'
         required: true
         input: true
@@ -440,16 +452,6 @@ objects:
         output: true
         azure_sdk_references: ['/error', '/properties/error']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'Gets or sets the error code.'
-            required: false
-            azure_sdk_references: ['/error/code', '/properties/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'Gets or sets the error message.'
-            required: false
-            azure_sdk_references: ['/error/message', '/properties/error/message']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'Gets or sets the creation time.'

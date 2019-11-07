@@ -31,6 +31,13 @@ func resourceArmSavedSearche() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -55,13 +62,6 @@ func resourceArmSavedSearche() *schema.Resource {
             },
 
             "saved_search_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "workspace_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -110,15 +110,15 @@ func resourceArmSavedSearcheCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).savedSearchesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     savedSearchID := d.Get("saved_search_id").(string)
-    workspaceName := d.Get("workspace_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, workspaceName, savedSearchID)
+        existing, err := client.Get(ctx, resourceGroup, name, savedSearchID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q): %+v", savedSearchID, workspaceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Saved Searche %q (Saved Search %q / Resource Group %q): %+v", name, savedSearchID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -145,17 +145,17 @@ func resourceArmSavedSearcheCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, workspaceName, savedSearchID, parameters); err != nil {
-        return fmt.Errorf("Error creating Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q): %+v", savedSearchID, workspaceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, savedSearchID, parameters); err != nil {
+        return fmt.Errorf("Error creating Saved Searche %q (Saved Search %q / Resource Group %q): %+v", name, savedSearchID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName, savedSearchID)
+    resp, err := client.Get(ctx, resourceGroup, name, savedSearchID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q): %+v", savedSearchID, workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Saved Searche %q (Saved Search %q / Resource Group %q): %+v", name, savedSearchID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q) ID", savedSearchID, workspaceName, resourceGroup)
+        return fmt.Errorf("Cannot read Saved Searche %q (Saved Search %q / Resource Group %q) ID", name, savedSearchID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -171,20 +171,21 @@ func resourceArmSavedSearcheRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
     savedSearchID := id.Path["savedSearches"]
 
-    resp, err := client.Get(ctx, resourceGroup, workspaceName, savedSearchID)
+    resp, err := client.Get(ctx, resourceGroup, name, savedSearchID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Saved Searche %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q): %+v", savedSearchID, workspaceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Saved Searche %q (Saved Search %q / Resource Group %q): %+v", name, savedSearchID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if savedSearchProperties := resp.SavedSearchProperties; savedSearchProperties != nil {
@@ -199,7 +200,6 @@ func resourceArmSavedSearcheRead(d *schema.ResourceData, meta interface{}) error
     d.Set("e_tag", resp.ETag)
     d.Set("saved_search_id", savedSearchID)
     d.Set("type", resp.Type)
-    d.Set("workspace_name", workspaceName)
 
     return nil
 }
@@ -215,11 +215,11 @@ func resourceArmSavedSearcheDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    workspaceName := id.Path["workspaces"]
+    name := id.Path["workspaces"]
     savedSearchID := id.Path["savedSearches"]
 
-    if _, err := client.Delete(ctx, resourceGroup, workspaceName, savedSearchID); err != nil {
-        return fmt.Errorf("Error deleting Saved Searche (Saved Search %q / Workspace Name %q / Resource Group %q): %+v", savedSearchID, workspaceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, savedSearchID); err != nil {
+        return fmt.Errorf("Error deleting Saved Searche %q (Saved Search %q / Resource Group %q): %+v", name, savedSearchID, resourceGroup, err)
     }
 
     return nil

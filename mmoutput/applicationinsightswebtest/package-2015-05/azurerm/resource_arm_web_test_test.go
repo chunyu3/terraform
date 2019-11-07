@@ -34,15 +34,15 @@ func testCheckAzureRMWebTestExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Web Test not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        webTestName := rs.Primary.Attributes["web_test_name"]
 
         client := testAccProvider.Meta().(*ArmClient).webTestsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, webTestName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Web Test (Web Test Name %q / Resource Group %q) does not exist", webTestName, resourceGroup)
+                return fmt.Errorf("Bad: Web Test %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on webTestsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMWebTestDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        webTestName := rs.Primary.Attributes["web_test_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, webTestName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on webTestsClient: %+v", err)
             }

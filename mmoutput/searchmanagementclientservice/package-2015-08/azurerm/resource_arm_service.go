@@ -31,19 +31,19 @@ func resourceArmService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "search_service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "hosting_mode": {
                 Type: schema.TypeString,
@@ -136,14 +136,14 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    searchServiceName := d.Get("search_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, searchServiceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -172,21 +172,21 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, searchServiceName, service)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, service)
     if err != nil {
-        return fmt.Errorf("Error creating Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, searchServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service (Search Service Name %q / Resource Group %q) ID", searchServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -202,19 +202,20 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    searchServiceName := id.Path["searchServices"]
+    name := id.Path["searchServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, searchServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -231,7 +232,6 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     if err := d.Set("identity", flattenArmServiceIdentity(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
     }
-    d.Set("search_service_name", searchServiceName)
     if err := d.Set("sku", flattenArmServiceSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -244,12 +244,12 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hostingMode := d.Get("hosting_mode").(string)
     identity := d.Get("identity").([]interface{})
     partitionCount := d.Get("partition_count").(int)
     replicaCount := d.Get("replica_count").(int)
-    searchServiceName := d.Get("search_service_name").(string)
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -266,8 +266,8 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, searchServiceName, service); err != nil {
-        return fmt.Errorf("Error updating Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, service); err != nil {
+        return fmt.Errorf("Error updating Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmServiceRead(d, meta)
@@ -283,10 +283,10 @@ func resourceArmServiceDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    searchServiceName := id.Path["searchServices"]
+    name := id.Path["searchServices"]
 
-    if _, err := client.Delete(ctx, resourceGroup, searchServiceName); err != nil {
-        return fmt.Errorf("Error deleting Service (Search Service Name %q / Resource Group %q): %+v", searchServiceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

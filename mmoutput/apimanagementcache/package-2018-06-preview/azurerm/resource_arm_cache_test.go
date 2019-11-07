@@ -34,16 +34,16 @@ func testCheckAzureRMCacheExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Cache not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         cacheID := rs.Primary.Attributes["cache_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).cacheClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, cacheID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, cacheID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Cache (Cache %q / Service Name %q / Resource Group %q) does not exist", cacheID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Cache %q (Cache %q / Resource Group %q) does not exist", name, cacheID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on cacheClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMCacheDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         cacheID := rs.Primary.Attributes["cache_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, cacheID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, cacheID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on cacheClient: %+v", err)
             }

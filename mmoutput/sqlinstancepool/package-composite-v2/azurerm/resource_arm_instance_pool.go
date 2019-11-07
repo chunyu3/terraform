@@ -31,19 +31,19 @@ func resourceArmInstancePool() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "instance_pool_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "license_type": {
                 Type: schema.TypeString,
@@ -110,14 +110,14 @@ func resourceArmInstancePoolCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).instancePoolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    instancePoolName := d.Get("instance_pool_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, instancePoolName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,21 +144,21 @@ func resourceArmInstancePoolCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, instancePoolName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error creating Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, instancePoolName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Instance Pool (Instance Pool Name %q / Resource Group %q) ID", instancePoolName, resourceGroup)
+        return fmt.Errorf("Cannot read Instance Pool %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -174,25 +174,25 @@ func resourceArmInstancePoolRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    instancePoolName := id.Path["instancePools"]
+    name := id.Path["instancePools"]
 
-    resp, err := client.Get(ctx, resourceGroup, instancePoolName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Instance Pool %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error reading Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("instance_pool_name", instancePoolName)
     if instancePoolProperties := resp.InstancePoolProperties; instancePoolProperties != nil {
         d.Set("license_type", string(instancePoolProperties.LicenseType))
         d.Set("subnet_id", instancePoolProperties.SubnetID)
@@ -210,8 +210,8 @@ func resourceArmInstancePoolUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).instancePoolsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    instancePoolName := d.Get("instance_pool_name").(string)
     licenseType := d.Get("license_type").(string)
     sku := d.Get("sku").([]interface{})
     subnetId := d.Get("subnet_id").(string)
@@ -230,12 +230,12 @@ func resourceArmInstancePoolUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, instancePoolName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error updating Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmInstancePoolRead(d, meta)
@@ -251,19 +251,19 @@ func resourceArmInstancePoolDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    instancePoolName := id.Path["instancePools"]
+    name := id.Path["instancePools"]
 
-    future, err := client.Delete(ctx, resourceGroup, instancePoolName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Instance Pool (Instance Pool Name %q / Resource Group %q): %+v", instancePoolName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Instance Pool %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

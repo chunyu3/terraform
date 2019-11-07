@@ -31,6 +31,13 @@ func resourceArmWorkspaceSetting() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -46,13 +53,6 @@ func resourceArmWorkspaceSetting() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "workspace_setting_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -65,13 +65,13 @@ func resourceArmWorkspaceSettingCreate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).workspaceSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
-    workspaceSettingName := d.Get("workspace_setting_name").(string)
+    name := d.Get("name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, workspaceSettingName)
+        existing, err := client.Get(ctx, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Workspace Setting (Workspace Setting Name %q): %+v", workspaceSettingName, err)
+                return fmt.Errorf("Error checking for present of existing Workspace Setting %q: %+v", name, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -90,17 +90,17 @@ func resourceArmWorkspaceSettingCreate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Create(ctx, workspaceSettingName, workspaceSetting); err != nil {
-        return fmt.Errorf("Error creating Workspace Setting (Workspace Setting Name %q): %+v", workspaceSettingName, err)
+    if _, err := client.Create(ctx, name, workspaceSetting); err != nil {
+        return fmt.Errorf("Error creating Workspace Setting %q: %+v", name, err)
     }
 
 
-    resp, err := client.Get(ctx, workspaceSettingName)
+    resp, err := client.Get(ctx, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Workspace Setting (Workspace Setting Name %q): %+v", workspaceSettingName, err)
+        return fmt.Errorf("Error retrieving Workspace Setting %q: %+v", name, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Workspace Setting (Workspace Setting Name %q) ID", workspaceSettingName)
+        return fmt.Errorf("Cannot read Workspace Setting %q ID", name)
     }
     d.SetId(*resp.ID)
 
@@ -115,26 +115,26 @@ func resourceArmWorkspaceSettingRead(d *schema.ResourceData, meta interface{}) e
     if err != nil {
         return err
     }
-    workspaceSettingName := id.Path["workspaceSettings"]
+    name := id.Path["workspaceSettings"]
 
-    resp, err := client.Get(ctx, workspaceSettingName)
+    resp, err := client.Get(ctx, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Workspace Setting %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Workspace Setting (Workspace Setting Name %q): %+v", workspaceSettingName, err)
+        return fmt.Errorf("Error reading Workspace Setting %q: %+v", name, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     if workspaceSettingProperties := resp.WorkspaceSettingProperties; workspaceSettingProperties != nil {
         d.Set("scope", workspaceSettingProperties.Scope)
         d.Set("workspace_id", workspaceSettingProperties.WorkspaceID)
     }
     d.Set("type", resp.Type)
-    d.Set("workspace_setting_name", workspaceSettingName)
 
     return nil
 }
@@ -143,9 +143,9 @@ func resourceArmWorkspaceSettingUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).workspaceSettingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     scope := d.Get("scope").(string)
     workspaceId := d.Get("workspace_id").(string)
-    workspaceSettingName := d.Get("workspace_setting_name").(string)
 
     workspaceSetting := securitycenter.WorkspaceSetting{
         WorkspaceSettingProperties: &securitycenter.WorkspaceSettingProperties{
@@ -155,8 +155,8 @@ func resourceArmWorkspaceSettingUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.Update(ctx, workspaceSettingName, workspaceSetting); err != nil {
-        return fmt.Errorf("Error updating Workspace Setting (Workspace Setting Name %q): %+v", workspaceSettingName, err)
+    if _, err := client.Update(ctx, name, workspaceSetting); err != nil {
+        return fmt.Errorf("Error updating Workspace Setting %q: %+v", name, err)
     }
 
     return resourceArmWorkspaceSettingRead(d, meta)
@@ -171,10 +171,10 @@ func resourceArmWorkspaceSettingDelete(d *schema.ResourceData, meta interface{})
     if err != nil {
         return err
     }
-    workspaceSettingName := id.Path["workspaceSettings"]
+    name := id.Path["workspaceSettings"]
 
-    if _, err := client.Delete(ctx, workspaceSettingName); err != nil {
-        return fmt.Errorf("Error deleting Workspace Setting (Workspace Setting Name %q): %+v", workspaceSettingName, err)
+    if _, err := client.Delete(ctx, name); err != nil {
+        return fmt.Errorf("Error deleting Workspace Setting %q: %+v", name, err)
     }
 
     return nil

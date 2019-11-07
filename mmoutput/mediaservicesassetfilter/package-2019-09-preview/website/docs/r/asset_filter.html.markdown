@@ -28,13 +28,13 @@ Manage Azure AssetFilter instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Asset Filter name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
 
 * `asset_name` - (Required) The Asset name. Changing this forces a new resource to be created.
-
-* `filter_name` - (Required) The Asset Filter name Changing this forces a new resource to be created.
 
 * `first_quality` - (Optional) One `first_quality` block defined below.
 

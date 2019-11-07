@@ -28,11 +28,11 @@ Manage Azure OperationalizationCluster instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the cluster. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group in which the cluster is located. Changing this forces a new resource to be created.
 
 * `location` - (Required) Specifies the location of the resource. Changing this forces a new resource to be created.
-
-* `cluster_name` - (Required) The name of the cluster. Changing this forces a new resource to be created.
 
 * `cluster_type` - (Required) The cluster type.
 

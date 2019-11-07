@@ -28,11 +28,11 @@ Manage Azure DisasterRecoveryConfig instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The namespace name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the Resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `alias` - (Required) The Disaster Recovery configuration name Changing this forces a new resource to be created.
-
-* `namespace_name` - (Required) The namespace name Changing this forces a new resource to be created.
 
 * `alternate_name` - (Optional) Primary/Secondary eventhub namespace name, which is part of GEO DR pairing
 

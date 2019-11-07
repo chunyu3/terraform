@@ -34,15 +34,15 @@ func testCheckAzureRMAssociationExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Association not found: %s", resourceName)
         }
 
-        associationName := rs.Primary.Attributes["association_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
 
         client := testAccProvider.Meta().(*ArmClient).associationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, scope, associationName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Association (Association Name %q / Scope %q) does not exist", associationName, scope)
+                return fmt.Errorf("Bad: Association %q (Scope %q) does not exist", name, scope)
             }
             return fmt.Errorf("Bad: Get on associationsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMAssociationDestroy(s *terraform.State) error {
             continue
         }
 
-        associationName := rs.Primary.Attributes["association_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
 
-        if resp, err := client.Get(ctx, scope, associationName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on associationsClient: %+v", err)
             }

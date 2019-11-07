@@ -31,6 +31,13 @@ func resourceArmApiOperationPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -63,13 +70,6 @@ func resourceArmApiOperationPolicy() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -82,17 +82,17 @@ func resourceArmApiOperationPolicyCreateUpdate(d *schema.ResourceData, meta inte
     client := meta.(*ArmClient).apiOperationPolicyClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
     operationID := d.Get("operation_id").(string)
     policyID := d.Get("policy_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID, policyID)
+        existing, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q): %+v", policyID, operationID, apiID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q): %+v", name, policyID, operationID, apiID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -109,17 +109,17 @@ func resourceArmApiOperationPolicyCreateUpdate(d *schema.ResourceData, meta inte
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, apiID, operationID, policyID, parameters); err != nil {
-        return fmt.Errorf("Error creating Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q): %+v", policyID, operationID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, operationID, policyID, parameters); err != nil {
+        return fmt.Errorf("Error creating Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q): %+v", name, policyID, operationID, apiID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID, policyID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q): %+v", policyID, operationID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q): %+v", name, policyID, operationID, apiID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q) ID", policyID, operationID, apiID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q) ID", name, policyID, operationID, apiID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -135,22 +135,23 @@ func resourceArmApiOperationPolicyRead(d *schema.ResourceData, meta interface{})
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     operationID := id.Path["operations"]
     policyID := id.Path["policies"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID, policyID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Api Operation Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q): %+v", policyID, operationID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q): %+v", name, policyID, operationID, apiID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
@@ -159,7 +160,6 @@ func resourceArmApiOperationPolicyRead(d *schema.ResourceData, meta interface{})
         d.Set("policy_content", policyContractProperties.PolicyContent)
     }
     d.Set("policy_id", policyID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -176,13 +176,13 @@ func resourceArmApiOperationPolicyDelete(d *schema.ResourceData, meta interface{
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     operationID := id.Path["operations"]
     policyID := id.Path["policies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, apiID, operationID, policyID); err != nil {
-        return fmt.Errorf("Error deleting Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q): %+v", policyID, operationID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, apiID, operationID, policyID); err != nil {
+        return fmt.Errorf("Error deleting Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q): %+v", name, policyID, operationID, apiID, resourceGroup, err)
     }
 
     return nil

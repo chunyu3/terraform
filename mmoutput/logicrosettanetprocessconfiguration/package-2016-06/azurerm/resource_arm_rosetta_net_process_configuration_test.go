@@ -34,16 +34,16 @@ func testCheckAzureRMRosettaNetProcessConfigurationExists(resourceName string) r
             return fmt.Errorf("Rosetta Net Process Configuration not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         integrationAccountName := rs.Primary.Attributes["integration_account_name"]
-        rosettaNetProcessConfigurationName := rs.Primary.Attributes["rosetta_net_process_configuration_name"]
 
         client := testAccProvider.Meta().(*ArmClient).rosettaNetProcessConfigurationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, integrationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Rosetta Net Process Configuration (Rosetta Net Process Configuration Name %q / Integration Account Name %q / Resource Group %q) does not exist", rosettaNetProcessConfigurationName, integrationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Rosetta Net Process Configuration %q (Integration Account Name %q / Resource Group %q) does not exist", name, integrationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on rosettaNetProcessConfigurationsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMRosettaNetProcessConfigurationDestroy(s *terraform.State) e
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         integrationAccountName := rs.Primary.Attributes["integration_account_name"]
-        rosettaNetProcessConfigurationName := rs.Primary.Attributes["rosetta_net_process_configuration_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, integrationAccountName, rosettaNetProcessConfigurationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, integrationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on rosettaNetProcessConfigurationsClient: %+v", err)
             }

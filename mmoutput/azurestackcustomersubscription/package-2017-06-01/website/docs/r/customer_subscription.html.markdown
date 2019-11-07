@@ -28,7 +28,7 @@ Manage Azure CustomerSubscription instance.
 
 The following arguments are supported:
 
-* `customer_subscription_name` - (Required) Name of the product. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the product. Changing this forces a new resource to be created.
 
 * `registration_name` - (Required) Name of the Azure Stack registration. Changing this forces a new resource to be created.
 

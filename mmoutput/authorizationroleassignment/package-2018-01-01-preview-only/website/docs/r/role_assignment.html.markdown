@@ -28,9 +28,9 @@ Manage Azure RoleAssignment instance.
 
 The following arguments are supported:
 
-* `principal_id` - (Required) The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
+* `name` - (Required) The name of the role assignment to create. It can be any valid GUID. Changing this forces a new resource to be created.
 
-* `role_assignment_name` - (Required) The name of the role assignment to create. It can be any valid GUID. Changing this forces a new resource to be created.
+* `principal_id` - (Required) The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
 
 * `role_definition_id` - (Required) The role definition ID used in the role assignment.
 

@@ -34,15 +34,15 @@ func testCheckAzureRMStorageSyncServiceExists(resourceName string) resource.Test
             return fmt.Errorf("Storage Sync Service not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        storageSyncServiceName := rs.Primary.Attributes["storage_sync_service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).storageSyncServicesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Storage Sync Service (Storage Sync Service Name %q / Resource Group %q) does not exist", storageSyncServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Storage Sync Service %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on storageSyncServicesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMStorageSyncServiceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        storageSyncServiceName := rs.Primary.Attributes["storage_sync_service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on storageSyncServicesClient: %+v", err)
             }

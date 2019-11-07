@@ -34,15 +34,15 @@ func testCheckAzureRMMaintenanceConfigurationExists(resourceName string) resourc
             return fmt.Errorf("Maintenance Configuration not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).maintenanceConfigurationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, resourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Maintenance Configuration (Resource Name %q / Resource Group %q) does not exist", resourceName, resourceGroup)
+                return fmt.Errorf("Bad: Maintenance Configuration %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on maintenanceConfigurationsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMMaintenanceConfigurationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, resourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on maintenanceConfigurationsClient: %+v", err)
             }

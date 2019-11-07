@@ -31,19 +31,19 @@ func resourceArmNetworkExperimentProfile() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "profile_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "enabled_state": {
                 Type: schema.TypeString,
@@ -89,14 +89,14 @@ func resourceArmNetworkExperimentProfileCreate(d *schema.ResourceData, meta inte
     client := meta.(*ArmClient).networkExperimentProfilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, profileName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+                return fmt.Errorf("Error checking for present of existing Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -121,21 +121,21 @@ func resourceArmNetworkExperimentProfileCreate(d *schema.ResourceData, meta inte
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, profileName, resourceGroup, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error creating Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error waiting for creation of Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, profileName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error retrieving Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Network Experiment Profile (Resource Group %q / Profile Name %q) ID", resourceGroup, profileName)
+        return fmt.Errorf("Cannot read Network Experiment Profile %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -151,19 +151,20 @@ func resourceArmNetworkExperimentProfileRead(d *schema.ResourceData, meta interf
         return err
     }
     resourceGroup := id.ResourceGroup
-    profileName := id.Path["NetworkExperimentProfiles"]
+    name := id.Path["NetworkExperimentProfiles"]
 
-    resp, err := client.Get(ctx, resourceGroup, profileName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Network Experiment Profile %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error reading Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -174,7 +175,6 @@ func resourceArmNetworkExperimentProfileRead(d *schema.ResourceData, meta interf
         d.Set("resource_state", string(profileProperties.ResourceState))
     }
     d.Set("etag", resp.Etag)
-    d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -184,10 +184,10 @@ func resourceArmNetworkExperimentProfileUpdate(d *schema.ResourceData, meta inte
     client := meta.(*ArmClient).networkExperimentProfilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     enabledState := d.Get("enabled_state").(string)
     etag := d.Get("etag").(string)
-    profileName := d.Get("profile_name").(string)
     resourceState := d.Get("resource_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
@@ -202,12 +202,12 @@ func resourceArmNetworkExperimentProfileUpdate(d *schema.ResourceData, meta inte
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, profileName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error updating Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error waiting for update of Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmNetworkExperimentProfileRead(d, meta)
@@ -223,19 +223,19 @@ func resourceArmNetworkExperimentProfileDelete(d *schema.ResourceData, meta inte
         return err
     }
     resourceGroup := id.ResourceGroup
-    profileName := id.Path["NetworkExperimentProfiles"]
+    name := id.Path["NetworkExperimentProfiles"]
 
-    future, err := client.Delete(ctx, resourceGroup, profileName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+        return fmt.Errorf("Error deleting Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Network Experiment Profile (Resource Group %q / Profile Name %q): %+v", resourceGroup, profileName, err)
+            return fmt.Errorf("Error waiting for deleting Network Experiment Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

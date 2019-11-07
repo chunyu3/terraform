@@ -31,6 +31,13 @@ func resourceArmFirewallRule() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -46,13 +53,6 @@ func resourceArmFirewallRule() *schema.Resource {
             "end_ip": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "rule_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -74,15 +74,15 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).firewallRulesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     cacheName := d.Get("cache_name").(string)
-    ruleName := d.Get("rule_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, cacheName, ruleName)
+        existing, err := client.Get(ctx, resourceGroup, cacheName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q): %+v", ruleName, cacheName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Firewall Rule %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -101,17 +101,17 @@ func resourceArmFirewallRuleCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, cacheName, ruleName, parameters); err != nil {
-        return fmt.Errorf("Error creating Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q): %+v", ruleName, cacheName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, cacheName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Firewall Rule %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, cacheName, ruleName)
+    resp, err := client.Get(ctx, resourceGroup, cacheName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q): %+v", ruleName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Firewall Rule %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q) ID", ruleName, cacheName, resourceGroup)
+        return fmt.Errorf("Cannot read Firewall Rule %q (Cache Name %q / Resource Group %q) ID", name, cacheName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -128,19 +128,20 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     cacheName := id.Path["Redis"]
-    ruleName := id.Path["firewallRules"]
+    name := id.Path["firewallRules"]
 
-    resp, err := client.Get(ctx, resourceGroup, cacheName, ruleName)
+    resp, err := client.Get(ctx, resourceGroup, cacheName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Firewall Rule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q): %+v", ruleName, cacheName, resourceGroup, err)
+        return fmt.Errorf("Error reading Firewall Rule %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_name", cacheName)
@@ -148,7 +149,6 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
         d.Set("end_ip", firewallRuleProperties.EndIp)
         d.Set("start_ip", firewallRuleProperties.StartIp)
     }
-    d.Set("rule_name", ruleName)
     d.Set("type", resp.Type)
 
     return nil
@@ -166,10 +166,10 @@ func resourceArmFirewallRuleDelete(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     cacheName := id.Path["Redis"]
-    ruleName := id.Path["firewallRules"]
+    name := id.Path["firewallRules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, cacheName, ruleName); err != nil {
-        return fmt.Errorf("Error deleting Firewall Rule (Rule Name %q / Cache Name %q / Resource Group %q): %+v", ruleName, cacheName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, cacheName, name); err != nil {
+        return fmt.Errorf("Error deleting Firewall Rule %q (Cache Name %q / Resource Group %q): %+v", name, cacheName, resourceGroup, err)
     }
 
     return nil

@@ -34,16 +34,16 @@ func testCheckAzureRMBackendExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Backend not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         backendid := rs.Primary.Attributes["backendid"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).backendClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, backendid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, backendid); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Backend (Backendid %q / Service Name %q / Resource Group %q) does not exist", backendid, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Backend %q (Backendid %q / Resource Group %q) does not exist", name, backendid, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on backendClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMBackendDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         backendid := rs.Primary.Attributes["backendid"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, backendid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, backendid); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on backendClient: %+v", err)
             }

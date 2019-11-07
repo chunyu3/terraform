@@ -28,11 +28,11 @@ Manage Azure RegisteredServer instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `server_id` - (Required) GUID identifying the on-premises server. Changing this forces a new resource to be created.
-
-* `storage_sync_service_name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed. Changing this forces a new resource to be created.
 

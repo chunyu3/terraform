@@ -31,17 +31,17 @@ func resourceArmManagedInstanceKey() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "key_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "managed_instance_name": {
                 Type: schema.TypeString,
@@ -91,15 +91,15 @@ func resourceArmManagedInstanceKeyCreateUpdate(d *schema.ResourceData, meta inte
     client := meta.(*ArmClient).managedInstanceKeysClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    keyName := d.Get("key_name").(string)
     managedInstanceName := d.Get("managed_instance_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managedInstanceName, keyName)
+        existing, err := client.Get(ctx, resourceGroup, managedInstanceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -118,21 +118,21 @@ func resourceArmManagedInstanceKeyCreateUpdate(d *schema.ResourceData, meta inte
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, keyName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, keyName)
+    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q) ID", keyName, managedInstanceName, resourceGroup)
+        return fmt.Errorf("Cannot read Managed Instance Key %q (Managed Instance Name %q / Resource Group %q) ID", name, managedInstanceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -149,19 +149,20 @@ func resourceArmManagedInstanceKeyRead(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     managedInstanceName := id.Path["managedInstances"]
-    keyName := id.Path["keys"]
+    name := id.Path["keys"]
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, keyName)
+    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Managed Instance Key %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if managedInstanceKeyProperties := resp.ManagedInstanceKeyProperties; managedInstanceKeyProperties != nil {
@@ -170,7 +171,6 @@ func resourceArmManagedInstanceKeyRead(d *schema.ResourceData, meta interface{})
         d.Set("thumbprint", managedInstanceKeyProperties.Thumbprint)
         d.Set("uri", managedInstanceKeyProperties.Uri)
     }
-    d.Set("key_name", keyName)
     d.Set("kind", resp.Kind)
     d.Set("managed_instance_name", managedInstanceName)
     d.Set("type", resp.Type)
@@ -190,19 +190,19 @@ func resourceArmManagedInstanceKeyDelete(d *schema.ResourceData, meta interface{
     }
     resourceGroup := id.ResourceGroup
     managedInstanceName := id.Path["managedInstances"]
-    keyName := id.Path["keys"]
+    name := id.Path["keys"]
 
-    future, err := client.Delete(ctx, resourceGroup, managedInstanceName, keyName)
+    future, err := client.Delete(ctx, resourceGroup, managedInstanceName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q): %+v", keyName, managedInstanceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Managed Instance Key %q (Managed Instance Name %q / Resource Group %q): %+v", name, managedInstanceName, resourceGroup, err)
         }
     }
 

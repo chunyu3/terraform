@@ -34,16 +34,16 @@ func testCheckAzureRMManagedNetworkGroupExists(resourceName string) resource.Tes
             return fmt.Errorf("Managed Network Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managedNetworkGroupName := rs.Primary.Attributes["managed_network_group_name"]
         managedNetworkName := rs.Primary.Attributes["managed_network_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managedNetworkGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, managedNetworkGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Managed Network Group (Managed Network Group Name %q / Managed Network Name %q / Resource Group %q) does not exist", managedNetworkGroupName, managedNetworkName, resourceGroup)
+                return fmt.Errorf("Bad: Managed Network Group %q (Managed Network Name %q / Resource Group %q) does not exist", name, managedNetworkName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managedNetworkGroupsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMManagedNetworkGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managedNetworkGroupName := rs.Primary.Attributes["managed_network_group_name"]
         managedNetworkName := rs.Primary.Attributes["managed_network_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, managedNetworkGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedNetworkName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managedNetworkGroupsClient: %+v", err)
             }

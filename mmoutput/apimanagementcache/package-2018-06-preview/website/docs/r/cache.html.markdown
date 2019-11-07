@@ -28,13 +28,13 @@ Manage Azure Cache instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `cache_id` - (Required) Identifier of the Cache entity. Cache identifier (should be either 'default' or valid Azure region identifier). Changing this forces a new resource to be created.
 
 * `connection_string` - (Required) Runtime connection string to cache
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Cache description
 

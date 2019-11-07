@@ -34,16 +34,16 @@ func testCheckAzureRMApiExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Api not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apisClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api (Api %q / Service Name %q / Resource Group %q) does not exist", apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api %q (Api %q / Resource Group %q) does not exist", name, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apisClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMApiDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apisClient: %+v", err)
             }

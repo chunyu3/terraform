@@ -34,16 +34,16 @@ func testCheckAzureRMStorageDomainExists(resourceName string) resource.TestCheck
             return fmt.Errorf("Storage Domain not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managerName := rs.Primary.Attributes["manager_name"]
         storageDomainName := rs.Primary.Attributes["storage_domain_name"]
 
         client := testAccProvider.Meta().(*ArmClient).storageDomainsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, storageDomainName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, storageDomainName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Storage Domain (Manager Name %q / Resource Group %q / Storage Domain Name %q) does not exist", managerName, resourceGroup, storageDomainName)
+                return fmt.Errorf("Bad: Storage Domain %q (Resource Group %q / Storage Domain Name %q) does not exist", name, resourceGroup, storageDomainName)
             }
             return fmt.Errorf("Bad: Get on storageDomainsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStorageDomainDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managerName := rs.Primary.Attributes["manager_name"]
         storageDomainName := rs.Primary.Attributes["storage_domain_name"]
 
-        if resp, err := client.Get(ctx, storageDomainName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, storageDomainName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on storageDomainsClient: %+v", err)
             }

@@ -28,6 +28,8 @@ Manage Azure IscsiDisk instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `access_control_records` - (Required) The access control records.
@@ -41,8 +43,6 @@ The following arguments are supported:
 * `disk_status` - (Required) The disk status.
 
 * `iscsi_server_name` - (Required) The iSCSI server name. Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `monitoring_status` - (Required) The monitoring.
 

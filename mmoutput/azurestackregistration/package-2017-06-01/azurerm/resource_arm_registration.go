@@ -31,6 +31,13 @@ func resourceArmRegistration() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -45,13 +52,6 @@ func resourceArmRegistration() *schema.Resource {
             },
 
             "resource_group": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "registration_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -98,14 +98,14 @@ func resourceArmRegistrationCreate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).registrationsClient
     ctx := meta.(*ArmClient).StopContext
 
-    registrationName := d.Get("registration_name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, registrationName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Registration (Registration Name %q / Resource Group %q): %+v", registrationName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Registration %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -124,17 +124,17 @@ func resourceArmRegistrationCreate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, registrationName, token); err != nil {
-        return fmt.Errorf("Error creating Registration (Registration Name %q / Resource Group %q): %+v", registrationName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, token); err != nil {
+        return fmt.Errorf("Error creating Registration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, registrationName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Registration (Registration Name %q / Resource Group %q): %+v", registrationName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Registration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Registration (Registration Name %q / Resource Group %q) ID", registrationName, resourceGroup)
+        return fmt.Errorf("Cannot read Registration %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -150,19 +150,20 @@ func resourceArmRegistrationRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    registrationName := id.Path["registrations"]
+    name := id.Path["registrations"]
 
-    resp, err := client.Get(ctx, resourceGroup, registrationName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Registration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Registration (Registration Name %q / Resource Group %q): %+v", registrationName, resourceGroup, err)
+        return fmt.Errorf("Error reading Registration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     if registrationParameterProperties := resp.RegistrationParameterProperties; registrationParameterProperties != nil {
         d.Set("billing_model", registrationParameterProperties.BillingModel)
@@ -171,7 +172,6 @@ func resourceArmRegistrationRead(d *schema.ResourceData, meta interface{}) error
     }
     d.Set("etag", resp.Etag)
     d.Set("location", string(resp.Location))
-    d.Set("registration_name", registrationName)
     d.Set("resource_group", resourceGroup)
     d.Set("type", resp.Type)
 
@@ -182,7 +182,7 @@ func resourceArmRegistrationUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).registrationsClient
     ctx := meta.(*ArmClient).StopContext
 
-    registrationName := d.Get("registration_name").(string)
+    name := d.Get("name").(string)
     registrationToken := d.Get("registration_token").(string)
     resourceGroup := d.Get("resource_group").(string)
 
@@ -194,8 +194,8 @@ func resourceArmRegistrationUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, registrationName, token); err != nil {
-        return fmt.Errorf("Error updating Registration (Registration Name %q / Resource Group %q): %+v", registrationName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, token); err != nil {
+        return fmt.Errorf("Error updating Registration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmRegistrationRead(d, meta)
@@ -211,10 +211,10 @@ func resourceArmRegistrationDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    registrationName := id.Path["registrations"]
+    name := id.Path["registrations"]
 
-    if _, err := client.Delete(ctx, resourceGroup, registrationName); err != nil {
-        return fmt.Errorf("Error deleting Registration (Registration Name %q / Resource Group %q): %+v", registrationName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Registration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

@@ -31,6 +31,13 @@ func resourceArmConnectorMapping() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -61,13 +68,6 @@ func resourceArmConnectorMapping() *schema.Resource {
             },
 
             "hub_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "mapping_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -307,16 +307,16 @@ func resourceArmConnectorMappingCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).connectorMappingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     connectorName := d.Get("connector_name").(string)
     hubName := d.Get("hub_name").(string)
-    mappingName := d.Get("mapping_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, connectorName, mappingName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, connectorName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q): %+v", mappingName, connectorName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q): %+v", name, connectorName, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -343,17 +343,17 @@ func resourceArmConnectorMappingCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, connectorName, mappingName, parameters); err != nil {
-        return fmt.Errorf("Error creating Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q): %+v", mappingName, connectorName, hubName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, connectorName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q): %+v", name, connectorName, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, mappingName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q): %+v", mappingName, connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q): %+v", name, connectorName, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q) ID", mappingName, connectorName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q) ID", name, connectorName, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -371,19 +371,20 @@ func resourceArmConnectorMappingRead(d *schema.ResourceData, meta interface{}) e
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
     connectorName := id.Path["connectors"]
-    mappingName := id.Path["mappings"]
+    name := id.Path["mappings"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, mappingName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Connector Mapping %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q): %+v", mappingName, connectorName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q): %+v", name, connectorName, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if connectorMapping := resp.ConnectorMapping; connectorMapping != nil {
@@ -407,7 +408,6 @@ func resourceArmConnectorMappingRead(d *schema.ResourceData, meta interface{}) e
     }
     d.Set("connector_name", connectorName)
     d.Set("hub_name", hubName)
-    d.Set("mapping_name", mappingName)
     d.Set("type", resp.Type)
 
     return nil
@@ -426,10 +426,10 @@ func resourceArmConnectorMappingDelete(d *schema.ResourceData, meta interface{})
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
     connectorName := id.Path["connectors"]
-    mappingName := id.Path["mappings"]
+    name := id.Path["mappings"]
 
-    if _, err := client.Delete(ctx, resourceGroup, hubName, connectorName, mappingName); err != nil {
-        return fmt.Errorf("Error deleting Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q): %+v", mappingName, connectorName, hubName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, hubName, connectorName, name); err != nil {
+        return fmt.Errorf("Error deleting Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q): %+v", name, connectorName, hubName, resourceGroup, err)
     }
 
     return nil

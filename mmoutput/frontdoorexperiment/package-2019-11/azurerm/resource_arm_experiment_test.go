@@ -34,16 +34,16 @@ func testCheckAzureRMExperimentExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Experiment not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        experimentName := rs.Primary.Attributes["experiment_name"]
         profileName := rs.Primary.Attributes["profile_name"]
 
         client := testAccProvider.Meta().(*ArmClient).experimentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName, experimentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, profileName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Experiment (Experiment Name %q / Profile Name %q / Resource Group %q) does not exist", experimentName, profileName, resourceGroup)
+                return fmt.Errorf("Bad: Experiment %q (Profile Name %q / Resource Group %q) does not exist", name, profileName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on experimentsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMExperimentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        experimentName := rs.Primary.Attributes["experiment_name"]
         profileName := rs.Primary.Attributes["profile_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName, experimentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, profileName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on experimentsClient: %+v", err)
             }

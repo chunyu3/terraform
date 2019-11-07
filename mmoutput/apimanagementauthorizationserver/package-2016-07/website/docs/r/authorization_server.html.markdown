@@ -28,6 +28,8 @@ Manage Azure AuthorizationServer instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `name` - (Required) User-friendly authorization server name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
@@ -41,8 +43,6 @@ The following arguments are supported:
 * `client_registration_endpoint` - (Required) Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. Changing this forces a new resource to be created.
 
 * `grant_types` - (Required) Form of an authorization grant, which the client uses to request the access token. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `authorization_methods` - (Optional) HTTP verbs supported by the authorization endpoint. GET must be always present. POST is optional. Changing this forces a new resource to be created.
 

@@ -31,19 +31,19 @@ func resourceArmSpatialAnchorsAccount() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "spatial_anchors_account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "account_domain": {
                 Type: schema.TypeString,
@@ -69,14 +69,14 @@ func resourceArmSpatialAnchorsAccountCreate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).spatialAnchorsAccountsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    spatialAnchorsAccountName := d.Get("spatial_anchors_account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, spatialAnchorsAccountName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q): %+v", spatialAnchorsAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Spatial Anchors Account %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -93,17 +93,17 @@ func resourceArmSpatialAnchorsAccountCreate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, spatialAnchorsAccountName, spatialAnchorsAccount); err != nil {
-        return fmt.Errorf("Error creating Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q): %+v", spatialAnchorsAccountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, spatialAnchorsAccount); err != nil {
+        return fmt.Errorf("Error creating Spatial Anchors Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, spatialAnchorsAccountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q): %+v", spatialAnchorsAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Spatial Anchors Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q) ID", spatialAnchorsAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Spatial Anchors Account %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -119,19 +119,20 @@ func resourceArmSpatialAnchorsAccountRead(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    spatialAnchorsAccountName := id.Path["spatialAnchorsAccounts"]
+    name := id.Path["spatialAnchorsAccounts"]
 
-    resp, err := client.Get(ctx, resourceGroup, spatialAnchorsAccountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Spatial Anchors Account %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q): %+v", spatialAnchorsAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Spatial Anchors Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -141,7 +142,6 @@ func resourceArmSpatialAnchorsAccountRead(d *schema.ResourceData, meta interface
         d.Set("account_domain", spatialAnchorsAccountProperties.AccountDomain)
         d.Set("account_id", spatialAnchorsAccountProperties.AccountID)
     }
-    d.Set("spatial_anchors_account_name", spatialAnchorsAccountName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -151,8 +151,8 @@ func resourceArmSpatialAnchorsAccountUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).spatialAnchorsAccountsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    spatialAnchorsAccountName := d.Get("spatial_anchors_account_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     spatialAnchorsAccount := mixedreality.SpatialAnchorsAccount{
@@ -161,8 +161,8 @@ func resourceArmSpatialAnchorsAccountUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, spatialAnchorsAccountName, spatialAnchorsAccount); err != nil {
-        return fmt.Errorf("Error updating Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q): %+v", spatialAnchorsAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, spatialAnchorsAccount); err != nil {
+        return fmt.Errorf("Error updating Spatial Anchors Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmSpatialAnchorsAccountRead(d, meta)
@@ -178,10 +178,10 @@ func resourceArmSpatialAnchorsAccountDelete(d *schema.ResourceData, meta interfa
         return err
     }
     resourceGroup := id.ResourceGroup
-    spatialAnchorsAccountName := id.Path["spatialAnchorsAccounts"]
+    name := id.Path["spatialAnchorsAccounts"]
 
-    if _, err := client.Delete(ctx, resourceGroup, spatialAnchorsAccountName); err != nil {
-        return fmt.Errorf("Error deleting Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q): %+v", spatialAnchorsAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Spatial Anchors Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

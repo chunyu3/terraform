@@ -31,6 +31,13 @@ func resourceArmIscsiServer() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -50,13 +57,6 @@ func resourceArmIscsiServer() *schema.Resource {
             },
 
             "iscsi_server_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -96,16 +96,16 @@ func resourceArmIscsiServerCreateUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).iscsiServersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
     iscsiServerName := d.Get("iscsi_server_name").(string)
-    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, iscsiServerName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -130,21 +130,21 @@ func resourceArmIscsiServerCreateUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, iscsiServerName, resourceGroup, managerName, iscsiServer)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, iscsiServerName, iscsiServer)
     if err != nil {
-        return fmt.Errorf("Error creating Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error creating Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, iscsiServerName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error retrieving Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q) ID", managerName, resourceGroup, iscsiServerName, deviceName)
+        return fmt.Errorf("Cannot read Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q) ID", name, resourceGroup, iscsiServerName, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -159,22 +159,23 @@ func resourceArmIscsiServerRead(d *schema.ResourceData, meta interface{}) error 
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     iscsiServerName := id.Path["iscsiservers"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    resp, err := client.Get(ctx, deviceName, iscsiServerName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Iscsi Server %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error reading Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if iSCSIServerProperties := resp.ISCSIServerProperties; iSCSIServerProperties != nil {
@@ -186,7 +187,6 @@ func resourceArmIscsiServerRead(d *schema.ResourceData, meta interface{}) error 
     }
     d.Set("device_name", deviceName)
     d.Set("iscsi_server_name", iscsiServerName)
-    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -202,22 +202,22 @@ func resourceArmIscsiServerDelete(d *schema.ResourceData, meta interface{}) erro
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     iscsiServerName := id.Path["iscsiservers"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    future, err := client.Delete(ctx, deviceName, iscsiServerName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, deviceName, iscsiServerName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+        return fmt.Errorf("Error deleting Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", managerName, resourceGroup, iscsiServerName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q): %+v", name, resourceGroup, iscsiServerName, deviceName, err)
         }
     }
 

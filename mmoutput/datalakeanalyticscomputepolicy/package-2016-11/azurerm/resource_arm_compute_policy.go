@@ -31,19 +31,19 @@ func resourceArmComputePolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "compute_policy_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -88,15 +88,15 @@ func resourceArmComputePolicyCreate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).computePoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    computePolicyName := d.Get("compute_policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, computePolicyName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q): %+v", computePolicyName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Compute Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -119,17 +119,17 @@ func resourceArmComputePolicyCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, computePolicyName, parameters); err != nil {
-        return fmt.Errorf("Error creating Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q): %+v", computePolicyName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Compute Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, computePolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q): %+v", computePolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Compute Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q) ID", computePolicyName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Compute Policy %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -146,23 +146,23 @@ func resourceArmComputePolicyRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    computePolicyName := id.Path["computePolicies"]
+    name := id.Path["computePolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, computePolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Compute Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q): %+v", computePolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Compute Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    d.Set("compute_policy_name", computePolicyName)
     if createOrUpdateComputePolicyProperties := resp.CreateOrUpdateComputePolicyProperties; createOrUpdateComputePolicyProperties != nil {
         d.Set("max_degree_of_parallelism_per_job", int(*createOrUpdateComputePolicyProperties.MaxDegreeOfParallelismPerJob))
         d.Set("min_priority_per_job", int(*createOrUpdateComputePolicyProperties.MinPriorityPerJob))
@@ -178,9 +178,9 @@ func resourceArmComputePolicyUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).computePoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    computePolicyName := d.Get("compute_policy_name").(string)
     maxDegreeOfParallelismPerJob := d.Get("max_degree_of_parallelism_per_job").(int)
     minPriorityPerJob := d.Get("min_priority_per_job").(int)
     objectId := d.Get("object_id").(string)
@@ -196,8 +196,8 @@ func resourceArmComputePolicyUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, computePolicyName, parameters); err != nil {
-        return fmt.Errorf("Error updating Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q): %+v", computePolicyName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Compute Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return resourceArmComputePolicyRead(d, meta)
@@ -214,10 +214,10 @@ func resourceArmComputePolicyDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
-    computePolicyName := id.Path["computePolicies"]
+    name := id.Path["computePolicies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, computePolicyName); err != nil {
-        return fmt.Errorf("Error deleting Compute Policy (Compute Policy Name %q / Account Name %q / Resource Group %q): %+v", computePolicyName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Compute Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

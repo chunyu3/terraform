@@ -28,13 +28,13 @@ Manage Azure VirtualNetworkRule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the virtual network rule to create or update. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the Data Lake Store account. Changing this forces a new resource to be created.
 
 * `subnet_id` - (Required) The resource identifier for the subnet.
-
-* `virtual_network_rule_name` - (Required) The name of the virtual network rule to create or update. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

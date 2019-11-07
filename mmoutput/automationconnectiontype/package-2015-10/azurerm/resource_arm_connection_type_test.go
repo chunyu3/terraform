@@ -34,16 +34,16 @@ func testCheckAzureRMConnectionTypeExists(resourceName string) resource.TestChec
             return fmt.Errorf("Connection Type not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        connectionTypeName := rs.Primary.Attributes["connection_type_name"]
 
         client := testAccProvider.Meta().(*ArmClient).connectionTypeClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, connectionTypeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q) does not exist", connectionTypeName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Connection Type %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on connectionTypeClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMConnectionTypeDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        connectionTypeName := rs.Primary.Attributes["connection_type_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, connectionTypeName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on connectionTypeClient: %+v", err)
             }

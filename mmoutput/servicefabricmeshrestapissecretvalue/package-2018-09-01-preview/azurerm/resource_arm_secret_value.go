@@ -31,6 +31,13 @@ func resourceArmSecretValue() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmSecretValue() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "secret_resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "secret_value_resource_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -76,15 +76,15 @@ func resourceArmSecretValueCreateUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).secretValueClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     secretResourceName := d.Get("secret_resource_name").(string)
-    secretValueResourceName := d.Get("secret_value_resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, secretResourceName, secretValueResourceName)
+        existing, err := client.Get(ctx, resourceGroup, secretResourceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q): %+v", secretValueResourceName, secretResourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Secret Value %q (Secret Resource Name %q / Resource Group %q): %+v", name, secretResourceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -105,17 +105,17 @@ func resourceArmSecretValueCreateUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, secretResourceName, secretValueResourceName, secretValueResourceDescription); err != nil {
-        return fmt.Errorf("Error creating Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q): %+v", secretValueResourceName, secretResourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, secretResourceName, name, secretValueResourceDescription); err != nil {
+        return fmt.Errorf("Error creating Secret Value %q (Secret Resource Name %q / Resource Group %q): %+v", name, secretResourceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, secretResourceName, secretValueResourceName)
+    resp, err := client.Get(ctx, resourceGroup, secretResourceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q): %+v", secretValueResourceName, secretResourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Secret Value %q (Secret Resource Name %q / Resource Group %q): %+v", name, secretResourceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q) ID", secretValueResourceName, secretResourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Secret Value %q (Secret Resource Name %q / Resource Group %q) ID", name, secretResourceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -132,19 +132,20 @@ func resourceArmSecretValueRead(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     secretResourceName := id.Path["secrets"]
-    secretValueResourceName := id.Path["values"]
+    name := id.Path["values"]
 
-    resp, err := client.Get(ctx, resourceGroup, secretResourceName, secretValueResourceName)
+    resp, err := client.Get(ctx, resourceGroup, secretResourceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Secret Value %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q): %+v", secretValueResourceName, secretResourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Secret Value %q (Secret Resource Name %q / Resource Group %q): %+v", name, secretResourceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -155,7 +156,6 @@ func resourceArmSecretValueRead(d *schema.ResourceData, meta interface{}) error 
         d.Set("value", secretValueResourceProperties.Value)
     }
     d.Set("secret_resource_name", secretResourceName)
-    d.Set("secret_value_resource_name", secretValueResourceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -173,10 +173,10 @@ func resourceArmSecretValueDelete(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     secretResourceName := id.Path["secrets"]
-    secretValueResourceName := id.Path["values"]
+    name := id.Path["values"]
 
-    if _, err := client.Delete(ctx, resourceGroup, secretResourceName, secretValueResourceName); err != nil {
-        return fmt.Errorf("Error deleting Secret Value (Secret Value Resource Name %q / Secret Resource Name %q / Resource Group %q): %+v", secretValueResourceName, secretResourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, secretResourceName, name); err != nil {
+        return fmt.Errorf("Error deleting Secret Value %q (Secret Resource Name %q / Resource Group %q): %+v", name, secretResourceName, resourceGroup, err)
     }
 
     return nil

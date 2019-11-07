@@ -28,13 +28,13 @@ Manage Azure View instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the view. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `definition` - (Required) View definition.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
-
-* `view_name` - (Required) The name of the view. Changing this forces a new resource to be created.
 
 * `display_name` - (Optional) Localized display name for the view.
 

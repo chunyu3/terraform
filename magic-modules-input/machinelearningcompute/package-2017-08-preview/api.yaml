@@ -1,0 +1,36 @@
+--- !ruby/object:Api::Product
+name: Azure MachineLearningCompute Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: MachineLearningCompute
+    api_name: MachineLearningCompute
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.MachineLearningCompute
+      go_client_namespace: machinelearningcompute
+      go_client: machineLearningComputeClient
+      python_client_namespace: azure.mgmt.machinelearningcompute
+      python_client: MachineLearningComputeManagementClient.machine_learning_compute
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAvailableOperations
+        python_func_name: list_available_operations
+        request:
+
+    description: |
+      Manage Azure MachineLearningCompute instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'An array of available operations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

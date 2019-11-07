@@ -34,16 +34,16 @@ func testCheckAzureRMContentKeyPolicyExists(resourceName string) resource.TestCh
             return fmt.Errorf("Content Key Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        contentKeyPolicyName := rs.Primary.Attributes["content_key_policy_name"]
 
         client := testAccProvider.Meta().(*ArmClient).contentKeyPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, contentKeyPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Content Key Policy (Content Key Policy Name %q / Account Name %q / Resource Group %q) does not exist", contentKeyPolicyName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Content Key Policy %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on contentKeyPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMContentKeyPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        contentKeyPolicyName := rs.Primary.Attributes["content_key_policy_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, contentKeyPolicyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on contentKeyPoliciesClient: %+v", err)
             }

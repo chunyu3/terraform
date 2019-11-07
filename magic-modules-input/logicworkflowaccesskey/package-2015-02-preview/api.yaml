@@ -34,9 +34,9 @@ objects:
             python_variable_name: workflow_name
           'accessKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: accessKeys
-            go_variable_name: accessKeyName
+            go_variable_name: name
             python_parameter_name: access_key_name
-            python_variable_name: access_key_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: workflowAccesskey
             go_type_name: WorkflowAccessKey
@@ -77,9 +77,9 @@ objects:
             python_variable_name: workflow_name
           'accessKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: accessKeys
-            go_variable_name: accessKeyName
+            go_variable_name: name
             python_parameter_name: access_key_name
-            python_variable_name: access_key_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -96,9 +96,9 @@ objects:
             python_variable_name: workflow_name
           'accessKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: accessKeys
-            go_variable_name: accessKeyName
+            go_variable_name: name
             python_parameter_name: access_key_name
-            python_variable_name: access_key_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -156,7 +156,7 @@ objects:
         input: true
         azure_sdk_references: ['workflowName']
       - !ruby/object:Api::Type::String
-        name: 'accessKeyName'
+        name: 'name'
         description: 'The workflow access key name.'
         required: true
         input: true

@@ -4,7 +4,7 @@ task: !ruby/object:Provider::Ansible::Task
   description: Create a vm with ssh authentication.
   code:
     resource_group: myResourceGroup
-    vm_name: myVirtualMachine
+    name: myVirtualMachine
     location: westus
     hardware_profile:
       vm_size: Standard_D1_v2
@@ -28,7 +28,7 @@ task: !ruby/object:Provider::Ansible::Task
         ssh:
           public_keys:
             - path: '/home/{your-username}/.ssh/authorized_keys'
-              keyData: >-
+              key_data: >-
                 ssh-rsa
                 AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1
     network_profile:

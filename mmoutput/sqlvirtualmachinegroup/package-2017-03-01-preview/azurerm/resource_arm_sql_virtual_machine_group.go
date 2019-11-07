@@ -31,19 +31,19 @@ func resourceArmSqlVirtualMachineGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "sql_virtual_machine_group_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "sql_image_offer": {
                 Type: schema.TypeString,
@@ -136,14 +136,14 @@ func resourceArmSqlVirtualMachineGroupCreate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).sqlVirtualMachineGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    sqlVirtualMachineGroupName := d.Get("sql_virtual_machine_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -168,21 +168,21 @@ func resourceArmSqlVirtualMachineGroupCreate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, sqlVirtualMachineGroupName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error creating Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q) ID", sqlVirtualMachineGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Sql Virtual Machine Group %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -198,19 +198,20 @@ func resourceArmSqlVirtualMachineGroupRead(d *schema.ResourceData, meta interfac
         return err
     }
     resourceGroup := id.ResourceGroup
-    sqlVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
+    name := id.Path["sqlVirtualMachineGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Sql Virtual Machine Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -227,7 +228,6 @@ func resourceArmSqlVirtualMachineGroupRead(d *schema.ResourceData, meta interfac
             return fmt.Errorf("Error setting `wsfc_domain_profile`: %+v", err)
         }
     }
-    d.Set("sql_virtual_machine_group_name", sqlVirtualMachineGroupName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -237,10 +237,10 @@ func resourceArmSqlVirtualMachineGroupUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).sqlVirtualMachineGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     sqlImageOffer := d.Get("sql_image_offer").(string)
     sqlImageSku := d.Get("sql_image_sku").(string)
-    sqlVirtualMachineGroupName := d.Get("sql_virtual_machine_group_name").(string)
     wsfcDomainProfile := d.Get("wsfc_domain_profile").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -255,12 +255,12 @@ func resourceArmSqlVirtualMachineGroupUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, sqlVirtualMachineGroupName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error updating Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmSqlVirtualMachineGroupRead(d, meta)
@@ -276,19 +276,19 @@ func resourceArmSqlVirtualMachineGroupDelete(d *schema.ResourceData, meta interf
         return err
     }
     resourceGroup := id.ResourceGroup
-    sqlVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
+    name := id.Path["sqlVirtualMachineGroups"]
 
-    future, err := client.Delete(ctx, resourceGroup, sqlVirtualMachineGroupName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Sql Virtual Machine Group (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", sqlVirtualMachineGroupName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Sql Virtual Machine Group %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

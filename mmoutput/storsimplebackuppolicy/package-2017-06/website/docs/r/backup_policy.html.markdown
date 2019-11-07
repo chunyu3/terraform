@@ -28,13 +28,13 @@ Manage Azure BackupPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The manager name Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
 * `backup_policy_name` - (Required) The name of the backup policy to be created/updated. Changing this forces a new resource to be created.
 
 * `device_name` - (Required) The device name Changing this forces a new resource to be created.
-
-* `manager_name` - (Required) The manager name Changing this forces a new resource to be created.
 
 * `volume_ids` - (Required) The path IDs of the volumes which are part of the backup policy.
 

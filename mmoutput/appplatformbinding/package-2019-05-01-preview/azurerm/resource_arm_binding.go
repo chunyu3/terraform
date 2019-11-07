@@ -31,19 +31,19 @@ func resourceArmBinding() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "app_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "binding_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -110,16 +110,16 @@ func resourceArmBindingCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).bindingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     appName := d.Get("app_name").(string)
-    bindingName := d.Get("binding_name").(string)
     serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, appName, bindingName)
+        existing, err := client.Get(ctx, resourceGroup, serviceName, appName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q): %+v", bindingName, appName, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Binding %q (App Name %q / Service Name %q / Resource Group %q): %+v", name, appName, serviceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,17 +144,17 @@ func resourceArmBindingCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, appName, bindingName, bindingResource); err != nil {
-        return fmt.Errorf("Error creating Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q): %+v", bindingName, appName, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, appName, name, bindingResource); err != nil {
+        return fmt.Errorf("Error creating Binding %q (App Name %q / Service Name %q / Resource Group %q): %+v", name, appName, serviceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, appName, bindingName)
+    resp, err := client.Get(ctx, resourceGroup, serviceName, appName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q): %+v", bindingName, appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Binding %q (App Name %q / Service Name %q / Resource Group %q): %+v", name, appName, serviceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q) ID", bindingName, appName, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Binding %q (App Name %q / Service Name %q / Resource Group %q) ID", name, appName, serviceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -172,23 +172,23 @@ func resourceArmBindingRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     serviceName := id.Path["Spring"]
     appName := id.Path["apps"]
-    bindingName := id.Path["bindings"]
+    name := id.Path["bindings"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, appName, bindingName)
+    resp, err := client.Get(ctx, resourceGroup, serviceName, appName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Binding %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q): %+v", bindingName, appName, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Binding %q (App Name %q / Service Name %q / Resource Group %q): %+v", name, appName, serviceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("app_name", appName)
-    d.Set("binding_name", bindingName)
     if bindingResourceProperties := resp.BindingResourceProperties; bindingResourceProperties != nil {
         d.Set("binding_parameters", utils.FlattenKeyValuePairs(bindingResourceProperties.BindingParameters))
         d.Set("created_at", bindingResourceProperties.CreatedAt)
@@ -209,9 +209,9 @@ func resourceArmBindingUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).bindingsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     appName := d.Get("app_name").(string)
-    bindingName := d.Get("binding_name").(string)
     bindingParameters := d.Get("binding_parameters").(map[string]interface{})
     key := d.Get("key").(string)
     resourceId := d.Get("resource_id").(string)
@@ -230,8 +230,8 @@ func resourceArmBindingUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, appName, bindingName, bindingResource); err != nil {
-        return fmt.Errorf("Error updating Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q): %+v", bindingName, appName, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, serviceName, appName, name, bindingResource); err != nil {
+        return fmt.Errorf("Error updating Binding %q (App Name %q / Service Name %q / Resource Group %q): %+v", name, appName, serviceName, resourceGroup, err)
     }
 
     return resourceArmBindingRead(d, meta)
@@ -249,10 +249,10 @@ func resourceArmBindingDelete(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     serviceName := id.Path["Spring"]
     appName := id.Path["apps"]
-    bindingName := id.Path["bindings"]
+    name := id.Path["bindings"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, appName, bindingName); err != nil {
-        return fmt.Errorf("Error deleting Binding (Binding Name %q / App Name %q / Service Name %q / Resource Group %q): %+v", bindingName, appName, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serviceName, appName, name); err != nil {
+        return fmt.Errorf("Error deleting Binding %q (App Name %q / Service Name %q / Resource Group %q): %+v", name, appName, serviceName, resourceGroup, err)
     }
 
     return nil

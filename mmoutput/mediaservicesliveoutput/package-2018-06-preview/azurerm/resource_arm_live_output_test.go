@@ -34,17 +34,17 @@ func testCheckAzureRMLiveOutputExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Live Output not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         liveEventName := rs.Primary.Attributes["live_event_name"]
-        liveOutputName := rs.Primary.Attributes["live_output_name"]
 
         client := testAccProvider.Meta().(*ArmClient).liveOutputsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, liveOutputName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Live Output (Live Output Name %q / Live Event Name %q / Account Name %q / Resource Group %q) does not exist", liveOutputName, liveEventName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Live Output %q (Live Event Name %q / Account Name %q / Resource Group %q) does not exist", name, liveEventName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on liveOutputsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMLiveOutputDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         liveEventName := rs.Primary.Attributes["live_event_name"]
-        liveOutputName := rs.Primary.Attributes["live_output_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, liveOutputName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, liveEventName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on liveOutputsClient: %+v", err)
             }

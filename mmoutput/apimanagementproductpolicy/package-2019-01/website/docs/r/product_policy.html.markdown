@@ -28,13 +28,13 @@ Manage Azure ProductPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `policy_id` - (Required) The identifier of the Policy. Changing this forces a new resource to be created.
 
 * `product_id` - (Required) Product identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `value` - (Required) Contents of the Policy as defined by the format.
 

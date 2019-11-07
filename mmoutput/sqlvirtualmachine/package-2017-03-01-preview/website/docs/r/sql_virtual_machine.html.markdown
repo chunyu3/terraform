@@ -28,11 +28,11 @@ Manage Azure SqlVirtualMachine instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the SQL virtual machine. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
-
-* `sql_virtual_machine_name` - (Required) Name of the SQL virtual machine. Changing this forces a new resource to be created.
 
 * `auto_backup_settings` - (Optional) One `auto_backup_setting` block defined below.
 

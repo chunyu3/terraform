@@ -31,19 +31,19 @@ func resourceArmSyncGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "storage_sync_service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "sync_group_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -72,15 +72,15 @@ func resourceArmSyncGroupCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).syncGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     storageSyncServiceName := d.Get("storage_sync_service_name").(string)
-    syncGroupName := d.Get("sync_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName)
+        existing, err := client.Get(ctx, resourceGroup, storageSyncServiceName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Sync Group (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", syncGroupName, storageSyncServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Sync Group %q (Storage Sync Service Name %q / Resource Group %q): %+v", name, storageSyncServiceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -97,17 +97,17 @@ func resourceArmSyncGroupCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, storageSyncServiceName, syncGroupName, parameters); err != nil {
-        return fmt.Errorf("Error creating Sync Group (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", syncGroupName, storageSyncServiceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, storageSyncServiceName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Sync Group %q (Storage Sync Service Name %q / Resource Group %q): %+v", name, storageSyncServiceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName)
+    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Sync Group (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Sync Group %q (Storage Sync Service Name %q / Resource Group %q): %+v", name, storageSyncServiceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Sync Group (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q) ID", syncGroupName, storageSyncServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Sync Group %q (Storage Sync Service Name %q / Resource Group %q) ID", name, storageSyncServiceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -124,23 +124,23 @@ func resourceArmSyncGroupRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     storageSyncServiceName := id.Path["storageSyncServices"]
-    syncGroupName := id.Path["syncGroups"]
+    name := id.Path["syncGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, syncGroupName)
+    resp, err := client.Get(ctx, resourceGroup, storageSyncServiceName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Sync Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Sync Group (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", syncGroupName, storageSyncServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Sync Group %q (Storage Sync Service Name %q / Resource Group %q): %+v", name, storageSyncServiceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("storage_sync_service_name", storageSyncServiceName)
-    d.Set("sync_group_name", syncGroupName)
     if syncGroupProperties := resp.SyncGroupProperties; syncGroupProperties != nil {
         d.Set("sync_group_status", syncGroupProperties.SyncGroupStatus)
         d.Set("unique_id", syncGroupProperties.UniqueID)
@@ -162,10 +162,10 @@ func resourceArmSyncGroupDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     storageSyncServiceName := id.Path["storageSyncServices"]
-    syncGroupName := id.Path["syncGroups"]
+    name := id.Path["syncGroups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, storageSyncServiceName, syncGroupName); err != nil {
-        return fmt.Errorf("Error deleting Sync Group (Sync Group Name %q / Storage Sync Service Name %q / Resource Group %q): %+v", syncGroupName, storageSyncServiceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, storageSyncServiceName, name); err != nil {
+        return fmt.Errorf("Error deleting Sync Group %q (Storage Sync Service Name %q / Resource Group %q): %+v", name, storageSyncServiceName, resourceGroup, err)
     }
 
     return nil

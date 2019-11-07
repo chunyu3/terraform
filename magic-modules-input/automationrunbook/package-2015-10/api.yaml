@@ -34,9 +34,9 @@ objects:
             python_variable_name: automation_account_name
           'runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: runbooks
-            go_variable_name: runbookName
+            go_variable_name: name
             python_parameter_name: runbook_name
-            python_variable_name: runbook_name
+            python_variable_name: name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -53,9 +53,9 @@ objects:
             python_variable_name: automation_account_name
           'runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: runbooks
-            go_variable_name: runbookName
+            go_variable_name: name
             python_parameter_name: runbook_name
-            python_variable_name: runbook_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -72,9 +72,9 @@ objects:
             python_variable_name: automation_account_name
           'runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: runbooks
-            go_variable_name: runbookName
+            go_variable_name: name
             python_parameter_name: runbook_name
-            python_variable_name: runbook_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -91,9 +91,9 @@ objects:
             python_variable_name: automation_account_name
           'runbookName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: runbooks
-            go_variable_name: runbookName
+            go_variable_name: name
             python_parameter_name: runbook_name
-            python_variable_name: runbook_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -342,7 +342,7 @@ objects:
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'runbookName'
+        name: 'name'
         description: 'The runbook name.'
         required: true
         input: true

@@ -31,19 +31,19 @@ func resourceArmProject() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "project_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "customer_workspace_id": {
                 Type: schema.TypeString,
@@ -125,14 +125,14 @@ func resourceArmProjectCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).projectsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    projectName := d.Get("project_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, projectName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Project %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -157,17 +157,17 @@ func resourceArmProjectCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, projectName, project); err != nil {
-        return fmt.Errorf("Error creating Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, project); err != nil {
+        return fmt.Errorf("Error creating Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, projectName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Project (Project Name %q / Resource Group %q) ID", projectName, resourceGroup)
+        return fmt.Errorf("Cannot read Project %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -183,19 +183,20 @@ func resourceArmProjectRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    projectName := id.Path["projects"]
+    name := id.Path["projects"]
 
-    resp, err := client.Get(ctx, resourceGroup, projectName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Project %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+        return fmt.Errorf("Error reading Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -216,7 +217,6 @@ func resourceArmProjectRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("updated_timestamp", (projectProperties.UpdatedTimestamp).String())
     }
     d.Set("e_tag", resp.ETag)
-    d.Set("project_name", projectName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -226,11 +226,11 @@ func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).projectsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     customerWorkspaceId := d.Get("customer_workspace_id").(string)
     customerWorkspaceLocation := d.Get("customer_workspace_location").(string)
     eTag := d.Get("e_tag").(string)
-    projectName := d.Get("project_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     project := azuremigrate.Project{
@@ -244,8 +244,8 @@ func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, projectName, project); err != nil {
-        return fmt.Errorf("Error updating Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, project); err != nil {
+        return fmt.Errorf("Error updating Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmProjectRead(d, meta)
@@ -261,10 +261,10 @@ func resourceArmProjectDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.Path["resourcegroups"]
-    projectName := id.Path["projects"]
+    name := id.Path["projects"]
 
-    if _, err := client.Delete(ctx, resourceGroup, projectName); err != nil {
-        return fmt.Errorf("Error deleting Project (Project Name %q / Resource Group %q): %+v", projectName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Project %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

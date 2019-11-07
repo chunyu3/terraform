@@ -31,19 +31,19 @@ func resourceArmFrontDoor() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "front_door_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "backend_pools": {
                 Type: schema.TypeList,
@@ -467,14 +467,14 @@ func resourceArmFrontDoorCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).frontDoorsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    frontDoorName := d.Get("front_door_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, frontDoorName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -509,21 +509,21 @@ func resourceArmFrontDoorCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, frontDoorName, frontDoorParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, frontDoorParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+        return fmt.Errorf("Error creating Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, frontDoorName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Front Door (Front Door Name %q / Resource Group %q) ID", frontDoorName, resourceGroup)
+        return fmt.Errorf("Cannot read Front Door %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -539,19 +539,20 @@ func resourceArmFrontDoorRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    frontDoorName := id.Path["frontDoors"]
+    name := id.Path["frontDoors"]
 
-    resp, err := client.Get(ctx, resourceGroup, frontDoorName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Front Door %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+        return fmt.Errorf("Error reading Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -579,7 +580,6 @@ func resourceArmFrontDoorRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `routing_rules`: %+v", err)
         }
     }
-    d.Set("front_door_name", frontDoorName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -596,19 +596,19 @@ func resourceArmFrontDoorDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    frontDoorName := id.Path["frontDoors"]
+    name := id.Path["frontDoors"]
 
-    future, err := client.Delete(ctx, resourceGroup, frontDoorName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Front Door (Front Door Name %q / Resource Group %q): %+v", frontDoorName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Front Door %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

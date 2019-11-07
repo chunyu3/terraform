@@ -31,6 +31,13 @@ func resourceArmJobStep() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -88,13 +95,6 @@ func resourceArmJobStep() *schema.Resource {
             },
 
             "server_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "step_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -201,17 +201,17 @@ func resourceArmJobStepCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).jobStepsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     jobAgentName := d.Get("job_agent_name").(string)
     jobName := d.Get("job_name").(string)
     serverName := d.Get("server_name").(string)
-    stepName := d.Get("step_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", stepName, jobName, jobAgentName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobName, jobAgentName, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -238,17 +238,17 @@ func resourceArmJobStepCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName, parameters); err != nil {
-        return fmt.Errorf("Error creating Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", stepName, jobName, jobAgentName, serverName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, jobName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobName, jobAgentName, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", stepName, jobName, jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobName, jobAgentName, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) ID", stepName, jobName, jobAgentName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) ID", name, jobName, jobAgentName, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -267,19 +267,20 @@ func resourceArmJobStepRead(d *schema.ResourceData, meta interface{}) error {
     serverName := id.Path["servers"]
     jobAgentName := id.Path["jobAgents"]
     jobName := id.Path["jobs"]
-    stepName := id.Path["steps"]
+    name := id.Path["steps"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job Step %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", stepName, jobName, jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobName, jobAgentName, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if jobStepProperties := resp.JobStepProperties; jobStepProperties != nil {
@@ -299,7 +300,6 @@ func resourceArmJobStepRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("job_agent_name", jobAgentName)
     d.Set("job_name", jobName)
     d.Set("server_name", serverName)
-    d.Set("step_name", stepName)
     d.Set("type", resp.Type)
 
     return nil
@@ -319,10 +319,10 @@ func resourceArmJobStepDelete(d *schema.ResourceData, meta interface{}) error {
     serverName := id.Path["servers"]
     jobAgentName := id.Path["jobAgents"]
     jobName := id.Path["jobs"]
-    stepName := id.Path["steps"]
+    name := id.Path["steps"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName); err != nil {
-        return fmt.Errorf("Error deleting Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", stepName, jobName, jobAgentName, serverName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName, jobName, name); err != nil {
+        return fmt.Errorf("Error deleting Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobName, jobAgentName, serverName, resourceGroup, err)
     }
 
     return nil

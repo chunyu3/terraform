@@ -28,9 +28,9 @@ Manage Azure Group instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
+* `name` - (Required) Unique name of a group within a project. Changing this forces a new resource to be created.
 
-* `group_name` - (Required) Unique name of a group within a project. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the Azure Resource Group that project is part of. Changing this forces a new resource to be created.
 
 * `machines` - (Required) List of machine names that are part of this group.
 

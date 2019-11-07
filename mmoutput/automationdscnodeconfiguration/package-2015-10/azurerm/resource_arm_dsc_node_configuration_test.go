@@ -34,16 +34,16 @@ func testCheckAzureRMDscNodeConfigurationExists(resourceName string) resource.Te
             return fmt.Errorf("Dsc Node Configuration not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        nodeConfigurationName := rs.Primary.Attributes["node_configuration_name"]
 
         client := testAccProvider.Meta().(*ArmClient).dscNodeConfigurationClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, nodeConfigurationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Dsc Node Configuration (Node Configuration Name %q / Automation Account Name %q / Resource Group %q) does not exist", nodeConfigurationName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Dsc Node Configuration %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on dscNodeConfigurationClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMDscNodeConfigurationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        nodeConfigurationName := rs.Primary.Attributes["node_configuration_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, nodeConfigurationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on dscNodeConfigurationClient: %+v", err)
             }

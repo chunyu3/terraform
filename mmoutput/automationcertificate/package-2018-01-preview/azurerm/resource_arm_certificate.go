@@ -36,6 +36,13 @@ func resourceArmCertificate() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "name": {
+                Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "automation_account_name": {
@@ -48,13 +55,6 @@ func resourceArmCertificate() *schema.Resource {
             "base64value": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "certificate_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -100,15 +100,15 @@ func resourceArmCertificateCreate(d *schema.ResourceData, meta interface{}) erro
     client := meta.(*ArmClient).certificateClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    certificateName := d.Get("certificate_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, certificateName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q): %+v", certificateName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Certificate %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -133,17 +133,17 @@ func resourceArmCertificateCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, certificateName, parameters); err != nil {
-        return fmt.Errorf("Error creating Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q): %+v", certificateName, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Certificate %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, certificateName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q): %+v", certificateName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Certificate %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q) ID", certificateName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Certificate %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -160,23 +160,23 @@ func resourceArmCertificateRead(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    certificateName := id.Path["certificates"]
+    name := id.Path["certificates"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, certificateName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Certificate %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q): %+v", certificateName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Certificate %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    d.Set("certificate_name", certificateName)
     if certificateCreateOrUpdateProperties := resp.CertificateCreateOrUpdateProperties; certificateCreateOrUpdateProperties != nil {
         d.Set("creation_time", (certificateCreateOrUpdateProperties.CreationTime).String())
         d.Set("description", certificateCreateOrUpdateProperties.Description)
@@ -195,10 +195,10 @@ func resourceArmCertificateUpdate(d *schema.ResourceData, meta interface{}) erro
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     base64value := d.Get("base64value").(string)
-    certificateName := d.Get("certificate_name").(string)
     description := d.Get("description").(string)
     isExportable := d.Get("is_exportable").(bool)
     thumbprint := d.Get("thumbprint").(string)
@@ -214,8 +214,8 @@ func resourceArmCertificateUpdate(d *schema.ResourceData, meta interface{}) erro
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, automationAccountName, certificateName, parameters); err != nil {
-        return fmt.Errorf("Error updating Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q): %+v", certificateName, automationAccountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Certificate %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return resourceArmCertificateRead(d, meta)
@@ -232,10 +232,10 @@ func resourceArmCertificateDelete(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    certificateName := id.Path["certificates"]
+    name := id.Path["certificates"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, certificateName); err != nil {
-        return fmt.Errorf("Error deleting Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q): %+v", certificateName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Certificate %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil

@@ -28,11 +28,11 @@ Manage Azure ExpressRouteCircuitPeering instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the peering. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `circuit_name` - (Required) The name of the express route circuit. Changing this forces a new resource to be created.
-
-* `peering_name` - (Required) The name of the peering. Changing this forces a new resource to be created.
 
 * `id` - (Optional) Resource Id Changing this forces a new resource to be created.
 

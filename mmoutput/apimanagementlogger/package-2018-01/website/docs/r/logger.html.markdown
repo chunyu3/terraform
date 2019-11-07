@@ -28,6 +28,8 @@ Manage Azure Logger instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `credentials` - (Required) The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `logger_type` - (Required) Logger type.
 
 * `loggerid` - (Required) Logger identifier. Must be unique in the API Management service instance. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Logger description.
 

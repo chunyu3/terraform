@@ -34,15 +34,15 @@ func testCheckAzureRMFrontDoorExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Front Door not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        frontDoorName := rs.Primary.Attributes["front_door_name"]
 
         client := testAccProvider.Meta().(*ArmClient).frontDoorsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, frontDoorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Front Door (Front Door Name %q / Resource Group %q) does not exist", frontDoorName, resourceGroup)
+                return fmt.Errorf("Bad: Front Door %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on frontDoorsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMFrontDoorDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        frontDoorName := rs.Primary.Attributes["front_door_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, frontDoorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on frontDoorsClient: %+v", err)
             }

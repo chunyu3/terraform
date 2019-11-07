@@ -35,17 +35,17 @@ func testCheckAzureRMServiceFabricScheduleExists(resourceName string) resource.T
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labName := rs.Primary.Attributes["lab_name"]
-        serviceFabricName := rs.Primary.Attributes["service_fabric_name"]
         userName := rs.Primary.Attributes["user_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serviceFabricSchedulesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, labName, userName, serviceFabricName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labName, userName, name, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q) does not exist", name, serviceFabricName, userName, labName, resourceGroup)
+                return fmt.Errorf("Bad: Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q) does not exist", name, userName, labName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serviceFabricSchedulesClient: %+v", err)
         }
@@ -64,12 +64,12 @@ func testCheckAzureRMServiceFabricScheduleDestroy(s *terraform.State) error {
         }
 
         name := rs.Primary.Attributes["name"]
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         labName := rs.Primary.Attributes["lab_name"]
-        serviceFabricName := rs.Primary.Attributes["service_fabric_name"]
         userName := rs.Primary.Attributes["user_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, labName, userName, serviceFabricName, name); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, labName, userName, name, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serviceFabricSchedulesClient: %+v", err)
             }

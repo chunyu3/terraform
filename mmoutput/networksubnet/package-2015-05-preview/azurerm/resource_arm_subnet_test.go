@@ -34,16 +34,16 @@ func testCheckAzureRMSubnetExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Subnet not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        subnetName := rs.Primary.Attributes["subnet_name"]
         virtualNetworkName := rs.Primary.Attributes["virtual_network_name"]
 
         client := testAccProvider.Meta().(*ArmClient).subnetsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, subnetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q) does not exist", subnetName, virtualNetworkName, resourceGroup)
+                return fmt.Errorf("Bad: Subnet %q (Virtual Network Name %q / Resource Group %q) does not exist", name, virtualNetworkName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on subnetsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSubnetDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        subnetName := rs.Primary.Attributes["subnet_name"]
         virtualNetworkName := rs.Primary.Attributes["virtual_network_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, subnetName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on subnetsClient: %+v", err)
             }

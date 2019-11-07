@@ -31,6 +31,13 @@ func resourceArmBot() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -53,13 +60,6 @@ func resourceArmBot() *schema.Resource {
             "msa_app_id": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -173,14 +173,14 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).botsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Bot (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Bot %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -225,17 +225,17 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, resourceName, parameters); err != nil {
-        return fmt.Errorf("Error creating Bot (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Bot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Bot (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Bot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Bot (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Bot %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -251,19 +251,20 @@ func resourceArmBotRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["botServices"]
+    name := id.Path["botServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Bot %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Bot (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Bot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -286,7 +287,6 @@ func resourceArmBotRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("etag", resp.Etag)
     d.Set("kind", string(resp.Kind))
-    d.Set("resource_name", resourceName)
     if err := d.Set("sku", flattenArmBotSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
     }
@@ -299,6 +299,7 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).botsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     developerAppInsightKey := d.Get("developer_app_insight_key").(string)
@@ -312,7 +313,6 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     luisAppIds := d.Get("luis_app_ids").([]interface{})
     luisKey := d.Get("luis_key").(string)
     msaAppId := d.Get("msa_app_id").(string)
-    resourceName := d.Get("resource_name").(string)
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -337,8 +337,8 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, resourceName, parameters); err != nil {
-        return fmt.Errorf("Error updating Bot (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Bot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmBotRead(d, meta)
@@ -354,10 +354,10 @@ func resourceArmBotDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["botServices"]
+    name := id.Path["botServices"]
 
-    if _, err := client.Delete(ctx, resourceGroup, resourceName); err != nil {
-        return fmt.Errorf("Error deleting Bot (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Bot %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

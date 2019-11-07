@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: solutionName
+            go_variable_name: name
             python_parameter_name: solution_name
-            python_variable_name: solution_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: iotSecuritySolutionData
             go_type_name: IoTSecuritySolutionModel
@@ -124,6 +124,13 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_enum_type_name: RecommendationConfigStatus
+          '/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: unmasked_ip_logging_status
+          '/properties/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UnmaskedIpLoggingStatus
+            go_enum_type_name: UnmaskedIpLoggingStatus
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -135,9 +142,9 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: solutionName
+            go_variable_name: name
             python_parameter_name: solution_name
-            python_variable_name: solution_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -149,9 +156,9 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: solutionName
+            go_variable_name: name
             python_parameter_name: solution_name
-            python_variable_name: solution_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -163,9 +170,9 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: solutionName
+            go_variable_name: name
             python_parameter_name: solution_name
-            python_variable_name: solution_name
+            python_variable_name: name
         response:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
@@ -260,6 +267,13 @@ objects:
           '/recommendationsConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: name
+          '/properties/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UnmaskedIpLoggingStatus
+            go_enum_type_name: UnmaskedIpLoggingStatus
+          '/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: unmasked_ip_logging_status
           '/properties/autoDiscoveredResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: AutoDiscoveredResources
@@ -299,7 +313,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'solutionName'
+        name: 'name'
         description: 'The name of the IoT Security solution.'
         required: true
         input: true
@@ -417,6 +431,15 @@ objects:
               values:
                 - :Disabled
                 - :Enabled
+      - !ruby/object:Api::Type::Enum
+        name: 'unmaskedIpLoggingStatus'
+        description: 'Unmasked IP address logging status'
+        required: false
+        azure_sdk_references: ['/unmaskedIpLoggingStatus', '/properties/unmaskedIpLoggingStatus']
+        values:
+          - :Disabled
+          - :Enabled
+        default_value: :Disabled
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'autoDiscoveredResources'

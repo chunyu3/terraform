@@ -34,16 +34,16 @@ func testCheckAzureRMStorageAccountCredentialExists(resourceName string) resourc
             return fmt.Errorf("Storage Account Credential not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         credentialName := rs.Primary.Attributes["credential_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).storageAccountCredentialsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, credentialName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, credentialName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Storage Account Credential (Manager Name %q / Resource Group %q / Credential Name %q) does not exist", managerName, resourceGroup, credentialName)
+                return fmt.Errorf("Bad: Storage Account Credential %q (Resource Group %q / Credential Name %q) does not exist", name, resourceGroup, credentialName)
             }
             return fmt.Errorf("Bad: Get on storageAccountCredentialsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStorageAccountCredentialDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         credentialName := rs.Primary.Attributes["credential_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, credentialName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, credentialName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on storageAccountCredentialsClient: %+v", err)
             }

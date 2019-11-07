@@ -31,6 +31,13 @@ func resourceArmSubnet() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -40,13 +47,6 @@ func resourceArmSubnet() *schema.Resource {
             "address_prefix": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "subnet_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -116,15 +116,15 @@ func resourceArmSubnetCreateUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).subnetsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    subnetName := d.Get("subnet_name").(string)
     virtualNetworkName := d.Get("virtual_network_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, virtualNetworkName, subnetName)
+        existing, err := client.Get(ctx, resourceGroup, virtualNetworkName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -153,21 +153,21 @@ func resourceArmSubnetCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, virtualNetworkName, subnetName, subnetParameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, virtualNetworkName, name, subnetParameters)
     if err != nil {
-        return fmt.Errorf("Error creating Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error creating Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, subnetName)
+    resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q) ID", subnetName, virtualNetworkName, resourceGroup)
+        return fmt.Errorf("Cannot read Subnet %q (Virtual Network Name %q / Resource Group %q) ID", name, virtualNetworkName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -184,19 +184,20 @@ func resourceArmSubnetRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     virtualNetworkName := id.Path["virtualnetworks"]
-    subnetName := id.Path["subnets"]
+    name := id.Path["subnets"]
 
-    resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, subnetName)
+    resp, err := client.Get(ctx, resourceGroup, virtualNetworkName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Subnet %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error reading Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if subnetPropertiesFormat := resp.SubnetPropertiesFormat; subnetPropertiesFormat != nil {
@@ -213,7 +214,6 @@ func resourceArmSubnetRead(d *schema.ResourceData, meta interface{}) error {
         }
     }
     d.Set("etag", resp.Etag)
-    d.Set("subnet_name", subnetName)
     d.Set("virtual_network_name", virtualNetworkName)
 
     return nil
@@ -231,19 +231,19 @@ func resourceArmSubnetDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     virtualNetworkName := id.Path["virtualnetworks"]
-    subnetName := id.Path["subnets"]
+    name := id.Path["subnets"]
 
-    future, err := client.Delete(ctx, resourceGroup, virtualNetworkName, subnetName)
+    future, err := client.Delete(ctx, resourceGroup, virtualNetworkName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Subnet (Subnet Name %q / Virtual Network Name %q / Resource Group %q): %+v", subnetName, virtualNetworkName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Subnet %q (Virtual Network Name %q / Resource Group %q): %+v", name, virtualNetworkName, resourceGroup, err)
         }
     }
 

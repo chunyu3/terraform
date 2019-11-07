@@ -34,18 +34,18 @@ func testCheckAzureRMFileShareExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("File Share not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
         fileServerName := rs.Primary.Attributes["file_server_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
         shareName := rs.Primary.Attributes["share_name"]
 
         client := testAccProvider.Meta().(*ArmClient).fileSharesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: File Share (Manager Name %q / Resource Group %q / Share Name %q / File Server Name %q / Device Name %q) does not exist", managerName, resourceGroup, shareName, fileServerName, deviceName)
+                return fmt.Errorf("Bad: File Share %q (Resource Group %q / Share Name %q / File Server Name %q / Device Name %q) does not exist", name, resourceGroup, shareName, fileServerName, deviceName)
             }
             return fmt.Errorf("Bad: Get on fileSharesClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMFileShareDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
         fileServerName := rs.Primary.Attributes["file_server_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
         shareName := rs.Primary.Attributes["share_name"]
 
-        if resp, err := client.Get(ctx, deviceName, fileServerName, shareName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName, shareName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on fileSharesClient: %+v", err)
             }

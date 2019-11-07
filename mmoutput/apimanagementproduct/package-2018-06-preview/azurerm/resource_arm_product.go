@@ -31,6 +31,13 @@ func resourceArmProduct() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -43,13 +50,6 @@ func resourceArmProduct() *schema.Resource {
             },
 
             "product_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -103,15 +103,15 @@ func resourceArmProductCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).productClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     productID := d.Get("product_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, productID)
+        existing, err := client.Get(ctx, resourceGroup, name, productID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Product (Product %q / Service Name %q / Resource Group %q): %+v", productID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Product %q (Product %q / Resource Group %q): %+v", name, productID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -140,17 +140,17 @@ func resourceArmProductCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, productID, parameters); err != nil {
-        return fmt.Errorf("Error creating Product (Product %q / Service Name %q / Resource Group %q): %+v", productID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, productID, parameters); err != nil {
+        return fmt.Errorf("Error creating Product %q (Product %q / Resource Group %q): %+v", name, productID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, productID)
+    resp, err := client.Get(ctx, resourceGroup, name, productID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Product (Product %q / Service Name %q / Resource Group %q): %+v", productID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Product %q (Product %q / Resource Group %q): %+v", name, productID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Product (Product %q / Service Name %q / Resource Group %q) ID", productID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Product %q (Product %q / Resource Group %q) ID", name, productID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -166,20 +166,21 @@ func resourceArmProductRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     productID := id.Path["products"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, productID)
+    resp, err := client.Get(ctx, resourceGroup, name, productID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Product %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Product (Product %q / Service Name %q / Resource Group %q): %+v", productID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Product %q (Product %q / Resource Group %q): %+v", name, productID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if productContractProperties := resp.ProductContractProperties; productContractProperties != nil {
@@ -192,7 +193,6 @@ func resourceArmProductRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("terms", productContractProperties.Terms)
     }
     d.Set("product_id", productID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -202,12 +202,12 @@ func resourceArmProductUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).productClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     approvalRequired := d.Get("approval_required").(bool)
     description := d.Get("description").(string)
     displayName := d.Get("display_name").(string)
     productID := d.Get("product_id").(string)
-    serviceName := d.Get("service_name").(string)
     state := d.Get("state").(string)
     subscriptionRequired := d.Get("subscription_required").(bool)
     subscriptionsLimit := d.Get("subscriptions_limit").(int)
@@ -226,8 +226,8 @@ func resourceArmProductUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, productID, parameters); err != nil {
-        return fmt.Errorf("Error updating Product (Product %q / Service Name %q / Resource Group %q): %+v", productID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, productID, parameters); err != nil {
+        return fmt.Errorf("Error updating Product %q (Product %q / Resource Group %q): %+v", name, productID, resourceGroup, err)
     }
 
     return resourceArmProductRead(d, meta)
@@ -243,11 +243,11 @@ func resourceArmProductDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     productID := id.Path["products"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, productID); err != nil {
-        return fmt.Errorf("Error deleting Product (Product %q / Service Name %q / Resource Group %q): %+v", productID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, productID); err != nil {
+        return fmt.Errorf("Error deleting Product %q (Product %q / Resource Group %q): %+v", name, productID, resourceGroup, err)
     }
 
     return nil

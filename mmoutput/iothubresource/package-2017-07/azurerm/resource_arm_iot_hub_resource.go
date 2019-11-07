@@ -31,19 +31,19 @@ func resourceArmIotHubResource() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "resourcegroup": {
                 Type: schema.TypeString,
@@ -489,14 +489,14 @@ func resourceArmIotHubResourceCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).iotHubResourceClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -545,21 +545,21 @@ func resourceArmIotHubResourceCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, resourceName, iotHubDescription)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, iotHubDescription)
     if err != nil {
-        return fmt.Errorf("Error creating Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Iot Hub Resource (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Iot Hub Resource %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -575,19 +575,20 @@ func resourceArmIotHubResourceRead(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["IotHubs"]
+    name := id.Path["IotHubs"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Iot Hub Resource %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -619,7 +620,6 @@ func resourceArmIotHubResourceRead(d *schema.ResourceData, meta interface{}) err
         d.Set("storage_endpoints", utils.FlattenKeyValuePairs(properties.StorageEndpoints))
     }
     d.Set("etag", resp.Etag)
-    d.Set("resource_name", resourceName)
     d.Set("resourcegroup", resp.Resourcegroup)
     if err := d.Set("sku", flattenArmIotHubResourceSkuInfo(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
@@ -641,19 +641,19 @@ func resourceArmIotHubResourceDelete(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["IotHubs"]
+    name := id.Path["IotHubs"]
 
-    future, err := client.Delete(ctx, resourceGroup, resourceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Iot Hub Resource (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Iot Hub Resource %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

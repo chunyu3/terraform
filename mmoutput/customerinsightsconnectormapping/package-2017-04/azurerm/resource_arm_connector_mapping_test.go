@@ -34,17 +34,17 @@ func testCheckAzureRMConnectorMappingExists(resourceName string) resource.TestCh
             return fmt.Errorf("Connector Mapping not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         connectorName := rs.Primary.Attributes["connector_name"]
         hubName := rs.Primary.Attributes["hub_name"]
-        mappingName := rs.Primary.Attributes["mapping_name"]
 
         client := testAccProvider.Meta().(*ArmClient).connectorMappingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, mappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Connector Mapping (Mapping Name %q / Connector Name %q / Hub Name %q / Resource Group %q) does not exist", mappingName, connectorName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: Connector Mapping %q (Connector Name %q / Hub Name %q / Resource Group %q) does not exist", name, connectorName, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on connectorMappingsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMConnectorMappingDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         connectorName := rs.Primary.Attributes["connector_name"]
         hubName := rs.Primary.Attributes["hub_name"]
-        mappingName := rs.Primary.Attributes["mapping_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, mappingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, connectorName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on connectorMappingsClient: %+v", err)
             }

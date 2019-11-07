@@ -28,11 +28,11 @@ Manage Azure Link instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the link. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
-
-* `link_name` - (Required) The name of the link. Changing this forces a new resource to be created.
 
 * `participant_property_references` - (Required) One or more `participant_property_reference` block defined below.
 

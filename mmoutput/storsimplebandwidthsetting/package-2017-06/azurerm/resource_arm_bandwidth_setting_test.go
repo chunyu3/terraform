@@ -34,16 +34,16 @@ func testCheckAzureRMBandwidthSettingExists(resourceName string) resource.TestCh
             return fmt.Errorf("Bandwidth Setting not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         bandwidthSettingName := rs.Primary.Attributes["bandwidth_setting_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).bandwidthSettingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, bandwidthSettingName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, bandwidthSettingName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Bandwidth Setting (Manager Name %q / Resource Group %q / Bandwidth Setting Name %q) does not exist", managerName, resourceGroup, bandwidthSettingName)
+                return fmt.Errorf("Bad: Bandwidth Setting %q (Resource Group %q / Bandwidth Setting Name %q) does not exist", name, resourceGroup, bandwidthSettingName)
             }
             return fmt.Errorf("Bad: Get on bandwidthSettingsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMBandwidthSettingDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         bandwidthSettingName := rs.Primary.Attributes["bandwidth_setting_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, bandwidthSettingName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, bandwidthSettingName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on bandwidthSettingsClient: %+v", err)
             }

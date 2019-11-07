@@ -28,11 +28,11 @@ Manage Azure InstancePool instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the instance pool to be created or updated. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
-
-* `instance_pool_name` - (Required) The name of the instance pool to be created or updated. Changing this forces a new resource to be created.
 
 * `license_type` - (Required) The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price).
 

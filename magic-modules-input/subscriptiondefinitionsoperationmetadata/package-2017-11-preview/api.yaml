@@ -1,0 +1,37 @@
+--- !ruby/object:Api::Product
+name: Azure SubscriptionDefinitionsOperationMetadata Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SubscriptionDefinitionsOperationMetadata
+    api_name: Subscription
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Subscription
+      go_client_namespace: subscription
+      go_client: subscriptionDefinitionsOperationMetadataClient
+      python_client_namespace: azure.mgmt.subscription
+      python_client: SubscriptionDefinitionsClient.subscription_definitions_operation_metadata
+
+    description: |
+      Manage Azure SubscriptionDefinitionsOperationMetadata instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'List of operations.'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'URL to get the next set of operation list results if there are any.'
+        output: true
+        azure_sdk_references: ['/nextLink']

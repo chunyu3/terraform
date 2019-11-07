@@ -28,11 +28,11 @@ Manage Azure Image instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the image. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `image_name` - (Required) The name of the image. Changing this forces a new resource to be created.
 
 * `source_virtual_machine` - (Optional) One `source_virtual_machine` block defined below.
 

@@ -34,9 +34,9 @@ objects:
             python_variable_name: account_name
           'streamingLocatorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: streamingLocators
-            go_variable_name: streamingLocatorName
+            go_variable_name: name
             python_parameter_name: streaming_locator_name
-            python_variable_name: streaming_locator_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: StreamingLocator
@@ -135,9 +135,9 @@ objects:
             python_variable_name: account_name
           'streamingLocatorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: streamingLocators
-            go_variable_name: streamingLocatorName
+            go_variable_name: name
             python_parameter_name: streaming_locator_name
-            python_variable_name: streaming_locator_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -154,9 +154,9 @@ objects:
             python_variable_name: account_name
           'streamingLocatorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: streamingLocators
-            go_variable_name: streamingLocatorName
+            go_variable_name: name
             python_parameter_name: streaming_locator_name
-            python_variable_name: streaming_locator_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -222,6 +222,21 @@ objects:
             applicable_to: [go]
             go_field_name: Tracks
             go_type_name: TrackSelection
+          '/properties/contentKeys/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/contentKeys/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/contentKeys/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/contentKeys/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
           '/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: content_keys
@@ -243,6 +258,18 @@ objects:
           '/contentKeys/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: tracks
+          '/contentKeys/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/contentKeys/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/contentKeys/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/contentKeys/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
           '/properties/alternativeMediaId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: AlternativeMediaID
@@ -301,7 +328,7 @@ objects:
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
-        name: 'streamingLocatorName'
+        name: 'name'
         description: 'The Streaming Locator name.'
         required: true
         input: true

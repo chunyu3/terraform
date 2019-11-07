@@ -34,16 +34,16 @@ func testCheckAzureRMServerKeyExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Server Key not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        keyName := rs.Primary.Attributes["key_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
         client := testAccProvider.Meta().(*ArmClient).serverKeysClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, keyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Server Key (Key Name %q / Server Name %q / Resource Group %q) does not exist", keyName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Server Key %q (Server Name %q / Resource Group %q) does not exist", name, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on serverKeysClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMServerKeyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        keyName := rs.Primary.Attributes["key_name"]
         serverName := rs.Primary.Attributes["server_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, keyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on serverKeysClient: %+v", err)
             }

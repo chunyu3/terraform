@@ -31,19 +31,19 @@ func resourceArmVMwareCollector() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "project_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "vm_ware_collector_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -122,15 +122,15 @@ func resourceArmVMwareCollectorCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).vMwareCollectorsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     projectName := d.Get("project_name").(string)
-    vmWareCollectorName := d.Get("vm_ware_collector_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, projectName, vmWareCollectorName)
+        existing, err := client.Get(ctx, resourceGroup, projectName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q): %+v", vmWareCollectorName, projectName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing V Mware Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -151,17 +151,17 @@ func resourceArmVMwareCollectorCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, projectName, vmWareCollectorName, collectorBody); err != nil {
-        return fmt.Errorf("Error creating V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q): %+v", vmWareCollectorName, projectName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, projectName, name, collectorBody); err != nil {
+        return fmt.Errorf("Error creating V Mware Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, projectName, vmWareCollectorName)
+    resp, err := client.Get(ctx, resourceGroup, projectName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q): %+v", vmWareCollectorName, projectName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving V Mware Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q) ID", vmWareCollectorName, projectName, resourceGroup)
+        return fmt.Errorf("Cannot read V Mware Collector %q (Project Name %q / Resource Group %q) ID", name, projectName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -178,19 +178,20 @@ func resourceArmVMwareCollectorRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     projectName := id.Path["assessmentProjects"]
-    vmWareCollectorName := id.Path["vmwarecollectors"]
+    name := id.Path["vmwarecollectors"]
 
-    resp, err := client.Get(ctx, resourceGroup, projectName, vmWareCollectorName)
+    resp, err := client.Get(ctx, resourceGroup, projectName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] V Mware Collector %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q): %+v", vmWareCollectorName, projectName, resourceGroup, err)
+        return fmt.Errorf("Error reading V Mware Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if collectorProperties := resp.CollectorProperties; collectorProperties != nil {
@@ -204,7 +205,6 @@ func resourceArmVMwareCollectorRead(d *schema.ResourceData, meta interface{}) er
     d.Set("e_tag", resp.ETag)
     d.Set("project_name", projectName)
     d.Set("type", resp.Type)
-    d.Set("vm_ware_collector_name", vmWareCollectorName)
 
     return nil
 }
@@ -221,10 +221,10 @@ func resourceArmVMwareCollectorDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     projectName := id.Path["assessmentProjects"]
-    vmWareCollectorName := id.Path["vmwarecollectors"]
+    name := id.Path["vmwarecollectors"]
 
-    if _, err := client.Delete(ctx, resourceGroup, projectName, vmWareCollectorName); err != nil {
-        return fmt.Errorf("Error deleting V Mware Collector (Vm Ware Collector Name %q / Project Name %q / Resource Group %q): %+v", vmWareCollectorName, projectName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, projectName, name); err != nil {
+        return fmt.Errorf("Error deleting V Mware Collector %q (Project Name %q / Resource Group %q): %+v", name, projectName, resourceGroup, err)
     }
 
     return nil

@@ -1,0 +1,229 @@
+--- !ruby/object:Api::Product
+name: Azure Query Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Query
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: applicationinsights
+      go_client: queriesClient
+      python_client_namespace: azure.mgmt.applicationinsights
+      python_client: ApplicationInsightsManagementClient.queries
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'queryPackName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: queryPacks
+            go_variable_name: name
+            python_parameter_name: query_pack_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsQueryPackQueryProperties
+            go_type_name: LogAnalyticsQueryPackQueryProperties
+          '/properties/queryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QueryID
+          '/queryId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: query_id
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: TimeCreated
+          '/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: time_created
+          '/properties/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: TimeModified
+          '/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: time_modified
+          '/properties/author': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Author
+          '/author': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: author
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/body': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Body
+          '/body': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: body
+          '/properties/linkedResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LinkedResourceID
+          '/linkedResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: linked_resource_id
+          '/properties/categories': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Categories
+          '/categories': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: categories
+          '/properties/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: ResourceTypes
+          '/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: resource_types
+          '/properties/labels': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Labels
+          '/labels': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: labels
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'queryPackName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: queryPacks
+            go_variable_name: name
+            python_parameter_name: query_pack_name
+            python_variable_name: name
+          'includeBody': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: includeBody
+            python_parameter_name: include_body
+            python_variable_name: include_body
+
+    description: |
+      Manage Azure Query instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Log Analytics QueryPack resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['queryPackName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'includeBody'
+        description: 'Flag indicating whether or not to return the body of each applicable query. If false, only return the query information.'
+        required: false
+        input: true
+        azure_sdk_references: ['includeBody']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Azure resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Azure resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Azure resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'queryId'
+        description: 'The unique ID of your application. This field cannot be changed.'
+        output: true
+        azure_sdk_references: ['/queryId', '/properties/queryId']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Unique display name for your query within the Query Pack.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'timeCreated'
+        description: 'Creation Date for the Log Analytics Query, in ISO 8601 format.'
+        output: true
+        azure_sdk_references: ['/timeCreated', '/properties/timeCreated']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'timeModified'
+        description: 'Last modified date of the Log Analytics Query, in ISO 8601 format.'
+        output: true
+        azure_sdk_references: ['/timeModified', '/properties/timeModified']
+      - !ruby/object:Api::Type::String
+        name: 'author'
+        description: 'Object Id of user creating the query.'
+        output: true
+        azure_sdk_references: ['/author', '/properties/author']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description of the query.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'body'
+        description: 'Body of the query.'
+        output: true
+        azure_sdk_references: ['/body', '/properties/body']
+      - !ruby/object:Api::Type::String
+        name: 'linkedResourceId'
+        description: 'Resource id associated with the query.'
+        output: true
+        azure_sdk_references: ['/linkedResourceId', '/properties/linkedResourceId']
+      - !ruby/object:Api::Type::Array
+        name: 'categories'
+        description: 'Categories associated with the query.'
+        output: true
+        azure_sdk_references: ['/categories', '/properties/categories']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'resourceTypes'
+        description: 'Resource Types associated with the query.'
+        output: true
+        azure_sdk_references: ['/resourceTypes', '/properties/resourceTypes']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'labels'
+        description: 'Labels associated with the query.'
+        output: true
+        azure_sdk_references: ['/labels', '/properties/labels']
+        item_type: Api::Type::String

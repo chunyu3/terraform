@@ -28,6 +28,8 @@ Manage Azure Snapshot instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the mount target Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `file_system_id` - (Required) UUID v4 used to identify the FileSystem
 
 * `pool_name` - (Required) The name of the capacity pool Changing this forces a new resource to be created.
-
-* `snapshot_name` - (Required) The name of the mount target Changing this forces a new resource to be created.
 
 * `volume_name` - (Required) The name of the volume Changing this forces a new resource to be created.
 

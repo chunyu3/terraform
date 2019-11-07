@@ -31,6 +31,13 @@ func resourceArmPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -49,13 +56,6 @@ func resourceArmPolicy() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -68,15 +68,15 @@ func resourceArmPolicyCreateUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).policyClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     policyID := d.Get("policy_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, policyID)
+        existing, err := client.Get(ctx, resourceGroup, name, policyID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Policy (Policy %q / Service Name %q / Resource Group %q): %+v", policyID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Policy %q (Policy %q / Resource Group %q): %+v", name, policyID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -93,17 +93,17 @@ func resourceArmPolicyCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, policyID, parameters); err != nil {
-        return fmt.Errorf("Error creating Policy (Policy %q / Service Name %q / Resource Group %q): %+v", policyID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, policyID, parameters); err != nil {
+        return fmt.Errorf("Error creating Policy %q (Policy %q / Resource Group %q): %+v", name, policyID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, policyID)
+    resp, err := client.Get(ctx, resourceGroup, name, policyID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Policy (Policy %q / Service Name %q / Resource Group %q): %+v", policyID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Policy %q (Policy %q / Resource Group %q): %+v", name, policyID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Policy (Policy %q / Service Name %q / Resource Group %q) ID", policyID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Policy %q (Policy %q / Resource Group %q) ID", name, policyID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -119,27 +119,27 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     policyID := id.Path["policies"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, policyID)
+    resp, err := client.Get(ctx, resourceGroup, name, policyID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Policy (Policy %q / Service Name %q / Resource Group %q): %+v", policyID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Policy %q (Policy %q / Resource Group %q): %+v", name, policyID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if policyContractProperties := resp.PolicyContractProperties; policyContractProperties != nil {
         d.Set("policy_content", policyContractProperties.PolicyContent)
     }
     d.Set("policy_id", policyID)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -156,11 +156,11 @@ func resourceArmPolicyDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     policyID := id.Path["policies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, policyID); err != nil {
-        return fmt.Errorf("Error deleting Policy (Policy %q / Service Name %q / Resource Group %q): %+v", policyID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, policyID); err != nil {
+        return fmt.Errorf("Error deleting Policy %q (Policy %q / Resource Group %q): %+v", name, policyID, resourceGroup, err)
     }
 
     return nil

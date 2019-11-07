@@ -31,6 +31,13 @@ func resourceArmBackend() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -50,13 +57,6 @@ func resourceArmBackend() *schema.Resource {
                     string(apimanagement.http),
                     string(apimanagement.soap),
                 }, false),
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "url": {
@@ -228,15 +228,15 @@ func resourceArmBackendCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).backendClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     backendID := d.Get("backend_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, backendID)
+        existing, err := client.Get(ctx, resourceGroup, name, backendID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Backend (Backend %q / Service Name %q / Resource Group %q): %+v", backendID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Backend %q (Backend %q / Resource Group %q): %+v", name, backendID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -271,17 +271,17 @@ func resourceArmBackendCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, backendID, parameters); err != nil {
-        return fmt.Errorf("Error creating Backend (Backend %q / Service Name %q / Resource Group %q): %+v", backendID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, backendID, parameters); err != nil {
+        return fmt.Errorf("Error creating Backend %q (Backend %q / Resource Group %q): %+v", name, backendID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, backendID)
+    resp, err := client.Get(ctx, resourceGroup, name, backendID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Backend (Backend %q / Service Name %q / Resource Group %q): %+v", backendID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Backend %q (Backend %q / Resource Group %q): %+v", name, backendID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Backend (Backend %q / Service Name %q / Resource Group %q) ID", backendID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Backend %q (Backend %q / Resource Group %q) ID", name, backendID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -297,20 +297,21 @@ func resourceArmBackendRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     backendID := id.Path["backends"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, backendID)
+    resp, err := client.Get(ctx, resourceGroup, name, backendID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Backend %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Backend (Backend %q / Service Name %q / Resource Group %q): %+v", backendID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Backend %q (Backend %q / Resource Group %q): %+v", name, backendID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("backend_id", backendID)
@@ -335,7 +336,6 @@ func resourceArmBackendRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("url", backendContractProperties.URL)
     }
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -345,6 +345,7 @@ func resourceArmBackendUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).backendClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     backendID := d.Get("backend_id").(string)
     credentials := d.Get("credentials").([]interface{})
@@ -353,7 +354,6 @@ func resourceArmBackendUpdate(d *schema.ResourceData, meta interface{}) error {
     proxy := d.Get("proxy").([]interface{})
     resourceId := d.Get("resource_id").(string)
     serviceFabricCluster := d.Get("service_fabric_cluster").([]interface{})
-    serviceName := d.Get("service_name").(string)
     title := d.Get("title").(string)
     tls := d.Get("tls").([]interface{})
     url := d.Get("url").(string)
@@ -375,8 +375,8 @@ func resourceArmBackendUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, backendID, parameters); err != nil {
-        return fmt.Errorf("Error updating Backend (Backend %q / Service Name %q / Resource Group %q): %+v", backendID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, backendID, parameters); err != nil {
+        return fmt.Errorf("Error updating Backend %q (Backend %q / Resource Group %q): %+v", name, backendID, resourceGroup, err)
     }
 
     return resourceArmBackendRead(d, meta)
@@ -392,11 +392,11 @@ func resourceArmBackendDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     backendID := id.Path["backends"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, backendID); err != nil {
-        return fmt.Errorf("Error deleting Backend (Backend %q / Service Name %q / Resource Group %q): %+v", backendID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, backendID); err != nil {
+        return fmt.Errorf("Error deleting Backend %q (Backend %q / Resource Group %q): %+v", name, backendID, resourceGroup, err)
     }
 
     return nil

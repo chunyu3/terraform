@@ -34,16 +34,16 @@ func testCheckAzureRMTransformExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Transform not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        transformName := rs.Primary.Attributes["transform_name"]
 
         client := testAccProvider.Meta().(*ArmClient).transformsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, transformName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Transform (Transform Name %q / Account Name %q / Resource Group %q) does not exist", transformName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Transform %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on transformsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMTransformDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        transformName := rs.Primary.Attributes["transform_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, transformName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on transformsClient: %+v", err)
             }

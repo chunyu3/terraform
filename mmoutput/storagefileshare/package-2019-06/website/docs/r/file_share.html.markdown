@@ -28,11 +28,11 @@ Manage Azure FileShare instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the file share within the specified storage account. File share names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. Changing this forces a new resource to be created.
-
-* `share_name` - (Required) The name of the file share within the specified storage account. File share names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number. Changing this forces a new resource to be created.
 
 * `metadata` - (Optional) A name-value pair to associate with the share as metadata.
 

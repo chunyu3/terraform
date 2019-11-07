@@ -34,15 +34,15 @@ func testCheckAzureRMScopeAssignmentExists(resourceName string) resource.TestChe
             return fmt.Errorf("Scope Assignment not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
-        scopeAssignmentName := rs.Primary.Attributes["scope_assignment_name"]
 
         client := testAccProvider.Meta().(*ArmClient).scopeAssignmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, scope, scopeAssignmentName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Scope Assignment (Scope Assignment Name %q / Scope %q) does not exist", scopeAssignmentName, scope)
+                return fmt.Errorf("Bad: Scope Assignment %q (Scope %q) does not exist", name, scope)
             }
             return fmt.Errorf("Bad: Get on scopeAssignmentsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMScopeAssignmentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
-        scopeAssignmentName := rs.Primary.Attributes["scope_assignment_name"]
 
-        if resp, err := client.Get(ctx, scope, scopeAssignmentName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on scopeAssignmentsClient: %+v", err)
             }

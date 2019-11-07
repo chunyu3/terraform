@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: CdnWebApplicationFirewallPolicies
-            go_variable_name: policyName
+            go_variable_name: name
             python_parameter_name: policy_name
-            python_variable_name: policy_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: cdnWebApplicationFirewallPolicy
             go_type_name: WebApplicationFirewallPolicy
@@ -331,6 +331,27 @@ objects:
           '/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: rules
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_id
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: redirect_url
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_status_code
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_body
           '/properties/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ManagedRules
@@ -359,6 +380,30 @@ objects:
             applicable_to: [go]
             go_field_name: Rules
             go_type_name: ManagedRuleOverride
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleID
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: ManagedRuleEnabledState
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: ActionType
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: Action
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RedirectURL
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseStatusCode
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseBody
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
@@ -382,9 +427,9 @@ objects:
             python_variable_name: resource_group
           'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: CdnWebApplicationFirewallPolicies
-            go_variable_name: policyName
+            go_variable_name: name
             python_parameter_name: policy_name
-            python_variable_name: policy_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -396,9 +441,9 @@ objects:
             python_variable_name: resource_group
           'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: CdnWebApplicationFirewallPolicies
-            go_variable_name: policyName
+            go_variable_name: name
             python_parameter_name: policy_name
-            python_variable_name: policy_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -410,9 +455,9 @@ objects:
             python_variable_name: resource_group
           'policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: CdnWebApplicationFirewallPolicies
-            go_variable_name: policyName
+            go_variable_name: name
             python_parameter_name: policy_name
-            python_variable_name: policy_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -711,6 +756,30 @@ objects:
             applicable_to: [go]
             go_field_name: Rules
             go_type_name: ManagedRuleOverride
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleID
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: ManagedRuleEnabledState
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_type_name: ActionType
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionType
+            go_enum_type_name: Action
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RedirectURL
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseStatusCode
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomBlockResponseBody
           '/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: managed_rules
@@ -735,13 +804,40 @@ objects:
           '/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: rules
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_id
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: action
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/actionType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_type
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/redirectUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: redirect_url
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseStatusCode': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_status_code
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseBody': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_block_response_body
           '/properties/cdnEndpointLinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: CdnEndpointLinks
             go_type_name: Endpoint
+          '/properties/cdnEndpointLinks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/cdnEndpointLinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: cdn_endpoint_links
+          '/cdnEndpointLinks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -796,7 +892,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'policyName'
+        name: 'name'
         description: 'The name of the CdnWebApplicationFirewallPolicy.'
         required: true
         input: true
@@ -1140,6 +1236,58 @@ objects:
                         description: 'Describes the managed rule group within the rule set to override'
                         required: true
                         azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName']
+                      - !ruby/object:Api::Type::Array
+                        name: 'rules'
+                        description: 'List of rules that will be disabled. If none specified, all rules in the group will be disabled.'
+                        required: false
+                        azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules']
+                        item_type: !ruby/object:Api::Type::NestedObject
+                          properties:
+                            - !ruby/object:Api::Type::String
+                              name: 'ruleId'
+                              description: 'Identifier for the managed rule.'
+                              required: true
+                              azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId']
+                            - !ruby/object:Api::Type::Enum
+                              name: 'enabledState'
+                              description: 'Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.'
+                              required: false
+                              azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState']
+                              values:
+                                - :Disabled
+                                - :Enabled
+                              default_value: :Disabled
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'action'
+                              description: 'Describes the override action to be applied when rule matches.'
+                              required: false
+                              azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/action', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action']
+                              properties:
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'actionType'
+                                  description: 'Describes type of action.'
+                                  required: true
+                                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/actionType', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/actionType']
+                                  values:
+                                    - :Allow
+                                    - :Block
+                                    - :Log
+                                    - :Redirect
+                                - !ruby/object:Api::Type::String
+                                  name: 'redirectUrl'
+                                  description: 'If action type is redirect, this field represents URL to be re-directed.'
+                                  required: false
+                                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/redirectUrl', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/redirectUrl']
+                                - !ruby/object:Api::Type::Integer
+                                  name: 'customBlockResponseStatusCode'
+                                  description: 'If the action type is block, customer can override the response status code.'
+                                  required: false
+                                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseStatusCode', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseStatusCode']
+                                - !ruby/object:Api::Type::String
+                                  name: 'customBlockResponseBody'
+                                  description: 'If the action type is block, customer can override the response body. The body must be specified in base64 encoding.'
+                                  required: false
+                                  azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseBody', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action/customBlockResponseBody']
       - !ruby/object:Api::Type::String
         name: 'etag'
         description: 'Gets a unique read-only string that changes whenever the resource is updated.'
@@ -1173,11 +1321,6 @@ objects:
         azure_sdk_references: ['/cdnEndpointLinks', '/properties/cdnEndpointLinks']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'ARM Resource ID string.'
-              required: false
-              azure_sdk_references: ['/cdnEndpointLinks/id', '/properties/cdnEndpointLinks/id']
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'Provisioning state of the WebApplicationFirewallPolicy.'

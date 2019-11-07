@@ -31,19 +31,19 @@ func resourceArmFailoverGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "failover_group_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "partner_servers": {
                 Type: schema.TypeList,
@@ -139,15 +139,15 @@ func resourceArmFailoverGroupCreate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).failoverGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    failoverGroupName := d.Get("failover_group_name").(string)
     serverName := d.Get("server_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, failoverGroupName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -172,21 +172,21 @@ func resourceArmFailoverGroupCreate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, failoverGroupName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, failoverGroupName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q) ID", failoverGroupName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Failover Group %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -203,19 +203,20 @@ func resourceArmFailoverGroupRead(d *schema.ResourceData, meta interface{}) erro
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    failoverGroupName := id.Path["failoverGroups"]
+    name := id.Path["failoverGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, failoverGroupName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Failover Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -235,7 +236,6 @@ func resourceArmFailoverGroupRead(d *schema.ResourceData, meta interface{}) erro
         d.Set("replication_role", string(failoverGroupProperties.ReplicationRole))
         d.Set("replication_state", failoverGroupProperties.ReplicationState)
     }
-    d.Set("failover_group_name", failoverGroupName)
     d.Set("server_name", serverName)
     d.Set("type", resp.Type)
 
@@ -246,9 +246,9 @@ func resourceArmFailoverGroupUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).failoverGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     databases := d.Get("databases").([]interface{})
-    failoverGroupName := d.Get("failover_group_name").(string)
     partnerServers := d.Get("partner_servers").([]interface{})
     readOnlyEndpoint := d.Get("read_only_endpoint").([]interface{})
     readWriteEndpoint := d.Get("read_write_endpoint").([]interface{})
@@ -266,12 +266,12 @@ func resourceArmFailoverGroupUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serverName, failoverGroupName, parameters)
+    future, err := client.Update(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error updating Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     return resourceArmFailoverGroupRead(d, meta)
@@ -288,19 +288,19 @@ func resourceArmFailoverGroupDelete(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    failoverGroupName := id.Path["failoverGroups"]
+    name := id.Path["failoverGroups"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, failoverGroupName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Failover Group (Failover Group Name %q / Server Name %q / Resource Group %q): %+v", failoverGroupName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Failover Group %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
         }
     }
 

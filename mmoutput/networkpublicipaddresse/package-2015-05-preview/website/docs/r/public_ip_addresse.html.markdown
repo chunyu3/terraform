@@ -28,11 +28,11 @@ Manage Azure PublicIpAddresse instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the publicIpAddress. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `public_ip_address_name` - (Required) The name of the publicIpAddress. Changing this forces a new resource to be created.
 
 * `public_ipallocation_method` - (Required) Gets or sets PublicIP allocation method (Static/Dynamic)
 

@@ -28,13 +28,13 @@ Manage Azure FirewallRule instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the firewall rule to create or update. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the Data Lake Store account. Changing this forces a new resource to be created.
 
 * `end_ip_address` - (Required) The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
-
-* `firewall_rule_name` - (Required) The name of the firewall rule to create or update. Changing this forces a new resource to be created.
 
 * `start_ip_address` - (Required) The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
 

@@ -34,17 +34,17 @@ func testCheckAzureRMSynchronizationSettingExists(resourceName string) resource.
             return fmt.Errorf("Synchronization Setting not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         shareName := rs.Primary.Attributes["share_name"]
-        synchronizationSettingName := rs.Primary.Attributes["synchronization_setting_name"]
 
         client := testAccProvider.Meta().(*ArmClient).synchronizationSettingsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, synchronizationSettingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Synchronization Setting (Synchronization Setting Name %q / Share Name %q / Account Name %q / Resource Group %q) does not exist", synchronizationSettingName, shareName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Synchronization Setting %q (Share Name %q / Account Name %q / Resource Group %q) does not exist", name, shareName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on synchronizationSettingsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMSynchronizationSettingDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
         shareName := rs.Primary.Attributes["share_name"]
-        synchronizationSettingName := rs.Primary.Attributes["synchronization_setting_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, synchronizationSettingName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on synchronizationSettingsClient: %+v", err)
             }

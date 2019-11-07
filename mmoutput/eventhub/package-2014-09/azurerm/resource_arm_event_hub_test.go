@@ -34,16 +34,16 @@ func testCheckAzureRMEventHubExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Event Hub not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        eventHubName := rs.Primary.Attributes["event_hub_name"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).eventHubsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Event Hub (Event Hub Name %q / Namespace Name %q / Resource Group %q) does not exist", eventHubName, namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Event Hub %q (Namespace Name %q / Resource Group %q) does not exist", name, namespaceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on eventHubsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMEventHubDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        eventHubName := rs.Primary.Attributes["event_hub_name"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, eventHubName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on eventHubsClient: %+v", err)
             }

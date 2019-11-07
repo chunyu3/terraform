@@ -28,11 +28,11 @@ Manage Azure DataConnection instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the data connection. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
-
-* `data_connection_name` - (Required) The name of the data connection. Changing this forces a new resource to be created.
 
 * `database_name` - (Required) The name of the database in the Kusto cluster. Changing this forces a new resource to be created.
 

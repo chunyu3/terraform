@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Cluster
@@ -571,9 +571,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Cluster
@@ -1111,9 +1111,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -1125,9 +1125,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -1654,9 +1654,28 @@ objects:
             applicable_to: [go]
             go_field_name: AvailableClusterVersions
             go_type_name: ClusterVersionDetails
+          '/properties/availableClusterVersions/codeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CodeVersion
+          '/properties/availableClusterVersions/supportExpiryUtc': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SupportExpiryUtc
+          '/properties/availableClusterVersions/environment': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Environment
+            go_enum_type_name: 
           '/availableClusterVersions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: available_cluster_versions
+          '/availableClusterVersions/codeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code_version
+          '/availableClusterVersions/supportExpiryUtc': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: support_expiry_utc
+          '/availableClusterVersions/environment': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: environment
           '/properties/clusterEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ClusterEndpoint
@@ -1719,7 +1738,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'clusterName'
+        name: 'name'
         description: 'The name of the cluster resource.'
         required: true
         input: true
@@ -1993,7 +2012,7 @@ objects:
               azure_sdk_references: ['/nodeTypes/httpGatewayEndpointPort', '/properties/nodeTypes/httpGatewayEndpointPort']
             - !ruby/object:Api::Type::Enum
               name: 'durabilityLevel'
-              description: 'The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).<br>  - Bronze - No privileges. This is the default.<br>  - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.<br>  - Gold - The infrastructure jobs can be paused for a duration of 2 hours per UD. Gold durability can be enabled only on full node VM skus like D15_V2, G5 etc.<br>'
+              description: 'The durability level of the node type. Learn about [DurabilityLevel](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-capacity).<br>  - Bronze - No privileges. This is the default.<br>  - Silver - The infrastructure jobs can be paused for a duration of 10 minutes per UD.<br>  - Gold - The infrastructure jobs can be paused for a duration of 2 hours per UD. Gold durability can be enabled only on full node VM skus like D15_V2, G5 etc.<br>'
               required: false
               azure_sdk_references: ['/nodeTypes/durabilityLevel', '/properties/nodeTypes/durabilityLevel']
               values:
@@ -2050,7 +2069,7 @@ objects:
               azure_sdk_references: ['/nodeTypes/reverseProxyEndpointPort', '/properties/nodeTypes/reverseProxyEndpointPort']
       - !ruby/object:Api::Type::Enum
         name: 'reliabilityLevel'
-        description: 'The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-cluster-capacity).<br>  - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.<br>  - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.<br>  - Silver - Run the System services with a target replica set count of 5.<br>  - Gold - Run the System services with a target replica set count of 7.<br>  - Platinum - Run the System services with a target replica set count of 9.<br>'
+        description: 'The reliability level sets the replica set size of system services. Learn about [ReliabilityLevel](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-capacity).<br>  - None - Run the System services with a target replica set count of 1. This should only be used for test clusters.<br>  - Bronze - Run the System services with a target replica set count of 3. This should only be used for test clusters.<br>  - Silver - Run the System services with a target replica set count of 5.<br>  - Gold - Run the System services with a target replica set count of 7.<br>  - Platinum - Run the System services with a target replica set count of 9.<br>'
         required: false
         azure_sdk_references: ['/reliabilityLevel', '/properties/reliabilityLevel']
         values:
@@ -2239,25 +2258,6 @@ objects:
         azure_sdk_references: ['/availableClusterVersions', '/properties/availableClusterVersions']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'codeVersion'
-              description: 'The Service Fabric runtime version of the cluster.'
-              required: false
-              azure_sdk_references: ['/availableClusterVersions/codeVersion', '/properties/availableClusterVersions/codeVersion']
-            - !ruby/object:Api::Type::String
-              name: 'supportExpiryUtc'
-              description: 'The date of expiry of support of the version.'
-              required: false
-              azure_sdk_references: ['/availableClusterVersions/supportExpiryUtc', '/properties/availableClusterVersions/supportExpiryUtc']
-            - !ruby/object:Api::Type::Enum
-              name: 'environment'
-              description: 'Indicates if this version is for Windows or Linux operating system.'
-              required: false
-              azure_sdk_references: ['/availableClusterVersions/environment', '/properties/availableClusterVersions/environment']
-              values:
-                - :Windows
-                - :Linux
-              default_value: :Windows
       - !ruby/object:Api::Type::String
         name: 'clusterEndpoint'
         description: 'The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint.'

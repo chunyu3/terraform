@@ -28,6 +28,8 @@ Manage Azure Bot instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Bot resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Bot resource group in the user subscription. Changing this forces a new resource to be created.
 
 * `display_name` - (Required) The Name of the bot
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `endpoint` - (Required) The bot's endpoint
 
 * `msa_app_id` - (Required) Microsoft App Id for the bot
-
-* `resource_name` - (Required) The name of the Bot resource. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Specifies the location of the resource. Changing this forces a new resource to be created.
 

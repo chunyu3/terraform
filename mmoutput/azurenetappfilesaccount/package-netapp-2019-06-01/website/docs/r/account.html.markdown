@@ -28,11 +28,11 @@ Manage Azure Account instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the NetApp account Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `account_name` - (Required) The name of the NetApp account Changing this forces a new resource to be created.
 
 * `active_directories` - (Optional) One or more `active_directory` block defined below.
 

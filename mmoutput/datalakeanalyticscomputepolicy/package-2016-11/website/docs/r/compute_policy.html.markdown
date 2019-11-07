@@ -28,11 +28,11 @@ Manage Azure ComputePolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the compute policy to create or update. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the Data Lake Analytics account. Changing this forces a new resource to be created.
-
-* `compute_policy_name` - (Required) The name of the compute policy to create or update. Changing this forces a new resource to be created.
 
 * `object_id` - (Required) The AAD object identifier for the entity to create a policy for.
 

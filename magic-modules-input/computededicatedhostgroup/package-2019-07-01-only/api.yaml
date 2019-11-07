@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: hostGroups
-            go_variable_name: hostGroupName
+            go_variable_name: name
             python_parameter_name: host_group_name
-            python_variable_name: host_group_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: DedicatedHostGroup
@@ -67,9 +67,9 @@ objects:
             python_variable_name: resource_group
           'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: hostGroups
-            go_variable_name: hostGroupName
+            go_variable_name: name
             python_parameter_name: host_group_name
-            python_variable_name: host_group_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: DedicatedHostGroup
@@ -105,9 +105,9 @@ objects:
             python_variable_name: resource_group
           'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: hostGroups
-            go_variable_name: hostGroupName
+            go_variable_name: name
             python_parameter_name: host_group_name
-            python_variable_name: host_group_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -119,9 +119,9 @@ objects:
             python_variable_name: resource_group
           'hostGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: hostGroups
-            go_variable_name: hostGroupName
+            go_variable_name: name
             python_parameter_name: host_group_name
-            python_variable_name: host_group_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -143,9 +143,15 @@ objects:
             applicable_to: [go]
             go_field_name: Hosts
             go_type_name: SubResourceReadOnly
+          '/properties/hosts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: hosts
+          '/hosts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             go_field_name: Zones
             python_field_name: zones
@@ -182,7 +188,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'hostGroupName'
+        name: 'name'
         description: 'The name of the dedicated host group.'
         required: true
         input: true
@@ -219,11 +225,6 @@ objects:
         azure_sdk_references: ['/hosts', '/properties/hosts']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource Id'
-              required: false
-              azure_sdk_references: ['/hosts/id', '/properties/hosts/id']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

@@ -31,6 +31,13 @@ func resourceArmVolume() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -66,13 +73,6 @@ func resourceArmVolume() *schema.Resource {
                     string(azurenetappfiles.Premium),
                     string(azurenetappfiles.Ultra),
                 }, false),
-            },
-
-            "volume_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "export_policy": {
@@ -155,16 +155,16 @@ func resourceArmVolumeCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).volumesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     poolName := d.Get("pool_name").(string)
-    volumeName := d.Get("volume_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, poolName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -193,21 +193,21 @@ func resourceArmVolumeCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, poolName, volumeName, body)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, poolName, name, body)
     if err != nil {
-        return fmt.Errorf("Error creating Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q) ID", volumeName, poolName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Volume %q (Pool Name %q / Account Name %q / Resource Group %q) ID", name, poolName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -225,19 +225,20 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["netAppAccounts"]
     poolName := id.Path["capacityPools"]
-    volumeName := id.Path["volumes"]
+    name := id.Path["volumes"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, volumeName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, poolName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Volume %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -257,7 +258,6 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("pool_name", poolName)
     d.Set("type", resp.Type)
-    d.Set("volume_name", volumeName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -266,6 +266,7 @@ func resourceArmVolumeUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).volumesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     creationToken := d.Get("creation_token").(string)
@@ -274,7 +275,6 @@ func resourceArmVolumeUpdate(d *schema.ResourceData, meta interface{}) error {
     serviceLevel := d.Get("service_level").(string)
     subnetId := d.Get("subnet_id").(string)
     usageThreshold := d.Get("usage_threshold").(int)
-    volumeName := d.Get("volume_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
     body := azurenetappfiles.Volume{
@@ -290,8 +290,8 @@ func resourceArmVolumeUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, poolName, volumeName, body); err != nil {
-        return fmt.Errorf("Error updating Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, accountName, poolName, name, body); err != nil {
+        return fmt.Errorf("Error updating Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
     }
 
     return resourceArmVolumeRead(d, meta)
@@ -309,19 +309,19 @@ func resourceArmVolumeDelete(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["netAppAccounts"]
     poolName := id.Path["capacityPools"]
-    volumeName := id.Path["volumes"]
+    name := id.Path["volumes"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, poolName, volumeName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, poolName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Volume (Volume Name %q / Pool Name %q / Account Name %q / Resource Group %q): %+v", volumeName, poolName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Volume %q (Pool Name %q / Account Name %q / Resource Group %q): %+v", name, poolName, accountName, resourceGroup, err)
         }
     }
 

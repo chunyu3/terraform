@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: caches
-            go_variable_name: cacheName
+            go_variable_name: name
             python_parameter_name: cache_name
-            python_variable_name: cache_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: cache
             go_type_name: Cache
@@ -85,9 +85,9 @@ objects:
             python_variable_name: resource_group
           'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: caches
-            go_variable_name: cacheName
+            go_variable_name: name
             python_parameter_name: cache_name
-            python_variable_name: cache_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: cache
             go_type_name: Cache
@@ -141,9 +141,9 @@ objects:
             python_variable_name: resource_group
           'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: caches
-            go_variable_name: cacheName
+            go_variable_name: name
             python_parameter_name: cache_name
-            python_variable_name: cache_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -155,9 +155,9 @@ objects:
             python_variable_name: resource_group
           'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: caches
-            go_variable_name: cacheName
+            go_variable_name: name
             python_parameter_name: cache_name
-            python_variable_name: cache_name
+            python_variable_name: name
         response:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
@@ -223,9 +223,22 @@ objects:
             applicable_to: [go]
             go_field_name: Health
             go_type_name: CacheHealth
+          '/properties/health/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: HealthStateType
+          '/properties/health/statusDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StatusDescription
           '/health': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: health
+          '/health/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/health/statusDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status_description
           '/properties/mountAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: MountAddresses
@@ -279,7 +292,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'cacheName'
+        name: 'name'
         description: 'Name of cache.'
         required: true
         input: true
@@ -330,27 +343,6 @@ objects:
         output: true
         azure_sdk_references: ['/health', '/properties/health']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'state'
-            description: 'List of cache health states.'
-            required: false
-            azure_sdk_references: ['/health/state', '/properties/health/state']
-            values:
-              - :Unknown
-              - :Healthy
-              - :Degraded
-              - :Down
-              - :Transitioning
-              - :Stopping
-              - :Stopped
-              - :Upgrading
-              - :Flushing
-            default_value: :Unknown
-          - !ruby/object:Api::Type::String
-            name: 'statusDescription'
-            description: 'Describes explanation of state.'
-            required: false
-            azure_sdk_references: ['/health/statusDescription', '/properties/health/statusDescription']
       - !ruby/object:Api::Type::Array
         name: 'mountAddresses'
         description: 'Array of IP addresses that can be used by clients mounting this Cache.'

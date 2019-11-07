@@ -34,16 +34,16 @@ func testCheckAzureRMAccessControlRecordExists(resourceName string) resource.Tes
             return fmt.Errorf("Access Control Record not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accessControlRecordName := rs.Primary.Attributes["access_control_record_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).accessControlRecordsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, accessControlRecordName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, accessControlRecordName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Access Control Record (Manager Name %q / Resource Group %q / Access Control Record Name %q) does not exist", managerName, resourceGroup, accessControlRecordName)
+                return fmt.Errorf("Bad: Access Control Record %q (Resource Group %q / Access Control Record Name %q) does not exist", name, resourceGroup, accessControlRecordName)
             }
             return fmt.Errorf("Bad: Get on accessControlRecordsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAccessControlRecordDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accessControlRecordName := rs.Primary.Attributes["access_control_record_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, accessControlRecordName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, accessControlRecordName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on accessControlRecordsClient: %+v", err)
             }

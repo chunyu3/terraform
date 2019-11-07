@@ -36,16 +36,16 @@ func resourceArmConnectionType() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "automation_account_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "connection_type_name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "automation_account_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -90,15 +90,15 @@ func resourceArmConnectionTypeCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).connectionTypeClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    connectionTypeName := d.Get("connection_type_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, automationAccountName, connectionTypeName)
+        existing, err := client.Get(ctx, resourceGroup, automationAccountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", connectionTypeName, automationAccountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -119,17 +119,17 @@ func resourceArmConnectionTypeCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, connectionTypeName, parameters); err != nil {
-        return fmt.Errorf("Error creating Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", connectionTypeName, automationAccountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, automationAccountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, connectionTypeName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", connectionTypeName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q) ID", connectionTypeName, automationAccountName, resourceGroup)
+        return fmt.Errorf("Cannot read Connection Type %q (Automation Account Name %q / Resource Group %q) ID", name, automationAccountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -146,23 +146,23 @@ func resourceArmConnectionTypeRead(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    connectionTypeName := id.Path["connectionTypes"]
+    name := id.Path["connectionTypes"]
 
-    resp, err := client.Get(ctx, resourceGroup, automationAccountName, connectionTypeName)
+    resp, err := client.Get(ctx, resourceGroup, automationAccountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Connection Type %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", connectionTypeName, automationAccountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    d.Set("connection_type_name", connectionTypeName)
     if connectionTypeCreateOrUpdateProperties := resp.ConnectionTypeCreateOrUpdateProperties; connectionTypeCreateOrUpdateProperties != nil {
         d.Set("creation_time", (connectionTypeCreateOrUpdateProperties.CreationTime).String())
         d.Set("description", connectionTypeCreateOrUpdateProperties.Description)
@@ -187,10 +187,10 @@ func resourceArmConnectionTypeDelete(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     automationAccountName := id.Path["automationAccounts"]
-    connectionTypeName := id.Path["connectionTypes"]
+    name := id.Path["connectionTypes"]
 
-    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, connectionTypeName); err != nil {
-        return fmt.Errorf("Error deleting Connection Type (Connection Type Name %q / Automation Account Name %q / Resource Group %q): %+v", connectionTypeName, automationAccountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, automationAccountName, name); err != nil {
+        return fmt.Errorf("Error deleting Connection Type %q (Automation Account Name %q / Resource Group %q): %+v", name, automationAccountName, resourceGroup, err)
     }
 
     return nil

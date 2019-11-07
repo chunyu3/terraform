@@ -28,11 +28,11 @@ Manage Azure SourceControl instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The source control name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
-
-* `source_control_name` - (Required) The source control name. Changing this forces a new resource to be created.
 
 * `auto_sync` - (Optional) The auto async of the source control. Default is false.
 

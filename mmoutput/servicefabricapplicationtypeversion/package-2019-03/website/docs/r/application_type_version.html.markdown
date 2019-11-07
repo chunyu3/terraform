@@ -28,11 +28,11 @@ Manage Azure ApplicationTypeVersion instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the application type name resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `app_package_url` - (Required) The URL to the application package
-
-* `application_type_name` - (Required) The name of the application type name resource. Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the cluster resource. Changing this forces a new resource to be created.
 

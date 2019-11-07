@@ -35,9 +35,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: databaseName
+            go_variable_name: name
             python_parameter_name: database_name
-            python_variable_name: database_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Database
@@ -208,9 +208,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: databaseName
+            go_variable_name: name
             python_parameter_name: database_name
-            python_variable_name: database_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Database
@@ -381,9 +381,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: databaseName
+            go_variable_name: name
             python_parameter_name: database_name
-            python_variable_name: database_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -400,9 +400,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: databaseName
+            go_variable_name: name
             python_parameter_name: database_name
-            python_variable_name: database_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -611,9 +611,39 @@ objects:
             applicable_to: [go]
             go_field_name: CurrentSku
             go_type_name: Sku
+          '/properties/currentSku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/currentSku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Tier
+          '/properties/currentSku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Size
+          '/properties/currentSku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Family
+          '/properties/currentSku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Capacity
           '/currentSku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: current_sku
+          '/currentSku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/currentSku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tier
+          '/currentSku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: size
+          '/currentSku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: family
+          '/currentSku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: capacity
           '/properties/pausedDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: PausedDate
@@ -671,9 +701,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: databaseName
+            go_variable_name: name
             python_parameter_name: database_name
-            python_variable_name: database_name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByElasticPool
         python_func_name: list_by_elastic_pool
@@ -704,9 +734,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: databaseName
+            go_variable_name: name
             python_parameter_name: database_name
-            python_variable_name: database_name
+            python_variable_name: name
 
     description: |
       Manage Azure Database instance.
@@ -724,7 +754,7 @@ objects:
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'databaseName'
+        name: 'name'
         description: 'The name of the database.'
         required: true
         input: true
@@ -970,31 +1000,6 @@ objects:
         output: true
         azure_sdk_references: ['/currentSku', '/properties/currentSku']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'The name of the SKU, typically, a letter + Number code, e.g. P3.'
-            required: true
-            azure_sdk_references: ['/currentSku/name', '/properties/currentSku/name']
-          - !ruby/object:Api::Type::String
-            name: 'tier'
-            description: 'The tier or edition of the particular SKU, e.g. Basic, Premium.'
-            required: false
-            azure_sdk_references: ['/currentSku/tier', '/properties/currentSku/tier']
-          - !ruby/object:Api::Type::String
-            name: 'size'
-            description: 'Size of the particular SKU'
-            required: false
-            azure_sdk_references: ['/currentSku/size', '/properties/currentSku/size']
-          - !ruby/object:Api::Type::String
-            name: 'family'
-            description: 'If the service has different generations of hardware, for the same SKU, then that can be captured here.'
-            required: false
-            azure_sdk_references: ['/currentSku/family', '/properties/currentSku/family']
-          - !ruby/object:Api::Type::Integer
-            name: 'capacity'
-            description: 'Capacity of the particular SKU.'
-            required: false
-            azure_sdk_references: ['/currentSku/capacity', '/properties/currentSku/capacity']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'pausedDate'
         description: 'The date when database was paused by user configuration or action (ISO8601 format). Null if the database is ready.'

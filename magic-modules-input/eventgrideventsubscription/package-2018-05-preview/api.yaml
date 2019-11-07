@@ -30,9 +30,9 @@ objects:
             python_variable_name: scope
           'eventSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSubscriptions
-            go_variable_name: eventSubscriptionName
+            go_variable_name: name
             python_parameter_name: event_subscription_name
-            python_variable_name: event_subscription_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: eventSubscriptionInfo
             go_type_name: EventSubscription
@@ -131,9 +131,9 @@ objects:
             python_variable_name: scope
           'eventSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSubscriptions
-            go_variable_name: eventSubscriptionName
+            go_variable_name: name
             python_parameter_name: event_subscription_name
-            python_variable_name: event_subscription_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -146,9 +146,9 @@ objects:
             python_variable_name: scope
           'eventSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSubscriptions
-            go_variable_name: eventSubscriptionName
+            go_variable_name: name
             python_parameter_name: event_subscription_name
-            python_variable_name: event_subscription_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -160,9 +160,9 @@ objects:
             python_variable_name: scope
           'eventSubscriptionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventSubscriptions
-            go_variable_name: eventSubscriptionName
+            go_variable_name: name
             python_parameter_name: event_subscription_name
-            python_variable_name: event_subscription_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -314,7 +314,7 @@ objects:
         input: true
         azure_sdk_references: ['scope']
       - !ruby/object:Api::Type::String
-        name: 'eventSubscriptionName'
+        name: 'name'
         description: 'Name of the event subscription. Event subscription names must be between 3 and 64 characters in length and should use alphanumeric letters only.'
         required: true
         input: true

@@ -167,7 +167,7 @@ func resourceArmRegistrationDefinitionCreateUpdate(d *schema.ResourceData, meta 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, registrationDefinitionID, scope, requestBody); err != nil {
+    if _, err := client.CreateOrUpdate(ctx, scope, registrationDefinitionID, requestBody); err != nil {
         return fmt.Errorf("Error creating Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
     }
 
@@ -238,7 +238,7 @@ func resourceArmRegistrationDefinitionDelete(d *schema.ResourceData, meta interf
     }
     registrationDefinitionID := id.Path["registrationDefinitions"]
 
-    if _, err := client.Delete(ctx, registrationDefinitionID, scope); err != nil {
+    if _, err := client.Delete(ctx, scope, registrationDefinitionID); err != nil {
         return fmt.Errorf("Error deleting Registration Definition (Scope %q / Registration Definition %q): %+v", scope, registrationDefinitionID, err)
     }
 

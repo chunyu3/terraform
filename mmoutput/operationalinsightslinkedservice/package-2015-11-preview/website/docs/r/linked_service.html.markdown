@@ -28,9 +28,9 @@ Manage Azure LinkedService instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group to get. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the linkedServices resource Changing this forces a new resource to be created.
 
-* `linked_service_name` - (Required) Name of the linkedServices resource Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group to get. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `resource_id` - (Required) The resource id of the resource that will be linked to the workspace.
 

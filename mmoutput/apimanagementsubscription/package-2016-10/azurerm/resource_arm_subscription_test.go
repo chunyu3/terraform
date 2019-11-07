@@ -34,16 +34,16 @@ func testCheckAzureRMSubscriptionExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Subscription not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
         sid := rs.Primary.Attributes["sid"]
 
         client := testAccProvider.Meta().(*ArmClient).subscriptionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, sid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, sid); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Subscription (Sid %q / Service Name %q / Resource Group %q) does not exist", sid, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Subscription %q (Sid %q / Resource Group %q) does not exist", name, sid, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on subscriptionsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMSubscriptionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        serviceName := rs.Primary.Attributes["service_name"]
         sid := rs.Primary.Attributes["sid"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, sid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, sid); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on subscriptionsClient: %+v", err)
             }

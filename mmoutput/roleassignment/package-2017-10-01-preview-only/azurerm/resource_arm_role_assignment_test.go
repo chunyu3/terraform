@@ -34,15 +34,15 @@ func testCheckAzureRMRoleAssignmentExists(resourceName string) resource.TestChec
             return fmt.Errorf("Role Assignment not found: %s", resourceName)
         }
 
-        roleAssignmentName := rs.Primary.Attributes["role_assignment_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
 
         client := testAccProvider.Meta().(*ArmClient).roleAssignmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, scope, roleAssignmentName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Role Assignment (Role Assignment Name %q / Scope %q) does not exist", roleAssignmentName, scope)
+                return fmt.Errorf("Bad: Role Assignment %q (Scope %q) does not exist", name, scope)
             }
             return fmt.Errorf("Bad: Get on roleAssignmentsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMRoleAssignmentDestroy(s *terraform.State) error {
             continue
         }
 
-        roleAssignmentName := rs.Primary.Attributes["role_assignment_name"]
+        name := rs.Primary.Attributes["name"]
         scope := rs.Primary.Attributes["scope"]
 
-        if resp, err := client.Get(ctx, scope, roleAssignmentName); err != nil {
+        if resp, err := client.Get(ctx, scope, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on roleAssignmentsClient: %+v", err)
             }

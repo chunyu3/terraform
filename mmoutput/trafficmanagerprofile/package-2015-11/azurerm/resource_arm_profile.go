@@ -31,19 +31,19 @@ func resourceArmProfile() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "profile_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "dns_config": {
                 Type: schema.TypeList,
@@ -170,14 +170,14 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, profileName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -206,17 +206,17 @@ func resourceArmProfileCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, profileName, parameters); err != nil {
-        return fmt.Errorf("Error creating Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, profileName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Profile (Profile Name %q / Resource Group %q) ID", profileName, resourceGroup)
+        return fmt.Errorf("Cannot read Profile %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -232,19 +232,20 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    profileName := id.Path["trafficmanagerprofiles"]
+    name := id.Path["trafficmanagerprofiles"]
 
-    resp, err := client.Get(ctx, resourceGroup, profileName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Profile %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+        return fmt.Errorf("Error reading Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -263,7 +264,6 @@ func resourceArmProfileRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("profile_status", profileProperties.ProfileStatus)
         d.Set("traffic_routing_method", profileProperties.TrafficRoutingMethod)
     }
-    d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -273,11 +273,11 @@ func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).profilesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     dnsConfig := d.Get("dns_config").([]interface{})
     endpoints := d.Get("endpoints").([]interface{})
     monitorConfig := d.Get("monitor_config").([]interface{})
-    profileName := d.Get("profile_name").(string)
     profileStatus := d.Get("profile_status").(string)
     trafficRoutingMethod := d.Get("traffic_routing_method").(string)
     t := d.Get("tags").(map[string]interface{})
@@ -295,8 +295,8 @@ func resourceArmProfileUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, profileName, parameters); err != nil {
-        return fmt.Errorf("Error updating Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmProfileRead(d, meta)
@@ -312,10 +312,10 @@ func resourceArmProfileDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    profileName := id.Path["trafficmanagerprofiles"]
+    name := id.Path["trafficmanagerprofiles"]
 
-    if _, err := client.Delete(ctx, resourceGroup, profileName); err != nil {
-        return fmt.Errorf("Error deleting Profile (Profile Name %q / Resource Group %q): %+v", profileName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Profile %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

@@ -34,15 +34,15 @@ func testCheckAzureRMSpatialAnchorsAccountExists(resourceName string) resource.T
             return fmt.Errorf("Spatial Anchors Account not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        spatialAnchorsAccountName := rs.Primary.Attributes["spatial_anchors_account_name"]
 
         client := testAccProvider.Meta().(*ArmClient).spatialAnchorsAccountsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, spatialAnchorsAccountName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Spatial Anchors Account (Spatial Anchors Account Name %q / Resource Group %q) does not exist", spatialAnchorsAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Spatial Anchors Account %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on spatialAnchorsAccountsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMSpatialAnchorsAccountDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        spatialAnchorsAccountName := rs.Primary.Attributes["spatial_anchors_account_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, spatialAnchorsAccountName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on spatialAnchorsAccountsClient: %+v", err)
             }

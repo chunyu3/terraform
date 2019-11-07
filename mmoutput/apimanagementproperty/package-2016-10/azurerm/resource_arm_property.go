@@ -36,16 +36,16 @@ func resourceArmProperty() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "prop_id": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "service_name": {
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "prop_id": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -81,15 +81,15 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).propertyClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     propID := d.Get("prop_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, propID)
+        existing, err := client.Get(ctx, resourceGroup, name, propID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -110,17 +110,17 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, propID, parameters); err != nil {
-        return fmt.Errorf("Error creating Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, propID, parameters); err != nil {
+        return fmt.Errorf("Error creating Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, propID)
+    resp, err := client.Get(ctx, resourceGroup, name, propID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Property (Prop %q / Service Name %q / Resource Group %q) ID", propID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Property %q (Prop %q / Resource Group %q) ID", name, propID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -136,25 +136,25 @@ func resourceArmPropertyRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     propID := id.Path["properties"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, propID)
+    resp, err := client.Get(ctx, resourceGroup, name, propID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Property %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("prop_id", propID)
     d.Set("secret", resp.Secret)
-    d.Set("service_name", serviceName)
     d.Set("tags", utils.FlattenStringSlice(resp.Tags))
     d.Set("value", resp.Value)
 
@@ -166,10 +166,10 @@ func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     propID := d.Get("prop_id").(string)
     secret := d.Get("secret").(bool)
-    serviceName := d.Get("service_name").(string)
     t := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
@@ -181,8 +181,8 @@ func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, serviceName, propID, parameters); err != nil {
-        return fmt.Errorf("Error updating Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, serviceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, propID, parameters); err != nil {
+        return fmt.Errorf("Error updating Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
     }
 
     return resourceArmPropertyRead(d, meta)
@@ -198,11 +198,11 @@ func resourceArmPropertyDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     propID := id.Path["properties"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, propID); err != nil {
-        return fmt.Errorf("Error deleting Property (Prop %q / Service Name %q / Resource Group %q): %+v", propID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, propID); err != nil {
+        return fmt.Errorf("Error deleting Property %q (Prop %q / Resource Group %q): %+v", name, propID, resourceGroup, err)
     }
 
     return nil

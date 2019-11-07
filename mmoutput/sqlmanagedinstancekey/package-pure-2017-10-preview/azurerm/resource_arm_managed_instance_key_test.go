@@ -34,16 +34,16 @@ func testCheckAzureRMManagedInstanceKeyExists(resourceName string) resource.Test
             return fmt.Errorf("Managed Instance Key not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        keyName := rs.Primary.Attributes["key_name"]
         managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
         client := testAccProvider.Meta().(*ArmClient).managedInstanceKeysClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, keyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Managed Instance Key (Key Name %q / Managed Instance Name %q / Resource Group %q) does not exist", keyName, managedInstanceName, resourceGroup)
+                return fmt.Errorf("Bad: Managed Instance Key %q (Managed Instance Name %q / Resource Group %q) does not exist", name, managedInstanceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on managedInstanceKeysClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMManagedInstanceKeyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        keyName := rs.Primary.Attributes["key_name"]
         managedInstanceName := rs.Primary.Attributes["managed_instance_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, keyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, managedInstanceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on managedInstanceKeysClient: %+v", err)
             }

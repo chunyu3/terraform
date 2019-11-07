@@ -28,13 +28,13 @@ Manage Azure Disk instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
 * `creation_data` - (Required) One `creation_datum` block defined below.
-
-* `disk_name` - (Required) The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters. Changing this forces a new resource to be created.
 
 ---
 

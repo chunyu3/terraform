@@ -28,11 +28,11 @@ Manage Azure RegisteredServer instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `server_id` - (Required) GUID identifying the on-premises server. Changing this forces a new resource to be created.
-
-* `storage_sync_service_name` - (Required) Name of Storage Sync Service resource. Changing this forces a new resource to be created.
 
 * `agent_version` - (Optional) Registered Server Agent Version
 

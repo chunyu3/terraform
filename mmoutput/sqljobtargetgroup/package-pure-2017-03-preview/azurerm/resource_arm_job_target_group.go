@@ -31,6 +31,13 @@ func resourceArmJobTargetGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -99,13 +106,6 @@ func resourceArmJobTargetGroup() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "target_group_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -118,16 +118,16 @@ func resourceArmJobTargetGroupCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).jobTargetGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     jobAgentName := d.Get("job_agent_name").(string)
     serverName := d.Get("server_name").(string)
-    targetGroupName := d.Get("target_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, targetGroupName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Job Target Group (Target Group Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", targetGroupName, jobAgentName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Job Target Group %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -144,17 +144,17 @@ func resourceArmJobTargetGroupCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, targetGroupName, parameters); err != nil {
-        return fmt.Errorf("Error creating Job Target Group (Target Group Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", targetGroupName, jobAgentName, serverName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, jobAgentName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Job Target Group %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, targetGroupName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Job Target Group (Target Group Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", targetGroupName, jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Job Target Group %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Job Target Group (Target Group Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) ID", targetGroupName, jobAgentName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Job Target Group %q (Job Agent Name %q / Server Name %q / Resource Group %q) ID", name, jobAgentName, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -172,19 +172,20 @@ func resourceArmJobTargetGroupRead(d *schema.ResourceData, meta interface{}) err
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
     jobAgentName := id.Path["jobAgents"]
-    targetGroupName := id.Path["targetGroups"]
+    name := id.Path["targetGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, targetGroupName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Job Target Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Job Target Group (Target Group Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", targetGroupName, jobAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Job Target Group %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("job_agent_name", jobAgentName)
@@ -194,7 +195,6 @@ func resourceArmJobTargetGroupRead(d *schema.ResourceData, meta interface{}) err
         }
     }
     d.Set("server_name", serverName)
-    d.Set("target_group_name", targetGroupName)
     d.Set("type", resp.Type)
 
     return nil
@@ -213,10 +213,10 @@ func resourceArmJobTargetGroupDelete(d *schema.ResourceData, meta interface{}) e
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
     jobAgentName := id.Path["jobAgents"]
-    targetGroupName := id.Path["targetGroups"]
+    name := id.Path["targetGroups"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName, targetGroupName); err != nil {
-        return fmt.Errorf("Error deleting Job Target Group (Target Group Name %q / Job Agent Name %q / Server Name %q / Resource Group %q): %+v", targetGroupName, jobAgentName, serverName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, serverName, jobAgentName, name); err != nil {
+        return fmt.Errorf("Error deleting Job Target Group %q (Job Agent Name %q / Server Name %q / Resource Group %q): %+v", name, jobAgentName, serverName, resourceGroup, err)
     }
 
     return nil

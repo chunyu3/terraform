@@ -34,17 +34,17 @@ func testCheckAzureRMInvitationExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Invitation not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        invitationName := rs.Primary.Attributes["invitation_name"]
         shareName := rs.Primary.Attributes["share_name"]
 
         client := testAccProvider.Meta().(*ArmClient).invitationsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, invitationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Invitation (Invitation Name %q / Share Name %q / Account Name %q / Resource Group %q) does not exist", invitationName, shareName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Invitation %q (Share Name %q / Account Name %q / Resource Group %q) does not exist", name, shareName, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on invitationsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMInvitationDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        invitationName := rs.Primary.Attributes["invitation_name"]
         shareName := rs.Primary.Attributes["share_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, invitationName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, shareName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on invitationsClient: %+v", err)
             }

@@ -34,17 +34,17 @@ func testCheckAzureRMViewExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("View not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
          := rs.Primary.Attributes["user_id"]
-        viewName := rs.Primary.Attributes["view_name"]
 
         client := testAccProvider.Meta().(*ArmClient).viewsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, viewName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: View (View Name %q / Hub Name %q / Resource Group %q) does not exist", viewName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: View %q (Hub Name %q / Resource Group %q) does not exist", name, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on viewsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMViewDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         hubName := rs.Primary.Attributes["hub_name"]
          := rs.Primary.Attributes["user_id"]
-        viewName := rs.Primary.Attributes["view_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, viewName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on viewsClient: %+v", err)
             }

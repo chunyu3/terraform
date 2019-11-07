@@ -28,9 +28,9 @@ Manage Azure SqlServer instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the SQL Server. Changing this forces a new resource to be created.
 
-* `sql_server_name` - (Required) Name of the SQL Server. Changing this forces a new resource to be created.
+* `resource_group` - (Required) Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `sql_server_registration_name` - (Required) Name of the SQL Server registration. Changing this forces a new resource to be created.
 

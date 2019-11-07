@@ -1,0 +1,95 @@
+--- !ruby/object:Api::Product
+name: Azure TenantAcces Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: TenantAcces
+    api_name: ApiManagement
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ApiManagement
+      go_client_namespace: apimanagement
+      go_client: tenantAccessClient
+      python_client_namespace: azure.mgmt.apimanagement
+      python_client: ApiManagementClient.tenant_access
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: service
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'accessName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: tenant
+            go_variable_name: name
+            python_parameter_name: access_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrimaryKey
+            python_field_name: primary_key
+          '/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SecondaryKey
+            python_field_name: secondary_key
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: Enabled
+            python_field_name: enabled
+
+    description: |
+      Manage Azure TenantAcces instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the API Management service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The identifier of the Access configuration.'
+        required: true
+        input: true
+        azure_sdk_references: ['accessName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'primaryKey'
+        description: 'Primary access key.'
+        output: true
+        azure_sdk_references: ['/primaryKey']
+      - !ruby/object:Api::Type::String
+        name: 'secondaryKey'
+        description: 'Secondary access key.'
+        output: true
+        azure_sdk_references: ['/secondaryKey']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabled'
+        description: 'Tenant access information of the API Management service.'
+        output: true
+        azure_sdk_references: ['/enabled']

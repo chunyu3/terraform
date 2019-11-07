@@ -34,16 +34,16 @@ func testCheckAzureRMMediaGraphExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Media Graph not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        mediaGraphName := rs.Primary.Attributes["media_graph_name"]
 
         client := testAccProvider.Meta().(*ArmClient).mediaGraphsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, mediaGraphName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q) does not exist", mediaGraphName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Media Graph %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on mediaGraphsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMMediaGraphDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        mediaGraphName := rs.Primary.Attributes["media_graph_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, mediaGraphName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on mediaGraphsClient: %+v", err)
             }

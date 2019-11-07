@@ -28,13 +28,13 @@ Manage Azure SecurityContact instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the security contact object Changing this forces a new resource to be created.
+
 * `alert_notifications` - (Required) Whether to send security alerts notifications to the security contact
 
 * `alerts_to_admins` - (Required) Whether to send security alerts notifications to subscription admins
 
 * `email` - (Required) The email of this security contact
-
-* `security_contact_name` - (Required) Name of the security contact object Changing this forces a new resource to be created.
 
 * `phone` - (Optional) The phone number of this security contact
 

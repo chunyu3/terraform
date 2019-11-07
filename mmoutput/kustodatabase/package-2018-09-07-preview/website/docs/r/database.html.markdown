@@ -28,13 +28,13 @@ Manage Azure Database instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the database in the Kusto cluster. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
 
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
-
-* `database_name` - (Required) The name of the database in the Kusto cluster. Changing this forces a new resource to be created.
 
 * `soft_delete_period_in_days` - (Required) The number of days data should be kept before it stops being accessible to queries.
 

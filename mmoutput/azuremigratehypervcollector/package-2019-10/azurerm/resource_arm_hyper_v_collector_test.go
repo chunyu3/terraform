@@ -34,16 +34,16 @@ func testCheckAzureRMHyperVCollectorExists(resourceName string) resource.TestChe
             return fmt.Errorf("Hyper V Collector not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        hyperVcollectorName := rs.Primary.Attributes["hyper_vcollector_name"]
         projectName := rs.Primary.Attributes["project_name"]
 
         client := testAccProvider.Meta().(*ArmClient).hyperVCollectorsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, hyperVcollectorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Hyper V Collector (Hyper Vcollector Name %q / Project Name %q / Resource Group %q) does not exist", hyperVcollectorName, projectName, resourceGroup)
+                return fmt.Errorf("Bad: Hyper V Collector %q (Project Name %q / Resource Group %q) does not exist", name, projectName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on hyperVCollectorsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMHyperVCollectorDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        hyperVcollectorName := rs.Primary.Attributes["hyper_vcollector_name"]
         projectName := rs.Primary.Attributes["project_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, hyperVcollectorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on hyperVCollectorsClient: %+v", err)
             }

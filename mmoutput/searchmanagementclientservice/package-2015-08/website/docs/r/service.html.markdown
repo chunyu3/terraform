@@ -28,9 +28,9 @@ Manage Azure Service instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Azure Search service to create or update. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net). You cannot change the service name after the service is created. Changing this forces a new resource to be created.
 
-* `search_service_name` - (Required) The name of the Azure Search service to create or update. Search service names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in length. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net). You cannot change the service name after the service is created. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group within the current subscription. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. Changing this forces a new resource to be created.
 

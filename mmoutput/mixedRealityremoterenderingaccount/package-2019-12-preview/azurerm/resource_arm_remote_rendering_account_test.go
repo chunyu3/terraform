@@ -34,15 +34,15 @@ func testCheckAzureRMRemoteRenderingAccountExists(resourceName string) resource.
             return fmt.Errorf("Remote Rendering Account not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        accountName := rs.Primary.Attributes["account_name"]
 
         client := testAccProvider.Meta().(*ArmClient).remoteRenderingAccountsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Remote Rendering Account (Account Name %q / Resource Group %q) does not exist", accountName, resourceGroup)
+                return fmt.Errorf("Bad: Remote Rendering Account %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on remoteRenderingAccountsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMRemoteRenderingAccountDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        accountName := rs.Primary.Attributes["account_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on remoteRenderingAccountsClient: %+v", err)
             }

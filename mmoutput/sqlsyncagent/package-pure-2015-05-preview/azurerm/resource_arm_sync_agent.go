@@ -31,6 +31,13 @@ func resourceArmSyncAgent() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -42,13 +49,6 @@ func resourceArmSyncAgent() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "server_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "sync_agent_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -97,15 +97,15 @@ func resourceArmSyncAgentCreateUpdate(d *schema.ResourceData, meta interface{}) 
     client := meta.(*ArmClient).syncAgentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     serverName := d.Get("server_name").(string)
-    syncAgentName := d.Get("sync_agent_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, syncAgentName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -122,21 +122,21 @@ func resourceArmSyncAgentCreateUpdate(d *schema.ResourceData, meta interface{}) 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, syncAgentName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, syncAgentName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q) ID", syncAgentName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Sync Agent %q (Server Name %q / Resource Group %q) ID", name, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -153,19 +153,20 @@ func resourceArmSyncAgentRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    syncAgentName := id.Path["syncAgents"]
+    name := id.Path["syncAgents"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, syncAgentName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Sync Agent %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     if syncAgentProperties := resp.SyncAgentProperties; syncAgentProperties != nil {
         d.Set("name", syncAgentProperties.Name)
         d.Set("expiry_time", (syncAgentProperties.ExpiryTime).String())
@@ -181,7 +182,6 @@ func resourceArmSyncAgentRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("server_name", serverName)
-    d.Set("sync_agent_name", syncAgentName)
     d.Set("type", resp.Type)
 
     return nil
@@ -199,19 +199,19 @@ func resourceArmSyncAgentDelete(d *schema.ResourceData, meta interface{}) error 
     }
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
-    syncAgentName := id.Path["syncAgents"]
+    name := id.Path["syncAgents"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, syncAgentName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Sync Agent (Sync Agent Name %q / Server Name %q / Resource Group %q): %+v", syncAgentName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Sync Agent %q (Server Name %q / Resource Group %q): %+v", name, serverName, resourceGroup, err)
         }
     }
 

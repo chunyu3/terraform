@@ -31,6 +31,13 @@ func resourceArmCertificate() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -52,13 +59,6 @@ func resourceArmCertificate() *schema.Resource {
             "password": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -89,15 +89,15 @@ func resourceArmCertificateCreateUpdate(d *schema.ResourceData, meta interface{}
     client := meta.(*ArmClient).certificateClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     certificateID := d.Get("certificate_id").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, certificateID)
+        existing, err := client.Get(ctx, resourceGroup, name, certificateID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Certificate (Certificate %q / Service Name %q / Resource Group %q): %+v", certificateID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Certificate %q (Certificate %q / Resource Group %q): %+v", name, certificateID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -116,17 +116,17 @@ func resourceArmCertificateCreateUpdate(d *schema.ResourceData, meta interface{}
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, certificateID, parameters); err != nil {
-        return fmt.Errorf("Error creating Certificate (Certificate %q / Service Name %q / Resource Group %q): %+v", certificateID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, certificateID, parameters); err != nil {
+        return fmt.Errorf("Error creating Certificate %q (Certificate %q / Resource Group %q): %+v", name, certificateID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, certificateID)
+    resp, err := client.Get(ctx, resourceGroup, name, certificateID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Certificate (Certificate %q / Service Name %q / Resource Group %q): %+v", certificateID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Certificate %q (Certificate %q / Resource Group %q): %+v", name, certificateID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Certificate (Certificate %q / Service Name %q / Resource Group %q) ID", certificateID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Certificate %q (Certificate %q / Resource Group %q) ID", name, certificateID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -142,20 +142,21 @@ func resourceArmCertificateRead(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     certificateID := id.Path["certificates"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, certificateID)
+    resp, err := client.Get(ctx, resourceGroup, name, certificateID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Certificate %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Certificate (Certificate %q / Service Name %q / Resource Group %q): %+v", certificateID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Certificate %q (Certificate %q / Resource Group %q): %+v", name, certificateID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("certificate_id", certificateID)
@@ -164,7 +165,6 @@ func resourceArmCertificateRead(d *schema.ResourceData, meta interface{}) error 
         d.Set("subject", certificateCreateOrUpdateProperties.Subject)
         d.Set("thumbprint", certificateCreateOrUpdateProperties.Thumbprint)
     }
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return nil
@@ -181,11 +181,11 @@ func resourceArmCertificateDelete(d *schema.ResourceData, meta interface{}) erro
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     certificateID := id.Path["certificates"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, certificateID); err != nil {
-        return fmt.Errorf("Error deleting Certificate (Certificate %q / Service Name %q / Resource Group %q): %+v", certificateID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, certificateID); err != nil {
+        return fmt.Errorf("Error deleting Certificate %q (Certificate %q / Resource Group %q): %+v", name, certificateID, resourceGroup, err)
     }
 
     return nil

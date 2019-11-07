@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: jobName
+            go_variable_name: name
             python_parameter_name: job_name
-            python_variable_name: job_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: JobCreateParameters
@@ -103,6 +103,15 @@ objects:
           '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: password_secret_reference
+          '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/properties/containerSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ContainerSettings
@@ -131,6 +140,16 @@ objects:
             applicable_to: [go]
             go_field_name: PasswordSecretReference
             go_type_name: KeyVaultSecretReference
+          '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/cntkSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: cntk_settings
@@ -449,9 +468,9 @@ objects:
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: jobName
+            go_variable_name: name
             python_parameter_name: job_name
-            python_variable_name: job_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -463,9 +482,9 @@ objects:
             python_variable_name: resource_group
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: jobName
+            go_variable_name: name
             python_parameter_name: job_name
-            python_variable_name: job_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -536,6 +555,16 @@ objects:
             applicable_to: [go]
             go_field_name: PasswordSecretReference
             go_type_name: KeyVaultSecretReference
+          '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/containerSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: container_settings
@@ -560,6 +589,15 @@ objects:
           '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: password_secret_reference
+          '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/properties/cntkSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: CntkSettings
@@ -884,9 +922,65 @@ objects:
             applicable_to: [go]
             go_field_name: ExecutionInfo
             go_type_name: JobProperties_executionInfo
+          '/properties/executionInfo/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/executionInfo/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/properties/executionInfo/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ExitCode
+          '/properties/executionInfo/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Errors
+            go_type_name: BatchAIError
+          '/properties/executionInfo/errors/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/executionInfo/errors/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/executionInfo/errors/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Details
+            go_type_name: NameValuePair
+          '/properties/executionInfo/errors/details/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/executionInfo/errors/details/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
           '/executionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: execution_info
+          '/executionInfo/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/executionInfo/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/executionInfo/exitCode': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: exit_code
+          '/executionInfo/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: errors
+          '/executionInfo/errors/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/executionInfo/errors/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/executionInfo/errors/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: details
+          '/executionInfo/errors/details/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/executionInfo/errors/details/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -920,7 +1014,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'jobName'
+        name: 'name'
         description: 'The name of the job within the specified resource group. Job names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.'
         required: true
         input: true
@@ -1001,6 +1095,28 @@ objects:
                     description: 'One of password or passwordSecretReference must be specified.'
                     required: false
                     azure_sdk_references: ['/containerSettings/imageSourceRegistry/credentials/password', '/properties/containerSettings/imageSourceRegistry/credentials/password']
+                  - !ruby/object:Api::Type::NestedObject
+                    name: 'passwordSecretReference'
+                    description: 'Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of password or passwordSecretReference must be specified.'
+                    required: false
+                    azure_sdk_references: ['/containerSettings/imageSourceRegistry/credentials/passwordSecretReference', '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference']
+                    properties:
+                      - !ruby/object:Api::Type::NestedObject
+                        name: 'sourceVault'
+                        description: ''
+                        required: true
+                        azure_sdk_references: ['/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault', '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault']
+                        properties:
+                          - !ruby/object:Api::Type::String
+                            name: 'id'
+                            description: 'The ID of the resource'
+                            required: true
+                            azure_sdk_references: ['/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault/id', '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/sourceVault/id']
+                      - !ruby/object:Api::Type::String
+                        name: 'secretUrl'
+                        description: ''
+                        required: true
+                        azure_sdk_references: ['/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/secretUrl', '/properties/containerSettings/imageSourceRegistry/credentials/passwordSecretReference/secretUrl']
       - !ruby/object:Api::Type::NestedObject
         name: 'cntkSettings'
         description: ''
@@ -1321,55 +1437,6 @@ objects:
         output: true
         azure_sdk_references: ['/executionInfo', '/properties/executionInfo']
         properties:
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'startTime'
-            description: '''Running'' corresponds to the running state. If the job has been restarted or retried, this is the most recent time at which the job started running. This property is present only for job that are in the running or completed state.'
-            required: true
-            azure_sdk_references: ['/executionInfo/startTime', '/properties/executionInfo/startTime']
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'endTime'
-            description: 'This property is only returned if the job is in completed state.'
-            required: false
-            azure_sdk_references: ['/executionInfo/endTime', '/properties/executionInfo/endTime']
-          - !ruby/object:Api::Type::Integer
-            name: 'exitCode'
-            description: 'This property is only returned if the job is in completed state.'
-            required: false
-            azure_sdk_references: ['/executionInfo/exitCode', '/properties/executionInfo/exitCode']
-          - !ruby/object:Api::Type::Array
-            name: 'errors'
-            description: ''
-            required: false
-            azure_sdk_references: ['/executionInfo/errors', '/properties/executionInfo/errors']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'code'
-                  description: 'An identifier for the error. Codes are invariant and are intended to be consumed programmatically.'
-                  required: false
-                  azure_sdk_references: ['/executionInfo/errors/code', '/properties/executionInfo/errors/code']
-                - !ruby/object:Api::Type::String
-                  name: 'message'
-                  description: 'A message describing the error, intended to be suitable for display in a user interface.'
-                  required: false
-                  azure_sdk_references: ['/executionInfo/errors/message', '/properties/executionInfo/errors/message']
-                - !ruby/object:Api::Type::Array
-                  name: 'details'
-                  description: 'A list of additional details about the error.'
-                  required: false
-                  azure_sdk_references: ['/executionInfo/errors/details', '/properties/executionInfo/errors/details']
-                  item_type: !ruby/object:Api::Type::NestedObject
-                    properties:
-                      - !ruby/object:Api::Type::String
-                        name: 'name'
-                        description: ''
-                        required: false
-                        azure_sdk_references: ['/executionInfo/errors/details/name', '/properties/executionInfo/errors/details/name']
-                      - !ruby/object:Api::Type::String
-                        name: 'value'
-                        description: ''
-                        required: false
-                        azure_sdk_references: ['/executionInfo/errors/details/value', '/properties/executionInfo/errors/details/value']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The ID of the resource'

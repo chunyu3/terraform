@@ -34,16 +34,16 @@ func testCheckAzureRMChannelExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Channel not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        channelName := rs.Primary.Attributes["channel_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).channelsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, resourceName, channelName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Channel (Channel Name %q / Resource Name %q / Resource Group %q) does not exist", channelName, resourceName, resourceGroup)
+                return fmt.Errorf("Bad: Channel %q (Resource Name %q / Resource Group %q) does not exist", name, resourceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on channelsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMChannelDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        channelName := rs.Primary.Attributes["channel_name"]
         resourceName := rs.Primary.Attributes["resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, resourceName, channelName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, resourceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on channelsClient: %+v", err)
             }

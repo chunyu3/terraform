@@ -31,19 +31,19 @@ func resourceArmStreamingPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "streaming_policy_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -127,6 +127,42 @@ func resourceArmStreamingPolicy() *schema.Resource {
                                                 "policy_name": {
                                                     Type: schema.TypeString,
                                                     Optional: true,
+                                                },
+                                                "tracks": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "track_selections": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "operation": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.Equal),
+                                                                            }, false),
+                                                                        },
+                                                                        "property": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.FourCC),
+                                                                            }, false),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
                                                 },
                                             },
                                         },
@@ -297,6 +333,42 @@ func resourceArmStreamingPolicy() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Optional: true,
                                                 },
+                                                "tracks": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "track_selections": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "operation": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.Equal),
+                                                                            }, false),
+                                                                        },
+                                                                        "property": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.FourCC),
+                                                                            }, false),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -454,6 +526,42 @@ func resourceArmStreamingPolicy() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Optional: true,
                                                 },
+                                                "tracks": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "track_selections": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "operation": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.Equal),
+                                                                            }, false),
+                                                                        },
+                                                                        "property": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.FourCC),
+                                                                            }, false),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -545,15 +653,15 @@ func resourceArmStreamingPolicyCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).streamingPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    streamingPolicyName := d.Get("streaming_policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, streamingPolicyName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q): %+v", streamingPolicyName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Streaming Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -578,17 +686,17 @@ func resourceArmStreamingPolicyCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, accountName, streamingPolicyName, parameters); err != nil {
-        return fmt.Errorf("Error creating Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q): %+v", streamingPolicyName, accountName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Streaming Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, streamingPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q): %+v", streamingPolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Streaming Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q) ID", streamingPolicyName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Streaming Policy %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -605,19 +713,20 @@ func resourceArmStreamingPolicyRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    streamingPolicyName := id.Path["streamingPolicies"]
+    name := id.Path["streamingPolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, streamingPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Streaming Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q): %+v", streamingPolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Streaming Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -637,7 +746,6 @@ func resourceArmStreamingPolicyRead(d *schema.ResourceData, meta interface{}) er
             return fmt.Errorf("Error setting `no_encryption`: %+v", err)
         }
     }
-    d.Set("streaming_policy_name", streamingPolicyName)
     d.Set("type", resp.Type)
 
     return nil
@@ -655,10 +763,10 @@ func resourceArmStreamingPolicyDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    streamingPolicyName := id.Path["streamingPolicies"]
+    name := id.Path["streamingPolicies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, streamingPolicyName); err != nil {
-        return fmt.Errorf("Error deleting Streaming Policy (Streaming Policy Name %q / Account Name %q / Resource Group %q): %+v", streamingPolicyName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Streaming Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil
@@ -864,10 +972,12 @@ func expandArmStreamingPolicyStreamingPolicyContentKey(input []interface{}) *[]m
         v := item.(map[string]interface{})
         label := v["label"].(string)
         policyName := v["policy_name"].(string)
+        tracks := v["tracks"].([]interface{})
 
         result := mediaservices.StreamingPolicyContentKey{
             Label: utils.String(label),
             PolicyName: utils.String(policyName),
+            Tracks: expandArmStreamingPolicyTrackSelection(tracks),
         }
 
         results = append(results, result)
@@ -1114,6 +1224,7 @@ func flattenArmStreamingPolicyStreamingPolicyContentKey(input *[]mediaservices.S
         if policyName := item.PolicyName; policyName != nil {
             v["policy_name"] = *policyName
         }
+        v["tracks"] = flattenArmStreamingPolicyTrackSelection(item.Tracks)
 
         results = append(results, v)
     }

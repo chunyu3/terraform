@@ -34,17 +34,17 @@ func testCheckAzureRMCustomDomainExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Custom Domain not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        customDomainName := rs.Primary.Attributes["custom_domain_name"]
         endpointName := rs.Primary.Attributes["endpoint_name"]
         profileName := rs.Primary.Attributes["profile_name"]
 
         client := testAccProvider.Meta().(*ArmClient).customDomainsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName, endpointName, customDomainName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, profileName, endpointName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Custom Domain (Custom Domain Name %q / Endpoint Name %q / Profile Name %q / Resource Group %q) does not exist", customDomainName, endpointName, profileName, resourceGroup)
+                return fmt.Errorf("Bad: Custom Domain %q (Endpoint Name %q / Profile Name %q / Resource Group %q) does not exist", name, endpointName, profileName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on customDomainsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMCustomDomainDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        customDomainName := rs.Primary.Attributes["custom_domain_name"]
         endpointName := rs.Primary.Attributes["endpoint_name"]
         profileName := rs.Primary.Attributes["profile_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, profileName, endpointName, customDomainName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, profileName, endpointName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on customDomainsClient: %+v", err)
             }

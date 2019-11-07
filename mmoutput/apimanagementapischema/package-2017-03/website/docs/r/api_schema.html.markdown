@@ -28,6 +28,8 @@ Manage Azure ApiSchema instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `api_id` - (Required) API identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `content_type` - (Required) Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml).
 
 * `schema_id` - (Required) Schema identifier within an API. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
-
-* `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `document` - (Optional) One `document` block defined below.
 

@@ -28,13 +28,13 @@ Manage Azure Annotation instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
 
-* `resource_name` - (Required) The name of the Application Insights component resource. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `id` - (Optional) Unique Id for annotation Changing this forces a new resource to be created.
 
-* `name` - (Optional) Name of annotation Changing this forces a new resource to be created.
+* `annotation_name` - (Optional) Name of annotation Changing this forces a new resource to be created.
 
 * `category` - (Optional) Category of annotation, free form Changing this forces a new resource to be created.
 

@@ -34,19 +34,19 @@ func testCheckAzureRMApiOperationPolicyExists(resourceName string) resource.Test
             return fmt.Errorf("Api Operation Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
          := rs.Primary.Attributes["format"]
         operationID := rs.Primary.Attributes["operation_id"]
         policyID := rs.Primary.Attributes["policy_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).apiOperationPolicyClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID, policyID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Operation Policy (Policy %q / Operation %q / Api %q / Service Name %q / Resource Group %q) does not exist", policyID, operationID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Operation Policy %q (Policy %q / Operation %q / Api %q / Resource Group %q) does not exist", name, policyID, operationID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiOperationPolicyClient: %+v", err)
         }
@@ -64,14 +64,14 @@ func testCheckAzureRMApiOperationPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
          := rs.Primary.Attributes["format"]
         operationID := rs.Primary.Attributes["operation_id"]
         policyID := rs.Primary.Attributes["policy_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, operationID, policyID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, operationID, policyID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiOperationPolicyClient: %+v", err)
             }

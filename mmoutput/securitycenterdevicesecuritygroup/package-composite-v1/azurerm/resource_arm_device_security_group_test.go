@@ -34,15 +34,15 @@ func testCheckAzureRMDeviceSecurityGroupExists(resourceName string) resource.Tes
             return fmt.Errorf("Device Security Group not found: %s", resourceName)
         }
 
-        deviceSecurityGroupName := rs.Primary.Attributes["device_security_group_name"]
+        name := rs.Primary.Attributes["name"]
         resourceID := rs.Primary.Attributes["resource_id"]
 
         client := testAccProvider.Meta().(*ArmClient).deviceSecurityGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceID, deviceSecurityGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceID, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Device Security Group (Device Security Group Name %q / Resource %q) does not exist", deviceSecurityGroupName, resourceID)
+                return fmt.Errorf("Bad: Device Security Group %q (Resource %q) does not exist", name, resourceID)
             }
             return fmt.Errorf("Bad: Get on deviceSecurityGroupsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMDeviceSecurityGroupDestroy(s *terraform.State) error {
             continue
         }
 
-        deviceSecurityGroupName := rs.Primary.Attributes["device_security_group_name"]
+        name := rs.Primary.Attributes["name"]
         resourceID := rs.Primary.Attributes["resource_id"]
 
-        if resp, err := client.Get(ctx, resourceID, deviceSecurityGroupName); err != nil {
+        if resp, err := client.Get(ctx, resourceID, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on deviceSecurityGroupsClient: %+v", err)
             }

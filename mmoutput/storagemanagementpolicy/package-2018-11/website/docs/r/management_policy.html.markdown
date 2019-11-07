@@ -28,11 +28,11 @@ Manage Azure ManagementPolicy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Storage Account Management Policy. It should always be 'default' Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the user's subscription. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. Changing this forces a new resource to be created.
-
-* `management_policy_name` - (Required) The name of the Storage Account Management Policy. It should always be 'default' Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

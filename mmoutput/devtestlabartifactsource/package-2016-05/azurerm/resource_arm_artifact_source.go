@@ -36,16 +36,16 @@ func resourceArmArtifactSource() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "arm_template_folder_path": {
                 Type: schema.TypeString,
@@ -127,14 +127,14 @@ func resourceArmArtifactSourceCreate(d *schema.ResourceData, meta interface{}) e
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    labName := d.Get("lab_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, name)
+        existing, err := client.Get(ctx, resourceGroup, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Artifact Source %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Artifact Source %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -171,17 +171,17 @@ func resourceArmArtifactSourceCreate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, name, artifactSource); err != nil {
-        return fmt.Errorf("Error creating Artifact Source %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, name, artifactSource); err != nil {
+        return fmt.Errorf("Error creating Artifact Source %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Artifact Source %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Artifact Source %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Artifact Source %q (Lab Name %q / Resource Group %q) ID", name, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Artifact Source %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -197,20 +197,21 @@ func resourceArmArtifactSourceRead(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["artifactsources"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, name)
+    resp, err := client.Get(ctx, resourceGroup, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Artifact Source %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Artifact Source %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Artifact Source %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -229,7 +230,6 @@ func resourceArmArtifactSourceRead(d *schema.ResourceData, meta interface{}) err
         d.Set("unique_identifier", artifactSourceProperties.UniqueIdentifier)
         d.Set("uri", artifactSourceProperties.Uri)
     }
-    d.Set("lab_name", labName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -240,12 +240,12 @@ func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) e
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     armTemplateFolderPath := d.Get("arm_template_folder_path").(string)
     branchRef := d.Get("branch_ref").(string)
     displayName := d.Get("display_name").(string)
     folderPath := d.Get("folder_path").(string)
-    labName := d.Get("lab_name").(string)
     securityToken := d.Get("security_token").(string)
     sourceType := d.Get("source_type").(string)
     status := d.Get("status").(string)
@@ -270,8 +270,8 @@ func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, name, artifactSource); err != nil {
-        return fmt.Errorf("Error updating Artifact Source %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, name, artifactSource); err != nil {
+        return fmt.Errorf("Error updating Artifact Source %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmArtifactSourceRead(d, meta)
@@ -287,11 +287,11 @@ func resourceArmArtifactSourceDelete(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    labName := id.Path["labs"]
+    name := id.Path["labs"]
     name := id.Path["artifactsources"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, name); err != nil {
-        return fmt.Errorf("Error deleting Artifact Source %q (Lab Name %q / Resource Group %q): %+v", name, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, name); err != nil {
+        return fmt.Errorf("Error deleting Artifact Source %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

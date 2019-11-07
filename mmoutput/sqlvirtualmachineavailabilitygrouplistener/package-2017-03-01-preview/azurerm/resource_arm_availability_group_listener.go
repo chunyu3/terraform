@@ -31,17 +31,17 @@ func resourceArmAvailabilityGroupListener() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "availability_group_listener_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "sql_virtual_machine_group_name": {
                 Type: schema.TypeString,
@@ -127,15 +127,15 @@ func resourceArmAvailabilityGroupListenerCreateUpdate(d *schema.ResourceData, me
     client := meta.(*ArmClient).availabilityGroupListenersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    availabilityGroupListenerName := d.Get("availability_group_listener_name").(string)
     sqlVirtualMachineGroupName := d.Get("sql_virtual_machine_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName)
+        existing, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -158,21 +158,21 @@ func resourceArmAvailabilityGroupListenerCreateUpdate(d *schema.ResourceData, me
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, sqlVirtualMachineGroupName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error creating Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName)
+    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q) ID", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup)
+        return fmt.Errorf("Cannot read Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q) ID", name, sqlVirtualMachineGroupName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -189,22 +189,22 @@ func resourceArmAvailabilityGroupListenerRead(d *schema.ResourceData, meta inter
     }
     resourceGroup := id.ResourceGroup
     sqlVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
-    availabilityGroupListenerName := id.Path["availabilityGroupListeners"]
+    name := id.Path["availabilityGroupListeners"]
 
-    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName)
+    resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Availability Group Listener %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error reading Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("availability_group_listener_name", availabilityGroupListenerName)
     if availabilityGroupListenerProperties := resp.AvailabilityGroupListenerProperties; availabilityGroupListenerProperties != nil {
         d.Set("availability_group_name", availabilityGroupListenerProperties.AvailabilityGroupName)
         d.Set("create_default_availability_group_if_not_exist", availabilityGroupListenerProperties.CreateDefaultAvailabilityGroupIfNotExist)
@@ -232,19 +232,19 @@ func resourceArmAvailabilityGroupListenerDelete(d *schema.ResourceData, meta int
     }
     resourceGroup := id.ResourceGroup
     sqlVirtualMachineGroupName := id.Path["sqlVirtualMachineGroups"]
-    availabilityGroupListenerName := id.Path["availabilityGroupListeners"]
+    name := id.Path["availabilityGroupListeners"]
 
-    future, err := client.Delete(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName)
+    future, err := client.Delete(ctx, resourceGroup, sqlVirtualMachineGroupName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q): %+v", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q): %+v", name, sqlVirtualMachineGroupName, resourceGroup, err)
         }
     }
 

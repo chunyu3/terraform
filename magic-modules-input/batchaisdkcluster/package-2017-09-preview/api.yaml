@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ClusterCreateParameters
@@ -190,6 +190,21 @@ objects:
           '/nodeSetup/mountVolumes/azureFileShares/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_key
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: account_key_secret_reference
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/nodeSetup/mountVolumes/azureFileShares/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: relative_mount_path
@@ -211,6 +226,21 @@ objects:
           '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_key
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: account_key_secret_reference
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/nodeSetup/mountVolumes/azureBlobFileSystems/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: relative_mount_path
@@ -223,6 +253,9 @@ objects:
           '/nodeSetup/mountVolumes/fileServers/fileServer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: file_server
+          '/nodeSetup/mountVolumes/fileServers/fileServer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/nodeSetup/mountVolumes/fileServers/sourceDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: source_directory
@@ -286,6 +319,23 @@ objects:
             applicable_to: [go]
             go_field_name: Credentials
             go_type_name: AzureStorageCredentialsInfo
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountKey
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountKeySecretReference
+            go_type_name: KeyVaultSecretReference
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/properties/nodeSetup/mountVolumes/azureFileShares/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RelativeMountPath
@@ -309,6 +359,23 @@ objects:
             applicable_to: [go]
             go_field_name: Credentials
             go_type_name: AzureStorageCredentialsInfo
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountKey
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountKeySecretReference
+            go_type_name: KeyVaultSecretReference
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RelativeMountPath
@@ -323,6 +390,9 @@ objects:
             applicable_to: [go]
             go_field_name: FileServer
             go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/fileServers/fileServer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/nodeSetup/mountVolumes/fileServers/sourceDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SourceDirectory
@@ -391,9 +461,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ClusterCreateParameters
@@ -551,6 +621,21 @@ objects:
           '/nodeSetup/mountVolumes/azureFileShares/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_key
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: account_key_secret_reference
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/nodeSetup/mountVolumes/azureFileShares/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: relative_mount_path
@@ -572,6 +657,21 @@ objects:
           '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_key
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: account_key_secret_reference
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/nodeSetup/mountVolumes/azureBlobFileSystems/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: relative_mount_path
@@ -584,6 +684,9 @@ objects:
           '/nodeSetup/mountVolumes/fileServers/fileServer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: file_server
+          '/nodeSetup/mountVolumes/fileServers/fileServer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/nodeSetup/mountVolumes/fileServers/sourceDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: source_directory
@@ -647,6 +750,23 @@ objects:
             applicable_to: [go]
             go_field_name: Credentials
             go_type_name: AzureStorageCredentialsInfo
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountKey
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountKeySecretReference
+            go_type_name: KeyVaultSecretReference
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/properties/nodeSetup/mountVolumes/azureFileShares/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RelativeMountPath
@@ -670,6 +790,23 @@ objects:
             applicable_to: [go]
             go_field_name: Credentials
             go_type_name: AzureStorageCredentialsInfo
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountKey
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountKeySecretReference
+            go_type_name: KeyVaultSecretReference
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RelativeMountPath
@@ -684,6 +821,9 @@ objects:
             applicable_to: [go]
             go_field_name: FileServer
             go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/fileServers/fileServer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/nodeSetup/mountVolumes/fileServers/sourceDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SourceDirectory
@@ -753,9 +893,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -767,9 +907,9 @@ objects:
             python_variable_name: resource_group
           'clusterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: clusters
-            go_variable_name: clusterName
+            go_variable_name: name
             python_parameter_name: cluster_name
-            python_variable_name: cluster_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -929,6 +1069,23 @@ objects:
             applicable_to: [go]
             go_field_name: Credentials
             go_type_name: AzureStorageCredentialsInfo
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountKey
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountKeySecretReference
+            go_type_name: KeyVaultSecretReference
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/properties/nodeSetup/mountVolumes/azureFileShares/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RelativeMountPath
@@ -952,6 +1109,23 @@ objects:
             applicable_to: [go]
             go_field_name: Credentials
             go_type_name: AzureStorageCredentialsInfo
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountKey
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AccountKeySecretReference
+            go_type_name: KeyVaultSecretReference
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceVault
+            go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecretURL
           '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: RelativeMountPath
@@ -966,6 +1140,9 @@ objects:
             applicable_to: [go]
             go_field_name: FileServer
             go_type_name: ResourceId
+          '/properties/nodeSetup/mountVolumes/fileServers/fileServer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/nodeSetup/mountVolumes/fileServers/sourceDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SourceDirectory
@@ -1024,6 +1201,21 @@ objects:
           '/nodeSetup/mountVolumes/azureFileShares/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_key
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: account_key_secret_reference
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/nodeSetup/mountVolumes/azureFileShares/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: relative_mount_path
@@ -1045,6 +1237,21 @@ objects:
           '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_key
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: account_key_secret_reference
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_vault
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secret_url
           '/nodeSetup/mountVolumes/azureBlobFileSystems/relativeMountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: relative_mount_path
@@ -1057,6 +1264,9 @@ objects:
           '/nodeSetup/mountVolumes/fileServers/fileServer': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: file_server
+          '/nodeSetup/mountVolumes/fileServers/fileServer/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/nodeSetup/mountVolumes/fileServers/sourceDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: source_directory
@@ -1149,9 +1359,40 @@ objects:
             applicable_to: [go]
             go_field_name: Errors
             go_type_name: BatchAIError
+          '/properties/errors/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/errors/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/errors/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Details
+            go_type_name: NameValuePair
+          '/properties/errors/details/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/errors/details/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
           '/errors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: errors
+          '/errors/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/errors/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/errors/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: details
+          '/errors/details/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/errors/details/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
           '/properties/currentNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: CurrentNodeCount
@@ -1162,9 +1403,39 @@ objects:
             applicable_to: [go]
             go_field_name: NodeStateCounts
             go_type_name: NodeStateCounts
+          '/properties/nodeStateCounts/idleNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: IdleNodeCount
+          '/properties/nodeStateCounts/runningNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: RunningNodeCount
+          '/properties/nodeStateCounts/preparingNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PreparingNodeCount
+          '/properties/nodeStateCounts/unusableNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: UnusableNodeCount
+          '/properties/nodeStateCounts/leavingNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LeavingNodeCount
           '/nodeStateCounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: node_state_counts
+          '/nodeStateCounts/idleNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: idle_node_count
+          '/nodeStateCounts/runningNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: running_node_count
+          '/nodeStateCounts/preparingNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: preparing_node_count
+          '/nodeStateCounts/unusableNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: unusable_node_count
+          '/nodeStateCounts/leavingNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: leaving_node_count
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -1198,7 +1469,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'clusterName'
+        name: 'name'
         description: 'The name of the cluster within the specified resource group. Cluster names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.'
         required: true
         input: true
@@ -1377,6 +1648,39 @@ objects:
                       description: ''
                       required: true
                       azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/azureFileUrl', '/properties/nodeSetup/mountVolumes/azureFileShares/azureFileUrl']
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'credentials'
+                      description: ''
+                      required: true
+                      azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/credentials', '/properties/nodeSetup/mountVolumes/azureFileShares/credentials']
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'accountKey'
+                          description: 'One of accountKey or accountKeySecretReference must be specified.'
+                          required: false
+                          azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey', '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKey']
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'accountKeySecretReference'
+                          description: 'Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of accountKey or accountKeySecretReference must be specified.'
+                          required: false
+                          azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference', '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference']
+                          properties:
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'sourceVault'
+                              description: ''
+                              required: true
+                              azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault', '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault']
+                              properties:
+                                - !ruby/object:Api::Type::String
+                                  name: 'id'
+                                  description: 'The ID of the resource'
+                                  required: true
+                                  azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id', '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/sourceVault/id']
+                            - !ruby/object:Api::Type::String
+                              name: 'secretUrl'
+                              description: ''
+                              required: true
+                              azure_sdk_references: ['/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl', '/properties/nodeSetup/mountVolumes/azureFileShares/credentials/accountKeySecretReference/secretUrl']
                     - !ruby/object:Api::Type::String
                       name: 'relativeMountPath'
                       description: 'Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT location.'
@@ -1409,6 +1713,39 @@ objects:
                       description: ''
                       required: true
                       azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/containerName', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/containerName']
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'credentials'
+                      description: ''
+                      required: true
+                      azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/credentials', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials']
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'accountKey'
+                          description: 'One of accountKey or accountKeySecretReference must be specified.'
+                          required: false
+                          azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKey']
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'accountKeySecretReference'
+                          description: 'Users can store their secrets in Azure KeyVault and pass it to the Batch AI Service to integrate with KeyVault. One of accountKey or accountKeySecretReference must be specified.'
+                          required: false
+                          azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference']
+                          properties:
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'sourceVault'
+                              description: ''
+                              required: true
+                              azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault']
+                              properties:
+                                - !ruby/object:Api::Type::String
+                                  name: 'id'
+                                  description: 'The ID of the resource'
+                                  required: true
+                                  azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/sourceVault/id']
+                            - !ruby/object:Api::Type::String
+                              name: 'secretUrl'
+                              description: ''
+                              required: true
+                              azure_sdk_references: ['/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl', '/properties/nodeSetup/mountVolumes/azureBlobFileSystems/credentials/accountKeySecretReference/secretUrl']
                     - !ruby/object:Api::Type::String
                       name: 'relativeMountPath'
                       description: 'Note that all blob file systems will be mounted under $AZ_BATCHAI_MOUNT_ROOT location.'
@@ -1426,6 +1763,17 @@ objects:
                 azure_sdk_references: ['/nodeSetup/mountVolumes/fileServers', '/properties/nodeSetup/mountVolumes/fileServers']
                 item_type: !ruby/object:Api::Type::NestedObject
                   properties:
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'fileServer'
+                      description: ''
+                      required: true
+                      azure_sdk_references: ['/nodeSetup/mountVolumes/fileServers/fileServer', '/properties/nodeSetup/mountVolumes/fileServers/fileServer']
+                      properties:
+                        - !ruby/object:Api::Type::String
+                          name: 'id'
+                          description: 'The ID of the resource'
+                          required: true
+                          azure_sdk_references: ['/nodeSetup/mountVolumes/fileServers/fileServer/id', '/properties/nodeSetup/mountVolumes/fileServers/fileServer/id']
                     - !ruby/object:Api::Type::String
                       name: 'sourceDirectory'
                       description: 'If this property is not specified, the entire File Server will be mounted.'
@@ -1531,33 +1879,6 @@ objects:
         azure_sdk_references: ['/errors', '/properties/errors']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'code'
-              description: 'An identifier for the error. Codes are invariant and are intended to be consumed programmatically.'
-              required: false
-              azure_sdk_references: ['/errors/code', '/properties/errors/code']
-            - !ruby/object:Api::Type::String
-              name: 'message'
-              description: 'A message describing the error, intended to be suitable for display in a user interface.'
-              required: false
-              azure_sdk_references: ['/errors/message', '/properties/errors/message']
-            - !ruby/object:Api::Type::Array
-              name: 'details'
-              description: 'A list of additional details about the error.'
-              required: false
-              azure_sdk_references: ['/errors/details', '/properties/errors/details']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'name'
-                    description: ''
-                    required: false
-                    azure_sdk_references: ['/errors/details/name', '/properties/errors/details/name']
-                  - !ruby/object:Api::Type::String
-                    name: 'value'
-                    description: ''
-                    required: false
-                    azure_sdk_references: ['/errors/details/value', '/properties/errors/details/value']
       - !ruby/object:Api::Type::Integer
         name: 'currentNodeCount'
         description: ''
@@ -1569,31 +1890,6 @@ objects:
         output: true
         azure_sdk_references: ['/nodeStateCounts', '/properties/nodeStateCounts']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'idleNodeCount'
-            description: ''
-            required: true
-            azure_sdk_references: ['/nodeStateCounts/idleNodeCount', '/properties/nodeStateCounts/idleNodeCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'runningNodeCount'
-            description: ''
-            required: true
-            azure_sdk_references: ['/nodeStateCounts/runningNodeCount', '/properties/nodeStateCounts/runningNodeCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'preparingNodeCount'
-            description: ''
-            required: true
-            azure_sdk_references: ['/nodeStateCounts/preparingNodeCount', '/properties/nodeStateCounts/preparingNodeCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'unusableNodeCount'
-            description: ''
-            required: true
-            azure_sdk_references: ['/nodeStateCounts/unusableNodeCount', '/properties/nodeStateCounts/unusableNodeCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'leavingNodeCount'
-            description: ''
-            required: true
-            azure_sdk_references: ['/nodeStateCounts/leavingNodeCount', '/properties/nodeStateCounts/leavingNodeCount']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The ID of the resource'

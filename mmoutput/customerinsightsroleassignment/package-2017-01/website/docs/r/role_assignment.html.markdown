@@ -28,9 +28,9 @@ Manage Azure RoleAssignment instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The assignment name Changing this forces a new resource to be created.
 
-* `assignment_name` - (Required) The assignment name Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
 

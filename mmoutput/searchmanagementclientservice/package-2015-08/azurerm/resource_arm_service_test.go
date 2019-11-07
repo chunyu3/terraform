@@ -34,15 +34,15 @@ func testCheckAzureRMServiceExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Service not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        searchServiceName := rs.Primary.Attributes["search_service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).servicesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, searchServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Service (Search Service Name %q / Resource Group %q) does not exist", searchServiceName, resourceGroup)
+                return fmt.Errorf("Bad: Service %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on servicesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMServiceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        searchServiceName := rs.Primary.Attributes["search_service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, searchServiceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on servicesClient: %+v", err)
             }

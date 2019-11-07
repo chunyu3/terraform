@@ -35,9 +35,9 @@ objects:
             python_variable_name: profile_name
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: endpoints
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: endpoint
             go_type_name: Endpoint
@@ -246,9 +246,9 @@ objects:
             python_variable_name: profile_name
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: endpoints
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -266,9 +266,9 @@ objects:
             python_variable_name: profile_name
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: endpoints
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -285,9 +285,9 @@ objects:
             python_variable_name: profile_name
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: endpoints
-            go_variable_name: endpointName
+            go_variable_name: name
             python_parameter_name: endpoint_name
-            python_variable_name: endpoint_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -534,7 +534,7 @@ objects:
         input: true
         azure_sdk_references: ['profileName']
       - !ruby/object:Api::Type::String
-        name: 'endpointName'
+        name: 'name'
         description: 'Name of the endpoint under the profile which is unique globally.'
         required: true
         input: true

@@ -34,17 +34,17 @@ func testCheckAzureRMApplicationTypeVersionExists(resourceName string) resource.
             return fmt.Errorf("Application Type Version not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationTypeName := rs.Primary.Attributes["application_type_name"]
         clusterName := rs.Primary.Attributes["cluster_name"]
         version := rs.Primary.Attributes["version"]
 
         client := testAccProvider.Meta().(*ArmClient).applicationTypeVersionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName, version); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name, version); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q) does not exist", version, applicationTypeName, clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q) does not exist", name, version, clusterName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on applicationTypeVersionsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMApplicationTypeVersionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        applicationTypeName := rs.Primary.Attributes["application_type_name"]
         clusterName := rs.Primary.Attributes["cluster_name"]
         version := rs.Primary.Attributes["version"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName, version); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, name, version); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on applicationTypeVersionsClient: %+v", err)
             }

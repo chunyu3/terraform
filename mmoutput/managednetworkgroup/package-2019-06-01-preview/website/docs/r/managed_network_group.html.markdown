@@ -28,61 +28,12 @@ Manage Azure ManagedNetworkGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the Managed Network Group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `managed_network_group_name` - (Required) The name of the Managed Network Group. Changing this forces a new resource to be created.
-
 * `managed_network_name` - (Required) The name of the Managed Network. Changing this forces a new resource to be created.
-
-* `location` - (Optional) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `kind` - (Optional) Responsibility role under which this Managed Network Group will be created Defaults to `Connectivity`. Changing this forces a new resource to be created.
-
-* `properties` - (Optional) One `property` block defined below.
-
----
-
-The `property` block supports the following:
-
-* `properties_management_groups` - (Optional) One or more `properties_management_group` block defined below.
-
-* `properties_subscriptions` - (Optional) One or more `properties_subscription` block defined below.
-
-* `properties_virtual_networks` - (Optional) One or more `properties_virtual_network` block defined below.
-
-* `properties_subnets` - (Optional) One or more `properties_subnet` block defined below.
-
-
----
-
-The `properties_management_group` block supports the following:
-
-* `management_groups_id` - (Optional) Resource Id
-
----
-
-The `properties_subscription` block supports the following:
-
-* `subscriptions_id` - (Optional) Resource Id
-
----
-
-The `properties_virtual_network` block supports the following:
-
-* `virtual_networks_id` - (Optional) Resource Id
-
----
-
-The `properties_subnet` block supports the following:
-
-* `subnets_id` - (Optional) Resource Id
 
 ## Attributes Reference
 
 The following attributes are exported:
-
-* `id` - Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-
-* `name` - The name of the resource
-
-* `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.

@@ -31,17 +31,17 @@ func resourceArmManagedDatabaseSensitivityLabel() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "column_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "database_name": {
                 Type: schema.TypeString,
@@ -115,8 +115,8 @@ func resourceArmManagedDatabaseSensitivityLabelCreateUpdate(d *schema.ResourceDa
     client := meta.(*ArmClient).managedDatabaseSensitivityLabelsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    columnName := d.Get("column_name").(string)
     databaseName := d.Get("database_name").(string)
     managedInstanceName := d.Get("managed_instance_name").(string)
     schemaName := d.Get("schema_name").(string)
@@ -124,10 +124,10 @@ func resourceArmManagedDatabaseSensitivityLabelCreateUpdate(d *schema.ResourceDa
     tableName := d.Get("table_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource)
+        existing, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, name, sensitivityLabelSource)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Managed Database Sensitivity Label (Sensitivity Label Source %q / Column Name %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", sensitivityLabelSource, columnName, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Managed Database Sensitivity Label %q (Sensitivity Label Source %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", name, sensitivityLabelSource, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -150,17 +150,17 @@ func resourceArmManagedDatabaseSensitivityLabelCreateUpdate(d *schema.ResourceDa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource, parameters); err != nil {
-        return fmt.Errorf("Error creating Managed Database Sensitivity Label (Sensitivity Label Source %q / Column Name %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", sensitivityLabelSource, columnName, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, name, sensitivityLabelSource, parameters); err != nil {
+        return fmt.Errorf("Error creating Managed Database Sensitivity Label %q (Sensitivity Label Source %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", name, sensitivityLabelSource, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource)
+    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, name, sensitivityLabelSource)
     if err != nil {
-        return fmt.Errorf("Error retrieving Managed Database Sensitivity Label (Sensitivity Label Source %q / Column Name %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", sensitivityLabelSource, columnName, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Managed Database Sensitivity Label %q (Sensitivity Label Source %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", name, sensitivityLabelSource, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Managed Database Sensitivity Label (Sensitivity Label Source %q / Column Name %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q) ID", sensitivityLabelSource, columnName, tableName, schemaName, databaseName, managedInstanceName, resourceGroup)
+        return fmt.Errorf("Cannot read Managed Database Sensitivity Label %q (Sensitivity Label Source %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q) ID", name, sensitivityLabelSource, tableName, schemaName, databaseName, managedInstanceName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -180,23 +180,23 @@ func resourceArmManagedDatabaseSensitivityLabelRead(d *schema.ResourceData, meta
     databaseName := id.Path["databases"]
     schemaName := id.Path["schemas"]
     tableName := id.Path["tables"]
-    columnName := id.Path["columns"]
+    name := id.Path["columns"]
     sensitivityLabelSource := id.Path["sensitivityLabels"]
 
-    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource)
+    resp, err := client.Get(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, name, sensitivityLabelSource)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Managed Database Sensitivity Label %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Managed Database Sensitivity Label (Sensitivity Label Source %q / Column Name %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", sensitivityLabelSource, columnName, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Managed Database Sensitivity Label %q (Sensitivity Label Source %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", name, sensitivityLabelSource, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("column_name", columnName)
     d.Set("database_name", databaseName)
     if sensitivityLabelProperties := resp.SensitivityLabelProperties; sensitivityLabelProperties != nil {
         d.Set("information_type", sensitivityLabelProperties.InformationType)
@@ -229,11 +229,11 @@ func resourceArmManagedDatabaseSensitivityLabelDelete(d *schema.ResourceData, me
     databaseName := id.Path["databases"]
     schemaName := id.Path["schemas"]
     tableName := id.Path["tables"]
-    columnName := id.Path["columns"]
+    name := id.Path["columns"]
     sensitivityLabelSource := id.Path["sensitivityLabels"]
 
-    if _, err := client.Delete(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource); err != nil {
-        return fmt.Errorf("Error deleting Managed Database Sensitivity Label (Sensitivity Label Source %q / Column Name %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", sensitivityLabelSource, columnName, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, managedInstanceName, databaseName, schemaName, tableName, name, sensitivityLabelSource); err != nil {
+        return fmt.Errorf("Error deleting Managed Database Sensitivity Label %q (Sensitivity Label Source %q / Table Name %q / Schema Name %q / Database Name %q / Managed Instance Name %q / Resource Group %q): %+v", name, sensitivityLabelSource, tableName, schemaName, databaseName, managedInstanceName, resourceGroup, err)
     }
 
     return nil

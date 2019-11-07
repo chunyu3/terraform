@@ -31,6 +31,13 @@ func resourceArmProtectionPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -38,13 +45,6 @@ func resourceArmProtectionPolicy() *schema.Resource {
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "policy_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "vault_name": {
                 Type: schema.TypeString,
@@ -79,15 +79,15 @@ func resourceArmProtectionPolicyCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).protectionPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    policyName := d.Get("policy_name").(string)
     vaultName := d.Get("vault_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, vaultName, resourceGroup, policyName)
+        existing, err := client.Get(ctx, resourceGroup, vaultName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q): %+v", policyName, resourceGroup, vaultName, err)
+                return fmt.Errorf("Error checking for present of existing Protection Policy %q (Resource Group %q / Vault Name %q): %+v", name, resourceGroup, vaultName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -116,17 +116,17 @@ func resourceArmProtectionPolicyCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, vaultName, resourceGroup, policyName, resourceProtectionPolicy); err != nil {
-        return fmt.Errorf("Error creating Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q): %+v", policyName, resourceGroup, vaultName, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, vaultName, name, resourceProtectionPolicy); err != nil {
+        return fmt.Errorf("Error creating Protection Policy %q (Resource Group %q / Vault Name %q): %+v", name, resourceGroup, vaultName, err)
     }
 
 
-    resp, err := client.Get(ctx, vaultName, resourceGroup, policyName)
+    resp, err := client.Get(ctx, resourceGroup, vaultName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q): %+v", policyName, resourceGroup, vaultName, err)
+        return fmt.Errorf("Error retrieving Protection Policy %q (Resource Group %q / Vault Name %q): %+v", name, resourceGroup, vaultName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q) ID", policyName, resourceGroup, vaultName)
+        return fmt.Errorf("Cannot read Protection Policy %q (Resource Group %q / Vault Name %q) ID", name, resourceGroup, vaultName)
     }
     d.SetId(*resp.ID)
 
@@ -141,28 +141,28 @@ func resourceArmProtectionPolicyRead(d *schema.ResourceData, meta interface{}) e
     if err != nil {
         return err
     }
-    vaultName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
-    policyName := id.Path["backupPolicies"]
+    vaultName := id.Path["vaults"]
+    name := id.Path["backupPolicies"]
 
-    resp, err := client.Get(ctx, vaultName, resourceGroup, policyName)
+    resp, err := client.Get(ctx, resourceGroup, vaultName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Protection Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q): %+v", policyName, resourceGroup, vaultName, err)
+        return fmt.Errorf("Error reading Protection Policy %q (Resource Group %q / Vault Name %q): %+v", name, resourceGroup, vaultName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("e_tag", resp.ETag)
-    d.Set("policy_name", policyName)
     if protectionPolicy := resp.ProtectionPolicy; protectionPolicy != nil {
         d.Set("protected_items_count", int(*protectionPolicy.ProtectedItemsCount))
     }
@@ -182,12 +182,12 @@ func resourceArmProtectionPolicyDelete(d *schema.ResourceData, meta interface{})
     if err != nil {
         return err
     }
-    vaultName := id.Path["vaults"]
     resourceGroup := id.ResourceGroup
-    policyName := id.Path["backupPolicies"]
+    vaultName := id.Path["vaults"]
+    name := id.Path["backupPolicies"]
 
-    if _, err := client.Delete(ctx, vaultName, resourceGroup, policyName); err != nil {
-        return fmt.Errorf("Error deleting Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q): %+v", policyName, resourceGroup, vaultName, err)
+    if _, err := client.Delete(ctx, resourceGroup, vaultName, name); err != nil {
+        return fmt.Errorf("Error deleting Protection Policy %q (Resource Group %q / Vault Name %q): %+v", name, resourceGroup, vaultName, err)
     }
 
     return nil

@@ -34,16 +34,16 @@ func testCheckAzureRMWCFRelayExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Wcf Relay not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
-        relayName := rs.Primary.Attributes["relay_name"]
 
         client := testAccProvider.Meta().(*ArmClient).wCFRelaysClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, relayName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Wcf Relay (Relay Name %q / Namespace Name %q / Resource Group %q) does not exist", relayName, namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Wcf Relay %q (Namespace Name %q / Resource Group %q) does not exist", name, namespaceName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on wCFRelaysClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMWCFRelayDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         namespaceName := rs.Primary.Attributes["namespace_name"]
-        relayName := rs.Primary.Attributes["relay_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName, relayName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, namespaceName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on wCFRelaysClient: %+v", err)
             }

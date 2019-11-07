@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: fileServers
-            go_variable_name: fileServerName
+            go_variable_name: name
             python_parameter_name: file_server_name
-            python_variable_name: file_server_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: FileServerCreateParameters
@@ -143,9 +143,9 @@ objects:
             python_variable_name: resource_group
           'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: fileServers
-            go_variable_name: fileServerName
+            go_variable_name: name
             python_parameter_name: file_server_name
-            python_variable_name: file_server_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -157,9 +157,9 @@ objects:
             python_variable_name: resource_group
           'fileServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: fileServers
-            go_variable_name: fileServerName
+            go_variable_name: name
             python_parameter_name: file_server_name
-            python_variable_name: file_server_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -265,9 +265,34 @@ objects:
             applicable_to: [go]
             go_field_name: MountSettings
             go_type_name: MountSettings
+          '/properties/mountSettings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPoint
+          '/properties/mountSettings/fileServerPublicIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileServerPublicIp
+          '/properties/mountSettings/fileServerInternalIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileServerInternalIp
+          '/properties/mountSettings/fileServerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FileServerType
+            go_enum_type_name: FileServerType
           '/mountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: mount_settings
+          '/mountSettings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_point
+          '/mountSettings/fileServerPublicIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_server_public_ip
+          '/mountSettings/fileServerInternalIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_server_internal_ip
+          '/mountSettings/fileServerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: file_server_type
           '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: ProvisioningStateTransitionTime
@@ -320,7 +345,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'fileServerName'
+        name: 'name'
         description: 'The name of the file server within the specified resource group. File server names can only contain a combination of alphanumeric characters along with dash (-) and underscore (_). The name must be from 1 through 64 characters long.'
         required: true
         input: true
@@ -417,30 +442,6 @@ objects:
         output: true
         azure_sdk_references: ['/mountSettings', '/properties/mountSettings']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'mountPoint'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/mountPoint', '/properties/mountSettings/mountPoint']
-          - !ruby/object:Api::Type::String
-            name: 'fileServerPublicIp'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/fileServerPublicIP', '/properties/mountSettings/fileServerPublicIP']
-          - !ruby/object:Api::Type::String
-            name: 'fileServerInternalIp'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/fileServerInternalIP', '/properties/mountSettings/fileServerInternalIP']
-          - !ruby/object:Api::Type::Enum
-            name: 'fileServerType'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/fileServerType', '/properties/mountSettings/fileServerType']
-            values:
-              - :nfs
-              - :glusterfs
-            default_value: :nfs
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'provisioningStateTransitionTime'
         description: ''

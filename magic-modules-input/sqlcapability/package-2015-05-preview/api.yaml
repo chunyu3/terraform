@@ -1,0 +1,67 @@
+--- !ruby/object:Api::Product
+name: Azure Capability Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Capability
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: capabilitiesClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.capabilities
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByLocation
+        python_func_name: list_by_location
+        request:
+          'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: name
+            python_parameter_name: location_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Capability instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The location name whose capabilities are retrieved.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The location name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::Array
+        name: 'supportedServerVersions'
+        description: 'The list of supported server versions.'
+        output: true
+        azure_sdk_references: ['/supportedServerVersions']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the capability.'
+        output: true
+        azure_sdk_references: ['/status']
+        values:
+          - :Visible
+          - :Available
+          - :Default
+          - :Disabled
+      - !ruby/object:Api::Type::String
+        name: 'reason'
+        description: 'The reason for the capability not being available.'
+        output: true
+        azure_sdk_references: ['/reason']

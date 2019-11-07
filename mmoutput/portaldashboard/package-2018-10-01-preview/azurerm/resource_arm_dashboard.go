@@ -31,19 +31,19 @@ func resourceArmDashboard() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "dashboard_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "lenses": {
                 Type: schema.TypeMap,
@@ -71,14 +71,14 @@ func resourceArmDashboardCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).dashboardsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    dashboardName := d.Get("dashboard_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, dashboardName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Dashboard (Dashboard Name %q / Resource Group %q): %+v", dashboardName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Dashboard %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -101,17 +101,17 @@ func resourceArmDashboardCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, dashboardName, dashboard); err != nil {
-        return fmt.Errorf("Error creating Dashboard (Dashboard Name %q / Resource Group %q): %+v", dashboardName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, dashboard); err != nil {
+        return fmt.Errorf("Error creating Dashboard %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, dashboardName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Dashboard (Dashboard Name %q / Resource Group %q): %+v", dashboardName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Dashboard %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Dashboard (Dashboard Name %q / Resource Group %q) ID", dashboardName, resourceGroup)
+        return fmt.Errorf("Cannot read Dashboard %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -127,25 +127,25 @@ func resourceArmDashboardRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    dashboardName := id.Path["dashboards"]
+    name := id.Path["dashboards"]
 
-    resp, err := client.Get(ctx, resourceGroup, dashboardName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Dashboard %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Dashboard (Dashboard Name %q / Resource Group %q): %+v", dashboardName, resourceGroup, err)
+        return fmt.Errorf("Error reading Dashboard %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("dashboard_name", dashboardName)
     if dashboardProperties := resp.DashboardProperties; dashboardProperties != nil {
         d.Set("lenses", utils.FlattenKeyValuePairs(dashboardProperties.Lenses))
         d.Set("metadata", utils.FlattenKeyValuePairs(dashboardProperties.Metadata))
@@ -159,8 +159,8 @@ func resourceArmDashboardUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).dashboardsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    dashboardName := d.Get("dashboard_name").(string)
     lenses := d.Get("lenses").(map[string]interface{})
     metadata := d.Get("metadata").(map[string]interface{})
     t := d.Get("tags").(map[string]interface{})
@@ -175,8 +175,8 @@ func resourceArmDashboardUpdate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, dashboardName, dashboard); err != nil {
-        return fmt.Errorf("Error updating Dashboard (Dashboard Name %q / Resource Group %q): %+v", dashboardName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, dashboard); err != nil {
+        return fmt.Errorf("Error updating Dashboard %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmDashboardRead(d, meta)
@@ -192,10 +192,10 @@ func resourceArmDashboardDelete(d *schema.ResourceData, meta interface{}) error 
         return err
     }
     resourceGroup := id.ResourceGroup
-    dashboardName := id.Path["dashboards"]
+    name := id.Path["dashboards"]
 
-    if _, err := client.Delete(ctx, resourceGroup, dashboardName); err != nil {
-        return fmt.Errorf("Error deleting Dashboard (Dashboard Name %q / Resource Group %q): %+v", dashboardName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Dashboard %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

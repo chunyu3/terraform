@@ -31,19 +31,19 @@ func resourceArmPrivateEndpointConnection() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "private_endpoint_connection_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -94,15 +94,15 @@ func resourceArmPrivateEndpointConnectionCreateUpdate(d *schema.ResourceData, me
     client := meta.(*ArmClient).privateEndpointConnectionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    privateEndpointConnectionName := d.Get("private_endpoint_connection_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, privateEndpointConnectionName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -121,21 +121,21 @@ func resourceArmPrivateEndpointConnectionCreateUpdate(d *schema.ResourceData, me
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, privateEndpointConnectionName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, privateEndpointConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q) ID", privateEndpointConnectionName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Private Endpoint Connection %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -152,19 +152,20 @@ func resourceArmPrivateEndpointConnectionRead(d *schema.ResourceData, meta inter
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["databaseAccounts"]
-    privateEndpointConnectionName := id.Path["privateEndpointConnections"]
+    name := id.Path["privateEndpointConnections"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, privateEndpointConnectionName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Private Endpoint Connection %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -176,7 +177,6 @@ func resourceArmPrivateEndpointConnectionRead(d *schema.ResourceData, meta inter
             return fmt.Errorf("Error setting `private_link_service_connection_state`: %+v", err)
         }
     }
-    d.Set("private_endpoint_connection_name", privateEndpointConnectionName)
     d.Set("type", resp.Type)
 
     return nil
@@ -194,19 +194,19 @@ func resourceArmPrivateEndpointConnectionDelete(d *schema.ResourceData, meta int
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["databaseAccounts"]
-    privateEndpointConnectionName := id.Path["privateEndpointConnections"]
+    name := id.Path["privateEndpointConnections"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, privateEndpointConnectionName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Private Endpoint Connection (Private Endpoint Connection Name %q / Account Name %q / Resource Group %q): %+v", privateEndpointConnectionName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Private Endpoint Connection %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
         }
     }
 

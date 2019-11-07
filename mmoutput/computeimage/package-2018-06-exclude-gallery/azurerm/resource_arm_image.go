@@ -31,19 +31,19 @@ func resourceArmImage() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "image_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "source_virtual_machine": {
                 Type: schema.TypeList,
@@ -239,14 +239,14 @@ func resourceArmImageCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).imagesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    imageName := d.Get("image_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, imageName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Image %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -269,21 +269,21 @@ func resourceArmImageCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, imageName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error creating Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, imageName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Image (Image Name %q / Resource Group %q) ID", imageName, resourceGroup)
+        return fmt.Errorf("Cannot read Image %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -299,25 +299,25 @@ func resourceArmImageRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    imageName := id.Path["images"]
+    name := id.Path["images"]
 
-    resp, err := client.Get(ctx, resourceGroup, imageName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Image %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error reading Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("image_name", imageName)
     if imageProperties := resp.ImageProperties; imageProperties != nil {
         d.Set("provisioning_state", imageProperties.ProvisioningState)
         if err := d.Set("source_virtual_machine", flattenArmImageSubResource(imageProperties.SourceVirtualMachine)); err != nil {
@@ -336,8 +336,8 @@ func resourceArmImageUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).imagesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    imageName := d.Get("image_name").(string)
     sourceVirtualMachine := d.Get("source_virtual_machine").([]interface{})
     storageProfile := d.Get("storage_profile").([]interface{})
     t := d.Get("tags").(map[string]interface{})
@@ -352,12 +352,12 @@ func resourceArmImageUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, imageName, parameters)
+    future, err := client.Update(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error updating Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmImageRead(d, meta)
@@ -373,19 +373,19 @@ func resourceArmImageDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    imageName := id.Path["images"]
+    name := id.Path["images"]
 
-    future, err := client.Delete(ctx, resourceGroup, imageName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Image %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Image (Image Name %q / Resource Group %q): %+v", imageName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Image %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

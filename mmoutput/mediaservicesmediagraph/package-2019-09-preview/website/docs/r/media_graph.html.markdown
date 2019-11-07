@@ -28,11 +28,11 @@ Manage Azure MediaGraph instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Media Graph name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
-
-* `media_graph_name` - (Required) The Media Graph name. Changing this forces a new resource to be created.
 
 * `sinks` - (Required) One or more `sink` block defined below.
 

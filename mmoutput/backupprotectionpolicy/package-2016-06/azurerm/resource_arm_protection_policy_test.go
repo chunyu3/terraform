@@ -34,16 +34,16 @@ func testCheckAzureRMProtectionPolicyExists(resourceName string) resource.TestCh
             return fmt.Errorf("Protection Policy not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        policyName := rs.Primary.Attributes["policy_name"]
         vaultName := rs.Primary.Attributes["vault_name"]
 
         client := testAccProvider.Meta().(*ArmClient).protectionPoliciesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, vaultName, resourceGroup, policyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, vaultName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Protection Policy (Policy Name %q / Resource Group %q / Vault Name %q) does not exist", policyName, resourceGroup, vaultName)
+                return fmt.Errorf("Bad: Protection Policy %q (Resource Group %q / Vault Name %q) does not exist", name, resourceGroup, vaultName)
             }
             return fmt.Errorf("Bad: Get on protectionPoliciesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMProtectionPolicyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        policyName := rs.Primary.Attributes["policy_name"]
         vaultName := rs.Primary.Attributes["vault_name"]
 
-        if resp, err := client.Get(ctx, vaultName, resourceGroup, policyName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, vaultName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on protectionPoliciesClient: %+v", err)
             }

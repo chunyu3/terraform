@@ -31,19 +31,19 @@ func resourceArmExperiment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "experiment_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "profile_name": {
                 Type: schema.TypeString,
@@ -125,15 +125,15 @@ func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error
     client := meta.(*ArmClient).experimentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    experimentName := d.Get("experiment_name").(string)
     profileName := d.Get("profile_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, profileName, experimentName)
+        existing, err := client.Get(ctx, resourceGroup, profileName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -170,21 +170,21 @@ func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, profileName, experimentName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, profileName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error creating Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, profileName, experimentName)
+    resp, err := client.Get(ctx, resourceGroup, profileName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Experiment (Experiment Name %q / Profile Name %q / Resource Group %q) ID", experimentName, profileName, resourceGroup)
+        return fmt.Errorf("Cannot read Experiment %q (Profile Name %q / Resource Group %q) ID", name, profileName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -201,19 +201,20 @@ func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     profileName := id.Path["NetworkExperimentProfiles"]
-    experimentName := id.Path["Experiments"]
+    name := id.Path["Experiments"]
 
-    resp, err := client.Get(ctx, resourceGroup, profileName, experimentName)
+    resp, err := client.Get(ctx, resourceGroup, profileName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Experiment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error reading Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -234,7 +235,6 @@ func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("script_file_uri", experimentProperties.ScriptFileUri)
         d.Set("status", experimentProperties.Status)
     }
-    d.Set("experiment_name", experimentName)
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
 
@@ -245,6 +245,7 @@ func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error
     client := meta.(*ArmClient).experimentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     enabledState := d.Get("enabled_state").(string)
@@ -252,7 +253,6 @@ func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error
     endpointAName := d.Get("endpoint_a_name").(string)
     endpointBEndpoint := d.Get("endpoint_b_endpoint").(string)
     endpointBName := d.Get("endpoint_b_name").(string)
-    experimentName := d.Get("experiment_name").(string)
     profileName := d.Get("profile_name").(string)
     resourceState := d.Get("resource_state").(string)
     t := d.Get("tags").(map[string]interface{})
@@ -276,12 +276,12 @@ func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, profileName, experimentName, parameters)
+    future, err := client.Update(ctx, resourceGroup, profileName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error updating Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
 
     return resourceArmExperimentRead(d, meta)
@@ -298,19 +298,19 @@ func resourceArmExperimentDelete(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     profileName := id.Path["NetworkExperimentProfiles"]
-    experimentName := id.Path["Experiments"]
+    name := id.Path["Experiments"]
 
-    future, err := client.Delete(ctx, resourceGroup, profileName, experimentName)
+    future, err := client.Delete(ctx, resourceGroup, profileName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Experiment (Experiment Name %q / Profile Name %q / Resource Group %q): %+v", experimentName, profileName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Experiment %q (Profile Name %q / Resource Group %q): %+v", name, profileName, resourceGroup, err)
         }
     }
 

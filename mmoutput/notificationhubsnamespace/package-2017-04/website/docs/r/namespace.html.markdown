@@ -28,9 +28,9 @@ Manage Azure Namespace instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The namespace name. Changing this forces a new resource to be created.
 
-* `namespace_name` - (Required) The namespace name. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `name` - (Optional) The name of the namespace.
 

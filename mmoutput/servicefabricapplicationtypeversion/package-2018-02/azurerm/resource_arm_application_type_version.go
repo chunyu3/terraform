@@ -31,6 +31,13 @@ func resourceArmApplicationTypeVersion() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -41,13 +48,6 @@ func resourceArmApplicationTypeVersion() *schema.Resource {
             "app_package_url": {
                 Type: schema.TypeString,
                 Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "application_type_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -88,16 +88,16 @@ func resourceArmApplicationTypeVersionCreateUpdate(d *schema.ResourceData, meta 
     client := meta.(*ArmClient).applicationTypeVersionsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    applicationTypeName := d.Get("application_type_name").(string)
     clusterName := d.Get("cluster_name").(string)
     version := d.Get("version").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName, version)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, name, version)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -116,21 +116,21 @@ func resourceArmApplicationTypeVersionCreateUpdate(d *schema.ResourceData, meta 
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, clusterName, applicationTypeName, version, parameters)
+    future, err := client.Create(ctx, resourceGroup, clusterName, name, version, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName, version)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name, version)
     if err != nil {
-        return fmt.Errorf("Error retrieving Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q) ID", version, applicationTypeName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q) ID", name, version, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -147,20 +147,21 @@ func resourceArmApplicationTypeVersionRead(d *schema.ResourceData, meta interfac
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    applicationTypeName := id.Path["applicationTypes"]
+    name := id.Path["applicationTypes"]
     version := id.Path["versions"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName, version)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name, version)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Application Type Version %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -171,7 +172,6 @@ func resourceArmApplicationTypeVersionRead(d *schema.ResourceData, meta interfac
         d.Set("default_parameter_list", utils.FlattenKeyValuePairs(applicationTypeVersionResourceProperties.DefaultParameterList))
         d.Set("provisioning_state", applicationTypeVersionResourceProperties.ProvisioningState)
     }
-    d.Set("application_type_name", applicationTypeName)
     d.Set("cluster_name", clusterName)
     d.Set("type", resp.Type)
     d.Set("version", version)
@@ -191,20 +191,20 @@ func resourceArmApplicationTypeVersionDelete(d *schema.ResourceData, meta interf
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    applicationTypeName := id.Path["applicationTypes"]
+    name := id.Path["applicationTypes"]
     version := id.Path["versions"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, applicationTypeName, version)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, name, version)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Application Type Version (Version %q / Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", version, applicationTypeName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Application Type Version %q (Version %q / Cluster Name %q / Resource Group %q): %+v", name, version, clusterName, resourceGroup, err)
         }
     }
 

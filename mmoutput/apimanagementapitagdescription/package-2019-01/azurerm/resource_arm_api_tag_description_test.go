@@ -34,17 +34,17 @@ func testCheckAzureRMApiTagDescriptionExists(resourceName string) resource.TestC
             return fmt.Errorf("Api Tag Description not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
         tagID := rs.Primary.Attributes["tag_id"]
 
         client := testAccProvider.Meta().(*ArmClient).apiTagDescriptionClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, tagID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, tagID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Api Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q) does not exist", tagID, apiID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Api Tag Description %q (Tag %q / Api %q / Resource Group %q) does not exist", name, tagID, apiID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on apiTagDescriptionClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMApiTagDescriptionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         apiID := rs.Primary.Attributes["api_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
         tagID := rs.Primary.Attributes["tag_id"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, tagID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, apiID, tagID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on apiTagDescriptionClient: %+v", err)
             }

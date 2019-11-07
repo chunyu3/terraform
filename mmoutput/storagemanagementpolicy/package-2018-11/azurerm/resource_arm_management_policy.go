@@ -31,19 +31,19 @@ func resourceArmManagementPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "management_policy_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -62,15 +62,15 @@ func resourceArmManagementPolicyCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).managementPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    managementPolicyName := d.Get("management_policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, managementPolicyName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q): %+v", managementPolicyName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Management Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -83,17 +83,17 @@ func resourceArmManagementPolicyCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, managementPolicyName, properties); err != nil {
-        return fmt.Errorf("Error creating Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q): %+v", managementPolicyName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, properties); err != nil {
+        return fmt.Errorf("Error creating Management Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, managementPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q): %+v", managementPolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Management Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q) ID", managementPolicyName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Management Policy %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -110,23 +110,23 @@ func resourceArmManagementPolicyRead(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["storageAccounts"]
-    managementPolicyName := id.Path["managementPolicies"]
+    name := id.Path["managementPolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, managementPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Management Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q): %+v", managementPolicyName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Management Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    d.Set("management_policy_name", managementPolicyName)
     d.Set("type", resp.Type)
 
     return nil
@@ -144,10 +144,10 @@ func resourceArmManagementPolicyDelete(d *schema.ResourceData, meta interface{})
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["storageAccounts"]
-    managementPolicyName := id.Path["managementPolicies"]
+    name := id.Path["managementPolicies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, managementPolicyName); err != nil {
-        return fmt.Errorf("Error deleting Management Policy (Management Policy Name %q / Account Name %q / Resource Group %q): %+v", managementPolicyName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Management Policy %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

@@ -31,17 +31,17 @@ func resourceArmRoleAssignment() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "assignment_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "hub_name": {
                 Type: schema.TypeString,
@@ -438,15 +438,15 @@ func resourceArmRoleAssignmentCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).roleAssignmentsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    assignmentName := d.Get("assignment_name").(string)
     hubName := d.Get("hub_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, assignmentName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q): %+v", assignmentName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Role Assignment %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -495,21 +495,21 @@ func resourceArmRoleAssignmentCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, assignmentName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q): %+v", assignmentName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error creating Role Assignment %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q): %+v", assignmentName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Role Assignment %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, assignmentName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q): %+v", assignmentName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Role Assignment %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q) ID", assignmentName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read Role Assignment %q (Hub Name %q / Resource Group %q) ID", name, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -526,22 +526,22 @@ func resourceArmRoleAssignmentRead(d *schema.ResourceData, meta interface{}) err
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    assignmentName := id.Path["roleAssignments"]
+    name := id.Path["roleAssignments"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, assignmentName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Role Assignment %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q): %+v", assignmentName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading Role Assignment %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("assignment_name", assignmentName)
     if roleAssignment := resp.RoleAssignment; roleAssignment != nil {
         d.Set("assignment_name", roleAssignment.AssignmentName)
         if err := d.Set("conflation_policies", flattenArmRoleAssignmentResourceSetDescription(roleAssignment.ConflationPolicies)); err != nil {
@@ -610,10 +610,10 @@ func resourceArmRoleAssignmentDelete(d *schema.ResourceData, meta interface{}) e
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    assignmentName := id.Path["roleAssignments"]
+    name := id.Path["roleAssignments"]
 
-    if _, err := client.Delete(ctx, resourceGroup, hubName, assignmentName); err != nil {
-        return fmt.Errorf("Error deleting Role Assignment (Assignment Name %q / Hub Name %q / Resource Group %q): %+v", assignmentName, hubName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, hubName, name); err != nil {
+        return fmt.Errorf("Error deleting Role Assignment %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
     return nil

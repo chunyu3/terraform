@@ -34,9 +34,9 @@ objects:
             python_variable_name: namespace_name
           'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: wcfRelays
-            go_variable_name: relayName
+            go_variable_name: name
             python_parameter_name: relay_name
-            python_variable_name: relay_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: WcfRelay
@@ -87,9 +87,9 @@ objects:
             python_variable_name: namespace_name
           'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: wcfRelays
-            go_variable_name: relayName
+            go_variable_name: name
             python_parameter_name: relay_name
-            python_variable_name: relay_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -106,9 +106,9 @@ objects:
             python_variable_name: namespace_name
           'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: wcfRelays
-            go_variable_name: relayName
+            go_variable_name: name
             python_parameter_name: relay_name
-            python_variable_name: relay_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -202,9 +202,9 @@ objects:
             python_variable_name: namespace_name
           'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: wcfRelays
-            go_variable_name: relayName
+            go_variable_name: name
             python_parameter_name: relay_name
-            python_variable_name: relay_name
+            python_variable_name: name
 
     description: |
       Manage Azure WCFRelay instance.
@@ -222,7 +222,7 @@ objects:
         input: true
         azure_sdk_references: ['namespaceName']
       - !ruby/object:Api::Type::String
-        name: 'relayName'
+        name: 'name'
         description: 'The relay name.'
         required: true
         input: true

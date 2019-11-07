@@ -31,19 +31,19 @@ func resourceArmPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "policy_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "custom_rules": {
                 Type: schema.TypeList,
@@ -249,14 +249,14 @@ func resourceArmPolicyCreateUpdate(d *schema.ResourceData, meta interface{}) err
     client := meta.(*ArmClient).policiesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    policyName := d.Get("policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, policyName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Policy (Policy Name %q / Resource Group %q): %+v", policyName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Policy %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -283,17 +283,17 @@ func resourceArmPolicyCreateUpdate(d *schema.ResourceData, meta interface{}) err
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, policyName, parameters); err != nil {
-        return fmt.Errorf("Error creating Policy (Policy Name %q / Resource Group %q): %+v", policyName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Policy %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, policyName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Policy (Policy Name %q / Resource Group %q): %+v", policyName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Policy %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Policy (Policy Name %q / Resource Group %q) ID", policyName, resourceGroup)
+        return fmt.Errorf("Cannot read Policy %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -309,19 +309,20 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    policyName := id.Path["FrontDoorWebApplicationFirewallPolicies"]
+    name := id.Path["FrontDoorWebApplicationFirewallPolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, policyName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Policy (Policy Name %q / Resource Group %q): %+v", policyName, resourceGroup, err)
+        return fmt.Errorf("Error reading Policy %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -341,7 +342,6 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("resource_state", string(webApplicationFirewallPolicyPropertiesFormat.ResourceState))
     }
     d.Set("etag", resp.Etag)
-    d.Set("policy_name", policyName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -358,19 +358,19 @@ func resourceArmPolicyDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    policyName := id.Path["FrontDoorWebApplicationFirewallPolicies"]
+    name := id.Path["FrontDoorWebApplicationFirewallPolicies"]
 
-    future, err := client.Delete(ctx, resourceGroup, policyName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Policy (Policy Name %q / Resource Group %q): %+v", policyName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Policy %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Policy (Policy Name %q / Resource Group %q): %+v", policyName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Policy %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

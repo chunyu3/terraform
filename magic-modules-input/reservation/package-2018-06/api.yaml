@@ -1,0 +1,37 @@
+--- !ruby/object:Api::Product
+name: Azure  Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: 
+    api_name: Capacity
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Capacity
+      go_client_namespace: reservations
+      go_client: client
+      python_client_namespace: azure.mgmt.reservations
+      python_client: AzureReservationAPIClient.
+
+    description: |
+      Manage Azure  instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'reservedResourceType'
+        description: 'The type of the resource for which the skus should be provided.'
+        required: true
+        input: true
+        azure_sdk_references: ['reservedResourceType']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Filters the skus based on the location specified in this parameter. This can be an azure region or global'
+        required: false
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response

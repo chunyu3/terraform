@@ -34,18 +34,18 @@ func testCheckAzureRMJobStepExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Job Step not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         jobAgentName := rs.Primary.Attributes["job_agent_name"]
         jobName := rs.Primary.Attributes["job_name"]
         serverName := rs.Primary.Attributes["server_name"]
-        stepName := rs.Primary.Attributes["step_name"]
 
         client := testAccProvider.Meta().(*ArmClient).jobStepsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Job Step (Step Name %q / Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) does not exist", stepName, jobName, jobAgentName, serverName, resourceGroup)
+                return fmt.Errorf("Bad: Job Step %q (Job Name %q / Job Agent Name %q / Server Name %q / Resource Group %q) does not exist", name, jobName, jobAgentName, serverName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on jobStepsClient: %+v", err)
         }
@@ -63,13 +63,13 @@ func testCheckAzureRMJobStepDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         jobAgentName := rs.Primary.Attributes["job_agent_name"]
         jobName := rs.Primary.Attributes["job_name"]
         serverName := rs.Primary.Attributes["server_name"]
-        stepName := rs.Primary.Attributes["step_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, stepName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, serverName, jobAgentName, jobName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on jobStepsClient: %+v", err)
             }

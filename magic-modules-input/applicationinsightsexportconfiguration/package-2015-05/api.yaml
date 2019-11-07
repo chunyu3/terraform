@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: exportProperties
             go_type_name: ComponentExportRequest
@@ -75,9 +75,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: exportProperties
             go_type_name: ComponentExportRequest
@@ -121,9 +121,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -135,9 +135,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
         response:
           '/RecordTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: RecordTypes
@@ -194,7 +194,7 @@ objects:
             go_field_name: StorageName
             python_field_name: storage_name
           '/ContainerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: name
+            go_field_name: ContainerName
             python_field_name: container_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
@@ -207,9 +207,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
 
     description: |
       Manage Azure ExportConfiguration instance.
@@ -221,7 +221,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'resourceName'
+        name: 'name'
         description: 'The name of the Application Insights component resource.'
         required: true
         input: true
@@ -342,7 +342,7 @@ objects:
         output: true
         azure_sdk_references: ['/StorageName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'containerName'
         description: 'The name of the destination storage container.'
         output: true
         azure_sdk_references: ['/ContainerName']

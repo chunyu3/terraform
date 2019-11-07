@@ -36,18 +36,18 @@ func resourceArmServiceFabricSchedule() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "location": azure.SchemaLocation(),
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "lab_name": {
+            "name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "service_fabric_name": {
+            "location": azure.SchemaLocation(),
+
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
+
+            "lab_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -200,16 +200,16 @@ func resourceArmServiceFabricScheduleCreate(d *schema.ResourceData, meta interfa
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     labName := d.Get("lab_name").(string)
-    serviceFabricName := d.Get("service_fabric_name").(string)
     userName := d.Get("user_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, labName, userName, serviceFabricName, name)
+        existing, err := client.Get(ctx, resourceGroup, labName, userName, name, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q): %+v", name, serviceFabricName, userName, labName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -244,17 +244,17 @@ func resourceArmServiceFabricScheduleCreate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, userName, serviceFabricName, name, schedule); err != nil {
-        return fmt.Errorf("Error creating Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q): %+v", name, serviceFabricName, userName, labName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, labName, userName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error creating Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, labName, userName, serviceFabricName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, userName, name, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q): %+v", name, serviceFabricName, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q) ID", name, serviceFabricName, userName, labName, resourceGroup)
+        return fmt.Errorf("Cannot read Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q) ID", name, userName, labName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -272,20 +272,21 @@ func resourceArmServiceFabricScheduleRead(d *schema.ResourceData, meta interface
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
     userName := id.Path["users"]
-    serviceFabricName := id.Path["servicefabrics"]
+    name := id.Path["servicefabrics"]
     name := id.Path["schedules"]
 
-    resp, err := client.Get(ctx, resourceGroup, labName, userName, serviceFabricName, name)
+    resp, err := client.Get(ctx, resourceGroup, labName, userName, name, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service Fabric Schedule %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q): %+v", name, serviceFabricName, userName, labName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -313,7 +314,6 @@ func resourceArmServiceFabricScheduleRead(d *schema.ResourceData, meta interface
         }
     }
     d.Set("lab_name", labName)
-    d.Set("service_fabric_name", serviceFabricName)
     d.Set("type", resp.Type)
     d.Set("user_name", userName)
 
@@ -325,12 +325,12 @@ func resourceArmServiceFabricScheduleUpdate(d *schema.ResourceData, meta interfa
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     dailyRecurrence := d.Get("daily_recurrence").([]interface{})
     hourlyRecurrence := d.Get("hourly_recurrence").([]interface{})
     labName := d.Get("lab_name").(string)
     notificationSettings := d.Get("notification_settings").([]interface{})
-    serviceFabricName := d.Get("service_fabric_name").(string)
     status := d.Get("status").(string)
     targetResourceId := d.Get("target_resource_id").(string)
     taskType := d.Get("task_type").(string)
@@ -355,8 +355,8 @@ func resourceArmServiceFabricScheduleUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, labName, userName, serviceFabricName, name, schedule); err != nil {
-        return fmt.Errorf("Error updating Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q): %+v", name, serviceFabricName, userName, labName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, labName, userName, name, name, schedule); err != nil {
+        return fmt.Errorf("Error updating Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
     }
 
     return resourceArmServiceFabricScheduleRead(d, meta)
@@ -374,11 +374,11 @@ func resourceArmServiceFabricScheduleDelete(d *schema.ResourceData, meta interfa
     resourceGroup := id.ResourceGroup
     labName := id.Path["labs"]
     userName := id.Path["users"]
-    serviceFabricName := id.Path["servicefabrics"]
+    name := id.Path["servicefabrics"]
     name := id.Path["schedules"]
 
-    if _, err := client.Delete(ctx, resourceGroup, labName, userName, serviceFabricName, name); err != nil {
-        return fmt.Errorf("Error deleting Service Fabric Schedule %q (Service Fabric Name %q / User Name %q / Lab Name %q / Resource Group %q): %+v", name, serviceFabricName, userName, labName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, labName, userName, name, name); err != nil {
+        return fmt.Errorf("Error deleting Service Fabric Schedule %q (User Name %q / Lab Name %q / Resource Group %q): %+v", name, userName, labName, resourceGroup, err)
     }
 
     return nil

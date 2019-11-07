@@ -34,16 +34,16 @@ func testCheckAzureRMCustomerSubscriptionExists(resourceName string) resource.Te
             return fmt.Errorf("Customer Subscription not found: %s", resourceName)
         }
 
-        customerSubscriptionName := rs.Primary.Attributes["customer_subscription_name"]
+        name := rs.Primary.Attributes["name"]
         registrationName := rs.Primary.Attributes["registration_name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
 
         client := testAccProvider.Meta().(*ArmClient).customerSubscriptionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, registrationName, customerSubscriptionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, registrationName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Customer Subscription (Customer Subscription Name %q / Registration Name %q / Resource Group %q) does not exist", customerSubscriptionName, registrationName, resourceGroup)
+                return fmt.Errorf("Bad: Customer Subscription %q (Registration Name %q / Resource Group %q) does not exist", name, registrationName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on customerSubscriptionsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMCustomerSubscriptionDestroy(s *terraform.State) error {
             continue
         }
 
-        customerSubscriptionName := rs.Primary.Attributes["customer_subscription_name"]
+        name := rs.Primary.Attributes["name"]
         registrationName := rs.Primary.Attributes["registration_name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
 
-        if resp, err := client.Get(ctx, resourceGroup, registrationName, customerSubscriptionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, registrationName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on customerSubscriptionsClient: %+v", err)
             }

@@ -28,9 +28,9 @@ Manage Azure Connector instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the connector. Changing this forces a new resource to be created.
 
-* `connector_name` - (Required) The name of the connector. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `connector_properties` - (Required) The connector properties.
 

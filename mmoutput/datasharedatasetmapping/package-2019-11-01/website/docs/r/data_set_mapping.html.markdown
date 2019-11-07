@@ -28,11 +28,11 @@ Manage Azure DataSetMapping instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the data set mapping to be created. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the share account. Changing this forces a new resource to be created.
-
-* `data_set_mapping_name` - (Required) The name of the data set mapping to be created. Changing this forces a new resource to be created.
 
 * `share_subscription_name` - (Required) The name of the share subscription which will hold the data set sink. Changing this forces a new resource to be created.
 

@@ -34,9 +34,9 @@ objects:
             python_variable_name: factory_name
           'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: pipelines
-            go_variable_name: pipelineName
+            go_variable_name: name
             python_parameter_name: pipeline_name
-            python_variable_name: pipeline_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: pipeline
             go_type_name: PipelineResource
@@ -139,9 +139,9 @@ objects:
             python_variable_name: factory_name
           'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: pipelines
-            go_variable_name: pipelineName
+            go_variable_name: name
             python_parameter_name: pipeline_name
-            python_variable_name: pipeline_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -158,9 +158,9 @@ objects:
             python_variable_name: factory_name
           'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: pipelines
-            go_variable_name: pipelineName
+            go_variable_name: name
             python_parameter_name: pipeline_name
-            python_variable_name: pipeline_name
+            python_variable_name: name
         response:
           '/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: AdditionalProperties
@@ -286,7 +286,7 @@ objects:
         input: true
         azure_sdk_references: ['factoryName']
       - !ruby/object:Api::Type::String
-        name: 'pipelineName'
+        name: 'name'
         description: 'The pipeline name.'
         required: true
         input: true

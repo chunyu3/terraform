@@ -31,19 +31,19 @@ func resourceArmMediaGraph() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "media_graph_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -117,15 +117,15 @@ func resourceArmMediaGraphCreateUpdate(d *schema.ResourceData, meta interface{})
     client := meta.(*ArmClient).mediaGraphsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    mediaGraphName := d.Get("media_graph_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, mediaGraphName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q): %+v", mediaGraphName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Media Graph %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -146,17 +146,17 @@ func resourceArmMediaGraphCreateUpdate(d *schema.ResourceData, meta interface{})
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, mediaGraphName, parameters); err != nil {
-        return fmt.Errorf("Error creating Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q): %+v", mediaGraphName, accountName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Media Graph %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, mediaGraphName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q): %+v", mediaGraphName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Media Graph %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q) ID", mediaGraphName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Media Graph %q (Account Name %q / Resource Group %q) ID", name, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -173,19 +173,20 @@ func resourceArmMediaGraphRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    mediaGraphName := id.Path["mediaGraphs"]
+    name := id.Path["mediaGraphs"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, mediaGraphName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Media Graph %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q): %+v", mediaGraphName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Media Graph %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
@@ -201,7 +202,6 @@ func resourceArmMediaGraphRead(d *schema.ResourceData, meta interface{}) error {
         }
         d.Set("state", string(mediaGraphProperties.State))
     }
-    d.Set("media_graph_name", mediaGraphName)
     d.Set("type", resp.Type)
 
     return nil
@@ -219,10 +219,10 @@ func resourceArmMediaGraphDelete(d *schema.ResourceData, meta interface{}) error
     }
     resourceGroup := id.ResourceGroup
     accountName := id.Path["mediaServices"]
-    mediaGraphName := id.Path["mediaGraphs"]
+    name := id.Path["mediaGraphs"]
 
-    if _, err := client.Delete(ctx, resourceGroup, accountName, mediaGraphName); err != nil {
-        return fmt.Errorf("Error deleting Media Graph (Media Graph Name %q / Account Name %q / Resource Group %q): %+v", mediaGraphName, accountName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, accountName, name); err != nil {
+        return fmt.Errorf("Error deleting Media Graph %q (Account Name %q / Resource Group %q): %+v", name, accountName, resourceGroup, err)
     }
 
     return nil

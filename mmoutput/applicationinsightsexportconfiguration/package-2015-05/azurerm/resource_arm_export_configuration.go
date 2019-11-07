@@ -31,7 +31,9 @@ func resourceArmExportConfiguration() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -39,13 +41,6 @@ func resourceArmExportConfiguration() *schema.Resource {
             "resource_group": {
                 Type: schema.TypeString,
                 Computed: true,
-            },
-
-            "resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "destination_account_id": {
@@ -107,6 +102,11 @@ func resourceArmExportConfiguration() *schema.Resource {
                 Computed: true,
             },
 
+            "container_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "export_id": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -164,14 +164,14 @@ func resourceArmExportConfigurationCreate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).exportConfigurationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    resourceName := d.Get("resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, resourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Export Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Export Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -202,17 +202,17 @@ func resourceArmExportConfigurationCreate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, resourceName, exportProperties); err != nil {
-        return fmt.Errorf("Error creating Export Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, exportProperties); err != nil {
+        return fmt.Errorf("Error creating Export Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Export Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Export Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Export Configuration (Resource Name %q / Resource Group %q) ID", resourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Export Configuration %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -228,22 +228,23 @@ func resourceArmExportConfigurationRead(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["components"]
+    name := id.Path["components"]
 
-    resp, err := client.Get(ctx, resourceGroup, resourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Export Configuration %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Export Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Export Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    d.Set("name", resp.name)
+    d.Set("name", name)
     d.Set("resource_group", resourceGroup)
     d.Set("application_name", resp.ApplicationName)
+    d.Set("container_name", resp.ContainerName)
     d.Set("destination_account_id", resp.DestinationAccountID)
     d.Set("destination_storage_location_id", resp.DestinationStorageLocationID)
     d.Set("destination_storage_subscription_id", resp.DestinationStorageSubscriptionID)
@@ -259,7 +260,6 @@ func resourceArmExportConfigurationRead(d *schema.ResourceData, meta interface{}
     d.Set("permanent_error_reason", resp.PermanentErrorReason)
     d.Set("record_types", resp.RecordTypes)
     d.Set("resource_group", resp.ResourceGroup)
-    d.Set("resource_name", resourceName)
     d.Set("storage_name", resp.StorageName)
     d.Set("subscription_id", resp.SubscriptionID)
 
@@ -270,6 +270,7 @@ func resourceArmExportConfigurationUpdate(d *schema.ResourceData, meta interface
     client := meta.(*ArmClient).exportConfigurationsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     destinationAccountId := d.Get("destination_account_id").(string)
     destinationAddress := d.Get("destination_address").(string)
@@ -280,7 +281,6 @@ func resourceArmExportConfigurationUpdate(d *schema.ResourceData, meta interface
     notificationQueueEnabled := d.Get("notification_queue_enabled").(string)
     notificationQueueUri := d.Get("notification_queue_uri").(string)
     recordTypes := d.Get("record_types").(string)
-    resourceName := d.Get("resource_name").(string)
 
     exportProperties := applicationinsights.ComponentExportRequest{
         DestinationAccountID: utils.String(destinationAccountId),
@@ -295,8 +295,8 @@ func resourceArmExportConfigurationUpdate(d *schema.ResourceData, meta interface
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, resourceName, exportProperties); err != nil {
-        return fmt.Errorf("Error updating Export Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, exportProperties); err != nil {
+        return fmt.Errorf("Error updating Export Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmExportConfigurationRead(d, meta)
@@ -312,10 +312,10 @@ func resourceArmExportConfigurationDelete(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    resourceName := id.Path["components"]
+    name := id.Path["components"]
 
-    if _, err := client.Delete(ctx, resourceGroup, resourceName); err != nil {
-        return fmt.Errorf("Error deleting Export Configuration (Resource Name %q / Resource Group %q): %+v", resourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Export Configuration %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

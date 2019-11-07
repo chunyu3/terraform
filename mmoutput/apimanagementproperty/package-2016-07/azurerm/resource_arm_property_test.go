@@ -34,16 +34,16 @@ func testCheckAzureRMPropertyExists(resourceName string) resource.TestCheckFunc 
             return fmt.Errorf("Property not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         propID := rs.Primary.Attributes["prop_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).propertyClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, propID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, propID); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Property (Prop %q / Service Name %q / Resource Group %q) does not exist", propID, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Property %q (Prop %q / Resource Group %q) does not exist", name, propID, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on propertyClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMPropertyDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         propID := rs.Primary.Attributes["prop_id"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, propID); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, propID); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on propertyClient: %+v", err)
             }

@@ -31,32 +31,17 @@ func resourceArmAttestationProvider() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "provider_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "status": {
+            "name": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(attestation.Ready),
-                    string(attestation.NotReady),
-                    string(attestation.Error),
-                }, false),
+                Computed: true,
             },
 
-            "attest_uri": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
+            "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "attestation_policy": {
                 Type: schema.TypeString,
@@ -157,6 +142,16 @@ func resourceArmAttestationProvider() *schema.Resource {
                 },
             },
 
+            "attest_uri": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -169,14 +164,14 @@ func resourceArmAttestationProviderCreateUpdate(d *schema.ResourceData, meta int
     client := meta.(*ArmClient).attestationProvidersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    providerName := d.Get("provider_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, providerName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Attestation Provider (Provider Name %q / Resource Group %q): %+v", providerName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -184,29 +179,26 @@ func resourceArmAttestationProviderCreateUpdate(d *schema.ResourceData, meta int
         }
     }
 
-    attestUri := d.Get("attest_uri").(string)
     attestationPolicy := d.Get("attestation_policy").(string)
     policySigningCertificates := d.Get("policy_signing_certificates").([]interface{})
-    status := d.Get("status").(string)
 
     creationParams := attestation.ServiceCreationParams{
         AttestationPolicy: utils.String(attestationPolicy),
         PolicySigningCertificates: expandArmAttestationProviderJSONWebKeySet(policySigningCertificates),
-        // TODO: SDK Reference /properties is not supported
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, providerName, creationParams); err != nil {
-        return fmt.Errorf("Error creating Attestation Provider (Provider Name %q / Resource Group %q): %+v", providerName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, creationParams); err != nil {
+        return fmt.Errorf("Error creating Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, providerName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Attestation Provider (Provider Name %q / Resource Group %q): %+v", providerName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Attestation Provider (Provider Name %q / Resource Group %q) ID", providerName, resourceGroup)
+        return fmt.Errorf("Cannot read Attestation Provider %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -222,22 +214,26 @@ func resourceArmAttestationProviderRead(d *schema.ResourceData, meta interface{}
         return err
     }
     resourceGroup := id.ResourceGroup
-    providerName := id.Path["attestationProviders"]
+    name := id.Path["attestationProviders"]
 
-    resp, err := client.Get(ctx, resourceGroup, providerName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Attestation Provider %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Attestation Provider (Provider Name %q / Resource Group %q): %+v", providerName, resourceGroup, err)
+        return fmt.Errorf("Error reading Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    d.Set("provider_name", providerName)
+    if statusResult := resp.StatusResult; statusResult != nil {
+        d.Set("attest_uri", statusResult.AttestUri)
+        d.Set("status", string(statusResult.Status))
+    }
     d.Set("type", resp.Type)
 
     return nil
@@ -254,10 +250,10 @@ func resourceArmAttestationProviderDelete(d *schema.ResourceData, meta interface
         return err
     }
     resourceGroup := id.ResourceGroup
-    providerName := id.Path["attestationProviders"]
+    name := id.Path["attestationProviders"]
 
-    if _, err := client.Delete(ctx, resourceGroup, providerName); err != nil {
-        return fmt.Errorf("Error deleting Attestation Provider (Provider Name %q / Resource Group %q): %+v", providerName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Attestation Provider %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

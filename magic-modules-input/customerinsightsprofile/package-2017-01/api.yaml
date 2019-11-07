@@ -35,9 +35,9 @@ objects:
             python_variable_name: hub_name
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: profiles
-            go_variable_name: profileName
+            go_variable_name: name
             python_parameter_name: profile_name
-            python_variable_name: profile_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ProfileResourceFormat
@@ -284,9 +284,9 @@ objects:
             python_variable_name: hub_name
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: profiles
-            go_variable_name: profileName
+            go_variable_name: name
             python_parameter_name: profile_name
-            python_variable_name: profile_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -303,9 +303,9 @@ objects:
             python_variable_name: hub_name
           'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: profiles
-            go_variable_name: profileName
+            go_variable_name: name
             python_parameter_name: profile_name
-            python_variable_name: profile_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -426,6 +426,30 @@ objects:
             applicable_to: [go]
             go_field_name: DataSourcePrecedenceRules
             go_type_name: DataSourcePrecedence
+          '/properties/fields/dataSourcePrecedenceRules/dataSource': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DataSource
+            go_type_name: DataSource
+          '/properties/fields/dataSourcePrecedenceRules/dataSource/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/fields/dataSourcePrecedenceRules/dataSource/dataSourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DataSourceType
+            go_enum_type_name: DataSourceType
+          '/properties/fields/dataSourcePrecedenceRules/dataSource/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/fields/dataSourcePrecedenceRules/dataSource/id': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/fields/dataSourcePrecedenceRules/dataSource/dataSourceReferenceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DataSourceReferenceID
+          '/properties/fields/dataSourcePrecedenceRules/precedence': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Precedence
           '/fields': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: fields
@@ -483,6 +507,27 @@ objects:
           '/fields/dataSourcePrecedenceRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: data_source_precedence_rules
+          '/fields/dataSourcePrecedenceRules/dataSource': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: data_source
+          '/fields/dataSourcePrecedenceRules/dataSource/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/fields/dataSourcePrecedenceRules/dataSource/dataSourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: data_source_type
+          '/fields/dataSourcePrecedenceRules/dataSource/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/fields/dataSourcePrecedenceRules/dataSource/id': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: id
+          '/fields/dataSourcePrecedenceRules/dataSource/dataSourceReferenceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: data_source_reference_id
+          '/fields/dataSourcePrecedenceRules/precedence': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: precedence
           '/properties/instancesCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: InstancesCount
@@ -597,7 +642,7 @@ objects:
         input: true
         azure_sdk_references: ['hubName']
       - !ruby/object:Api::Type::String
-        name: 'profileName'
+        name: 'name'
         description: 'The name of the profile.'
         required: true
         input: true

@@ -28,13 +28,13 @@ Manage Azure OpenShiftManagedCluster instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the OpenShift managed cluster resource. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
 * `open_shift_version` - (Required) Version of OpenShift specified when creating the cluster.
-
-* `resource_name` - (Required) The name of the OpenShift managed cluster resource. Changing this forces a new resource to be created.
 
 * `agent_pool_profiles` - (Optional) One or more `agent_pool_profile` block defined below.
 

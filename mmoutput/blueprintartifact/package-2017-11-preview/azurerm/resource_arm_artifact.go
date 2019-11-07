@@ -31,14 +31,14 @@ func resourceArmArtifact() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "artifact_name": {
-                Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "blueprint_name": {
@@ -67,15 +67,15 @@ func resourceArmArtifactCreateUpdate(d *schema.ResourceData, meta interface{}) e
     client := meta.(*ArmClient).artifactsClient
     ctx := meta.(*ArmClient).StopContext
 
-    artifactName := d.Get("artifact_name").(string)
+    name := d.Get("name").(string)
     blueprintName := d.Get("blueprint_name").(string)
     managementGroupName := d.Get("management_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, managementGroupName, blueprintName, artifactName)
+        existing, err := client.Get(ctx, managementGroupName, blueprintName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q): %+v", artifactName, blueprintName, managementGroupName, err)
+                return fmt.Errorf("Error checking for present of existing Artifact %q (Blueprint Name %q / Management Group Name %q): %+v", name, blueprintName, managementGroupName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -88,17 +88,17 @@ func resourceArmArtifactCreateUpdate(d *schema.ResourceData, meta interface{}) e
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, managementGroupName, blueprintName, artifactName, artifact); err != nil {
-        return fmt.Errorf("Error creating Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q): %+v", artifactName, blueprintName, managementGroupName, err)
+    if _, err := client.CreateOrUpdate(ctx, managementGroupName, blueprintName, name, artifact); err != nil {
+        return fmt.Errorf("Error creating Artifact %q (Blueprint Name %q / Management Group Name %q): %+v", name, blueprintName, managementGroupName, err)
     }
 
 
-    resp, err := client.Get(ctx, managementGroupName, blueprintName, artifactName)
+    resp, err := client.Get(ctx, managementGroupName, blueprintName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q): %+v", artifactName, blueprintName, managementGroupName, err)
+        return fmt.Errorf("Error retrieving Artifact %q (Blueprint Name %q / Management Group Name %q): %+v", name, blueprintName, managementGroupName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q) ID", artifactName, blueprintName, managementGroupName)
+        return fmt.Errorf("Cannot read Artifact %q (Blueprint Name %q / Management Group Name %q) ID", name, blueprintName, managementGroupName)
     }
     d.SetId(*resp.ID)
 
@@ -115,21 +115,21 @@ func resourceArmArtifactRead(d *schema.ResourceData, meta interface{}) error {
     }
     managementGroupName := id.Path["managementGroups"]
     blueprintName := id.Path["blueprints"]
-    artifactName := id.Path["artifacts"]
+    name := id.Path["artifacts"]
 
-    resp, err := client.Get(ctx, managementGroupName, blueprintName, artifactName)
+    resp, err := client.Get(ctx, managementGroupName, blueprintName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Artifact %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q): %+v", artifactName, blueprintName, managementGroupName, err)
+        return fmt.Errorf("Error reading Artifact %q (Blueprint Name %q / Management Group Name %q): %+v", name, blueprintName, managementGroupName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
-    d.Set("artifact_name", artifactName)
     d.Set("blueprint_name", blueprintName)
     d.Set("management_group_name", managementGroupName)
     d.Set("type", resp.Type)
@@ -149,10 +149,10 @@ func resourceArmArtifactDelete(d *schema.ResourceData, meta interface{}) error {
     }
     managementGroupName := id.Path["managementGroups"]
     blueprintName := id.Path["blueprints"]
-    artifactName := id.Path["artifacts"]
+    name := id.Path["artifacts"]
 
-    if _, err := client.Delete(ctx, managementGroupName, blueprintName, artifactName); err != nil {
-        return fmt.Errorf("Error deleting Artifact (Artifact Name %q / Blueprint Name %q / Management Group Name %q): %+v", artifactName, blueprintName, managementGroupName, err)
+    if _, err := client.Delete(ctx, managementGroupName, blueprintName, name); err != nil {
+        return fmt.Errorf("Error deleting Artifact %q (Blueprint Name %q / Management Group Name %q): %+v", name, blueprintName, managementGroupName, err)
     }
 
     return nil

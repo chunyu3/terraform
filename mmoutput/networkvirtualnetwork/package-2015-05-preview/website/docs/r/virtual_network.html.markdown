@@ -28,11 +28,11 @@ Manage Azure VirtualNetwork instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the virtual network. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `virtual_network_name` - (Required) The name of the virtual network. Changing this forces a new resource to be created.
 
 * `address_space` - (Optional) One `address_space` block defined below.
 

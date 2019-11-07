@@ -28,6 +28,8 @@ Manage Azure StorageAccountCredential instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The device name. Changing this forces a new resource to be created.
+
 * `name` - (Required) The storage account credential name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
@@ -35,8 +37,6 @@ The following arguments are supported:
 * `account_type` - (Required) Type of storage accessed on the storage account.
 
 * `alias` - (Required) Alias for the storage account.
-
-* `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
 * `ssl_status` - (Required) Signifies whether SSL needs to be enabled or not.
 

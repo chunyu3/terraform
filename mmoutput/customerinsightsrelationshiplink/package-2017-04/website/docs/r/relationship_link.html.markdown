@@ -28,6 +28,8 @@ Manage Azure RelationshipLink instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the relationship link. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `hub_name` - (Required) The name of the hub. Changing this forces a new resource to be created.
@@ -37,8 +39,6 @@ The following arguments are supported:
 * `profile_property_references` - (Required) One or more `profile_property_reference` block defined below.
 
 * `related_profile_property_references` - (Required) One or more `related_profile_property_reference` block defined below.
-
-* `relationship_link_name` - (Required) The name of the relationship link. Changing this forces a new resource to be created.
 
 * `relationship_name` - (Required) The Relationship associated with the Link.
 

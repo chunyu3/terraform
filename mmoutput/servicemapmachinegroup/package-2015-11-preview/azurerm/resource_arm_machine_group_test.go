@@ -34,15 +34,15 @@ func testCheckAzureRMMachineGroupExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Machine Group not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        workspaceName := rs.Primary.Attributes["workspace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).machineGroupsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, workspaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Machine Group (Workspace Name %q / Resource Group %q) does not exist", workspaceName, resourceGroup)
+                return fmt.Errorf("Bad: Machine Group %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on machineGroupsClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMMachineGroupDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        workspaceName := rs.Primary.Attributes["workspace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, workspaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on machineGroupsClient: %+v", err)
             }

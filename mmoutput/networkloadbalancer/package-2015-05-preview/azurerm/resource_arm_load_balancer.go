@@ -31,19 +31,19 @@ func resourceArmLoadBalancer() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "load_balancer_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "backend_address_pools": {
                 Type: schema.TypeList,
@@ -567,14 +567,14 @@ func resourceArmLoadBalancerCreateUpdate(d *schema.ResourceData, meta interface{
     client := meta.(*ArmClient).loadBalancersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    loadBalancerName := d.Get("load_balancer_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, loadBalancerName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -611,21 +611,21 @@ func resourceArmLoadBalancerCreateUpdate(d *schema.ResourceData, meta interface{
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, loadBalancerName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+        return fmt.Errorf("Error creating Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, loadBalancerName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Load Balancer (Load Balancer Name %q / Resource Group %q) ID", loadBalancerName, resourceGroup)
+        return fmt.Errorf("Cannot read Load Balancer %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -641,19 +641,20 @@ func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error
         return err
     }
     resourceGroup := id.ResourceGroup
-    loadBalancerName := id.Path["loadBalancers"]
+    name := id.Path["loadBalancers"]
 
-    resp, err := client.Get(ctx, resourceGroup, loadBalancerName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Load Balancer %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+        return fmt.Errorf("Error reading Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -685,7 +686,6 @@ func resourceArmLoadBalancerRead(d *schema.ResourceData, meta interface{}) error
         d.Set("resource_guid", loadBalancerPropertiesFormat.ResourceGuid)
     }
     d.Set("etag", resp.Etag)
-    d.Set("load_balancer_name", loadBalancerName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -702,19 +702,19 @@ func resourceArmLoadBalancerDelete(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    loadBalancerName := id.Path["loadBalancers"]
+    name := id.Path["loadBalancers"]
 
-    future, err := client.Delete(ctx, resourceGroup, loadBalancerName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Load Balancer (Load Balancer Name %q / Resource Group %q): %+v", loadBalancerName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Load Balancer %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

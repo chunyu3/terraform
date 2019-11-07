@@ -31,19 +31,19 @@ func resourceArmVirtualNetwork() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "virtual_network_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "address_space": {
                 Type: schema.TypeList,
@@ -173,14 +173,14 @@ func resourceArmVirtualNetworkCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).virtualNetworksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    virtualNetworkName := d.Get("virtual_network_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, virtualNetworkName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -209,21 +209,21 @@ func resourceArmVirtualNetworkCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, virtualNetworkName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error creating Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, virtualNetworkName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Virtual Network (Virtual Network Name %q / Resource Group %q) ID", virtualNetworkName, resourceGroup)
+        return fmt.Errorf("Cannot read Virtual Network %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -239,19 +239,20 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    virtualNetworkName := id.Path["virtualnetworks"]
+    name := id.Path["virtualnetworks"]
 
-    resp, err := client.Get(ctx, resourceGroup, virtualNetworkName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Virtual Network %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error reading Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -272,7 +273,6 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
-    d.Set("virtual_network_name", virtualNetworkName)
 
     return tags.FlattenAndSet(d, resp.Tags)
 }
@@ -288,19 +288,19 @@ func resourceArmVirtualNetworkDelete(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    virtualNetworkName := id.Path["virtualnetworks"]
+    name := id.Path["virtualnetworks"]
 
-    future, err := client.Delete(ctx, resourceGroup, virtualNetworkName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Virtual Network (Virtual Network Name %q / Resource Group %q): %+v", virtualNetworkName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Virtual Network %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

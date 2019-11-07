@@ -28,13 +28,13 @@ Manage Azure Policy instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the policy set. Changing this forces a new resource to be created.
+
 * `name` - (Required) The name of the policy. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `lab_name` - (Required) The name of the lab. Changing this forces a new resource to be created.
-
-* `policy_set_name` - (Required) The name of the policy set. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 

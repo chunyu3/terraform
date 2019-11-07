@@ -28,13 +28,13 @@ Manage Azure Connection instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The parameters supplied to the create or update connection operation. Changing this forces a new resource to be created.
+
 * `name` - (Required) Gets or sets the name of the connection. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
-
-* `connection_name` - (Required) The parameters supplied to the create or update connection operation. Changing this forces a new resource to be created.
 
 * `connection_type` - (Required) One `connection_type` block defined below.
 

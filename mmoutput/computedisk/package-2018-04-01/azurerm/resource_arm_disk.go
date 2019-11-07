@@ -31,6 +31,13 @@ func resourceArmDisk() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -88,13 +95,6 @@ func resourceArmDisk() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "disk_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "disk_size_gb": {
@@ -238,14 +238,14 @@ func resourceArmDiskCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).disksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    diskName := d.Get("disk_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, diskName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -276,21 +276,21 @@ func resourceArmDiskCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, diskName, disk)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, disk)
     if err != nil {
-        return fmt.Errorf("Error creating Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error creating Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, diskName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Disk (Disk Name %q / Resource Group %q) ID", diskName, resourceGroup)
+        return fmt.Errorf("Cannot read Disk %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -306,19 +306,20 @@ func resourceArmDiskRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    diskName := id.Path["disks"]
+    name := id.Path["disks"]
 
-    resp, err := client.Get(ctx, resourceGroup, diskName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Disk %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error reading Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -336,7 +337,6 @@ func resourceArmDiskRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("provisioning_state", diskProperties.ProvisioningState)
         d.Set("time_created", (diskProperties.TimeCreated).String())
     }
-    d.Set("disk_name", diskName)
     d.Set("managed_by", resp.ManagedBy)
     if err := d.Set("sku", flattenArmDiskDiskSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
@@ -351,9 +351,9 @@ func resourceArmDiskUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).disksClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     creationData := d.Get("creation_data").([]interface{})
-    diskName := d.Get("disk_name").(string)
     diskSizeGb := d.Get("disk_size_gb").(int)
     encryptionSettings := d.Get("encryption_settings").([]interface{})
     osType := d.Get("os_type").(string)
@@ -375,12 +375,12 @@ func resourceArmDiskUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, diskName, disk)
+    future, err := client.Update(ctx, resourceGroup, name, disk)
     if err != nil {
-        return fmt.Errorf("Error updating Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error updating Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmDiskRead(d, meta)
@@ -396,19 +396,19 @@ func resourceArmDiskDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    diskName := id.Path["disks"]
+    name := id.Path["disks"]
 
-    future, err := client.Delete(ctx, resourceGroup, diskName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Disk (Disk Name %q / Resource Group %q): %+v", diskName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Disk %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

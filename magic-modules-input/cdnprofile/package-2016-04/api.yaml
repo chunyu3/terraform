@@ -23,16 +23,16 @@ objects:
         go_func_name: Create
         python_func_name: create
         request:
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: profileProperties
             go_type_name: ProfileCreateParameters
@@ -52,35 +52,21 @@ objects:
             go_field_name: Name
             go_enum_type_name: SkuName
             python_field_name: name
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: ProfileResourceState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
         python_func_name: update
         request:
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: profileProperties
             go_type_name: ProfileCreateParameters
@@ -100,34 +86,20 @@ objects:
             go_field_name: Name
             go_enum_type_name: SkuName
             python_field_name: name
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: ProfileResourceState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
         request:
-          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: profiles
-            go_variable_name: profileName
-            python_parameter_name: profile_name
-            python_variable_name: profile_name
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'profileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: profiles
+            go_variable_name: name
+            python_parameter_name: profile_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -156,6 +128,20 @@ objects:
             applicable_to: [go]
             go_field_name: ProfileProperties
             go_type_name: ProfileProperties
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: ProfileResourceState
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBySubscriptionId
         python_func_name: list_by_subscription_id
@@ -174,7 +160,7 @@ objects:
       Manage Azure Profile instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'profileName'
+        name: 'name'
         description: 'Name of the CDN profile within the resource group.'
         required: true
         input: true
@@ -214,27 +200,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'Resource status of the profile.'
-        required: false
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Creating
-          - :Active
-          - :Deleting
-          - :Disabled
-        default_value: :Creating
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'Provisioning status of the profile.'
-        required: false
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Creating
-          - :Succeeded
-          - :Failed
-        default_value: :Creating
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -251,3 +216,22 @@ objects:
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'resourceState'
+        description: 'Resource status of the profile.'
+        output: true
+        azure_sdk_references: ['/resourceState', '/properties/resourceState']
+        values:
+          - :Creating
+          - :Active
+          - :Deleting
+          - :Disabled
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Provisioning status of the profile.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Creating
+          - :Succeeded
+          - :Failed

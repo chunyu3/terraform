@@ -34,16 +34,16 @@ func testCheckAzureRMGalleryImageExists(resourceName string) resource.TestCheckF
             return fmt.Errorf("Gallery Image not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        galleryImageName := rs.Primary.Attributes["gallery_image_name"]
         galleryName := rs.Primary.Attributes["gallery_name"]
 
         client := testAccProvider.Meta().(*ArmClient).galleryImagesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, galleryName, galleryImageName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, galleryName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Gallery Image (Gallery Image Name %q / Gallery Name %q / Resource Group %q) does not exist", galleryImageName, galleryName, resourceGroup)
+                return fmt.Errorf("Bad: Gallery Image %q (Gallery Name %q / Resource Group %q) does not exist", name, galleryName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on galleryImagesClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMGalleryImageDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        galleryImageName := rs.Primary.Attributes["gallery_image_name"]
         galleryName := rs.Primary.Attributes["gallery_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, galleryName, galleryImageName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, galleryName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on galleryImagesClient: %+v", err)
             }

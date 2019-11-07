@@ -34,17 +34,17 @@ func testCheckAzureRMFileServerExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("File Server not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
         fileServerName := rs.Primary.Attributes["file_server_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).fileServersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, fileServerName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: File Server (Manager Name %q / Resource Group %q / File Server Name %q / Device Name %q) does not exist", managerName, resourceGroup, fileServerName, deviceName)
+                return fmt.Errorf("Bad: File Server %q (Resource Group %q / File Server Name %q / Device Name %q) does not exist", name, resourceGroup, fileServerName, deviceName)
             }
             return fmt.Errorf("Bad: Get on fileServersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMFileServerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
         fileServerName := rs.Primary.Attributes["file_server_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, deviceName, fileServerName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, fileServerName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on fileServersClient: %+v", err)
             }

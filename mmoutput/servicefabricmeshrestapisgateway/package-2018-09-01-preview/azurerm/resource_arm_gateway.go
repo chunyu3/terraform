@@ -31,6 +31,13 @@ func resourceArmGateway() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -62,13 +69,6 @@ func resourceArmGateway() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "gateway_resource_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "source_network": {
@@ -122,6 +122,87 @@ func resourceArmGateway() *schema.Resource {
                                         Required: true,
                                         Elem: &schema.Resource{
                                             Schema: map[string]*schema.Schema{
+                                                "destination": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "application_name": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                            "endpoint_name": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                            "service_name": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "match": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "path": {
+                                                                Type: schema.TypeList,
+                                                                Required: true,
+                                                                MaxItems: 1,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "type": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validate.NoEmptyStrings,
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validate.NoEmptyStrings,
+                                                                        },
+                                                                        "rewrite": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                            "headers": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "name": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validate.NoEmptyStrings,
+                                                                        },
+                                                                        "type": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(servicefabricmeshrestapis.exact),
+                                                                            }, false),
+                                                                            Default: string(servicefabricmeshrestapis.exact),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                                 "name": {
                                                     Type: schema.TypeString,
                                                     Required: true,
@@ -222,14 +303,14 @@ func resourceArmGatewayCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).gatewayClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    gatewayResourceName := d.Get("gateway_resource_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, gatewayResourceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Gateway (Gateway Resource Name %q / Resource Group %q): %+v", gatewayResourceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -258,17 +339,17 @@ func resourceArmGatewayCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    if _, err := client.Create(ctx, resourceGroup, gatewayResourceName, gatewayResourceDescription); err != nil {
-        return fmt.Errorf("Error creating Gateway (Gateway Resource Name %q / Resource Group %q): %+v", gatewayResourceName, resourceGroup, err)
+    if _, err := client.Create(ctx, resourceGroup, name, gatewayResourceDescription); err != nil {
+        return fmt.Errorf("Error creating Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, gatewayResourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Gateway (Gateway Resource Name %q / Resource Group %q): %+v", gatewayResourceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Gateway (Gateway Resource Name %q / Resource Group %q) ID", gatewayResourceName, resourceGroup)
+        return fmt.Errorf("Cannot read Gateway %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -284,19 +365,20 @@ func resourceArmGatewayRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    gatewayResourceName := id.Path["gateways"]
+    name := id.Path["gateways"]
 
-    resp, err := client.Get(ctx, resourceGroup, gatewayResourceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Gateway %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Gateway (Gateway Resource Name %q / Resource Group %q): %+v", gatewayResourceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -321,7 +403,6 @@ func resourceArmGatewayRead(d *schema.ResourceData, meta interface{}) error {
             return fmt.Errorf("Error setting `tcp`: %+v", err)
         }
     }
-    d.Set("gateway_resource_name", gatewayResourceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -338,10 +419,10 @@ func resourceArmGatewayDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    gatewayResourceName := id.Path["gateways"]
+    name := id.Path["gateways"]
 
-    if _, err := client.Delete(ctx, resourceGroup, gatewayResourceName); err != nil {
-        return fmt.Errorf("Error deleting Gateway (Gateway Resource Name %q / Resource Group %q): %+v", gatewayResourceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Gateway %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil
@@ -456,14 +537,71 @@ func expandArmGatewayHttpRouteConfig(input []interface{}) *[]servicefabricmeshre
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
+        match := v["match"].([]interface{})
+        destination := v["destination"].([]interface{})
 
         result := servicefabricmeshrestapis.HttpRouteConfig{
+            Destination: expandArmGatewayGatewayDestination(destination),
+            Match: expandArmGatewayHttpRouteMatchRule(match),
             Name: utils.String(name),
         }
 
         results = append(results, result)
     }
     return &results
+}
+
+func expandArmGatewayHttpRouteMatchRule(input []interface{}) *servicefabricmeshrestapis.HttpRouteMatchRule {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    path := v["path"].([]interface{})
+    headers := v["headers"].([]interface{})
+
+    result := servicefabricmeshrestapis.HttpRouteMatchRule{
+        Headers: expandArmGatewayHttpRouteMatchHeader(headers),
+        Path: expandArmGatewayHttpRouteMatchPath(path),
+    }
+    return &result
+}
+
+func expandArmGatewayHttpRouteMatchHeader(input []interface{}) *[]servicefabricmeshrestapis.HttpRouteMatchHeader {
+    results := make([]servicefabricmeshrestapis.HttpRouteMatchHeader, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+        type := v["type"].(string)
+
+        result := servicefabricmeshrestapis.HttpRouteMatchHeader{
+            Name: utils.String(name),
+            Type: servicefabricmeshrestapis.HeaderMatchType(type),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmGatewayHttpRouteMatchPath(input []interface{}) *servicefabricmeshrestapis.HttpRouteMatchPath {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    value := v["value"].(string)
+    rewrite := v["rewrite"].(string)
+    type := v["type"].(string)
+
+    result := servicefabricmeshrestapis.HttpRouteMatchPath{
+        Rewrite: utils.String(rewrite),
+        Type: utils.String(type),
+        Value: utils.String(value),
+    }
+    return &result
 }
 
 
@@ -599,9 +737,67 @@ func flattenArmGatewayHttpRouteConfig(input *[]servicefabricmeshrestapis.HttpRou
         if name := item.Name; name != nil {
             v["name"] = *name
         }
+        v["destination"] = flattenArmGatewayGatewayDestination(item.Destination)
+        v["match"] = flattenArmGatewayHttpRouteMatchRule(item.Match)
 
         results = append(results, v)
     }
 
     return results
+}
+
+func flattenArmGatewayHttpRouteMatchRule(input *servicefabricmeshrestapis.HttpRouteMatchRule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["headers"] = flattenArmGatewayHttpRouteMatchHeader(input.Headers)
+    result["path"] = flattenArmGatewayHttpRouteMatchPath(input.Path)
+
+    return []interface{}{result}
+}
+
+func flattenArmGatewayHttpRouteMatchHeader(input *[]servicefabricmeshrestapis.HttpRouteMatchHeader) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        v["type"] = string(item.Type)
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmGatewayHttpRouteMatchPath(input *servicefabricmeshrestapis.HttpRouteMatchPath) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if rewrite := input.Rewrite; rewrite != nil {
+        result["rewrite"] = *rewrite
+    }
+    if type := input.Type; type != nil {
+        result["type"] = *type
+    }
+    if value := input.Value; value != nil {
+        result["value"] = *value
+    }
+
+    return []interface{}{result}
 }

@@ -31,19 +31,19 @@ func resourceArmPublicIpAddresse() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "public_ip_address_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "public_ipallocation_method": {
                 Type: schema.TypeString,
@@ -130,14 +130,14 @@ func resourceArmPublicIpAddresseCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).publicIpAddressesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    publicIpAddressName := d.Get("public_ip_address_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, publicIpAddressName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -170,21 +170,21 @@ func resourceArmPublicIpAddresseCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, publicIpAddressName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+        return fmt.Errorf("Error creating Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, publicIpAddressName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Public Ip Addresse (Public Ip Address Name %q / Resource Group %q) ID", publicIpAddressName, resourceGroup)
+        return fmt.Errorf("Cannot read Public Ip Addresse %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -200,19 +200,20 @@ func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    publicIpAddressName := id.Path["publicIPAddresses"]
+    name := id.Path["publicIPAddresses"]
 
-    resp, err := client.Get(ctx, resourceGroup, publicIpAddressName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Public Ip Addresse %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+        return fmt.Errorf("Error reading Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -232,7 +233,6 @@ func resourceArmPublicIpAddresseRead(d *schema.ResourceData, meta interface{}) e
         d.Set("resource_guid", publicIpAddressPropertiesFormat.ResourceGuid)
     }
     d.Set("etag", resp.Etag)
-    d.Set("public_ip_address_name", publicIpAddressName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -249,19 +249,19 @@ func resourceArmPublicIpAddresseDelete(d *schema.ResourceData, meta interface{})
         return err
     }
     resourceGroup := id.ResourceGroup
-    publicIpAddressName := id.Path["publicIPAddresses"]
+    name := id.Path["publicIPAddresses"]
 
-    future, err := client.Delete(ctx, resourceGroup, publicIpAddressName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Public Ip Addresse (Public Ip Address Name %q / Resource Group %q): %+v", publicIpAddressName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Public Ip Addresse %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

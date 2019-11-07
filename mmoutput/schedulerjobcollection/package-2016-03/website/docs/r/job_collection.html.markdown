@@ -28,9 +28,9 @@ Manage Azure JobCollection instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
+* `name` - (Required) The job collection name. Changing this forces a new resource to be created.
 
-* `job_collection_name` - (Required) The job collection name. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 
 * `name` - (Optional) Gets or sets the job collection resource name. Changing this forces a new resource to be created.
 

@@ -34,16 +34,16 @@ func testCheckAzureRMExpressRouteCircuitPeeringExists(resourceName string) resou
             return fmt.Errorf("Express Route Circuit Peering not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         circuitName := rs.Primary.Attributes["circuit_name"]
-        peeringName := rs.Primary.Attributes["peering_name"]
 
         client := testAccProvider.Meta().(*ArmClient).expressRouteCircuitPeeringsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, circuitName, peeringName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, circuitName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Express Route Circuit Peering (Peering Name %q / Circuit Name %q / Resource Group %q) does not exist", peeringName, circuitName, resourceGroup)
+                return fmt.Errorf("Bad: Express Route Circuit Peering %q (Circuit Name %q / Resource Group %q) does not exist", name, circuitName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on expressRouteCircuitPeeringsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMExpressRouteCircuitPeeringDestroy(s *terraform.State) error
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         circuitName := rs.Primary.Attributes["circuit_name"]
-        peeringName := rs.Primary.Attributes["peering_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, circuitName, peeringName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, circuitName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on expressRouteCircuitPeeringsClient: %+v", err)
             }

@@ -34,16 +34,16 @@ func testCheckAzureRMOpenIdConnectProviderExists(resourceName string) resource.T
             return fmt.Errorf("Open Id Connect Provider not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         opid := rs.Primary.Attributes["opid"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
         client := testAccProvider.Meta().(*ArmClient).openIdConnectProvidersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, opid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, opid); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Open Id Connect Provider (Opid %q / Service Name %q / Resource Group %q) does not exist", opid, serviceName, resourceGroup)
+                return fmt.Errorf("Bad: Open Id Connect Provider %q (Opid %q / Resource Group %q) does not exist", name, opid, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on openIdConnectProvidersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMOpenIdConnectProviderDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         opid := rs.Primary.Attributes["opid"]
-        serviceName := rs.Primary.Attributes["service_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, serviceName, opid); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, opid); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on openIdConnectProvidersClient: %+v", err)
             }

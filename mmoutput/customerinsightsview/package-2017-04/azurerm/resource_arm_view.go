@@ -31,6 +31,13 @@ func resourceArmView() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -43,13 +50,6 @@ func resourceArmView() *schema.Resource {
             },
 
             "hub_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "view_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -99,15 +99,15 @@ func resourceArmViewCreateUpdate(d *schema.ResourceData, meta interface{}) error
     client := meta.(*ArmClient).viewsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     hubName := d.Get("hub_name").(string)
-    viewName := d.Get("view_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, hubName, viewName)
+        existing, err := client.Get(ctx, resourceGroup, hubName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing View (View Name %q / Hub Name %q / Resource Group %q): %+v", viewName, hubName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing View %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -128,17 +128,17 @@ func resourceArmViewCreateUpdate(d *schema.ResourceData, meta interface{}) error
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, viewName, parameters); err != nil {
-        return fmt.Errorf("Error creating View (View Name %q / Hub Name %q / Resource Group %q): %+v", viewName, hubName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, hubName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating View %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, viewName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving View (View Name %q / Hub Name %q / Resource Group %q): %+v", viewName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving View %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read View (View Name %q / Hub Name %q / Resource Group %q) ID", viewName, hubName, resourceGroup)
+        return fmt.Errorf("Cannot read View %q (Hub Name %q / Resource Group %q) ID", name, hubName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -155,19 +155,20 @@ func resourceArmViewRead(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    viewName := id.Path["views"]
+    name := id.Path["views"]
 
-    resp, err := client.Get(ctx, resourceGroup, hubName, viewName)
+    resp, err := client.Get(ctx, resourceGroup, hubName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] View %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading View (View Name %q / Hub Name %q / Resource Group %q): %+v", viewName, hubName, resourceGroup, err)
+        return fmt.Errorf("Error reading View %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if view := resp.View; view != nil {
@@ -181,7 +182,6 @@ func resourceArmViewRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("hub_name", hubName)
     d.Set("type", resp.Type)
-    d.Set("view_name", viewName)
 
     return nil
 }
@@ -198,10 +198,10 @@ func resourceArmViewDelete(d *schema.ResourceData, meta interface{}) error {
     }
     resourceGroup := id.ResourceGroup
     hubName := id.Path["hubs"]
-    viewName := id.Path["views"]
+    name := id.Path["views"]
 
-    if _, err := client.Delete(ctx, resourceGroup, hubName, viewName); err != nil {
-        return fmt.Errorf("Error deleting View (View Name %q / Hub Name %q / Resource Group %q): %+v", viewName, hubName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, hubName, name); err != nil {
+        return fmt.Errorf("Error deleting View %q (Hub Name %q / Resource Group %q): %+v", name, hubName, resourceGroup, err)
     }
 
     return nil

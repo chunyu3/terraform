@@ -31,19 +31,19 @@ func resourceArmManager() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "manager_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "cis_intrinsic_settings": {
                 Type: schema.TypeList,
@@ -103,14 +103,14 @@ func resourceArmManagerCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    managerName := d.Get("manager_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Manager (Manager Name %q / Resource Group %q): %+v", managerName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Manager %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -135,17 +135,17 @@ func resourceArmManagerCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, managerName, parameters); err != nil {
-        return fmt.Errorf("Error creating Manager (Manager Name %q / Resource Group %q): %+v", managerName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Manager %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Manager (Manager Name %q / Resource Group %q): %+v", managerName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Manager %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Manager (Manager Name %q / Resource Group %q) ID", managerName, resourceGroup)
+        return fmt.Errorf("Cannot read Manager %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -161,19 +161,20 @@ func resourceArmManagerRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
 
-    resp, err := client.Get(ctx, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Manager %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Manager (Manager Name %q / Resource Group %q): %+v", managerName, resourceGroup, err)
+        return fmt.Errorf("Error reading Manager %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -189,7 +190,6 @@ func resourceArmManagerRead(d *schema.ResourceData, meta interface{}) error {
         }
     }
     d.Set("etag", resp.Etag)
-    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -199,10 +199,10 @@ func resourceArmManagerUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).managersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     cisIntrinsicSettings := d.Get("cis_intrinsic_settings").([]interface{})
     etag := d.Get("etag").(string)
-    managerName := d.Get("manager_name").(string)
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -217,8 +217,8 @@ func resourceArmManagerUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, managerName, parameters); err != nil {
-        return fmt.Errorf("Error updating Manager (Manager Name %q / Resource Group %q): %+v", managerName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, parameters); err != nil {
+        return fmt.Errorf("Error updating Manager %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmManagerRead(d, meta)
@@ -234,10 +234,10 @@ func resourceArmManagerDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
+    name := id.Path["managers"]
 
-    if _, err := client.Delete(ctx, resourceGroup, managerName); err != nil {
-        return fmt.Errorf("Error deleting Manager (Manager Name %q / Resource Group %q): %+v", managerName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name); err != nil {
+        return fmt.Errorf("Error deleting Manager %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return nil

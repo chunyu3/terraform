@@ -34,17 +34,17 @@ func testCheckAzureRMIscsiServerExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Iscsi Server not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
         iscsiServerName := rs.Primary.Attributes["iscsi_server_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
         client := testAccProvider.Meta().(*ArmClient).iscsiServersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, deviceName, iscsiServerName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Iscsi Server (Manager Name %q / Resource Group %q / Iscsi Server Name %q / Device Name %q) does not exist", managerName, resourceGroup, iscsiServerName, deviceName)
+                return fmt.Errorf("Bad: Iscsi Server %q (Resource Group %q / Iscsi Server Name %q / Device Name %q) does not exist", name, resourceGroup, iscsiServerName, deviceName)
             }
             return fmt.Errorf("Bad: Get on iscsiServersClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMIscsiServerDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         deviceName := rs.Primary.Attributes["device_name"]
         iscsiServerName := rs.Primary.Attributes["iscsi_server_name"]
-        managerName := rs.Primary.Attributes["manager_name"]
 
-        if resp, err := client.Get(ctx, deviceName, iscsiServerName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, deviceName, iscsiServerName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on iscsiServersClient: %+v", err)
             }

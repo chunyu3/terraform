@@ -34,17 +34,17 @@ func testCheckAzureRMEventHubConnectionExists(resourceName string) resource.Test
             return fmt.Errorf("Event Hub Connection not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         clusterName := rs.Primary.Attributes["cluster_name"]
         databaseName := rs.Primary.Attributes["database_name"]
-        eventHubConnectionName := rs.Primary.Attributes["event_hub_connection_name"]
 
         client := testAccProvider.Meta().(*ArmClient).eventHubConnectionsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Event Hub Connection (Event Hub Connection Name %q / Database Name %q / Cluster Name %q / Resource Group %q) does not exist", eventHubConnectionName, databaseName, clusterName, resourceGroup)
+                return fmt.Errorf("Bad: Event Hub Connection %q (Database Name %q / Cluster Name %q / Resource Group %q) does not exist", name, databaseName, clusterName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on eventHubConnectionsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMEventHubConnectionDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         clusterName := rs.Primary.Attributes["cluster_name"]
         databaseName := rs.Primary.Attributes["database_name"]
-        eventHubConnectionName := rs.Primary.Attributes["event_hub_connection_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, eventHubConnectionName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, clusterName, databaseName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on eventHubConnectionsClient: %+v", err)
             }

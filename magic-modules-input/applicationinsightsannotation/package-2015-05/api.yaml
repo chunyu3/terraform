@@ -29,16 +29,16 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: annotationProperties
             go_type_name: Annotation
             python_parameter_name: annotation_properties
             python_variable_name: annotation_properties
           '/AnnotationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: name
+            go_field_name: AnnotationName
             python_field_name: annotation_name
           '/Category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Category
@@ -66,9 +66,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -80,9 +80,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
         response:
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
@@ -95,9 +95,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: components
-            go_variable_name: resourceName
+            go_variable_name: name
             python_parameter_name: resource_name
-            python_variable_name: resource_name
+            python_variable_name: name
 
     description: |
       Manage Azure Annotation instance.
@@ -109,13 +109,13 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'resourceName'
+        name: 'name'
         description: 'The name of the Application Insights component resource.'
         required: true
         input: true
         azure_sdk_references: ['resourceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'annotationName'
         description: 'Name of annotation'
         required: false
         input: true

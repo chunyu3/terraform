@@ -30,13 +30,13 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the Redis cache. Changing this forces a new resource to be created.
 
+* `name` - (Required) The name of the linked server that is being added to the Redis cache. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `linked_redis_cache_id` - (Required) Fully qualified resourceId of the linked redis cache.
 
 * `linked_redis_cache_location` - (Required) Location of the linked redis cache.
-
-* `linked_server_name` - (Required) The name of the linked server that is being added to the Redis cache. Changing this forces a new resource to be created.
 
 * `server_role` - (Required) Role of the linked server.
 

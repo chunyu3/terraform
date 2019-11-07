@@ -34,16 +34,16 @@ func testCheckAzureRMAvailabilityGroupListenerExists(resourceName string) resour
             return fmt.Errorf("Availability Group Listener not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        availabilityGroupListenerName := rs.Primary.Attributes["availability_group_listener_name"]
         sqlVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
 
         client := testAccProvider.Meta().(*ArmClient).availabilityGroupListenersClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Availability Group Listener (Availability Group Listener Name %q / Sql Virtual Machine Group Name %q / Resource Group %q) does not exist", availabilityGroupListenerName, sqlVirtualMachineGroupName, resourceGroup)
+                return fmt.Errorf("Bad: Availability Group Listener %q (Sql Virtual Machine Group Name %q / Resource Group %q) does not exist", name, sqlVirtualMachineGroupName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on availabilityGroupListenersClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMAvailabilityGroupListenerDestroy(s *terraform.State) error 
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        availabilityGroupListenerName := rs.Primary.Attributes["availability_group_listener_name"]
         sqlVirtualMachineGroupName := rs.Primary.Attributes["sql_virtual_machine_group_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, availabilityGroupListenerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, sqlVirtualMachineGroupName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on availabilityGroupListenersClient: %+v", err)
             }

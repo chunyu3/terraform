@@ -35,9 +35,9 @@ objects:
             python_variable_name: managed_instance_name
           'keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: keys
-            go_variable_name: keyName
+            go_variable_name: name
             python_parameter_name: key_name
-            python_variable_name: key_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: ManagedInstanceKey
@@ -77,9 +77,9 @@ objects:
             python_variable_name: managed_instance_name
           'keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: keys
-            go_variable_name: keyName
+            go_variable_name: name
             python_parameter_name: key_name
-            python_variable_name: key_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -96,9 +96,9 @@ objects:
             python_variable_name: managed_instance_name
           'keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: keys
-            go_variable_name: keyName
+            go_variable_name: name
             python_parameter_name: key_name
-            python_variable_name: key_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -172,7 +172,7 @@ objects:
         input: true
         azure_sdk_references: ['managedInstanceName']
       - !ruby/object:Api::Type::String
-        name: 'keyName'
+        name: 'name'
         description: 'The name of the managed instance key to be operated on (updated or created).'
         required: true
         input: true

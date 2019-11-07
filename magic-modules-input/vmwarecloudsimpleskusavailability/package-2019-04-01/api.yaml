@@ -1,0 +1,63 @@
+--- !ruby/object:Api::Product
+name: Azure SkusAvailability Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SkusAvailability
+    api_name: VMwareCloudSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.VMwareCloudSimple
+      go_client_namespace: vmwarecloudsimple
+      go_client: skusAvailabilityClient
+      python_client_namespace: azure.mgmt.vmwarecloudsimple
+      python_client: VMwareCloudSimpleClient.skus_availability
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'regionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: regionID
+            python_parameter_name: region_id
+            python_variable_name: region_id
+          'skuId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: skuID
+            python_parameter_name: sku_id
+            python_variable_name: sku_id
+
+    description: |
+      Manage Azure SkusAvailability instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'regionId'
+        description: 'The region Id (westus, eastus)'
+        required: true
+        input: true
+        azure_sdk_references: ['regionId']
+      - !ruby/object:Api::Type::String
+        name: 'skuId'
+        description: 'sku id, if no sku is passed availability for all skus will be returned'
+        required: false
+        input: true
+        azure_sdk_references: ['skuId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'nextLink'
+        description: 'Link for next list of DedicatedCloudNode'
+        output: true
+        azure_sdk_references: ['/nextLink']
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'Results of the DedicatedPlacementGroupSkuAvailability list'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

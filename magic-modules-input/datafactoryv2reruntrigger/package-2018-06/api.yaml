@@ -39,9 +39,9 @@ objects:
             python_variable_name: trigger_name
           'rerunTriggerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: rerunTriggers
-            go_variable_name: rerunTriggerName
+            go_variable_name: name
             python_parameter_name: rerun_trigger_name
-            python_variable_name: rerun_trigger_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: rerunTumblingWindowTriggerActionParameters
             go_type_name: RerunTumblingWindowTriggerActionParameters
@@ -56,31 +56,6 @@ objects:
           '/maxConcurrency': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             go_field_name: MaxConcurrency
             python_field_name: max_concurrency
-          '/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: additional_properties
-          '/properties/additionalProperties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: AdditionalProperties
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/runtimeState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: runtime_state
-          '/properties/runtimeState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: RuntimeState
-            go_enum_type_name: TriggerRuntimeState
-          '/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [python]
-            python_field_name: annotations
-          '/properties/annotations': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
-            applicable_to: [go]
-            go_field_name: Annotations
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByTrigger
         python_func_name: list_by_trigger
@@ -123,7 +98,7 @@ objects:
         input: true
         azure_sdk_references: ['triggerName']
       - !ruby/object:Api::Type::String
-        name: 'rerunTriggerName'
+        name: 'name'
         description: 'The rerun trigger name.'
         required: true
         input: true
@@ -146,32 +121,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['/maxConcurrency']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'additionalProperties'
-        description: 'Unmatched properties from the message are deserialized this collection'
-        required: false
-        azure_sdk_references: ['/additionalProperties', '/properties/additionalProperties']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Trigger description.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::Enum
-        name: 'runtimeState'
-        description: 'Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.'
-        required: false
-        azure_sdk_references: ['/runtimeState', '/properties/runtimeState']
-        values:
-          - :Started
-          - :Stopped
-          - :Disabled
-        default_value: :Started
-      - !ruby/object:Api::Type::Array
-        name: 'annotations'
-        description: 'List of tags that can be used for describing the trigger.'
-        required: false
-        azure_sdk_references: ['/annotations', '/properties/annotations']
-        item_type: !ruby/object:Api::Azure::Type::[unknown-primary[object]]
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -193,3 +142,28 @@ objects:
         description: 'Etag identifies change in the resource.'
         output: true
         azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'additionalProperties'
+        description: 'Unmatched properties from the message are deserialized this collection'
+        output: true
+        azure_sdk_references: ['/additionalProperties', '/properties/additionalProperties']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Trigger description.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Enum
+        name: 'runtimeState'
+        description: 'Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.'
+        output: true
+        azure_sdk_references: ['/runtimeState', '/properties/runtimeState']
+        values:
+          - :Started
+          - :Stopped
+          - :Disabled
+      - !ruby/object:Api::Type::Array
+        name: 'annotations'
+        description: 'List of tags that can be used for describing the trigger.'
+        output: true
+        azure_sdk_references: ['/annotations', '/properties/annotations']
+        item_type: !ruby/object:Api::Azure::Type::[unknown-primary[object]]

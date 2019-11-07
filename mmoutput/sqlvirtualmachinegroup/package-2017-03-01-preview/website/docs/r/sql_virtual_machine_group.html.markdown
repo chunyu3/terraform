@@ -28,11 +28,11 @@ Manage Azure SqlVirtualMachineGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) Name of the SQL virtual machine group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
-
-* `sql_virtual_machine_group_name` - (Required) Name of the SQL virtual machine group. Changing this forces a new resource to be created.
 
 * `sql_image_offer` - (Optional) SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016.
 

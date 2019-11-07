@@ -28,13 +28,13 @@ Manage Azure Gateway instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The identity of the gateway. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) Azure resource group name Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
 
 * `destination_network` - (Required) One `destination_network` block defined below.
-
-* `gateway_resource_name` - (Required) The identity of the gateway. Changing this forces a new resource to be created.
 
 * `source_network` - (Required) One `source_network` block defined below.
 
@@ -101,6 +101,50 @@ The `host` block supports the following:
 The `route` block supports the following:
 
 * `name` - (Required) http route name.
+
+* `match` - (Required) One `match` block defined below.
+
+* `destination` - (Required) One `destination` block defined below.
+
+
+---
+
+The `match` block supports the following:
+
+* `path` - (Required) One `path` block defined below.
+
+* `headers` - (Optional) One or more `header` block defined below.
+
+
+---
+
+The `path` block supports the following:
+
+* `value` - (Required) Uri path to match for request.
+
+* `rewrite` - (Optional) replacement string for matched part of the Uri.
+
+* `type` - (Required) how to match value in the Uri
+
+---
+
+The `header` block supports the following:
+
+* `name` - (Required) Name of header to match in request.
+
+* `value` - (Optional) Value of header to match in request.
+
+* `type` - (Optional) how to match header value Defaults to `exact`.
+
+---
+
+The `destination` block supports the following:
+
+* `application_name` - (Required) Name of the service fabric Mesh application.
+
+* `service_name` - (Required) service that contains the endpoint.
+
+* `endpoint_name` - (Required) name of the endpoint in the service.
 
 ---
 

@@ -34,15 +34,15 @@ func testCheckAzureRMNamespaceExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Namespace not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        namespaceName := rs.Primary.Attributes["namespace_name"]
 
         client := testAccProvider.Meta().(*ArmClient).namespacesClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Namespace (Namespace Name %q / Resource Group %q) does not exist", namespaceName, resourceGroup)
+                return fmt.Errorf("Bad: Namespace %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on namespacesClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMNamespaceDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        namespaceName := rs.Primary.Attributes["namespace_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, namespaceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on namespacesClient: %+v", err)
             }

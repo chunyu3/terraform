@@ -28,13 +28,13 @@ Manage Azure StreamingLocator instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The Streaming Locator name. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
 
 * `asset_name` - (Required) Asset Name
-
-* `streaming_locator_name` - (Required) The Streaming Locator name. Changing this forces a new resource to be created.
 
 * `streaming_policy_name` - (Required) Streaming policy name used by this streaming locator. Either specify the name of streaming policy you created or use one of the predefined streaming polices. The predefined streaming policies available are: 'Predefined_DownloadOnly', 'Predefined_ClearStreamingOnly', 'Predefined_DownloadAndClearStreaming', 'Predefined_ClearKey', 'Predefined_SecureStreaming' and 'Predefined_SecureStreamingWithFairPlay'
 

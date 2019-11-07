@@ -34,9 +34,9 @@ objects:
             python_variable_name: lab_account_name
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: lab
             go_type_name: Lab
@@ -93,9 +93,9 @@ objects:
             python_variable_name: lab_account_name
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: lab
             go_type_name: Lab
@@ -153,9 +153,9 @@ objects:
             python_variable_name: lab_account_name
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -172,9 +172,9 @@ objects:
             python_variable_name: lab_account_name
           'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: labs
-            go_variable_name: labName
+            go_variable_name: name
             python_parameter_name: lab_name
-            python_variable_name: lab_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -251,9 +251,45 @@ objects:
             applicable_to: [go]
             go_field_name: LatestOperationResult
             go_type_name: LatestOperationResult
+          '/properties/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorCode
+          '/properties/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/properties/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RequestUri
+          '/properties/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HttpMethod
+          '/properties/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OperationURL
           '/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: latest_operation_result
+          '/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_code
+          '/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: request_uri
+          '/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: http_method
+          '/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: operation_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -294,7 +330,7 @@ objects:
         input: true
         azure_sdk_references: ['labAccountName']
       - !ruby/object:Api::Type::String
-        name: 'labName'
+        name: 'name'
         description: 'The name of the lab.'
         required: true
         input: true
@@ -372,36 +408,6 @@ objects:
         output: true
         azure_sdk_references: ['/latestOperationResult', '/properties/latestOperationResult']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'status'
-            description: 'The current status of the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/status', '/properties/latestOperationResult/status']
-          - !ruby/object:Api::Type::String
-            name: 'errorCode'
-            description: 'Error code on failure.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/errorCode', '/properties/latestOperationResult/errorCode']
-          - !ruby/object:Api::Type::String
-            name: 'errorMessage'
-            description: 'The error message.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/errorMessage', '/properties/latestOperationResult/errorMessage']
-          - !ruby/object:Api::Type::String
-            name: 'requestUri'
-            description: 'Request URI of the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/requestUri', '/properties/latestOperationResult/requestUri']
-          - !ruby/object:Api::Type::String
-            name: 'httpMethod'
-            description: 'The HttpMethod - PUT/POST/DELETE for the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/httpMethod', '/properties/latestOperationResult/httpMethod']
-          - !ruby/object:Api::Type::String
-            name: 'operationUrl'
-            description: 'The URL to use to check long-running operation status'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/operationUrl', '/properties/latestOperationResult/operationUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

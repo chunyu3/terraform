@@ -31,6 +31,13 @@ func resourceArmJitNetworkAccessPolicy() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -39,13 +46,6 @@ func resourceArmJitNetworkAccessPolicy() *schema.Resource {
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "asc_location": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "jit_network_access_policy_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -217,15 +217,15 @@ func resourceArmJitNetworkAccessPolicyCreateUpdate(d *schema.ResourceData, meta 
     client := meta.(*ArmClient).jitNetworkAccessPoliciesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     ascLocation := d.Get("asc_location").(string)
-    jitNetworkAccessPolicyName := d.Get("jit_network_access_policy_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName)
+        existing, err := client.Get(ctx, resourceGroup, ascLocation, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q): %+v", jitNetworkAccessPolicyName, ascLocation, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Jit Network Access Policy %q (Asc Location %q / Resource Group %q): %+v", name, ascLocation, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -246,17 +246,17 @@ func resourceArmJitNetworkAccessPolicyCreateUpdate(d *schema.ResourceData, meta 
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName, body); err != nil {
-        return fmt.Errorf("Error creating Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q): %+v", jitNetworkAccessPolicyName, ascLocation, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, ascLocation, name, body); err != nil {
+        return fmt.Errorf("Error creating Jit Network Access Policy %q (Asc Location %q / Resource Group %q): %+v", name, ascLocation, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, ascLocation, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q): %+v", jitNetworkAccessPolicyName, ascLocation, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Jit Network Access Policy %q (Asc Location %q / Resource Group %q): %+v", name, ascLocation, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q) ID", jitNetworkAccessPolicyName, ascLocation, resourceGroup)
+        return fmt.Errorf("Cannot read Jit Network Access Policy %q (Asc Location %q / Resource Group %q) ID", name, ascLocation, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -273,26 +273,26 @@ func resourceArmJitNetworkAccessPolicyRead(d *schema.ResourceData, meta interfac
     }
     resourceGroup := id.ResourceGroup
     ascLocation := id.Path["locations"]
-    jitNetworkAccessPolicyName := id.Path["jitNetworkAccessPolicies"]
+    name := id.Path["jitNetworkAccessPolicies"]
 
-    resp, err := client.Get(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName)
+    resp, err := client.Get(ctx, resourceGroup, ascLocation, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Jit Network Access Policy %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q): %+v", jitNetworkAccessPolicyName, ascLocation, resourceGroup, err)
+        return fmt.Errorf("Error reading Jit Network Access Policy %q (Asc Location %q / Resource Group %q): %+v", name, ascLocation, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("asc_location", ascLocation)
-    d.Set("jit_network_access_policy_name", jitNetworkAccessPolicyName)
     d.Set("kind", resp.Kind)
     if jitNetworkAccessPolicyProperties := resp.JitNetworkAccessPolicyProperties; jitNetworkAccessPolicyProperties != nil {
         d.Set("provisioning_state", jitNetworkAccessPolicyProperties.ProvisioningState)
@@ -320,10 +320,10 @@ func resourceArmJitNetworkAccessPolicyDelete(d *schema.ResourceData, meta interf
     }
     resourceGroup := id.ResourceGroup
     ascLocation := id.Path["locations"]
-    jitNetworkAccessPolicyName := id.Path["jitNetworkAccessPolicies"]
+    name := id.Path["jitNetworkAccessPolicies"]
 
-    if _, err := client.Delete(ctx, resourceGroup, ascLocation, jitNetworkAccessPolicyName); err != nil {
-        return fmt.Errorf("Error deleting Jit Network Access Policy (Jit Network Access Policy Name %q / Asc Location %q / Resource Group %q): %+v", jitNetworkAccessPolicyName, ascLocation, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, ascLocation, name); err != nil {
+        return fmt.Errorf("Error deleting Jit Network Access Policy %q (Asc Location %q / Resource Group %q): %+v", name, ascLocation, resourceGroup, err)
     }
 
     return nil

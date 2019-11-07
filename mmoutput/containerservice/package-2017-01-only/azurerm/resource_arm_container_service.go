@@ -31,6 +31,13 @@ func resourceArmContainerService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -112,13 +119,6 @@ func resourceArmContainerService() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "container_service_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "linux_profile": {
@@ -294,14 +294,14 @@ func resourceArmContainerServiceCreateUpdate(d *schema.ResourceData, meta interf
     client := meta.(*ArmClient).containerServicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    containerServiceName := d.Get("container_service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, containerServiceName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -336,21 +336,21 @@ func resourceArmContainerServiceCreateUpdate(d *schema.ResourceData, meta interf
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, containerServiceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+        return fmt.Errorf("Error creating Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, containerServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Container Service (Container Service Name %q / Resource Group %q) ID", containerServiceName, resourceGroup)
+        return fmt.Errorf("Cannot read Container Service %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -366,19 +366,20 @@ func resourceArmContainerServiceRead(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    containerServiceName := id.Path["containerServices"]
+    name := id.Path["containerServices"]
 
-    resp, err := client.Get(ctx, resourceGroup, containerServiceName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Container Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -411,7 +412,6 @@ func resourceArmContainerServiceRead(d *schema.ResourceData, meta interface{}) e
             return fmt.Errorf("Error setting `windows_profile`: %+v", err)
         }
     }
-    d.Set("container_service_name", containerServiceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -428,19 +428,19 @@ func resourceArmContainerServiceDelete(d *schema.ResourceData, meta interface{})
         return err
     }
     resourceGroup := id.ResourceGroup
-    containerServiceName := id.Path["containerServices"]
+    name := id.Path["containerServices"]
 
-    future, err := client.Delete(ctx, resourceGroup, containerServiceName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Container Service (Container Service Name %q / Resource Group %q): %+v", containerServiceName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Container Service %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

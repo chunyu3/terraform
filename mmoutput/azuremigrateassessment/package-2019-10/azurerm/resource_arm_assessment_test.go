@@ -34,17 +34,17 @@ func testCheckAzureRMAssessmentExists(resourceName string) resource.TestCheckFun
             return fmt.Errorf("Assessment not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        assessmentName := rs.Primary.Attributes["assessment_name"]
         groupName := rs.Primary.Attributes["group_name"]
         projectName := rs.Primary.Attributes["project_name"]
 
         client := testAccProvider.Meta().(*ArmClient).assessmentsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, groupName, assessmentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, groupName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Assessment (Assessment Name %q / Group Name %q / Project Name %q / Resource Group %q) does not exist", assessmentName, groupName, projectName, resourceGroup)
+                return fmt.Errorf("Bad: Assessment %q (Group Name %q / Project Name %q / Resource Group %q) does not exist", name, groupName, projectName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on assessmentsClient: %+v", err)
         }
@@ -62,12 +62,12 @@ func testCheckAzureRMAssessmentDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        assessmentName := rs.Primary.Attributes["assessment_name"]
         groupName := rs.Primary.Attributes["group_name"]
         projectName := rs.Primary.Attributes["project_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, projectName, groupName, assessmentName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, projectName, groupName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on assessmentsClient: %+v", err)
             }

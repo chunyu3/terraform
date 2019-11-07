@@ -34,15 +34,15 @@ func testCheckAzureRMVirtualNetworkExists(resourceName string) resource.TestChec
             return fmt.Errorf("Virtual Network not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        virtualNetworkName := rs.Primary.Attributes["virtual_network_name"]
 
         client := testAccProvider.Meta().(*ArmClient).virtualNetworksClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Virtual Network (Virtual Network Name %q / Resource Group %q) does not exist", virtualNetworkName, resourceGroup)
+                return fmt.Errorf("Bad: Virtual Network %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on virtualNetworksClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMVirtualNetworkDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        virtualNetworkName := rs.Primary.Attributes["virtual_network_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, virtualNetworkName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on virtualNetworksClient: %+v", err)
             }

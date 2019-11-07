@@ -40,9 +40,9 @@ objects:
             python_variable_name: endpoint_name
           'customDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: customDomains
-            go_variable_name: customDomainName
+            go_variable_name: name
             python_parameter_name: custom_domain_name
-            python_variable_name: custom_domain_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: customDomainProperties
             go_type_name: CustomDomainParameters
@@ -80,9 +80,9 @@ objects:
             python_variable_name: endpoint_name
           'customDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: customDomains
-            go_variable_name: customDomainName
+            go_variable_name: name
             python_parameter_name: custom_domain_name
-            python_variable_name: custom_domain_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -104,9 +104,9 @@ objects:
             python_variable_name: endpoint_name
           'customDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: customDomains
-            go_variable_name: customDomainName
+            go_variable_name: name
             python_parameter_name: custom_domain_name
-            python_variable_name: custom_domain_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -143,9 +143,23 @@ objects:
             applicable_to: [go]
             go_field_name: CustomHttpsParameters
             go_type_name: CustomDomainHttpsParameters
+          '/properties/customHttpsParameters/protocolType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProtocolType
+            go_enum_type_name: ProtocolType
+          '/properties/customHttpsParameters/minimumTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MinimumTlsVersion
+            go_enum_type_name: MinimumTlsVersion
           '/customHttpsParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: custom_https_parameters
+          '/customHttpsParameters/protocolType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol_type
+          '/customHttpsParameters/minimumTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: minimum_tls_version
           '/properties/validationData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ValidationData
@@ -209,7 +223,7 @@ objects:
         input: true
         azure_sdk_references: ['endpointName']
       - !ruby/object:Api::Type::String
-        name: 'customDomainName'
+        name: 'name'
         description: 'Name of the custom domain within an endpoint.'
         required: true
         input: true
@@ -262,24 +276,6 @@ objects:
         output: true
         azure_sdk_references: ['/customHttpsParameters', '/properties/customHttpsParameters']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'protocolType'
-            description: 'Defines the TLS extension protocol that is used for secure delivery.'
-            required: true
-            azure_sdk_references: ['/customHttpsParameters/protocolType', '/properties/customHttpsParameters/protocolType']
-            values:
-              - :ServerNameIndication
-              - :IPBased
-          - !ruby/object:Api::Type::Enum
-            name: 'minimumTlsVersion'
-            description: 'TLS protocol version that will be used for Https'
-            required: false
-            azure_sdk_references: ['/customHttpsParameters/minimumTlsVersion', '/properties/customHttpsParameters/minimumTlsVersion']
-            values:
-              - :None
-              - :TLS10
-              - :TLS12
-            default_value: :None
       - !ruby/object:Api::Type::String
         name: 'validationData'
         description: 'Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.'

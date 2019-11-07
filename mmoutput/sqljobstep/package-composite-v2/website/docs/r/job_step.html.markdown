@@ -28,6 +28,8 @@ Manage Azure JobStep instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the job step. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 
 * `action` - (Required) One `action` block defined below.
@@ -39,8 +41,6 @@ The following arguments are supported:
 * `job_name` - (Required) The name of the job. Changing this forces a new resource to be created.
 
 * `server_name` - (Required) The name of the server. Changing this forces a new resource to be created.
-
-* `step_name` - (Required) The name of the job step. Changing this forces a new resource to be created.
 
 * `target_group` - (Required) The resource ID of the target group that the job step will be executed on.
 

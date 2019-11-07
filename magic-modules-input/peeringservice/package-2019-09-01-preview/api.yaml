@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'peeringServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peeringServices
-            go_variable_name: peeringServiceName
+            go_variable_name: name
             python_parameter_name: peering_service_name
-            python_variable_name: peering_service_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: peeringService
             go_type_name: Service
@@ -70,9 +70,9 @@ objects:
             python_variable_name: resource_group
           'peeringServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peeringServices
-            go_variable_name: peeringServiceName
+            go_variable_name: name
             python_parameter_name: peering_service_name
-            python_variable_name: peering_service_name
+            python_variable_name: name
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -87,9 +87,9 @@ objects:
             python_variable_name: resource_group
           'peeringServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peeringServices
-            go_variable_name: peeringServiceName
+            go_variable_name: name
             python_parameter_name: peering_service_name
-            python_variable_name: peering_service_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -101,9 +101,9 @@ objects:
             python_variable_name: resource_group
           'peeringServiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: peeringServices
-            go_variable_name: peeringServiceName
+            go_variable_name: name
             python_parameter_name: peering_service_name
-            python_variable_name: peering_service_name
+            python_variable_name: name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -167,7 +167,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'peeringServiceName'
+        name: 'name'
         description: 'The name of the peering service.'
         required: true
         input: true

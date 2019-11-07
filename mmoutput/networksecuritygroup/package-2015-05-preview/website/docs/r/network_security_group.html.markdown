@@ -28,11 +28,11 @@ Manage Azure NetworkSecurityGroup instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the network security group. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
-
-* `network_security_group_name` - (Required) The name of the network security group. Changing this forces a new resource to be created.
 
 * `default_security_rules` - (Optional) One or more `default_security_rule` block defined below.
 

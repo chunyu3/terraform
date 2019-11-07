@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'diagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: guestDiagnosticSettings
-            go_variable_name: diagnosticSettingsName
+            go_variable_name: name
             python_parameter_name: diagnostic_settings_name
-            python_variable_name: diagnostic_settings_name
+            python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: diagnosticSettings
             go_type_name: GuestDiagnosticSettingsResource
@@ -72,6 +72,15 @@ objects:
           '/dataSources/configuration/providers/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: events
+          '/dataSources/configuration/providers/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/dataSources/configuration/providers/events/id': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: id
+          '/dataSources/configuration/providers/events/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: filter
           '/dataSources/configuration/perfCounters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: perf_counters
@@ -122,6 +131,15 @@ objects:
             applicable_to: [go]
             go_field_name: Events
             go_type_name: EtwEventConfiguration
+          '/properties/dataSources/configuration/providers/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/dataSources/configuration/providers/events/id': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/dataSources/configuration/providers/events/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Filter
           '/properties/dataSources/configuration/perfCounters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: PerfCounters
@@ -170,9 +188,9 @@ objects:
             python_variable_name: resource_group
           'diagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: guestDiagnosticSettings
-            go_variable_name: diagnosticSettingsName
+            go_variable_name: name
             python_parameter_name: diagnostic_settings_name
-            python_variable_name: diagnostic_settings_name
+            python_variable_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -184,9 +202,9 @@ objects:
             python_variable_name: resource_group
           'diagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: guestDiagnosticSettings
-            go_variable_name: diagnosticSettingsName
+            go_variable_name: name
             python_parameter_name: diagnostic_settings_name
-            python_variable_name: diagnostic_settings_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -198,9 +216,9 @@ objects:
             python_variable_name: resource_group
           'diagnosticSettingsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: guestDiagnosticSettings
-            go_variable_name: diagnosticSettingsName
+            go_variable_name: name
             python_parameter_name: diagnostic_settings_name
-            python_variable_name: diagnostic_settings_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -242,6 +260,15 @@ objects:
             applicable_to: [go]
             go_field_name: Events
             go_type_name: EtwEventConfiguration
+          '/properties/dataSources/configuration/providers/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/dataSources/configuration/providers/events/id': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/dataSources/configuration/providers/events/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Filter
           '/properties/dataSources/configuration/perfCounters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: PerfCounters
@@ -291,6 +318,15 @@ objects:
           '/dataSources/configuration/providers/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: events
+          '/dataSources/configuration/providers/events/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/dataSources/configuration/providers/events/id': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: id
+          '/dataSources/configuration/providers/events/filter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: filter
           '/dataSources/configuration/perfCounters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: perf_counters
@@ -357,7 +393,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'diagnosticSettingsName'
+        name: 'name'
         description: 'The name of the diagnostic setting.'
         required: true
         input: true
@@ -417,6 +453,28 @@ objects:
                         description: ''
                         required: true
                         azure_sdk_references: ['/dataSources/configuration/providers/id', '/properties/dataSources/configuration/providers/id']
+                      - !ruby/object:Api::Type::Array
+                        name: 'events'
+                        description: ''
+                        required: true
+                        azure_sdk_references: ['/dataSources/configuration/providers/events', '/properties/dataSources/configuration/providers/events']
+                        item_type: !ruby/object:Api::Type::NestedObject
+                          properties:
+                            - !ruby/object:Api::Type::String
+                              name: 'name'
+                              description: ''
+                              required: true
+                              azure_sdk_references: ['/dataSources/configuration/providers/events/name', '/properties/dataSources/configuration/providers/events/name']
+                            - !ruby/object:Api::Type::Integer
+                              name: 'id'
+                              description: ''
+                              required: true
+                              azure_sdk_references: ['/dataSources/configuration/providers/events/id', '/properties/dataSources/configuration/providers/events/id']
+                            - !ruby/object:Api::Type::String
+                              name: 'filter'
+                              description: ''
+                              required: false
+                              azure_sdk_references: ['/dataSources/configuration/providers/events/filter', '/properties/dataSources/configuration/providers/events/filter']
                 - !ruby/object:Api::Type::Array
                   name: 'perfCounters'
                   description: 'Performance counter configuration'

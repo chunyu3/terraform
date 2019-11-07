@@ -31,19 +31,19 @@ func resourceArmTagDescription() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "api_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -89,16 +89,16 @@ func resourceArmTagDescriptionCreateUpdate(d *schema.ResourceData, meta interfac
     client := meta.(*ArmClient).tagDescriptionClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     apiID := d.Get("api_id").(string)
-    serviceName := d.Get("service_name").(string)
     tagID := d.Get("tag_id").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serviceName, apiID, tagID)
+        existing, err := client.Get(ctx, resourceGroup, name, apiID, tagID)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q): %+v", tagID, apiID, serviceName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Tag Description %q (Tag %q / Api %q / Resource Group %q): %+v", name, tagID, apiID, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -119,17 +119,17 @@ func resourceArmTagDescriptionCreateUpdate(d *schema.ResourceData, meta interfac
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, serviceName, apiID, tagID, parameters); err != nil {
-        return fmt.Errorf("Error creating Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q): %+v", tagID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, name, apiID, tagID, parameters); err != nil {
+        return fmt.Errorf("Error creating Tag Description %q (Tag %q / Api %q / Resource Group %q): %+v", name, tagID, apiID, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, tagID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, tagID)
     if err != nil {
-        return fmt.Errorf("Error retrieving Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q): %+v", tagID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Tag Description %q (Tag %q / Api %q / Resource Group %q): %+v", name, tagID, apiID, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q) ID", tagID, apiID, serviceName, resourceGroup)
+        return fmt.Errorf("Cannot read Tag Description %q (Tag %q / Api %q / Resource Group %q) ID", name, tagID, apiID, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -145,21 +145,22 @@ func resourceArmTagDescriptionRead(d *schema.ResourceData, meta interface{}) err
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     tagID := id.Path["tagDescriptions"]
 
-    resp, err := client.Get(ctx, resourceGroup, serviceName, apiID, tagID)
+    resp, err := client.Get(ctx, resourceGroup, name, apiID, tagID)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Tag Description %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q): %+v", tagID, apiID, serviceName, resourceGroup, err)
+        return fmt.Errorf("Error reading Tag Description %q (Tag %q / Api %q / Resource Group %q): %+v", name, tagID, apiID, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
@@ -169,7 +170,6 @@ func resourceArmTagDescriptionRead(d *schema.ResourceData, meta interface{}) err
         d.Set("external_docs_description", tagDescriptionBaseProperties.ExternalDocsDescription)
         d.Set("external_docs_url", tagDescriptionBaseProperties.ExternalDocsURL)
     }
-    d.Set("service_name", serviceName)
     d.Set("tag_id", tagID)
     d.Set("type", resp.Type)
 
@@ -187,12 +187,12 @@ func resourceArmTagDescriptionDelete(d *schema.ResourceData, meta interface{}) e
         return err
     }
     resourceGroup := id.ResourceGroup
-    serviceName := id.Path["service"]
+    name := id.Path["service"]
     apiID := id.Path["apis"]
     tagID := id.Path["tagDescriptions"]
 
-    if _, err := client.Delete(ctx, resourceGroup, serviceName, apiID, tagID); err != nil {
-        return fmt.Errorf("Error deleting Tag Description (Tag %q / Api %q / Service Name %q / Resource Group %q): %+v", tagID, apiID, serviceName, resourceGroup, err)
+    if _, err := client.Delete(ctx, resourceGroup, name, apiID, tagID); err != nil {
+        return fmt.Errorf("Error deleting Tag Description %q (Tag %q / Api %q / Resource Group %q): %+v", name, tagID, apiID, resourceGroup, err)
     }
 
     return nil

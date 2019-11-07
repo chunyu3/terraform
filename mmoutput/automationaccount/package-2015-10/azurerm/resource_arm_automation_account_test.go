@@ -34,15 +34,15 @@ func testCheckAzureRMAutomationAccountExists(resourceName string) resource.TestC
             return fmt.Errorf("Automation Account not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        automationAccountName := rs.Primary.Attributes["automation_account_name"]
 
         client := testAccProvider.Meta().(*ArmClient).automationAccountClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Automation Account (Automation Account Name %q / Resource Group %q) does not exist", automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Automation Account %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on automationAccountClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMAutomationAccountDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        automationAccountName := rs.Primary.Attributes["automation_account_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on automationAccountClient: %+v", err)
             }

@@ -34,16 +34,16 @@ func testCheckAzureRMStorageAccountCredentialExists(resourceName string) resourc
             return fmt.Errorf("Storage Account Credential not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managerName := rs.Primary.Attributes["manager_name"]
         storageAccountCredentialName := rs.Primary.Attributes["storage_account_credential_name"]
 
         client := testAccProvider.Meta().(*ArmClient).storageAccountCredentialsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, storageAccountCredentialName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Storage Account Credential (Manager Name %q / Resource Group %q / Storage Account Credential Name %q) does not exist", managerName, resourceGroup, storageAccountCredentialName)
+                return fmt.Errorf("Bad: Storage Account Credential %q (Resource Group %q / Storage Account Credential Name %q) does not exist", name, resourceGroup, storageAccountCredentialName)
             }
             return fmt.Errorf("Bad: Get on storageAccountCredentialsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStorageAccountCredentialDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        managerName := rs.Primary.Attributes["manager_name"]
         storageAccountCredentialName := rs.Primary.Attributes["storage_account_credential_name"]
 
-        if resp, err := client.Get(ctx, storageAccountCredentialName, resourceGroup, managerName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name, storageAccountCredentialName); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on storageAccountCredentialsClient: %+v", err)
             }

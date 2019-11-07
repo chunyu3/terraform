@@ -28,11 +28,11 @@ Manage Azure Zone instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the zone without a terminating dot. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `zone_name` - (Required) The name of the zone without a terminating dot. Changing this forces a new resource to be created.
 
 * `etag` - (Optional) Gets or sets the ETag of the zone that is being updated, as received from a Get operation. Changing this forces a new resource to be created.
 

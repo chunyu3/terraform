@@ -34,16 +34,16 @@ func testCheckAzureRMCertificateExists(resourceName string) resource.TestCheckFu
             return fmt.Errorf("Certificate not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        certificateName := rs.Primary.Attributes["certificate_name"]
 
         client := testAccProvider.Meta().(*ArmClient).certificateClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, certificateName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Certificate (Certificate Name %q / Automation Account Name %q / Resource Group %q) does not exist", certificateName, automationAccountName, resourceGroup)
+                return fmt.Errorf("Bad: Certificate %q (Automation Account Name %q / Resource Group %q) does not exist", name, automationAccountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on certificateClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMCertificateDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         automationAccountName := rs.Primary.Attributes["automation_account_name"]
-        certificateName := rs.Primary.Attributes["certificate_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, certificateName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, automationAccountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on certificateClient: %+v", err)
             }

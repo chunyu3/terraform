@@ -31,6 +31,13 @@ func resourceArmService() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -46,13 +53,6 @@ func resourceArmService() *schema.Resource {
             },
 
             "cluster_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -176,16 +176,16 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     applicationName := d.Get("application_name").(string)
     clusterName := d.Get("cluster_name").(string)
-    serviceName := d.Get("service_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, applicationName, serviceName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, applicationName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -216,21 +216,21 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, applicationName, serviceName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, applicationName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error creating Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationName, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q) ID", serviceName, applicationName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Service %q (Application Name %q / Cluster Name %q / Resource Group %q) ID", name, applicationName, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -248,19 +248,20 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
     applicationName := id.Path["applications"]
-    serviceName := id.Path["services"]
+    name := id.Path["services"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationName, serviceName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Service %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
@@ -282,7 +283,6 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("service_type_name", serviceResourceProperties.ServiceTypeName)
     }
     d.Set("etag", resp.Etag)
-    d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -292,6 +292,7 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).servicesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     applicationName := d.Get("application_name").(string)
     clusterName := d.Get("cluster_name").(string)
@@ -299,7 +300,6 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     defaultMoveCost := d.Get("default_move_cost").(string)
     placementConstraints := d.Get("placement_constraints").(string)
     serviceLoadMetrics := d.Get("service_load_metrics").([]interface{})
-    serviceName := d.Get("service_name").(string)
     servicePackageActivationMode := d.Get("service_package_activation_mode").(string)
     serviceTypeName := d.Get("service_type_name").(string)
     t := d.Get("tags").(map[string]interface{})
@@ -318,12 +318,12 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, clusterName, applicationName, serviceName, parameters)
+    future, err := client.Update(ctx, resourceGroup, clusterName, applicationName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error updating Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
 
     return resourceArmServiceRead(d, meta)
@@ -341,19 +341,19 @@ func resourceArmServiceDelete(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
     applicationName := id.Path["applications"]
-    serviceName := id.Path["services"]
+    name := id.Path["services"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, applicationName, serviceName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, applicationName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Service (Service Name %q / Application Name %q / Cluster Name %q / Resource Group %q): %+v", serviceName, applicationName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Service %q (Application Name %q / Cluster Name %q / Resource Group %q): %+v", name, applicationName, clusterName, resourceGroup, err)
         }
     }
 

@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
           '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
             go_field_name: Parameters
@@ -51,9 +51,9 @@ objects:
             python_variable_name: resource_group
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -65,9 +65,9 @@ objects:
             python_variable_name: resource_group
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
-            go_variable_name: deploymentName
+            go_variable_name: name
             python_parameter_name: deployment_name
-            python_variable_name: deployment_name
+            python_variable_name: name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -206,16 +206,149 @@ objects:
             applicable_to: [go]
             go_field_name: Providers
             go_type_name: Provider
+          '/properties/providers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/providers/namespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Namespace
+          '/properties/providers/registrationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationState
+          '/properties/providers/registrationPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationPolicy
+          '/properties/providers/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ResourceTypes
+            go_type_name: ProviderResourceType
+          '/properties/providers/resourceTypes/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/properties/providers/resourceTypes/locations': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Locations
+          '/properties/providers/resourceTypes/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Aliases
+            go_type_name: AliasType
+          '/properties/providers/resourceTypes/aliases/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/providers/resourceTypes/aliases/paths': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Paths
+            go_type_name: AliasPathType
+          '/properties/providers/resourceTypes/aliases/paths/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Path
+          '/properties/providers/resourceTypes/aliases/paths/apiVersions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: ApiVersions
+          '/properties/providers/resourceTypes/apiVersions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: ApiVersions
+          '/properties/providers/resourceTypes/capabilities': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Capabilities
+          '/properties/providers/resourceTypes/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"321","$type":"DictionaryType","valueType":{"$id":"322","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"323","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"324","fixed":false},"deprecated":false}
           '/providers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: providers
+          '/providers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/providers/namespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: namespace
+          '/providers/registrationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_state
+          '/providers/registrationPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_policy
+          '/providers/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: resource_types
+          '/providers/resourceTypes/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/providers/resourceTypes/locations': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: locations
+          '/providers/resourceTypes/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: aliases
+          '/providers/resourceTypes/aliases/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/providers/resourceTypes/aliases/paths': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: paths
+          '/providers/resourceTypes/aliases/paths/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: path
+          '/providers/resourceTypes/aliases/paths/apiVersions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: api_versions
+          '/providers/resourceTypes/apiVersions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: api_versions
+          '/providers/resourceTypes/capabilities': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: capabilities
           '/properties/dependencies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Dependencies
             go_type_name: Dependency
+          '/properties/dependencies/dependsOn': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DependsOn
+            go_type_name: BasicDependency
+          '/properties/dependencies/dependsOn/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/dependencies/dependsOn/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/properties/dependencies/dependsOn/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceName
+          '/properties/dependencies/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/dependencies/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/properties/dependencies/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceName
           '/dependencies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: dependencies
+          '/dependencies/dependsOn': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: depends_on
+          '/dependencies/dependsOn/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/dependencies/dependsOn/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/dependencies/dependsOn/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_name
+          '/dependencies/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/dependencies/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/dependencies/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -261,7 +394,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'deploymentName'
+        name: 'name'
         description: 'The name of the deployment.'
         required: true
         input: true
@@ -386,67 +519,6 @@ objects:
         azure_sdk_references: ['/providers', '/properties/providers']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'The provider ID.'
-              required: false
-              azure_sdk_references: ['/providers/id', '/properties/providers/id']
-            - !ruby/object:Api::Type::String
-              name: 'namespace'
-              description: 'The namespace of the resource provider.'
-              required: false
-              azure_sdk_references: ['/providers/namespace', '/properties/providers/namespace']
-            - !ruby/object:Api::Type::String
-              name: 'registrationState'
-              description: 'The registration state of the resource provider.'
-              required: false
-              azure_sdk_references: ['/providers/registrationState', '/properties/providers/registrationState']
-            - !ruby/object:Api::Type::String
-              name: 'registrationPolicy'
-              description: 'The registration policy of the resource provider.'
-              required: false
-              azure_sdk_references: ['/providers/registrationPolicy', '/properties/providers/registrationPolicy']
-            - !ruby/object:Api::Type::Array
-              name: 'resourceTypes'
-              description: 'The collection of provider resource types.'
-              required: false
-              azure_sdk_references: ['/providers/resourceTypes', '/properties/providers/resourceTypes']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'resourceType'
-                    description: 'The resource type.'
-                    required: false
-                    azure_sdk_references: ['/providers/resourceTypes/resourceType', '/properties/providers/resourceTypes/resourceType']
-                  - !ruby/object:Api::Type::Array
-                    name: 'locations'
-                    description: 'The collection of locations where this resource type can be created.'
-                    required: false
-                    azure_sdk_references: ['/providers/resourceTypes/locations', '/properties/providers/resourceTypes/locations']
-                    item_type: Api::Type::String
-                  - !ruby/object:Api::Type::Array
-                    name: 'aliases'
-                    description: 'The aliases that are supported by this resource type.'
-                    required: false
-                    azure_sdk_references: ['/providers/resourceTypes/aliases', '/properties/providers/resourceTypes/aliases']
-                    item_type: !ruby/object:Api::Type::NestedObject
-                      properties:
-                        - !ruby/object:Api::Type::String
-                          name: 'name'
-                          description: 'The alias name.'
-                          required: false
-                          azure_sdk_references: ['/providers/resourceTypes/aliases/name', '/properties/providers/resourceTypes/aliases/name']
-                  - !ruby/object:Api::Type::Array
-                    name: 'apiVersions'
-                    description: 'The API version.'
-                    required: false
-                    azure_sdk_references: ['/providers/resourceTypes/apiVersions', '/properties/providers/resourceTypes/apiVersions']
-                    item_type: Api::Type::String
-                  - !ruby/object:Api::Type::String
-                    name: 'capabilities'
-                    description: 'The additional capabilities offered by this resource type.'
-                    required: false
-                    azure_sdk_references: ['/providers/resourceTypes/capabilities', '/properties/providers/resourceTypes/capabilities']
       - !ruby/object:Api::Type::Array
         name: 'dependencies'
         description: 'The list of deployment dependencies.'
@@ -454,43 +526,6 @@ objects:
         azure_sdk_references: ['/dependencies', '/properties/dependencies']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::Array
-              name: 'dependsOn'
-              description: 'The list of dependencies.'
-              required: false
-              azure_sdk_references: ['/dependencies/dependsOn', '/properties/dependencies/dependsOn']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'id'
-                    description: 'The ID of the dependency.'
-                    required: false
-                    azure_sdk_references: ['/dependencies/dependsOn/id', '/properties/dependencies/dependsOn/id']
-                  - !ruby/object:Api::Type::String
-                    name: 'resourceType'
-                    description: 'The dependency resource type.'
-                    required: false
-                    azure_sdk_references: ['/dependencies/dependsOn/resourceType', '/properties/dependencies/dependsOn/resourceType']
-                  - !ruby/object:Api::Type::String
-                    name: 'resourceName'
-                    description: 'The dependency resource name.'
-                    required: false
-                    azure_sdk_references: ['/dependencies/dependsOn/resourceName', '/properties/dependencies/dependsOn/resourceName']
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'The ID of the dependency.'
-              required: false
-              azure_sdk_references: ['/dependencies/id', '/properties/dependencies/id']
-            - !ruby/object:Api::Type::String
-              name: 'resourceType'
-              description: 'The dependency resource type.'
-              required: false
-              azure_sdk_references: ['/dependencies/resourceType', '/properties/dependencies/resourceType']
-            - !ruby/object:Api::Type::String
-              name: 'resourceName'
-              description: 'The dependency resource name.'
-              required: false
-              azure_sdk_references: ['/dependencies/resourceName', '/properties/dependencies/resourceName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The ID of the deployment.'

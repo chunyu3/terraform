@@ -31,6 +31,13 @@ func resourceArmSyncGroup() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -44,13 +51,6 @@ func resourceArmSyncGroup() *schema.Resource {
             },
 
             "server_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "sync_group_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -155,16 +155,16 @@ func resourceArmSyncGroupCreate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).syncGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     databaseName := d.Get("database_name").(string)
     serverName := d.Get("server_name").(string)
-    syncGroupName := d.Get("sync_group_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName)
+        existing, err := client.Get(ctx, resourceGroup, serverName, databaseName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -191,21 +191,21 @@ func resourceArmSyncGroupCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, databaseName, syncGroupName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, serverName, databaseName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error creating Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q) ID", syncGroupName, databaseName, serverName, resourceGroup)
+        return fmt.Errorf("Cannot read Sync Group %q (Database Name %q / Server Name %q / Resource Group %q) ID", name, databaseName, serverName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -223,19 +223,20 @@ func resourceArmSyncGroupRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
     databaseName := id.Path["databases"]
-    syncGroupName := id.Path["syncGroups"]
+    name := id.Path["syncGroups"]
 
-    resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, syncGroupName)
+    resp, err := client.Get(ctx, resourceGroup, serverName, databaseName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Sync Group %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error reading Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if syncGroupProperties := resp.SyncGroupProperties; syncGroupProperties != nil {
@@ -252,7 +253,6 @@ func resourceArmSyncGroupRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("database_name", databaseName)
     d.Set("server_name", serverName)
-    d.Set("sync_group_name", syncGroupName)
     d.Set("type", resp.Type)
 
     return nil
@@ -262,6 +262,7 @@ func resourceArmSyncGroupUpdate(d *schema.ResourceData, meta interface{}) error 
     client := meta.(*ArmClient).syncGroupsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     conflictResolutionPolicy := d.Get("conflict_resolution_policy").(string)
     databaseName := d.Get("database_name").(string)
@@ -271,7 +272,6 @@ func resourceArmSyncGroupUpdate(d *schema.ResourceData, meta interface{}) error 
     schema := d.Get("schema").([]interface{})
     serverName := d.Get("server_name").(string)
     syncDatabaseId := d.Get("sync_database_id").(string)
-    syncGroupName := d.Get("sync_group_name").(string)
 
     parameters := sql.SyncGroup{
         SyncGroupProperties: &sql.SyncGroupProperties{
@@ -285,12 +285,12 @@ func resourceArmSyncGroupUpdate(d *schema.ResourceData, meta interface{}) error 
     }
 
 
-    future, err := client.Update(ctx, resourceGroup, serverName, databaseName, syncGroupName, parameters)
+    future, err := client.Update(ctx, resourceGroup, serverName, databaseName, name, parameters)
     if err != nil {
-        return fmt.Errorf("Error updating Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error updating Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for update of Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for update of Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
 
     return resourceArmSyncGroupRead(d, meta)
@@ -308,19 +308,19 @@ func resourceArmSyncGroupDelete(d *schema.ResourceData, meta interface{}) error 
     resourceGroup := id.ResourceGroup
     serverName := id.Path["servers"]
     databaseName := id.Path["databases"]
-    syncGroupName := id.Path["syncGroups"]
+    name := id.Path["syncGroups"]
 
-    future, err := client.Delete(ctx, resourceGroup, serverName, databaseName, syncGroupName)
+    future, err := client.Delete(ctx, resourceGroup, serverName, databaseName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Sync Group (Sync Group Name %q / Database Name %q / Server Name %q / Resource Group %q): %+v", syncGroupName, databaseName, serverName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Sync Group %q (Database Name %q / Server Name %q / Resource Group %q): %+v", name, databaseName, serverName, resourceGroup, err)
         }
     }
 

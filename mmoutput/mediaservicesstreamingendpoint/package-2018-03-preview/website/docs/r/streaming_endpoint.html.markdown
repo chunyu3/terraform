@@ -28,11 +28,11 @@ Manage Azure StreamingEndpoint instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the StreamingEndpoint. Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group within the Azure subscription. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The Media Services account name. Changing this forces a new resource to be created.
-
-* `streaming_endpoint_name` - (Required) The name of the StreamingEndpoint. Changing this forces a new resource to be created.
 
 * `location` - (Optional) The Azure Region of the resource. Changing this forces a new resource to be created.
 

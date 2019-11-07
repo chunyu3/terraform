@@ -31,19 +31,19 @@ func resourceArmAccount() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "account_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "active_directories": {
                 Type: schema.TypeList,
@@ -105,14 +105,14 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).accountsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    accountName := d.Get("account_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName)
+        existing, err := client.Get(ctx, resourceGroup, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Account %q (Resource Group %q): %+v", name, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -133,21 +133,21 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, resourceGroup, accountName, body)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, body)
     if err != nil {
-        return fmt.Errorf("Error creating Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Account (Account Name %q / Resource Group %q) ID", accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Account %q (Resource Group %q) ID", name, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -163,25 +163,25 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    accountName := id.Path["netAppAccounts"]
+    name := id.Path["netAppAccounts"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName)
+    resp, err := client.Get(ctx, resourceGroup, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Account %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("account_name", accountName)
     if accountProperties := resp.AccountProperties; accountProperties != nil {
         if err := d.Set("active_directories", flattenArmAccountActiveDirectory(accountProperties.ActiveDirectories)); err != nil {
             return fmt.Errorf("Error setting `active_directories`: %+v", err)
@@ -197,8 +197,8 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).accountsClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    accountName := d.Get("account_name").(string)
     activeDirectories := d.Get("active_directories").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
@@ -211,8 +211,8 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     }
 
 
-    if _, err := client.Update(ctx, resourceGroup, accountName, body); err != nil {
-        return fmt.Errorf("Error updating Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+    if _, err := client.Update(ctx, resourceGroup, name, body); err != nil {
+        return fmt.Errorf("Error updating Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     return resourceArmAccountRead(d, meta)
@@ -228,19 +228,19 @@ func resourceArmAccountDelete(d *schema.ResourceData, meta interface{}) error {
         return err
     }
     resourceGroup := id.ResourceGroup
-    accountName := id.Path["netAppAccounts"]
+    name := id.Path["netAppAccounts"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName)
+    future, err := client.Delete(ctx, resourceGroup, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Account %q (Resource Group %q): %+v", name, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Account (Account Name %q / Resource Group %q): %+v", accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Account %q (Resource Group %q): %+v", name, resourceGroup, err)
         }
     }
 

@@ -31,6 +31,13 @@ func resourceArmTrigger() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
@@ -50,13 +57,6 @@ func resourceArmTrigger() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "trigger_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -69,16 +69,16 @@ func resourceArmTriggerCreateUpdate(d *schema.ResourceData, meta interface{}) er
     client := meta.(*ArmClient).triggersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
     shareSubscriptionName := d.Get("share_subscription_name").(string)
-    triggerName := d.Get("trigger_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName)
+        existing, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -91,21 +91,21 @@ func resourceArmTriggerCreateUpdate(d *schema.ResourceData, meta interface{}) er
     }
 
 
-    future, err := client.Create(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName, trigger)
+    future, err := client.Create(ctx, resourceGroup, accountName, shareSubscriptionName, name, trigger)
     if err != nil {
-        return fmt.Errorf("Error creating Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error creating Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error waiting for creation of Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q) ID", triggerName, shareSubscriptionName, accountName, resourceGroup)
+        return fmt.Errorf("Cannot read Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q) ID", name, shareSubscriptionName, accountName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -123,24 +123,24 @@ func resourceArmTriggerRead(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareSubscriptionName := id.Path["shareSubscriptions"]
-    triggerName := id.Path["triggers"]
+    name := id.Path["triggers"]
 
-    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName)
+    resp, err := client.Get(ctx, resourceGroup, accountName, shareSubscriptionName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Trigger %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error reading Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
     d.Set("share_subscription_name", shareSubscriptionName)
-    d.Set("trigger_name", triggerName)
     d.Set("type", resp.Type)
 
     return nil
@@ -159,19 +159,19 @@ func resourceArmTriggerDelete(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := id.ResourceGroup
     accountName := id.Path["accounts"]
     shareSubscriptionName := id.Path["shareSubscriptions"]
-    triggerName := id.Path["triggers"]
+    name := id.Path["triggers"]
 
-    future, err := client.Delete(ctx, resourceGroup, accountName, shareSubscriptionName, triggerName)
+    future, err := client.Delete(ctx, resourceGroup, accountName, shareSubscriptionName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Trigger (Trigger Name %q / Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", triggerName, shareSubscriptionName, accountName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Trigger %q (Share Subscription Name %q / Account Name %q / Resource Group %q): %+v", name, shareSubscriptionName, accountName, resourceGroup, err)
         }
     }
 

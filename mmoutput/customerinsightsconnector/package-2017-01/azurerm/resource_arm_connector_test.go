@@ -34,16 +34,16 @@ func testCheckAzureRMConnectorExists(resourceName string) resource.TestCheckFunc
             return fmt.Errorf("Connector not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        connectorName := rs.Primary.Attributes["connector_name"]
         hubName := rs.Primary.Attributes["hub_name"]
 
         client := testAccProvider.Meta().(*ArmClient).connectorsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, connectorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Connector (Connector Name %q / Hub Name %q / Resource Group %q) does not exist", connectorName, hubName, resourceGroup)
+                return fmt.Errorf("Bad: Connector %q (Hub Name %q / Resource Group %q) does not exist", name, hubName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on connectorsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMConnectorDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        connectorName := rs.Primary.Attributes["connector_name"]
         hubName := rs.Primary.Attributes["hub_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, hubName, connectorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, hubName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on connectorsClient: %+v", err)
             }

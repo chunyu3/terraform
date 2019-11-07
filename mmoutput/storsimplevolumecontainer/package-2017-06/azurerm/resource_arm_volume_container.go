@@ -31,19 +31,19 @@ func resourceArmVolumeContainer() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "device_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "manager_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -143,16 +143,16 @@ func resourceArmVolumeContainerCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).volumeContainersClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     deviceName := d.Get("device_name").(string)
-    managerName := d.Get("manager_name").(string)
     volumeContainerName := d.Get("volume_container_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, deviceName, volumeContainerName, resourceGroup, managerName)
+        existing, err := client.Get(ctx, resourceGroup, name, deviceName, volumeContainerName)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+                return fmt.Errorf("Error checking for present of existing Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -177,21 +177,21 @@ func resourceArmVolumeContainerCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    future, err := client.CreateOrUpdate(ctx, deviceName, volumeContainerName, resourceGroup, managerName, parameters)
+    future, err := client.CreateOrUpdate(ctx, resourceGroup, name, deviceName, volumeContainerName, parameters)
     if err != nil {
-        return fmt.Errorf("Error creating Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+        return fmt.Errorf("Error creating Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
     }
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
-        return fmt.Errorf("Error waiting for creation of Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+        return fmt.Errorf("Error waiting for creation of Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
     }
 
 
-    resp, err := client.Get(ctx, deviceName, volumeContainerName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, volumeContainerName)
     if err != nil {
-        return fmt.Errorf("Error retrieving Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+        return fmt.Errorf("Error retrieving Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q) ID", managerName, resourceGroup, volumeContainerName, deviceName)
+        return fmt.Errorf("Cannot read Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q) ID", name, resourceGroup, volumeContainerName, deviceName)
     }
     d.SetId(*resp.ID)
 
@@ -206,22 +206,23 @@ func resourceArmVolumeContainerRead(d *schema.ResourceData, meta interface{}) er
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     volumeContainerName := id.Path["volumeContainers"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    resp, err := client.Get(ctx, deviceName, volumeContainerName, resourceGroup, managerName)
+    resp, err := client.Get(ctx, resourceGroup, name, deviceName, volumeContainerName)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Volume Container %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+        return fmt.Errorf("Error reading Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if volumeContainerProperties := resp.VolumeContainerProperties; volumeContainerProperties != nil {
@@ -238,7 +239,6 @@ func resourceArmVolumeContainerRead(d *schema.ResourceData, meta interface{}) er
     }
     d.Set("device_name", deviceName)
     d.Set("kind", string(resp.Kind))
-    d.Set("manager_name", managerName)
     d.Set("type", resp.Type)
     d.Set("volume_container_name", volumeContainerName)
 
@@ -255,22 +255,22 @@ func resourceArmVolumeContainerDelete(d *schema.ResourceData, meta interface{}) 
     if err != nil {
         return err
     }
+    resourceGroup := id.ResourceGroup
+    name := id.Path["managers"]
     deviceName := id.Path["devices"]
     volumeContainerName := id.Path["volumeContainers"]
-    resourceGroup := id.ResourceGroup
-    managerName := id.Path["managers"]
 
-    future, err := client.Delete(ctx, deviceName, volumeContainerName, resourceGroup, managerName)
+    future, err := client.Delete(ctx, resourceGroup, name, deviceName, volumeContainerName)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+        return fmt.Errorf("Error deleting Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Volume Container (Manager Name %q / Resource Group %q / Volume Container Name %q / Device Name %q): %+v", managerName, resourceGroup, volumeContainerName, deviceName, err)
+            return fmt.Errorf("Error waiting for deleting Volume Container %q (Resource Group %q / Volume Container Name %q / Device Name %q): %+v", name, resourceGroup, volumeContainerName, deviceName, err)
         }
     }
 

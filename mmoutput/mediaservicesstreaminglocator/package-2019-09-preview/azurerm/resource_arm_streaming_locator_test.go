@@ -34,16 +34,16 @@ func testCheckAzureRMStreamingLocatorExists(resourceName string) resource.TestCh
             return fmt.Errorf("Streaming Locator not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        streamingLocatorName := rs.Primary.Attributes["streaming_locator_name"]
 
         client := testAccProvider.Meta().(*ArmClient).streamingLocatorsClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, streamingLocatorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Streaming Locator (Streaming Locator Name %q / Account Name %q / Resource Group %q) does not exist", streamingLocatorName, accountName, resourceGroup)
+                return fmt.Errorf("Bad: Streaming Locator %q (Account Name %q / Resource Group %q) does not exist", name, accountName, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on streamingLocatorsClient: %+v", err)
         }
@@ -61,11 +61,11 @@ func testCheckAzureRMStreamingLocatorDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
         accountName := rs.Primary.Attributes["account_name"]
-        streamingLocatorName := rs.Primary.Attributes["streaming_locator_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, accountName, streamingLocatorName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, accountName, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on streamingLocatorsClient: %+v", err)
             }

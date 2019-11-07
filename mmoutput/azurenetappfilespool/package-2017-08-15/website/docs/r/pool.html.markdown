@@ -28,13 +28,13 @@ Manage Azure Pool instance.
 
 The following arguments are supported:
 
+* `name` - (Required) The name of the capacity pool Changing this forces a new resource to be created.
+
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the NetApp account Changing this forces a new resource to be created.
-
-* `pool_name` - (Required) The name of the capacity pool Changing this forces a new resource to be created.
 
 * `service_level` - (Optional) The service level of the file system Defaults to `Standard`.
 

@@ -31,19 +31,19 @@ func resourceArmApplicationType() *schema.Resource {
         Schema: map[string]*schema.Schema{
             "name": {
                 Type: schema.TypeString,
+                Required: true,
+                ForceNew: true,
+                ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "name": {
+                Type: schema.TypeString,
                 Computed: true,
             },
 
             "location": azure.SchemaLocation(),
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "application_type_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "cluster_name": {
                 Type: schema.TypeString,
@@ -76,15 +76,15 @@ func resourceArmApplicationTypeCreateUpdate(d *schema.ResourceData, meta interfa
     client := meta.(*ArmClient).applicationTypesClient
     ctx := meta.(*ArmClient).StopContext
 
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    applicationTypeName := d.Get("application_type_name").(string)
     clusterName := d.Get("cluster_name").(string)
 
     if features.ShouldResourcesBeImported() && d.IsNewResource() {
-        existing, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName)
+        existing, err := client.Get(ctx, resourceGroup, clusterName, name)
         if err != nil {
             if !utils.ResponseWasNotFound(existing.Response) {
-                return fmt.Errorf("Error checking for present of existing Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", applicationTypeName, clusterName, resourceGroup, err)
+                return fmt.Errorf("Error checking for present of existing Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
             }
         }
         if existing.ID != nil && *existing.ID != "" {
@@ -101,17 +101,17 @@ func resourceArmApplicationTypeCreateUpdate(d *schema.ResourceData, meta interfa
     }
 
 
-    if _, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, applicationTypeName, parameters); err != nil {
-        return fmt.Errorf("Error creating Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", applicationTypeName, clusterName, resourceGroup, err)
+    if _, err := client.CreateOrUpdate(ctx, resourceGroup, clusterName, name, parameters); err != nil {
+        return fmt.Errorf("Error creating Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
-        return fmt.Errorf("Error retrieving Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error retrieving Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
     if resp.ID == nil {
-        return fmt.Errorf("Cannot read Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q) ID", applicationTypeName, clusterName, resourceGroup)
+        return fmt.Errorf("Cannot read Application Type %q (Cluster Name %q / Resource Group %q) ID", name, clusterName, resourceGroup)
     }
     d.SetId(*resp.ID)
 
@@ -128,25 +128,25 @@ func resourceArmApplicationTypeRead(d *schema.ResourceData, meta interface{}) er
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    applicationTypeName := id.Path["applicationTypes"]
+    name := id.Path["applicationTypes"]
 
-    resp, err := client.Get(ctx, resourceGroup, clusterName, applicationTypeName)
+    resp, err := client.Get(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if utils.ResponseWasNotFound(resp.Response) {
             log.Printf("[INFO] Application Type %q does not exist - removing from state", d.Id())
             d.SetId("")
             return nil
         }
-        return fmt.Errorf("Error reading Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error reading Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
 
+    d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    d.Set("application_type_name", applicationTypeName)
     d.Set("cluster_name", clusterName)
     d.Set("etag", resp.Etag)
     if applicationTypeResourceProperties := resp.ApplicationTypeResourceProperties; applicationTypeResourceProperties != nil {
@@ -169,19 +169,19 @@ func resourceArmApplicationTypeDelete(d *schema.ResourceData, meta interface{}) 
     }
     resourceGroup := id.ResourceGroup
     clusterName := id.Path["clusters"]
-    applicationTypeName := id.Path["applicationTypes"]
+    name := id.Path["applicationTypes"]
 
-    future, err := client.Delete(ctx, resourceGroup, clusterName, applicationTypeName)
+    future, err := client.Delete(ctx, resourceGroup, clusterName, name)
     if err != nil {
         if response.WasNotFound(future.Response()) {
             return nil
         }
-        return fmt.Errorf("Error deleting Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", applicationTypeName, clusterName, resourceGroup, err)
+        return fmt.Errorf("Error deleting Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
     }
 
     if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
         if !response.WasNotFound(future.Response()) {
-            return fmt.Errorf("Error waiting for deleting Application Type (Application Type Name %q / Cluster Name %q / Resource Group %q): %+v", applicationTypeName, clusterName, resourceGroup, err)
+            return fmt.Errorf("Error waiting for deleting Application Type %q (Cluster Name %q / Resource Group %q): %+v", name, clusterName, resourceGroup, err)
         }
     }
 

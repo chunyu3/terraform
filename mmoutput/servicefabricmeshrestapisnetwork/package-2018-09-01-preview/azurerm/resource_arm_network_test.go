@@ -34,15 +34,15 @@ func testCheckAzureRMNetworkExists(resourceName string) resource.TestCheckFunc {
             return fmt.Errorf("Network not found: %s", resourceName)
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        networkResourceName := rs.Primary.Attributes["network_resource_name"]
 
         client := testAccProvider.Meta().(*ArmClient).networkClient
         ctx := testAccProvider.Meta().(*ArmClient).StopContext
 
-        if resp, err := client.Get(ctx, resourceGroup, networkResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if utils.ResponseWasNotFound(resp.Response) {
-                return fmt.Errorf("Bad: Network (Network Resource Name %q / Resource Group %q) does not exist", networkResourceName, resourceGroup)
+                return fmt.Errorf("Bad: Network %q (Resource Group %q) does not exist", name, resourceGroup)
             }
             return fmt.Errorf("Bad: Get on networkClient: %+v", err)
         }
@@ -60,10 +60,10 @@ func testCheckAzureRMNetworkDestroy(s *terraform.State) error {
             continue
         }
 
+        name := rs.Primary.Attributes["name"]
         resourceGroup := rs.Primary.Attributes["resource_group"]
-        networkResourceName := rs.Primary.Attributes["network_resource_name"]
 
-        if resp, err := client.Get(ctx, resourceGroup, networkResourceName); err != nil {
+        if resp, err := client.Get(ctx, resourceGroup, name); err != nil {
             if !utils.ResponseWasNotFound(resp.Response) {
                 return fmt.Errorf("Bad: Get on networkClient: %+v", err)
             }
