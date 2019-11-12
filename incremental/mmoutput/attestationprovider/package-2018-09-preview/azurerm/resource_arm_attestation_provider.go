@@ -43,21 +43,6 @@ func resourceArmAttestationProvider() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "status": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(attestation.Ready),
-                    string(attestation.NotReady),
-                    string(attestation.Error),
-                }, false),
-            },
-
-            "attest_uri": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
             "attestation_policy": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -157,6 +142,16 @@ func resourceArmAttestationProvider() *schema.Resource {
                 },
             },
 
+            "attest_uri": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "status": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -184,15 +179,12 @@ func resourceArmAttestationProviderCreateUpdate(d *schema.ResourceData, meta int
         }
     }
 
-    attestUri := d.Get("attest_uri").(string)
     attestationPolicy := d.Get("attestation_policy").(string)
     policySigningCertificates := d.Get("policy_signing_certificates").([]interface{})
-    status := d.Get("status").(string)
 
     creationParams := attestation.ServiceCreationParams{
         AttestationPolicy: utils.String(attestationPolicy),
         PolicySigningCertificates: expandArmAttestationProviderJSONWebKeySet(policySigningCertificates),
-        // TODO: SDK Reference /properties is not supported
     }
 
 
@@ -238,6 +230,10 @@ func resourceArmAttestationProviderRead(d *schema.ResourceData, meta interface{}
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
+    if statusResult := resp.StatusResult; statusResult != nil {
+        d.Set("attest_uri", statusResult.AttestUri)
+        d.Set("status", string(statusResult.Status))
+    }
     d.Set("type", resp.Type)
 
     return nil

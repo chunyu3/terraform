@@ -70,6 +70,37 @@ objects:
             applicable_to: [go]
             go_field_name: NotificationContractProperties
             go_type_name: NotificationContractProperties
+          '/properties/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/recipients': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Recipients
+            go_type_name: RecipientsContractProperties
+          '/properties/recipients/emails': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Emails
+          '/properties/recipients/users': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Users
+          '/recipients': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: recipients
+          '/recipients/emails': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: emails
+          '/recipients/users': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: users
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByService
         python_func_name: list_by_service
@@ -106,34 +137,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['notificationName']
-      - !ruby/object:Api::Type::String
-        name: 'title'
-        description: 'Title of the Notification.'
-        required: true
-        azure_sdk_references: ['/title', '/properties/title']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Description of the Notification.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'recipients'
-        description: 'Recipient Parameter values.'
-        required: false
-        azure_sdk_references: ['/recipients', '/properties/recipients']
-        properties:
-          - !ruby/object:Api::Type::Array
-            name: 'emails'
-            description: 'List of Emails subscribed for the notification.'
-            required: false
-            azure_sdk_references: ['/recipients/emails', '/properties/recipients/emails']
-            item_type: Api::Type::String
-          - !ruby/object:Api::Type::Array
-            name: 'users'
-            description: 'List of Users subscribed for the notification.'
-            required: false
-            azure_sdk_references: ['/recipients/users', '/properties/recipients/users']
-            item_type: Api::Type::String
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -150,3 +153,19 @@ objects:
         description: 'Resource type for API Management resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'title'
+        description: 'Title of the Notification.'
+        output: true
+        azure_sdk_references: ['/title', '/properties/title']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description of the Notification.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'recipients'
+        description: 'Recipient Parameter values.'
+        output: true
+        azure_sdk_references: ['/recipients', '/properties/recipients']
+        properties:

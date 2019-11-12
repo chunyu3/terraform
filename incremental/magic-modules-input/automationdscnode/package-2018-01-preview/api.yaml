@@ -32,12 +32,6 @@ objects:
             go_variable_name: name
             python_parameter_name: automation_account_name
             python_variable_name: name
-          '/properties/nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: NodeID
-          '/nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: node_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -52,6 +46,86 @@ objects:
             applicable_to: [go]
             go_field_name: DscNodeProperties
             go_type_name: DscNodeProperties
+          '/properties/lastSeen': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastSeen
+          '/lastSeen': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_seen
+          '/properties/registrationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RegistrationTime
+          '/registrationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: registration_time
+          '/properties/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ip
+          '/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip
+          '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountID
+          '/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_id
+          '/properties/nodeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NodeConfiguration
+            go_type_name: DscNodeConfigurationAssociationProperty
+          '/properties/nodeConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/nodeConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: node_configuration
+          '/nodeConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NodeID
+          '/nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: node_id
+          '/properties/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Etag
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: etag
+          '/properties/totalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalCount
+          '/totalCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_count
+          '/properties/extensionHandler': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ExtensionHandler
+            go_type_name: DscNodeExtensionHandlerAssociationProperty
+          '/properties/extensionHandler/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/extensionHandler/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/extensionHandler': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: extension_handler
+          '/extensionHandler/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/extensionHandler/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByAutomationAccount
         python_func_name: list_by_automation_account
@@ -82,74 +156,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastSeen'
-        description: 'Gets or sets the last seen time of the node.'
-        required: false
-        azure_sdk_references: ['/lastSeen', '/properties/lastSeen']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'registrationTime'
-        description: 'Gets or sets the registration time of the node.'
-        required: false
-        azure_sdk_references: ['/registrationTime', '/properties/registrationTime']
-      - !ruby/object:Api::Type::String
-        name: 'ip'
-        description: 'Gets or sets the ip of the node.'
-        required: false
-        azure_sdk_references: ['/ip', '/properties/ip']
-      - !ruby/object:Api::Type::String
-        name: 'accountId'
-        description: 'Gets or sets the account id of the node.'
-        required: false
-        azure_sdk_references: ['/accountId', '/properties/accountId']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'nodeConfiguration'
-        description: 'Gets or sets the configuration of the node.'
-        required: false
-        azure_sdk_references: ['/nodeConfiguration', '/properties/nodeConfiguration']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Gets or sets the name of the dsc node configuration.'
-            required: false
-            azure_sdk_references: ['/nodeConfiguration/name', '/properties/nodeConfiguration/name']
-      - !ruby/object:Api::Type::String
-        name: 'status'
-        description: 'Gets or sets the status of the node.'
-        required: false
-        azure_sdk_references: ['/status', '/properties/status']
-      - !ruby/object:Api::Type::String
-        name: 'nodeId'
-        description: 'Gets or sets the node id.'
-        required: false
-        azure_sdk_references: ['/nodeId', '/properties/nodeId']
-      - !ruby/object:Api::Type::String
-        name: 'etag'
-        description: 'Gets or sets the etag of the resource.'
-        required: false
-        azure_sdk_references: ['/etag', '/properties/etag']
-      - !ruby/object:Api::Type::Integer
-        name: 'totalCount'
-        description: 'Gets the total number of records matching filter criteria.'
-        required: false
-        azure_sdk_references: ['/totalCount', '/properties/totalCount']
-      - !ruby/object:Api::Type::Array
-        name: 'extensionHandler'
-        description: 'Gets or sets the list of extensionHandler properties for a Node.'
-        required: false
-        azure_sdk_references: ['/extensionHandler', '/properties/extensionHandler']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Gets or sets the name of the extension handler.'
-              required: false
-              azure_sdk_references: ['/extensionHandler/name', '/properties/extensionHandler/name']
-            - !ruby/object:Api::Type::String
-              name: 'version'
-              description: 'Gets or sets the version of the extension handler.'
-              required: false
-              azure_sdk_references: ['/extensionHandler/version', '/properties/extensionHandler/version']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -166,3 +172,56 @@ objects:
         description: 'The type of the resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastSeen'
+        description: 'Gets or sets the last seen time of the node.'
+        output: true
+        azure_sdk_references: ['/lastSeen', '/properties/lastSeen']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'registrationTime'
+        description: 'Gets or sets the registration time of the node.'
+        output: true
+        azure_sdk_references: ['/registrationTime', '/properties/registrationTime']
+      - !ruby/object:Api::Type::String
+        name: 'ip'
+        description: 'Gets or sets the ip of the node.'
+        output: true
+        azure_sdk_references: ['/ip', '/properties/ip']
+      - !ruby/object:Api::Type::String
+        name: 'accountId'
+        description: 'Gets or sets the account id of the node.'
+        output: true
+        azure_sdk_references: ['/accountId', '/properties/accountId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'nodeConfiguration'
+        description: 'Gets or sets the configuration of the node.'
+        output: true
+        azure_sdk_references: ['/nodeConfiguration', '/properties/nodeConfiguration']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Gets or sets the status of the node.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+      - !ruby/object:Api::Type::String
+        name: 'nodeId'
+        description: 'Gets or sets the node id.'
+        output: true
+        azure_sdk_references: ['/nodeId', '/properties/nodeId']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Gets or sets the etag of the resource.'
+        output: true
+        azure_sdk_references: ['/etag', '/properties/etag']
+      - !ruby/object:Api::Type::Integer
+        name: 'totalCount'
+        description: 'Gets the total number of records matching filter criteria.'
+        output: true
+        azure_sdk_references: ['/totalCount', '/properties/totalCount']
+      - !ruby/object:Api::Type::Array
+        name: 'extensionHandler'
+        description: 'Gets or sets the list of extensionHandler properties for a Node.'
+        output: true
+        azure_sdk_references: ['/extensionHandler', '/properties/extensionHandler']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

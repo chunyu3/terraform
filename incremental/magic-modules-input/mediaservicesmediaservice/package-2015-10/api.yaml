@@ -176,9 +176,21 @@ objects:
             applicable_to: [go]
             go_field_name: ApiEndpoints
             go_type_name: ApiEndpoint
+          '/properties/apiEndpoints/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/properties/apiEndpoints/majorVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MajorVersion
           '/apiEndpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: api_endpoints
+          '/apiEndpoints/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: endpoint
+          '/apiEndpoints/majorVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: major_version
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -250,16 +262,6 @@ objects:
         azure_sdk_references: ['/apiEndpoints', '/properties/apiEndpoints']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'endpoint'
-              description: 'The Media Services REST endpoint.'
-              required: false
-              azure_sdk_references: ['/apiEndpoints/endpoint', '/properties/apiEndpoints/endpoint']
-            - !ruby/object:Api::Type::String
-              name: 'majorVersion'
-              description: 'The version of Media Services REST API.'
-              required: false
-              azure_sdk_references: ['/apiEndpoints/majorVersion', '/properties/apiEndpoints/majorVersion']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The id of the resource.'

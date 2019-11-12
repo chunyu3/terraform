@@ -73,6 +73,222 @@ func resourceArmFormula() *schema.Resource {
                             MaxItems: 1,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
+                                    "lab_vms_shutdown": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "daily_recurrence": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "time": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "hourly_recurrence": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "minute": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "location": azure.SchemaLocation(),
+                                                "notification_settings": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "status": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                                ValidateFunc: validation.StringInSlice([]string{
+                                                                    string(devtestlab.Disabled),
+                                                                    string(devtestlab.Enabled),
+                                                                }, false),
+                                                                Default: string(devtestlab.Disabled),
+                                                            },
+                                                            "time_in_minutes": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                            "webhook_url": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Enabled),
+                                                        string(devtestlab.Disabled),
+                                                    }, false),
+                                                    Default: string(devtestlab.Enabled),
+                                                },
+                                                "tags": tags.Schema(),
+                                                "target_resource_id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "task_type": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "time_zone_id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "unique_identifier": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "weekly_recurrence": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "time": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "weekdays": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Schema{
+                                                                    Type: schema.TypeString,
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "lab_vms_startup": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "daily_recurrence": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "time": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "hourly_recurrence": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "minute": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "location": azure.SchemaLocation(),
+                                                "notification_settings": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "status": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                                ValidateFunc: validation.StringInSlice([]string{
+                                                                    string(devtestlab.Disabled),
+                                                                    string(devtestlab.Enabled),
+                                                                }, false),
+                                                                Default: string(devtestlab.Disabled),
+                                                            },
+                                                            "time_in_minutes": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                            "webhook_url": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "status": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                    ValidateFunc: validation.StringInSlice([]string{
+                                                        string(devtestlab.Enabled),
+                                                        string(devtestlab.Disabled),
+                                                    }, false),
+                                                    Default: string(devtestlab.Enabled),
+                                                },
+                                                "tags": tags.Schema(),
+                                                "target_resource_id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "task_type": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "time_zone_id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "unique_identifier": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "weekly_recurrence": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "time": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "weekdays": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Schema{
+                                                                    Type: schema.TypeString,
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                     "location": azure.SchemaLocation(),
                                     "tags": tags.Schema(),
                                 },
@@ -117,6 +333,22 @@ func resourceArmFormula() *schema.Resource {
                                         Optional: true,
                                         ValidateFunc: validateRFC3339Date,
                                     },
+                                    "parameters": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "value": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "status": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -154,6 +386,30 @@ func resourceArmFormula() *schema.Resource {
                                             Type: schema.TypeString,
                                         },
                                     },
+                                    "data_disks": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "disk_size_gi_b": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                                "disk_uri": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "managed_disk_id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "network_interface_id": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -165,6 +421,26 @@ func resourceArmFormula() *schema.Resource {
                                     "os_type": {
                                         Type: schema.TypeString,
                                         Optional: true,
+                                    },
+                                    "statuses": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "code": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "display_status": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "message": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
                                     },
                                     "vm_size": {
                                         Type: schema.TypeString,
@@ -278,6 +554,40 @@ func resourceArmFormula() *schema.Resource {
                                     "rdp_authority": {
                                         Type: schema.TypeString,
                                         Optional: true,
+                                    },
+                                    "shared_public_ip_address_configuration": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "inbound_nat_rules": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "backend_port": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                            "frontend_port": {
+                                                                Type: schema.TypeInt,
+                                                                Optional: true,
+                                                            },
+                                                            "transport_protocol": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                                ValidateFunc: validation.StringInSlice([]string{
+                                                                    string(devtestlab.Tcp),
+                                                                    string(devtestlab.Udp),
+                                                                }, false),
+                                                                Default: string(devtestlab.Tcp),
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
                                     },
                                     "ssh_authority": {
                                         Type: schema.TypeString,
@@ -627,9 +937,15 @@ func expandArmFormulaApplicableSchedule(input []interface{}) *devtestlab.Applica
 
     location := azure.NormalizeLocation(v["location"].(string))
     t := v["tags"].(map[string]interface{})
+    labVmsShutdown := v["lab_vms_shutdown"].([]interface{})
+    labVmsStartup := v["lab_vms_startup"].([]interface{})
 
     result := devtestlab.ApplicableSchedule{
         Location: utils.String(location),
+        ApplicableScheduleProperties: &devtestlab.ApplicableScheduleProperties{
+            LabVmsShutdown: expandArmFormulaSchedule(labVmsShutdown),
+            LabVmsStartup: expandArmFormulaSchedule(labVmsStartup),
+        },
         Tags: tags.Expand(t),
     }
     return &result
@@ -658,6 +974,7 @@ func expandArmFormulaArtifactInstallProperties(input []interface{}) *[]devtestla
     for _, item := range input {
         v := item.(map[string]interface{})
         artifactId := v["artifact_id"].(string)
+        parameters := v["parameters"].([]interface{})
         status := v["status"].(string)
         deploymentStatusMessage := v["deployment_status_message"].(string)
         vmExtensionStatusMessage := v["vm_extension_status_message"].(string)
@@ -667,6 +984,7 @@ func expandArmFormulaArtifactInstallProperties(input []interface{}) *[]devtestla
             ArtifactID: utils.String(artifactId),
             DeploymentStatusMessage: utils.String(deploymentStatusMessage),
             InstallTime: convertStringToDate(installTime),
+            Parameters: expandArmFormulaArtifactParameterProperties(parameters),
             Status: utils.String(status),
             VmExtensionStatusMessage: utils.String(vmExtensionStatusMessage),
         }
@@ -696,17 +1014,21 @@ func expandArmFormulaComputeVmProperties(input []interface{}) *devtestlab.Comput
     }
     v := input[0].(map[string]interface{})
 
+    statuses := v["statuses"].([]interface{})
     osType := v["os_type"].(string)
     vmSize := v["vm_size"].(string)
     networkInterfaceId := v["network_interface_id"].(string)
     osDiskId := v["os_disk_id"].(string)
     dataDiskIds := v["data_disk_ids"].([]interface{})
+    dataDisks := v["data_disks"].([]interface{})
 
     result := devtestlab.ComputeVmProperties{
         DataDiskIds: utils.ExpandStringSlice(dataDiskIds),
+        DataDisks: expandArmFormulaComputeDataDisk(dataDisks),
         NetworkInterfaceID: utils.String(networkInterfaceId),
         OsDiskID: utils.String(osDiskId),
         OsType: utils.String(osType),
+        Statuses: expandArmFormulaComputeVmInstanceViewStatus(statuses),
         VmSize: utils.String(vmSize),
     }
     return &result
@@ -763,6 +1085,7 @@ func expandArmFormulaNetworkInterfaceProperties(input []interface{}) *devtestlab
     dnsName := v["dns_name"].(string)
     rdpAuthority := v["rdp_authority"].(string)
     sshAuthority := v["ssh_authority"].(string)
+    sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
 
     result := devtestlab.NetworkInterfaceProperties{
         DnsName: utils.String(dnsName),
@@ -770,11 +1093,200 @@ func expandArmFormulaNetworkInterfaceProperties(input []interface{}) *devtestlab
         PublicIpAddress: utils.String(publicIpAddress),
         PublicIpAddressID: utils.String(publicIpAddressId),
         RdpAuthority: utils.String(rdpAuthority),
+        SharedPublicIpAddressConfiguration: expandArmFormulaSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
         SshAuthority: utils.String(sshAuthority),
         SubnetID: utils.String(subnetId),
         VirtualNetworkID: utils.String(virtualNetworkId),
     }
     return &result
+}
+
+func expandArmFormulaSchedule(input []interface{}) *devtestlab.Schedule {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    location := azure.NormalizeLocation(v["location"].(string))
+    t := v["tags"].(map[string]interface{})
+    status := v["status"].(string)
+    taskType := v["task_type"].(string)
+    weeklyRecurrence := v["weekly_recurrence"].([]interface{})
+    dailyRecurrence := v["daily_recurrence"].([]interface{})
+    hourlyRecurrence := v["hourly_recurrence"].([]interface{})
+    timeZoneId := v["time_zone_id"].(string)
+    notificationSettings := v["notification_settings"].([]interface{})
+    targetResourceId := v["target_resource_id"].(string)
+    uniqueIdentifier := v["unique_identifier"].(string)
+
+    result := devtestlab.Schedule{
+        Location: utils.String(location),
+        ScheduleProperties: &devtestlab.ScheduleProperties{
+            DailyRecurrence: expandArmFormulaDayDetails(dailyRecurrence),
+            HourlyRecurrence: expandArmFormulaHourDetails(hourlyRecurrence),
+            NotificationSettings: expandArmFormulaNotificationSettings(notificationSettings),
+            Status: devtestlab.EnableStatus(status),
+            TargetResourceID: utils.String(targetResourceId),
+            TaskType: utils.String(taskType),
+            TimeZoneID: utils.String(timeZoneId),
+            UniqueIdentifier: utils.String(uniqueIdentifier),
+            WeeklyRecurrence: expandArmFormulaWeekDetails(weeklyRecurrence),
+        },
+        Tags: tags.Expand(t),
+    }
+    return &result
+}
+
+func expandArmFormulaArtifactParameterProperties(input []interface{}) *[]devtestlab.ArtifactParameterProperties {
+    results := make([]devtestlab.ArtifactParameterProperties, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+
+        result := devtestlab.ArtifactParameterProperties{
+            Name: utils.String(name),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmFormulaComputeDataDisk(input []interface{}) *[]devtestlab.ComputeDataDisk {
+    results := make([]devtestlab.ComputeDataDisk, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        diskUri := v["disk_uri"].(string)
+        managedDiskId := v["managed_disk_id"].(string)
+        diskSizeGiB := v["disk_size_gi_b"].(int)
+
+        result := devtestlab.ComputeDataDisk{
+            DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
+            DiskUri: utils.String(diskUri),
+            ManagedDiskID: utils.String(managedDiskId),
+            Name: utils.String(name),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmFormulaComputeVmInstanceViewStatus(input []interface{}) *[]devtestlab.ComputeVmInstanceViewStatus {
+    results := make([]devtestlab.ComputeVmInstanceViewStatus, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        code := v["code"].(string)
+        displayStatus := v["display_status"].(string)
+        message := v["message"].(string)
+
+        result := devtestlab.ComputeVmInstanceViewStatus{
+            Code: utils.String(code),
+            DisplayStatus: utils.String(displayStatus),
+            Message: utils.String(message),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmFormulaSharedPublicIpAddressConfiguration(input []interface{}) *devtestlab.SharedPublicIpAddressConfiguration {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    inboundNatRules := v["inbound_nat_rules"].([]interface{})
+
+    result := devtestlab.SharedPublicIpAddressConfiguration{
+        InboundNatRules: expandArmFormulaInboundNatRule(inboundNatRules),
+    }
+    return &result
+}
+
+func expandArmFormulaDayDetails(input []interface{}) *devtestlab.DayDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    time := v["time"].(string)
+
+    result := devtestlab.DayDetails{
+        Time: utils.String(time),
+    }
+    return &result
+}
+
+func expandArmFormulaHourDetails(input []interface{}) *devtestlab.HourDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    minute := v["minute"].(int)
+
+    result := devtestlab.HourDetails{
+        Minute: utils.Int32(int32(minute)),
+    }
+    return &result
+}
+
+func expandArmFormulaNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    status := v["status"].(string)
+    timeInMinutes := v["time_in_minutes"].(int)
+    webhookUrl := v["webhook_url"].(string)
+
+    result := devtestlab.NotificationSettings{
+        Status: devtestlab.NotificationStatus(status),
+        TimeInMinutes: utils.Int32(int32(timeInMinutes)),
+        WebhookURL: utils.String(webhookUrl),
+    }
+    return &result
+}
+
+func expandArmFormulaWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    weekdays := v["weekdays"].([]interface{})
+    time := v["time"].(string)
+
+    result := devtestlab.WeekDetails{
+        Time: utils.String(time),
+        Weekdays: utils.ExpandStringSlice(weekdays),
+    }
+    return &result
+}
+
+func expandArmFormulaInboundNatRule(input []interface{}) *[]devtestlab.InboundNatRule {
+    results := make([]devtestlab.InboundNatRule, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        transportProtocol := v["transport_protocol"].(string)
+        frontendPort := v["frontend_port"].(int)
+        backendPort := v["backend_port"].(int)
+
+        result := devtestlab.InboundNatRule{
+            BackendPort: utils.Int32(int32(backendPort)),
+            FrontendPort: utils.Int32(int32(frontendPort)),
+            TransportProtocol: devtestlab.TransportProtocol(transportProtocol),
+        }
+
+        results = append(results, result)
+    }
+    return &results
 }
 
 
@@ -895,6 +1407,10 @@ func flattenArmFormulaApplicableSchedule(input *devtestlab.ApplicableSchedule) [
     if location := input.Location; location != nil {
         result["location"] = azure.NormalizeLocation(*location)
     }
+    if applicableScheduleProperties := input.ApplicableScheduleProperties; applicableScheduleProperties != nil {
+        result["lab_vms_shutdown"] = flattenArmFormulaSchedule(applicableScheduleProperties.LabVmsShutdown)
+        result["lab_vms_startup"] = flattenArmFormulaSchedule(applicableScheduleProperties.LabVmsStartup)
+    }
 
     return []interface{}{result}
 }
@@ -937,6 +1453,7 @@ func flattenArmFormulaArtifactInstallProperties(input *[]devtestlab.ArtifactInst
         if installTime := item.InstallTime; installTime != nil {
             v["install_time"] = (*installTime).String()
         }
+        v["parameters"] = flattenArmFormulaArtifactParameterProperties(item.Parameters)
         if status := item.Status; status != nil {
             v["status"] = *status
         }
@@ -972,6 +1489,7 @@ func flattenArmFormulaComputeVmProperties(input *devtestlab.ComputeVmProperties)
     result := make(map[string]interface{})
 
     result["data_disk_ids"] = utils.FlattenStringSlice(input.DataDiskIds)
+    result["data_disks"] = flattenArmFormulaComputeDataDisk(input.DataDisks)
     if networkInterfaceId := input.NetworkInterfaceID; networkInterfaceId != nil {
         result["network_interface_id"] = *networkInterfaceId
     }
@@ -981,6 +1499,7 @@ func flattenArmFormulaComputeVmProperties(input *devtestlab.ComputeVmProperties)
     if osType := input.OsType; osType != nil {
         result["os_type"] = *osType
     }
+    result["statuses"] = flattenArmFormulaComputeVmInstanceViewStatus(input.Statuses)
     if vmSize := input.VmSize; vmSize != nil {
         result["vm_size"] = *vmSize
     }
@@ -1036,6 +1555,7 @@ func flattenArmFormulaNetworkInterfaceProperties(input *devtestlab.NetworkInterf
     if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
         result["rdp_authority"] = *rdpAuthority
     }
+    result["shared_public_ip_address_configuration"] = flattenArmFormulaSharedPublicIpAddressConfiguration(input.SharedPublicIpAddressConfiguration)
     if sshAuthority := input.SshAuthority; sshAuthority != nil {
         result["ssh_authority"] = *sshAuthority
     }
@@ -1047,4 +1567,208 @@ func flattenArmFormulaNetworkInterfaceProperties(input *devtestlab.NetworkInterf
     }
 
     return []interface{}{result}
+}
+
+func flattenArmFormulaSchedule(input *devtestlab.Schedule) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if location := input.Location; location != nil {
+        result["location"] = azure.NormalizeLocation(*location)
+    }
+    if scheduleProperties := input.ScheduleProperties; scheduleProperties != nil {
+        result["daily_recurrence"] = flattenArmFormulaDayDetails(scheduleProperties.DailyRecurrence)
+        result["hourly_recurrence"] = flattenArmFormulaHourDetails(scheduleProperties.HourlyRecurrence)
+        result["notification_settings"] = flattenArmFormulaNotificationSettings(scheduleProperties.NotificationSettings)
+        result["status"] = string(scheduleProperties.Status)
+        if targetResourceId := scheduleProperties.TargetResourceID; targetResourceId != nil {
+            result["target_resource_id"] = *targetResourceId
+        }
+        if taskType := scheduleProperties.TaskType; taskType != nil {
+            result["task_type"] = *taskType
+        }
+        if timeZoneId := scheduleProperties.TimeZoneID; timeZoneId != nil {
+            result["time_zone_id"] = *timeZoneId
+        }
+        if uniqueIdentifier := scheduleProperties.UniqueIdentifier; uniqueIdentifier != nil {
+            result["unique_identifier"] = *uniqueIdentifier
+        }
+        result["weekly_recurrence"] = flattenArmFormulaWeekDetails(scheduleProperties.WeeklyRecurrence)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaArtifactParameterProperties(input *[]devtestlab.ArtifactParameterProperties) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmFormulaComputeDataDisk(input *[]devtestlab.ComputeDataDisk) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if diskSizeGiB := item.DiskSizeGiB; diskSizeGiB != nil {
+            v["disk_size_gi_b"] = int(*diskSizeGiB)
+        }
+        if diskUri := item.DiskUri; diskUri != nil {
+            v["disk_uri"] = *diskUri
+        }
+        if managedDiskId := item.ManagedDiskID; managedDiskId != nil {
+            v["managed_disk_id"] = *managedDiskId
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmFormulaComputeVmInstanceViewStatus(input *[]devtestlab.ComputeVmInstanceViewStatus) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if code := item.Code; code != nil {
+            v["code"] = *code
+        }
+        if displayStatus := item.DisplayStatus; displayStatus != nil {
+            v["display_status"] = *displayStatus
+        }
+        if message := item.Message; message != nil {
+            v["message"] = *message
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmFormulaSharedPublicIpAddressConfiguration(input *devtestlab.SharedPublicIpAddressConfiguration) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["inbound_nat_rules"] = flattenArmFormulaInboundNatRule(input.InboundNatRules)
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaDayDetails(input *devtestlab.DayDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaHourDetails(input *devtestlab.HourDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if minute := input.Minute; minute != nil {
+        result["minute"] = int(*minute)
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["status"] = string(input.Status)
+    if timeInMinutes := input.TimeInMinutes; timeInMinutes != nil {
+        result["time_in_minutes"] = int(*timeInMinutes)
+    }
+    if webhookUrl := input.WebhookURL; webhookUrl != nil {
+        result["webhook_url"] = *webhookUrl
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if time := input.Time; time != nil {
+        result["time"] = *time
+    }
+    result["weekdays"] = utils.FlattenStringSlice(input.Weekdays)
+
+    return []interface{}{result}
+}
+
+func flattenArmFormulaInboundNatRule(input *[]devtestlab.InboundNatRule) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if backendPort := item.BackendPort; backendPort != nil {
+            v["backend_port"] = int(*backendPort)
+        }
+        if frontendPort := item.FrontendPort; frontendPort != nil {
+            v["frontend_port"] = int(*frontendPort)
+        }
+        v["transport_protocol"] = string(item.TransportProtocol)
+
+        results = append(results, v)
+    }
+
+    return results
 }

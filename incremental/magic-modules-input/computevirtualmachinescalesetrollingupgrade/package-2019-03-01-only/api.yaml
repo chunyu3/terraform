@@ -34,153 +34,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['vmScaleSetName']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'policy'
-        description: 'The rolling upgrade policies applied for this upgrade.'
-        required: false
-        azure_sdk_references: ['/policy', '/properties/policy']
-        properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'maxBatchInstancePercent'
-            description: 'The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%.'
-            required: false
-            azure_sdk_references: ['/policy/maxBatchInstancePercent', '/properties/policy/maxBatchInstancePercent']
-          - !ruby/object:Api::Type::Integer
-            name: 'maxUnhealthyInstancePercent'
-            description: 'The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The default value for this parameter is 20%.'
-            required: false
-            azure_sdk_references: ['/policy/maxUnhealthyInstancePercent', '/properties/policy/maxUnhealthyInstancePercent']
-          - !ruby/object:Api::Type::Integer
-            name: 'maxUnhealthyUpgradedInstancePercent'
-            description: 'The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The default value for this parameter is 20%.'
-            required: false
-            azure_sdk_references: ['/policy/maxUnhealthyUpgradedInstancePercent', '/properties/policy/maxUnhealthyUpgradedInstancePercent']
-          - !ruby/object:Api::Type::String
-            name: 'pauseTimeBetweenBatches'
-            description: 'The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).'
-            required: false
-            azure_sdk_references: ['/policy/pauseTimeBetweenBatches', '/properties/policy/pauseTimeBetweenBatches']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'runningStatus'
-        description: 'Information about the current running state of the overall upgrade.'
-        required: false
-        azure_sdk_references: ['/runningStatus', '/properties/runningStatus']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'code'
-            description: 'Code indicating the current status of the upgrade.'
-            required: false
-            azure_sdk_references: ['/runningStatus/code', '/properties/runningStatus/code']
-            values:
-              - :RollingForward
-              - :Cancelled
-              - :Completed
-              - :Faulted
-            default_value: :RollingForward
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'startTime'
-            description: 'Start time of the upgrade.'
-            required: false
-            azure_sdk_references: ['/runningStatus/startTime', '/properties/runningStatus/startTime']
-          - !ruby/object:Api::Type::Enum
-            name: 'lastAction'
-            description: 'The last action performed on the rolling upgrade.'
-            required: false
-            azure_sdk_references: ['/runningStatus/lastAction', '/properties/runningStatus/lastAction']
-            values:
-              - :Start
-              - :Cancel
-            default_value: :Start
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastActionTime'
-            description: 'Last action time of the upgrade.'
-            required: false
-            azure_sdk_references: ['/runningStatus/lastActionTime', '/properties/runningStatus/lastActionTime']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'progress'
-        description: 'Information about the number of virtual machine instances in each upgrade state.'
-        required: false
-        azure_sdk_references: ['/progress', '/properties/progress']
-        properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'successfulInstanceCount'
-            description: 'The number of instances that have been successfully upgraded.'
-            required: false
-            azure_sdk_references: ['/progress/successfulInstanceCount', '/properties/progress/successfulInstanceCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'failedInstanceCount'
-            description: 'The number of instances that have failed to be upgraded successfully.'
-            required: false
-            azure_sdk_references: ['/progress/failedInstanceCount', '/properties/progress/failedInstanceCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'inProgressInstanceCount'
-            description: 'The number of instances that are currently being upgraded.'
-            required: false
-            azure_sdk_references: ['/progress/inProgressInstanceCount', '/properties/progress/inProgressInstanceCount']
-          - !ruby/object:Api::Type::Integer
-            name: 'pendingInstanceCount'
-            description: 'The number of instances that have not yet begun to be upgraded.'
-            required: false
-            azure_sdk_references: ['/progress/pendingInstanceCount', '/properties/progress/pendingInstanceCount']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'error'
-        description: 'Error details for this upgrade, if there are any.'
-        required: false
-        azure_sdk_references: ['/error', '/properties/error']
-        properties:
-          - !ruby/object:Api::Type::Array
-            name: 'details'
-            description: 'The Api error details'
-            required: false
-            azure_sdk_references: ['/error/details', '/properties/error/details']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'code'
-                  description: 'The error code.'
-                  required: false
-                  azure_sdk_references: ['/error/details/code', '/properties/error/details/code']
-                - !ruby/object:Api::Type::String
-                  name: 'target'
-                  description: 'The target of the particular error.'
-                  required: false
-                  azure_sdk_references: ['/error/details/target', '/properties/error/details/target']
-                - !ruby/object:Api::Type::String
-                  name: 'message'
-                  description: 'The error message.'
-                  required: false
-                  azure_sdk_references: ['/error/details/message', '/properties/error/details/message']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'innererror'
-            description: 'The Api inner error'
-            required: false
-            azure_sdk_references: ['/error/innererror', '/properties/error/innererror']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'exceptiontype'
-                description: 'The exception type.'
-                required: false
-                azure_sdk_references: ['/error/innererror/exceptiontype', '/properties/error/innererror/exceptiontype']
-              - !ruby/object:Api::Type::String
-                name: 'errordetail'
-                description: 'The internal error message or exception dump.'
-                required: false
-                azure_sdk_references: ['/error/innererror/errordetail', '/properties/error/innererror/errordetail']
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'The error code.'
-            required: false
-            azure_sdk_references: ['/error/code', '/properties/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'target'
-            description: 'The target of the particular error.'
-            required: false
-            azure_sdk_references: ['/error/target', '/properties/error/target']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The error message.'
-            required: false
-            azure_sdk_references: ['/error/message', '/properties/error/message']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -207,3 +60,27 @@ objects:
         description: 'Resource tags'
         output: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'policy'
+        description: 'The rolling upgrade policies applied for this upgrade.'
+        output: true
+        azure_sdk_references: ['/policy', '/properties/policy']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'runningStatus'
+        description: 'Information about the current running state of the overall upgrade.'
+        output: true
+        azure_sdk_references: ['/runningStatus', '/properties/runningStatus']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'progress'
+        description: 'Information about the number of virtual machine instances in each upgrade state.'
+        output: true
+        azure_sdk_references: ['/progress', '/properties/progress']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'error'
+        description: 'Error details for this upgrade, if there are any.'
+        output: true
+        azure_sdk_references: ['/error', '/properties/error']
+        properties:

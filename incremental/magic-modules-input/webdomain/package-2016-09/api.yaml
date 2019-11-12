@@ -1538,9 +1538,48 @@ objects:
             applicable_to: [go]
             go_field_name: ManagedHostNames
             go_type_name: HostName
+          '/properties/managedHostNames/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/managedHostNames/siteNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: SiteNames
+          '/properties/managedHostNames/azureResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureResourceName
+          '/properties/managedHostNames/azureResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AzureResourceType
+            go_enum_type_name: AzureResourceType
+          '/properties/managedHostNames/customHostNameDnsRecordType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CustomHostNameDnsRecordType
+            go_enum_type_name: CustomHostNameDnsRecordType
+          '/properties/managedHostNames/hostNameType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HostNameType
+            go_enum_type_name: HostNameType
           '/managedHostNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: managed_host_names
+          '/managedHostNames/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/managedHostNames/siteNames': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: site_names
+          '/managedHostNames/azureResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_resource_name
+          '/managedHostNames/azureResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: azure_resource_type
+          '/managedHostNames/customHostNameDnsRecordType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: custom_host_name_dns_record_type
+          '/managedHostNames/hostNameType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: host_name_type
           '/properties/domainNotRenewableReasons': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: DomainNotRenewableReasons
@@ -2077,49 +2116,6 @@ objects:
         azure_sdk_references: ['/managedHostNames', '/properties/managedHostNames']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Name of the hostname.'
-              required: false
-              azure_sdk_references: ['/managedHostNames/name', '/properties/managedHostNames/name']
-            - !ruby/object:Api::Type::Array
-              name: 'siteNames'
-              description: 'List of apps the hostname is assigned to. This list will have more than one app only if the hostname is pointing to a Traffic Manager.'
-              required: false
-              azure_sdk_references: ['/managedHostNames/siteNames', '/properties/managedHostNames/siteNames']
-              item_type: Api::Type::String
-            - !ruby/object:Api::Type::String
-              name: 'azureResourceName'
-              description: 'Name of the Azure resource the hostname is assigned to. If it is assigned to a Traffic Manager then it will be the Traffic Manager name otherwise it will be the app name.'
-              required: false
-              azure_sdk_references: ['/managedHostNames/azureResourceName', '/properties/managedHostNames/azureResourceName']
-            - !ruby/object:Api::Type::Enum
-              name: 'azureResourceType'
-              description: 'Type of the Azure resource the hostname is assigned to.'
-              required: false
-              azure_sdk_references: ['/managedHostNames/azureResourceType', '/properties/managedHostNames/azureResourceType']
-              values:
-                - :Website
-                - :TrafficManager
-              default_value: :Website
-            - !ruby/object:Api::Type::Enum
-              name: 'customHostNameDnsRecordType'
-              description: 'Type of the DNS record.'
-              required: false
-              azure_sdk_references: ['/managedHostNames/customHostNameDnsRecordType', '/properties/managedHostNames/customHostNameDnsRecordType']
-              values:
-                - :CName
-                - :A
-              default_value: :CName
-            - !ruby/object:Api::Type::Enum
-              name: 'hostNameType'
-              description: 'Type of the hostname.'
-              required: false
-              azure_sdk_references: ['/managedHostNames/hostNameType', '/properties/managedHostNames/hostNameType']
-              values:
-                - :Verified
-                - :Managed
-              default_value: :Verified
       - !ruby/object:Api::Type::Array
         name: 'domainNotRenewableReasons'
         description: 'Reasons why domain is not renewable.'

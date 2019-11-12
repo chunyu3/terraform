@@ -56,6 +56,12 @@ objects:
             go_field_name: InvokedBy
             go_type_name: PipelineRunInvokedBy
             python_field_name: invoked_by
+          '/invokedBy/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/invokedBy/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
           '/lastUpdated': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             go_field_name: LastUpdated
             python_field_name: last_updated
@@ -118,16 +124,6 @@ objects:
         output: true
         azure_sdk_references: ['/invokedBy']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Name of the entity that started the pipeline run.'
-            required: false
-            azure_sdk_references: ['/invokedBy/name']
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'The ID of the entity that started the run.'
-            required: false
-            azure_sdk_references: ['/invokedBy/id']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'lastUpdated'
         description: 'The last updated timestamp for the pipeline run event in ISO8601 format.'

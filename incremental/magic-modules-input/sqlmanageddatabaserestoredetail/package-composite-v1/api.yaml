@@ -56,6 +56,66 @@ objects:
             applicable_to: [go]
             go_field_name: ManagedDatabaseRestoreDetailsProperties
             go_type_name: ManagedDatabaseRestoreDetailsProperties
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/currentRestoringFileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CurrentRestoringFileName
+          '/currentRestoringFileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: current_restoring_file_name
+          '/properties/lastRestoredFileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastRestoredFileName
+          '/lastRestoredFileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_restored_file_name
+          '/properties/lastRestoredFileTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastRestoredFileTime
+          '/lastRestoredFileTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_restored_file_time
+          '/properties/percentCompleted': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: PercentCompleted
+          '/percentCompleted': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: percent_completed
+          '/properties/unrestorableFiles': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: UnrestorableFiles
+          '/unrestorableFiles': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: unrestorable_files
+          '/properties/numberOfFilesDetected': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: NumberOfFilesDetected
+          '/numberOfFilesDetected': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: number_of_files_detected
+          '/properties/lastUploadedFileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastUploadedFileName
+          '/lastUploadedFileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_uploaded_file_name
+          '/properties/lastUploadedFileTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastUploadedFileTime
+          '/lastUploadedFileTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_uploaded_file_time
+          '/properties/blockReason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BlockReason
+          '/blockReason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: block_reason
 
     description: |
       Manage Azure ManagedDatabaseRestoreDetail instance.
@@ -84,57 +144,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['restoreDetailsName']
-      - !ruby/object:Api::Type::String
-        name: 'status'
-        description: 'Restore status.'
-        required: false
-        azure_sdk_references: ['/status', '/properties/status']
-      - !ruby/object:Api::Type::String
-        name: 'currentRestoringFileName'
-        description: 'Current restoring file name.'
-        required: false
-        azure_sdk_references: ['/currentRestoringFileName', '/properties/currentRestoringFileName']
-      - !ruby/object:Api::Type::String
-        name: 'lastRestoredFileName'
-        description: 'Last restored file name.'
-        required: false
-        azure_sdk_references: ['/lastRestoredFileName', '/properties/lastRestoredFileName']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastRestoredFileTime'
-        description: 'Last restored file time.'
-        required: false
-        azure_sdk_references: ['/lastRestoredFileTime', '/properties/lastRestoredFileTime']
-      - !ruby/object:Api::Type::Double
-        name: 'percentCompleted'
-        description: 'Percent completed.'
-        required: false
-        azure_sdk_references: ['/percentCompleted', '/properties/percentCompleted']
-      - !ruby/object:Api::Type::Array
-        name: 'unrestorableFiles'
-        description: 'List of unrestorable files.'
-        required: false
-        azure_sdk_references: ['/unrestorableFiles', '/properties/unrestorableFiles']
-        item_type: Api::Type::String
-      - !ruby/object:Api::Type::Integer
-        name: 'numberOfFilesDetected'
-        description: 'Number of files detected.'
-        required: false
-        azure_sdk_references: ['/numberOfFilesDetected', '/properties/numberOfFilesDetected']
-      - !ruby/object:Api::Type::String
-        name: 'lastUploadedFileName'
-        description: 'Last uploaded file name.'
-        required: false
-        azure_sdk_references: ['/lastUploadedFileName', '/properties/lastUploadedFileName']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastUploadedFileTime'
-        description: 'Last uploaded file time.'
-        required: false
-        azure_sdk_references: ['/lastUploadedFileTime', '/properties/lastUploadedFileTime']
-      - !ruby/object:Api::Type::String
-        name: 'blockReason'
-        description: 'The reason why restore is in Blocked state.'
-        required: false
-        azure_sdk_references: ['/blockReason', '/properties/blockReason']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -151,3 +160,54 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Restore status.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+      - !ruby/object:Api::Type::String
+        name: 'currentRestoringFileName'
+        description: 'Current restoring file name.'
+        output: true
+        azure_sdk_references: ['/currentRestoringFileName', '/properties/currentRestoringFileName']
+      - !ruby/object:Api::Type::String
+        name: 'lastRestoredFileName'
+        description: 'Last restored file name.'
+        output: true
+        azure_sdk_references: ['/lastRestoredFileName', '/properties/lastRestoredFileName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastRestoredFileTime'
+        description: 'Last restored file time.'
+        output: true
+        azure_sdk_references: ['/lastRestoredFileTime', '/properties/lastRestoredFileTime']
+      - !ruby/object:Api::Type::Double
+        name: 'percentCompleted'
+        description: 'Percent completed.'
+        output: true
+        azure_sdk_references: ['/percentCompleted', '/properties/percentCompleted']
+      - !ruby/object:Api::Type::Array
+        name: 'unrestorableFiles'
+        description: 'List of unrestorable files.'
+        output: true
+        azure_sdk_references: ['/unrestorableFiles', '/properties/unrestorableFiles']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfFilesDetected'
+        description: 'Number of files detected.'
+        output: true
+        azure_sdk_references: ['/numberOfFilesDetected', '/properties/numberOfFilesDetected']
+      - !ruby/object:Api::Type::String
+        name: 'lastUploadedFileName'
+        description: 'Last uploaded file name.'
+        output: true
+        azure_sdk_references: ['/lastUploadedFileName', '/properties/lastUploadedFileName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastUploadedFileTime'
+        description: 'Last uploaded file time.'
+        output: true
+        azure_sdk_references: ['/lastUploadedFileTime', '/properties/lastUploadedFileTime']
+      - !ruby/object:Api::Type::String
+        name: 'blockReason'
+        description: 'The reason why restore is in Blocked state.'
+        output: true
+        azure_sdk_references: ['/blockReason', '/properties/blockReason']

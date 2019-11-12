@@ -60,6 +60,24 @@ objects:
             applicable_to: [go]
             go_field_name: InformationProtectionPolicyProperties
             go_type_name: InformationProtectionPolicyProperties
+          '/properties/lastModifiedUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastModifiedUtc
+          '/lastModifiedUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_modified_utc
+          '/properties/labels': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Labels
+          '/labels': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: labels
+          '/properties/informationTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: InformationTypes
+          '/informationTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: information_types
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -85,21 +103,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['informationProtectionPolicyName']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastModifiedUtc'
-        description: 'Describes the last UTC time the policy was modified.'
-        required: false
-        azure_sdk_references: ['/lastModifiedUtc', '/properties/lastModifiedUtc']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'labels'
-        description: 'Dictionary of sensitivity labels.'
-        required: false
-        azure_sdk_references: ['/labels', '/properties/labels']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'informationTypes'
-        description: 'The sensitivity information types.'
-        required: false
-        azure_sdk_references: ['/informationTypes', '/properties/informationTypes']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -116,3 +119,18 @@ objects:
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastModifiedUtc'
+        description: 'Describes the last UTC time the policy was modified.'
+        output: true
+        azure_sdk_references: ['/lastModifiedUtc', '/properties/lastModifiedUtc']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'labels'
+        description: 'Dictionary of sensitivity labels.'
+        output: true
+        azure_sdk_references: ['/labels', '/properties/labels']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'informationTypes'
+        description: 'The sensitivity information types.'
+        output: true
+        azure_sdk_references: ['/informationTypes', '/properties/informationTypes']

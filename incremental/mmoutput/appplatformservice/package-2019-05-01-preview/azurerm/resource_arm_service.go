@@ -88,6 +88,66 @@ func resourceArmService() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Optional: true,
                                                 },
+                                                "repositories": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "name": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                            "uri": {
+                                                                Type: schema.TypeString,
+                                                                Required: true,
+                                                                ValidateFunc: validate.NoEmptyStrings,
+                                                            },
+                                                            "host_key": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "host_key_algorithm": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "label": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "password": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "pattern": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Schema{
+                                                                    Type: schema.TypeString,
+                                                                },
+                                                            },
+                                                            "private_key": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                            "search_paths": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Schema{
+                                                                    Type: schema.TypeString,
+                                                                },
+                                                            },
+                                                            "strict_host_key_checking": {
+                                                                Type: schema.TypeBool,
+                                                                Optional: true,
+                                                            },
+                                                            "username": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                                 "search_paths": {
                                                     Type: schema.TypeList,
                                                     Optional: true,
@@ -419,6 +479,7 @@ func expandArmServiceConfigServerGitProperty(input []interface{}) *appplatform.C
     }
     v := input[0].(map[string]interface{})
 
+    repositories := v["repositories"].([]interface{})
     uri := v["uri"].(string)
     label := v["label"].(string)
     searchPaths := v["search_paths"].([]interface{})
@@ -435,12 +496,48 @@ func expandArmServiceConfigServerGitProperty(input []interface{}) *appplatform.C
         Label: utils.String(label),
         Password: utils.String(password),
         PrivateKey: utils.String(privateKey),
+        Repositories: expandArmServiceGitPatternRepository(repositories),
         SearchPaths: utils.ExpandStringSlice(searchPaths),
         StrictHostKeyChecking: utils.Bool(strictHostKeyChecking),
         Uri: utils.String(uri),
         Username: utils.String(username),
     }
     return &result
+}
+
+func expandArmServiceGitPatternRepository(input []interface{}) *[]appplatform.GitPatternRepository {
+    results := make([]appplatform.GitPatternRepository, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        pattern := v["pattern"].([]interface{})
+        uri := v["uri"].(string)
+        label := v["label"].(string)
+        searchPaths := v["search_paths"].([]interface{})
+        username := v["username"].(string)
+        password := v["password"].(string)
+        hostKey := v["host_key"].(string)
+        hostKeyAlgorithm := v["host_key_algorithm"].(string)
+        privateKey := v["private_key"].(string)
+        strictHostKeyChecking := v["strict_host_key_checking"].(bool)
+
+        result := appplatform.GitPatternRepository{
+            HostKey: utils.String(hostKey),
+            HostKeyAlgorithm: utils.String(hostKeyAlgorithm),
+            Label: utils.String(label),
+            Name: utils.String(name),
+            Password: utils.String(password),
+            Pattern: utils.ExpandStringSlice(pattern),
+            PrivateKey: utils.String(privateKey),
+            SearchPaths: utils.ExpandStringSlice(searchPaths),
+            StrictHostKeyChecking: utils.Bool(strictHostKeyChecking),
+            Uri: utils.String(uri),
+            Username: utils.String(username),
+        }
+
+        results = append(results, result)
+    }
+    return &results
 }
 
 
@@ -526,6 +623,7 @@ func flattenArmServiceConfigServerGitProperty(input *appplatform.ConfigServerGit
     if privateKey := input.PrivateKey; privateKey != nil {
         result["private_key"] = *privateKey
     }
+    result["repositories"] = flattenArmServiceGitPatternRepository(input.Repositories)
     result["search_paths"] = utils.FlattenStringSlice(input.SearchPaths)
     if strictHostKeyChecking := input.StrictHostKeyChecking; strictHostKeyChecking != nil {
         result["strict_host_key_checking"] = *strictHostKeyChecking
@@ -538,4 +636,49 @@ func flattenArmServiceConfigServerGitProperty(input *appplatform.ConfigServerGit
     }
 
     return []interface{}{result}
+}
+
+func flattenArmServiceGitPatternRepository(input *[]appplatform.GitPatternRepository) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if hostKey := item.HostKey; hostKey != nil {
+            v["host_key"] = *hostKey
+        }
+        if hostKeyAlgorithm := item.HostKeyAlgorithm; hostKeyAlgorithm != nil {
+            v["host_key_algorithm"] = *hostKeyAlgorithm
+        }
+        if label := item.Label; label != nil {
+            v["label"] = *label
+        }
+        if password := item.Password; password != nil {
+            v["password"] = *password
+        }
+        v["pattern"] = utils.FlattenStringSlice(item.Pattern)
+        if privateKey := item.PrivateKey; privateKey != nil {
+            v["private_key"] = *privateKey
+        }
+        v["search_paths"] = utils.FlattenStringSlice(item.SearchPaths)
+        if strictHostKeyChecking := item.StrictHostKeyChecking; strictHostKeyChecking != nil {
+            v["strict_host_key_checking"] = *strictHostKeyChecking
+        }
+        if uri := item.Uri; uri != nil {
+            v["uri"] = *uri
+        }
+        if username := item.Username; username != nil {
+            v["username"] = *username
+        }
+
+        results = append(results, v)
+    }
+
+    return results
 }

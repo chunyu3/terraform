@@ -58,6 +58,9 @@ objects:
             go_field_name: NodeConfiguration
             go_type_name: DscNodeConfigurationAssociationProperty
             python_field_name: node_configuration
+          '/nodeConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Status
             python_field_name: status
@@ -71,6 +74,12 @@ objects:
             go_field_name: ExtensionHandler
             go_type_name: DscNodeExtensionHandlerAssociationProperty
             python_field_name: extension_handler
+          '/extensionHandler/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/extensionHandler/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByAutomationAccount
         python_func_name: list_by_automation_account
@@ -143,11 +152,6 @@ objects:
         output: true
         azure_sdk_references: ['/nodeConfiguration']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Gets or sets the name of the dsc node configuration.'
-            required: false
-            azure_sdk_references: ['/nodeConfiguration/name']
       - !ruby/object:Api::Type::String
         name: 'status'
         description: 'Gets or sets the status of the node.'
@@ -170,13 +174,3 @@ objects:
         azure_sdk_references: ['/extensionHandler']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Gets or sets the name of the extension handler.'
-              required: false
-              azure_sdk_references: ['/extensionHandler/name']
-            - !ruby/object:Api::Type::String
-              name: 'version'
-              description: 'Gets or sets the version of the extension handler.'
-              required: false
-              azure_sdk_references: ['/extensionHandler/version']

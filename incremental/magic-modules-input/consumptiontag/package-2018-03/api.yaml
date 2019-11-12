@@ -44,6 +44,19 @@ objects:
             applicable_to: [go]
             go_field_name: TagProperties
             go_type_name: TagProperties
+          '/properties/tags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tags
+            go_type_name: Tag
+          '/properties/tags/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Key
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/tags/key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key
 
     description: |
       Manage Azure Tag instance.
@@ -54,18 +67,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['billingAccountId']
-      - !ruby/object:Api::Type::Array
-        name: 'tags'
-        description: 'A list of Tag.'
-        required: false
-        azure_sdk_references: ['/tags', '/properties/tags']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'key'
-              description: 'Tag key.'
-              required: false
-              azure_sdk_references: ['/tags/key', '/properties/tags/key']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -87,3 +88,10 @@ objects:
         description: 'eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.'
         output: true
         azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::Array
+        name: 'tags'
+        description: 'A list of Tag.'
+        output: true
+        azure_sdk_references: ['/tags', '/properties/tags']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

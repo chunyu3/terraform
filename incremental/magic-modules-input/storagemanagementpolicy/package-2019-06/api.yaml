@@ -109,10 +109,52 @@ objects:
             applicable_to: [go]
             go_field_name: Actions
             go_type_name: ManagementPolicyAction
+          '/properties/policy/rules/definition/actions/baseBlob': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BaseBlob
+            go_type_name: ManagementPolicyBaseBlob
+          '/properties/policy/rules/definition/actions/baseBlob/tierToCool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TierToCool
+            go_type_name: DateAfterModification
+          '/properties/policy/rules/definition/actions/baseBlob/tierToCool/daysAfterModificationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DaysAfterModificationGreaterThan
+          '/properties/policy/rules/definition/actions/baseBlob/tierToArchive': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TierToArchive
+            go_type_name: DateAfterModification
+          '/properties/policy/rules/definition/actions/baseBlob/tierToArchive/daysAfterModificationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DaysAfterModificationGreaterThan
+          '/properties/policy/rules/definition/actions/baseBlob/delete': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Delete
+            go_type_name: DateAfterModification
+          '/properties/policy/rules/definition/actions/baseBlob/delete/daysAfterModificationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DaysAfterModificationGreaterThan
+          '/properties/policy/rules/definition/actions/snapshot': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Snapshot
+            go_type_name: ManagementPolicySnapShot
+          '/properties/policy/rules/definition/actions/snapshot/delete': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Delete
+            go_type_name: DateAfterCreation
+          '/properties/policy/rules/definition/actions/snapshot/delete/daysAfterCreationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: DaysAfterCreationGreaterThan
           '/properties/policy/rules/definition/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Filters
             go_type_name: ManagementPolicyFilter
+          '/properties/policy/rules/definition/filters/prefixMatch': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: PrefixMatch
+          '/properties/policy/rules/definition/filters/blobTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: BlobTypes
           '/policy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: policy
@@ -134,9 +176,45 @@ objects:
           '/policy/rules/definition/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: actions
+          '/policy/rules/definition/actions/baseBlob': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: base_blob
+          '/policy/rules/definition/actions/baseBlob/tierToCool': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: tier_to_cool
+          '/policy/rules/definition/actions/baseBlob/tierToCool/daysAfterModificationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: days_after_modification_greater_than
+          '/policy/rules/definition/actions/baseBlob/tierToArchive': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: tier_to_archive
+          '/policy/rules/definition/actions/baseBlob/tierToArchive/daysAfterModificationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: days_after_modification_greater_than
+          '/policy/rules/definition/actions/baseBlob/delete': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: delete
+          '/policy/rules/definition/actions/baseBlob/delete/daysAfterModificationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: days_after_modification_greater_than
+          '/policy/rules/definition/actions/snapshot': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: snapshot
+          '/policy/rules/definition/actions/snapshot/delete': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: delete
+          '/policy/rules/definition/actions/snapshot/delete/daysAfterCreationGreaterThan': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: days_after_creation_greater_than
           '/policy/rules/definition/filters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: filters
+          '/policy/rules/definition/filters/prefixMatch': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: prefix_match
+          '/policy/rules/definition/filters/blobTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: blob_types
           '/properties/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: LastModifiedTime
@@ -208,6 +286,86 @@ objects:
                   required: true
                   azure_sdk_references: ['/policy/rules/definition', '/properties/policy/rules/definition']
                   properties:
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'actions'
+                      description: 'An object that defines the action set.'
+                      required: true
+                      azure_sdk_references: ['/policy/rules/definition/actions', '/properties/policy/rules/definition/actions']
+                      properties:
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'baseBlob'
+                          description: 'The management policy action for base blob'
+                          required: false
+                          azure_sdk_references: ['/policy/rules/definition/actions/baseBlob', '/properties/policy/rules/definition/actions/baseBlob']
+                          properties:
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'tierToCool'
+                              description: 'The function to tier blobs to cool storage. Support blobs currently at Hot tier'
+                              required: false
+                              azure_sdk_references: ['/policy/rules/definition/actions/baseBlob/tierToCool', '/properties/policy/rules/definition/actions/baseBlob/tierToCool']
+                              properties:
+                                - !ruby/object:Api::Type::Integer
+                                  name: 'daysAfterModificationGreaterThan'
+                                  description: 'Value indicating the age in days after last modification'
+                                  required: true
+                                  azure_sdk_references: ['/policy/rules/definition/actions/baseBlob/tierToCool/daysAfterModificationGreaterThan', '/properties/policy/rules/definition/actions/baseBlob/tierToCool/daysAfterModificationGreaterThan']
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'tierToArchive'
+                              description: 'The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier'
+                              required: false
+                              azure_sdk_references: ['/policy/rules/definition/actions/baseBlob/tierToArchive', '/properties/policy/rules/definition/actions/baseBlob/tierToArchive']
+                              properties:
+                                - !ruby/object:Api::Type::Integer
+                                  name: 'daysAfterModificationGreaterThan'
+                                  description: 'Value indicating the age in days after last modification'
+                                  required: true
+                                  azure_sdk_references: ['/policy/rules/definition/actions/baseBlob/tierToArchive/daysAfterModificationGreaterThan', '/properties/policy/rules/definition/actions/baseBlob/tierToArchive/daysAfterModificationGreaterThan']
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'delete'
+                              description: 'The function to delete the blob'
+                              required: false
+                              azure_sdk_references: ['/policy/rules/definition/actions/baseBlob/delete', '/properties/policy/rules/definition/actions/baseBlob/delete']
+                              properties:
+                                - !ruby/object:Api::Type::Integer
+                                  name: 'daysAfterModificationGreaterThan'
+                                  description: 'Value indicating the age in days after last modification'
+                                  required: true
+                                  azure_sdk_references: ['/policy/rules/definition/actions/baseBlob/delete/daysAfterModificationGreaterThan', '/properties/policy/rules/definition/actions/baseBlob/delete/daysAfterModificationGreaterThan']
+                        - !ruby/object:Api::Type::NestedObject
+                          name: 'snapshot'
+                          description: 'The management policy action for snapshot'
+                          required: false
+                          azure_sdk_references: ['/policy/rules/definition/actions/snapshot', '/properties/policy/rules/definition/actions/snapshot']
+                          properties:
+                            - !ruby/object:Api::Type::NestedObject
+                              name: 'delete'
+                              description: 'The function to delete the blob snapshot'
+                              required: false
+                              azure_sdk_references: ['/policy/rules/definition/actions/snapshot/delete', '/properties/policy/rules/definition/actions/snapshot/delete']
+                              properties:
+                                - !ruby/object:Api::Type::Integer
+                                  name: 'daysAfterCreationGreaterThan'
+                                  description: 'Value indicating the age in days after creation'
+                                  required: true
+                                  azure_sdk_references: ['/policy/rules/definition/actions/snapshot/delete/daysAfterCreationGreaterThan', '/properties/policy/rules/definition/actions/snapshot/delete/daysAfterCreationGreaterThan']
+                    - !ruby/object:Api::Type::NestedObject
+                      name: 'filters'
+                      description: 'An object that defines the filter set.'
+                      required: false
+                      azure_sdk_references: ['/policy/rules/definition/filters', '/properties/policy/rules/definition/filters']
+                      properties:
+                        - !ruby/object:Api::Type::Array
+                          name: 'prefixMatch'
+                          description: 'An array of strings for prefixes to be match.'
+                          required: false
+                          azure_sdk_references: ['/policy/rules/definition/filters/prefixMatch', '/properties/policy/rules/definition/filters/prefixMatch']
+                          item_type: Api::Type::String
+                        - !ruby/object:Api::Type::Array
+                          name: 'blobTypes'
+                          description: 'An array of predefined enum values. Only blockBlob is supported.'
+                          required: true
+                          azure_sdk_references: ['/policy/rules/definition/filters/blobTypes', '/properties/policy/rules/definition/filters/blobTypes']
+                          item_type: Api::Type::String
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'lastModifiedTime'

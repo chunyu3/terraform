@@ -139,6 +139,19 @@ func resourceArmDisk() *schema.Resource {
                                                     Required: true,
                                                     ValidateFunc: validate.NoEmptyStrings,
                                                 },
+                                                "source_vault": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "id": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -152,6 +165,19 @@ func resourceArmDisk() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Required: true,
                                                     ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "source_vault": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "id": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
                                                 },
                                             },
                                         },
@@ -531,10 +557,12 @@ func expandArmDiskKeyVaultAndSecretReference(input []interface{}) *compute.KeyVa
     }
     v := input[0].(map[string]interface{})
 
+    sourceVault := v["source_vault"].([]interface{})
     secretUrl := v["secret_url"].(string)
 
     result := compute.KeyVaultAndSecretReference{
         SecretURL: utils.String(secretUrl),
+        SourceVault: expandArmDiskSourceVault(sourceVault),
     }
     return &result
 }
@@ -545,10 +573,26 @@ func expandArmDiskKeyVaultAndKeyReference(input []interface{}) *compute.KeyVault
     }
     v := input[0].(map[string]interface{})
 
+    sourceVault := v["source_vault"].([]interface{})
     keyUrl := v["key_url"].(string)
 
     result := compute.KeyVaultAndKeyReference{
         KeyURL: utils.String(keyUrl),
+        SourceVault: expandArmDiskSourceVault(sourceVault),
+    }
+    return &result
+}
+
+func expandArmDiskSourceVault(input []interface{}) *compute.SourceVault {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    id := v["id"].(string)
+
+    result := compute.SourceVault{
+        ID: utils.String(id),
     }
     return &result
 }
@@ -648,6 +692,7 @@ func flattenArmDiskKeyVaultAndSecretReference(input *compute.KeyVaultAndSecretRe
     if secretUrl := input.SecretURL; secretUrl != nil {
         result["secret_url"] = *secretUrl
     }
+    result["source_vault"] = flattenArmDiskSourceVault(input.SourceVault)
 
     return []interface{}{result}
 }
@@ -661,6 +706,21 @@ func flattenArmDiskKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyReferenc
 
     if keyUrl := input.KeyURL; keyUrl != nil {
         result["key_url"] = *keyUrl
+    }
+    result["source_vault"] = flattenArmDiskSourceVault(input.SourceVault)
+
+    return []interface{}{result}
+}
+
+func flattenArmDiskSourceVault(input *compute.SourceVault) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
     }
 
     return []interface{}{result}

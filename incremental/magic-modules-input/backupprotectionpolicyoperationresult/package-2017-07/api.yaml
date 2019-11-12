@@ -65,6 +65,12 @@ objects:
             applicable_to: [go]
             go_field_name: ProtectionPolicy
             go_type_name: ProtectionPolicy
+          '/properties/protectedItemsCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ProtectedItemsCount
+          '/protectedItemsCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: protected_items_count
 
     description: |
       Manage Azure ProtectionPolicyOperationResult instance.
@@ -93,11 +99,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['operationId']
-      - !ruby/object:Api::Type::Integer
-        name: 'protectedItemsCount'
-        description: 'Number of items associated with this policy.'
-        required: false
-        azure_sdk_references: ['/protectedItemsCount', '/properties/protectedItemsCount']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -129,3 +130,8 @@ objects:
         description: 'Optional ETag.'
         output: true
         azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::Integer
+        name: 'protectedItemsCount'
+        description: 'Number of items associated with this policy.'
+        output: true
+        azure_sdk_references: ['/protectedItemsCount', '/properties/protectedItemsCount']

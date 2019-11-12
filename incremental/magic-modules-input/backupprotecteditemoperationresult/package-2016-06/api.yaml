@@ -75,6 +75,38 @@ objects:
             applicable_to: [go]
             go_field_name: ProtectedItem
             go_type_name: ProtectedItem
+          '/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupManagementType
+            go_enum_type_name: ManagementType
+          '/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_management_type
+          '/properties/workloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: WorkloadType
+            go_enum_type_name: DataSourceType
+          '/workloadType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: workload_type
+          '/properties/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceResourceID
+          '/sourceResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_resource_id
+          '/properties/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyID
+          '/policyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_id
+          '/properties/lastRecoveryPoint': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastRecoveryPoint
+          '/lastRecoveryPoint': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_recovery_point
 
     description: |
       Manage Azure ProtectedItemOperationResult instance.
@@ -115,49 +147,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['operationId']
-      - !ruby/object:Api::Type::Enum
-        name: 'backupManagementType'
-        description: 'The backup management type associated with the backup item.'
-        required: false
-        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
-        values:
-          - :Invalid
-          - :AzureIaasVM
-          - :MAB
-          - :DPM
-          - :AzureBackupServer
-          - :AzureSql
-        default_value: :Invalid
-      - !ruby/object:Api::Type::Enum
-        name: 'workloadType'
-        description: 'The workload type for this item.'
-        required: false
-        azure_sdk_references: ['/workloadType', '/properties/workloadType']
-        values:
-          - :Invalid
-          - :VM
-          - :FileFolder
-          - :AzureSqlDb
-          - :SQLDB
-          - :Exchange
-          - :Sharepoint
-          - :DPMUnknown
-        default_value: :Invalid
-      - !ruby/object:Api::Type::String
-        name: 'sourceResourceId'
-        description: 'The ID of the resource to be backed up.'
-        required: false
-        azure_sdk_references: ['/sourceResourceId', '/properties/sourceResourceId']
-      - !ruby/object:Api::Type::String
-        name: 'policyId'
-        description: 'The ID of the backup policy associated with this backup item.'
-        required: false
-        azure_sdk_references: ['/policyId', '/properties/policyId']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'lastRecoveryPoint'
-        description: 'The timestamp when the most recent backup copy was created for this backup item.'
-        required: false
-        azure_sdk_references: ['/lastRecoveryPoint', '/properties/lastRecoveryPoint']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -189,3 +178,44 @@ objects:
         description: 'Optional ETag.'
         output: true
         azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::Enum
+        name: 'backupManagementType'
+        description: 'The backup management type associated with the backup item.'
+        output: true
+        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
+        values:
+          - :Invalid
+          - :AzureIaasVM
+          - :MAB
+          - :DPM
+          - :AzureBackupServer
+          - :AzureSql
+      - !ruby/object:Api::Type::Enum
+        name: 'workloadType'
+        description: 'The workload type for this item.'
+        output: true
+        azure_sdk_references: ['/workloadType', '/properties/workloadType']
+        values:
+          - :Invalid
+          - :VM
+          - :FileFolder
+          - :AzureSqlDb
+          - :SQLDB
+          - :Exchange
+          - :Sharepoint
+          - :DPMUnknown
+      - !ruby/object:Api::Type::String
+        name: 'sourceResourceId'
+        description: 'The ID of the resource to be backed up.'
+        output: true
+        azure_sdk_references: ['/sourceResourceId', '/properties/sourceResourceId']
+      - !ruby/object:Api::Type::String
+        name: 'policyId'
+        description: 'The ID of the backup policy associated with this backup item.'
+        output: true
+        azure_sdk_references: ['/policyId', '/properties/policyId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastRecoveryPoint'
+        description: 'The timestamp when the most recent backup copy was created for this backup item.'
+        output: true
+        azure_sdk_references: ['/lastRecoveryPoint', '/properties/lastRecoveryPoint']

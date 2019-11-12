@@ -57,6 +57,67 @@ objects:
             applicable_to: [go]
             go_field_name: ArmTemplateProperties
             go_type_name: ArmTemplateProperties
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/properties/icon': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Icon
+          '/icon': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: icon
+          '/properties/contents': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Contents
+          '/contents': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: contents
+          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
+          '/properties/parametersValueFilesInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ParametersValueFilesInfo
+            go_type_name: ParametersValueFileInfo
+          '/properties/parametersValueFilesInfo/fileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileName
+          '/properties/parametersValueFilesInfo/parametersValueInfo': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: ParametersValueInfo
+          '/parametersValueFilesInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: parameters_value_files_info
+          '/parametersValueFilesInfo/fileName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_name
+          '/parametersValueFilesInfo/parametersValueInfo': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters_value_info
+          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -98,58 +159,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['artifactSourceName']
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'The display name of the ARM template.'
-        required: false
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'The description of the ARM template.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::String
-        name: 'publisher'
-        description: 'The publisher of the ARM template.'
-        required: false
-        azure_sdk_references: ['/publisher', '/properties/publisher']
-      - !ruby/object:Api::Type::String
-        name: 'icon'
-        description: 'The URI to the icon of the ARM template.'
-        required: false
-        azure_sdk_references: ['/icon', '/properties/icon']
-      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'contents'
-        description: 'The contents of the ARM template.'
-        required: false
-        azure_sdk_references: ['/contents', '/properties/contents']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdDate'
-        description: 'The creation date of the armTemplate.'
-        required: false
-        azure_sdk_references: ['/createdDate', '/properties/createdDate']
-      - !ruby/object:Api::Type::Array
-        name: 'parametersValueFilesInfo'
-        description: 'File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template.'
-        required: false
-        azure_sdk_references: ['/parametersValueFilesInfo', '/properties/parametersValueFilesInfo']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'fileName'
-              description: 'File name.'
-              required: false
-              azure_sdk_references: ['/parametersValueFilesInfo/fileName', '/properties/parametersValueFilesInfo/fileName']
-            - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-              name: 'parametersValueInfo'
-              description: 'Contents of the file.'
-              required: false
-              azure_sdk_references: ['/parametersValueFilesInfo/parametersValueInfo', '/properties/parametersValueFilesInfo/parametersValueInfo']
-      - !ruby/object:Api::Type::Boolean
-        name: 'enabled'
-        description: 'Whether or not ARM template is enabled for use by lab user.'
-        required: false
-        azure_sdk_references: ['/enabled', '/properties/enabled']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -176,3 +185,45 @@ objects:
         description: 'The tags of the resource.'
         output: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'The display name of the ARM template.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the ARM template.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'publisher'
+        description: 'The publisher of the ARM template.'
+        output: true
+        azure_sdk_references: ['/publisher', '/properties/publisher']
+      - !ruby/object:Api::Type::String
+        name: 'icon'
+        description: 'The URI to the icon of the ARM template.'
+        output: true
+        azure_sdk_references: ['/icon', '/properties/icon']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'contents'
+        description: 'The contents of the ARM template.'
+        output: true
+        azure_sdk_references: ['/contents', '/properties/contents']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdDate'
+        description: 'The creation date of the armTemplate.'
+        output: true
+        azure_sdk_references: ['/createdDate', '/properties/createdDate']
+      - !ruby/object:Api::Type::Array
+        name: 'parametersValueFilesInfo'
+        description: 'File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template.'
+        output: true
+        azure_sdk_references: ['/parametersValueFilesInfo', '/properties/parametersValueFilesInfo']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabled'
+        description: 'Whether or not ARM template is enabled for use by lab user.'
+        output: true
+        azure_sdk_references: ['/enabled', '/properties/enabled']

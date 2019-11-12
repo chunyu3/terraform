@@ -124,6 +124,13 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_enum_type_name: RecommendationConfigStatus
+          '/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: unmasked_ip_logging_status
+          '/properties/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UnmaskedIpLoggingStatus
+            go_enum_type_name: UnmaskedIpLoggingStatus
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -260,6 +267,13 @@ objects:
           '/recommendationsConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: name
+          '/properties/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UnmaskedIpLoggingStatus
+            go_enum_type_name: UnmaskedIpLoggingStatus
+          '/unmaskedIpLoggingStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: unmasked_ip_logging_status
           '/properties/autoDiscoveredResources': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: AutoDiscoveredResources
@@ -417,6 +431,15 @@ objects:
               values:
                 - :Disabled
                 - :Enabled
+      - !ruby/object:Api::Type::Enum
+        name: 'unmaskedIpLoggingStatus'
+        description: 'Unmasked IP address logging status'
+        required: false
+        azure_sdk_references: ['/unmaskedIpLoggingStatus', '/properties/unmaskedIpLoggingStatus']
+        values:
+          - :Disabled
+          - :Enabled
+        default_value: :Disabled
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'autoDiscoveredResources'

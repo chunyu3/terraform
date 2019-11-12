@@ -56,57 +56,6 @@ objects:
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-              required: false
-              azure_sdk_references: ['/value/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'The name of the resource'
-              required: false
-              azure_sdk_references: ['/value/name']
-            - !ruby/object:Api::Type::String
-              name: 'type'
-              description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
-              required: false
-              azure_sdk_references: ['/value/type']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'sku'
-              description: 'Hybrid use benefit SKU'
-              required: true
-              azure_sdk_references: ['/value/sku']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'name'
-                  description: 'Name of the SKU to be applied'
-                  required: false
-                  azure_sdk_references: ['/value/sku/name']
-            - !ruby/object:Api::Type::Integer
-              name: 'etag'
-              description: 'Indicates the revision of the hybrid use benefit'
-              required: false
-              azure_sdk_references: ['/value/etag']
-            - !ruby/object:Api::Type::Enum
-              name: 'provisioningState'
-              description: 'Provisioning state'
-              required: false
-              azure_sdk_references: ['/value/provisioningState', '/value/properties/provisioningState']
-              values:
-                - :Succeeded
-                - :Cancelled
-                - :Failed
-              default_value: :Succeeded
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'createdDate'
-              description: 'Created date'
-              required: false
-              azure_sdk_references: ['/value/createdDate', '/value/properties/createdDate']
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'lastUpdatedDate'
-              description: 'Last updated date'
-              required: false
-              azure_sdk_references: ['/value/lastUpdatedDate', '/value/properties/lastUpdatedDate']
       - !ruby/object:Api::Type::String
         name: 'nextLink'
         description: 'Url to get the next page of items.'

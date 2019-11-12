@@ -46,6 +46,48 @@ objects:
             applicable_to: [go]
             go_field_name: PricingPlanProperties
             go_type_name: PricingPlanProperties
+          '/properties/planType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PlanType
+          '/planType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: plan_type
+          '/properties/cap': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Cap
+          '/cap': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: cap
+          '/properties/resetHour': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ResetHour
+          '/resetHour': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: reset_hour
+          '/properties/warningThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: WarningThreshold
+          '/warningThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: warning_threshold
+          '/properties/stopSendNotificationWhenHitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: StopSendNotificationWhenHitThreshold
+          '/stopSendNotificationWhenHitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: stop_send_notification_when_hit_threshold
+          '/properties/stopSendNotificationWhenHitCap': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: StopSendNotificationWhenHitCap
+          '/stopSendNotificationWhenHitCap': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: stop_send_notification_when_hit_cap
+          '/properties/maxHistoryCap': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxHistoryCap
+          '/maxHistoryCap': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_history_cap
 
     description: |
       Manage Azure ComponentCurrentPricingPlan instance.
@@ -62,41 +104,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceName']
-      - !ruby/object:Api::Type::String
-        name: 'planType'
-        description: 'Pricing Plan Type Name.'
-        required: false
-        azure_sdk_references: ['/planType', '/properties/planType']
-      - !ruby/object:Api::Type::Integer
-        name: 'cap'
-        description: 'Daily data volume cap in GB.'
-        required: false
-        azure_sdk_references: ['/cap', '/properties/cap']
-      - !ruby/object:Api::Type::Integer
-        name: 'resetHour'
-        description: 'Daily data volume cap UTC reset hour.'
-        required: false
-        azure_sdk_references: ['/resetHour', '/properties/resetHour']
-      - !ruby/object:Api::Type::Integer
-        name: 'warningThreshold'
-        description: 'Reserved, not used for now.'
-        required: false
-        azure_sdk_references: ['/warningThreshold', '/properties/warningThreshold']
-      - !ruby/object:Api::Type::Boolean
-        name: 'stopSendNotificationWhenHitThreshold'
-        description: 'Reserved, not used for now.'
-        required: false
-        azure_sdk_references: ['/stopSendNotificationWhenHitThreshold', '/properties/stopSendNotificationWhenHitThreshold']
-      - !ruby/object:Api::Type::Boolean
-        name: 'stopSendNotificationWhenHitCap'
-        description: 'Do not send a notification email when the daily data volume cap is met.'
-        required: false
-        azure_sdk_references: ['/stopSendNotificationWhenHitCap', '/properties/stopSendNotificationWhenHitCap']
-      - !ruby/object:Api::Type::Integer
-        name: 'maxHistoryCap'
-        description: 'Maximum daily data volume cap that the user can set for this component.'
-        required: false
-        azure_sdk_references: ['/maxHistoryCap', '/properties/maxHistoryCap']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -113,3 +120,38 @@ objects:
         description: 'Azure resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'planType'
+        description: 'Pricing Plan Type Name.'
+        output: true
+        azure_sdk_references: ['/planType', '/properties/planType']
+      - !ruby/object:Api::Type::Integer
+        name: 'cap'
+        description: 'Daily data volume cap in GB.'
+        output: true
+        azure_sdk_references: ['/cap', '/properties/cap']
+      - !ruby/object:Api::Type::Integer
+        name: 'resetHour'
+        description: 'Daily data volume cap UTC reset hour.'
+        output: true
+        azure_sdk_references: ['/resetHour', '/properties/resetHour']
+      - !ruby/object:Api::Type::Integer
+        name: 'warningThreshold'
+        description: 'Reserved, not used for now.'
+        output: true
+        azure_sdk_references: ['/warningThreshold', '/properties/warningThreshold']
+      - !ruby/object:Api::Type::Boolean
+        name: 'stopSendNotificationWhenHitThreshold'
+        description: 'Reserved, not used for now.'
+        output: true
+        azure_sdk_references: ['/stopSendNotificationWhenHitThreshold', '/properties/stopSendNotificationWhenHitThreshold']
+      - !ruby/object:Api::Type::Boolean
+        name: 'stopSendNotificationWhenHitCap'
+        description: 'Do not send a notification email when the daily data volume cap is met.'
+        output: true
+        azure_sdk_references: ['/stopSendNotificationWhenHitCap', '/properties/stopSendNotificationWhenHitCap']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxHistoryCap'
+        description: 'Maximum daily data volume cap that the user can set for this component.'
+        output: true
+        azure_sdk_references: ['/maxHistoryCap', '/properties/maxHistoryCap']

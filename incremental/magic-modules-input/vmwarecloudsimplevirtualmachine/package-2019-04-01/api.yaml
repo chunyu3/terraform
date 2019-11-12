@@ -918,9 +918,33 @@ objects:
             applicable_to: [go]
             go_field_name: Controllers
             go_type_name: VirtualDiskController
+          '/properties/controllers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/controllers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/controllers/subType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubType
+          '/properties/controllers/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
           '/controllers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: controllers
+          '/controllers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/controllers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/controllers/subType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sub_type
+          '/controllers/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
           '/properties/dnsname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Dnsname
@@ -1257,26 +1281,6 @@ objects:
         azure_sdk_references: ['/controllers', '/properties/controllers']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Controller''s id'
-              required: false
-              azure_sdk_references: ['/controllers/id', '/properties/controllers/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'The display name of Controller'
-              required: false
-              azure_sdk_references: ['/controllers/name', '/properties/controllers/name']
-            - !ruby/object:Api::Type::String
-              name: 'subType'
-              description: 'dik controller subtype (VMWARE_PARAVIRTUAL, BUS_PARALLEL, LSI_PARALLEL, LSI_SAS)'
-              required: false
-              azure_sdk_references: ['/controllers/subType', '/properties/controllers/subType']
-            - !ruby/object:Api::Type::String
-              name: 'type'
-              description: 'disk controller type (SCSI)'
-              required: false
-              azure_sdk_references: ['/controllers/type', '/properties/controllers/type']
       - !ruby/object:Api::Type::String
         name: 'dnsname'
         description: 'The DNS name of Virtual Machine in VCenter'

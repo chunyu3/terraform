@@ -60,6 +60,49 @@ objects:
             applicable_to: [go]
             go_field_name: Job
             go_type_name: Job
+          '/properties/entityFriendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EntityFriendlyName
+          '/entityFriendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: entity_friendly_name
+          '/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupManagementType
+            go_enum_type_name: ManagementType
+          '/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_management_type
+          '/properties/operation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Operation
+          '/operation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/activityId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ActivityID
+          '/activityId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: activity_id
 
     description: |
       Manage Azure JobDetail instance.
@@ -82,49 +125,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['jobName']
-      - !ruby/object:Api::Type::String
-        name: 'entityFriendlyName'
-        description: 'The friendly name of the entity on which the current job is executing.'
-        required: false
-        azure_sdk_references: ['/entityFriendlyName', '/properties/entityFriendlyName']
-      - !ruby/object:Api::Type::Enum
-        name: 'backupManagementType'
-        description: 'The backup management type for the current job.'
-        required: false
-        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
-        values:
-          - :Invalid
-          - :AzureIaasVM
-          - :MAB
-          - :DPM
-          - :AzureBackupServer
-          - :AzureSql
-        default_value: :Invalid
-      - !ruby/object:Api::Type::String
-        name: 'operation'
-        description: 'The operation name.'
-        required: false
-        azure_sdk_references: ['/operation', '/properties/operation']
-      - !ruby/object:Api::Type::String
-        name: 'status'
-        description: 'The job status.'
-        required: false
-        azure_sdk_references: ['/status', '/properties/status']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'startTime'
-        description: 'The start time.'
-        required: false
-        azure_sdk_references: ['/startTime', '/properties/startTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'endTime'
-        description: 'The end time.'
-        required: false
-        azure_sdk_references: ['/endTime', '/properties/endTime']
-      - !ruby/object:Api::Type::String
-        name: 'activityId'
-        description: 'ActivityId of job.'
-        required: false
-        azure_sdk_references: ['/activityId', '/properties/activityId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -156,3 +156,45 @@ objects:
         description: 'Optional ETag.'
         output: true
         azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::String
+        name: 'entityFriendlyName'
+        description: 'The friendly name of the entity on which the current job is executing.'
+        output: true
+        azure_sdk_references: ['/entityFriendlyName', '/properties/entityFriendlyName']
+      - !ruby/object:Api::Type::Enum
+        name: 'backupManagementType'
+        description: 'The backup management type for the current job.'
+        output: true
+        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
+        values:
+          - :Invalid
+          - :AzureIaasVM
+          - :MAB
+          - :DPM
+          - :AzureBackupServer
+          - :AzureSql
+      - !ruby/object:Api::Type::String
+        name: 'operation'
+        description: 'The operation name.'
+        output: true
+        azure_sdk_references: ['/operation', '/properties/operation']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'The job status.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The start time.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'The end time.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::String
+        name: 'activityId'
+        description: 'ActivityId of job.'
+        output: true
+        azure_sdk_references: ['/activityId', '/properties/activityId']

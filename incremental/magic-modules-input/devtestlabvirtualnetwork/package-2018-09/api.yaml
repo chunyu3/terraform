@@ -458,9 +458,21 @@ objects:
             applicable_to: [go]
             go_field_name: ExternalSubnets
             go_type_name: ExternalSubnet
+          '/properties/externalSubnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/externalSubnets/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
           '/externalSubnets': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: external_subnets
+          '/externalSubnets/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/externalSubnets/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
           '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreatedDate
@@ -647,16 +659,6 @@ objects:
         azure_sdk_references: ['/externalSubnets', '/properties/externalSubnets']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Gets or sets the identifier.'
-              required: false
-              azure_sdk_references: ['/externalSubnets/id', '/properties/externalSubnets/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Gets or sets the name.'
-              required: false
-              azure_sdk_references: ['/externalSubnets/name', '/properties/externalSubnets/name']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdDate'
         description: 'The creation date of the virtual network.'

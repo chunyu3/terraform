@@ -143,9 +143,23 @@ objects:
             applicable_to: [go]
             go_field_name: CustomHttpsParameters
             go_type_name: CustomDomainHttpsParameters
+          '/properties/customHttpsParameters/protocolType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProtocolType
+            go_enum_type_name: ProtocolType
+          '/properties/customHttpsParameters/minimumTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MinimumTlsVersion
+            go_enum_type_name: MinimumTlsVersion
           '/customHttpsParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: custom_https_parameters
+          '/customHttpsParameters/protocolType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol_type
+          '/customHttpsParameters/minimumTlsVersion': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: minimum_tls_version
           '/properties/validationData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ValidationData
@@ -262,24 +276,6 @@ objects:
         output: true
         azure_sdk_references: ['/customHttpsParameters', '/properties/customHttpsParameters']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'protocolType'
-            description: 'Defines the TLS extension protocol that is used for secure delivery.'
-            required: true
-            azure_sdk_references: ['/customHttpsParameters/protocolType', '/properties/customHttpsParameters/protocolType']
-            values:
-              - :ServerNameIndication
-              - :IPBased
-          - !ruby/object:Api::Type::Enum
-            name: 'minimumTlsVersion'
-            description: 'TLS protocol version that will be used for Https'
-            required: false
-            azure_sdk_references: ['/customHttpsParameters/minimumTlsVersion', '/properties/customHttpsParameters/minimumTlsVersion']
-            values:
-              - :None
-              - :TLS10
-              - :TLS12
-            default_value: :None
       - !ruby/object:Api::Type::String
         name: 'validationData'
         description: 'Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.'

@@ -59,6 +59,12 @@ objects:
             go_field_name: Value
             go_type_name: QuotaCounterValueContractProperties
             python_field_name: value
+          '/value/callsCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: CallsCount
+            python_field_name: calls_count
+          '/value/kbTransferred': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            go_field_name: KbTransferred
+            python_field_name: kb_transferred
 
     description: |
       Manage Azure QuotaByPeriodKey instance.
@@ -114,13 +120,3 @@ objects:
         output: true
         azure_sdk_references: ['/value']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'callsCount'
-            description: 'Number of times Counter was called.'
-            required: false
-            azure_sdk_references: ['/value/callsCount']
-          - !ruby/object:Api::Type::Double
-            name: 'kbTransferred'
-            description: 'Data Transferred in KiloBytes.'
-            required: false
-            azure_sdk_references: ['/value/kbTransferred']

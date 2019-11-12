@@ -92,9 +92,111 @@ The `code_package` block supports the following:
 
 * `image` - (Required) The Container image to use.
 
+* `image_registry_credential` - (Optional) One `image_registry_credential` block defined below.
+
 * `entrypoint` - (Optional) Override for the default entry point in the container.
 
 * `commands` - (Optional) Command array to execute within the container in exec form.
+
+* `environment_variables` - (Optional) One or more `environment_variable` block defined below.
+
+* `settings` - (Optional) One or more `setting` block defined below.
+
+* `labels` - (Optional) One or more `label` block defined below.
+
+* `endpoints` - (Optional) One or more `endpoint` block defined below.
+
+* `resources` - (Required) One `resource` block defined below.
+
+* `volume_refs` - (Optional) One or more `volume_ref` block defined below.
+
+* `diagnostics` - (Optional) One `diagnostic` block defined below.
+
+
+---
+
+The `image_registry_credential` block supports the following:
+
+* `server` - (Required) Docker image registry server, without protocol such as `http` and `https`.
+
+* `username` - (Required) The username for the private registry.
+
+* `password` - (Optional) The password for the private registry.
+
+---
+
+The `environment_variable` block supports the following:
+
+* `name` - (Optional) The name of the environment variable.
+
+* `value` - (Optional) The value of the environment variable.
+
+---
+
+The `setting` block supports the following:
+
+* `name` - (Optional) The name of the setting.
+
+* `value` - (Optional) The value of the setting.
+
+---
+
+The `label` block supports the following:
+
+* `name` - (Required) The name of the container label.
+
+* `value` - (Required) The value of the container label.
+
+---
+
+The `endpoint` block supports the following:
+
+* `name` - (Required) The name of the endpoint.
+
+* `port` - (Optional) Port used by the container.
+
+---
+
+The `resource` block supports the following:
+
+* `requests` - (Required) One `request` block defined below.
+
+* `limits` - (Optional) One `limit` block defined below.
+
+
+---
+
+The `request` block supports the following:
+
+* `memory_in_gb` - (Required) The memory request in GB for this container.
+
+* `cpu` - (Required) Requested number of CPU cores. At present, only full cores are supported.
+
+---
+
+The `limit` block supports the following:
+
+* `memory_in_gb` - (Optional) The memory limit in GB.
+
+* `cpu` - (Optional) CPU limits in cores. At present, only full cores are supported.
+
+---
+
+The `volume_ref` block supports the following:
+
+* `name` - (Required) Name of the volume.
+
+* `read_only` - (Optional) The flag indicating whether the volume is read only. Default is 'false'.
+
+* `destination_path` - (Required) The path within the container at which the volume should be mounted. Only valid path characters are allowed.
+
+---
+
+The `diagnostic` block supports the following:
+
+* `enabled` - (Optional) Status of whether or not sinks are enabled.
+
+* `sink_refs` - (Optional) List of sinks to be used if enabled. References the list of sinks in DiagnosticsDescription.
 
 ---
 

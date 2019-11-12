@@ -34,10 +34,21 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['migrateProjectName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'Gets or sets the eTag for concurrency control.'
+        output: true
+        azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Gets or sets the Azure location in which migrate project is created.'
+        output: true
+        azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::Array
         name: 'registeredTools'
         description: 'Gets or sets the list of tools registered with the migrate project.'
-        required: false
+        output: true
         azure_sdk_references: ['/registeredTools', '/properties/registeredTools']
         item_type: !ruby/object:Api::Type::Enum
           name: 'TBD'
@@ -55,32 +66,30 @@ objects:
             - :Carbonite
             - :DataMigrationAssistant
             - :DatabaseMigrationService
-          default_value: :ServerDiscovery
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'summary'
         description: 'Gets the summary of the migrate project.'
-        required: false
+        output: true
         azure_sdk_references: ['/summary', '/properties/summary']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'lastSummaryRefreshedTime'
         description: 'Gets the last time the project summary was refreshed.'
-        required: false
+        output: true
         azure_sdk_references: ['/lastSummaryRefreshedTime', '/properties/lastSummaryRefreshedTime']
       - !ruby/object:Api::Type::Enum
         name: 'refreshSummaryState'
         description: 'Gets the refresh summary state.'
-        required: false
+        output: true
         azure_sdk_references: ['/refreshSummaryState', '/properties/refreshSummaryState']
         values:
           - :Started
           - :InProgress
           - :Completed
           - :Failed
-        default_value: :Started
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'Provisioning state of the migrate project.'
-        required: false
+        output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
         values:
           - :Accepted
@@ -89,18 +98,6 @@ objects:
           - :Failed
           - :Moving
           - :Succeeded
-        default_value: :Accepted
-      # read only values included only in response
-      - !ruby/object:Api::Type::String
-        name: 'eTag'
-        description: 'Gets or sets the eTag for concurrency control.'
-        output: true
-        azure_sdk_references: ['/eTag']
-      - !ruby/object:Api::Azure::Type::Location
-        name: 'location'
-        description: 'Gets or sets the Azure location in which migrate project is created.'
-        output: true
-        azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Gets the relative URL to get this migrate project.'
@@ -122,8 +119,3 @@ objects:
         output: true
         azure_sdk_references: ['tags', '/tags']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'additionalProperties'
-            description: ''
-            required: false
-            azure_sdk_references: ['/tags/additionalProperties']

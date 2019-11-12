@@ -51,6 +51,52 @@ objects:
             applicable_to: [go]
             go_field_name: PrivateEndpointConnectionProperties
             go_type_name: PrivateEndpointConnectionProperties
+          '/properties/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateEndpoint
+            go_type_name: PrivateEndpoint
+          '/properties/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/privateEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_endpoint
+          '/privateEndpoint/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/properties/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PrivateLinkServiceConnectionState
+            go_type_name: PrivateLinkServiceConnectionState
+          '/properties/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: PrivateEndpointServiceConnectionStatus
+          '/properties/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/privateLinkServiceConnectionState/actionRequired': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ActionRequired
+          '/privateLinkServiceConnectionState': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: private_link_service_connection_state
+          '/privateLinkServiceConnectionState/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/privateLinkServiceConnectionState/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/privateLinkServiceConnectionState/actionRequired': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action_required
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: PrivateEndpointConnectionProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
 
     description: |
       Manage Azure PrivateEndpointConnection instance.
@@ -73,54 +119,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['privateEndpointConnectionName']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'privateEndpoint'
-        description: 'The resource of private end point.'
-        required: false
-        azure_sdk_references: ['/privateEndpoint', '/properties/privateEndpoint']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'The ARM identifier for Private Endpoint'
-            required: false
-            azure_sdk_references: ['/privateEndpoint/id', '/properties/privateEndpoint/id']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'privateLinkServiceConnectionState'
-        description: 'A collection of information about the state of the connection between service consumer and provider.'
-        required: true
-        azure_sdk_references: ['/privateLinkServiceConnectionState', '/properties/privateLinkServiceConnectionState']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'status'
-            description: 'Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.'
-            required: false
-            azure_sdk_references: ['/privateLinkServiceConnectionState/status', '/properties/privateLinkServiceConnectionState/status']
-            values:
-              - :Pending
-              - :Approved
-              - :Rejected
-            default_value: :Pending
-          - !ruby/object:Api::Type::String
-            name: 'description'
-            description: 'The reason for approval/rejection of the connection.'
-            required: false
-            azure_sdk_references: ['/privateLinkServiceConnectionState/description', '/properties/privateLinkServiceConnectionState/description']
-          - !ruby/object:Api::Type::String
-            name: 'actionRequired'
-            description: 'A message indicating if changes on the service provider require any updates on the consumer.'
-            required: false
-            azure_sdk_references: ['/privateLinkServiceConnectionState/actionRequired', '/properties/privateLinkServiceConnectionState/actionRequired']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioning state of the private endpoint connection resource.'
-        required: false
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Succeeded
-          - :Creating
-          - :Deleting
-          - :Failed
-        default_value: :Succeeded
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -137,3 +135,25 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'privateEndpoint'
+        description: 'The resource of private end point.'
+        output: true
+        azure_sdk_references: ['/privateEndpoint', '/properties/privateEndpoint']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'privateLinkServiceConnectionState'
+        description: 'A collection of information about the state of the connection between service consumer and provider.'
+        output: true
+        azure_sdk_references: ['/privateLinkServiceConnectionState', '/properties/privateLinkServiceConnectionState']
+        properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the private endpoint connection resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Creating
+          - :Deleting
+          - :Failed

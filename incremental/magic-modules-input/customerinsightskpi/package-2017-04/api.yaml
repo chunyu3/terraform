@@ -371,16 +371,40 @@ objects:
             applicable_to: [go]
             go_field_name: GroupByMetadata
             go_type_name: KpiGroupByMetadata
+          '/properties/groupByMetadata/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/properties/groupByMetadata/fieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FieldName
+          '/properties/groupByMetadata/fieldType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FieldType
           '/groupByMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: group_by_metadata
+          '/groupByMetadata/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/groupByMetadata/fieldName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: field_name
+          '/groupByMetadata/fieldType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: field_type
           '/properties/participantProfilesMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ParticipantProfilesMetadata
             go_type_name: KpiParticipantProfilesMetadata
+          '/properties/participantProfilesMetadata/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TypeName
           '/participantProfilesMetadata': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: participant_profiles_metadata
+          '/participantProfilesMetadata/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type_name
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -582,21 +606,6 @@ objects:
         azure_sdk_references: ['/groupByMetadata', '/properties/groupByMetadata']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::KeyValuePairs
-              name: 'displayName'
-              description: 'The display name.'
-              required: false
-              azure_sdk_references: ['/groupByMetadata/displayName', '/properties/groupByMetadata/displayName']
-            - !ruby/object:Api::Type::String
-              name: 'fieldName'
-              description: 'The name of the field.'
-              required: false
-              azure_sdk_references: ['/groupByMetadata/fieldName', '/properties/groupByMetadata/fieldName']
-            - !ruby/object:Api::Type::String
-              name: 'fieldType'
-              description: 'The type of the field.'
-              required: false
-              azure_sdk_references: ['/groupByMetadata/fieldType', '/properties/groupByMetadata/fieldType']
       - !ruby/object:Api::Type::Array
         name: 'participantProfilesMetadata'
         description: 'The participant profiles.'
@@ -604,11 +613,6 @@ objects:
         azure_sdk_references: ['/participantProfilesMetadata', '/properties/participantProfilesMetadata']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'typeName'
-              description: 'Name of the type.'
-              required: true
-              azure_sdk_references: ['/participantProfilesMetadata/typeName', '/properties/participantProfilesMetadata/typeName']
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'Provisioning state.'

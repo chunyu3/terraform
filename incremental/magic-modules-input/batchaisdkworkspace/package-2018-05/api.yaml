@@ -44,25 +44,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_time
-          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationTime
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: provisioning_state_transition_time
-          '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ProvisioningStateTransitionTime
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -88,25 +69,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: creation_time
-          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: CreationTime
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: provisioning_state_transition_time
-          '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ProvisioningStateTransitionTime
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -156,6 +118,25 @@ objects:
             applicable_to: [go]
             go_field_name: WorkspaceProperties
             go_type_name: WorkspaceProperties
+          '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationTime
+          '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_time
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ProvisioningStateTransitionTime
+          '/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: provisioning_state_transition_time
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -197,27 +178,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'creationTime'
-        description: 'Time when the Workspace was created.'
-        required: false
-        azure_sdk_references: ['/creationTime', '/properties/creationTime']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioned state of the Workspace'
-        required: false
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :creating
-          - :succeeded
-          - :failed
-          - :deleting
-        default_value: :creating
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'provisioningStateTransitionTime'
-        description: 'The time at which the workspace entered its current provisioning state.'
-        required: false
-        azure_sdk_references: ['/provisioningStateTransitionTime', '/properties/provisioningStateTransitionTime']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -234,3 +194,23 @@ objects:
         description: 'The type of the resource'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationTime'
+        description: 'Time when the Workspace was created.'
+        output: true
+        azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioned state of the Workspace'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :creating
+          - :succeeded
+          - :failed
+          - :deleting
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'provisioningStateTransitionTime'
+        description: 'The time at which the workspace entered its current provisioning state.'
+        output: true
+        azure_sdk_references: ['/provisioningStateTransitionTime', '/properties/provisioningStateTransitionTime']

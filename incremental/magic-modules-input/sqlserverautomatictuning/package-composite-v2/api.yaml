@@ -46,6 +46,26 @@ objects:
             applicable_to: [go]
             go_field_name: AutomaticTuningServerProperties
             go_type_name: AutomaticTuningServerProperties
+          '/properties/desiredState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DesiredState
+            go_enum_type_name: AutomaticTuningServerMode
+          '/desiredState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: desired_state
+          '/properties/actualState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActualState
+            go_enum_type_name: AutomaticTuningServerMode
+          '/actualState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: actual_state
+          '/properties/options': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Options
+          '/options': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: options
 
     description: |
       Manage Azure ServerAutomaticTuning instance.
@@ -62,31 +82,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serverName']
-      - !ruby/object:Api::Type::Enum
-        name: 'desiredState'
-        description: 'Automatic tuning desired state.'
-        required: false
-        azure_sdk_references: ['/desiredState', '/properties/desiredState']
-        values:
-          - :Custom
-          - :Auto
-          - :Unspecified
-        default_value: :Custom
-      - !ruby/object:Api::Type::Enum
-        name: 'actualState'
-        description: 'Automatic tuning actual state.'
-        required: false
-        azure_sdk_references: ['/actualState', '/properties/actualState']
-        values:
-          - :Custom
-          - :Auto
-          - :Unspecified
-        default_value: :Custom
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'options'
-        description: 'Automatic tuning options definition.'
-        required: false
-        azure_sdk_references: ['/options', '/properties/options']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -103,3 +98,26 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'desiredState'
+        description: 'Automatic tuning desired state.'
+        output: true
+        azure_sdk_references: ['/desiredState', '/properties/desiredState']
+        values:
+          - :Custom
+          - :Auto
+          - :Unspecified
+      - !ruby/object:Api::Type::Enum
+        name: 'actualState'
+        description: 'Automatic tuning actual state.'
+        output: true
+        azure_sdk_references: ['/actualState', '/properties/actualState']
+        values:
+          - :Custom
+          - :Auto
+          - :Unspecified
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'options'
+        description: 'Automatic tuning options definition.'
+        output: true
+        azure_sdk_references: ['/options', '/properties/options']

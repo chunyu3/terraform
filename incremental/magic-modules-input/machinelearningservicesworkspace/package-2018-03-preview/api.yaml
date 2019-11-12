@@ -288,6 +288,16 @@ objects:
             go_field_name: Identity
             go_type_name: Identity
             python_field_name: identity
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: ResourceIdentityType
+            python_field_name: type
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -412,24 +422,6 @@ objects:
         output: true
         azure_sdk_references: ['/identity']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'principalId'
-            description: 'The principal ID of resource identity.'
-            required: false
-            azure_sdk_references: ['/identity/principalId']
-          - !ruby/object:Api::Type::String
-            name: 'tenantId'
-            description: 'The tenant ID of resource.'
-            required: false
-            azure_sdk_references: ['/identity/tenantId']
-          - !ruby/object:Api::Type::Enum
-            name: 'type'
-            description: 'The identity type.'
-            required: false
-            azure_sdk_references: ['/identity/type']
-            values:
-              - :SystemAssigned
-            default_value: :SystemAssigned
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Specifies the type of the resource.'

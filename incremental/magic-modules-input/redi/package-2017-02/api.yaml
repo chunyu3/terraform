@@ -345,16 +345,41 @@ objects:
             applicable_to: [go]
             go_field_name: AccessKeys
             go_type_name: AccessKeys
+          '/properties/accessKeys/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryKey
+          '/properties/accessKeys/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryKey
           '/accessKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: access_keys
+          '/accessKeys/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_key
+          '/accessKeys/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_key
           '/properties/linkedServers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LinkedServers
             go_type_name: LinkedServerList
+          '/properties/linkedServers/value': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Value
+            go_type_name: LinkedServer
+          '/properties/linkedServers/value/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/linkedServers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: linked_servers
+          '/linkedServers/value': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: value
+          '/linkedServers/value/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -492,34 +517,12 @@ objects:
         output: true
         azure_sdk_references: ['/accessKeys', '/properties/accessKeys']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'primaryKey'
-            description: 'The current primary key that clients can use to authenticate with Redis cache.'
-            required: false
-            azure_sdk_references: ['/accessKeys/primaryKey', '/properties/accessKeys/primaryKey']
-          - !ruby/object:Api::Type::String
-            name: 'secondaryKey'
-            description: 'The current secondary key that clients can use to authenticate with Redis cache.'
-            required: false
-            azure_sdk_references: ['/accessKeys/secondaryKey', '/properties/accessKeys/secondaryKey']
       - !ruby/object:Api::Type::NestedObject
         name: 'linkedServers'
         description: 'List of the linked servers associated with the cache'
         output: true
         azure_sdk_references: ['/linkedServers', '/properties/linkedServers']
         properties:
-          - !ruby/object:Api::Type::Array
-            name: 'value'
-            description: 'List of linked server Ids of a Redis cache.'
-            required: true
-            azure_sdk_references: ['/linkedServers/value', '/properties/linkedServers/value']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'id'
-                  description: 'Linked server Id.'
-                  required: false
-                  azure_sdk_references: ['/linkedServers/value/id', '/properties/linkedServers/value/id']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

@@ -125,9 +125,39 @@ objects:
             applicable_to: [go]
             go_field_name: Events
             go_type_name: ServicePrefixEvent
+          '/properties/events/eventTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EventTimestamp
+          '/properties/events/eventType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventType
+          '/properties/events/eventSummary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventSummary
+          '/properties/events/eventLevel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventLevel
+          '/properties/events/eventDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EventDescription
           '/events': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: events
+          '/events/eventTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: event_timestamp
+          '/events/eventType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_type
+          '/events/eventSummary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_summary
+          '/events/eventLevel': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_level
+          '/events/eventDescription': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: event_description
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -220,31 +250,6 @@ objects:
         azure_sdk_references: ['/events', '/properties/events']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'eventTimestamp'
-              description: 'The timestamp of the event associated with a prefix.'
-              required: false
-              azure_sdk_references: ['/events/eventTimestamp', '/properties/events/eventTimestamp']
-            - !ruby/object:Api::Type::String
-              name: 'eventType'
-              description: 'The type of the event associated with a prefix.'
-              required: false
-              azure_sdk_references: ['/events/eventType', '/properties/events/eventType']
-            - !ruby/object:Api::Type::String
-              name: 'eventSummary'
-              description: 'The summary of the event associated with a prefix.'
-              required: false
-              azure_sdk_references: ['/events/eventSummary', '/properties/events/eventSummary']
-            - !ruby/object:Api::Type::String
-              name: 'eventLevel'
-              description: 'The level of the event associated with a prefix.'
-              required: false
-              azure_sdk_references: ['/events/eventLevel', '/properties/events/eventLevel']
-            - !ruby/object:Api::Type::String
-              name: 'eventDescription'
-              description: 'The description of the event associated with a prefix.'
-              required: false
-              azure_sdk_references: ['/events/eventDescription', '/properties/events/eventDescription']
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'The provisioning state of the resource.'

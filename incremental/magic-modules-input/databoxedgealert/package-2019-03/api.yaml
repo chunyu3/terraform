@@ -46,6 +46,68 @@ objects:
             applicable_to: [go]
             go_field_name: AlertProperties
             go_type_name: AlertProperties
+          '/properties/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/properties/alertType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AlertType
+          '/alertType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: alert_type
+          '/properties/appearedAtDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: AppearedAtDateTime
+          '/appearedAtDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: appeared_at_date_time
+          '/properties/recommendation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Recommendation
+          '/recommendation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recommendation
+          '/properties/severity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Severity
+            go_enum_type_name: AlertSeverity
+          '/severity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: severity
+          '/properties/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ErrorDetails
+            go_type_name: AlertErrorDetails
+          '/properties/errorDetails/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorCode
+          '/properties/errorDetails/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/properties/errorDetails/occurrences': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Occurrences
+          '/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error_details
+          '/errorDetails/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_code
+          '/errorDetails/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/errorDetails/occurrences': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: occurrences
+          '/properties/detailedInformation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DetailedInformation
+          '/detailedInformation': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: detailed_information
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByDataBoxEdgeDevice
         python_func_name: list_by_data_box_edge_device
@@ -76,62 +138,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::String
-        name: 'title'
-        description: 'Alert title.'
-        required: false
-        azure_sdk_references: ['/title', '/properties/title']
-      - !ruby/object:Api::Type::String
-        name: 'alertType'
-        description: 'Alert type.'
-        required: false
-        azure_sdk_references: ['/alertType', '/properties/alertType']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'appearedAtDateTime'
-        description: 'UTC time when the alert appeared.'
-        required: false
-        azure_sdk_references: ['/appearedAtDateTime', '/properties/appearedAtDateTime']
-      - !ruby/object:Api::Type::String
-        name: 'recommendation'
-        description: 'Alert recommendation.'
-        required: false
-        azure_sdk_references: ['/recommendation', '/properties/recommendation']
-      - !ruby/object:Api::Type::Enum
-        name: 'severity'
-        description: 'Severity of the alert.'
-        required: false
-        azure_sdk_references: ['/severity', '/properties/severity']
-        values:
-          - :Informational
-          - :Warning
-          - :Critical
-        default_value: :Informational
-      - !ruby/object:Api::Type::NestedObject
-        name: 'errorDetails'
-        description: 'Error details of the alert.'
-        required: false
-        azure_sdk_references: ['/errorDetails', '/properties/errorDetails']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'errorCode'
-            description: 'Error code.'
-            required: false
-            azure_sdk_references: ['/errorDetails/errorCode', '/properties/errorDetails/errorCode']
-          - !ruby/object:Api::Type::String
-            name: 'errorMessage'
-            description: 'Error Message.'
-            required: false
-            azure_sdk_references: ['/errorDetails/errorMessage', '/properties/errorDetails/errorMessage']
-          - !ruby/object:Api::Type::Integer
-            name: 'occurrences'
-            description: 'Number of occurrences.'
-            required: false
-            azure_sdk_references: ['/errorDetails/occurrences', '/properties/errorDetails/occurrences']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'detailedInformation'
-        description: 'Alert details.'
-        required: false
-        azure_sdk_references: ['/detailedInformation', '/properties/detailedInformation']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -148,3 +154,43 @@ objects:
         description: 'The hierarchical type of the object.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'title'
+        description: 'Alert title.'
+        output: true
+        azure_sdk_references: ['/title', '/properties/title']
+      - !ruby/object:Api::Type::String
+        name: 'alertType'
+        description: 'Alert type.'
+        output: true
+        azure_sdk_references: ['/alertType', '/properties/alertType']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'appearedAtDateTime'
+        description: 'UTC time when the alert appeared.'
+        output: true
+        azure_sdk_references: ['/appearedAtDateTime', '/properties/appearedAtDateTime']
+      - !ruby/object:Api::Type::String
+        name: 'recommendation'
+        description: 'Alert recommendation.'
+        output: true
+        azure_sdk_references: ['/recommendation', '/properties/recommendation']
+      - !ruby/object:Api::Type::Enum
+        name: 'severity'
+        description: 'Severity of the alert.'
+        output: true
+        azure_sdk_references: ['/severity', '/properties/severity']
+        values:
+          - :Informational
+          - :Warning
+          - :Critical
+      - !ruby/object:Api::Type::NestedObject
+        name: 'errorDetails'
+        description: 'Error details of the alert.'
+        output: true
+        azure_sdk_references: ['/errorDetails', '/properties/errorDetails']
+        properties:
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'detailedInformation'
+        description: 'Alert details.'
+        output: true
+        azure_sdk_references: ['/detailedInformation', '/properties/detailedInformation']

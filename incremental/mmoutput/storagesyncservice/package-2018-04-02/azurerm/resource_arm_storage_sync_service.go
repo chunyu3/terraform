@@ -47,12 +47,12 @@ func resourceArmStorageSyncService() *schema.Resource {
 
             "storage_sync_service_status": {
                 Type: schema.TypeInt,
-                Optional: true,
+                Computed: true,
             },
 
             "storage_sync_service_uid": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
             "type": {
@@ -85,13 +85,10 @@ func resourceArmStorageSyncServiceCreate(d *schema.ResourceData, meta interface{
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    storageSyncServiceStatus := d.Get("storage_sync_service_status").(int)
-    storageSyncServiceUid := d.Get("storage_sync_service_uid").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := storagesync.ServiceCreateParameters{
         Location: utils.String(location),
-        // TODO: SDK Reference /properties is not supported
         Tags: tags.Expand(t),
     }
 
@@ -141,6 +138,10 @@ func resourceArmStorageSyncServiceRead(d *schema.ResourceData, meta interface{})
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if serviceProperties := resp.ServiceProperties; serviceProperties != nil {
+        d.Set("storage_sync_service_status", serviceProperties.StorageSyncServiceStatus)
+        d.Set("storage_sync_service_uid", serviceProperties.StorageSyncServiceUid)
+    }
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -152,13 +153,10 @@ func resourceArmStorageSyncServiceUpdate(d *schema.ResourceData, meta interface{
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    storageSyncServiceStatus := d.Get("storage_sync_service_status").(int)
-    storageSyncServiceUid := d.Get("storage_sync_service_uid").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := storagesync.ServiceCreateParameters{
         Location: utils.String(location),
-        // TODO: SDK Reference /properties is not supported
         Tags: tags.Expand(t),
     }
 

@@ -58,6 +58,12 @@ objects:
             go_field_name: Error
             go_type_name: OperationStatusError
             python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OperationStatusExtendedInfo
@@ -122,13 +128,3 @@ objects:
         output: true
         azure_sdk_references: ['/error']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'The error code for the failed operation.'
-            required: false
-            azure_sdk_references: ['/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The error message for the failed operation.'
-            required: false
-            azure_sdk_references: ['/error/message']

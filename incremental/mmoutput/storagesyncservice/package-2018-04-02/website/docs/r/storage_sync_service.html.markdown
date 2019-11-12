@@ -34,10 +34,6 @@ The following arguments are supported:
 
 * `location` - (Optional) Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed. Changing this forces a new resource to be created.
 
-* `storage_sync_service_status` - (Optional) Storage Sync service status.
-
-* `storage_sync_service_uid` - (Optional) Storage Sync service Uid
-
 * `tags` - (Optional) Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters. Changing this forces a new resource to be created.
 
 ## Attributes Reference
@@ -49,3 +45,7 @@ The following attributes are exported:
 * `name` - The name of the resource
 
 * `type` - The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+
+* `storage_sync_service_status` - Storage Sync service status.
+
+* `storage_sync_service_uid` - Storage Sync service Uid

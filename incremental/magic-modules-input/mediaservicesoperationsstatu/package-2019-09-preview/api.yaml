@@ -53,6 +53,12 @@ objects:
             go_field_name: Error
             go_type_name: MediaGraphOperationError
             python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
 
     description: |
       Manage Azure OperationsStatu instance.
@@ -98,13 +104,3 @@ objects:
         output: true
         azure_sdk_references: ['/error']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'The operation error code'
-            required: false
-            azure_sdk_references: ['/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The operation error message'
-            required: false
-            azure_sdk_references: ['/error/message']

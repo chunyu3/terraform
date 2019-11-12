@@ -93,13 +93,31 @@ The `encryption_setting` block supports the following:
 
 The `disk_encryption_key` block supports the following:
 
+* `source_vault` - (Required) One `source_vault` block defined below.
+
 * `secret_url` - (Required) Url pointing to a key or secret in KeyVault
+
+
+---
+
+The `source_vault` block supports the following:
+
+* `id` - (Optional) Resource Id
 
 ---
 
 The `key_encryption_key` block supports the following:
 
+* `source_vault` - (Required) One `source_vault` block defined below.
+
 * `key_url` - (Required) Url pointing to a key or secret in KeyVault
+
+
+---
+
+The `source_vault` block supports the following:
+
+* `id` - (Optional) Resource Id
 
 ---
 

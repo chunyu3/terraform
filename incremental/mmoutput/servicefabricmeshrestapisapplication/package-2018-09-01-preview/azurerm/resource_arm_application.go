@@ -112,6 +112,49 @@ func resourceArmApplication() *schema.Resource {
                                         Required: true,
                                         ValidateFunc: validate.NoEmptyStrings,
                                     },
+                                    "resources": {
+                                        Type: schema.TypeList,
+                                        Required: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "requests": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "cpu": {
+                                                                Type: schema.TypeFloat,
+                                                                Required: true,
+                                                            },
+                                                            "memory_in_gb": {
+                                                                Type: schema.TypeFloat,
+                                                                Required: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "limits": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "cpu": {
+                                                                Type: schema.TypeFloat,
+                                                                Optional: true,
+                                                            },
+                                                            "memory_in_gb": {
+                                                                Type: schema.TypeFloat,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
                                     "commands": {
                                         Type: schema.TypeList,
                                         Optional: true,
@@ -119,9 +162,193 @@ func resourceArmApplication() *schema.Resource {
                                             Type: schema.TypeString,
                                         },
                                     },
+                                    "diagnostics": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "enabled": {
+                                                    Type: schema.TypeBool,
+                                                    Optional: true,
+                                                },
+                                                "sink_refs": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Schema{
+                                                        Type: schema.TypeString,
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "endpoints": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "port": {
+                                                    Type: schema.TypeInt,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "entrypoint": {
                                         Type: schema.TypeString,
                                         Optional: true,
+                                    },
+                                    "environment_variables": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "value": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "image_registry_credential": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "server": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "username": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "password": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "labels": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "value": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "reliable_collections_refs": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "do_not_persist_state": {
+                                                    Type: schema.TypeBool,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "settings": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                                "value": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "volume_refs": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "destination_path": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "read_only": {
+                                                    Type: schema.TypeBool,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "volumes": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "creation_parameters": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "description": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
+                                                "destination_path": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Required: true,
+                                                    ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "read_only": {
+                                                    Type: schema.TypeBool,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -180,6 +407,18 @@ func resourceArmApplication() *schema.Resource {
                             Optional: true,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
+                                    "endpoint_refs": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "name": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                     "name": {
                                         Type: schema.TypeString,
                                         Optional: true,
@@ -449,14 +688,34 @@ func expandArmApplicationContainerCodePackageProperties(input []interface{}) *[]
         v := item.(map[string]interface{})
         name := v["name"].(string)
         image := v["image"].(string)
+        imageRegistryCredential := v["image_registry_credential"].([]interface{})
         entrypoint := v["entrypoint"].(string)
         commands := v["commands"].([]interface{})
+        environmentVariables := v["environment_variables"].([]interface{})
+        settings := v["settings"].([]interface{})
+        labels := v["labels"].([]interface{})
+        endpoints := v["endpoints"].([]interface{})
+        resources := v["resources"].([]interface{})
+        volumeRefs := v["volume_refs"].([]interface{})
+        volumes := v["volumes"].([]interface{})
+        diagnostics := v["diagnostics"].([]interface{})
+        reliableCollectionsRefs := v["reliable_collections_refs"].([]interface{})
 
         result := servicefabricmeshrestapis.ContainerCodePackageProperties{
             Commands: utils.ExpandStringSlice(commands),
+            Diagnostics: expandArmApplicationDiagnosticsRef(diagnostics),
+            Endpoints: expandArmApplicationEndpointProperties(endpoints),
             Entrypoint: utils.String(entrypoint),
+            EnvironmentVariables: expandArmApplicationEnvironmentVariable(environmentVariables),
             Image: utils.String(image),
+            ImageRegistryCredential: expandArmApplicationImageRegistryCredential(imageRegistryCredential),
+            Labels: expandArmApplicationContainerLabel(labels),
             Name: utils.String(name),
+            ReliableCollectionsRefs: expandArmApplicationReliableCollectionsRef(reliableCollectionsRefs),
+            Resources: expandArmApplicationResourceRequirements(resources),
+            Settings: expandArmApplicationSetting(settings),
+            VolumeRefs: expandArmApplicationVolumeReference(volumeRefs),
+            Volumes: expandArmApplicationApplicationScopedVolume(volumes),
         }
 
         results = append(results, result)
@@ -485,14 +744,236 @@ func expandArmApplicationNetworkRef(input []interface{}) *[]servicefabricmeshres
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
+        endpointRefs := v["endpoint_refs"].([]interface{})
 
         result := servicefabricmeshrestapis.NetworkRef{
+            EndpointRefs: expandArmApplicationEndpointRef(endpointRefs),
             Name: utils.String(name),
         }
 
         results = append(results, result)
     }
     return &results
+}
+
+func expandArmApplicationEndpointProperties(input []interface{}) *[]servicefabricmeshrestapis.EndpointProperties {
+    results := make([]servicefabricmeshrestapis.EndpointProperties, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        port := v["port"].(int)
+
+        result := servicefabricmeshrestapis.EndpointProperties{
+            Name: utils.String(name),
+            Port: utils.Int(port),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationEnvironmentVariable(input []interface{}) *[]servicefabricmeshrestapis.EnvironmentVariable {
+    results := make([]servicefabricmeshrestapis.EnvironmentVariable, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+
+        result := servicefabricmeshrestapis.EnvironmentVariable{
+            Name: utils.String(name),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationImageRegistryCredential(input []interface{}) *servicefabricmeshrestapis.ImageRegistryCredential {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    server := v["server"].(string)
+    username := v["username"].(string)
+    password := v["password"].(string)
+
+    result := servicefabricmeshrestapis.ImageRegistryCredential{
+        Password: utils.String(password),
+        Server: utils.String(server),
+        Username: utils.String(username),
+    }
+    return &result
+}
+
+func expandArmApplicationContainerLabel(input []interface{}) *[]servicefabricmeshrestapis.ContainerLabel {
+    results := make([]servicefabricmeshrestapis.ContainerLabel, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+
+        result := servicefabricmeshrestapis.ContainerLabel{
+            Name: utils.String(name),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationReliableCollectionsRef(input []interface{}) *[]servicefabricmeshrestapis.ReliableCollectionsRef {
+    results := make([]servicefabricmeshrestapis.ReliableCollectionsRef, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        doNotPersistState := v["do_not_persist_state"].(bool)
+
+        result := servicefabricmeshrestapis.ReliableCollectionsRef{
+            DoNotPersistState: utils.Bool(doNotPersistState),
+            Name: utils.String(name),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationResourceRequirements(input []interface{}) *servicefabricmeshrestapis.ResourceRequirements {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    requests := v["requests"].([]interface{})
+    limits := v["limits"].([]interface{})
+
+    result := servicefabricmeshrestapis.ResourceRequirements{
+        Limits: expandArmApplicationResourceLimits(limits),
+        Requests: expandArmApplicationResourceRequests(requests),
+    }
+    return &result
+}
+
+func expandArmApplicationSetting(input []interface{}) *[]servicefabricmeshrestapis.Setting {
+    results := make([]servicefabricmeshrestapis.Setting, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        value := v["value"].(string)
+
+        result := servicefabricmeshrestapis.Setting{
+            Name: utils.String(name),
+            Value: utils.String(value),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationVolumeReference(input []interface{}) *[]servicefabricmeshrestapis.VolumeReference {
+    results := make([]servicefabricmeshrestapis.VolumeReference, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        readOnly := v["read_only"].(bool)
+        destinationPath := v["destination_path"].(string)
+
+        result := servicefabricmeshrestapis.VolumeReference{
+            DestinationPath: utils.String(destinationPath),
+            Name: utils.String(name),
+            ReadOnly: utils.Bool(readOnly),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationApplicationScopedVolume(input []interface{}) *[]servicefabricmeshrestapis.ApplicationScopedVolume {
+    results := make([]servicefabricmeshrestapis.ApplicationScopedVolume, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+        readOnly := v["read_only"].(bool)
+        destinationPath := v["destination_path"].(string)
+        creationParameters := v["creation_parameters"].([]interface{})
+
+        result := servicefabricmeshrestapis.ApplicationScopedVolume{
+            CreationParameters: expandArmApplicationApplicationScopedVolumeCreationParameters(creationParameters),
+            DestinationPath: utils.String(destinationPath),
+            Name: utils.String(name),
+            ReadOnly: utils.Bool(readOnly),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationEndpointRef(input []interface{}) *[]servicefabricmeshrestapis.EndpointRef {
+    results := make([]servicefabricmeshrestapis.EndpointRef, 0)
+    for _, item := range input {
+        v := item.(map[string]interface{})
+        name := v["name"].(string)
+
+        result := servicefabricmeshrestapis.EndpointRef{
+            Name: utils.String(name),
+        }
+
+        results = append(results, result)
+    }
+    return &results
+}
+
+func expandArmApplicationResourceLimits(input []interface{}) *servicefabricmeshrestapis.ResourceLimits {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    memoryInGb := v["memory_in_gb"].(float64)
+    cpu := v["cpu"].(float64)
+
+    result := servicefabricmeshrestapis.ResourceLimits{
+        Cpu: utils.Float(cpu),
+        MemoryInGb: utils.Float(memoryInGb),
+    }
+    return &result
+}
+
+func expandArmApplicationResourceRequests(input []interface{}) *servicefabricmeshrestapis.ResourceRequests {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    memoryInGb := v["memory_in_gb"].(float64)
+    cpu := v["cpu"].(float64)
+
+    result := servicefabricmeshrestapis.ResourceRequests{
+        Cpu: utils.Float(cpu),
+        MemoryInGb: utils.Float(memoryInGb),
+    }
+    return &result
+}
+
+func expandArmApplicationApplicationScopedVolumeCreationParameters(input []interface{}) *servicefabricmeshrestapis.ApplicationScopedVolumeCreationParameters {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    description := v["description"].(string)
+
+    result := servicefabricmeshrestapis.ApplicationScopedVolumeCreationParameters{
+        Description: utils.String(description),
+    }
+    return &result
 }
 
 
@@ -598,12 +1079,22 @@ func flattenArmApplicationContainerCodePackageProperties(input *[]servicefabricm
             v["name"] = *name
         }
         v["commands"] = utils.FlattenStringSlice(item.Commands)
+        v["diagnostics"] = flattenArmApplicationDiagnosticsRef(item.Diagnostics)
+        v["endpoints"] = flattenArmApplicationEndpointProperties(item.Endpoints)
         if entrypoint := item.Entrypoint; entrypoint != nil {
             v["entrypoint"] = *entrypoint
         }
+        v["environment_variables"] = flattenArmApplicationEnvironmentVariable(item.EnvironmentVariables)
         if image := item.Image; image != nil {
             v["image"] = *image
         }
+        v["image_registry_credential"] = flattenArmApplicationImageRegistryCredential(item.ImageRegistryCredential)
+        v["labels"] = flattenArmApplicationContainerLabel(item.Labels)
+        v["reliable_collections_refs"] = flattenArmApplicationReliableCollectionsRef(item.ReliableCollectionsRefs)
+        v["resources"] = flattenArmApplicationResourceRequirements(item.Resources)
+        v["settings"] = flattenArmApplicationSetting(item.Settings)
+        v["volume_refs"] = flattenArmApplicationVolumeReference(item.VolumeRefs)
+        v["volumes"] = flattenArmApplicationApplicationScopedVolume(item.Volumes)
 
         results = append(results, v)
     }
@@ -638,9 +1129,271 @@ func flattenArmApplicationNetworkRef(input *[]servicefabricmeshrestapis.NetworkR
         if name := item.Name; name != nil {
             v["name"] = *name
         }
+        v["endpoint_refs"] = flattenArmApplicationEndpointRef(item.EndpointRefs)
 
         results = append(results, v)
     }
 
     return results
+}
+
+func flattenArmApplicationEndpointProperties(input *[]servicefabricmeshrestapis.EndpointProperties) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if port := item.Port; port != nil {
+            v["port"] = *port
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationEnvironmentVariable(input *[]servicefabricmeshrestapis.EnvironmentVariable) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationImageRegistryCredential(input *servicefabricmeshrestapis.ImageRegistryCredential) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if password := input.Password; password != nil {
+        result["password"] = *password
+    }
+    if server := input.Server; server != nil {
+        result["server"] = *server
+    }
+    if username := input.Username; username != nil {
+        result["username"] = *username
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmApplicationContainerLabel(input *[]servicefabricmeshrestapis.ContainerLabel) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationReliableCollectionsRef(input *[]servicefabricmeshrestapis.ReliableCollectionsRef) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if doNotPersistState := item.DoNotPersistState; doNotPersistState != nil {
+            v["do_not_persist_state"] = *doNotPersistState
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationResourceRequirements(input *servicefabricmeshrestapis.ResourceRequirements) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["limits"] = flattenArmApplicationResourceLimits(input.Limits)
+    result["requests"] = flattenArmApplicationResourceRequests(input.Requests)
+
+    return []interface{}{result}
+}
+
+func flattenArmApplicationSetting(input *[]servicefabricmeshrestapis.Setting) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if value := item.Value; value != nil {
+            v["value"] = *value
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationVolumeReference(input *[]servicefabricmeshrestapis.VolumeReference) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        if destinationPath := item.DestinationPath; destinationPath != nil {
+            v["destination_path"] = *destinationPath
+        }
+        if readOnly := item.ReadOnly; readOnly != nil {
+            v["read_only"] = *readOnly
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationApplicationScopedVolume(input *[]servicefabricmeshrestapis.ApplicationScopedVolume) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+        v["creation_parameters"] = flattenArmApplicationApplicationScopedVolumeCreationParameters(item.CreationParameters)
+        if destinationPath := item.DestinationPath; destinationPath != nil {
+            v["destination_path"] = *destinationPath
+        }
+        if readOnly := item.ReadOnly; readOnly != nil {
+            v["read_only"] = *readOnly
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationEndpointRef(input *[]servicefabricmeshrestapis.EndpointRef) []interface{} {
+    results := make([]interface{}, 0)
+    if input == nil {
+        return results
+    }
+
+    for _, item := range *input {
+        v := make(map[string]interface{})
+
+        if name := item.Name; name != nil {
+            v["name"] = *name
+        }
+
+        results = append(results, v)
+    }
+
+    return results
+}
+
+func flattenArmApplicationResourceLimits(input *servicefabricmeshrestapis.ResourceLimits) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if cpu := input.Cpu; cpu != nil {
+        result["cpu"] = *cpu
+    }
+    if memoryInGb := input.MemoryInGb; memoryInGb != nil {
+        result["memory_in_gb"] = *memoryInGb
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmApplicationResourceRequests(input *servicefabricmeshrestapis.ResourceRequests) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if cpu := input.Cpu; cpu != nil {
+        result["cpu"] = *cpu
+    }
+    if memoryInGb := input.MemoryInGb; memoryInGb != nil {
+        result["memory_in_gb"] = *memoryInGb
+    }
+
+    return []interface{}{result}
+}
+
+func flattenArmApplicationApplicationScopedVolumeCreationParameters(input *servicefabricmeshrestapis.ApplicationScopedVolumeCreationParameters) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if description := input.Description; description != nil {
+        result["description"] = *description
+    }
+
+    return []interface{}{result}
 }

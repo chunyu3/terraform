@@ -143,9 +143,15 @@ objects:
             applicable_to: [go]
             go_field_name: Hosts
             go_type_name: SubResourceReadOnly
+          '/properties/hosts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/hosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: hosts
+          '/hosts/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             go_field_name: Zones
             python_field_name: zones
@@ -219,11 +225,6 @@ objects:
         azure_sdk_references: ['/hosts', '/properties/hosts']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource Id'
-              required: false
-              azure_sdk_references: ['/hosts/id', '/properties/hosts/id']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

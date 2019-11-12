@@ -40,22 +40,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['managerName']
-      - !ruby/object:Api::Type::String
-        name: 'timeZone'
-        description: 'The timezone of device, like ''(UTC -06:00) Central America'''
-        required: true
-        azure_sdk_references: ['/timeZone', '/properties/timeZone']
-      - !ruby/object:Api::Type::String
-        name: 'primaryTimeServer'
-        description: 'The primary Network Time Protocol (NTP) server name, like ''time.windows.com''.'
-        required: false
-        azure_sdk_references: ['/primaryTimeServer', '/properties/primaryTimeServer']
-      - !ruby/object:Api::Type::Array
-        name: 'secondaryTimeServer'
-        description: 'The secondary Network Time Protocol (NTP) server name, like ''time.contoso.com''. It''s optional.'
-        required: false
-        azure_sdk_references: ['/secondaryTimeServer', '/properties/secondaryTimeServer']
-        item_type: Api::Type::String
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -79,3 +63,19 @@ objects:
         azure_sdk_references: ['/kind']
         values:
           - :Series8000
+      - !ruby/object:Api::Type::String
+        name: 'timeZone'
+        description: 'The timezone of device, like ''(UTC -06:00) Central America'''
+        output: true
+        azure_sdk_references: ['/timeZone', '/properties/timeZone']
+      - !ruby/object:Api::Type::String
+        name: 'primaryTimeServer'
+        description: 'The primary Network Time Protocol (NTP) server name, like ''time.windows.com''.'
+        output: true
+        azure_sdk_references: ['/primaryTimeServer', '/properties/primaryTimeServer']
+      - !ruby/object:Api::Type::Array
+        name: 'secondaryTimeServer'
+        description: 'The secondary Network Time Protocol (NTP) server name, like ''time.contoso.com''. It''s optional.'
+        output: true
+        azure_sdk_references: ['/secondaryTimeServer', '/properties/secondaryTimeServer']
+        item_type: Api::Type::String

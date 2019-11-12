@@ -43,6 +43,12 @@ objects:
             go_field_name: Keys
             go_type_name: AgentRegistrationKeys
             python_field_name: keys
+          '/keys/primary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Primary
+            python_field_name: primary
+          '/keys/secondary': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Secondary
+            python_field_name: secondary
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -79,16 +85,6 @@ objects:
         output: true
         azure_sdk_references: ['/keys']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'primary'
-            description: 'Gets or sets the primary key.'
-            required: false
-            azure_sdk_references: ['/keys/primary']
-          - !ruby/object:Api::Type::String
-            name: 'secondary'
-            description: 'Gets or sets the secondary key.'
-            required: false
-            azure_sdk_references: ['/keys/secondary']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Gets or sets the id.'

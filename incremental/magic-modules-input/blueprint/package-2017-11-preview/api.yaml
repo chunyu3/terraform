@@ -164,9 +164,21 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_type_name: Status
+          '/properties/status/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeCreated
+          '/properties/status/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastModified
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: status
+          '/status/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_created
+          '/status/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_modified
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -247,16 +259,6 @@ objects:
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'timeCreated'
-            description: 'Creation time of this blueprint.'
-            required: false
-            azure_sdk_references: ['/status/timeCreated', '/properties/status/timeCreated']
-          - !ruby/object:Api::Type::String
-            name: 'lastModified'
-            description: 'Last modified time of this blueprint.'
-            required: false
-            azure_sdk_references: ['/status/lastModified', '/properties/status/lastModified']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'String Id used to locate any resource on Azure.'

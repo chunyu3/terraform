@@ -321,23 +321,102 @@ objects:
             applicable_to: [go]
             go_field_name: LabCostSummary
             go_type_name: LabCostSummaryProperties
+          '/properties/labCostSummary/estimatedLabCost': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: EstimatedLabCost
           '/labCostSummary': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: lab_cost_summary
+          '/labCostSummary/estimatedLabCost': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: estimated_lab_cost
           '/properties/labCostDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: LabCostDetails
             go_type_name: LabCostDetailsProperties
+          '/properties/labCostDetails/date': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Date
+          '/properties/labCostDetails/cost': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Cost
+          '/properties/labCostDetails/costType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CostType
+            go_enum_type_name: CostType
           '/labCostDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: lab_cost_details
+          '/labCostDetails/date': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: date
+          '/labCostDetails/cost': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: cost
+          '/labCostDetails/costType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: cost_type
           '/properties/resourceCosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ResourceCosts
             go_type_name: LabResourceCostProperties
+          '/properties/resourceCosts/resourcename': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Resourcename
+          '/properties/resourceCosts/resourceUId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceUid
+          '/properties/resourceCosts/resourceCost': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: ResourceCost
+          '/properties/resourceCosts/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/properties/resourceCosts/resourceOwner': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceOwner
+          '/properties/resourceCosts/resourcePricingTier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourcePricingTier
+          '/properties/resourceCosts/resourceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceStatus
+          '/properties/resourceCosts/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/properties/resourceCosts/externalResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExternalResourceID
           '/resourceCosts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: resource_costs
+          '/resourceCosts/resourcename': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resourcename
+          '/resourceCosts/resourceUId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_uid
+          '/resourceCosts/resourceCost': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: resource_cost
+          '/resourceCosts/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
+          '/resourceCosts/resourceOwner': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_owner
+          '/resourceCosts/resourcePricingTier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_pricing_tier
+          '/resourceCosts/resourceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_status
+          '/resourceCosts/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/resourceCosts/externalResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: external_resource_id
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -501,11 +580,6 @@ objects:
         output: true
         azure_sdk_references: ['/labCostSummary', '/properties/labCostSummary']
         properties:
-          - !ruby/object:Api::Type::Double
-            name: 'estimatedLabCost'
-            description: 'The cost component of the cost item.'
-            required: false
-            azure_sdk_references: ['/labCostSummary/estimatedLabCost', '/properties/labCostSummary/estimatedLabCost']
       - !ruby/object:Api::Type::Array
         name: 'labCostDetails'
         description: 'The lab cost details component of the cost data.'
@@ -513,26 +587,6 @@ objects:
         azure_sdk_references: ['/labCostDetails', '/properties/labCostDetails']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'date'
-              description: 'The date of the cost item.'
-              required: false
-              azure_sdk_references: ['/labCostDetails/date', '/properties/labCostDetails/date']
-            - !ruby/object:Api::Type::Double
-              name: 'cost'
-              description: 'The cost component of the cost item.'
-              required: false
-              azure_sdk_references: ['/labCostDetails/cost', '/properties/labCostDetails/cost']
-            - !ruby/object:Api::Type::Enum
-              name: 'costType'
-              description: 'The type of the cost.'
-              required: false
-              azure_sdk_references: ['/labCostDetails/costType', '/properties/labCostDetails/costType']
-              values:
-                - :Unavailable
-                - :Reported
-                - :Projected
-              default_value: :Unavailable
       - !ruby/object:Api::Type::Array
         name: 'resourceCosts'
         description: 'The resource cost component of the cost data.'
@@ -540,51 +594,6 @@ objects:
         azure_sdk_references: ['/resourceCosts', '/properties/resourceCosts']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'resourcename'
-              description: 'The name of the resource.'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourcename', '/properties/resourceCosts/resourcename']
-            - !ruby/object:Api::Type::String
-              name: 'resourceUid'
-              description: 'The unique identifier of the resource.'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourceUId', '/properties/resourceCosts/resourceUId']
-            - !ruby/object:Api::Type::Double
-              name: 'resourceCost'
-              description: 'The cost component of the resource cost item.'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourceCost', '/properties/resourceCosts/resourceCost']
-            - !ruby/object:Api::Type::String
-              name: 'resourceType'
-              description: 'The logical resource type (ex. virtualmachine, storageaccount)'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourceType', '/properties/resourceCosts/resourceType']
-            - !ruby/object:Api::Type::String
-              name: 'resourceOwner'
-              description: 'The owner of the resource (ex. janedoe@microsoft.com)'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourceOwner', '/properties/resourceCosts/resourceOwner']
-            - !ruby/object:Api::Type::String
-              name: 'resourcePricingTier'
-              description: 'The category of the resource (ex. Premium_LRS, Standard_DS1)'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourcePricingTier', '/properties/resourceCosts/resourcePricingTier']
-            - !ruby/object:Api::Type::String
-              name: 'resourceStatus'
-              description: 'The status of the resource (ex. Active)'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourceStatus', '/properties/resourceCosts/resourceStatus']
-            - !ruby/object:Api::Type::String
-              name: 'resourceId'
-              description: 'The ID of the resource'
-              required: false
-              azure_sdk_references: ['/resourceCosts/resourceId', '/properties/resourceCosts/resourceId']
-            - !ruby/object:Api::Type::String
-              name: 'externalResourceId'
-              description: 'The ID of the external resource'
-              required: false
-              azure_sdk_references: ['/resourceCosts/externalResourceId', '/properties/resourceCosts/externalResourceId']
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'The provisioning status of the resource.'

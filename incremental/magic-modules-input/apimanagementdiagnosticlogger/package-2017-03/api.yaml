@@ -113,89 +113,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['loggerid']
-      - !ruby/object:Api::Type::Enum
-        name: 'loggerType'
-        description: 'Logger type.'
-        required: true
-        azure_sdk_references: ['/loggerType', '/properties/loggerType']
-        values:
-          - :azureEventHub
-          - :applicationInsights
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Logger description.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'credentials'
-        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
-        required: true
-        azure_sdk_references: ['/credentials', '/properties/credentials']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isBuffered'
-        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
-        required: false
-        azure_sdk_references: ['/isBuffered', '/properties/isBuffered']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'sampling'
-        description: 'Sampling settings for an ApplicationInsights logger.'
-        required: false
-        azure_sdk_references: ['/sampling', '/properties/sampling']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'samplingType'
-            description: 'Sampling type.'
-            required: false
-            azure_sdk_references: ['/sampling/samplingType', '/properties/sampling/properties/samplingType']
-            values:
-              - :fixed
-              - :adaptive
-            default_value: :fixed
-          - !ruby/object:Api::Type::Double
-            name: 'percentage'
-            description: 'Rate of sampling for fixed-rate sampling.'
-            required: false
-            azure_sdk_references: ['/sampling/percentage', '/properties/sampling/properties/percentage']
-          - !ruby/object:Api::Type::Integer
-            name: 'maxTelemetryItemsPerSecond'
-            description: 'Target rate of telemetry items per second.'
-            required: false
-            azure_sdk_references: ['/sampling/maxTelemetryItemsPerSecond', '/properties/sampling/properties/maxTelemetryItemsPerSecond']
-          - !ruby/object:Api::Azure::Type::ISO8601Duration
-            name: 'evaluationInterval'
-            description: 'Rate re-evaluation interval in ISO8601 format.'
-            required: false
-            azure_sdk_references: ['/sampling/evaluationInterval', '/properties/sampling/properties/evaluationInterval']
-          - !ruby/object:Api::Azure::Type::ISO8601Duration
-            name: 'percentageDecreaseTimeout'
-            description: 'Duration in ISO8601 format after which it''s allowed to lower the sampling rate.'
-            required: false
-            azure_sdk_references: ['/sampling/percentageDecreaseTimeout', '/properties/sampling/properties/percentageDecreaseTimeout']
-          - !ruby/object:Api::Azure::Type::ISO8601Duration
-            name: 'percentageIncreaseTimeout'
-            description: 'Duration in ISO8601 format after which it''s allowed to increase the sampling rate.'
-            required: false
-            azure_sdk_references: ['/sampling/percentageIncreaseTimeout', '/properties/sampling/properties/percentageIncreaseTimeout']
-          - !ruby/object:Api::Type::Double
-            name: 'minPercentage'
-            description: 'Minimum allowed rate of sampling.'
-            required: false
-            azure_sdk_references: ['/sampling/minPercentage', '/properties/sampling/properties/minPercentage']
-          - !ruby/object:Api::Type::Double
-            name: 'maxPercentage'
-            description: 'Maximum allowed rate of sampling.'
-            required: false
-            azure_sdk_references: ['/sampling/maxPercentage', '/properties/sampling/properties/maxPercentage']
-          - !ruby/object:Api::Type::Double
-            name: 'movingAverageRatio'
-            description: 'Moving average ration assigned to most recent value.'
-            required: false
-            azure_sdk_references: ['/sampling/movingAverageRatio', '/properties/sampling/properties/movingAverageRatio']
-          - !ruby/object:Api::Type::Double
-            name: 'initialPercentage'
-            description: 'Initial sampling rate.'
-            required: false
-            azure_sdk_references: ['/sampling/initialPercentage', '/properties/sampling/properties/initialPercentage']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -212,3 +129,32 @@ objects:
         description: 'Resource type for API Management resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'loggerType'
+        description: 'Logger type.'
+        output: true
+        azure_sdk_references: ['/loggerType', '/properties/loggerType']
+        values:
+          - :azureEventHub
+          - :applicationInsights
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Logger description.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'credentials'
+        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
+        output: true
+        azure_sdk_references: ['/credentials', '/properties/credentials']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isBuffered'
+        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
+        output: true
+        azure_sdk_references: ['/isBuffered', '/properties/isBuffered']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sampling'
+        description: 'Sampling settings for an ApplicationInsights logger.'
+        output: true
+        azure_sdk_references: ['/sampling', '/properties/sampling']
+        properties:

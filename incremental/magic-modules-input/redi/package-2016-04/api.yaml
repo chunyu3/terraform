@@ -345,9 +345,21 @@ objects:
             applicable_to: [go]
             go_field_name: AccessKeys
             go_type_name: AccessKeys
+          '/properties/accessKeys/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryKey
+          '/properties/accessKeys/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryKey
           '/accessKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: access_keys
+          '/accessKeys/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_key
+          '/accessKeys/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_key
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -485,16 +497,6 @@ objects:
         output: true
         azure_sdk_references: ['/accessKeys', '/properties/accessKeys']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'primaryKey'
-            description: 'The current primary key that clients can use to authenticate with Redis cache.'
-            required: false
-            azure_sdk_references: ['/accessKeys/primaryKey', '/properties/accessKeys/primaryKey']
-          - !ruby/object:Api::Type::String
-            name: 'secondaryKey'
-            description: 'The current secondary key that clients can use to authenticate with Redis cache.'
-            required: false
-            azure_sdk_references: ['/accessKeys/secondaryKey', '/properties/accessKeys/secondaryKey']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

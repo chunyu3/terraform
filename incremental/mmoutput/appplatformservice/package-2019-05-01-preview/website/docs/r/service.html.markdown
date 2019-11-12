@@ -68,6 +68,35 @@ The `config_server` block supports the following:
 
 The `git_property` block supports the following:
 
+* `repositories` - (Optional) One or more `repository` block defined below.
+
+* `uri` - (Required) URI of the repository
+
+* `label` - (Optional) Label of the repository
+
+* `search_paths` - (Optional) Searching path of the repository
+
+* `username` - (Optional) Username of git repository basic auth.
+
+* `password` - (Optional) Password of git repository basic auth.
+
+* `host_key` - (Optional) Public sshKey of git repository.
+
+* `host_key_algorithm` - (Optional) SshKey algorithm of git repository.
+
+* `private_key` - (Optional) Private sshKey algorithm of git repository.
+
+* `strict_host_key_checking` - (Optional) Strict host key checking or not.
+
+
+---
+
+The `repository` block supports the following:
+
+* `name` - (Required) Name of the repository
+
+* `pattern` - (Optional) Collection of pattern of the repository
+
 * `uri` - (Required) URI of the repository
 
 * `label` - (Optional) Label of the repository

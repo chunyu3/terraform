@@ -111,6 +111,26 @@ The `key_to_track_mapping` block supports the following:
 
 * `policy_name` - (Optional) Policy used by Content Key
 
+* `tracks` - (Optional) One or more `track` block defined below.
+
+
+---
+
+The `track` block supports the following:
+
+* `track_selections` - (Optional) One or more `track_selection` block defined below.
+
+
+---
+
+The `track_selection` block supports the following:
+
+* `property` - (Required) Track property type
+
+* `operation` - (Required) Track property condition operation
+
+* `value` - (Optional) Track property value
+
 ---
 
 The `drm` block supports the following:
@@ -211,6 +231,26 @@ The `key_to_track_mapping` block supports the following:
 
 * `policy_name` - (Optional) Policy used by Content Key
 
+* `tracks` - (Optional) One or more `track` block defined below.
+
+
+---
+
+The `track` block supports the following:
+
+* `track_selections` - (Optional) One or more `track_selection` block defined below.
+
+
+---
+
+The `track_selection` block supports the following:
+
+* `property` - (Required) Track property type
+
+* `operation` - (Required) Track property condition operation
+
+* `value` - (Optional) Track property value
+
 ---
 
 The `drm` block supports the following:
@@ -300,6 +340,26 @@ The `key_to_track_mapping` block supports the following:
 * `label` - (Optional) Label can be used to specify Content Key when creating Streaming Locator
 
 * `policy_name` - (Optional) Policy used by Content Key
+
+* `tracks` - (Optional) One or more `track` block defined below.
+
+
+---
+
+The `track` block supports the following:
+
+* `track_selections` - (Optional) One or more `track_selection` block defined below.
+
+
+---
+
+The `track_selection` block supports the following:
+
+* `property` - (Required) Track property type
+
+* `operation` - (Required) Track property condition operation
+
+* `value` - (Optional) Track property value
 
 ---
 

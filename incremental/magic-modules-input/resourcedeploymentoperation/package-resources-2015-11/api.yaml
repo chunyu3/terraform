@@ -43,6 +43,55 @@ objects:
             applicable_to: [go]
             go_field_name: DeploymentOperationProperties
             go_type_name: DeploymentOperationProperties
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Timestamp
+          '/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: timestamp
+          '/properties/statusCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StatusCode
+          '/statusCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status_code
+          '/properties/statusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: StatusMessage
+          '/statusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: status_message
+          '/properties/targetResource': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TargetResource
+            go_type_name: TargetResource
+          '/properties/targetResource/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/targetResource/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceName
+          '/properties/targetResource/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceType
+          '/targetResource': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: target_resource
+          '/targetResource/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/targetResource/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_name
+          '/targetResource/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_type
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -73,47 +122,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['deploymentName']
-      - !ruby/object:Api::Type::String
-        name: 'provisioningState'
-        description: 'Gets or sets the state of the provisioning.'
-        required: false
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'timestamp'
-        description: 'Gets or sets the date and time of the operation.'
-        required: false
-        azure_sdk_references: ['/timestamp', '/properties/timestamp']
-      - !ruby/object:Api::Type::String
-        name: 'statusCode'
-        description: 'Gets or sets operation status code.'
-        required: false
-        azure_sdk_references: ['/statusCode', '/properties/statusCode']
-      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'statusMessage'
-        description: 'Gets or sets operation status message.'
-        required: false
-        azure_sdk_references: ['/statusMessage', '/properties/statusMessage']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'targetResource'
-        description: 'Gets or sets the target resource.'
-        required: false
-        azure_sdk_references: ['/targetResource', '/properties/targetResource']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'Gets or sets the ID of the resource.'
-            required: false
-            azure_sdk_references: ['/targetResource/id', '/properties/targetResource/id']
-          - !ruby/object:Api::Type::String
-            name: 'resourceName'
-            description: 'Gets or sets the name of the resource.'
-            required: false
-            azure_sdk_references: ['/targetResource/resourceName', '/properties/targetResource/resourceName']
-          - !ruby/object:Api::Type::String
-            name: 'resourceType'
-            description: 'Gets or sets the type of the resource.'
-            required: false
-            azure_sdk_references: ['/targetResource/resourceType', '/properties/targetResource/resourceType']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -125,3 +133,29 @@ objects:
         description: 'Gets or sets deployment operation id.'
         output: true
         azure_sdk_references: ['/operationId']
+      - !ruby/object:Api::Type::String
+        name: 'provisioningState'
+        description: 'Gets or sets the state of the provisioning.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'timestamp'
+        description: 'Gets or sets the date and time of the operation.'
+        output: true
+        azure_sdk_references: ['/timestamp', '/properties/timestamp']
+      - !ruby/object:Api::Type::String
+        name: 'statusCode'
+        description: 'Gets or sets operation status code.'
+        output: true
+        azure_sdk_references: ['/statusCode', '/properties/statusCode']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'statusMessage'
+        description: 'Gets or sets operation status message.'
+        output: true
+        azure_sdk_references: ['/statusMessage', '/properties/statusMessage']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'targetResource'
+        description: 'Gets or sets the target resource.'
+        output: true
+        azure_sdk_references: ['/targetResource', '/properties/targetResource']
+        properties:

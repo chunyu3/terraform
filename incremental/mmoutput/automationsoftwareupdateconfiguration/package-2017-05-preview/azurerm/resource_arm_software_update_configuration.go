@@ -267,6 +267,25 @@ func resourceArmSoftwareUpdateConfiguration() *schema.Resource {
                                                         Type: schema.TypeString,
                                                     },
                                                 },
+                                                "tag_settings": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "filter_operator": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                                ValidateFunc: validation.StringInSlice([]string{
+                                                                    string(automation.All),
+                                                                    string(automation.Any),
+                                                                }, false),
+                                                                Default: string(automation.All),
+                                                            },
+                                                            "tags": tags.Schema(),
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -789,10 +808,12 @@ func expandArmSoftwareUpdateConfigurationAzureQueryProperties(input []interface{
         v := item.(map[string]interface{})
         scope := v["scope"].([]interface{})
         locations := v["locations"].([]interface{})
+        tagSettings := v["tag_settings"].([]interface{})
 
         result := automation.AzureQueryProperties{
             Locations: utils.ExpandStringSlice(locations),
             Scope: utils.ExpandStringSlice(scope),
+            TagSettings: expandArmSoftwareUpdateConfigurationTagSettingsProperties(tagSettings),
         }
 
         results = append(results, result)
@@ -815,6 +836,22 @@ func expandArmSoftwareUpdateConfigurationNonAzureQueryProperties(input []interfa
         results = append(results, result)
     }
     return &results
+}
+
+func expandArmSoftwareUpdateConfigurationTagSettingsProperties(input []interface{}) *automation.TagSettingsProperties {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    t := v["tags"].(map[string]interface{})
+    filterOperator := v["filter_operator"].(string)
+
+    result := automation.TagSettingsProperties{
+        FilterOperator: automation.TagOperators(filterOperator),
+        Tags: tags.Expand(t),
+    }
+    return &result
 }
 
 
@@ -1021,6 +1058,7 @@ func flattenArmSoftwareUpdateConfigurationAzureQueryProperties(input *[]automati
 
         v["locations"] = utils.FlattenStringSlice(item.Locations)
         v["scope"] = utils.FlattenStringSlice(item.Scope)
+        v["tag_settings"] = flattenArmSoftwareUpdateConfigurationTagSettingsProperties(item.TagSettings)
 
         results = append(results, v)
     }
@@ -1048,4 +1086,16 @@ func flattenArmSoftwareUpdateConfigurationNonAzureQueryProperties(input *[]autom
     }
 
     return results
+}
+
+func flattenArmSoftwareUpdateConfigurationTagSettingsProperties(input *automation.TagSettingsProperties) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    result["filter_operator"] = string(input.FilterOperator)
+
+    return []interface{}{result}
 }

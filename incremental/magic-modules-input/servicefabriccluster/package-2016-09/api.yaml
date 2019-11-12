@@ -1384,9 +1384,28 @@ objects:
             applicable_to: [go]
             go_field_name: AvailableClusterVersions
             go_type_name: ClusterVersionDetails
+          '/properties/availableClusterVersions/codeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CodeVersion
+          '/properties/availableClusterVersions/supportExpiryUtc': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SupportExpiryUtc
+          '/properties/availableClusterVersions/environment': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Environment
+            go_enum_type_name: 
           '/availableClusterVersions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: available_cluster_versions
+          '/availableClusterVersions/codeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code_version
+          '/availableClusterVersions/supportExpiryUtc': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: support_expiry_utc
+          '/availableClusterVersions/environment': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: environment
           '/properties/clusterId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ClusterID
@@ -1860,25 +1879,6 @@ objects:
         azure_sdk_references: ['/availableClusterVersions', '/properties/availableClusterVersions']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'codeVersion'
-              description: 'The ServiceFabric runtime version of the cluster'
-              required: false
-              azure_sdk_references: ['/availableClusterVersions/codeVersion', '/properties/availableClusterVersions/codeVersion']
-            - !ruby/object:Api::Type::String
-              name: 'supportExpiryUtc'
-              description: 'The date of expiry of support of the version'
-              required: false
-              azure_sdk_references: ['/availableClusterVersions/supportExpiryUtc', '/properties/availableClusterVersions/supportExpiryUtc']
-            - !ruby/object:Api::Type::Enum
-              name: 'environment'
-              description: 'Cluster operating system'
-              required: false
-              azure_sdk_references: ['/availableClusterVersions/environment', '/properties/availableClusterVersions/environment']
-              values:
-                - :Windows
-                - :Linux
-              default_value: :Windows
       - !ruby/object:Api::Type::String
         name: 'clusterId'
         description: 'The unique identifier for the cluster resource'

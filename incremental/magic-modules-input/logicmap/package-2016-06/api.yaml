@@ -193,9 +193,52 @@ objects:
             applicable_to: [go]
             go_field_name: ContentLink
             go_type_name: ContentLink
+          '/properties/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/contentLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentVersion
+          '/properties/contentLink/contentSize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ContentSize
+          '/properties/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/contentLink/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
           '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: content_link
+          '/contentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/contentLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_version
+          '/contentLink/contentSize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: content_size
+          '/contentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/contentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/contentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/contentLink/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -304,42 +347,6 @@ objects:
         output: true
         azure_sdk_references: ['/contentLink', '/properties/contentLink']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'uri'
-            description: 'The content link URI.'
-            required: false
-            azure_sdk_references: ['/contentLink/uri', '/properties/contentLink/uri']
-          - !ruby/object:Api::Type::String
-            name: 'contentVersion'
-            description: 'The content version.'
-            required: false
-            azure_sdk_references: ['/contentLink/contentVersion', '/properties/contentLink/contentVersion']
-          - !ruby/object:Api::Type::Integer
-            name: 'contentSize'
-            description: 'The content size.'
-            required: false
-            azure_sdk_references: ['/contentLink/contentSize', '/properties/contentLink/contentSize']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
-            description: 'The content hash.'
-            required: false
-            azure_sdk_references: ['/contentLink/contentHash', '/properties/contentLink/contentHash']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'algorithm'
-                description: 'The algorithm of the content hash.'
-                required: false
-                azure_sdk_references: ['/contentLink/contentHash/algorithm', '/properties/contentLink/contentHash/algorithm']
-              - !ruby/object:Api::Type::String
-                name: 'value'
-                description: 'The value of the content hash.'
-                required: false
-                azure_sdk_references: ['/contentLink/contentHash/value', '/properties/contentLink/contentHash/value']
-          - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-            name: 'metadata'
-            description: 'The metadata.'
-            required: false
-            azure_sdk_references: ['/contentLink/metadata', '/properties/contentLink/metadata']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource id.'

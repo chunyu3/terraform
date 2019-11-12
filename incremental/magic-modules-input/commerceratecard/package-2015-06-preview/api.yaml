@@ -36,10 +36,43 @@ objects:
             go_field_name: OfferTerms
             go_type_name: OfferTermInfo
             python_field_name: offer_terms
+          '/OfferTerms/EffectiveDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EffectiveDate
+            python_field_name: effective_date
           '/Meters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             go_field_name: Meters
             go_type_name: MeterInfo
             python_field_name: meters
+          '/Meters/MeterId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterID
+            python_field_name: meter_id
+          '/Meters/MeterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterName
+            python_field_name: meter_name
+          '/Meters/MeterCategory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterCategory
+            python_field_name: meter_category
+          '/Meters/MeterSubCategory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterSubCategory
+            python_field_name: meter_sub_category
+          '/Meters/Unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Unit
+            python_field_name: unit
+          '/Meters/MeterTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: MeterTags
+            python_field_name: meter_tags
+          '/Meters/MeterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterRegion
+            python_field_name: meter_region
+          '/Meters/MeterRates': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: MeterRates
+            python_field_name: meter_rates
+          '/Meters/EffectiveDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EffectiveDate
+            python_field_name: effective_date
+          '/Meters/IncludedQuantity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: IncludedQuantity
+            python_field_name: included_quantity
 
     description: |
       Manage Azure RateCard instance.
@@ -67,11 +100,6 @@ objects:
         azure_sdk_references: ['/OfferTerms']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'effectiveDate'
-              description: 'Indicates the date from which the offer term is effective.'
-              required: false
-              azure_sdk_references: ['/OfferTerms/EffectiveDate']
       - !ruby/object:Api::Type::Array
         name: 'meters'
         description: 'A list of meters.'
@@ -79,54 +107,3 @@ objects:
         azure_sdk_references: ['/Meters']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'meterId'
-              description: 'The unique identifier of the resource.'
-              required: false
-              azure_sdk_references: ['/Meters/MeterId']
-            - !ruby/object:Api::Type::String
-              name: 'meterName'
-              description: 'The name of the meter, within the given meter category'
-              required: false
-              azure_sdk_references: ['/Meters/MeterName']
-            - !ruby/object:Api::Type::String
-              name: 'meterCategory'
-              description: 'The category of the meter, e.g., ''Cloud services'', ''Networking'', etc..'
-              required: false
-              azure_sdk_references: ['/Meters/MeterCategory']
-            - !ruby/object:Api::Type::String
-              name: 'meterSubCategory'
-              description: 'The subcategory of the meter, e.g., ''A6 Cloud services'', ''ExpressRoute (IXP)'', etc..'
-              required: false
-              azure_sdk_references: ['/Meters/MeterSubCategory']
-            - !ruby/object:Api::Type::String
-              name: 'unit'
-              description: 'The unit in which the meter consumption is charged, e.g., ''Hours'', ''GB'', etc.'
-              required: false
-              azure_sdk_references: ['/Meters/Unit']
-            - !ruby/object:Api::Type::Array
-              name: 'meterTags'
-              description: 'Provides additional meter data. ''Third Party'' indicates a meter with no discount. Blanks indicate First Party.'
-              required: false
-              azure_sdk_references: ['/Meters/MeterTags']
-              item_type: Api::Type::String
-            - !ruby/object:Api::Type::String
-              name: 'meterRegion'
-              description: 'The region in which the Azure service is available.'
-              required: false
-              azure_sdk_references: ['/Meters/MeterRegion']
-            - !ruby/object:Api::Type::KeyValuePairs
-              name: 'meterRates'
-              description: 'The list of key/value pairs for the meter rates, in the format ''key'':''value'' where key = the meter quantity, and value = the corresponding price'
-              required: false
-              azure_sdk_references: ['/Meters/MeterRates']
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'effectiveDate'
-              description: 'Indicates the date from which the meter rate is effective.'
-              required: false
-              azure_sdk_references: ['/Meters/EffectiveDate']
-            - !ruby/object:Api::Type::Integer
-              name: 'includedQuantity'
-              description: 'The resource quantity that is included in the offer at no cost. Consumption beyond this quantity will be charged.'
-              required: false
-              azure_sdk_references: ['/Meters/IncludedQuantity']

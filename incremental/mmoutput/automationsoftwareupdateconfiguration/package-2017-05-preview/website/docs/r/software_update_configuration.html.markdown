@@ -148,6 +148,17 @@ The `azure_query` block supports the following:
 
 * `locations` - (Optional) List of locations to scope the query to.
 
+* `tag_settings` - (Optional) One `tag_setting` block defined below.
+
+
+---
+
+The `tag_setting` block supports the following:
+
+* `tags` - (Optional) Dictionary of tags with its list of values.
+
+* `filter_operator` - (Optional) Filter VMs by Any or All specified tags. Defaults to `All`.
+
 ---
 
 The `non_azure_query` block supports the following:

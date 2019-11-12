@@ -102,6 +102,50 @@ The `route` block supports the following:
 
 * `name` - (Required) http route name.
 
+* `match` - (Required) One `match` block defined below.
+
+* `destination` - (Required) One `destination` block defined below.
+
+
+---
+
+The `match` block supports the following:
+
+* `path` - (Required) One `path` block defined below.
+
+* `headers` - (Optional) One or more `header` block defined below.
+
+
+---
+
+The `path` block supports the following:
+
+* `value` - (Required) Uri path to match for request.
+
+* `rewrite` - (Optional) replacement string for matched part of the Uri.
+
+* `type` - (Required) how to match value in the Uri
+
+---
+
+The `header` block supports the following:
+
+* `name` - (Required) Name of header to match in request.
+
+* `value` - (Optional) Value of header to match in request.
+
+* `type` - (Optional) how to match header value Defaults to `exact`.
+
+---
+
+The `destination` block supports the following:
+
+* `application_name` - (Required) Name of the service fabric Mesh application.
+
+* `service_name` - (Required) service that contains the endpoint.
+
+* `endpoint_name` - (Required) name of the endpoint in the service.
+
 ---
 
 The `tcp` block supports the following:

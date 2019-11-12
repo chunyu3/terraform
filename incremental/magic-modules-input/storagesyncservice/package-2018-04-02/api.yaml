@@ -43,18 +43,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: storage_sync_service_status
-          '/properties/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: StorageSyncServiceStatus
-          '/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_sync_service_uid
-          '/properties/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageSyncServiceUid
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -80,18 +68,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: storage_sync_service_status
-          '/properties/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: StorageSyncServiceStatus
-          '/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_sync_service_uid
-          '/properties/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageSyncServiceUid
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -140,6 +116,18 @@ objects:
             applicable_to: [go]
             go_field_name: ServiceProperties
             go_type_name: ServiceProperties
+          '/properties/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: StorageSyncServiceStatus
+          '/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: storage_sync_service_status
+          '/properties/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageSyncServiceUid
+          '/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_sync_service_uid
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBySubscription
         python_func_name: list_by_subscription
@@ -181,16 +169,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::Integer
-        name: 'storageSyncServiceStatus'
-        description: 'Storage Sync service status.'
-        required: false
-        azure_sdk_references: ['/storageSyncServiceStatus', '/properties/storageSyncServiceStatus']
-      - !ruby/object:Api::Type::String
-        name: 'storageSyncServiceUid'
-        description: 'Storage Sync service Uid'
-        required: false
-        azure_sdk_references: ['/storageSyncServiceUid', '/properties/storageSyncServiceUid']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -207,3 +185,13 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Integer
+        name: 'storageSyncServiceStatus'
+        description: 'Storage Sync service status.'
+        output: true
+        azure_sdk_references: ['/storageSyncServiceStatus', '/properties/storageSyncServiceStatus']
+      - !ruby/object:Api::Type::String
+        name: 'storageSyncServiceUid'
+        description: 'Storage Sync service Uid'
+        output: true
+        azure_sdk_references: ['/storageSyncServiceUid', '/properties/storageSyncServiceUid']

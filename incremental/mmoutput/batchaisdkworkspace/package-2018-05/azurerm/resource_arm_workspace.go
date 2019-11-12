@@ -47,26 +47,17 @@ func resourceArmWorkspace() *schema.Resource {
 
             "creation_time": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validateRFC3339Date,
+                Computed: true,
             },
 
             "provisioning_state": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(batchaisdk.creating),
-                    string(batchaisdk.succeeded),
-                    string(batchaisdk.failed),
-                    string(batchaisdk.deleting),
-                }, false),
-                Default: string(batchaisdk.creating),
+                Computed: true,
             },
 
             "provisioning_state_transition_time": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validateRFC3339Date,
+                Computed: true,
             },
 
             "type": {
@@ -99,14 +90,10 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    creationTime := d.Get("creation_time").(string)
-    provisioningState := d.Get("provisioning_state").(string)
-    provisioningStateTransitionTime := d.Get("provisioning_state_transition_time").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := batchaisdk.WorkspaceCreateParameters{
         Location: utils.String(location),
-        // TODO: SDK Reference /properties is not supported
         Tags: tags.Expand(t),
     }
 
@@ -160,6 +147,11 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
+    if workspaceProperties := resp.WorkspaceProperties; workspaceProperties != nil {
+        d.Set("creation_time", (workspaceProperties.CreationTime).String())
+        d.Set("provisioning_state", string(workspaceProperties.ProvisioningState))
+        d.Set("provisioning_state_transition_time", (workspaceProperties.ProvisioningStateTransitionTime).String())
+    }
     d.Set("type", resp.Type)
 
     return tags.FlattenAndSet(d, resp.Tags)
@@ -171,14 +163,10 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    creationTime := d.Get("creation_time").(string)
-    provisioningState := d.Get("provisioning_state").(string)
-    provisioningStateTransitionTime := d.Get("provisioning_state_transition_time").(string)
     t := d.Get("tags").(map[string]interface{})
 
     parameters := batchaisdk.WorkspaceCreateParameters{
         Location: utils.String(location),
-        // TODO: SDK Reference /properties is not supported
         Tags: tags.Expand(t),
     }
 

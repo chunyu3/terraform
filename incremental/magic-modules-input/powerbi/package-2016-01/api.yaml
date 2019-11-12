@@ -30,39 +30,3 @@ objects:
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'The name of the operation being performed on this particular object. This name should match the action name that appears in RBAC / the event service.'
-              required: false
-              azure_sdk_references: ['/value/name']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'display'
-              description: ''
-              required: false
-              azure_sdk_references: ['/value/display']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'provider'
-                  description: 'The localized friendly form of the resource provider name. This form is also expected to include the publisher/company responsible. Use Title Casing. Begin with "Microsoft" for 1st party services.'
-                  required: false
-                  azure_sdk_references: ['/value/display/provider']
-                - !ruby/object:Api::Type::String
-                  name: 'resource'
-                  description: 'The localized friendly form of the resource type related to this action/operation. This form should match the public documentation for the resource provider. Use Title Casing. For examples, refer to the "name" section.'
-                  required: false
-                  azure_sdk_references: ['/value/display/resource']
-                - !ruby/object:Api::Type::String
-                  name: 'operation'
-                  description: 'The localized friendly name for the operation as shown to the user. This name should be concise (to fit in drop downs), but clear (self-documenting). Use Title Casing and include the entity/resource to which it applies.'
-                  required: false
-                  azure_sdk_references: ['/value/display/operation']
-                - !ruby/object:Api::Type::String
-                  name: 'description'
-                  description: 'The localized friendly description for the operation as shown to the user. This description should be thorough, yet concise. It will be used in tool-tips and detailed views.'
-                  required: false
-                  azure_sdk_references: ['/value/display/description']
-                - !ruby/object:Api::Type::String
-                  name: 'origin'
-                  description: 'The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. Default value is ''user,system'''
-                  required: false
-                  azure_sdk_references: ['/value/display/origin']

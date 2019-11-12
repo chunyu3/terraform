@@ -134,9 +134,27 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_type_name: Status
+          '/properties/status/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayStatus
+          '/properties/status/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Timestamp
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: status
+          '/status/displayStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_status
+          '/status/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: timestamp
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -213,21 +231,6 @@ objects:
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'displayStatus'
-            description: 'The short label for the status.'
-            required: false
-            azure_sdk_references: ['/status/displayStatus', '/properties/status/displayStatus']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The detailed message for the status, including alerts and error messages.'
-            required: false
-            azure_sdk_references: ['/status/message', '/properties/status/message']
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'timestamp'
-            description: 'The timestamp when the status was changed to the current value.'
-            required: false
-            azure_sdk_references: ['/status/timestamp', '/properties/status/timestamp']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

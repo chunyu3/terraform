@@ -54,6 +54,79 @@ objects:
             applicable_to: [go]
             go_field_name: IoTSecurityAggregatedAlertProperties
             go_type_name: IoTSecurityAggregatedAlertProperties
+          '/properties/alertType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AlertType
+          '/alertType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: alert_type
+          '/properties/alertDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AlertDisplayName
+          '/alertDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: alert_display_name
+          '/properties/aggregatedDateUtc': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[date]]
+            applicable_to: [go]
+            go_field_name: AggregatedDateUtc
+          '/aggregatedDateUtc': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[date]]
+            applicable_to: [python]
+            python_field_name: aggregated_date_utc
+          '/properties/vendorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VendorName
+          '/vendorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vendor_name
+          '/properties/reportedSeverity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ReportedSeverity
+            go_enum_type_name: ReportedSeverity
+          '/reportedSeverity': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: reported_severity
+          '/properties/remediationSteps': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RemediationSteps
+          '/remediationSteps': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: remediation_steps
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Count
+          '/count': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: count
+          '/properties/effectedResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EffectedResourceType
+          '/effectedResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: effected_resource_type
+          '/properties/systemSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SystemSource
+          '/systemSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: system_source
+          '/properties/actionTaken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ActionTaken
+          '/actionTaken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action_taken
+          '/properties/logAnalyticsQuery': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsQuery
+          '/logAnalyticsQuery': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: log_analytics_query
 
     description: |
       Manage Azure IoTSecuritySolutionsAnalyticsAggregatedAlert instance.
@@ -76,72 +149,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['aggregatedAlertName']
-      - !ruby/object:Api::Type::String
-        name: 'alertType'
-        description: 'Name of the alert type'
-        required: false
-        azure_sdk_references: ['/alertType', '/properties/alertType']
-      - !ruby/object:Api::Type::String
-        name: 'alertDisplayName'
-        description: 'Display name of the alert type'
-        required: false
-        azure_sdk_references: ['/alertDisplayName', '/properties/alertDisplayName']
-      - !ruby/object:Api::Azure::Type::[unknown-primary[date]]
-        name: 'aggregatedDateUtc'
-        description: 'The date the incidents were detected by the vendor'
-        required: false
-        azure_sdk_references: ['/aggregatedDateUtc', '/properties/aggregatedDateUtc']
-      - !ruby/object:Api::Type::String
-        name: 'vendorName'
-        description: 'Name of the vendor that discovered the incident'
-        required: false
-        azure_sdk_references: ['/vendorName', '/properties/vendorName']
-      - !ruby/object:Api::Type::Enum
-        name: 'reportedSeverity'
-        description: 'Estimated severity of this alert'
-        required: false
-        azure_sdk_references: ['/reportedSeverity', '/properties/reportedSeverity']
-        values:
-          - :Informational
-          - :Low
-          - :Medium
-          - :High
-        default_value: :Informational
-      - !ruby/object:Api::Type::String
-        name: 'remediationSteps'
-        description: 'Recommended steps for remediation'
-        required: false
-        azure_sdk_references: ['/remediationSteps', '/properties/remediationSteps']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Description of the incident and what it means'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::Integer
-        name: 'count'
-        description: 'Occurrence number of the alert within the aggregated date'
-        required: false
-        azure_sdk_references: ['/count', '/properties/count']
-      - !ruby/object:Api::Type::String
-        name: 'effectedResourceType'
-        description: 'Azure resource ID of the resource that got the alerts'
-        required: false
-        azure_sdk_references: ['/effectedResourceType', '/properties/effectedResourceType']
-      - !ruby/object:Api::Type::String
-        name: 'systemSource'
-        description: 'The type of the alerted resource (Azure, Non-Azure)'
-        required: false
-        azure_sdk_references: ['/systemSource', '/properties/systemSource']
-      - !ruby/object:Api::Type::String
-        name: 'actionTaken'
-        description: 'The action that was taken as a response to the alert (Active, Blocked etc.)'
-        required: false
-        azure_sdk_references: ['/actionTaken', '/properties/actionTaken']
-      - !ruby/object:Api::Type::String
-        name: 'logAnalyticsQuery'
-        description: 'query in log analytics to get the list of affected devices/alerts'
-        required: false
-        azure_sdk_references: ['/logAnalyticsQuery', '/properties/logAnalyticsQuery']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -163,3 +170,68 @@ objects:
         description: 'Resource tags'
         output: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'alertType'
+        description: 'Name of the alert type'
+        output: true
+        azure_sdk_references: ['/alertType', '/properties/alertType']
+      - !ruby/object:Api::Type::String
+        name: 'alertDisplayName'
+        description: 'Display name of the alert type'
+        output: true
+        azure_sdk_references: ['/alertDisplayName', '/properties/alertDisplayName']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[date]]
+        name: 'aggregatedDateUtc'
+        description: 'The date the incidents were detected by the vendor'
+        output: true
+        azure_sdk_references: ['/aggregatedDateUtc', '/properties/aggregatedDateUtc']
+      - !ruby/object:Api::Type::String
+        name: 'vendorName'
+        description: 'Name of the vendor that discovered the incident'
+        output: true
+        azure_sdk_references: ['/vendorName', '/properties/vendorName']
+      - !ruby/object:Api::Type::Enum
+        name: 'reportedSeverity'
+        description: 'Estimated severity of this alert'
+        output: true
+        azure_sdk_references: ['/reportedSeverity', '/properties/reportedSeverity']
+        values:
+          - :Informational
+          - :Low
+          - :Medium
+          - :High
+      - !ruby/object:Api::Type::String
+        name: 'remediationSteps'
+        description: 'Recommended steps for remediation'
+        output: true
+        azure_sdk_references: ['/remediationSteps', '/properties/remediationSteps']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description of the incident and what it means'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Integer
+        name: 'count'
+        description: 'Occurrence number of the alert within the aggregated date'
+        output: true
+        azure_sdk_references: ['/count', '/properties/count']
+      - !ruby/object:Api::Type::String
+        name: 'effectedResourceType'
+        description: 'Azure resource ID of the resource that got the alerts'
+        output: true
+        azure_sdk_references: ['/effectedResourceType', '/properties/effectedResourceType']
+      - !ruby/object:Api::Type::String
+        name: 'systemSource'
+        description: 'The type of the alerted resource (Azure, Non-Azure)'
+        output: true
+        azure_sdk_references: ['/systemSource', '/properties/systemSource']
+      - !ruby/object:Api::Type::String
+        name: 'actionTaken'
+        description: 'The action that was taken as a response to the alert (Active, Blocked etc.)'
+        output: true
+        azure_sdk_references: ['/actionTaken', '/properties/actionTaken']
+      - !ruby/object:Api::Type::String
+        name: 'logAnalyticsQuery'
+        description: 'query in log analytics to get the list of affected devices/alerts'
+        output: true
+        azure_sdk_references: ['/logAnalyticsQuery', '/properties/logAnalyticsQuery']

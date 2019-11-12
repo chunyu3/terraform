@@ -70,6 +70,37 @@ objects:
             applicable_to: [go]
             go_field_name: ProtectionContainer
             go_type_name: ProtectionContainer
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupManagementType
+            go_enum_type_name: ManagementType
+          '/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_management_type
+          '/properties/registrationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationStatus
+          '/registrationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_status
+          '/properties/healthStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HealthStatus
+          '/healthStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: health_status
+          '/properties/containerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContainerType
+          '/containerType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: container_type
 
     description: |
       Manage Azure ProtectionContainerOperationResult instance.
@@ -104,39 +135,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['operationId']
-      - !ruby/object:Api::Type::String
-        name: 'friendlyName'
-        description: 'Friendly name of the container.'
-        required: false
-        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
-      - !ruby/object:Api::Type::Enum
-        name: 'backupManagementType'
-        description: 'The backup management type for the container.'
-        required: false
-        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
-        values:
-          - :Invalid
-          - :AzureIaasVM
-          - :MAB
-          - :DPM
-          - :AzureBackupServer
-          - :AzureSql
-        default_value: :Invalid
-      - !ruby/object:Api::Type::String
-        name: 'registrationStatus'
-        description: 'The container''s registration status with the Recovery Services vault.'
-        required: false
-        azure_sdk_references: ['/registrationStatus', '/properties/registrationStatus']
-      - !ruby/object:Api::Type::String
-        name: 'healthStatus'
-        description: 'The status of the container''s health.'
-        required: false
-        azure_sdk_references: ['/healthStatus', '/properties/healthStatus']
-      - !ruby/object:Api::Type::String
-        name: 'containerType'
-        description: 'The type assigned to the container. The values to use for each of these properties are:<br/> 1. Compute Azure VM is Microsoft.Compute/virtualMachines<br/> 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines<br/> 3. Windows machines (like Azure Backup Server and DPM) is Windows<br/> 4. Azure SQL instance is AzureSqlContainer.'
-        required: false
-        azure_sdk_references: ['/containerType', '/properties/containerType']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -168,3 +166,35 @@ objects:
         description: 'Optional ETag.'
         output: true
         azure_sdk_references: ['/eTag']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly name of the container.'
+        output: true
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::Enum
+        name: 'backupManagementType'
+        description: 'The backup management type for the container.'
+        output: true
+        azure_sdk_references: ['/backupManagementType', '/properties/backupManagementType']
+        values:
+          - :Invalid
+          - :AzureIaasVM
+          - :MAB
+          - :DPM
+          - :AzureBackupServer
+          - :AzureSql
+      - !ruby/object:Api::Type::String
+        name: 'registrationStatus'
+        description: 'The container''s registration status with the Recovery Services vault.'
+        output: true
+        azure_sdk_references: ['/registrationStatus', '/properties/registrationStatus']
+      - !ruby/object:Api::Type::String
+        name: 'healthStatus'
+        description: 'The status of the container''s health.'
+        output: true
+        azure_sdk_references: ['/healthStatus', '/properties/healthStatus']
+      - !ruby/object:Api::Type::String
+        name: 'containerType'
+        description: 'The type assigned to the container. The values to use for each of these properties are:<br/> 1. Compute Azure VM is Microsoft.Compute/virtualMachines<br/> 2. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines<br/> 3. Windows machines (like Azure Backup Server and DPM) is Windows<br/> 4. Azure SQL instance is AzureSqlContainer.'
+        output: true
+        azure_sdk_references: ['/containerType', '/properties/containerType']

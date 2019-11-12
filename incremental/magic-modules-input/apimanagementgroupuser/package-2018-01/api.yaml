@@ -113,96 +113,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['uid']
-      - !ruby/object:Api::Type::Enum
-        name: 'state'
-        description: 'Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.'
-        required: false
-        azure_sdk_references: ['/state', '/properties/state']
-        values:
-          - :active
-          - :blocked
-          - :pending
-          - :deleted
-        default_value: :active
-      - !ruby/object:Api::Type::String
-        name: 'note'
-        description: 'Optional note about a user set by the administrator.'
-        required: false
-        azure_sdk_references: ['/note', '/properties/note']
-      - !ruby/object:Api::Type::Array
-        name: 'identities'
-        description: 'Collection of user identities.'
-        required: false
-        azure_sdk_references: ['/identities', '/properties/identities']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'provider'
-              description: 'Identity provider name.'
-              required: false
-              azure_sdk_references: ['/identities/provider', '/properties/identities/provider']
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Identifier value within provider.'
-              required: false
-              azure_sdk_references: ['/identities/id', '/properties/identities/id']
-      - !ruby/object:Api::Type::String
-        name: 'firstName'
-        description: 'First name.'
-        required: false
-        azure_sdk_references: ['/firstName', '/properties/firstName']
-      - !ruby/object:Api::Type::String
-        name: 'lastName'
-        description: 'Last name.'
-        required: false
-        azure_sdk_references: ['/lastName', '/properties/lastName']
-      - !ruby/object:Api::Type::String
-        name: 'email'
-        description: 'Email address.'
-        required: false
-        azure_sdk_references: ['/email', '/properties/email']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'registrationDate'
-        description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
-        required: false
-        azure_sdk_references: ['/registrationDate', '/properties/registrationDate']
-      - !ruby/object:Api::Type::Array
-        name: 'groups'
-        description: 'Collection of groups user is part of.'
-        required: false
-        azure_sdk_references: ['/groups', '/properties/groups']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'displayName'
-              description: 'Group name.'
-              required: true
-              azure_sdk_references: ['/groups/displayName', '/properties/groups/displayName']
-            - !ruby/object:Api::Type::String
-              name: 'description'
-              description: 'Group description. Can contain HTML formatting tags.'
-              required: false
-              azure_sdk_references: ['/groups/description', '/properties/groups/description']
-            - !ruby/object:Api::Type::Boolean
-              name: 'builtIn'
-              description: 'true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.'
-              required: false
-              azure_sdk_references: ['/groups/builtIn', '/properties/groups/builtIn']
-            - !ruby/object:Api::Type::Enum
-              name: 'type'
-              description: 'Group type.'
-              required: false
-              azure_sdk_references: ['/groups/type', '/properties/groups/type']
-              values:
-                - :custom
-                - :system
-                - :external
-              default_value: :custom
-            - !ruby/object:Api::Type::String
-              name: 'externalId'
-              description: 'For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.'
-              required: false
-              azure_sdk_references: ['/groups/externalId', '/properties/groups/externalId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -219,3 +129,52 @@ objects:
         description: 'Resource type for API Management resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :active
+          - :blocked
+          - :pending
+          - :deleted
+      - !ruby/object:Api::Type::String
+        name: 'note'
+        description: 'Optional note about a user set by the administrator.'
+        output: true
+        azure_sdk_references: ['/note', '/properties/note']
+      - !ruby/object:Api::Type::Array
+        name: 'identities'
+        description: 'Collection of user identities.'
+        output: true
+        azure_sdk_references: ['/identities', '/properties/identities']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'firstName'
+        description: 'First name.'
+        output: true
+        azure_sdk_references: ['/firstName', '/properties/firstName']
+      - !ruby/object:Api::Type::String
+        name: 'lastName'
+        description: 'Last name.'
+        output: true
+        azure_sdk_references: ['/lastName', '/properties/lastName']
+      - !ruby/object:Api::Type::String
+        name: 'email'
+        description: 'Email address.'
+        output: true
+        azure_sdk_references: ['/email', '/properties/email']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'registrationDate'
+        description: 'Date of user registration. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
+        output: true
+        azure_sdk_references: ['/registrationDate', '/properties/registrationDate']
+      - !ruby/object:Api::Type::Array
+        name: 'groups'
+        description: 'Collection of groups user is part of.'
+        output: true
+        azure_sdk_references: ['/groups', '/properties/groups']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

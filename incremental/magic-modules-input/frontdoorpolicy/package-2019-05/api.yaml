@@ -212,6 +212,15 @@ objects:
           '/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: rules
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_id
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
           '/properties/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ManagedRules
@@ -237,6 +246,17 @@ objects:
             applicable_to: [go]
             go_field_name: Rules
             go_type_name: ManagedRuleOverride
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleID
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: ManagedRuleEnabledState
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: ActionType
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
@@ -448,6 +468,17 @@ objects:
             applicable_to: [go]
             go_field_name: Rules
             go_type_name: ManagedRuleOverride
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RuleID
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnabledState
+            go_enum_type_name: ManagedRuleEnabledState
+          '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: ActionType
           '/managedRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: managed_rules
@@ -469,13 +500,28 @@ objects:
           '/managedRules/managedRuleSets/ruleGroupOverrides/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: rules
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rule_id
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enabled_state
+          '/managedRules/managedRuleSets/ruleGroupOverrides/rules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
           '/properties/frontendEndpointLinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: FrontendEndpointLinks
             go_type_name: FrontendEndpointLink
+          '/properties/frontendEndpointLinks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/frontendEndpointLinks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: frontend_endpoint_links
+          '/frontendEndpointLinks/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -744,6 +790,38 @@ objects:
                         description: 'Describes the managed rule group to override.'
                         required: true
                         azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/ruleGroupName']
+                      - !ruby/object:Api::Type::Array
+                        name: 'rules'
+                        description: 'List of rules that will be disabled. If none specified, all rules in the group will be disabled.'
+                        required: false
+                        azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules']
+                        item_type: !ruby/object:Api::Type::NestedObject
+                          properties:
+                            - !ruby/object:Api::Type::String
+                              name: 'ruleId'
+                              description: 'Identifier for the managed rule.'
+                              required: true
+                              azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/ruleId']
+                            - !ruby/object:Api::Type::Enum
+                              name: 'enabledState'
+                              description: 'Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.'
+                              required: false
+                              azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/enabledState']
+                              values:
+                                - :Disabled
+                                - :Enabled
+                              default_value: :Disabled
+                            - !ruby/object:Api::Type::Enum
+                              name: 'action'
+                              description: 'Describes the override action to be applied when rule matches.'
+                              required: false
+                              azure_sdk_references: ['/managedRules/managedRuleSets/ruleGroupOverrides/rules/action', '/properties/managedRules/managedRuleSets/ruleGroupOverrides/rules/action']
+                              values:
+                                - :Allow
+                                - :Block
+                                - :Log
+                                - :Redirect
+                              default_value: :Allow
       - !ruby/object:Api::Type::String
         name: 'etag'
         description: 'Gets a unique read-only string that changes whenever the resource is updated.'
@@ -758,11 +836,6 @@ objects:
         azure_sdk_references: ['/frontendEndpointLinks', '/properties/frontendEndpointLinks']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource ID.'
-              required: false
-              azure_sdk_references: ['/frontendEndpointLinks/id', '/properties/frontendEndpointLinks/id']
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'Provisioning state of the policy.'

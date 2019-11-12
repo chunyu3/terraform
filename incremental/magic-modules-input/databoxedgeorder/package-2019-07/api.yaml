@@ -286,9 +286,28 @@ objects:
             applicable_to: [go]
             go_field_name: OrderHistory
             go_type_name: OrderStatus
+          '/properties/orderHistory/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: OrderState
+          '/properties/orderHistory/updateDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdateDateTime
+          '/properties/orderHistory/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Comments
           '/orderHistory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: order_history
+          '/orderHistory/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/orderHistory/updateDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: update_date_time
+          '/orderHistory/comments': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: comments
           '/properties/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SerialNumber
@@ -299,16 +318,64 @@ objects:
             applicable_to: [go]
             go_field_name: DeliveryTrackingInfo
             go_type_name: TrackingInfo
+          '/properties/deliveryTrackingInfo/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/deliveryTrackingInfo/carrierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CarrierName
+          '/properties/deliveryTrackingInfo/trackingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TrackingID
+          '/properties/deliveryTrackingInfo/trackingUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TrackingURL
           '/deliveryTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: delivery_tracking_info
+          '/deliveryTrackingInfo/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/deliveryTrackingInfo/carrierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: carrier_name
+          '/deliveryTrackingInfo/trackingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tracking_id
+          '/deliveryTrackingInfo/trackingUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tracking_url
           '/properties/returnTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ReturnTrackingInfo
             go_type_name: TrackingInfo
+          '/properties/returnTrackingInfo/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/returnTrackingInfo/carrierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CarrierName
+          '/properties/returnTrackingInfo/trackingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TrackingID
+          '/properties/returnTrackingInfo/trackingUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TrackingURL
           '/returnTrackingInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: return_tracking_info
+          '/returnTrackingInfo/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/returnTrackingInfo/carrierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: carrier_name
+          '/returnTrackingInfo/trackingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tracking_id
+          '/returnTrackingInfo/trackingUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tracking_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -455,36 +522,6 @@ objects:
         azure_sdk_references: ['/orderHistory', '/properties/orderHistory']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::Enum
-              name: 'status'
-              description: 'Status of the order as per the allowed status types.'
-              required: true
-              azure_sdk_references: ['/orderHistory/status', '/properties/orderHistory/status']
-              values:
-                - :Untracked
-                - :AwaitingFulfilment
-                - :AwaitingPreparation
-                - :AwaitingShipment
-                - :Shipped
-                - :Arriving
-                - :Delivered
-                - :ReplacementRequested
-                - :LostDevice
-                - :Declined
-                - :ReturnInitiated
-                - :AwaitingReturnShipment
-                - :ShippedBack
-                - :CollectedAtMicrosoft
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'updateDateTime'
-              description: 'Time of status update.'
-              required: false
-              azure_sdk_references: ['/orderHistory/updateDateTime', '/properties/orderHistory/updateDateTime']
-            - !ruby/object:Api::Type::String
-              name: 'comments'
-              description: 'Comments related to this status change.'
-              required: false
-              azure_sdk_references: ['/orderHistory/comments', '/properties/orderHistory/comments']
       - !ruby/object:Api::Type::String
         name: 'serialNumber'
         description: 'Serial number of the device.'
@@ -497,26 +534,6 @@ objects:
         azure_sdk_references: ['/deliveryTrackingInfo', '/properties/deliveryTrackingInfo']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'serialNumber'
-              description: 'Serial number of the device being tracked.'
-              required: false
-              azure_sdk_references: ['/deliveryTrackingInfo/serialNumber', '/properties/deliveryTrackingInfo/serialNumber']
-            - !ruby/object:Api::Type::String
-              name: 'carrierName'
-              description: 'Name of the carrier used in the delivery.'
-              required: false
-              azure_sdk_references: ['/deliveryTrackingInfo/carrierName', '/properties/deliveryTrackingInfo/carrierName']
-            - !ruby/object:Api::Type::String
-              name: 'trackingId'
-              description: 'Tracking ID of the shipment.'
-              required: false
-              azure_sdk_references: ['/deliveryTrackingInfo/trackingId', '/properties/deliveryTrackingInfo/trackingId']
-            - !ruby/object:Api::Type::String
-              name: 'trackingUrl'
-              description: 'Tracking URL of the shipment.'
-              required: false
-              azure_sdk_references: ['/deliveryTrackingInfo/trackingUrl', '/properties/deliveryTrackingInfo/trackingUrl']
       - !ruby/object:Api::Type::Array
         name: 'returnTrackingInfo'
         description: 'Tracking information for the package returned from the customer whether it has an original or a replacement device.'
@@ -524,26 +541,6 @@ objects:
         azure_sdk_references: ['/returnTrackingInfo', '/properties/returnTrackingInfo']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'serialNumber'
-              description: 'Serial number of the device being tracked.'
-              required: false
-              azure_sdk_references: ['/returnTrackingInfo/serialNumber', '/properties/returnTrackingInfo/serialNumber']
-            - !ruby/object:Api::Type::String
-              name: 'carrierName'
-              description: 'Name of the carrier used in the delivery.'
-              required: false
-              azure_sdk_references: ['/returnTrackingInfo/carrierName', '/properties/returnTrackingInfo/carrierName']
-            - !ruby/object:Api::Type::String
-              name: 'trackingId'
-              description: 'Tracking ID of the shipment.'
-              required: false
-              azure_sdk_references: ['/returnTrackingInfo/trackingId', '/properties/returnTrackingInfo/trackingId']
-            - !ruby/object:Api::Type::String
-              name: 'trackingUrl'
-              description: 'Tracking URL of the shipment.'
-              required: false
-              azure_sdk_references: ['/returnTrackingInfo/trackingUrl', '/properties/returnTrackingInfo/trackingUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The path ID that uniquely identifies the object.'

@@ -173,26 +173,6 @@ objects:
         output: true
         azure_sdk_references: ['/primaryEndpoints', '/properties/primaryEndpoints']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'blob'
-            description: 'The blob endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/blob', '/properties/primaryEndpoints/blob']
-          - !ruby/object:Api::Type::String
-            name: 'queue'
-            description: 'The queue endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/queue', '/properties/primaryEndpoints/queue']
-          - !ruby/object:Api::Type::String
-            name: 'table'
-            description: 'The table endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/table', '/properties/primaryEndpoints/table']
-          - !ruby/object:Api::Type::String
-            name: 'file'
-            description: 'The file endpoint.'
-            required: false
-            azure_sdk_references: ['/primaryEndpoints/file', '/properties/primaryEndpoints/file']
       - !ruby/object:Api::Type::String
         name: 'primaryLocation'
         description: 'The location of the primary data center for the storage account.'
@@ -235,42 +215,12 @@ objects:
         output: true
         azure_sdk_references: ['/customDomain', '/properties/customDomain']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'The custom domain name. Name is the CNAME source.'
-            required: true
-            azure_sdk_references: ['/customDomain/name', '/properties/customDomain/name']
-          - !ruby/object:Api::Type::Boolean
-            name: 'useSubDomainName'
-            description: 'Indicates whether indirect CName validation is enabled. Default value is false. This should only be set on updates'
-            required: false
-            azure_sdk_references: ['/customDomain/useSubDomainName', '/properties/customDomain/useSubDomainName']
       - !ruby/object:Api::Type::NestedObject
         name: 'secondaryEndpoints'
         description: 'The URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.'
         output: true
         azure_sdk_references: ['/secondaryEndpoints', '/properties/secondaryEndpoints']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'blob'
-            description: 'The blob endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/blob', '/properties/secondaryEndpoints/blob']
-          - !ruby/object:Api::Type::String
-            name: 'queue'
-            description: 'The queue endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/queue', '/properties/secondaryEndpoints/queue']
-          - !ruby/object:Api::Type::String
-            name: 'table'
-            description: 'The table endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/table', '/properties/secondaryEndpoints/table']
-          - !ruby/object:Api::Type::String
-            name: 'file'
-            description: 'The file endpoint.'
-            required: false
-            azure_sdk_references: ['/secondaryEndpoints/file', '/properties/secondaryEndpoints/file']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

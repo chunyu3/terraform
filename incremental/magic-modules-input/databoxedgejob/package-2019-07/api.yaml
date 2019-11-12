@@ -66,10 +66,136 @@ objects:
             go_field_name: Error
             go_type_name: JobErrorDetails
             python_field_name: error
+          '/error/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: ErrorDetails
+            go_type_name: JobErrorItem
+            python_field_name: error_details
+          '/error/errorDetails/recommendations': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Recommendations
+            python_field_name: recommendations
+          '/error/errorDetails/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/errorDetails/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: JobProperties
             go_type_name: JobProperties
+          '/properties/jobType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: JobType
+            go_enum_type_name: JobType
+          '/jobType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: job_type
+          '/properties/currentStage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CurrentStage
+            go_enum_type_name: UpdateOperationStage
+          '/currentStage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: current_stage
+          '/properties/downloadProgress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DownloadProgress
+            go_type_name: UpdateDownloadProgress
+          '/properties/downloadProgress/downloadPhase': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DownloadPhase
+            go_enum_type_name: DownloadPhase
+          '/properties/downloadProgress/percentComplete': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PercentComplete
+          '/properties/downloadProgress/totalBytesToDownload': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: TotalBytesToDownload
+          '/properties/downloadProgress/totalBytesDownloaded': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: TotalBytesDownloaded
+          '/properties/downloadProgress/numberOfUpdatesToDownload': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: NumberOfUpdatesToDownload
+          '/properties/downloadProgress/numberOfUpdatesDownloaded': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: NumberOfUpdatesDownloaded
+          '/downloadProgress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: download_progress
+          '/downloadProgress/downloadPhase': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: download_phase
+          '/downloadProgress/percentComplete': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: percent_complete
+          '/downloadProgress/totalBytesToDownload': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: total_bytes_to_download
+          '/downloadProgress/totalBytesDownloaded': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: total_bytes_downloaded
+          '/downloadProgress/numberOfUpdatesToDownload': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: number_of_updates_to_download
+          '/downloadProgress/numberOfUpdatesDownloaded': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: number_of_updates_downloaded
+          '/properties/installProgress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InstallProgress
+            go_type_name: UpdateInstallProgress
+          '/properties/installProgress/percentComplete': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PercentComplete
+          '/properties/installProgress/numberOfUpdatesToInstall': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: NumberOfUpdatesToInstall
+          '/properties/installProgress/numberOfUpdatesInstalled': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: NumberOfUpdatesInstalled
+          '/installProgress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: install_progress
+          '/installProgress/percentComplete': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: percent_complete
+          '/installProgress/numberOfUpdatesToInstall': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: number_of_updates_to_install
+          '/installProgress/numberOfUpdatesInstalled': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: number_of_updates_installed
+          '/properties/totalRefreshErrors': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TotalRefreshErrors
+          '/totalRefreshErrors': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: total_refresh_errors
+          '/properties/errorManifestFile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorManifestFile
+          '/errorManifestFile': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_manifest_file
+          '/properties/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ShareID
+          '/shareId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_id
+          '/properties/folder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Folder
+          '/folder': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: folder
 
     description: |
       Manage Azure Job instance.
@@ -92,125 +218,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
-      - !ruby/object:Api::Type::Enum
-        name: 'jobType'
-        description: 'The type of the job.'
-        required: false
-        azure_sdk_references: ['/jobType', '/properties/jobType']
-        values:
-          - :Invalid
-          - :ScanForUpdates
-          - :DownloadUpdates
-          - :InstallUpdates
-          - :RefreshShare
-        default_value: :Invalid
-      - !ruby/object:Api::Type::Enum
-        name: 'currentStage'
-        description: 'Current stage of the update operation.'
-        required: false
-        azure_sdk_references: ['/currentStage', '/properties/currentStage']
-        values:
-          - :Unknown
-          - :Initial
-          - :ScanStarted
-          - :ScanComplete
-          - :ScanFailed
-          - :DownloadStarted
-          - :DownloadComplete
-          - :DownloadFailed
-          - :InstallStarted
-          - :InstallComplete
-          - :InstallFailed
-          - :RebootInitiated
-          - :Success
-          - :Failure
-          - :RescanStarted
-          - :RescanComplete
-          - :RescanFailed
-        default_value: :Unknown
-      - !ruby/object:Api::Type::NestedObject
-        name: 'downloadProgress'
-        description: 'The download progress.'
-        required: false
-        azure_sdk_references: ['/downloadProgress', '/properties/downloadProgress']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'downloadPhase'
-            description: 'The download phase.'
-            required: false
-            azure_sdk_references: ['/downloadProgress/downloadPhase', '/properties/downloadProgress/downloadPhase']
-            values:
-              - :Unknown
-              - :Initializing
-              - :Downloading
-              - :Verifying
-            default_value: :Unknown
-          - !ruby/object:Api::Type::Integer
-            name: 'percentComplete'
-            description: 'Percentage of completion.'
-            required: false
-            azure_sdk_references: ['/downloadProgress/percentComplete', '/properties/downloadProgress/percentComplete']
-          - !ruby/object:Api::Type::Double
-            name: 'totalBytesToDownload'
-            description: 'Total bytes to download.'
-            required: false
-            azure_sdk_references: ['/downloadProgress/totalBytesToDownload', '/properties/downloadProgress/totalBytesToDownload']
-          - !ruby/object:Api::Type::Double
-            name: 'totalBytesDownloaded'
-            description: 'Total bytes downloaded.'
-            required: false
-            azure_sdk_references: ['/downloadProgress/totalBytesDownloaded', '/properties/downloadProgress/totalBytesDownloaded']
-          - !ruby/object:Api::Type::Integer
-            name: 'numberOfUpdatesToDownload'
-            description: 'Number of updates to download.'
-            required: false
-            azure_sdk_references: ['/downloadProgress/numberOfUpdatesToDownload', '/properties/downloadProgress/numberOfUpdatesToDownload']
-          - !ruby/object:Api::Type::Integer
-            name: 'numberOfUpdatesDownloaded'
-            description: 'Number of updates downloaded.'
-            required: false
-            azure_sdk_references: ['/downloadProgress/numberOfUpdatesDownloaded', '/properties/downloadProgress/numberOfUpdatesDownloaded']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'installProgress'
-        description: 'The install progress.'
-        required: false
-        azure_sdk_references: ['/installProgress', '/properties/installProgress']
-        properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'percentComplete'
-            description: 'Percentage completed.'
-            required: false
-            azure_sdk_references: ['/installProgress/percentComplete', '/properties/installProgress/percentComplete']
-          - !ruby/object:Api::Type::Integer
-            name: 'numberOfUpdatesToInstall'
-            description: 'Number of updates to install.'
-            required: false
-            azure_sdk_references: ['/installProgress/numberOfUpdatesToInstall', '/properties/installProgress/numberOfUpdatesToInstall']
-          - !ruby/object:Api::Type::Integer
-            name: 'numberOfUpdatesInstalled'
-            description: 'Number of updates installed.'
-            required: false
-            azure_sdk_references: ['/installProgress/numberOfUpdatesInstalled', '/properties/installProgress/numberOfUpdatesInstalled']
-      - !ruby/object:Api::Type::Integer
-        name: 'totalRefreshErrors'
-        description: 'Total number of errors encountered during the refresh process.'
-        required: false
-        azure_sdk_references: ['/totalRefreshErrors', '/properties/totalRefreshErrors']
-      - !ruby/object:Api::Type::String
-        name: 'errorManifestFile'
-        description: 'Local share/remote container relative path to the error manifest file of the refresh.'
-        required: false
-        azure_sdk_references: ['/errorManifestFile', '/properties/errorManifestFile']
-      - !ruby/object:Api::Type::String
-        name: 'shareId'
-        description: 'ARM ID of the share that was refreshed.'
-        required: false
-        azure_sdk_references: ['/shareId', '/properties/shareId']
-      - !ruby/object:Api::Type::String
-        name: 'folder'
-        description: 'If only subfolders need to be refreshed, then the subfolder path inside the share. (The path is empty if there are no subfolders.)'
-        required: false
-        azure_sdk_references: ['/folder', '/properties/folder']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -256,36 +263,69 @@ objects:
         output: true
         azure_sdk_references: ['/error']
         properties:
-          - !ruby/object:Api::Type::Array
-            name: 'errorDetails'
-            description: 'The error details.'
-            required: false
-            azure_sdk_references: ['/error/errorDetails']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::Array
-                  name: 'recommendations'
-                  description: 'The recommended actions.'
-                  required: false
-                  azure_sdk_references: ['/error/errorDetails/recommendations']
-                  item_type: Api::Type::String
-                - !ruby/object:Api::Type::String
-                  name: 'code'
-                  description: 'The code intended for programmatic access.'
-                  required: false
-                  azure_sdk_references: ['/error/errorDetails/code']
-                - !ruby/object:Api::Type::String
-                  name: 'message'
-                  description: 'The message that describes the error in detail.'
-                  required: false
-                  azure_sdk_references: ['/error/errorDetails/message']
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'The code intended for programmatic access.'
-            required: false
-            azure_sdk_references: ['/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The message that describes the error in detail.'
-            required: false
-            azure_sdk_references: ['/error/message']
+      - !ruby/object:Api::Type::Enum
+        name: 'jobType'
+        description: 'The type of the job.'
+        output: true
+        azure_sdk_references: ['/jobType', '/properties/jobType']
+        values:
+          - :Invalid
+          - :ScanForUpdates
+          - :DownloadUpdates
+          - :InstallUpdates
+          - :RefreshShare
+      - !ruby/object:Api::Type::Enum
+        name: 'currentStage'
+        description: 'Current stage of the update operation.'
+        output: true
+        azure_sdk_references: ['/currentStage', '/properties/currentStage']
+        values:
+          - :Unknown
+          - :Initial
+          - :ScanStarted
+          - :ScanComplete
+          - :ScanFailed
+          - :DownloadStarted
+          - :DownloadComplete
+          - :DownloadFailed
+          - :InstallStarted
+          - :InstallComplete
+          - :InstallFailed
+          - :RebootInitiated
+          - :Success
+          - :Failure
+          - :RescanStarted
+          - :RescanComplete
+          - :RescanFailed
+      - !ruby/object:Api::Type::NestedObject
+        name: 'downloadProgress'
+        description: 'The download progress.'
+        output: true
+        azure_sdk_references: ['/downloadProgress', '/properties/downloadProgress']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'installProgress'
+        description: 'The install progress.'
+        output: true
+        azure_sdk_references: ['/installProgress', '/properties/installProgress']
+        properties:
+      - !ruby/object:Api::Type::Integer
+        name: 'totalRefreshErrors'
+        description: 'Total number of errors encountered during the refresh process.'
+        output: true
+        azure_sdk_references: ['/totalRefreshErrors', '/properties/totalRefreshErrors']
+      - !ruby/object:Api::Type::String
+        name: 'errorManifestFile'
+        description: 'Local share/remote container relative path to the error manifest file of the refresh.'
+        output: true
+        azure_sdk_references: ['/errorManifestFile', '/properties/errorManifestFile']
+      - !ruby/object:Api::Type::String
+        name: 'shareId'
+        description: 'ARM ID of the share that was refreshed.'
+        output: true
+        azure_sdk_references: ['/shareId', '/properties/shareId']
+      - !ruby/object:Api::Type::String
+        name: 'folder'
+        description: 'If only subfolders need to be refreshed, then the subfolder path inside the share. (The path is empty if there are no subfolders.)'
+        output: true
+        azure_sdk_references: ['/folder', '/properties/folder']

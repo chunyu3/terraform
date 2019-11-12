@@ -46,42 +46,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['endTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'startTime'
-        description: 'Summary interval start time.'
-        required: true
-        azure_sdk_references: ['/startTime', '/properties/startTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'endTime'
-        description: 'Summary interval end time.'
-        required: true
-        azure_sdk_references: ['/endTime', '/properties/endTime']
-      - !ruby/object:Api::Type::Integer
-        name: 'total'
-        description: 'Total number of machines.'
-        required: true
-        azure_sdk_references: ['/total', '/properties/total']
-      - !ruby/object:Api::Type::Integer
-        name: 'live'
-        description: 'Number of live machines.'
-        required: true
-        azure_sdk_references: ['/live', '/properties/live']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'os'
-        description: 'Machine counts by operating system.'
-        required: true
-        azure_sdk_references: ['/os', '/properties/os']
-        properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'windows'
-            description: 'Number of live Windows machines.'
-            required: true
-            azure_sdk_references: ['/os/windows', '/properties/os/windows']
-          - !ruby/object:Api::Type::Integer
-            name: 'linux'
-            description: 'Number of live Linux machines.'
-            required: true
-            azure_sdk_references: ['/os/linux', '/properties/os/linux']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -98,3 +62,29 @@ objects:
         description: 'Resource name.'
         output: true
         azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Summary interval start time.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'Summary interval end time.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::Integer
+        name: 'total'
+        description: 'Total number of machines.'
+        output: true
+        azure_sdk_references: ['/total', '/properties/total']
+      - !ruby/object:Api::Type::Integer
+        name: 'live'
+        description: 'Number of live machines.'
+        output: true
+        azure_sdk_references: ['/live', '/properties/live']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'os'
+        description: 'Machine counts by operating system.'
+        output: true
+        azure_sdk_references: ['/os', '/properties/os']
+        properties:

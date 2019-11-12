@@ -60,6 +60,9 @@ objects:
             go_field_name: Value
             go_type_name: ApiExportResult_value
             python_field_name: value
+          '/value/link': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Link
+            python_field_name: link
 
     description: |
       Manage Azure ApiExport instance.
@@ -106,8 +109,3 @@ objects:
         output: true
         azure_sdk_references: ['/value']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'link'
-            description: 'Link to the Storage Blob containing the result of the export operation. The Blob Uri is only valid for 5 minutes.'
-            required: false
-            azure_sdk_references: ['/value/link']

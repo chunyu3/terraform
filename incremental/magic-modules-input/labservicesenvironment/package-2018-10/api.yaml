@@ -285,9 +285,33 @@ objects:
             applicable_to: [go]
             go_field_name: NetworkInterface
             go_type_name: NetworkInterface
+          '/properties/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIpAddress
+          '/properties/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SshAuthority
+          '/properties/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RdpAuthority
+          '/properties/networkInterface/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Username
           '/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: network_interface
+          '/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ssh_authority
+          '/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rdp_authority
+          '/networkInterface/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: username
           '/properties/totalUsage': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
             applicable_to: [go]
             go_field_name: TotalUsage
@@ -310,9 +334,45 @@ objects:
             applicable_to: [go]
             go_field_name: LatestOperationResult
             go_type_name: LatestOperationResult
+          '/properties/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorCode
+          '/properties/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/properties/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RequestUri
+          '/properties/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HttpMethod
+          '/properties/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OperationURL
           '/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: latest_operation_result
+          '/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_code
+          '/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: request_uri
+          '/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: http_method
+          '/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: operation_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -445,26 +505,6 @@ objects:
         output: true
         azure_sdk_references: ['/networkInterface', '/properties/networkInterface']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'privateIpAddress'
-            description: 'PrivateIp address of the Compute VM'
-            required: false
-            azure_sdk_references: ['/networkInterface/privateIpAddress', '/properties/networkInterface/privateIpAddress']
-          - !ruby/object:Api::Type::String
-            name: 'sshAuthority'
-            description: 'Connection information for Linux'
-            required: false
-            azure_sdk_references: ['/networkInterface/sshAuthority', '/properties/networkInterface/sshAuthority']
-          - !ruby/object:Api::Type::String
-            name: 'rdpAuthority'
-            description: 'Connection information for Windows'
-            required: false
-            azure_sdk_references: ['/networkInterface/rdpAuthority', '/properties/networkInterface/rdpAuthority']
-          - !ruby/object:Api::Type::String
-            name: 'username'
-            description: 'Username of the VM'
-            required: false
-            azure_sdk_references: ['/networkInterface/username', '/properties/networkInterface/username']
       - !ruby/object:Api::Azure::Type::ISO8601Duration
         name: 'totalUsage'
         description: 'How long the environment has been used by a lab user'
@@ -486,36 +526,6 @@ objects:
         output: true
         azure_sdk_references: ['/latestOperationResult', '/properties/latestOperationResult']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'status'
-            description: 'The current status of the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/status', '/properties/latestOperationResult/status']
-          - !ruby/object:Api::Type::String
-            name: 'errorCode'
-            description: 'Error code on failure.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/errorCode', '/properties/latestOperationResult/errorCode']
-          - !ruby/object:Api::Type::String
-            name: 'errorMessage'
-            description: 'The error message.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/errorMessage', '/properties/latestOperationResult/errorMessage']
-          - !ruby/object:Api::Type::String
-            name: 'requestUri'
-            description: 'Request URI of the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/requestUri', '/properties/latestOperationResult/requestUri']
-          - !ruby/object:Api::Type::String
-            name: 'httpMethod'
-            description: 'The HttpMethod - PUT/POST/DELETE for the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/httpMethod', '/properties/latestOperationResult/httpMethod']
-          - !ruby/object:Api::Type::String
-            name: 'operationUrl'
-            description: 'The URL to use to check long-running operation status'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/operationUrl', '/properties/latestOperationResult/operationUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

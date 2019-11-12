@@ -64,6 +64,31 @@ objects:
             applicable_to: [go]
             go_field_name: ClientGroup_properties
             go_type_name: ClientGroup_properties
+          '/properties/clientsOf': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ClientsOf
+            go_type_name: ResourceReference
+          '/properties/clientsOf/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/clientsOf/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/clientsOf/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/clientsOf': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: clients_of
+          '/clientsOf/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/clientsOf/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/clientsOf/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMembers
         python_func_name: list_members
@@ -127,27 +152,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['endTime']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'clientsOf'
-        description: 'Reference to the resource whose clients are represented by this group.'
-        required: true
-        azure_sdk_references: ['/clientsOf', '/properties/clientsOf']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'Resource URI.'
-            required: true
-            azure_sdk_references: ['/clientsOf/id', '/properties/clientsOf/id']
-          - !ruby/object:Api::Type::String
-            name: 'type'
-            description: 'Resource type qualifier.'
-            required: false
-            azure_sdk_references: ['/clientsOf/type', '/properties/clientsOf/type']
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Resource name.'
-            required: false
-            azure_sdk_references: ['/clientsOf/name', '/properties/clientsOf/name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -169,3 +173,9 @@ objects:
         description: 'Resource ETAG.'
         output: true
         azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'clientsOf'
+        description: 'Reference to the resource whose clients are represented by this group.'
+        output: true
+        azure_sdk_references: ['/clientsOf', '/properties/clientsOf']
+        properties:

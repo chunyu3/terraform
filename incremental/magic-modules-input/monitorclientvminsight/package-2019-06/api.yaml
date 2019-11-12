@@ -28,57 +28,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceUri']
-      - !ruby/object:Api::Type::String
-        name: 'resourceId'
-        description: 'Azure Resource Manager identifier of the resource whose onboarding status is being represented.'
-        required: true
-        azure_sdk_references: ['/resourceId', '/properties/resourceId']
-      - !ruby/object:Api::Type::Enum
-        name: 'onboardingStatus'
-        description: 'The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded.'
-        required: true
-        azure_sdk_references: ['/onboardingStatus', '/properties/onboardingStatus']
-        values:
-          - :onboarded
-          - :notOnboarded
-          - :unknown
-      - !ruby/object:Api::Type::Enum
-        name: 'dataStatus'
-        description: 'The status of VM Insights data from the resource. When reported as `present` the data array will contain information about the data containers to which data for the specified resource is being routed.'
-        required: true
-        azure_sdk_references: ['/dataStatus', '/properties/dataStatus']
-        values:
-          - :present
-          - :notPresent
-      - !ruby/object:Api::Type::Array
-        name: 'data'
-        description: 'Containers that currently store VM Insights data for the specified resource.'
-        required: false
-        azure_sdk_references: ['/data', '/properties/data']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::NestedObject
-              name: 'workspace'
-              description: 'Log Analytics workspace information.'
-              required: true
-              azure_sdk_references: ['/data/workspace', '/properties/data/workspace']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'id'
-                  description: 'Azure Resource Manager identifier of the Log Analytics Workspace.'
-                  required: true
-                  azure_sdk_references: ['/data/workspace/id', '/properties/data/workspace/id']
-                - !ruby/object:Api::Azure::Type::Location
-                  name: 'location'
-                  description: 'Location of the Log Analytics workspace.'
-                  required: true
-                  input: true
-                  azure_sdk_references: ['/data/workspace/location', '/properties/data/workspace/location']
-                - !ruby/object:Api::Type::String
-                  name: 'customerId'
-                  description: 'Log Analytics workspace identifier.'
-                  required: true
-                  azure_sdk_references: ['/data/workspace/customerId', '/properties/data/workspace/properties/customerId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -95,3 +44,32 @@ objects:
         description: 'Azure resource type'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'resourceId'
+        description: 'Azure Resource Manager identifier of the resource whose onboarding status is being represented.'
+        output: true
+        azure_sdk_references: ['/resourceId', '/properties/resourceId']
+      - !ruby/object:Api::Type::Enum
+        name: 'onboardingStatus'
+        description: 'The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded.'
+        output: true
+        azure_sdk_references: ['/onboardingStatus', '/properties/onboardingStatus']
+        values:
+          - :onboarded
+          - :notOnboarded
+          - :unknown
+      - !ruby/object:Api::Type::Enum
+        name: 'dataStatus'
+        description: 'The status of VM Insights data from the resource. When reported as `present` the data array will contain information about the data containers to which data for the specified resource is being routed.'
+        output: true
+        azure_sdk_references: ['/dataStatus', '/properties/dataStatus']
+        values:
+          - :present
+          - :notPresent
+      - !ruby/object:Api::Type::Array
+        name: 'data'
+        description: 'Containers that currently store VM Insights data for the specified resource.'
+        output: true
+        azure_sdk_references: ['/data', '/properties/data']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

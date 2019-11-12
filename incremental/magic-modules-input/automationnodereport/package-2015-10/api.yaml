@@ -75,14 +75,87 @@ objects:
             go_field_name: Errors
             go_type_name: DscReportError
             python_field_name: errors
+          '/errors/errorSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ErrorSource
+            python_field_name: error_source
+          '/errors/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResourceID
+            python_field_name: resource_id
+          '/errors/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ErrorCode
+            python_field_name: error_code
+          '/errors/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ErrorMessage
+            python_field_name: error_message
+          '/errors/locale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Locale
+            python_field_name: locale
+          '/errors/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ErrorDetails
+            python_field_name: error_details
           '/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             go_field_name: Resources
             go_type_name: DscReportResource
             python_field_name: resources
+          '/resources/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResourceID
+            python_field_name: resource_id
+          '/resources/sourceInfo': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SourceInfo
+            python_field_name: source_info
+          '/resources/dependsOn': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: DependsOn
+            go_type_name: DscReportResourceNavigation
+            python_field_name: depends_on
+          '/resources/dependsOn/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResourceID
+            python_field_name: resource_id
+          '/resources/moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ModuleName
+            python_field_name: module_name
+          '/resources/moduleVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ModuleVersion
+            python_field_name: module_version
+          '/resources/resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResourceName
+            python_field_name: resource_name
+          '/resources/error': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Error
+            python_field_name: error
+          '/resources/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            python_field_name: status
+          '/resources/durationInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            go_field_name: DurationInSeconds
+            python_field_name: duration_in_seconds
+          '/resources/startDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: StartDate
+            python_field_name: start_date
           '/metaConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: MetaConfiguration
             go_type_name: DscMetaConfiguration
             python_field_name: meta_configuration
+          '/metaConfiguration/configurationModeFrequencyMins': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: ConfigurationModeFrequencyMins
+            python_field_name: configuration_mode_frequency_mins
+          '/metaConfiguration/rebootNodeIfNeeded': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: RebootNodeIfNeeded
+            python_field_name: reboot_node_if_needed
+          '/metaConfiguration/configurationMode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ConfigurationMode
+            python_field_name: configuration_mode
+          '/metaConfiguration/actionAfterReboot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ActionAfterReboot
+            python_field_name: action_after_reboot
+          '/metaConfiguration/certificateId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: CertificateID
+            python_field_name: certificate_id
+          '/metaConfiguration/refreshFrequencyMins': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: RefreshFrequencyMins
+            python_field_name: refresh_frequency_mins
+          '/metaConfiguration/allowModuleOverwrite': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: AllowModuleOverwrite
+            python_field_name: allow_module_overwrite
           '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: HostName
             python_field_name: host_name
@@ -202,36 +275,6 @@ objects:
         azure_sdk_references: ['/errors']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'errorSource'
-              description: 'Gets or sets the source of the error.'
-              required: false
-              azure_sdk_references: ['/errors/errorSource']
-            - !ruby/object:Api::Type::String
-              name: 'resourceId'
-              description: 'Gets or sets the resource ID which generated the error.'
-              required: false
-              azure_sdk_references: ['/errors/resourceId']
-            - !ruby/object:Api::Type::String
-              name: 'errorCode'
-              description: 'Gets or sets the error code.'
-              required: false
-              azure_sdk_references: ['/errors/errorCode']
-            - !ruby/object:Api::Type::String
-              name: 'errorMessage'
-              description: 'Gets or sets the error message.'
-              required: false
-              azure_sdk_references: ['/errors/errorMessage']
-            - !ruby/object:Api::Type::String
-              name: 'locale'
-              description: 'Gets or sets the locale of the error.'
-              required: false
-              azure_sdk_references: ['/errors/locale']
-            - !ruby/object:Api::Type::String
-              name: 'errorDetails'
-              description: 'Gets or sets the error details.'
-              required: false
-              azure_sdk_references: ['/errors/errorDetails']
       - !ruby/object:Api::Type::Array
         name: 'resources'
         description: 'Gets or sets the resource for the node report.'
@@ -239,104 +282,12 @@ objects:
         azure_sdk_references: ['/resources']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'resourceId'
-              description: 'Gets or sets the ID of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/resourceId']
-            - !ruby/object:Api::Type::String
-              name: 'sourceInfo'
-              description: 'Gets or sets the source info of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/sourceInfo']
-            - !ruby/object:Api::Type::Array
-              name: 'dependsOn'
-              description: 'Gets or sets the Resource Navigation values for resources the resource depends on.'
-              required: false
-              azure_sdk_references: ['/resources/dependsOn']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'resourceId'
-                    description: 'Gets or sets the ID of the resource to navigate to.'
-                    required: false
-                    azure_sdk_references: ['/resources/dependsOn/resourceId']
-            - !ruby/object:Api::Type::String
-              name: 'moduleName'
-              description: 'Gets or sets the module name of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/moduleName']
-            - !ruby/object:Api::Type::String
-              name: 'moduleVersion'
-              description: 'Gets or sets the module version of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/moduleVersion']
-            - !ruby/object:Api::Type::String
-              name: 'resourceName'
-              description: 'Gets or sets the name of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/resourceName']
-            - !ruby/object:Api::Type::String
-              name: 'error'
-              description: 'Gets or sets the error of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/error']
-            - !ruby/object:Api::Type::String
-              name: 'status'
-              description: 'Gets or sets the status of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/status']
-            - !ruby/object:Api::Type::Double
-              name: 'durationInSeconds'
-              description: 'Gets or sets the duration in seconds for the resource.'
-              required: false
-              azure_sdk_references: ['/resources/durationInSeconds']
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'startDate'
-              description: 'Gets or sets the start date of the resource.'
-              required: false
-              azure_sdk_references: ['/resources/startDate']
       - !ruby/object:Api::Type::NestedObject
         name: 'metaConfiguration'
         description: 'Gets or sets the metaConfiguration of the node at the time of the report.'
         output: true
         azure_sdk_references: ['/metaConfiguration']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'configurationModeFrequencyMins'
-            description: 'Gets or sets the ConfigurationModeFrequencyMins value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/configurationModeFrequencyMins']
-          - !ruby/object:Api::Type::Boolean
-            name: 'rebootNodeIfNeeded'
-            description: 'Gets or sets the RebootNodeIfNeeded value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/rebootNodeIfNeeded']
-          - !ruby/object:Api::Type::String
-            name: 'configurationMode'
-            description: 'Gets or sets the ConfigurationMode value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/configurationMode']
-          - !ruby/object:Api::Type::String
-            name: 'actionAfterReboot'
-            description: 'Gets or sets the ActionAfterReboot value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/actionAfterReboot']
-          - !ruby/object:Api::Type::String
-            name: 'certificateId'
-            description: 'Gets or sets the CertificateId value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/certificateId']
-          - !ruby/object:Api::Type::Integer
-            name: 'refreshFrequencyMins'
-            description: 'Gets or sets the RefreshFrequencyMins value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/refreshFrequencyMins']
-          - !ruby/object:Api::Type::Boolean
-            name: 'allowModuleOverwrite'
-            description: 'Gets or sets the AllowModuleOverwrite value of the meta configuration.'
-            required: false
-            azure_sdk_references: ['/metaConfiguration/allowModuleOverwrite']
       - !ruby/object:Api::Type::String
         name: 'hostName'
         description: 'Gets or sets the hostname of the node that sent the report.'

@@ -169,6 +169,12 @@ objects:
             go_field_name: Identities
             go_type_name: UserIdentityContract
             python_field_name: identities
+          '/identities/provider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Provider
+            python_field_name: provider
+          '/identities/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByService
         python_func_name: list_by_service
@@ -263,13 +269,3 @@ objects:
         azure_sdk_references: ['/identities']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'provider'
-              description: 'Identity provider name.'
-              required: false
-              azure_sdk_references: ['/identities/provider']
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Identifier value within provider.'
-              required: false
-              azure_sdk_references: ['/identities/id']

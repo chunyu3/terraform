@@ -295,6 +295,12 @@ objects:
           '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: http_error_ranges
+          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: begin
+          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: end
           '/properties/originGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: OriginGroups
@@ -349,6 +355,12 @@ objects:
             applicable_to: [go]
             go_field_name: HttpErrorRanges
             go_type_name: HttpErrorRangeParameters
+          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Begin
+          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: End
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -673,6 +685,12 @@ objects:
             applicable_to: [go]
             go_field_name: HttpErrorRanges
             go_type_name: HttpErrorRangeParameters
+          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Begin
+          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: End
           '/originGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: origin_groups
@@ -715,6 +733,12 @@ objects:
           '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: http_error_ranges
+          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: begin
+          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: end
           '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: HostName
@@ -1048,6 +1072,23 @@ objects:
                   description: 'The percentage of failed requests in the sample where failover should trigger.'
                   required: false
                   azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage']
+                - !ruby/object:Api::Type::Array
+                  name: 'httpErrorRanges'
+                  description: 'The list of Http status code ranges that are considered as server errors for origin and it is marked as unhealthy.'
+                  required: false
+                  azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Integer
+                        name: 'begin'
+                        description: 'The inclusive start of the http status code range.'
+                        required: false
+                        azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin']
+                      - !ruby/object:Api::Type::Integer
+                        name: 'end'
+                        description: 'The inclusive end of the http status code range.'
+                        required: false
+                        azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'hostName'

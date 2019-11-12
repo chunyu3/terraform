@@ -37,6 +37,52 @@ objects:
             go_field_name: Result
             go_type_name: ComponentFeature
             python_field_name: result
+          '/Result/FeatureName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FeatureName
+            python_field_name: feature_name
+          '/Result/MeterId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterID
+            python_field_name: meter_id
+          '/Result/MeterRateFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterRateFrequency
+            python_field_name: meter_rate_frequency
+          '/Result/ResouceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResouceID
+            python_field_name: resouce_id
+          '/Result/IsHidden': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsHidden
+            python_field_name: is_hidden
+          '/Result/Capabilities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Capabilities
+            go_type_name: ComponentFeatureCapability
+            python_field_name: capabilities
+          '/Result/Capabilities/Name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/Result/Capabilities/Description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Description
+            python_field_name: description
+          '/Result/Capabilities/Value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Value
+            python_field_name: value
+          '/Result/Capabilities/Unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Unit
+            python_field_name: unit
+          '/Result/Capabilities/MeterId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterID
+            python_field_name: meter_id
+          '/Result/Capabilities/MeterRateFrequency': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: MeterRateFrequency
+            python_field_name: meter_rate_frequency
+          '/Result/Title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Title
+            python_field_name: title
+          '/Result/IsMainFeature': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsMainFeature
+            python_field_name: is_main_feature
+          '/Result/SupportedAddonFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SupportedAddonFeatures
+            python_field_name: supported_addon_features
 
     description: |
       Manage Azure ComponentAvailableFeature instance.
@@ -61,80 +107,3 @@ objects:
         azure_sdk_references: ['/Result']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'featureName'
-              description: 'The pricing feature name.'
-              required: false
-              azure_sdk_references: ['/Result/FeatureName']
-            - !ruby/object:Api::Type::String
-              name: 'meterId'
-              description: 'The meter id used for the feature.'
-              required: false
-              azure_sdk_references: ['/Result/MeterId']
-            - !ruby/object:Api::Type::String
-              name: 'meterRateFrequency'
-              description: 'The meter rate for the feature''s meter.'
-              required: false
-              azure_sdk_references: ['/Result/MeterRateFrequency']
-            - !ruby/object:Api::Type::String
-              name: 'resouceId'
-              description: 'Reserved, not used now.'
-              required: false
-              azure_sdk_references: ['/Result/ResouceId']
-            - !ruby/object:Api::Type::Boolean
-              name: 'isHidden'
-              description: 'Reserved, not used now.'
-              required: false
-              azure_sdk_references: ['/Result/IsHidden']
-            - !ruby/object:Api::Type::Array
-              name: 'capabilities'
-              description: 'A list of Application Insights component feature capability.'
-              required: false
-              azure_sdk_references: ['/Result/Capabilities']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'name'
-                    description: 'The name of the capability.'
-                    required: false
-                    azure_sdk_references: ['/Result/Capabilities/Name']
-                  - !ruby/object:Api::Type::String
-                    name: 'description'
-                    description: 'The description of the capability.'
-                    required: false
-                    azure_sdk_references: ['/Result/Capabilities/Description']
-                  - !ruby/object:Api::Type::String
-                    name: 'value'
-                    description: 'The value of the capability.'
-                    required: false
-                    azure_sdk_references: ['/Result/Capabilities/Value']
-                  - !ruby/object:Api::Type::String
-                    name: 'unit'
-                    description: 'The unit of the capability.'
-                    required: false
-                    azure_sdk_references: ['/Result/Capabilities/Unit']
-                  - !ruby/object:Api::Type::String
-                    name: 'meterId'
-                    description: 'The meter used for the capability.'
-                    required: false
-                    azure_sdk_references: ['/Result/Capabilities/MeterId']
-                  - !ruby/object:Api::Type::String
-                    name: 'meterRateFrequency'
-                    description: 'The meter rate of the meter.'
-                    required: false
-                    azure_sdk_references: ['/Result/Capabilities/MeterRateFrequency']
-            - !ruby/object:Api::Type::String
-              name: 'title'
-              description: 'Display name of the feature.'
-              required: false
-              azure_sdk_references: ['/Result/Title']
-            - !ruby/object:Api::Type::Boolean
-              name: 'isMainFeature'
-              description: 'Whether can apply addon feature on to it.'
-              required: false
-              azure_sdk_references: ['/Result/IsMainFeature']
-            - !ruby/object:Api::Type::String
-              name: 'supportedAddonFeatures'
-              description: 'The add on features on main feature.'
-              required: false
-              azure_sdk_references: ['/Result/SupportedAddonFeatures']

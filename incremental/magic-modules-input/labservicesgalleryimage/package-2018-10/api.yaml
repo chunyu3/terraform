@@ -229,9 +229,39 @@ objects:
             applicable_to: [go]
             go_field_name: ImageReference
             go_type_name: GalleryImageReference
+          '/properties/imageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Offer
+          '/properties/imageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/properties/imageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sku
+          '/properties/imageReference/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/properties/imageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
           '/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: image_reference
+          '/imageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer
+          '/imageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/imageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/imageReference/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/imageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
           '/properties/icon': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Icon
@@ -254,9 +284,45 @@ objects:
             applicable_to: [go]
             go_field_name: LatestOperationResult
             go_type_name: LatestOperationResult
+          '/properties/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorCode
+          '/properties/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorMessage
+          '/properties/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RequestUri
+          '/properties/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HttpMethod
+          '/properties/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OperationURL
           '/latestOperationResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: latest_operation_result
+          '/latestOperationResult/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/latestOperationResult/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_code
+          '/latestOperationResult/errorMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_message
+          '/latestOperationResult/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: request_uri
+          '/latestOperationResult/httpMethod': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: http_method
+          '/latestOperationResult/operationUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: operation_url
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -356,31 +422,6 @@ objects:
         output: true
         azure_sdk_references: ['/imageReference', '/properties/imageReference']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'offer'
-            description: 'The offer of the gallery image.'
-            required: false
-            azure_sdk_references: ['/imageReference/offer', '/properties/imageReference/offer']
-          - !ruby/object:Api::Type::String
-            name: 'publisher'
-            description: 'The publisher of the gallery image.'
-            required: false
-            azure_sdk_references: ['/imageReference/publisher', '/properties/imageReference/publisher']
-          - !ruby/object:Api::Type::String
-            name: 'sku'
-            description: 'The SKU of the gallery image.'
-            required: false
-            azure_sdk_references: ['/imageReference/sku', '/properties/imageReference/sku']
-          - !ruby/object:Api::Type::String
-            name: 'osType'
-            description: 'The OS type of the gallery image.'
-            required: false
-            azure_sdk_references: ['/imageReference/osType', '/properties/imageReference/osType']
-          - !ruby/object:Api::Type::String
-            name: 'version'
-            description: 'The version of the gallery image.'
-            required: false
-            azure_sdk_references: ['/imageReference/version', '/properties/imageReference/version']
       - !ruby/object:Api::Type::String
         name: 'icon'
         description: 'The icon of the gallery image.'
@@ -402,36 +443,6 @@ objects:
         output: true
         azure_sdk_references: ['/latestOperationResult', '/properties/latestOperationResult']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'status'
-            description: 'The current status of the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/status', '/properties/latestOperationResult/status']
-          - !ruby/object:Api::Type::String
-            name: 'errorCode'
-            description: 'Error code on failure.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/errorCode', '/properties/latestOperationResult/errorCode']
-          - !ruby/object:Api::Type::String
-            name: 'errorMessage'
-            description: 'The error message.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/errorMessage', '/properties/latestOperationResult/errorMessage']
-          - !ruby/object:Api::Type::String
-            name: 'requestUri'
-            description: 'Request URI of the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/requestUri', '/properties/latestOperationResult/requestUri']
-          - !ruby/object:Api::Type::String
-            name: 'httpMethod'
-            description: 'The HttpMethod - PUT/POST/DELETE for the operation.'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/httpMethod', '/properties/latestOperationResult/httpMethod']
-          - !ruby/object:Api::Type::String
-            name: 'operationUrl'
-            description: 'The URL to use to check long-running operation status'
-            required: false
-            azure_sdk_references: ['/latestOperationResult/operationUrl', '/properties/latestOperationResult/operationUrl']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The identifier of the resource.'

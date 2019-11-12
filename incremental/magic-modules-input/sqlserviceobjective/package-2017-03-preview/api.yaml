@@ -32,12 +32,6 @@ objects:
             go_variable_name: name
             python_parameter_name: server_name
             python_variable_name: name
-          '/properties/serviceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServiceObjectiveName
-          '/serviceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_objective_name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -52,6 +46,36 @@ objects:
             applicable_to: [go]
             go_field_name: ServiceObjectiveProperties
             go_type_name: ServiceObjectiveProperties
+          '/properties/serviceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceObjectiveName
+          '/serviceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_objective_name
+          '/properties/isDefault': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsDefault
+          '/isDefault': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_default
+          '/properties/isSystem': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsSystem
+          '/isSystem': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_system
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Enabled
+          '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enabled
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByServer
         python_func_name: list_by_server
@@ -82,31 +106,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serverName']
-      - !ruby/object:Api::Type::String
-        name: 'serviceObjectiveName'
-        description: 'The name for the service objective.'
-        required: false
-        azure_sdk_references: ['/serviceObjectiveName', '/properties/serviceObjectiveName']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isDefault'
-        description: 'Gets whether the service level objective is the default service objective.'
-        required: false
-        azure_sdk_references: ['/isDefault', '/properties/isDefault']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isSystem'
-        description: 'Gets whether the service level objective is a system service objective.'
-        required: false
-        azure_sdk_references: ['/isSystem', '/properties/isSystem']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'The description for the service level objective.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::Boolean
-        name: 'enabled'
-        description: 'Gets whether the service level objective is enabled.'
-        required: false
-        azure_sdk_references: ['/enabled', '/properties/enabled']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -123,3 +122,28 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'serviceObjectiveName'
+        description: 'The name for the service objective.'
+        output: true
+        azure_sdk_references: ['/serviceObjectiveName', '/properties/serviceObjectiveName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isDefault'
+        description: 'Gets whether the service level objective is the default service objective.'
+        output: true
+        azure_sdk_references: ['/isDefault', '/properties/isDefault']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isSystem'
+        description: 'Gets whether the service level objective is a system service objective.'
+        output: true
+        azure_sdk_references: ['/isSystem', '/properties/isSystem']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description for the service level objective.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enabled'
+        description: 'Gets whether the service level objective is enabled.'
+        output: true
+        azure_sdk_references: ['/enabled', '/properties/enabled']

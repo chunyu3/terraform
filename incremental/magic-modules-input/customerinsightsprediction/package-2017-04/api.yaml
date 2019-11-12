@@ -352,9 +352,27 @@ objects:
             applicable_to: [go]
             go_field_name: SystemGeneratedEntities
             go_type_name: Prediction_systemGeneratedEntities
+          '/properties/systemGeneratedEntities/generatedInteractionTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: GeneratedInteractionTypes
+          '/properties/systemGeneratedEntities/generatedLinks': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: GeneratedLinks
+          '/properties/systemGeneratedEntities/generatedKpis': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: GeneratedKpis
           '/systemGeneratedEntities': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: system_generated_entities
+          '/systemGeneratedEntities/generatedInteractionTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: generated_interaction_types
+          '/systemGeneratedEntities/generatedLinks': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: generated_links
+          '/systemGeneratedEntities/generatedKpis': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: generated_kpis
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -530,23 +548,6 @@ objects:
         output: true
         azure_sdk_references: ['/systemGeneratedEntities', '/properties/systemGeneratedEntities']
         properties:
-          - !ruby/object:Api::Type::Array
-            name: 'generatedInteractionTypes'
-            description: 'Generated interaction types.'
-            required: false
-            azure_sdk_references: ['/systemGeneratedEntities/generatedInteractionTypes', '/properties/systemGeneratedEntities/generatedInteractionTypes']
-            item_type: Api::Type::String
-          - !ruby/object:Api::Type::Array
-            name: 'generatedLinks'
-            description: 'Generated links.'
-            required: false
-            azure_sdk_references: ['/systemGeneratedEntities/generatedLinks', '/properties/systemGeneratedEntities/generatedLinks']
-            item_type: Api::Type::String
-          - !ruby/object:Api::Type::KeyValuePairs
-            name: 'generatedKpis'
-            description: 'Generated KPIs.'
-            required: false
-            azure_sdk_references: ['/systemGeneratedEntities/generatedKpis', '/properties/systemGeneratedEntities/generatedKpis']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

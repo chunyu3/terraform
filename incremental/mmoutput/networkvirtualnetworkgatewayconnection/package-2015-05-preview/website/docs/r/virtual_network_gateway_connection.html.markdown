@@ -118,9 +118,30 @@ The `ip_configuration` block supports the following:
 
 * `id` - (Optional) Resource Id
 
+* `private_ip_address` - (Optional) Gets or sets the privateIPAddress of the Network Interface IP Configuration
+
+* `private_ipallocation_method` - (Optional) Gets or sets PrivateIP allocation method (Static/Dynamic) Defaults to `Static`.
+
+* `subnet` - (Optional) One `subnet` block defined below.
+
+* `public_ip_address` - (Optional) One `public_ip_address` block defined below.
+
 * `name` - (Optional) Gets name of the resource that is unique within a resource group. This name can be used to access the resource
 
 * `etag` - (Optional) A unique read-only string that changes whenever the resource is updated
+
+
+---
+
+The `subnet` block supports the following:
+
+* `id` - (Optional) Resource Id
+
+---
+
+The `public_ip_address` block supports the following:
+
+* `id` - (Optional) Resource Id
 
 ---
 
@@ -157,9 +178,30 @@ The `ip_configuration` block supports the following:
 
 * `id` - (Optional) Resource Id
 
+* `private_ip_address` - (Optional) Gets or sets the privateIPAddress of the Network Interface IP Configuration
+
+* `private_ipallocation_method` - (Optional) Gets or sets PrivateIP allocation method (Static/Dynamic) Defaults to `Static`.
+
+* `subnet` - (Optional) One `subnet` block defined below.
+
+* `public_ip_address` - (Optional) One `public_ip_address` block defined below.
+
 * `name` - (Optional) Gets name of the resource that is unique within a resource group. This name can be used to access the resource
 
 * `etag` - (Optional) A unique read-only string that changes whenever the resource is updated
+
+
+---
+
+The `subnet` block supports the following:
+
+* `id` - (Optional) Resource Id
+
+---
+
+The `public_ip_address` block supports the following:
+
+* `id` - (Optional) Resource Id
 
 ---
 

@@ -61,6 +61,87 @@ objects:
             applicable_to: [go]
             go_field_name: HeatMapProperties
             go_type_name: HeatMapProperties
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/endpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Endpoints
+            go_type_name: HeatMapEndpoint
+          '/properties/endpoints/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/properties/endpoints/endpointId': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: EndpointID
+          '/endpoints': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: endpoints
+          '/endpoints/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/endpoints/endpointId': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: endpoint_id
+          '/properties/trafficFlows': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrafficFlows
+            go_type_name: TrafficFlow
+          '/properties/trafficFlows/sourceIp': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceIp
+          '/properties/trafficFlows/latitude': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Latitude
+          '/properties/trafficFlows/longitude': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Longitude
+          '/properties/trafficFlows/queryExperiences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: QueryExperiences
+            go_type_name: QueryExperience
+          '/properties/trafficFlows/queryExperiences/endpointId': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: EndpointID
+          '/properties/trafficFlows/queryExperiences/queryCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: QueryCount
+          '/properties/trafficFlows/queryExperiences/latency': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Latency
+          '/trafficFlows': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: traffic_flows
+          '/trafficFlows/sourceIp': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_ip
+          '/trafficFlows/latitude': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: latitude
+          '/trafficFlows/longitude': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: longitude
+          '/trafficFlows/queryExperiences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: query_experiences
+          '/trafficFlows/queryExperiences/endpointId': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: endpoint_id
+          '/trafficFlows/queryExperiences/queryCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: query_count
+          '/trafficFlows/queryExperiences/latency': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: latency
 
     description: |
       Manage Azure HeatMap instance.
@@ -97,77 +178,6 @@ objects:
         input: true
         azure_sdk_references: ['botRight']
         item_type: Api::Type::Double
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'startTime'
-        description: 'The beginning of the time window for this HeatMap, inclusive.'
-        required: false
-        azure_sdk_references: ['/startTime', '/properties/startTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'endTime'
-        description: 'The ending of the time window for this HeatMap, exclusive.'
-        required: false
-        azure_sdk_references: ['/endTime', '/properties/endTime']
-      - !ruby/object:Api::Type::Array
-        name: 'endpoints'
-        description: 'The endpoints used in this HeatMap calculation.'
-        required: false
-        azure_sdk_references: ['/endpoints', '/properties/endpoints']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'resourceId'
-              description: 'The ARM Resource ID of this Traffic Manager endpoint.'
-              required: false
-              azure_sdk_references: ['/endpoints/resourceId', '/properties/endpoints/resourceId']
-            - !ruby/object:Api::Type::Integer
-              name: 'endpointId'
-              description: 'A number uniquely identifying this endpoint in query experiences.'
-              required: false
-              azure_sdk_references: ['/endpoints/endpointId', '/properties/endpoints/endpointId']
-      - !ruby/object:Api::Type::Array
-        name: 'trafficFlows'
-        description: 'The traffic flows produced in this HeatMap calculation.'
-        required: false
-        azure_sdk_references: ['/trafficFlows', '/properties/trafficFlows']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'sourceIp'
-              description: 'The IP address that this query experience originated from.'
-              required: false
-              azure_sdk_references: ['/trafficFlows/sourceIp', '/properties/trafficFlows/sourceIp']
-            - !ruby/object:Api::Type::Double
-              name: 'latitude'
-              description: 'The approximate latitude that these queries originated from.'
-              required: false
-              azure_sdk_references: ['/trafficFlows/latitude', '/properties/trafficFlows/latitude']
-            - !ruby/object:Api::Type::Double
-              name: 'longitude'
-              description: 'The approximate longitude that these queries originated from.'
-              required: false
-              azure_sdk_references: ['/trafficFlows/longitude', '/properties/trafficFlows/longitude']
-            - !ruby/object:Api::Type::Array
-              name: 'queryExperiences'
-              description: 'The query experiences produced in this HeatMap calculation.'
-              required: false
-              azure_sdk_references: ['/trafficFlows/queryExperiences', '/properties/trafficFlows/queryExperiences']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::Integer
-                    name: 'endpointId'
-                    description: 'The id of the endpoint from the ''endpoints'' array which these queries were routed to.'
-                    required: true
-                    azure_sdk_references: ['/trafficFlows/queryExperiences/endpointId', '/properties/trafficFlows/queryExperiences/endpointId']
-                  - !ruby/object:Api::Type::Integer
-                    name: 'queryCount'
-                    description: 'The number of queries originating from this location.'
-                    required: true
-                    azure_sdk_references: ['/trafficFlows/queryExperiences/queryCount', '/properties/trafficFlows/queryExperiences/queryCount']
-                  - !ruby/object:Api::Type::Double
-                    name: 'latency'
-                    description: 'The latency experienced by queries originating from this location.'
-                    required: false
-                    azure_sdk_references: ['/trafficFlows/queryExperiences/latency', '/properties/trafficFlows/queryExperiences/latency']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -184,3 +194,27 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The beginning of the time window for this HeatMap, inclusive.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'The ending of the time window for this HeatMap, exclusive.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::Array
+        name: 'endpoints'
+        description: 'The endpoints used in this HeatMap calculation.'
+        output: true
+        azure_sdk_references: ['/endpoints', '/properties/endpoints']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'trafficFlows'
+        description: 'The traffic flows produced in this HeatMap calculation.'
+        output: true
+        azure_sdk_references: ['/trafficFlows', '/properties/trafficFlows']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

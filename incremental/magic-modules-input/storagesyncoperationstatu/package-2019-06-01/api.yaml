@@ -59,6 +59,28 @@ objects:
             go_field_name: Error
             go_type_name: ApiError
             python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
+          '/error/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Target
+            python_field_name: target
+          '/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Details
+            go_type_name: ErrorDetails
+            python_field_name: details
+          '/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
+          '/error/details/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Target
+            python_field_name: target
 
     description: |
       Manage Azure OperationStatu instance.
@@ -114,39 +136,3 @@ objects:
         output: true
         azure_sdk_references: ['/error']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'Error code of the given entry.'
-            required: false
-            azure_sdk_references: ['/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'Error message of the given entry.'
-            required: false
-            azure_sdk_references: ['/error/message']
-          - !ruby/object:Api::Type::String
-            name: 'target'
-            description: 'Target of the given error entry.'
-            required: false
-            azure_sdk_references: ['/error/target']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'details'
-            description: 'Error details of the given entry.'
-            required: false
-            azure_sdk_references: ['/error/details']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'code'
-                description: 'Error code of the given entry.'
-                required: false
-                azure_sdk_references: ['/error/details/code']
-              - !ruby/object:Api::Type::String
-                name: 'message'
-                description: 'Error message of the given entry.'
-                required: false
-                azure_sdk_references: ['/error/details/message']
-              - !ruby/object:Api::Type::String
-                name: 'target'
-                description: 'Target of the given entry.'
-                required: false
-                azure_sdk_references: ['/error/details/target']

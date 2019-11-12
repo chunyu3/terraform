@@ -99,19 +99,6 @@ objects:
           '/policySigningCertificates/keys/y': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Y
             python_field_name: y
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: status
-          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Status
-            go_enum_type_name: ServiceStatus
-          '/attestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: attest_uri
-          '/properties/attestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AttestUri
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -154,6 +141,19 @@ objects:
             applicable_to: [go]
             go_field_name: StatusResult
             go_type_name: StatusResult
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: ServiceStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/attestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AttestUri
+          '/attestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: attest_uri
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -288,20 +288,6 @@ objects:
                   description: 'Y coordinate for the Elliptic Curve point'
                   required: false
                   azure_sdk_references: ['/policySigningCertificates/keys/y']
-      - !ruby/object:Api::Type::Enum
-        name: 'status'
-        description: 'Status of attestation service.'
-        required: true
-        azure_sdk_references: ['/status', '/properties/status']
-        values:
-          - :Ready
-          - :NotReady
-          - :Error
-      - !ruby/object:Api::Type::String
-        name: 'attestUri'
-        description: 'Gets the uri of attestation service'
-        required: false
-        azure_sdk_references: ['/attestUri', '/properties/attestUri']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -318,3 +304,17 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Status of attestation service.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :Ready
+          - :NotReady
+          - :Error
+      - !ruby/object:Api::Type::String
+        name: 'attestUri'
+        description: 'Gets the uri of attestation service'
+        output: true
+        azure_sdk_references: ['/attestUri', '/properties/attestUri']

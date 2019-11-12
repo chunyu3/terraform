@@ -91,6 +91,12 @@ objects:
             applicable_to: [go]
             go_field_name: ServerDnsAliasProperties
             go_type_name: ServerDnsAliasProperties
+          '/properties/azureDnsRecord': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AzureDnsRecord
+          '/azureDnsRecord': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: azure_dns_record
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByServer
         python_func_name: list_by_server
@@ -127,11 +133,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['dnsAliasName']
-      - !ruby/object:Api::Type::String
-        name: 'azureDnsRecord'
-        description: 'The fully qualified DNS record for alias'
-        required: false
-        azure_sdk_references: ['/azureDnsRecord', '/properties/azureDnsRecord']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -148,3 +149,8 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'azureDnsRecord'
+        description: 'The fully qualified DNS record for alias'
+        output: true
+        azure_sdk_references: ['/azureDnsRecord', '/properties/azureDnsRecord']

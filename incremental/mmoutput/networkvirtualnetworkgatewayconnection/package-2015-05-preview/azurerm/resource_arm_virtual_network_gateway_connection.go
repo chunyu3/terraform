@@ -208,6 +208,45 @@ func resourceArmVirtualNetworkGatewayConnection() *schema.Resource {
                                         Type: schema.TypeString,
                                         Optional: true,
                                     },
+                                    "private_ip_address": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "private_ipallocation_method": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(network.Static),
+                                            string(network.Dynamic),
+                                        }, false),
+                                        Default: string(network.Static),
+                                    },
+                                    "public_ip_address": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "subnet": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -282,6 +321,45 @@ func resourceArmVirtualNetworkGatewayConnection() *schema.Resource {
                                     "name": {
                                         Type: schema.TypeString,
                                         Optional: true,
+                                    },
+                                    "private_ip_address": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "private_ipallocation_method": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                        ValidateFunc: validation.StringInSlice([]string{
+                                            string(network.Static),
+                                            string(network.Dynamic),
+                                        }, false),
+                                        Default: string(network.Static),
+                                    },
+                                    "public_ip_address": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    "subnet": {
+                                        Type: schema.TypeList,
+                                        Optional: true,
+                                        MaxItems: 1,
+                                        Elem: &schema.Resource{
+                                            Schema: map[string]*schema.Schema{
+                                                "id": {
+                                                    Type: schema.TypeString,
+                                                    Optional: true,
+                                                },
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -571,6 +649,10 @@ func expandArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguratio
     for _, item := range input {
         v := item.(map[string]interface{})
         id := v["id"].(string)
+        privateIpAddress := v["private_ip_address"].(string)
+        privateIpallocationMethod := v["private_ipallocation_method"].(string)
+        subnet := v["subnet"].([]interface{})
+        publicIpAddress := v["public_ip_address"].([]interface{})
         name := v["name"].(string)
         etag := v["etag"].(string)
 
@@ -578,6 +660,12 @@ func expandArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfiguratio
             Etag: utils.String(etag),
             ID: utils.String(id),
             Name: utils.String(name),
+            VirtualNetworkGatewayIpConfigurationPropertiesFormat: &network.VirtualNetworkGatewayIpConfigurationPropertiesFormat{
+                PrivateIpAddress: utils.String(privateIpAddress),
+                PrivateIpallocationMethod: network.IpAllocationMethod(privateIpallocationMethod),
+                PublicIpAddress: expandArmVirtualNetworkGatewayConnectionSubResource(publicIpAddress),
+                Subnet: expandArmVirtualNetworkGatewayConnectionSubResource(subnet),
+            },
         }
 
         results = append(results, result)
@@ -684,6 +772,14 @@ func flattenArmVirtualNetworkGatewayConnectionVirtualNetworkGatewayIpConfigurati
         }
         if etag := item.Etag; etag != nil {
             v["etag"] = *etag
+        }
+        if virtualNetworkGatewayIpConfigurationPropertiesFormat := item.VirtualNetworkGatewayIpConfigurationPropertiesFormat; virtualNetworkGatewayIpConfigurationPropertiesFormat != nil {
+            if privateIpAddress := virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIpAddress; privateIpAddress != nil {
+                v["private_ip_address"] = *privateIpAddress
+            }
+            v["private_ipallocation_method"] = string(virtualNetworkGatewayIpConfigurationPropertiesFormat.PrivateIpallocationMethod)
+            v["public_ip_address"] = flattenArmVirtualNetworkGatewayConnectionSubResource(virtualNetworkGatewayIpConfigurationPropertiesFormat.PublicIpAddress)
+            v["subnet"] = flattenArmVirtualNetworkGatewayConnectionSubResource(virtualNetworkGatewayIpConfigurationPropertiesFormat.Subnet)
         }
 
         results = append(results, v)

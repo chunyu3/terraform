@@ -45,6 +45,22 @@ objects:
             go_field_name: DraftContentLink
             go_type_name: ContentLink
             python_field_name: draft_content_link
+          '/draftContentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Uri
+            python_field_name: uri
+          '/draftContentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+            python_field_name: content_hash
+          '/draftContentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Algorithm
+            python_field_name: algorithm
+          '/draftContentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Value
+            python_field_name: value
+          '/draftContentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
           '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             go_field_name: CreationTime
             python_field_name: creation_time
@@ -91,32 +107,6 @@ objects:
         output: true
         azure_sdk_references: ['/draftContentLink']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'uri'
-            description: 'Gets or sets the uri of the runbook content.'
-            required: false
-            azure_sdk_references: ['/draftContentLink/uri']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
-            description: 'Gets or sets the hash.'
-            required: false
-            azure_sdk_references: ['/draftContentLink/contentHash']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'algorithm'
-                description: 'Gets or sets the content hash algorithm used to hash the content.'
-                required: true
-                azure_sdk_references: ['/draftContentLink/contentHash/algorithm']
-              - !ruby/object:Api::Type::String
-                name: 'value'
-                description: 'Gets or sets expected hash value of the content.'
-                required: true
-                azure_sdk_references: ['/draftContentLink/contentHash/value']
-          - !ruby/object:Api::Type::String
-            name: 'version'
-            description: 'Gets or sets the version of the content.'
-            required: false
-            azure_sdk_references: ['/draftContentLink/version']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'Gets or sets the creation time of the runbook draft.'

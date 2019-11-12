@@ -219,9 +219,42 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_type_name: EnvironmentStatus
+          '/properties/status/ingress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Ingress
+            go_type_name: IngressEnvironmentStatus
+          '/properties/status/ingress/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: IngressState
+          '/properties/status/ingress/stateDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StateDetails
+            go_type_name: EnvironmentStateDetails
+          '/properties/status/ingress/stateDetails/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/status/ingress/stateDetails/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: status
+          '/status/ingress': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: ingress
+          '/status/ingress/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/status/ingress/stateDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: state_details
+          '/status/ingress/stateDetails/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/status/ingress/stateDetails/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -359,40 +392,6 @@ objects:
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
-          - !ruby/object:Api::Type::NestedObject
-            name: 'ingress'
-            description: 'An object that represents the status of ingress on an environment.'
-            required: false
-            azure_sdk_references: ['/status/ingress', '/properties/status/ingress']
-            properties:
-              - !ruby/object:Api::Type::Enum
-                name: 'state'
-                description: 'This string represents the state of ingress operations on an environment. It can be "Disabled", "Ready", "Running", "Paused" or "Unknown"'
-                required: false
-                azure_sdk_references: ['/status/ingress/state', '/properties/status/ingress/state']
-                values:
-                  - :Disabled
-                  - :Ready
-                  - :Running
-                  - :Paused
-                  - :Unknown
-                default_value: :Disabled
-              - !ruby/object:Api::Type::NestedObject
-                name: 'stateDetails'
-                description: 'An object that contains the details about an environment''s state.'
-                required: false
-                azure_sdk_references: ['/status/ingress/stateDetails', '/properties/status/ingress/stateDetails']
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'code'
-                    description: 'Contains the code that represents the reason of an environment being in a particular state. Can be used to programmatically handle specific cases.'
-                    required: false
-                    azure_sdk_references: ['/status/ingress/stateDetails/code', '/properties/status/ingress/stateDetails/code']
-                  - !ruby/object:Api::Type::String
-                    name: 'message'
-                    description: 'A message that describes the state in detail.'
-                    required: false
-                    azure_sdk_references: ['/status/ingress/stateDetails/message', '/properties/status/ingress/stateDetails/message']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

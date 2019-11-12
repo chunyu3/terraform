@@ -164,9 +164,22 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_type_name: StorageInsightStatus
+          '/properties/status/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: StorageInsightState
+          '/properties/status/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: status
+          '/status/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/status/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
           '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ETag
             python_field_name: e_tag
@@ -262,19 +275,6 @@ objects:
         output: true
         azure_sdk_references: ['/status', '/properties/status']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'state'
-            description: 'The state of the storage insight connection to the workspace'
-            required: true
-            azure_sdk_references: ['/status/state', '/properties/status/state']
-            values:
-              - :OK
-              - :ERROR
-          - !ruby/object:Api::Type::String
-            name: 'description'
-            description: 'Description of the state of the storage insight.'
-            required: false
-            azure_sdk_references: ['/status/description', '/properties/status/description']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

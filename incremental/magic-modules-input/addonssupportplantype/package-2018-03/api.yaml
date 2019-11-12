@@ -76,6 +76,13 @@ objects:
             applicable_to: [go]
             go_field_name: CanonicalSupportPlanProperties
             go_type_name: CanonicalSupportPlanProperties
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
 
     description: |
       Manage Azure SupportPlanType instance.
@@ -92,20 +99,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['planTypeName']
-      - !ruby/object:Api::Type::Enum
-        name: 'provisioningState'
-        description: 'The provisioning state of the resource.'
-        required: false
-        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
-        values:
-          - :Succeeded
-          - :Failed
-          - :Cancelled
-          - :Purchasing
-          - :Downgrading
-          - :Cancelling
-          - :Upgrading
-        default_value: :Succeeded
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -122,3 +115,16 @@ objects:
         description: 'Microsoft.Addons/supportProvider'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The provisioning state of the resource.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Succeeded
+          - :Failed
+          - :Cancelled
+          - :Purchasing
+          - :Downgrading
+          - :Cancelling
+          - :Upgrading

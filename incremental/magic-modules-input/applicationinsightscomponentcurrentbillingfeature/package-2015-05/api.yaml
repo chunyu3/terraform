@@ -37,6 +37,24 @@ objects:
             go_field_name: DataVolumeCap
             go_type_name: ComponentDataVolumeCap
             python_field_name: data_volume_cap
+          '/DataVolumeCap/Cap': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Cap
+            python_field_name: cap
+          '/DataVolumeCap/ResetTime': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: ResetTime
+            python_field_name: reset_time
+          '/DataVolumeCap/WarningThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: WarningThreshold
+            python_field_name: warning_threshold
+          '/DataVolumeCap/StopSendNotificationWhenHitThreshold': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: StopSendNotificationWhenHitThreshold
+            python_field_name: stop_send_notification_when_hit_threshold
+          '/DataVolumeCap/StopSendNotificationWhenHitCap': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: StopSendNotificationWhenHitCap
+            python_field_name: stop_send_notification_when_hit_cap
+          '/DataVolumeCap/MaxHistoryCap': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: MaxHistoryCap
+            python_field_name: max_history_cap
           '/CurrentBillingFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             go_field_name: CurrentBillingFeatures
             python_field_name: current_billing_features
@@ -63,36 +81,6 @@ objects:
         output: true
         azure_sdk_references: ['/DataVolumeCap']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'cap'
-            description: 'Daily data volume cap in GB.'
-            required: false
-            azure_sdk_references: ['/DataVolumeCap/Cap']
-          - !ruby/object:Api::Type::Integer
-            name: 'resetTime'
-            description: 'Daily data volume cap UTC reset hour.'
-            required: false
-            azure_sdk_references: ['/DataVolumeCap/ResetTime']
-          - !ruby/object:Api::Type::Integer
-            name: 'warningThreshold'
-            description: 'Reserved, not used for now.'
-            required: false
-            azure_sdk_references: ['/DataVolumeCap/WarningThreshold']
-          - !ruby/object:Api::Type::Boolean
-            name: 'stopSendNotificationWhenHitThreshold'
-            description: 'Reserved, not used for now.'
-            required: false
-            azure_sdk_references: ['/DataVolumeCap/StopSendNotificationWhenHitThreshold']
-          - !ruby/object:Api::Type::Boolean
-            name: 'stopSendNotificationWhenHitCap'
-            description: 'Do not send a notification email when the daily data volume cap is met.'
-            required: false
-            azure_sdk_references: ['/DataVolumeCap/StopSendNotificationWhenHitCap']
-          - !ruby/object:Api::Type::Integer
-            name: 'maxHistoryCap'
-            description: 'Maximum daily data volume cap that the user can set for this component.'
-            required: false
-            azure_sdk_references: ['/DataVolumeCap/MaxHistoryCap']
       - !ruby/object:Api::Type::Array
         name: 'currentBillingFeatures'
         description: 'Current enabled pricing plan. When the component is in the Enterprise plan, this will list both ''Basic'' and ''Application Insights Enterprise''.'

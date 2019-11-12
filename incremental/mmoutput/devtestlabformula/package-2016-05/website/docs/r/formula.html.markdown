@@ -133,6 +133,8 @@ The `artifact` block supports the following:
 
 * `artifact_id` - (Optional) The artifact's identifier.
 
+* `parameters` - (Optional) One or more `parameter` block defined below.
+
 * `status` - (Optional) The status of the artifact.
 
 * `deployment_status_message` - (Optional) The status message from the deployment.
@@ -140,6 +142,15 @@ The `artifact` block supports the following:
 * `vm_extension_status_message` - (Optional) The status message from the virtual machine extension.
 
 * `install_time` - (Optional) The time that the artifact starts to install on the virtual machine.
+
+
+---
+
+The `parameter` block supports the following:
+
+* `name` - (Optional) The name of the artifact parameter.
+
+* `value` - (Optional) The value of the artifact parameter.
 
 ---
 
@@ -169,6 +180,8 @@ The `gallery_image_reference` block supports the following:
 
 The `compute_vm` block supports the following:
 
+* `statuses` - (Optional) One or more `status` block defined below.
+
 * `os_type` - (Optional) Gets the OS type of the virtual machine.
 
 * `vm_size` - (Optional) Gets the size of the virtual machine.
@@ -178,6 +191,31 @@ The `compute_vm` block supports the following:
 * `os_disk_id` - (Optional) Gets OS disk blob uri for the virtual machine.
 
 * `data_disk_ids` - (Optional) Gets data disks blob uri for the virtual machine.
+
+* `data_disks` - (Optional) One or more `data_disk` block defined below.
+
+
+---
+
+The `status` block supports the following:
+
+* `code` - (Optional) Gets the status Code.
+
+* `display_status` - (Optional) Gets the short localizable label for the status.
+
+* `message` - (Optional) Gets the message associated with the status.
+
+---
+
+The `data_disk` block supports the following:
+
+* `name` - (Optional) Gets data disk name.
+
+* `disk_uri` - (Optional) When backed by a blob, the URI of underlying blob.
+
+* `managed_disk_id` - (Optional) When backed by managed disk, this is the ID of the compute disk resource.
+
+* `disk_size_gi_b` - (Optional) Gets data disk size in GiB.
 
 ---
 
@@ -199,6 +237,26 @@ The `network_interface` block supports the following:
 
 * `ssh_authority` - (Optional) The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH.
 
+* `shared_public_ip_address_configuration` - (Optional) One `shared_public_ip_address_configuration` block defined below.
+
+
+---
+
+The `shared_public_ip_address_configuration` block supports the following:
+
+* `inbound_nat_rules` - (Optional) One or more `inbound_nat_rule` block defined below.
+
+
+---
+
+The `inbound_nat_rule` block supports the following:
+
+* `transport_protocol` - (Optional) The transport protocol for the endpoint. Defaults to `Tcp`.
+
+* `frontend_port` - (Optional) The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically.
+
+* `backend_port` - (Optional) The port to which the external traffic will be redirected.
+
 ---
 
 The `applicable_schedule` block supports the following:
@@ -206,6 +264,125 @@ The `applicable_schedule` block supports the following:
 * `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) The tags of the resource.
+
+* `lab_vms_shutdown` - (Optional) One `lab_vms_shutdown` block defined below.
+
+* `lab_vms_startup` - (Optional) One `lab_vms_startup` block defined below.
+
+
+---
+
+The `lab_vms_shutdown` block supports the following:
+
+* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+
+* `tags` - (Optional) The tags of the resource.
+
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Disabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
+
+---
+
+The `lab_vms_startup` block supports the following:
+
+* `location` - (Optional) The location of the resource. Changing this forces a new resource to be created.
+
+* `tags` - (Optional) The tags of the resource.
+
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
+
+* `unique_identifier` - (Optional) The unique immutable identifier of a resource (Guid).
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Disabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
 
 ---
 

@@ -423,9 +423,48 @@ objects:
             applicable_to: [go]
             go_field_name: ReplicationStatus
             go_type_name: ReplicationStatus
+          '/properties/replicationStatus/aggregatedState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AggregatedState
+            go_enum_type_name: AggregatedReplicationState
+          '/properties/replicationStatus/summary': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Summary
+            go_type_name: RegionalReplicationStatus
+          '/properties/replicationStatus/summary/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Region
+          '/properties/replicationStatus/summary/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: ReplicationState
+          '/properties/replicationStatus/summary/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Details
+          '/properties/replicationStatus/summary/progress': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Progress
           '/replicationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: replication_status
+          '/replicationStatus/aggregatedState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: aggregated_state
+          '/replicationStatus/summary': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: summary
+          '/replicationStatus/summary/region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: region
+          '/replicationStatus/summary/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/replicationStatus/summary/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: details
+          '/replicationStatus/summary/progress': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: progress
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -646,50 +685,6 @@ objects:
         output: true
         azure_sdk_references: ['/replicationStatus', '/properties/replicationStatus']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'aggregatedState'
-            description: 'This is the aggregated replication status based on all the regional replication status flags.'
-            required: false
-            azure_sdk_references: ['/replicationStatus/aggregatedState', '/properties/replicationStatus/aggregatedState']
-            values:
-              - :Unknown
-              - :InProgress
-              - :Completed
-              - :Failed
-            default_value: :Unknown
-          - !ruby/object:Api::Type::Array
-            name: 'summary'
-            description: 'This is a summary of replication status for each region.'
-            required: false
-            azure_sdk_references: ['/replicationStatus/summary', '/properties/replicationStatus/summary']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'region'
-                  description: 'The region to which the gallery Image Version is being replicated to.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/region', '/properties/replicationStatus/summary/region']
-                - !ruby/object:Api::Type::Enum
-                  name: 'state'
-                  description: 'This is the regional replication state.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/state', '/properties/replicationStatus/summary/state']
-                  values:
-                    - :Unknown
-                    - :Replicating
-                    - :Completed
-                    - :Failed
-                  default_value: :Unknown
-                - !ruby/object:Api::Type::String
-                  name: 'details'
-                  description: 'The details of the replication status.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/details', '/properties/replicationStatus/summary/details']
-                - !ruby/object:Api::Type::Integer
-                  name: 'progress'
-                  description: 'It indicates progress of the replication job.'
-                  required: false
-                  azure_sdk_references: ['/replicationStatus/summary/progress', '/properties/replicationStatus/summary/progress']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

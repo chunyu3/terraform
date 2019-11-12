@@ -162,9 +162,21 @@ objects:
             applicable_to: [go]
             go_field_name: CurrentSpend
             go_type_name: CurrentSpend
+          '/properties/currentSpend/amount': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [go]
+            go_field_name: Amount
+          '/properties/currentSpend/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
           '/currentSpend': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: current_spend
+          '/currentSpend/amount': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[decimal]]
+            applicable_to: [python]
+            python_field_name: amount
+          '/currentSpend/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -238,16 +250,6 @@ objects:
         output: true
         azure_sdk_references: ['/currentSpend', '/properties/currentSpend']
         properties:
-          - !ruby/object:Api::Azure::Type::[unknown-primary[decimal]]
-            name: 'amount'
-            description: 'The total amount of cost which is being tracked by the budget.'
-            required: false
-            azure_sdk_references: ['/currentSpend/amount', '/properties/currentSpend/amount']
-          - !ruby/object:Api::Type::String
-            name: 'unit'
-            description: 'The unit of measure for the budget amount.'
-            required: false
-            azure_sdk_references: ['/currentSpend/unit', '/properties/currentSpend/unit']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id.'

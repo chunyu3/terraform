@@ -69,6 +69,56 @@ objects:
             applicable_to: [go]
             go_field_name: Port_properties
             go_type_name: Port_properties
+          '/properties/monitoringState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: MonitoringState
+            go_enum_type_name: MonitoringState
+          '/monitoringState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: monitoring_state
+          '/properties/machine': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Machine
+            go_type_name: ResourceReference
+          '/properties/machine/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/machine/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/machine/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/machine': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: machine
+          '/machine/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/machine/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/machine/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/properties/portNumber': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PortNumber
+          '/portNumber': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port_number
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListConnections
         python_func_name: list_connections
@@ -177,51 +227,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['endTime']
-      - !ruby/object:Api::Type::Enum
-        name: 'monitoringState'
-        description: 'Specifies whether the port is actively monitored or discovered.'
-        required: false
-        azure_sdk_references: ['/monitoringState', '/properties/monitoringState']
-        values:
-          - :monitored
-          - :discovered
-        default_value: :monitored
-      - !ruby/object:Api::Type::NestedObject
-        name: 'machine'
-        description: 'Machine hosting this port.'
-        required: false
-        azure_sdk_references: ['/machine', '/properties/machine']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'Resource URI.'
-            required: true
-            azure_sdk_references: ['/machine/id', '/properties/machine/id']
-          - !ruby/object:Api::Type::String
-            name: 'type'
-            description: 'Resource type qualifier.'
-            required: false
-            azure_sdk_references: ['/machine/type', '/properties/machine/type']
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Resource name.'
-            required: false
-            azure_sdk_references: ['/machine/name', '/properties/machine/name']
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'Name to use for display purposes.'
-        required: false
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'ipAddress'
-        description: 'IP address associated with the port. At present only IPv4 addresses are supported.'
-        required: false
-        azure_sdk_references: ['/ipAddress', '/properties/ipAddress']
-      - !ruby/object:Api::Type::Integer
-        name: 'portNumber'
-        description: 'Port number.'
-        required: false
-        azure_sdk_references: ['/portNumber', '/properties/portNumber']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -243,3 +248,32 @@ objects:
         description: 'Resource ETAG.'
         output: true
         azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::Enum
+        name: 'monitoringState'
+        description: 'Specifies whether the port is actively monitored or discovered.'
+        output: true
+        azure_sdk_references: ['/monitoringState', '/properties/monitoringState']
+        values:
+          - :monitored
+          - :discovered
+      - !ruby/object:Api::Type::NestedObject
+        name: 'machine'
+        description: 'Machine hosting this port.'
+        output: true
+        azure_sdk_references: ['/machine', '/properties/machine']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Name to use for display purposes.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'ipAddress'
+        description: 'IP address associated with the port. At present only IPv4 addresses are supported.'
+        output: true
+        azure_sdk_references: ['/ipAddress', '/properties/ipAddress']
+      - !ruby/object:Api::Type::Integer
+        name: 'portNumber'
+        description: 'Port number.'
+        output: true
+        azure_sdk_references: ['/portNumber', '/properties/portNumber']

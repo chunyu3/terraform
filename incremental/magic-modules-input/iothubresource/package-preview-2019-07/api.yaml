@@ -984,9 +984,22 @@ objects:
             applicable_to: [go]
             go_field_name: Locations
             go_type_name: LocationDescription
+          '/properties/locations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/locations/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Role
+            go_enum_type_name: ReplicaRoleType
           '/locations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: locations
+          '/locations/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/locations/role': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: role
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: SkuInfo
@@ -1529,21 +1542,6 @@ objects:
         azure_sdk_references: ['/locations', '/properties/locations']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Azure::Type::Location
-              name: 'location'
-              description: 'Azure Geo Regions'
-              required: false
-              input: true
-              azure_sdk_references: ['/locations/location', '/properties/locations/location']
-            - !ruby/object:Api::Type::Enum
-              name: 'role'
-              description: 'Specific Role assigned to this location'
-              required: false
-              azure_sdk_references: ['/locations/role', '/properties/locations/role']
-              values:
-                - :primary
-                - :secondary
-              default_value: :primary
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource identifier.'

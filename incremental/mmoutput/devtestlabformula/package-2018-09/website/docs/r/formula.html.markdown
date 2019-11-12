@@ -137,6 +137,8 @@ The `artifact` block supports the following:
 
 * `artifact_title` - (Optional) The artifact's title.
 
+* `parameters` - (Optional) One or more `parameter` block defined below.
+
 * `status` - (Optional) The status of the artifact.
 
 * `deployment_status_message` - (Optional) The status message from the deployment.
@@ -144,6 +146,15 @@ The `artifact` block supports the following:
 * `vm_extension_status_message` - (Optional) The status message from the virtual machine extension.
 
 * `install_time` - (Optional) The time that the artifact starts to install on the virtual machine.
+
+
+---
+
+The `parameter` block supports the following:
+
+* `name` - (Optional) The name of the artifact parameter.
+
+* `value` - (Optional) The value of the artifact parameter.
 
 ---
 
@@ -189,23 +200,107 @@ The `network_interface` block supports the following:
 
 * `ssh_authority` - (Optional) The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH.
 
+* `shared_public_ip_address_configuration` - (Optional) One `shared_public_ip_address_configuration` block defined below.
+
+
+---
+
+The `shared_public_ip_address_configuration` block supports the following:
+
+* `inbound_nat_rules` - (Optional) One or more `inbound_nat_rule` block defined below.
+
+
+---
+
+The `inbound_nat_rule` block supports the following:
+
+* `transport_protocol` - (Optional) The transport protocol for the endpoint. Defaults to `Tcp`.
+
+* `frontend_port` - (Optional) The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically.
+
+* `backend_port` - (Optional) The port to which the external traffic will be redirected.
+
 ---
 
 The `data_disk_parameter` block supports the following:
+
+* `attach_new_data_disk_options` - (Optional) One `attach_new_data_disk_option` block defined below.
 
 * `existing_lab_disk_id` - (Optional) Specifies the existing lab disk id to attach to virtual machine.
 
 * `host_caching` - (Optional) Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). Defaults to `None`.
 
+
+---
+
+The `attach_new_data_disk_option` block supports the following:
+
+* `disk_size_gi_b` - (Optional) Size of the disk to be attached in GibiBytes.
+
+* `disk_name` - (Optional) The name of the disk to be attached.
+
+* `disk_type` - (Optional) The storage type for the disk (i.e. Standard, Premium). Defaults to `Standard`.
+
 ---
 
 The `schedule_parameter` block supports the following:
+
+* `status` - (Optional) The status of the schedule (i.e. Enabled, Disabled) Defaults to `Enabled`.
+
+* `task_type` - (Optional) The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
+
+* `weekly_recurrence` - (Optional) One `weekly_recurrence` block defined below.
+
+* `daily_recurrence` - (Optional) One `daily_recurrence` block defined below.
+
+* `hourly_recurrence` - (Optional) One `hourly_recurrence` block defined below.
+
+* `time_zone_id` - (Optional) The time zone ID (e.g. Pacific Standard time).
+
+* `notification_settings` - (Optional) One `notification_setting` block defined below.
+
+* `target_resource_id` - (Optional) The resource ID to which the schedule belongs
 
 * `name` - (Optional) The name of the virtual machine or environment
 
 * `location` - (Optional) The location of the new virtual machine or environment Changing this forces a new resource to be created.
 
 * `tags` - (Optional) The tags of the resource.
+
+
+---
+
+The `weekly_recurrence` block supports the following:
+
+* `weekdays` - (Optional) The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).
+
+* `time` - (Optional) The time of the day the schedule will occur.
+
+---
+
+The `daily_recurrence` block supports the following:
+
+* `time` - (Optional) The time of day the schedule will occur.
+
+---
+
+The `hourly_recurrence` block supports the following:
+
+* `minute` - (Optional) Minutes of the hour the schedule will run.
+
+---
+
+The `notification_setting` block supports the following:
+
+* `status` - (Optional) If notifications are enabled for this schedule (i.e. Enabled, Disabled). Defaults to `Enabled`.
+
+* `time_in_minutes` - (Optional) Time in minutes before event at which notification will be sent.
+
+* `webhook_url` - (Optional) The webhook URL to which the notification will be sent.
+
+* `email_recipient` - (Optional) The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
+
+* `notification_locale` - (Optional) The locale to use when sending a notification (fallback for unsupported languages is EN).
 
 ---
 

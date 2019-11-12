@@ -32,12 +32,6 @@ objects:
             go_variable_name: name
             python_parameter_name: hub_name
             python_variable_name: name
-          '/properties/widgetTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: WidgetTypeName
-          '/widgetTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: widget_type_name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -52,6 +46,60 @@ objects:
             applicable_to: [go]
             go_field_name: WidgetType
             go_type_name: WidgetType
+          '/properties/widgetTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WidgetTypeName
+          '/widgetTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: widget_type_name
+          '/properties/definition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Definition
+          '/definition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: definition
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/imageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ImageURL
+          '/imageUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: image_url
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/widgetVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WidgetVersion
+          '/widgetVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: widget_version
+          '/properties/changed': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Changed
+          '/changed': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: changed
+          '/properties/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: Created
+          '/created': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByHub
         python_func_name: list_by_hub
@@ -82,51 +130,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['hubName']
-      - !ruby/object:Api::Type::String
-        name: 'widgetTypeName'
-        description: 'Name of the widget type.'
-        required: false
-        azure_sdk_references: ['/widgetTypeName', '/properties/widgetTypeName']
-      - !ruby/object:Api::Type::String
-        name: 'definition'
-        description: 'Definition for widget type.'
-        required: true
-        azure_sdk_references: ['/definition', '/properties/definition']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Description for widget type.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::KeyValuePairs
-        name: 'displayName'
-        description: 'Localized display name for the widget type.'
-        required: false
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'imageUrl'
-        description: 'The image URL.'
-        required: false
-        azure_sdk_references: ['/imageUrl', '/properties/imageUrl']
-      - !ruby/object:Api::Type::String
-        name: 'tenantId'
-        description: 'The hub name.'
-        required: false
-        azure_sdk_references: ['/tenantId', '/properties/tenantId']
-      - !ruby/object:Api::Type::String
-        name: 'widgetVersion'
-        description: 'The widget version.'
-        required: false
-        azure_sdk_references: ['/widgetVersion', '/properties/widgetVersion']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'changed'
-        description: 'Date time when widget type was last modified.'
-        required: false
-        azure_sdk_references: ['/changed', '/properties/changed']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'created'
-        description: 'Date time when widget type was created.'
-        required: false
-        azure_sdk_references: ['/created', '/properties/created']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -143,3 +146,48 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'widgetTypeName'
+        description: 'Name of the widget type.'
+        output: true
+        azure_sdk_references: ['/widgetTypeName', '/properties/widgetTypeName']
+      - !ruby/object:Api::Type::String
+        name: 'definition'
+        description: 'Definition for widget type.'
+        output: true
+        azure_sdk_references: ['/definition', '/properties/definition']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description for widget type.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'displayName'
+        description: 'Localized display name for the widget type.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'imageUrl'
+        description: 'The image URL.'
+        output: true
+        azure_sdk_references: ['/imageUrl', '/properties/imageUrl']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'The hub name.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'widgetVersion'
+        description: 'The widget version.'
+        output: true
+        azure_sdk_references: ['/widgetVersion', '/properties/widgetVersion']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'changed'
+        description: 'Date time when widget type was last modified.'
+        output: true
+        azure_sdk_references: ['/changed', '/properties/changed']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'created'
+        description: 'Date time when widget type was created.'
+        output: true
+        azure_sdk_references: ['/created', '/properties/created']

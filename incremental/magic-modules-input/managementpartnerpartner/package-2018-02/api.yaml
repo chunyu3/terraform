@@ -36,6 +36,55 @@ objects:
             applicable_to: [go]
             go_field_name: PartnerProperties
             go_type_name: PartnerProperties
+          '/properties/partnerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnerID
+          '/partnerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partner_id
+          '/properties/partnerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PartnerName
+          '/partnerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: partner_name
+          '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/properties/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/updatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: UpdatedTime
+          '/updatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: updated_time
+          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTime
+          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_time
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: 
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -43,50 +92,6 @@ objects:
     description: |
       Manage Azure Partner instance.
     properties:
-      - !ruby/object:Api::Type::String
-        name: 'partnerId'
-        description: 'This is the partner id'
-        required: false
-        azure_sdk_references: ['/partnerId', '/properties/partnerId']
-      - !ruby/object:Api::Type::String
-        name: 'partnerName'
-        description: 'This is the partner name'
-        required: false
-        azure_sdk_references: ['/partnerName', '/properties/partnerName']
-      - !ruby/object:Api::Type::String
-        name: 'tenantId'
-        description: 'This is the tenant id.'
-        required: false
-        azure_sdk_references: ['/tenantId', '/properties/tenantId']
-      - !ruby/object:Api::Type::String
-        name: 'objectId'
-        description: 'This is the object id.'
-        required: false
-        azure_sdk_references: ['/objectId', '/properties/objectId']
-      - !ruby/object:Api::Type::String
-        name: 'version'
-        description: 'This is the version.'
-        required: false
-        azure_sdk_references: ['/version', '/properties/version']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'updatedTime'
-        description: 'This is the DateTime when the partner was updated.'
-        required: false
-        azure_sdk_references: ['/updatedTime', '/properties/updatedTime']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdTime'
-        description: 'This is the DateTime when the partner was created.'
-        required: false
-        azure_sdk_references: ['/createdTime', '/properties/createdTime']
-      - !ruby/object:Api::Type::Enum
-        name: 'state'
-        description: 'This is the partner state'
-        required: false
-        azure_sdk_references: ['/state', '/properties/state']
-        values:
-          - :Active
-          - :Deleted
-        default_value: :Active
       # read only values included only in response
       - !ruby/object:Api::Type::Integer
         name: 'etag'
@@ -103,6 +108,49 @@ objects:
         description: 'Name of the partner'
         output: true
         azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'partnerId'
+        description: 'This is the partner id'
+        output: true
+        azure_sdk_references: ['/partnerId', '/properties/partnerId']
+      - !ruby/object:Api::Type::String
+        name: 'partnerName'
+        description: 'This is the partner name'
+        output: true
+        azure_sdk_references: ['/partnerName', '/properties/partnerName']
+      - !ruby/object:Api::Type::String
+        name: 'tenantId'
+        description: 'This is the tenant id.'
+        output: true
+        azure_sdk_references: ['/tenantId', '/properties/tenantId']
+      - !ruby/object:Api::Type::String
+        name: 'objectId'
+        description: 'This is the object id.'
+        output: true
+        azure_sdk_references: ['/objectId', '/properties/objectId']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'This is the version.'
+        output: true
+        azure_sdk_references: ['/version', '/properties/version']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'updatedTime'
+        description: 'This is the DateTime when the partner was updated.'
+        output: true
+        azure_sdk_references: ['/updatedTime', '/properties/updatedTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'This is the DateTime when the partner was created.'
+        output: true
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'This is the partner state'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Active
+          - :Deleted
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Type of resource. "Microsoft.ManagementPartner/partners"'

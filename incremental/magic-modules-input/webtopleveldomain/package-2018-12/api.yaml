@@ -39,6 +39,12 @@ objects:
             applicable_to: [go]
             go_field_name: TopLevelDomain_properties
             go_type_name: TopLevelDomain_properties
+          '/properties/privacy': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Privacy
+          '/privacy': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: privacy
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -47,11 +53,6 @@ objects:
     description: |
       Manage Azure TopLevelDomain instance.
     properties:
-      - !ruby/object:Api::Type::Boolean
-        name: 'privacy'
-        description: 'If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>.'
-        required: false
-        azure_sdk_references: ['/privacy', '/properties/privacy']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -73,3 +74,8 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Boolean
+        name: 'privacy'
+        description: 'If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>.'
+        output: true
+        azure_sdk_references: ['/privacy', '/properties/privacy']

@@ -56,59 +56,6 @@ objects:
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'resourceType'
-              description: 'The type of resource the SKU applies to.'
-              required: false
-              azure_sdk_references: ['/value/resourceType']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'sku'
-              description: 'Specifies API Management SKU.'
-              required: false
-              azure_sdk_references: ['/value/sku']
-              properties:
-                - !ruby/object:Api::Type::Enum
-                  name: 'name'
-                  description: 'Name of the Sku.'
-                  required: false
-                  azure_sdk_references: ['/value/sku/name']
-                  values:
-                    - :Developer
-                    - :Standard
-                    - :Premium
-                    - :Basic
-                  default_value: :Developer
-            - !ruby/object:Api::Type::NestedObject
-              name: 'capacity'
-              description: 'Specifies the number of API Management units.'
-              required: false
-              azure_sdk_references: ['/value/capacity']
-              properties:
-                - !ruby/object:Api::Type::Integer
-                  name: 'minimum'
-                  description: 'The minimum capacity.'
-                  required: false
-                  azure_sdk_references: ['/value/capacity/minimum']
-                - !ruby/object:Api::Type::Integer
-                  name: 'maximum'
-                  description: 'The maximum capacity that can be set.'
-                  required: false
-                  azure_sdk_references: ['/value/capacity/maximum']
-                - !ruby/object:Api::Type::Integer
-                  name: 'default'
-                  description: 'The default capacity.'
-                  required: false
-                  azure_sdk_references: ['/value/capacity/default']
-                - !ruby/object:Api::Type::Enum
-                  name: 'scaleType'
-                  description: 'The scale type applicable to the sku.'
-                  required: false
-                  azure_sdk_references: ['/value/capacity/scaleType']
-                  values:
-                    - :automatic
-                    - :manual
-                    - :none
-                  default_value: :automatic
       - !ruby/object:Api::Type::String
         name: 'nextLink'
         description: 'The uri to fetch the next page of API Management service Skus.'

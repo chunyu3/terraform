@@ -67,37 +67,3 @@ objects:
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource ID.'
-              required: false
-              azure_sdk_references: ['/value/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Resource name.'
-              required: false
-              azure_sdk_references: ['/value/name']
-            - !ruby/object:Api::Type::String
-              name: 'type'
-              description: 'Resource type.'
-              required: false
-              azure_sdk_references: ['/value/type']
-            - !ruby/object:Api::Type::Enum
-              name: 'restorePointType'
-              description: 'The restore point type of the database restore point.'
-              required: false
-              azure_sdk_references: ['/value/restorePointType', '/value/properties/restorePointType']
-              values:
-                - :DISCRETE
-                - :CONTINUOUS
-              default_value: :DISCRETE
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'restorePointCreationDate'
-              description: 'Restore point creation time (ISO8601 format). Populated when restorePointType = CONTINUOUS. Null otherwise.'
-              required: false
-              azure_sdk_references: ['/value/restorePointCreationDate', '/value/properties/restorePointCreationDate']
-            - !ruby/object:Api::Azure::Type::ISO8601DateTime
-              name: 'earliestRestoreDate'
-              description: 'Earliest restore time (ISO8601 format). Populated when restorePointType = DISCRETE. Null otherwise.'
-              required: false
-              azure_sdk_references: ['/value/earliestRestoreDate', '/value/properties/earliestRestoreDate']

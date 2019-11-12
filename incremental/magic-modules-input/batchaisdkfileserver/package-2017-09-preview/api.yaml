@@ -265,9 +265,34 @@ objects:
             applicable_to: [go]
             go_field_name: MountSettings
             go_type_name: MountSettings
+          '/properties/mountSettings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPoint
+          '/properties/mountSettings/fileServerPublicIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileServerPublicIp
+          '/properties/mountSettings/fileServerInternalIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FileServerInternalIp
+          '/properties/mountSettings/fileServerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FileServerType
+            go_enum_type_name: FileServerType
           '/mountSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: mount_settings
+          '/mountSettings/mountPoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_point
+          '/mountSettings/fileServerPublicIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_server_public_ip
+          '/mountSettings/fileServerInternalIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_server_internal_ip
+          '/mountSettings/fileServerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: file_server_type
           '/properties/provisioningStateTransitionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: ProvisioningStateTransitionTime
@@ -417,30 +442,6 @@ objects:
         output: true
         azure_sdk_references: ['/mountSettings', '/properties/mountSettings']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'mountPoint'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/mountPoint', '/properties/mountSettings/mountPoint']
-          - !ruby/object:Api::Type::String
-            name: 'fileServerPublicIp'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/fileServerPublicIP', '/properties/mountSettings/fileServerPublicIP']
-          - !ruby/object:Api::Type::String
-            name: 'fileServerInternalIp'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/fileServerInternalIP', '/properties/mountSettings/fileServerInternalIP']
-          - !ruby/object:Api::Type::Enum
-            name: 'fileServerType'
-            description: ''
-            required: false
-            azure_sdk_references: ['/mountSettings/fileServerType', '/properties/mountSettings/fileServerType']
-            values:
-              - :nfs
-              - :glusterfs
-            default_value: :nfs
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'provisioningStateTransitionTime'
         description: ''

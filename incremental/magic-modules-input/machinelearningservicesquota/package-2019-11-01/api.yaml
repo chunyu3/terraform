@@ -45,45 +45,6 @@ objects:
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Specifies the resource ID.'
-              required: false
-              azure_sdk_references: ['/value/id']
-            - !ruby/object:Api::Type::String
-              name: 'type'
-              description: 'Specifies the resource type.'
-              required: false
-              azure_sdk_references: ['/value/type']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'name'
-              description: 'Name of the resource.'
-              required: false
-              azure_sdk_references: ['/value/name']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'value'
-                  description: 'The name of the resource.'
-                  required: false
-                  azure_sdk_references: ['/value/name/value']
-                - !ruby/object:Api::Type::String
-                  name: 'localizedValue'
-                  description: 'The localized name of the resource.'
-                  required: false
-                  azure_sdk_references: ['/value/name/localizedValue']
-            - !ruby/object:Api::Type::Integer
-              name: 'limit'
-              description: 'The maximum permitted quota of the resource.'
-              required: false
-              azure_sdk_references: ['/value/limit']
-            - !ruby/object:Api::Type::Enum
-              name: 'unit'
-              description: 'An enum describing the unit of quota measurement.'
-              required: false
-              azure_sdk_references: ['/value/unit']
-              values:
-                - :Count
-              default_value: :Count
       - !ruby/object:Api::Type::String
         name: 'nextLink'
         description: 'The URI to fetch the next page of workspace quota information by VM Family. Call ListNext() with this to fetch the next page of Workspace Quota information.'

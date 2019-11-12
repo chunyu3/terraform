@@ -36,6 +36,12 @@ objects:
             applicable_to: [go]
             go_field_name: EnrollmentAccountProperties
             go_type_name: EnrollmentAccountProperties
+          '/properties/principalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalName
+          '/principalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -44,11 +50,6 @@ objects:
     description: |
       Manage Azure EnrollmentAccount instance.
     properties:
-      - !ruby/object:Api::Type::String
-        name: 'principalName'
-        description: 'The account owner''s principal name.'
-        required: false
-        azure_sdk_references: ['/principalName', '/properties/principalName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -65,3 +66,8 @@ objects:
         description: 'Resource type.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'principalName'
+        description: 'The account owner''s principal name.'
+        output: true
+        azure_sdk_references: ['/principalName', '/properties/principalName']

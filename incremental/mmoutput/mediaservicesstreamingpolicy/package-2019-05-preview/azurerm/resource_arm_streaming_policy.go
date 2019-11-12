@@ -128,6 +128,42 @@ func resourceArmStreamingPolicy() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Optional: true,
                                                 },
+                                                "tracks": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "track_selections": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "operation": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.Equal),
+                                                                            }, false),
+                                                                        },
+                                                                        "property": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.FourCC),
+                                                                            }, false),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -297,6 +333,42 @@ func resourceArmStreamingPolicy() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Optional: true,
                                                 },
+                                                "tracks": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "track_selections": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "operation": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.Equal),
+                                                                            }, false),
+                                                                        },
+                                                                        "property": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.FourCC),
+                                                                            }, false),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -453,6 +525,42 @@ func resourceArmStreamingPolicy() *schema.Resource {
                                                 "policy_name": {
                                                     Type: schema.TypeString,
                                                     Optional: true,
+                                                },
+                                                "tracks": {
+                                                    Type: schema.TypeList,
+                                                    Optional: true,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "track_selections": {
+                                                                Type: schema.TypeList,
+                                                                Optional: true,
+                                                                Elem: &schema.Resource{
+                                                                    Schema: map[string]*schema.Schema{
+                                                                        "operation": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.Equal),
+                                                                            }, false),
+                                                                        },
+                                                                        "property": {
+                                                                            Type: schema.TypeString,
+                                                                            Required: true,
+                                                                            ValidateFunc: validation.StringInSlice([]string{
+                                                                                string(mediaservices.Unknown),
+                                                                                string(mediaservices.FourCC),
+                                                                            }, false),
+                                                                        },
+                                                                        "value": {
+                                                                            Type: schema.TypeString,
+                                                                            Optional: true,
+                                                                        },
+                                                                    },
+                                                                },
+                                                            },
+                                                        },
+                                                    },
                                                 },
                                             },
                                         },
@@ -864,10 +972,12 @@ func expandArmStreamingPolicyStreamingPolicyContentKey(input []interface{}) *[]m
         v := item.(map[string]interface{})
         label := v["label"].(string)
         policyName := v["policy_name"].(string)
+        tracks := v["tracks"].([]interface{})
 
         result := mediaservices.StreamingPolicyContentKey{
             Label: utils.String(label),
             PolicyName: utils.String(policyName),
+            Tracks: expandArmStreamingPolicyTrackSelection(tracks),
         }
 
         results = append(results, result)
@@ -1114,6 +1224,7 @@ func flattenArmStreamingPolicyStreamingPolicyContentKey(input *[]mediaservices.S
         if policyName := item.PolicyName; policyName != nil {
             v["policy_name"] = *policyName
         }
+        v["tracks"] = flattenArmStreamingPolicyTrackSelection(item.Tracks)
 
         results = append(results, v)
     }

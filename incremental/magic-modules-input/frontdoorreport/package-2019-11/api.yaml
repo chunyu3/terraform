@@ -76,63 +76,6 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['country']
-      - !ruby/object:Api::Type::String
-        name: 'endpoint'
-        description: 'The endpoint associated with the Timeseries data point'
-        required: false
-        azure_sdk_references: ['/endpoint', '/properties/endpoint']
-      - !ruby/object:Api::Type::String
-        name: 'startDateTimeUtc'
-        description: 'The start DateTime of the Timeseries in UTC'
-        required: false
-        azure_sdk_references: ['/startDateTimeUTC', '/properties/startDateTimeUTC']
-      - !ruby/object:Api::Type::String
-        name: 'endDateTimeUtc'
-        description: 'The end DateTime of the Timeseries in UTC'
-        required: false
-        azure_sdk_references: ['/endDateTimeUTC', '/properties/endDateTimeUTC']
-      - !ruby/object:Api::Type::Enum
-        name: 'aggregationInterval'
-        description: 'The aggregation interval of the Timeseries'
-        required: false
-        azure_sdk_references: ['/aggregationInterval', '/properties/aggregationInterval']
-        values:
-          - :Hourly
-          - :Daily
-        default_value: :Hourly
-      - !ruby/object:Api::Type::Enum
-        name: 'timeseriesType'
-        description: 'The type of Timeseries'
-        required: false
-        azure_sdk_references: ['/timeseriesType', '/properties/timeseriesType']
-        values:
-          - :MeasurementCounts
-          - :LatencyP50
-          - :LatencyP75
-          - :LatencyP95
-        default_value: :MeasurementCounts
-      - !ruby/object:Api::Type::String
-        name: 'country'
-        description: 'The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html'
-        required: false
-        azure_sdk_references: ['/country', '/properties/country']
-      - !ruby/object:Api::Type::Array
-        name: 'timeseriesData'
-        description: 'The set of data points for the timeseries'
-        required: false
-        azure_sdk_references: ['/timeseriesData', '/properties/timeseriesData']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'dateTimeUtc'
-              description: 'The DateTime of the Timeseries data point in UTC'
-              required: false
-              azure_sdk_references: ['/timeseriesData/dateTimeUTC', '/properties/timeseriesData/dateTimeUTC']
-            - !ruby/object:Api::Type::Integer
-              name: 'value'
-              description: 'The Value of the Timeseries data point'
-              required: false
-              azure_sdk_references: ['/timeseriesData/value', '/properties/timeseriesData/value']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -159,3 +102,48 @@ objects:
         description: 'Resource tags.'
         output: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'endpoint'
+        description: 'The endpoint associated with the Timeseries data point'
+        output: true
+        azure_sdk_references: ['/endpoint', '/properties/endpoint']
+      - !ruby/object:Api::Type::String
+        name: 'startDateTimeUtc'
+        description: 'The start DateTime of the Timeseries in UTC'
+        output: true
+        azure_sdk_references: ['/startDateTimeUTC', '/properties/startDateTimeUTC']
+      - !ruby/object:Api::Type::String
+        name: 'endDateTimeUtc'
+        description: 'The end DateTime of the Timeseries in UTC'
+        output: true
+        azure_sdk_references: ['/endDateTimeUTC', '/properties/endDateTimeUTC']
+      - !ruby/object:Api::Type::Enum
+        name: 'aggregationInterval'
+        description: 'The aggregation interval of the Timeseries'
+        output: true
+        azure_sdk_references: ['/aggregationInterval', '/properties/aggregationInterval']
+        values:
+          - :Hourly
+          - :Daily
+      - !ruby/object:Api::Type::Enum
+        name: 'timeseriesType'
+        description: 'The type of Timeseries'
+        output: true
+        azure_sdk_references: ['/timeseriesType', '/properties/timeseriesType']
+        values:
+          - :MeasurementCounts
+          - :LatencyP50
+          - :LatencyP75
+          - :LatencyP95
+      - !ruby/object:Api::Type::String
+        name: 'country'
+        description: 'The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html'
+        output: true
+        azure_sdk_references: ['/country', '/properties/country']
+      - !ruby/object:Api::Type::Array
+        name: 'timeseriesData'
+        description: 'The set of data points for the timeseries'
+        output: true
+        azure_sdk_references: ['/timeseriesData', '/properties/timeseriesData']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

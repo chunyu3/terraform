@@ -133,6 +133,19 @@ func resourceArmSnapshot() *schema.Resource {
                                                     Required: true,
                                                     ValidateFunc: validate.NoEmptyStrings,
                                                 },
+                                                "source_vault": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "id": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
+                                                },
                                             },
                                         },
                                     },
@@ -146,6 +159,19 @@ func resourceArmSnapshot() *schema.Resource {
                                                     Type: schema.TypeString,
                                                     Required: true,
                                                     ValidateFunc: validate.NoEmptyStrings,
+                                                },
+                                                "source_vault": {
+                                                    Type: schema.TypeList,
+                                                    Required: true,
+                                                    MaxItems: 1,
+                                                    Elem: &schema.Resource{
+                                                        Schema: map[string]*schema.Schema{
+                                                            "id": {
+                                                                Type: schema.TypeString,
+                                                                Optional: true,
+                                                            },
+                                                        },
+                                                    },
                                                 },
                                             },
                                         },
@@ -524,10 +550,12 @@ func expandArmSnapshotKeyVaultAndSecretReference(input []interface{}) *compute.K
     }
     v := input[0].(map[string]interface{})
 
+    sourceVault := v["source_vault"].([]interface{})
     secretUrl := v["secret_url"].(string)
 
     result := compute.KeyVaultAndSecretReference{
         SecretURL: utils.String(secretUrl),
+        SourceVault: expandArmSnapshotSourceVault(sourceVault),
     }
     return &result
 }
@@ -538,10 +566,26 @@ func expandArmSnapshotKeyVaultAndKeyReference(input []interface{}) *compute.KeyV
     }
     v := input[0].(map[string]interface{})
 
+    sourceVault := v["source_vault"].([]interface{})
     keyUrl := v["key_url"].(string)
 
     result := compute.KeyVaultAndKeyReference{
         KeyURL: utils.String(keyUrl),
+        SourceVault: expandArmSnapshotSourceVault(sourceVault),
+    }
+    return &result
+}
+
+func expandArmSnapshotSourceVault(input []interface{}) *compute.SourceVault {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    id := v["id"].(string)
+
+    result := compute.SourceVault{
+        ID: utils.String(id),
     }
     return &result
 }
@@ -647,6 +691,7 @@ func flattenArmSnapshotKeyVaultAndSecretReference(input *compute.KeyVaultAndSecr
     if secretUrl := input.SecretURL; secretUrl != nil {
         result["secret_url"] = *secretUrl
     }
+    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
 
     return []interface{}{result}
 }
@@ -660,6 +705,21 @@ func flattenArmSnapshotKeyVaultAndKeyReference(input *compute.KeyVaultAndKeyRefe
 
     if keyUrl := input.KeyURL; keyUrl != nil {
         result["key_url"] = *keyUrl
+    }
+    result["source_vault"] = flattenArmSnapshotSourceVault(input.SourceVault)
+
+    return []interface{}{result}
+}
+
+func flattenArmSnapshotSourceVault(input *compute.SourceVault) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
+    }
+
+    result := make(map[string]interface{})
+
+    if id := input.ID; id != nil {
+        result["id"] = *id
     }
 
     return []interface{}{result}

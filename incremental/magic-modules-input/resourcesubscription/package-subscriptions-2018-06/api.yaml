@@ -43,6 +43,16 @@ objects:
             go_field_name: SubscriptionPolicies
             go_type_name: SubscriptionPolicies
             python_field_name: subscription_policies
+          '/subscriptionPolicies/locationPlacementId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LocationPlacementID
+            python_field_name: location_placement_id
+          '/subscriptionPolicies/quotaId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: QuotaID
+            python_field_name: quota_id
+          '/subscriptionPolicies/spendingLimit': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: SpendingLimit
+            go_enum_type_name: SpendingLimit
+            python_field_name: spending_limit
           '/authorizationSource': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: AuthorizationSource
             python_field_name: authorization_source
@@ -96,26 +106,6 @@ objects:
         output: true
         azure_sdk_references: ['/subscriptionPolicies']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'locationPlacementId'
-            description: 'The subscription location placement ID. The ID indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions.'
-            required: false
-            azure_sdk_references: ['/subscriptionPolicies/locationPlacementId']
-          - !ruby/object:Api::Type::String
-            name: 'quotaId'
-            description: 'The subscription quota ID.'
-            required: false
-            azure_sdk_references: ['/subscriptionPolicies/quotaId']
-          - !ruby/object:Api::Type::Enum
-            name: 'spendingLimit'
-            description: 'The subscription spending limit.'
-            required: false
-            azure_sdk_references: ['/subscriptionPolicies/spendingLimit']
-            values:
-              - :On
-              - :Off
-              - :CurrentPeriodOff
-            default_value: :On
       - !ruby/object:Api::Type::String
         name: 'authorizationSource'
         description: 'The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, ''Legacy, RoleBased''.'

@@ -51,6 +51,38 @@ objects:
             applicable_to: [go]
             go_field_name: WorkflowProperties
             go_type_name: WorkflowProperties
+          '/properties/lastStepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastStepName
+          '/lastStepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_step_name
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: 
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: 
+          '/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/properties/steps': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Steps
+          '/steps': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: steps
+          '/properties/lastOperationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastOperationID
+          '/lastOperationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_operation_id
 
     description: |
       Manage Azure Workflow instance.
@@ -73,43 +105,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['workflowId']
-      - !ruby/object:Api::Type::String
-        name: 'lastStepName'
-        description: 'last step name'
-        required: false
-        azure_sdk_references: ['/lastStepName', '/properties/lastStepName']
-      - !ruby/object:Api::Type::Enum
-        name: 'status'
-        description: 'workflow status.'
-        required: false
-        azure_sdk_references: ['/status', '/properties/status']
-        values:
-          - :active
-          - :expired
-          - :succeeded
-          - :aborted
-          - :failed
-        default_value: :active
-      - !ruby/object:Api::Type::Enum
-        name: 'operation'
-        description: 'operation direction.'
-        required: false
-        azure_sdk_references: ['/operation', '/properties/operation']
-        values:
-          - :do
-          - :undo
-          - :cancel
-        default_value: :do
-      - !ruby/object:Api::Type::String
-        name: 'steps'
-        description: 'workflow steps'
-        required: false
-        azure_sdk_references: ['/steps', '/properties/steps']
-      - !ruby/object:Api::Type::String
-        name: 'lastOperationId'
-        description: 'workflow last operation identifier.'
-        required: false
-        azure_sdk_references: ['/lastOperationId', '/properties/lastOperationId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -126,3 +121,38 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'lastStepName'
+        description: 'last step name'
+        output: true
+        azure_sdk_references: ['/lastStepName', '/properties/lastStepName']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'workflow status.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :active
+          - :expired
+          - :succeeded
+          - :aborted
+          - :failed
+      - !ruby/object:Api::Type::Enum
+        name: 'operation'
+        description: 'operation direction.'
+        output: true
+        azure_sdk_references: ['/operation', '/properties/operation']
+        values:
+          - :do
+          - :undo
+          - :cancel
+      - !ruby/object:Api::Type::String
+        name: 'steps'
+        description: 'workflow steps'
+        output: true
+        azure_sdk_references: ['/steps', '/properties/steps']
+      - !ruby/object:Api::Type::String
+        name: 'lastOperationId'
+        description: 'workflow last operation identifier.'
+        output: true
+        azure_sdk_references: ['/lastOperationId', '/properties/lastOperationId']

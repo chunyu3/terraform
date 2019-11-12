@@ -857,9 +857,47 @@ objects:
             applicable_to: [go]
             go_field_name: ProvisioningErrors
             go_type_name: ErrorResponseWrapper
+          '/properties/provisioningErrors/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Error
+            go_type_name: ErrorResponse
+          '/properties/provisioningErrors/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/provisioningErrors/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/provisioningErrors/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Details
+            go_type_name: ErrorDetail
+          '/properties/provisioningErrors/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/provisioningErrors/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
           '/provisioningErrors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: provisioning_errors
+          '/provisioningErrors/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error
+          '/provisioningErrors/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/provisioningErrors/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/provisioningErrors/error/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: details
+          '/provisioningErrors/error/details/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/provisioningErrors/error/details/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -1200,39 +1238,6 @@ objects:
         azure_sdk_references: ['/provisioningErrors', '/properties/provisioningErrors']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::NestedObject
-              name: 'error'
-              description: 'The error response.'
-              required: false
-              azure_sdk_references: ['/provisioningErrors/error', '/properties/provisioningErrors/error']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'code'
-                  description: 'Error code.'
-                  required: true
-                  azure_sdk_references: ['/provisioningErrors/error/code', '/properties/provisioningErrors/error/code']
-                - !ruby/object:Api::Type::String
-                  name: 'message'
-                  description: 'Error message.'
-                  required: true
-                  azure_sdk_references: ['/provisioningErrors/error/message', '/properties/provisioningErrors/error/message']
-                - !ruby/object:Api::Type::Array
-                  name: 'details'
-                  description: 'An array of error detail objects.'
-                  required: false
-                  azure_sdk_references: ['/provisioningErrors/error/details', '/properties/provisioningErrors/error/details']
-                  item_type: !ruby/object:Api::Type::NestedObject
-                    properties:
-                      - !ruby/object:Api::Type::String
-                        name: 'code'
-                        description: 'Error code.'
-                        required: true
-                        azure_sdk_references: ['/provisioningErrors/error/details/code', '/properties/provisioningErrors/error/details/code']
-                      - !ruby/object:Api::Type::String
-                        name: 'message'
-                        description: 'Error message.'
-                        required: true
-                        azure_sdk_references: ['/provisioningErrors/error/details/message', '/properties/provisioningErrors/error/details/message']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Specifies the resource ID.'

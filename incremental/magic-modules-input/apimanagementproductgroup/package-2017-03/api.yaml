@@ -113,36 +113,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['groupId']
-      - !ruby/object:Api::Type::String
-        name: 'displayName'
-        description: 'Group name.'
-        required: true
-        azure_sdk_references: ['/displayName', '/properties/displayName']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Group description. Can contain HTML formatting tags.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::Boolean
-        name: 'builtIn'
-        description: 'true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.'
-        required: false
-        azure_sdk_references: ['/builtIn', '/properties/builtIn']
-      - !ruby/object:Api::Type::Enum
-        name: 'type'
-        description: 'Group type.'
-        required: false
-        azure_sdk_references: ['/type', '/properties/type']
-        values:
-          - :custom
-          - :system
-          - :external
-        default_value: :custom
-      - !ruby/object:Api::Type::String
-        name: 'externalId'
-        description: 'For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.'
-        required: false
-        azure_sdk_references: ['/externalId', '/properties/externalId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -159,3 +129,32 @@ objects:
         description: 'Resource type for API Management resource.'
         output: true
         azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'Group name.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Group description. Can contain HTML formatting tags.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Boolean
+        name: 'builtIn'
+        description: 'true if the group is one of the three system groups (Administrators, Developers, or Guests); otherwise false.'
+        output: true
+        azure_sdk_references: ['/builtIn', '/properties/builtIn']
+      - !ruby/object:Api::Type::Enum
+        name: 'type'
+        description: 'Group type.'
+        output: true
+        azure_sdk_references: ['/type', '/properties/type']
+        values:
+          - :custom
+          - :system
+          - :external
+      - !ruby/object:Api::Type::String
+        name: 'externalId'
+        description: 'For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.'
+        output: true
+        azure_sdk_references: ['/externalId', '/properties/externalId']

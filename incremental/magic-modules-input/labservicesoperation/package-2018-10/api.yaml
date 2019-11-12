@@ -40,6 +40,12 @@ objects:
             go_field_name: Error
             go_type_name: OperationError
             python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
 
     description: |
       Manage Azure Operation instance.
@@ -68,13 +74,3 @@ objects:
         output: true
         azure_sdk_references: ['/error']
         properties:
-          - !ruby/object:Api::Type::String
-            name: 'code'
-            description: 'The error code of the operation error.'
-            required: false
-            azure_sdk_references: ['/error/code']
-          - !ruby/object:Api::Type::String
-            name: 'message'
-            description: 'The error message of the operation error.'
-            required: false
-            azure_sdk_references: ['/error/message']

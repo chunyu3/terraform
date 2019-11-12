@@ -57,6 +57,54 @@ objects:
             applicable_to: [go]
             go_field_name: ArtifactProperties
             go_type_name: ArtifactProperties
+          '/properties/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Title
+          '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: title
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/properties/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FilePath
+          '/filePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: file_path
+          '/properties/icon': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Icon
+          '/icon': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: icon
+          '/properties/targetOsType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetOsType
+          '/targetOsType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_os_type
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -98,46 +146,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['artifactSourceName']
-      - !ruby/object:Api::Type::String
-        name: 'title'
-        description: 'The artifact''s title.'
-        required: false
-        azure_sdk_references: ['/title', '/properties/title']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'The artifact''s description.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::String
-        name: 'publisher'
-        description: 'The artifact''s publisher.'
-        required: false
-        azure_sdk_references: ['/publisher', '/properties/publisher']
-      - !ruby/object:Api::Type::String
-        name: 'filePath'
-        description: 'The file path to the artifact.'
-        required: false
-        azure_sdk_references: ['/filePath', '/properties/filePath']
-      - !ruby/object:Api::Type::String
-        name: 'icon'
-        description: 'The URI to the artifact icon.'
-        required: false
-        azure_sdk_references: ['/icon', '/properties/icon']
-      - !ruby/object:Api::Type::String
-        name: 'targetOsType'
-        description: 'The artifact''s target OS.'
-        required: false
-        azure_sdk_references: ['/targetOsType', '/properties/targetOsType']
-      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
-        name: 'parameters'
-        description: 'The artifact''s parameters.'
-        required: false
-        azure_sdk_references: ['/parameters', '/properties/parameters']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'createdDate'
-        description: 'The artifact''s creation date.'
-        required: false
-        azure_sdk_references: ['/createdDate', '/properties/createdDate']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -164,3 +172,43 @@ objects:
         description: 'The tags of the resource.'
         output: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'title'
+        description: 'The artifact''s title.'
+        output: true
+        azure_sdk_references: ['/title', '/properties/title']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The artifact''s description.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'publisher'
+        description: 'The artifact''s publisher.'
+        output: true
+        azure_sdk_references: ['/publisher', '/properties/publisher']
+      - !ruby/object:Api::Type::String
+        name: 'filePath'
+        description: 'The file path to the artifact.'
+        output: true
+        azure_sdk_references: ['/filePath', '/properties/filePath']
+      - !ruby/object:Api::Type::String
+        name: 'icon'
+        description: 'The URI to the artifact icon.'
+        output: true
+        azure_sdk_references: ['/icon', '/properties/icon']
+      - !ruby/object:Api::Type::String
+        name: 'targetOsType'
+        description: 'The artifact''s target OS.'
+        output: true
+        azure_sdk_references: ['/targetOsType', '/properties/targetOsType']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'parameters'
+        description: 'The artifact''s parameters.'
+        output: true
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdDate'
+        description: 'The artifact''s creation date.'
+        output: true
+        azure_sdk_references: ['/createdDate', '/properties/createdDate']

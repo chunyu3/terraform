@@ -40,6 +40,65 @@ objects:
             go_field_name: Value
             go_type_name: EngineBaseResource
             python_field_name: value
+          '/value/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/value/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/value/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/value/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/value/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/value/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/value/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EngineBase
+            go_type_name: EngineBase
+          '/value/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/value/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/value/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: backup_management_type
+          '/value/properties/backupManagementType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: BackupManagementType
+            go_enum_type_name: ManagementType
+          '/value/registrationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_status
+          '/value/properties/registrationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationStatus
+          '/value/healthStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: health_status
+          '/value/properties/healthStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HealthStatus
+          '/value/canReRegister': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: can_re_register
+          '/value/properties/canReRegister': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: CanReRegister
+          '/value/backupEngineId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: backup_engine_id
+          '/value/properties/backupEngineId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BackupEngineID
 
     description: |
       Manage Azure BackupEngine instance.
@@ -69,72 +128,3 @@ objects:
         azure_sdk_references: ['/value']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-            - !ruby/object:Api::Type::String
-              name: 'id'
-              description: 'Resource ID represents the complete path to the resource.'
-              required: false
-              azure_sdk_references: ['/value/id']
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Resource name associated with the resource.'
-              required: false
-              azure_sdk_references: ['/value/name']
-            - !ruby/object:Api::Type::String
-              name: 'type'
-              description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
-              required: false
-              azure_sdk_references: ['/value/type']
-            - !ruby/object:Api::Azure::Type::Location
-              name: 'location'
-              description: 'Resource location.'
-              required: false
-              input: true
-              azure_sdk_references: ['/value/location']
-            - !ruby/object:Api::Azure::Type::Tags
-              name: 'tags'
-              description: 'Resource tags.'
-              required: false
-              azure_sdk_references: ['/value/tags']
-            - !ruby/object:Api::Type::String
-              name: 'eTag'
-              description: 'Optional ETag.'
-              required: false
-              azure_sdk_references: ['/value/eTag']
-            - !ruby/object:Api::Type::String
-              name: 'friendlyName'
-              description: 'The friendly name of the backup engine.'
-              required: false
-              azure_sdk_references: ['/value/friendlyName', '/value/properties/friendlyName']
-            - !ruby/object:Api::Type::Enum
-              name: 'backupManagementType'
-              description: 'The type of backup management associated with the backup engine.'
-              required: false
-              azure_sdk_references: ['/value/backupManagementType', '/value/properties/backupManagementType']
-              values:
-                - :Invalid
-                - :AzureIaasVM
-                - :MAB
-                - :DPM
-                - :AzureBackupServer
-                - :AzureSql
-              default_value: :Invalid
-            - !ruby/object:Api::Type::String
-              name: 'registrationStatus'
-              description: 'The status of the backup engine registration with the Recovery Services vault.'
-              required: false
-              azure_sdk_references: ['/value/registrationStatus', '/value/properties/registrationStatus']
-            - !ruby/object:Api::Type::String
-              name: 'healthStatus'
-              description: 'The backup status of the backup engine.'
-              required: false
-              azure_sdk_references: ['/value/healthStatus', '/value/properties/healthStatus']
-            - !ruby/object:Api::Type::Boolean
-              name: 'canReRegister'
-              description: 'The flag indicating whether the backup engine be registered again, once the engine has been initially registered.'
-              required: false
-              azure_sdk_references: ['/value/canReRegister', '/value/properties/canReRegister']
-            - !ruby/object:Api::Type::String
-              name: 'backupEngineId'
-              description: 'The ID of the backup engine.'
-              required: false
-              azure_sdk_references: ['/value/backupEngineId', '/value/properties/backupEngineId']
