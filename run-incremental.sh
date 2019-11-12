@@ -24,13 +24,14 @@ cd /cli-input-tools
 #done
 RESULT_FOO=$(python3 list_readme_path_of_updated_services.py $1 "remotes/origin/master" "remotes/terraform/master")
 #echo $RESULT_FOO
+echo "START Auto-cli Magic-Modules input files generation"
 for i in ${RESULT_FOO}; do
     (( start-- ))
     if [ $start -gt 0 ]; then
         echo "skip"
         continue;
     fi
-	echo $i;
+	echo "START $i";
     python3 /cli-input-tools/add_snippets_for_readme.py $i
 
 	#s = $i;
@@ -48,19 +49,22 @@ for i in ${RESULT_FOO}; do
       break
     fi
 done
+echo "END Auto-cli Magic-Modules input files generation"
+
 src="/generated"
 if [ ! -d "/generated/magic-modules-input" ];then
   src="/generated"
 else
   src="/generated/magic-modules-input"
 fi
-echo $src
+#echo $src
+echo "START Magic-Module Generation"
 cd /magic-modules;
 export PATH=/root/.rbenv/shims:$PATH
 echo $PWD
 echo $PATH
 for resource in $src/*; do
-  echo $resource
+  echo "START $resource"
   f=$(basename -- $resource)
   echo $f
   for pkg in $resource/*; do
@@ -72,3 +76,4 @@ for resource in $src/*; do
 	  bundle exec compiler.rb -e terraform -c azure -p $pkg -o $outputdir
   done
 done
+echo "END Magic-Module Generation"
