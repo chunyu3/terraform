@@ -1,0 +1,204 @@
+--- !ruby/object:Api::Product
+name: Azure Favorite Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Favorite
+    api_name: Insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Insights
+      go_client_namespace: applicationinsights
+      go_client: favoritesClient
+      python_client_namespace: azure.mgmt.applicationinsights
+      python_client: ApplicationInsightsManagementClient.favorites
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+        response:
+          '/Name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/Config': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Config
+            python_field_name: config
+          '/Version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+          '/FavoriteId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: FavoriteID
+            python_field_name: favorite_id
+          '/FavoriteType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: FavoriteType
+            go_enum_type_name: FavoriteType
+            python_field_name: favorite_type
+          '/SourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SourceType
+            python_field_name: source_type
+          '/TimeModified': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TimeModified
+            python_field_name: time_modified
+          '/Tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/Category': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Category
+            python_field_name: category
+          '/IsGeneratedFromTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsGeneratedFromTemplate
+            python_field_name: is_generated_from_template
+          '/UserId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: UserID
+            python_field_name: user_id
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          'favoriteType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: favoriteType
+            python_parameter_name: favorite_type
+            python_variable_name: favorite_type
+          'sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: sourceType
+            python_parameter_name: source_type
+            python_variable_name: source_type
+          'canFetchContent': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: canFetchContent
+            python_parameter_name: can_fetch_content
+            python_variable_name: can_fetch_content
+          'tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            id_portion: null
+            go_variable_name: tags
+            python_parameter_name: tags
+            python_variable_name: tags
+
+    description: |
+      Manage Azure Favorite instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Application Insights component resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'favoriteType'
+        description: 'The type of favorite. Value can be either shared or user.'
+        required: false
+        input: true
+        azure_sdk_references: ['favoriteType']
+      - !ruby/object:Api::Type::String
+        name: 'sourceType'
+        description: 'Source type of favorite to return. When left out, the source type defaults to ''other'' (not present in this enum).'
+        required: false
+        input: true
+        azure_sdk_references: ['sourceType']
+      - !ruby/object:Api::Type::Boolean
+        name: 'canFetchContent'
+        description: 'Flag indicating whether or not to return the full content for each applicable favorite. If false, only return summary content for favorites.'
+        required: false
+        input: true
+        azure_sdk_references: ['canFetchContent']
+      - !ruby/object:Api::Type::Array
+        name: 'tags'
+        description: 'Tags that must be present on each favorite returned.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags']
+        item_type: Api::Type::String
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The user-defined name of the favorite.'
+        output: true
+        azure_sdk_references: ['/Name']
+      - !ruby/object:Api::Type::String
+        name: 'config'
+        description: 'Configuration of this particular favorite, which are driven by the Azure portal UX. Configuration data is a string containing valid JSON'
+        output: true
+        azure_sdk_references: ['/Config']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'This instance''s version of the data model. This can change as new features are added that can be marked favorite. Current examples include MetricsExplorer (ME) and Search.'
+        output: true
+        azure_sdk_references: ['/Version']
+      - !ruby/object:Api::Type::String
+        name: 'favoriteId'
+        description: 'Internally assigned unique id of the favorite definition.'
+        output: true
+        azure_sdk_references: ['/FavoriteId']
+      - !ruby/object:Api::Type::Enum
+        name: 'favoriteType'
+        description: 'Enum indicating if this favorite definition is owned by a specific user or is shared between all users with access to the Application Insights component.'
+        output: true
+        azure_sdk_references: ['/FavoriteType']
+        values:
+          - :shared
+          - :user
+      - !ruby/object:Api::Type::String
+        name: 'sourceType'
+        description: 'The source of the favorite definition.'
+        output: true
+        azure_sdk_references: ['/SourceType']
+      - !ruby/object:Api::Type::String
+        name: 'timeModified'
+        description: 'Date and time in UTC of the last modification that was made to this favorite definition.'
+        output: true
+        azure_sdk_references: ['/TimeModified']
+      - !ruby/object:Api::Type::Array
+        name: 'tags'
+        description: 'A list of 0 or more tags that are associated with this favorite definition'
+        output: true
+        azure_sdk_references: ['/Tags']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'category'
+        description: 'Favorite category, as defined by the user at creation time.'
+        output: true
+        azure_sdk_references: ['/Category']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isGeneratedFromTemplate'
+        description: 'Flag denoting wether or not this favorite was generated from a template.'
+        output: true
+        azure_sdk_references: ['/IsGeneratedFromTemplate']
+      - !ruby/object:Api::Type::String
+        name: 'userId'
+        description: 'Unique user id of the specific user that owns this favorite.'
+        output: true
+        azure_sdk_references: ['/UserId']

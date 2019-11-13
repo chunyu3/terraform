@@ -1,0 +1,103 @@
+--- !ruby/object:Api::Product
+name: Azure AlertRuleIncident Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AlertRuleIncident
+    api_name: insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: microsoft.insights
+      go_client_namespace: monitorclient
+      go_client: alertRuleIncidentsClient
+      python_client_namespace: azure.mgmt.monitorclient
+      python_client: MonitorClient.alert_rule_incidents
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: alertrules
+            go_variable_name: name
+            python_parameter_name: rule_name
+            python_variable_name: name
+        response:
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: alertrules
+            go_variable_name: name
+            python_parameter_name: rule_name
+            python_variable_name: name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/isActive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsActive
+            python_field_name: is_active
+          '/activatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: ActivatedTime
+            python_field_name: activated_time
+          '/resolvedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: ResolvedTime
+            python_field_name: resolved_time
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAlertRule
+        python_func_name: list_by_alert_rule
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: alertrules
+            go_variable_name: name
+            python_parameter_name: rule_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure AlertRuleIncident instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the rule.'
+        required: true
+        input: true
+        azure_sdk_references: ['ruleName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Incident name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isActive'
+        description: 'A boolean to indicate whether the incident is active or resolved.'
+        output: true
+        azure_sdk_references: ['/isActive']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'activatedTime'
+        description: 'The time at which the incident was activated in ISO8601 format.'
+        output: true
+        azure_sdk_references: ['/activatedTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'resolvedTime'
+        description: 'The time at which the incident was resolved in ISO8601 format. If null, it means the incident is still active.'
+        output: true
+        azure_sdk_references: ['/resolvedTime']

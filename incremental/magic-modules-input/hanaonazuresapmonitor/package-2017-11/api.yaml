@@ -99,6 +99,12 @@ objects:
           '/properties/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: KeyVaultID
+          '/enableCustomerAnalytics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_customer_analytics
+          '/properties/enableCustomerAnalytics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableCustomerAnalytics
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -204,6 +210,12 @@ objects:
           '/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: key_vault_id
+          '/properties/enableCustomerAnalytics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableCustomerAnalytics
+          '/enableCustomerAnalytics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_customer_analytics
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -306,6 +318,11 @@ objects:
         description: 'Key Vault ID containing customer''s HANA credentials.'
         required: false
         azure_sdk_references: ['/keyVaultId', '/properties/keyVaultId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableCustomerAnalytics'
+        description: 'The value indicating whether to send analytics to Microsoft'
+        required: false
+        azure_sdk_references: ['/enableCustomerAnalytics', '/properties/enableCustomerAnalytics']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

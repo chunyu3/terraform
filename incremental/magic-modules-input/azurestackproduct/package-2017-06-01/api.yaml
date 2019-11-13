@@ -1,0 +1,344 @@
+--- !ruby/object:Api::Product
+name: Azure Product Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Product
+    api_name: AzureStack
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AzureStack
+      go_client_namespace: azurestack
+      go_client: productsClient
+      python_client_namespace: azure.mgmt.azurestack
+      python_client: AzureStackManagementClient.products
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registrations
+            go_variable_name: name
+            python_parameter_name: registration_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProductNestedProperties
+            go_type_name: ProductNestedProperties
+          '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/publisherDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherDisplayName
+          '/publisherDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_display_name
+          '/properties/publisherIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherIdentifier
+          '/publisherIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_identifier
+          '/properties/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Offer
+          '/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer
+          '/properties/offerVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OfferVersion
+          '/offerVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer_version
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sku
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/properties/billingPartNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BillingPartNumber
+          '/billingPartNumber': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: billing_part_number
+          '/properties/vmExtensionType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmExtensionType
+          '/vmExtensionType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_extension_type
+          '/properties/galleryItemIdentity': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GalleryItemIdentity
+          '/galleryItemIdentity': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: gallery_item_identity
+          '/properties/iconUris': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: IconUris
+            go_type_name: IconUris
+          '/properties/iconUris/large': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Large
+          '/properties/iconUris/wide': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Wide
+          '/properties/iconUris/medium': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Medium
+          '/properties/iconUris/small': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Small
+          '/properties/iconUris/hero': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Hero
+          '/iconUris': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: icon_uris
+          '/iconUris/large': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: large
+          '/iconUris/wide': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: wide
+          '/iconUris/medium': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: medium
+          '/iconUris/small': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: small
+          '/iconUris/hero': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hero
+          '/properties/links': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Links
+            go_type_name: ProductLink
+          '/properties/links/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/properties/links/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/links': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: links
+          '/links/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/links/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/properties/legalTerms': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LegalTerms
+          '/legalTerms': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: legal_terms
+          '/properties/privacyPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivacyPolicy
+          '/privacyPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: privacy_policy
+          '/properties/payloadLength': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: PayloadLength
+          '/payloadLength': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: payload_length
+          '/properties/productKind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProductKind
+          '/productKind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: product_kind
+          '/properties/productProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProductProperties
+            go_type_name: ProductProperties
+          '/properties/productProperties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/productProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: product_properties
+          '/productProperties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
+          'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: registrations
+            go_variable_name: name
+            python_parameter_name: registration_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Product instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'Name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Azure Stack registration.'
+        required: true
+        input: true
+        azure_sdk_references: ['registrationName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'ID of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of Resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The entity tag used for optimistic concurrency when modifying the resource.'
+        output: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'The display name of the product.'
+        output: true
+        azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the product.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'publisherDisplayName'
+        description: 'The user-friendly name of the product publisher.'
+        output: true
+        azure_sdk_references: ['/publisherDisplayName', '/properties/publisherDisplayName']
+      - !ruby/object:Api::Type::String
+        name: 'publisherIdentifier'
+        description: 'Publisher identifier.'
+        output: true
+        azure_sdk_references: ['/publisherIdentifier', '/properties/publisherIdentifier']
+      - !ruby/object:Api::Type::String
+        name: 'offer'
+        description: 'The offer representing the product.'
+        output: true
+        azure_sdk_references: ['/offer', '/properties/offer']
+      - !ruby/object:Api::Type::String
+        name: 'offerVersion'
+        description: 'The version of the product offer.'
+        output: true
+        azure_sdk_references: ['/offerVersion', '/properties/offerVersion']
+      - !ruby/object:Api::Type::String
+        name: 'sku'
+        description: 'The product SKU.'
+        output: true
+        azure_sdk_references: ['/sku', '/properties/sku']
+      - !ruby/object:Api::Type::String
+        name: 'billingPartNumber'
+        description: 'The part number used for billing purposes.'
+        output: true
+        azure_sdk_references: ['/billingPartNumber', '/properties/billingPartNumber']
+      - !ruby/object:Api::Type::String
+        name: 'vmExtensionType'
+        description: 'The type of the Virtual Machine Extension.'
+        output: true
+        azure_sdk_references: ['/vmExtensionType', '/properties/vmExtensionType']
+      - !ruby/object:Api::Type::String
+        name: 'galleryItemIdentity'
+        description: 'The identifier of the gallery item corresponding to the product.'
+        output: true
+        azure_sdk_references: ['/galleryItemIdentity', '/properties/galleryItemIdentity']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'iconUris'
+        description: 'Additional links available for this product.'
+        output: true
+        azure_sdk_references: ['/iconUris', '/properties/iconUris']
+        properties:
+      - !ruby/object:Api::Type::Array
+        name: 'links'
+        description: 'Additional links available for this product.'
+        output: true
+        azure_sdk_references: ['/links', '/properties/links']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'legalTerms'
+        description: 'The legal terms.'
+        output: true
+        azure_sdk_references: ['/legalTerms', '/properties/legalTerms']
+      - !ruby/object:Api::Type::String
+        name: 'privacyPolicy'
+        description: 'The privacy policy.'
+        output: true
+        azure_sdk_references: ['/privacyPolicy', '/properties/privacyPolicy']
+      - !ruby/object:Api::Type::Integer
+        name: 'payloadLength'
+        description: 'The length of product content.'
+        output: true
+        azure_sdk_references: ['/payloadLength', '/properties/payloadLength']
+      - !ruby/object:Api::Type::String
+        name: 'productKind'
+        description: 'The kind of the product (virtualMachine or virtualMachineExtension)'
+        output: true
+        azure_sdk_references: ['/productKind', '/properties/productKind']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'productProperties'
+        description: 'Additional properties for the product.'
+        output: true
+        azure_sdk_references: ['/productProperties', '/properties/productProperties']
+        properties:

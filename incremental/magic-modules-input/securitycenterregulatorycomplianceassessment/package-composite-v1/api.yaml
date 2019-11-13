@@ -1,0 +1,188 @@
+--- !ruby/object:Api::Product
+name: Azure RegulatoryComplianceAssessment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RegulatoryComplianceAssessment
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: regulatoryComplianceAssessmentsClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.regulatory_compliance_assessments
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'regulatoryComplianceStandardName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: regulatoryComplianceStandards
+            go_variable_name: regulatoryComplianceStandardName
+            python_parameter_name: regulatory_compliance_standard_name
+            python_variable_name: regulatory_compliance_standard_name
+          'regulatoryComplianceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: regulatoryComplianceControls
+            go_variable_name: name
+            python_parameter_name: regulatory_compliance_control_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegulatoryComplianceAssessmentProperties
+            go_type_name: RegulatoryComplianceAssessmentProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/assessmentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AssessmentType
+          '/assessmentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: assessment_type
+          '/properties/assessmentDetailsLink': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AssessmentDetailsLink
+          '/assessmentDetailsLink': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: assessment_details_link
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: State
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/passedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: PassedResources
+          '/passedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: passed_resources
+          '/properties/failedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: FailedResources
+          '/failedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: failed_resources
+          '/properties/skippedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: SkippedResources
+          '/skippedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: skipped_resources
+          '/properties/unsupportedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: UnsupportedResources
+          '/unsupportedResources': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: unsupported_resources
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'regulatoryComplianceStandardName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: regulatoryComplianceStandards
+            go_variable_name: regulatoryComplianceStandardName
+            python_parameter_name: regulatory_compliance_standard_name
+            python_variable_name: regulatory_compliance_standard_name
+          'regulatoryComplianceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: regulatoryComplianceControls
+            go_variable_name: name
+            python_parameter_name: regulatory_compliance_control_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure RegulatoryComplianceAssessment instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'regulatoryComplianceStandardName'
+        description: 'Name of the regulatory compliance standard object'
+        required: true
+        input: true
+        azure_sdk_references: ['regulatoryComplianceStandardName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the regulatory compliance control object'
+        required: true
+        input: true
+        azure_sdk_references: ['regulatoryComplianceControlName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the regulatory compliance assessment'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'assessmentType'
+        description: 'The expected type of assessment contained in the AssessmentDetailsLink'
+        output: true
+        azure_sdk_references: ['/assessmentType', '/properties/assessmentType']
+      - !ruby/object:Api::Type::String
+        name: 'assessmentDetailsLink'
+        description: 'Link to more detailed assessment results data. The response type will be according to the assessmentType field'
+        output: true
+        azure_sdk_references: ['/assessmentDetailsLink', '/properties/assessmentDetailsLink']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Aggregative state based on the assessment''s scanned resources states'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Passed
+          - :Failed
+          - :Skipped
+          - :Unsupported
+      - !ruby/object:Api::Type::Integer
+        name: 'passedResources'
+        description: 'The given assessment''s related resources count with passed state.'
+        output: true
+        azure_sdk_references: ['/passedResources', '/properties/passedResources']
+      - !ruby/object:Api::Type::Integer
+        name: 'failedResources'
+        description: 'The given assessment''s related resources count with failed state.'
+        output: true
+        azure_sdk_references: ['/failedResources', '/properties/failedResources']
+      - !ruby/object:Api::Type::Integer
+        name: 'skippedResources'
+        description: 'The given assessment''s related resources count with skipped state.'
+        output: true
+        azure_sdk_references: ['/skippedResources', '/properties/skippedResources']
+      - !ruby/object:Api::Type::Integer
+        name: 'unsupportedResources'
+        description: 'The given assessment''s related resources count with unsupported state.'
+        output: true
+        azure_sdk_references: ['/unsupportedResources', '/properties/unsupportedResources']

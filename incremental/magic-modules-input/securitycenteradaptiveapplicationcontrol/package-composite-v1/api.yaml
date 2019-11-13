@@ -1,0 +1,374 @@
+--- !ruby/object:Api::Product
+name: Azure AdaptiveApplicationControl Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AdaptiveApplicationControl
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: adaptiveApplicationControlsClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.adaptive_application_controls
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AppWhitelistingGroupData
+            go_type_name: AppWhitelistingGroupData
+          '/properties/enforcementMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EnforcementMode
+            go_enum_type_name: 
+          '/enforcementMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: enforcement_mode
+          '/properties/protectionMode': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProtectionMode
+            go_type_name: ProtectionMode
+          '/properties/protectionMode/exe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Exe
+            go_enum_type_name: 
+          '/properties/protectionMode/msi': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Msi
+            go_enum_type_name: 
+          '/properties/protectionMode/script': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Script
+            go_enum_type_name: 
+          '/properties/protectionMode/executable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Executable
+            go_enum_type_name: 
+          '/protectionMode': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: protection_mode
+          '/protectionMode/exe': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: exe
+          '/protectionMode/msi': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: msi
+          '/protectionMode/script': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: script
+          '/protectionMode/executable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: executable
+          '/properties/configurationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConfigurationStatus
+            go_enum_type_name: 
+          '/configurationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: configuration_status
+          '/properties/recommendationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RecommendationStatus
+            go_enum_type_name: 
+          '/recommendationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: recommendation_status
+          '/properties/issues': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Issues
+            go_type_name: AppWhitelistingIssueSummary
+          '/properties/issues/issue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Issue
+            go_enum_type_name: 
+          '/properties/issues/numberOfVms': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: NumberOfVms
+          '/issues': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: issues
+          '/issues/issue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: issue
+          '/issues/numberOfVms': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: number_of_vms
+          '/properties/sourceSystem': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SourceSystem
+            go_enum_type_name: 
+          '/sourceSystem': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: source_system
+          '/properties/vmRecommendations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VmRecommendations
+            go_type_name: VmRecommendation
+          '/properties/vmRecommendations/configurationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConfigurationStatus
+            go_enum_type_name: 
+          '/properties/vmRecommendations/recommendationAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RecommendationAction
+            go_enum_type_name: 
+          '/properties/vmRecommendations/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/vmRecommendations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: vm_recommendations
+          '/vmRecommendations/configurationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: configuration_status
+          '/vmRecommendations/recommendationAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: recommendation_action
+          '/vmRecommendations/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
+          '/properties/pathRecommendations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PathRecommendations
+            go_type_name: PathRecommendation
+          '/properties/pathRecommendations/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Path
+          '/properties/pathRecommendations/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: 
+          '/properties/pathRecommendations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: 
+          '/properties/pathRecommendations/publisherInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublisherInfo
+            go_type_name: PublisherInfo
+          '/properties/pathRecommendations/publisherInfo/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublisherName
+          '/properties/pathRecommendations/publisherInfo/productName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProductName
+          '/properties/pathRecommendations/publisherInfo/binaryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BinaryName
+          '/properties/pathRecommendations/publisherInfo/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/pathRecommendations/common': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Common
+          '/properties/pathRecommendations/userSids': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: UserSids
+          '/properties/pathRecommendations/usernames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Usernames
+            go_type_name: UserRecommendation
+          '/properties/pathRecommendations/usernames/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Username
+          '/properties/pathRecommendations/usernames/recommendationAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RecommendationAction
+            go_enum_type_name: 
+          '/properties/pathRecommendations/fileType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: FileType
+            go_enum_type_name: 
+          '/properties/pathRecommendations/configurationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ConfigurationStatus
+            go_enum_type_name: 
+          '/pathRecommendations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: path_recommendations
+          '/pathRecommendations/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: path
+          '/pathRecommendations/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/pathRecommendations/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/pathRecommendations/publisherInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: publisher_info
+          '/pathRecommendations/publisherInfo/publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher_name
+          '/pathRecommendations/publisherInfo/productName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: product_name
+          '/pathRecommendations/publisherInfo/binaryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: binary_name
+          '/pathRecommendations/publisherInfo/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/pathRecommendations/common': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: common
+          '/pathRecommendations/userSids': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: user_sids
+          '/pathRecommendations/usernames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: usernames
+          '/pathRecommendations/usernames/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: username
+          '/pathRecommendations/usernames/recommendationAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: recommendation_action
+          '/pathRecommendations/fileType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: file_type
+          '/pathRecommendations/configurationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: configuration_status
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'includePathRecommendations': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: includePathRecommendations
+            python_parameter_name: include_path_recommendations
+            python_variable_name: include_path_recommendations
+          'summary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: summary
+            python_parameter_name: summary
+            python_variable_name: summary
+
+    description: |
+      Manage Azure AdaptiveApplicationControl instance.
+    properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'includePathRecommendations'
+        description: 'Include the policy rules'
+        required: false
+        input: true
+        azure_sdk_references: ['includePathRecommendations']
+      - !ruby/object:Api::Type::Boolean
+        name: 'summary'
+        description: 'Return output in a summarized form'
+        required: false
+        input: true
+        azure_sdk_references: ['summary']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Location where the resource is stored'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Enum
+        name: 'enforcementMode'
+        description: ''
+        output: true
+        azure_sdk_references: ['/enforcementMode', '/properties/enforcementMode']
+        values:
+          - :Audit
+          - :Enforce
+          - :None
+      - !ruby/object:Api::Type::NestedObject
+        name: 'protectionMode'
+        description: ''
+        output: true
+        azure_sdk_references: ['/protectionMode', '/properties/protectionMode']
+        properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'configurationStatus'
+        description: ''
+        output: true
+        azure_sdk_references: ['/configurationStatus', '/properties/configurationStatus']
+        values:
+          - :Configured
+          - :NotConfigured
+          - :InProgress
+          - :Failed
+          - :NoStatus
+      - !ruby/object:Api::Type::Enum
+        name: 'recommendationStatus'
+        description: ''
+        output: true
+        azure_sdk_references: ['/recommendationStatus', '/properties/recommendationStatus']
+        values:
+          - :Recommended
+          - :NotRecommended
+          - :NotAvailable
+          - :NoStatus
+      - !ruby/object:Api::Type::Array
+        name: 'issues'
+        description: ''
+        output: true
+        azure_sdk_references: ['/issues', '/properties/issues']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'sourceSystem'
+        description: ''
+        output: true
+        azure_sdk_references: ['/sourceSystem', '/properties/sourceSystem']
+        values:
+          - :Azure_AppLocker
+          - :Azure_AuditD
+          - :NonAzure_AppLocker
+          - :NonAzure_AuditD
+          - :None
+      - !ruby/object:Api::Type::Array
+        name: 'vmRecommendations'
+        description: ''
+        output: true
+        azure_sdk_references: ['/vmRecommendations', '/properties/vmRecommendations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'pathRecommendations'
+        description: ''
+        output: true
+        azure_sdk_references: ['/pathRecommendations', '/properties/pathRecommendations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

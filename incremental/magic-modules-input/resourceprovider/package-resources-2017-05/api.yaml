@@ -1,0 +1,98 @@
+--- !ruby/object:Api::Product
+name: Azure Provider Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Provider
+    api_name: undefined
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: 
+      go_client_namespace: resource
+      go_client: providersClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: ResourceManagementClient.providers
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/namespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Namespace
+            python_field_name: namespace
+          '/registrationState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: RegistrationState
+            python_field_name: registration_state
+          '/resourceTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: ResourceTypes
+            go_type_name: ProviderResourceType
+            python_field_name: resource_types
+          '/resourceTypes/resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResourceType
+            python_field_name: resource_type
+          '/resourceTypes/locations': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Locations
+            python_field_name: locations
+          '/resourceTypes/aliases': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Aliases
+            go_type_name: AliasType
+            python_field_name: aliases
+          '/resourceTypes/aliases/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/resourceTypes/aliases/paths': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Paths
+            go_type_name: AliasPathType
+            python_field_name: paths
+          '/resourceTypes/aliases/paths/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Path
+            python_field_name: path
+          '/resourceTypes/aliases/paths/apiVersions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: ApiVersions
+            python_field_name: api_versions
+          '/resourceTypes/apiVersions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: ApiVersions
+            python_field_name: api_versions
+          '/resourceTypes/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"271","$type":"DictionaryType","valueType":{"$id":"272","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"273","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"274","fixed":false},"deprecated":false}
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Provider instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The provider ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'namespace'
+        description: 'The namespace of the resource provider.'
+        output: true
+        azure_sdk_references: ['/namespace']
+      - !ruby/object:Api::Type::String
+        name: 'registrationState'
+        description: 'The registration state of the provider.'
+        output: true
+        azure_sdk_references: ['/registrationState']
+      - !ruby/object:Api::Type::Array
+        name: 'resourceTypes'
+        description: 'The collection of provider resource types.'
+        output: true
+        azure_sdk_references: ['/resourceTypes']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

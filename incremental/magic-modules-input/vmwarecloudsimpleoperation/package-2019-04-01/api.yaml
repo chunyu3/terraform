@@ -1,0 +1,90 @@
+--- !ruby/object:Api::Product
+name: Azure Operation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Operation
+    api_name: VMwareCloudSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.VMwareCloudSimple
+      go_client_namespace: vmwarecloudsimple
+      go_client: operationsClient
+      python_client_namespace: azure.mgmt.vmwarecloudsimple
+      python_client: VMwareCloudSimpleClient.operations
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EndTime
+            python_field_name: end_time
+          '/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Error
+            go_type_name: OperationError
+            python_field_name: error
+          '/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Code
+            python_field_name: code
+          '/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: StartTime
+            python_field_name: start_time
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            python_field_name: status
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Operation instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'End time of the operation'
+        output: true
+        azure_sdk_references: ['/endTime']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'error'
+        description: 'Error Message if operation failed'
+        output: true
+        azure_sdk_references: ['/error']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Operation Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Operation ID'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Start time of the operation'
+        output: true
+        azure_sdk_references: ['/startTime']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Operation status'
+        output: true
+        azure_sdk_references: ['/status']

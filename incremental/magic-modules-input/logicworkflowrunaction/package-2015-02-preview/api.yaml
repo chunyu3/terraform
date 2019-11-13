@@ -1,0 +1,302 @@
+--- !ruby/object:Api::Product
+name: Azure WorkflowRunAction Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WorkflowRunAction
+    api_name: Logic
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Logic
+      go_client_namespace: logic
+      go_client: workflowRunActionsClient
+      python_client_namespace: azure.mgmt.logic
+      python_client: LogicManagementClient.workflow_run_actions
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: workflowName
+            python_parameter_name: workflow_name
+            python_variable_name: workflow_name
+          'runName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: runs
+            go_variable_name: name
+            python_parameter_name: run_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkflowRunActionProperties
+            go_type_name: WorkflowRunActionProperties
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: WorkflowStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/properties/error': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Error
+          '/error': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: error
+          '/properties/trackingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TrackingID
+          '/trackingId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tracking_id
+          '/properties/inputsLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InputsLink
+            go_type_name: ContentLink
+          '/properties/inputsLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/inputsLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentVersion
+          '/properties/inputsLink/contentSize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ContentSize
+          '/properties/inputsLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/inputsLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/inputsLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/inputsLink/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/inputsLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: inputs_link
+          '/inputsLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/inputsLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_version
+          '/inputsLink/contentSize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: content_size
+          '/inputsLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/inputsLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/inputsLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/inputsLink/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/outputsLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: OutputsLink
+            go_type_name: ContentLink
+          '/properties/outputsLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/outputsLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ContentVersion
+          '/properties/outputsLink/contentSize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ContentSize
+          '/properties/outputsLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/outputsLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/outputsLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/outputsLink/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/outputsLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: outputs_link
+          '/outputsLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/outputsLink/contentVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content_version
+          '/outputsLink/contentSize': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: content_size
+          '/outputsLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/outputsLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/outputsLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/outputsLink/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: workflowName
+            python_parameter_name: workflow_name
+            python_variable_name: workflow_name
+          'runName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: runs
+            go_variable_name: name
+            python_parameter_name: run_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure WorkflowRunAction instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'workflowName'
+        description: 'The workflow name.'
+        required: true
+        input: true
+        azure_sdk_references: ['workflowName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The workflow run name.'
+        required: true
+        input: true
+        azure_sdk_references: ['runName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Gets or sets the resource id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Gets the start time.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'Gets the end time.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Gets the status.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :NotSpecified
+          - :Paused
+          - :Running
+          - :Waiting
+          - :Succeeded
+          - :Skipped
+          - :Suspended
+          - :Cancelled
+          - :Failed
+          - :Faulted
+          - :TimedOut
+          - :Aborted
+      - !ruby/object:Api::Type::String
+        name: 'code'
+        description: 'Gets the code.'
+        output: true
+        azure_sdk_references: ['/code', '/properties/code']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'error'
+        description: 'Gets the error.'
+        output: true
+        azure_sdk_references: ['/error', '/properties/error']
+      - !ruby/object:Api::Type::String
+        name: 'trackingId'
+        description: 'Gets the trackingId.'
+        output: true
+        azure_sdk_references: ['/trackingId', '/properties/trackingId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'inputsLink'
+        description: 'Gets the link to inputs.'
+        output: true
+        azure_sdk_references: ['/inputsLink', '/properties/inputsLink']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'outputsLink'
+        description: 'Gets the link to outputs.'
+        output: true
+        azure_sdk_references: ['/outputsLink', '/properties/outputsLink']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets the workflow run action name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets the workflow run action type.'
+        output: true
+        azure_sdk_references: ['/type']

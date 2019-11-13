@@ -1,0 +1,109 @@
+--- !ruby/object:Api::Product
+name: Azure Invoice Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Invoice
+    api_name: Billing
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Billing
+      go_client_namespace: billing
+      go_client: invoicesClient
+      python_client_namespace: azure.mgmt.billing
+      python_client: BillingClient.invoices
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: InvoiceProperties
+            go_type_name: InvoiceProperties
+          '/properties/invoicePeriodStartDate': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[date]]
+            applicable_to: [go]
+            go_field_name: InvoicePeriodStartDate
+          '/invoicePeriodStartDate': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[date]]
+            applicable_to: [python]
+            python_field_name: invoice_period_start_date
+          '/properties/invoicePeriodEndDate': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[date]]
+            applicable_to: [go]
+            go_field_name: InvoicePeriodEndDate
+          '/invoicePeriodEndDate': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[date]]
+            applicable_to: [python]
+            python_field_name: invoice_period_end_date
+          '/properties/downloadUrl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DownloadURL
+            go_type_name: DownloadUrl
+          '/properties/downloadUrl/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpiryTime
+          '/properties/downloadUrl/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: URL
+          '/downloadUrl': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: download_url
+          '/downloadUrl/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiry_time
+          '/downloadUrl/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: url
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Invoice instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[date]]
+        name: 'invoicePeriodStartDate'
+        description: 'The start of the date range covered by the invoice.'
+        output: true
+        azure_sdk_references: ['/invoicePeriodStartDate', '/properties/invoicePeriodStartDate']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[date]]
+        name: 'invoicePeriodEndDate'
+        description: 'The end of the date range covered by the invoice.'
+        output: true
+        azure_sdk_references: ['/invoicePeriodEndDate', '/properties/invoicePeriodEndDate']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'downloadUrl'
+        description: 'A secure link to download the PDF version of an invoice. The link will cease to work after its expiry time is reached.'
+        output: true
+        azure_sdk_references: ['/downloadUrl', '/properties/downloadUrl']
+        properties:

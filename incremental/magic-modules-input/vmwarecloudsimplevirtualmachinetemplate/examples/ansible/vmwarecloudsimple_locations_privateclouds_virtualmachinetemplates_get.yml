@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_vmwarecloudsimplevirtualmachinetemplate
+  description: ListVirtualMachineTemplates
+  code:
+    pc_name: myPrivateCloud
+    region_id: myLocation
+    name: >-
+      /subscriptions/{{ subscription_id
+      }}/providers/Microsoft.VMwareCloudSimple/locations/{{ location_name
+      }}/privateClouds/{{ private_cloud_name }}/resourcePools/{{
+      resource_pool_name }}
+  

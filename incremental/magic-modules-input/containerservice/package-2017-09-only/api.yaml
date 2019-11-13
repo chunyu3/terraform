@@ -1,0 +1,62 @@
+--- !ruby/object:Api::Product
+name: Azure ContainerService Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ContainerService
+    api_name: ContainerService
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ContainerService
+      go_client_namespace: containerservices
+      go_client: containerServicesClient
+      python_client_namespace: azure.mgmt.containerservices
+      python_client: ContainerServiceClient.container_services
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListOrchestrators
+        python_func_name: list_orchestrators
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure ContainerService instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The name of a supported Azure region.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Id of the orchestrator version profile list result.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the orchestrator version profile list result.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the orchestrator version profile list result.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Array
+        name: 'orchestrators'
+        description: 'List of orchestrator version profiles.'
+        output: true
+        azure_sdk_references: ['/orchestrators', '/properties/orchestrators']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

@@ -1,0 +1,341 @@
+--- !ruby/object:Api::Product
+name: Azure ServiceTierAdvisor Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ServiceTierAdvisor
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: serviceTierAdvisorsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.service_tier_advisors
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: name
+            python_parameter_name: database_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ServiceTierAdvisorProperties
+            go_type_name: ServiceTierAdvisorProperties
+          '/properties/observationPeriodStart': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ObservationPeriodStart
+          '/observationPeriodStart': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: observation_period_start
+          '/properties/observationPeriodEnd': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ObservationPeriodEnd
+          '/observationPeriodEnd': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: observation_period_end
+          '/properties/activeTimeRatio': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: ActiveTimeRatio
+          '/activeTimeRatio': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: active_time_ratio
+          '/properties/minDtu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MinDtu
+          '/minDtu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: min_dtu
+          '/properties/avgDtu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: AvgDtu
+          '/avgDtu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: avg_dtu
+          '/properties/maxDtu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MaxDtu
+          '/maxDtu': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: max_dtu
+          '/properties/maxSizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: MaxSizeInGb
+          '/maxSizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: max_size_in_gb
+          '/properties/serviceLevelObjectiveUsageMetrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ServiceLevelObjectiveUsageMetrics
+            go_type_name: SloUsageMetric
+          '/properties/serviceLevelObjectiveUsageMetrics/serviceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ServiceLevelObjective
+            go_enum_type_name: ServiceObjectiveName
+          '/properties/serviceLevelObjectiveUsageMetrics/serviceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceLevelObjectiveID
+          '/properties/serviceLevelObjectiveUsageMetrics/inRangeTimeRatio': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: InRangeTimeRatio
+          '/serviceLevelObjectiveUsageMetrics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: service_level_objective_usage_metrics
+          '/serviceLevelObjectiveUsageMetrics/serviceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: service_level_objective
+          '/serviceLevelObjectiveUsageMetrics/serviceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_level_objective_id
+          '/serviceLevelObjectiveUsageMetrics/inRangeTimeRatio': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: in_range_time_ratio
+          '/properties/currentServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CurrentServiceLevelObjective
+          '/currentServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: current_service_level_objective
+          '/properties/currentServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CurrentServiceLevelObjectiveID
+          '/currentServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: current_service_level_objective_id
+          '/properties/usageBasedRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UsageBasedRecommendationServiceLevelObjective
+          '/usageBasedRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: usage_based_recommendation_service_level_objective
+          '/properties/usageBasedRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UsageBasedRecommendationServiceLevelObjectiveID
+          '/usageBasedRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: usage_based_recommendation_service_level_objective_id
+          '/properties/databaseSizeBasedRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseSizeBasedRecommendationServiceLevelObjective
+          '/databaseSizeBasedRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_size_based_recommendation_service_level_objective
+          '/properties/databaseSizeBasedRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseSizeBasedRecommendationServiceLevelObjectiveID
+          '/databaseSizeBasedRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_size_based_recommendation_service_level_objective_id
+          '/properties/disasterPlanBasedRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisasterPlanBasedRecommendationServiceLevelObjective
+          '/disasterPlanBasedRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disaster_plan_based_recommendation_service_level_objective
+          '/properties/disasterPlanBasedRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisasterPlanBasedRecommendationServiceLevelObjectiveID
+          '/disasterPlanBasedRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disaster_plan_based_recommendation_service_level_objective_id
+          '/properties/overallRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OverallRecommendationServiceLevelObjective
+          '/overallRecommendationServiceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: overall_recommendation_service_level_objective
+          '/properties/overallRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OverallRecommendationServiceLevelObjectiveID
+          '/overallRecommendationServiceLevelObjectiveId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: overall_recommendation_service_level_objective_id
+          '/properties/confidence': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Confidence
+          '/confidence': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: confidence
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabase
+        python_func_name: list_by_database
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: name
+            python_parameter_name: database_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ServiceTierAdvisor instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'observationPeriodStart'
+        description: 'The observation period start (ISO8601 format).'
+        output: true
+        azure_sdk_references: ['/observationPeriodStart', '/properties/observationPeriodStart']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'observationPeriodEnd'
+        description: 'The observation period start (ISO8601 format).'
+        output: true
+        azure_sdk_references: ['/observationPeriodEnd', '/properties/observationPeriodEnd']
+      - !ruby/object:Api::Type::Double
+        name: 'activeTimeRatio'
+        description: 'The activeTimeRatio for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/activeTimeRatio', '/properties/activeTimeRatio']
+      - !ruby/object:Api::Type::Double
+        name: 'minDtu'
+        description: 'Gets or sets minDtu for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/minDtu', '/properties/minDtu']
+      - !ruby/object:Api::Type::Double
+        name: 'avgDtu'
+        description: 'Gets or sets avgDtu for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/avgDtu', '/properties/avgDtu']
+      - !ruby/object:Api::Type::Double
+        name: 'maxDtu'
+        description: 'Gets or sets maxDtu for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/maxDtu', '/properties/maxDtu']
+      - !ruby/object:Api::Type::Double
+        name: 'maxSizeInGb'
+        description: 'Gets or sets maxSizeInGB for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/maxSizeInGB', '/properties/maxSizeInGB']
+      - !ruby/object:Api::Type::Array
+        name: 'serviceLevelObjectiveUsageMetrics'
+        description: 'Gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.'
+        output: true
+        azure_sdk_references: ['/serviceLevelObjectiveUsageMetrics', '/properties/serviceLevelObjectiveUsageMetrics']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'currentServiceLevelObjective'
+        description: 'Gets or sets currentServiceLevelObjective for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/currentServiceLevelObjective', '/properties/currentServiceLevelObjective']
+      - !ruby/object:Api::Type::String
+        name: 'currentServiceLevelObjectiveId'
+        description: 'Gets or sets currentServiceLevelObjectiveId for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/currentServiceLevelObjectiveId', '/properties/currentServiceLevelObjectiveId']
+      - !ruby/object:Api::Type::String
+        name: 'usageBasedRecommendationServiceLevelObjective'
+        description: 'Gets or sets usageBasedRecommendationServiceLevelObjective for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/usageBasedRecommendationServiceLevelObjective', '/properties/usageBasedRecommendationServiceLevelObjective']
+      - !ruby/object:Api::Type::String
+        name: 'usageBasedRecommendationServiceLevelObjectiveId'
+        description: 'Gets or sets usageBasedRecommendationServiceLevelObjectiveId for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/usageBasedRecommendationServiceLevelObjectiveId', '/properties/usageBasedRecommendationServiceLevelObjectiveId']
+      - !ruby/object:Api::Type::String
+        name: 'databaseSizeBasedRecommendationServiceLevelObjective'
+        description: 'Gets or sets databaseSizeBasedRecommendationServiceLevelObjective for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/databaseSizeBasedRecommendationServiceLevelObjective', '/properties/databaseSizeBasedRecommendationServiceLevelObjective']
+      - !ruby/object:Api::Type::String
+        name: 'databaseSizeBasedRecommendationServiceLevelObjectiveId'
+        description: 'Gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/databaseSizeBasedRecommendationServiceLevelObjectiveId', '/properties/databaseSizeBasedRecommendationServiceLevelObjectiveId']
+      - !ruby/object:Api::Type::String
+        name: 'disasterPlanBasedRecommendationServiceLevelObjective'
+        description: 'Gets or sets disasterPlanBasedRecommendationServiceLevelObjective for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/disasterPlanBasedRecommendationServiceLevelObjective', '/properties/disasterPlanBasedRecommendationServiceLevelObjective']
+      - !ruby/object:Api::Type::String
+        name: 'disasterPlanBasedRecommendationServiceLevelObjectiveId'
+        description: 'Gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/disasterPlanBasedRecommendationServiceLevelObjectiveId', '/properties/disasterPlanBasedRecommendationServiceLevelObjectiveId']
+      - !ruby/object:Api::Type::String
+        name: 'overallRecommendationServiceLevelObjective'
+        description: 'Gets or sets overallRecommendationServiceLevelObjective for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/overallRecommendationServiceLevelObjective', '/properties/overallRecommendationServiceLevelObjective']
+      - !ruby/object:Api::Type::String
+        name: 'overallRecommendationServiceLevelObjectiveId'
+        description: 'Gets or sets overallRecommendationServiceLevelObjectiveId for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/overallRecommendationServiceLevelObjectiveId', '/properties/overallRecommendationServiceLevelObjectiveId']
+      - !ruby/object:Api::Type::Double
+        name: 'confidence'
+        description: 'Gets or sets confidence for service tier advisor.'
+        output: true
+        azure_sdk_references: ['/confidence', '/properties/confidence']

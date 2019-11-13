@@ -1,0 +1,190 @@
+--- !ruby/object:Api::Product
+name: Azure RestorableDroppedDatabase Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RestorableDroppedDatabase
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: restorableDroppedDatabasesClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.restorable_dropped_databases
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: name
+            python_parameter_name: server_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RestorableDroppedDatabaseProperties
+            go_type_name: RestorableDroppedDatabaseProperties
+          '/properties/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseName
+          '/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_name
+          '/properties/edition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Edition
+          '/edition': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: edition
+          '/properties/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MaxSizeBytes
+          '/maxSizeBytes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: max_size_bytes
+          '/properties/serviceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceLevelObjective
+          '/serviceLevelObjective': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_level_objective
+          '/properties/elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ElasticPoolName
+          '/elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: elastic_pool_name
+          '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreationDate
+          '/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: creation_date
+          '/properties/deletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: DeletionDate
+          '/deletionDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: deletion_date
+          '/properties/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EarliestRestoreDate
+          '/earliestRestoreDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: earliest_restore_date
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByServer
+        python_func_name: list_by_server
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: name
+            python_parameter_name: server_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure RestorableDroppedDatabase instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The geo-location where the resource lives'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database'
+        output: true
+        azure_sdk_references: ['/databaseName', '/properties/databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'edition'
+        description: 'The edition of the database'
+        output: true
+        azure_sdk_references: ['/edition', '/properties/edition']
+      - !ruby/object:Api::Type::String
+        name: 'maxSizeBytes'
+        description: 'The max size in bytes of the database'
+        output: true
+        azure_sdk_references: ['/maxSizeBytes', '/properties/maxSizeBytes']
+      - !ruby/object:Api::Type::String
+        name: 'serviceLevelObjective'
+        description: 'The service level objective name of the database'
+        output: true
+        azure_sdk_references: ['/serviceLevelObjective', '/properties/serviceLevelObjective']
+      - !ruby/object:Api::Type::String
+        name: 'elasticPoolName'
+        description: 'The elastic pool name of the database'
+        output: true
+        azure_sdk_references: ['/elasticPoolName', '/properties/elasticPoolName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'creationDate'
+        description: 'The creation date of the database (ISO8601 format)'
+        output: true
+        azure_sdk_references: ['/creationDate', '/properties/creationDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'deletionDate'
+        description: 'The deletion date of the database (ISO8601 format)'
+        output: true
+        azure_sdk_references: ['/deletionDate', '/properties/deletionDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'earliestRestoreDate'
+        description: 'The earliest restore date of the database (ISO8601 format)'
+        output: true
+        azure_sdk_references: ['/earliestRestoreDate', '/properties/earliestRestoreDate']
