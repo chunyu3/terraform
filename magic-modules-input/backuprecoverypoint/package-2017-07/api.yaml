@@ -1,0 +1,166 @@
+--- !ruby/object:Api::Product
+name: Azure RecoveryPoint Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RecoveryPoint
+    api_name: RecoveryServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.RecoveryServices
+      go_client_namespace: backup
+      go_client: recoveryPointsClient
+      python_client_namespace: azure.mgmt.recoveryservices.backup
+      python_client: RecoveryServicesBackupClient.recovery_points
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupFabrics
+            go_variable_name: fabricName
+            python_parameter_name: fabric_name
+            python_variable_name: fabric_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectionContainers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+          'protectedItemName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectedItems
+            go_variable_name: name
+            python_parameter_name: protected_item_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/eTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ETag
+            python_field_name: e_tag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RecoveryPoint
+            go_type_name: RecoveryPoint
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: vaults
+            go_variable_name: vaultName
+            python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupFabrics
+            go_variable_name: fabricName
+            python_parameter_name: fabric_name
+            python_variable_name: fabric_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectionContainers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+          'protectedItemName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectedItems
+            go_variable_name: name
+            python_parameter_name: protected_item_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure RecoveryPoint instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'vaultName'
+        description: 'The name of the recovery services vault.'
+        required: true
+        input: true
+        azure_sdk_references: ['vaultName']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group where the recovery services vault is present.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'fabricName'
+        description: 'Fabric name associated with the backed up item.'
+        required: true
+        input: true
+        azure_sdk_references: ['fabricName']
+      - !ruby/object:Api::Type::String
+        name: 'containerName'
+        description: 'Container name associated with the backed up item.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Backed up item whose backup copies are to be fetched.'
+        required: true
+        input: true
+        azure_sdk_references: ['protectedItemName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id represents the complete path to the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name associated with the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        output: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'eTag'
+        description: 'Optional ETag.'
+        output: true
+        azure_sdk_references: ['/eTag']

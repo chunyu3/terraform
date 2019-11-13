@@ -1,0 +1,467 @@
+--- !ruby/object:Api::Product
+name: Azure VirtualMachineTemplate Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: VirtualMachineTemplate
+    api_name: VMwareCloudSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.VMwareCloudSimple
+      go_client_namespace: vmwarecloudsimple
+      go_client: virtualMachineTemplatesClient
+      python_client_namespace: azure.mgmt.vmwarecloudsimple
+      python_client: VMwareCloudSimpleClient.virtual_machine_templates
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'regionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: regionID
+            python_parameter_name: region_id
+            python_variable_name: region_id
+          'pcName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateClouds
+            go_variable_name: pcName
+            python_parameter_name: pc_name
+            python_variable_name: pc_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineTemplateProperties
+            go_type_name: VirtualMachineTemplateProperties
+          '/properties/amountOfRam': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: AmountOfRam
+          '/amountOfRam': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: amount_of_ram
+          '/properties/controllers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Controllers
+            go_type_name: VirtualDiskController
+          '/properties/controllers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/controllers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/controllers/subType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubType
+          '/properties/controllers/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/controllers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: controllers
+          '/controllers/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/controllers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/controllers/subType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sub_type
+          '/controllers/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/disks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Disks
+            go_type_name: VirtualDisk
+          '/properties/disks/controllerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ControllerID
+          '/properties/disks/independenceMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IndependenceMode
+            go_enum_type_name: DiskIndependenceMode
+          '/properties/disks/totalSize': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: TotalSize
+          '/properties/disks/virtualDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualDiskID
+          '/properties/disks/virtualDiskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualDiskName
+          '/disks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: disks
+          '/disks/controllerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: controller_id
+          '/disks/independenceMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: independence_mode
+          '/disks/totalSize': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: total_size
+          '/disks/virtualDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_disk_id
+          '/disks/virtualDiskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_disk_name
+          '/properties/exposeToGuestVM': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ExposeToGuestVm
+          '/exposeToGuestVM': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: expose_to_guest_vm
+          '/properties/guestOS': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GuestOs
+          '/guestOS': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: guest_os
+          '/properties/guestOSType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: GuestOstype
+          '/guestOSType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: guest_ostype
+          '/properties/nics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Nics
+            go_type_name: VirtualNic
+          '/properties/nics/customization': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Customization
+            go_type_name: GuestOSNICCustomization
+          '/properties/nics/customization/allocation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Allocation
+            go_enum_type_name: 
+          '/properties/nics/customization/dnsServers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: DnsServers
+          '/properties/nics/customization/gateway': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Gateway
+          '/properties/nics/customization/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IpAddress
+          '/properties/nics/customization/mask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Mask
+          '/properties/nics/customization/primaryWinsServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryWinsServer
+          '/properties/nics/customization/secondaryWinsServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryWinsServer
+          '/properties/nics/ipAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: IpAddresses
+          '/properties/nics/macAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MacAddress
+          '/properties/nics/network': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Network
+            go_type_name: VirtualNetwork
+          '/properties/nics/network/assignable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Assignable
+          '/properties/nics/network/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/nics/network/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/nics/network/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/nics/network/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkProperties
+            go_type_name: VirtualNetworkProperties
+          '/properties/nics/network/properties/privateCloudId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateCloudID
+          '/properties/nics/network/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/nics/nicType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: NicType
+            go_enum_type_name: NICType
+          '/properties/nics/powerOnBoot': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: PowerOnBoot
+          '/properties/nics/virtualNicId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNicID
+          '/properties/nics/virtualNicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNicName
+          '/nics': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: nics
+          '/nics/customization': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: customization
+          '/nics/customization/allocation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: allocation
+          '/nics/customization/dnsServers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: dns_servers
+          '/nics/customization/gateway': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: gateway
+          '/nics/customization/ipAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ip_address
+          '/nics/customization/mask': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mask
+          '/nics/customization/primaryWinsServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_wins_server
+          '/nics/customization/secondaryWinsServer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_wins_server
+          '/nics/ipAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: ip_addresses
+          '/nics/macAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mac_address
+          '/nics/network': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network
+          '/nics/network/assignable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: assignable
+          '/nics/network/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/nics/network/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/nics/network/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/nics/network/privateCloudId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_cloud_id
+          '/nics/network/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/nics/nicType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: nic_type
+          '/nics/powerOnBoot': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: power_on_boot
+          '/nics/virtualNicId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_nic_id
+          '/nics/virtualNicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_nic_name
+          '/properties/numberOfCores': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: NumberOfCores
+          '/numberOfCores': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: number_of_cores
+          '/properties/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Path
+          '/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: path
+          '/properties/privateCloudId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateCloudID
+          '/privateCloudId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_cloud_id
+          '/properties/vSphereNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: VSphereNetworks
+          '/vSphereNetworks': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: v_sphere_networks
+          '/properties/vSphereTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: VSphereTags
+          '/vSphereTags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: v_sphere_tags
+          '/properties/vmwaretools': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Vmwaretools
+          '/vmwaretools': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vmwaretools
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'regionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: regionID
+            python_parameter_name: region_id
+            python_variable_name: region_id
+          'pcName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateClouds
+            go_variable_name: pcName
+            python_parameter_name: pc_name
+            python_variable_name: pc_name
+          'resourcePoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: name
+            python_parameter_name: resource_pool_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure VirtualMachineTemplate instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'pcName'
+        description: 'The private cloud name'
+        required: true
+        input: true
+        azure_sdk_references: ['pcName']
+      - !ruby/object:Api::Type::String
+        name: 'regionId'
+        description: 'The region Id (westus, eastus)'
+        required: true
+        input: true
+        azure_sdk_references: ['regionId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource pool used to derive vSphere cluster which contains VM templates'
+        required: true
+        input: true
+        azure_sdk_references: ['resourcePoolName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'virtual machine template id (privateCloudId:vsphereId)'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Azure region'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: '{virtualMachineTemplateName}'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::Integer
+        name: 'amountOfRam'
+        description: 'The amount of memory'
+        output: true
+        azure_sdk_references: ['/amountOfRam', '/properties/amountOfRam']
+      - !ruby/object:Api::Type::Array
+        name: 'controllers'
+        description: 'The list of Virtual Disk Controllers'
+        output: true
+        azure_sdk_references: ['/controllers', '/properties/controllers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of Virtual Machine Template'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Array
+        name: 'disks'
+        description: 'The list of Virtual Disks'
+        output: true
+        azure_sdk_references: ['/disks', '/properties/disks']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'exposeToGuestVm'
+        description: 'Expose Guest OS or not'
+        output: true
+        azure_sdk_references: ['/exposeToGuestVM', '/properties/exposeToGuestVM']
+      - !ruby/object:Api::Type::String
+        name: 'guestOs'
+        description: 'The Guest OS'
+        output: true
+        azure_sdk_references: ['/guestOS', '/properties/guestOS']
+      - !ruby/object:Api::Type::String
+        name: 'guestOstype'
+        description: 'The Guest OS types'
+        output: true
+        azure_sdk_references: ['/guestOSType', '/properties/guestOSType']
+      - !ruby/object:Api::Type::Array
+        name: 'nics'
+        description: 'The list of Virtual NICs'
+        output: true
+        azure_sdk_references: ['/nics', '/properties/nics']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Integer
+        name: 'numberOfCores'
+        description: 'The number of CPU cores'
+        output: true
+        azure_sdk_references: ['/numberOfCores', '/properties/numberOfCores']
+      - !ruby/object:Api::Type::String
+        name: 'path'
+        description: 'path to folder'
+        output: true
+        azure_sdk_references: ['/path', '/properties/path']
+      - !ruby/object:Api::Type::String
+        name: 'privateCloudId'
+        description: 'The Private Cloud Id'
+        output: true
+        azure_sdk_references: ['/privateCloudId', '/properties/privateCloudId']
+      - !ruby/object:Api::Type::Array
+        name: 'vSphereNetworks'
+        description: 'The list of VSphere networks'
+        output: true
+        azure_sdk_references: ['/vSphereNetworks', '/properties/vSphereNetworks']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'vSphereTags'
+        description: 'The tags from VSphere'
+        output: true
+        azure_sdk_references: ['/vSphereTags', '/properties/vSphereTags']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'vmwaretools'
+        description: 'The VMware tools version'
+        output: true
+        azure_sdk_references: ['/vmwaretools', '/properties/vmwaretools']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: '{resourceProviderNamespace}/{resourceType}'
+        output: true
+        azure_sdk_references: ['/type']

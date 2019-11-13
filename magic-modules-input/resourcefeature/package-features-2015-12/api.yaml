@@ -1,0 +1,77 @@
+--- !ruby/object:Api::Product
+name: Azure Feature Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Feature
+    api_name: Features
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Features
+      go_client_namespace: resource
+      go_client: featuresClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: FeatureClient.features
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FeatureProperties
+            go_type_name: FeatureProperties
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: State
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Feature instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the feature.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'state'
+        description: 'The registration state of the feature for the subscription.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource ID of the feature.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The resource type of the feature.'
+        output: true
+        azure_sdk_references: ['/type']

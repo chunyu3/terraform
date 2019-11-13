@@ -1,0 +1,104 @@
+--- !ruby/object:Api::Product
+name: Azure Update Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Update
+    api_name: undefined
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: {providerName}
+      go_client_namespace: maintenance
+      go_client: updatesClient
+      python_client_namespace: azure.mgmt.maintenance
+      python_client: MaintenanceManagementClient.updates
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'providerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: providerName
+            python_parameter_name: provider_name
+            python_variable_name: provider_name
+          'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {providerName}
+            go_variable_name: resourceType
+            python_parameter_name: resource_type
+            python_variable_name: resource_type
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceType}
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListParent
+        python_func_name: list_parent
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'providerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: providerName
+            python_parameter_name: provider_name
+            python_variable_name: provider_name
+          'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {providerName}
+            go_variable_name: resourceType
+            python_parameter_name: resource_type
+            python_variable_name: resource_type
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceType}
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Update instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'providerName'
+        description: 'Resource provider name'
+        required: true
+        input: true
+        azure_sdk_references: ['providerName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceType'
+        description: 'Resource type'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceType']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource identifier'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::Array
+        name: 'value'
+        description: 'The pending updates'
+        output: true
+        azure_sdk_references: ['/value']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

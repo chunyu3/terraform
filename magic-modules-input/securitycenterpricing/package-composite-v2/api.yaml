@@ -1,0 +1,88 @@
+--- !ruby/object:Api::Product
+name: Azure Pricing Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Pricing
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: pricingsClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.pricings
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PricingProperties
+            go_type_name: PricingProperties
+          '/properties/pricingTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PricingTier
+            go_enum_type_name: PricingTier
+          '/pricingTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: pricing_tier
+          '/properties/freeTrialRemainingTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: FreeTrialRemainingTime
+          '/freeTrialRemainingTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: free_trial_remaining_time
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Pricing instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Enum
+        name: 'pricingTier'
+        description: 'The pricing tier value. Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+        output: true
+        azure_sdk_references: ['/pricingTier', '/properties/pricingTier']
+        values:
+          - :Free
+          - :Standard
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'freeTrialRemainingTime'
+        description: 'The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).'
+        output: true
+        azure_sdk_references: ['/freeTrialRemainingTime', '/properties/freeTrialRemainingTime']

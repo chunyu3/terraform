@@ -1,0 +1,434 @@
+--- !ruby/object:Api::Product
+name: Azure JobTargetExecution Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: JobTargetExecution
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: jobTargetExecutionsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.job_target_executions
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
+          'jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: executions
+            go_variable_name: jobExecutionID
+            python_parameter_name: job_execution_id
+            python_variable_name: job_execution_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobExecutionProperties
+            go_type_name: JobExecutionProperties
+          '/properties/jobVersion': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: JobVersion
+          '/jobVersion': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: job_version
+          '/properties/stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StepName
+          '/stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: step_name
+          '/properties/stepId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: StepID
+          '/stepId': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: step_id
+          '/properties/jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: JobExecutionID
+          '/jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: job_execution_id
+          '/properties/lifecycle': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Lifecycle
+            go_enum_type_name: JobExecutionLifecycle
+          '/lifecycle': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: lifecycle
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/createTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreateTime
+          '/createTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: create_time
+          '/properties/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/properties/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTime
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time
+          '/properties/currentAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: CurrentAttempts
+          '/currentAttempts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: current_attempts
+          '/properties/currentAttemptStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CurrentAttemptStartTime
+          '/currentAttemptStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: current_attempt_start_time
+          '/properties/lastMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastMessage
+          '/lastMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_message
+          '/properties/target': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Target
+            go_type_name: JobExecutionTarget
+          '/properties/target/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: JobTargetType
+          '/properties/target/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerName
+          '/properties/target/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DatabaseName
+          '/target': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: target
+          '/target/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: type
+          '/target/serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_name
+          '/target/databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: database_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByJobExecution
+        python_func_name: list_by_job_execution
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
+          'jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: executions
+            go_variable_name: jobExecutionID
+            python_parameter_name: job_execution_id
+            python_variable_name: job_execution_id
+          'createTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMin
+            python_parameter_name: create_time_min
+            python_variable_name: create_time_min
+          'createTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMax
+            python_parameter_name: create_time_max
+            python_variable_name: create_time_max
+          'endTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMin
+            python_parameter_name: end_time_min
+            python_variable_name: end_time_min
+          'endTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMax
+            python_parameter_name: end_time_max
+            python_variable_name: end_time_max
+          'isActive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: isActive
+            python_parameter_name: is_active
+            python_variable_name: is_active
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByStep
+        python_func_name: list_by_step
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'isActive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: isActive
+            python_parameter_name: is_active
+            python_variable_name: is_active
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobs
+            go_variable_name: name
+            python_parameter_name: job_name
+            python_variable_name: name
+          'jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: executions
+            go_variable_name: jobExecutionID
+            python_parameter_name: job_execution_id
+            python_variable_name: job_execution_id
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'createTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMin
+            python_parameter_name: create_time_min
+            python_variable_name: create_time_min
+          'createTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMax
+            python_parameter_name: create_time_max
+            python_variable_name: create_time_max
+          'endTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMin
+            python_parameter_name: end_time_min
+            python_variable_name: end_time_min
+          'endTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMax
+            python_parameter_name: end_time_max
+            python_variable_name: end_time_max
+
+    description: |
+      Manage Azure JobTargetExecution instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'jobAgentName'
+        description: 'The name of the job agent.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobAgentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the job to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobName']
+      - !ruby/object:Api::Type::String
+        name: 'jobExecutionId'
+        description: 'The id of the job execution'
+        required: true
+        input: true
+        azure_sdk_references: ['jobExecutionId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTimeMin'
+        description: 'If specified, only job executions created at or after the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['createTimeMin']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTimeMax'
+        description: 'If specified, only job executions created before the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['createTimeMax']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTimeMin'
+        description: 'If specified, only job executions completed at or after the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['endTimeMin']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTimeMax'
+        description: 'If specified, only job executions completed before the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['endTimeMax']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isActive'
+        description: 'If specified, only active or only completed job executions are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['isActive']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::Integer
+        name: 'jobVersion'
+        description: 'The job version number.'
+        output: true
+        azure_sdk_references: ['/jobVersion', '/properties/jobVersion']
+      - !ruby/object:Api::Type::String
+        name: 'stepName'
+        description: 'The job step name.'
+        output: true
+        azure_sdk_references: ['/stepName', '/properties/stepName']
+      - !ruby/object:Api::Type::Integer
+        name: 'stepId'
+        description: 'The job step id.'
+        output: true
+        azure_sdk_references: ['/stepId', '/properties/stepId']
+      - !ruby/object:Api::Type::String
+        name: 'jobExecutionId'
+        description: 'The unique identifier of the job execution.'
+        output: true
+        azure_sdk_references: ['/jobExecutionId', '/properties/jobExecutionId']
+      - !ruby/object:Api::Type::Enum
+        name: 'lifecycle'
+        description: 'The detailed state of the job execution.'
+        output: true
+        azure_sdk_references: ['/lifecycle', '/properties/lifecycle']
+        values:
+          - :Created
+          - :InProgress
+          - :WaitingForChildJobExecutions
+          - :WaitingForRetry
+          - :Succeeded
+          - :SucceededWithSkipped
+          - :Failed
+          - :TimedOut
+          - :Canceled
+          - :Skipped
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'The ARM provisioning state of the job execution.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :Created
+          - :InProgress
+          - :Succeeded
+          - :Failed
+          - :Canceled
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTime'
+        description: 'The time that the job execution was created.'
+        output: true
+        azure_sdk_references: ['/createTime', '/properties/createTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'The time that the job execution started.'
+        output: true
+        azure_sdk_references: ['/startTime', '/properties/startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'The time that the job execution completed.'
+        output: true
+        azure_sdk_references: ['/endTime', '/properties/endTime']
+      - !ruby/object:Api::Type::Integer
+        name: 'currentAttempts'
+        description: 'Number of times the job execution has been attempted.'
+        output: true
+        azure_sdk_references: ['/currentAttempts', '/properties/currentAttempts']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'currentAttemptStartTime'
+        description: 'Start time of the current attempt.'
+        output: true
+        azure_sdk_references: ['/currentAttemptStartTime', '/properties/currentAttemptStartTime']
+      - !ruby/object:Api::Type::String
+        name: 'lastMessage'
+        description: 'The last status or error message.'
+        output: true
+        azure_sdk_references: ['/lastMessage', '/properties/lastMessage']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'target'
+        description: 'The target that this execution is executed on.'
+        output: true
+        azure_sdk_references: ['/target', '/properties/target']
+        properties:

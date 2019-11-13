@@ -1,0 +1,126 @@
+--- !ruby/object:Api::Product
+name: Azure Compliance Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Compliance
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: compliancesClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.compliances
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ComplianceProperties
+            go_type_name: ComplianceProperties
+          '/properties/assessmentTimestampUtcDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: AssessmentTimestampUtcDate
+          '/assessmentTimestampUtcDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: assessment_timestamp_utc_date
+          '/properties/resourceCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ResourceCount
+          '/resourceCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: resource_count
+          '/properties/assessmentResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AssessmentResult
+            go_type_name: ComplianceSegment
+          '/properties/assessmentResult/segmentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SegmentType
+          '/properties/assessmentResult/percentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Percentage
+          '/assessmentResult': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: assessment_result
+          '/assessmentResult/segmentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: segment_type
+          '/assessmentResult/percentage': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: percentage
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure Compliance instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'Scope of the query, can be subscription (/subscriptions/0b06d9ea-afe6-4779-bd59-30e5c2d9d13f) or management group (/providers/Microsoft.Management/managementGroups/mgName).'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'assessmentTimestampUtcDate'
+        description: 'The timestamp when the Compliance calculation was conducted.'
+        output: true
+        azure_sdk_references: ['/assessmentTimestampUtcDate', '/properties/assessmentTimestampUtcDate']
+      - !ruby/object:Api::Type::Integer
+        name: 'resourceCount'
+        description: 'The resource count of the given subscription for which the Compliance calculation was conducted (needed for Management Group Compliance calculation).'
+        output: true
+        azure_sdk_references: ['/resourceCount', '/properties/resourceCount']
+      - !ruby/object:Api::Type::Array
+        name: 'assessmentResult'
+        description: 'An array of segment, which is the actually the compliance assessment.'
+        output: true
+        azure_sdk_references: ['/assessmentResult', '/properties/assessmentResult']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

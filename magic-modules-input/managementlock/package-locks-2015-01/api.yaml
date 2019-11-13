@@ -1,0 +1,97 @@
+--- !ruby/object:Api::Product
+name: Azure ManagementLock Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ManagementLock
+    api_name: Authorization
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Authorization
+      go_client_namespace: resource
+      go_client: managementLocksClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: ManagementLockClient.management_locks
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ManagementLockProperties
+            go_type_name: ManagementLockProperties
+          '/properties/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Level
+            go_enum_type_name: LockLevel
+          '/level': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: level
+          '/properties/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Notes
+          '/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notes
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAtSubscriptionLevel
+        python_func_name: list_at_subscription_level
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAtResourceGroupLevel
+        python_func_name: list_at_resource_group_level
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAtResourceLevel
+        python_func_name: list_at_resource_level
+        request:
+
+    description: |
+      Manage Azure ManagementLock instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'level'
+        description: 'The lock level of the management lock.'
+        output: true
+        azure_sdk_references: ['/level', '/properties/level']
+        values:
+          - :NotSpecified
+          - :CanNotDelete
+          - :ReadOnly
+      - !ruby/object:Api::Type::String
+        name: 'notes'
+        description: 'The notes of the management lock.'
+        output: true
+        azure_sdk_references: ['/notes', '/properties/notes']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The Id of the lock.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the lock.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the lock.'
+        output: true
+        azure_sdk_references: ['/name']

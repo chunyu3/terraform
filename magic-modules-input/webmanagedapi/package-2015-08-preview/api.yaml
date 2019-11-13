@@ -1,0 +1,450 @@
+--- !ruby/object:Api::Product
+name: Azure ManagedApi Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ManagedApi
+    api_name: Web
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Web
+      go_client_namespace: web
+      go_client: managedApisClient
+      python_client_namespace: azure.mgmt.web
+      python_client: WebSiteManagementClient.managed_apis
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+        response:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApiEntity_properties
+            go_type_name: ApiEntity_properties
+          '/properties/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/generalInformation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GeneralInformation
+            go_type_name: GeneralApiInformation
+          '/properties/generalInformation/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/generalInformation/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/generalInformation/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Kind
+          '/properties/generalInformation/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/generalInformation/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/generalInformation/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/generalInformation/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GeneralApiInformation_properties
+            go_type_name: GeneralApiInformation_properties
+          '/properties/generalInformation/properties/iconUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IconURL
+          '/properties/generalInformation/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DisplayName
+          '/properties/generalInformation/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/properties/generalInformation/properties/termsOfUseUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TermsOfUseURL
+          '/properties/generalInformation/properties/connectionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ConnectionDisplayName
+          '/properties/generalInformation/properties/connectionPortalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: ConnectionPortalURL
+          '/generalInformation': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: general_information
+          '/generalInformation/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/generalInformation/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/generalInformation/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: kind
+          '/generalInformation/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/generalInformation/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/generalInformation/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/generalInformation/iconUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: icon_url
+          '/generalInformation/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: display_name
+          '/generalInformation/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/generalInformation/termsOfUseUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: terms_of_use_url
+          '/generalInformation/connectionDisplayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: connection_display_name
+          '/generalInformation/connectionPortalUrl': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: connection_portal_url
+          '/properties/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Path
+          '/path': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: path
+          '/properties/runtimeUrls': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: RuntimeUrls
+          '/runtimeUrls': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: runtime_urls
+          '/properties/protocols': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Protocols
+          '/protocols': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: protocols
+          '/properties/policies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Policies
+            go_type_name: ApiPolicies
+          '/properties/policies/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/policies/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/policies/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Kind
+          '/properties/policies/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/policies/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/policies/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/policies/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ApiPolicies_properties
+            go_type_name: ApiPolicies_properties
+          '/properties/policies/properties/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Content
+          '/policies': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: policies
+          '/policies/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/policies/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/policies/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: kind
+          '/policies/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/policies/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/policies/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/policies/content': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: content
+          '/properties/backendService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackendService
+            go_type_name: BackendServiceDefinition
+          '/properties/backendService/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/backendService/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/backendService/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Kind
+          '/properties/backendService/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/backendService/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/backendService/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/backendService/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BackendServiceDefinition_properties
+            go_type_name: BackendServiceDefinition_properties
+          '/properties/backendService/properties/serviceUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceURL
+          '/properties/backendService/properties/hostingEnvironmentServiceUrls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: HostingEnvironmentServiceUrls
+            go_type_name: HostingEnvironmentServiceDescriptions
+          '/properties/backendService/properties/hostingEnvironmentServiceUrls/hostingEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostingEnvironmentID
+          '/properties/backendService/properties/hostingEnvironmentServiceUrls/hostId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostID
+          '/properties/backendService/properties/hostingEnvironmentServiceUrls/serviceUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServiceURL
+          '/properties/backendService/properties/hostingEnvironmentServiceUrls/useInternalRouting': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: UseInternalRouting
+          '/backendService': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: backend_service
+          '/backendService/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/backendService/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/backendService/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: kind
+          '/backendService/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/backendService/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/backendService/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/backendService/serviceUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_url
+          '/backendService/hostingEnvironmentServiceUrls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: hosting_environment_service_urls
+          '/backendService/hostingEnvironmentServiceUrls/hostingEnvironmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hosting_environment_id
+          '/backendService/hostingEnvironmentServiceUrls/hostId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_id
+          '/backendService/hostingEnvironmentServiceUrls/serviceUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: service_url
+          '/backendService/hostingEnvironmentServiceUrls/useInternalRouting': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: use_internal_routing
+          '/properties/apiDefinitionUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ApiDefinitionURL
+          '/apiDefinitionUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: api_definition_url
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/capabilities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Capabilities
+          '/capabilities': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: capabilities
+          '/properties/connectionParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: ConnectionParameters
+          '/connectionParameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: connection_parameters
+          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTime
+          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_time
+          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ChangedTime
+          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: changed_time
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+
+    description: |
+      Manage Azure ManagedApi instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource Name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Kind of resource'
+        output: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags'
+        output: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the API<br>            the URL path of this API when exposed via APIM'
+        output: true
+        azure_sdk_references: ['/name', '/properties/name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'generalInformation'
+        description: 'the URL path of this API when exposed via APIM'
+        output: true
+        azure_sdk_references: ['/generalInformation', '/properties/generalInformation']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'path'
+        description: 'the URL path of this API when exposed via APIM'
+        output: true
+        azure_sdk_references: ['/path', '/properties/path']
+      - !ruby/object:Api::Type::Array
+        name: 'runtimeUrls'
+        description: 'Read only property returning the runtime endpoints where the API can be called'
+        output: true
+        azure_sdk_references: ['/runtimeUrls', '/properties/runtimeUrls']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'protocols'
+        description: 'Protocols supported by the front end - http/https'
+        output: true
+        azure_sdk_references: ['/protocols', '/properties/protocols']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'policies'
+        description: 'API policies'
+        output: true
+        azure_sdk_references: ['/policies', '/properties/policies']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'backendService'
+        description: 'Backend service definition'
+        output: true
+        azure_sdk_references: ['/backendService', '/properties/backendService']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'apiDefinitionUrl'
+        description: 'API definition Url - url where the swagger can be downloaded from'
+        output: true
+        azure_sdk_references: ['/apiDefinitionUrl', '/properties/apiDefinitionUrl']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'metadata'
+        description: 'Free form object for the data caller wants to store'
+        output: true
+        azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Type::Array
+        name: 'capabilities'
+        description: 'Capabilities'
+        output: true
+        azure_sdk_references: ['/capabilities', '/properties/capabilities']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'connectionParameters'
+        description: 'Connection parameters'
+        output: true
+        azure_sdk_references: ['/connectionParameters', '/properties/connectionParameters']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'Timestamp of the connection creation'
+        output: true
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'changedTime'
+        description: 'Timestamp of last connection change.'
+        output: true
+        azure_sdk_references: ['/changedTime', '/properties/changedTime']

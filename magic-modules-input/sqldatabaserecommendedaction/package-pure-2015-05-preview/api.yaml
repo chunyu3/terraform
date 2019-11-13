@@ -1,0 +1,555 @@
+--- !ruby/object:Api::Product
+name: Azure DatabaseRecommendedAction Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: DatabaseRecommendedAction
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: databaseRecommendedActionsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.database_recommended_actions
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'advisorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: advisors
+            go_variable_name: name
+            python_parameter_name: advisor_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RecommendedActionProperties
+            go_type_name: RecommendedActionProperties
+          '/properties/recommendationReason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecommendationReason
+          '/recommendationReason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recommendation_reason
+          '/properties/validSince': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ValidSince
+          '/validSince': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: valid_since
+          '/properties/lastRefresh': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastRefresh
+          '/lastRefresh': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_refresh
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: State
+            go_type_name: RecommendedActionStateInfo
+          '/properties/state/currentValue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CurrentValue
+            go_enum_type_name: RecommendedActionCurrentState
+          '/properties/state/actionInitiatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ActionInitiatedBy
+            go_enum_type_name: RecommendedActionInitiatedBy
+          '/properties/state/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastModified
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: state
+          '/state/currentValue': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: current_value
+          '/state/actionInitiatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action_initiated_by
+          '/state/lastModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_modified
+          '/properties/isExecutableAction': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsExecutableAction
+          '/isExecutableAction': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_executable_action
+          '/properties/isRevertableAction': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsRevertableAction
+          '/isRevertableAction': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_revertable_action
+          '/properties/isArchivedAction': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsArchivedAction
+          '/isArchivedAction': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_archived_action
+          '/properties/executeActionStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExecuteActionStartTime
+          '/executeActionStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: execute_action_start_time
+          '/properties/executeActionDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExecuteActionDuration
+          '/executeActionDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: execute_action_duration
+          '/properties/revertActionStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RevertActionStartTime
+          '/revertActionStartTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: revert_action_start_time
+          '/properties/revertActionDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RevertActionDuration
+          '/revertActionDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: revert_action_duration
+          '/properties/executeActionInitiatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ExecuteActionInitiatedBy
+            go_enum_type_name: RecommendedActionInitiatedBy
+          '/executeActionInitiatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: execute_action_initiated_by
+          '/properties/executeActionInitiatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExecuteActionInitiatedTime
+          '/executeActionInitiatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: execute_action_initiated_time
+          '/properties/revertActionInitiatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RevertActionInitiatedBy
+            go_enum_type_name: RecommendedActionInitiatedBy
+          '/revertActionInitiatedBy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: revert_action_initiated_by
+          '/properties/revertActionInitiatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: RevertActionInitiatedTime
+          '/revertActionInitiatedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: revert_action_initiated_time
+          '/properties/score': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Score
+          '/score': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: score
+          '/properties/implementationDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImplementationDetails
+            go_type_name: RecommendedActionImplementationInfo
+          '/properties/implementationDetails/method': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Method
+            go_enum_type_name: ImplementationMethod
+          '/properties/implementationDetails/script': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Script
+          '/implementationDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: implementation_details
+          '/implementationDetails/method': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: method
+          '/implementationDetails/script': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: script
+          '/properties/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ErrorDetails
+            go_type_name: RecommendedActionErrorInfo
+          '/properties/errorDetails/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ErrorCode
+          '/properties/errorDetails/isRetryable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: IsRetryable
+            go_enum_type_name: IsRetryable
+          '/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error_details
+          '/errorDetails/errorCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: error_code
+          '/errorDetails/isRetryable': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: is_retryable
+          '/properties/estimatedImpact': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: EstimatedImpact
+            go_type_name: RecommendedActionImpactRecord
+          '/properties/estimatedImpact/dimensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DimensionName
+          '/properties/estimatedImpact/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/properties/estimatedImpact/absoluteValue': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: AbsoluteValue
+          '/properties/estimatedImpact/changeValueAbsolute': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: ChangeValueAbsolute
+          '/properties/estimatedImpact/changeValueRelative': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: ChangeValueRelative
+          '/estimatedImpact': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: estimated_impact
+          '/estimatedImpact/dimensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: dimension_name
+          '/estimatedImpact/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/estimatedImpact/absoluteValue': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: absolute_value
+          '/estimatedImpact/changeValueAbsolute': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: change_value_absolute
+          '/estimatedImpact/changeValueRelative': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: change_value_relative
+          '/properties/observedImpact': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ObservedImpact
+            go_type_name: RecommendedActionImpactRecord
+          '/properties/observedImpact/dimensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DimensionName
+          '/properties/observedImpact/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/properties/observedImpact/absoluteValue': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: AbsoluteValue
+          '/properties/observedImpact/changeValueAbsolute': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: ChangeValueAbsolute
+          '/properties/observedImpact/changeValueRelative': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: ChangeValueRelative
+          '/observedImpact': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: observed_impact
+          '/observedImpact/dimensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: dimension_name
+          '/observedImpact/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/observedImpact/absoluteValue': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: absolute_value
+          '/observedImpact/changeValueAbsolute': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: change_value_absolute
+          '/observedImpact/changeValueRelative': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: change_value_relative
+          '/properties/timeSeries': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TimeSeries
+            go_type_name: RecommendedActionMetricInfo
+          '/properties/timeSeries/metricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MetricName
+          '/properties/timeSeries/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Unit
+          '/properties/timeSeries/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeGrain
+          '/properties/timeSeries/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/timeSeries/value': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/timeSeries': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: time_series
+          '/timeSeries/metricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: metric_name
+          '/timeSeries/unit': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unit
+          '/timeSeries/timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_grain
+          '/timeSeries/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/timeSeries/value': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/linkedObjects': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: LinkedObjects
+          '/linkedObjects': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: linked_objects
+          '/properties/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Details
+          '/details': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: details
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDatabaseAdvisor
+        python_func_name: list_by_database_advisor
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
+          'advisorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: advisors
+            go_variable_name: name
+            python_parameter_name: advisor_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure DatabaseRecommendedAction instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'The name of the database.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Database Advisor.'
+        required: true
+        input: true
+        azure_sdk_references: ['advisorName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Resource kind.'
+        output: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        output: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'recommendationReason'
+        description: 'Gets the reason for recommending this action. e.g., DuplicateIndex'
+        output: true
+        azure_sdk_references: ['/recommendationReason', '/properties/recommendationReason']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'validSince'
+        description: 'Gets the time since when this recommended action is valid.'
+        output: true
+        azure_sdk_references: ['/validSince', '/properties/validSince']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastRefresh'
+        description: 'Gets time when this recommended action was last refreshed.'
+        output: true
+        azure_sdk_references: ['/lastRefresh', '/properties/lastRefresh']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'state'
+        description: 'Gets the info of the current state the recommended action is in.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'isExecutableAction'
+        description: 'Gets if this recommended action is actionable by user'
+        output: true
+        azure_sdk_references: ['/isExecutableAction', '/properties/isExecutableAction']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isRevertableAction'
+        description: 'Gets if changes applied by this recommended action can be reverted by user'
+        output: true
+        azure_sdk_references: ['/isRevertableAction', '/properties/isRevertableAction']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isArchivedAction'
+        description: 'Gets if this recommended action was suggested some time ago but user chose to ignore this and system added a new recommended action again.'
+        output: true
+        azure_sdk_references: ['/isArchivedAction', '/properties/isArchivedAction']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'executeActionStartTime'
+        description: 'Gets the time when system started applying this recommended action on the user resource. e.g., index creation start time'
+        output: true
+        azure_sdk_references: ['/executeActionStartTime', '/properties/executeActionStartTime']
+      - !ruby/object:Api::Type::String
+        name: 'executeActionDuration'
+        description: 'Gets the time taken for applying this recommended action on user resource. e.g., time taken for index creation'
+        output: true
+        azure_sdk_references: ['/executeActionDuration', '/properties/executeActionDuration']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'revertActionStartTime'
+        description: 'Gets the time when system started reverting changes of this recommended action on user resource. e.g., time when index drop is executed.'
+        output: true
+        azure_sdk_references: ['/revertActionStartTime', '/properties/revertActionStartTime']
+      - !ruby/object:Api::Type::String
+        name: 'revertActionDuration'
+        description: 'Gets the time taken for reverting changes of this recommended action on user resource. e.g., time taken for dropping the created index.'
+        output: true
+        azure_sdk_references: ['/revertActionDuration', '/properties/revertActionDuration']
+      - !ruby/object:Api::Type::Enum
+        name: 'executeActionInitiatedBy'
+        description: 'Gets if approval for applying this recommended action was given by user/system.'
+        output: true
+        azure_sdk_references: ['/executeActionInitiatedBy', '/properties/executeActionInitiatedBy']
+        values:
+          - :User
+          - :System
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'executeActionInitiatedTime'
+        description: 'Gets the time when this recommended action was approved for execution.'
+        output: true
+        azure_sdk_references: ['/executeActionInitiatedTime', '/properties/executeActionInitiatedTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'revertActionInitiatedBy'
+        description: 'Gets if approval for reverting this recommended action was given by user/system.'
+        output: true
+        azure_sdk_references: ['/revertActionInitiatedBy', '/properties/revertActionInitiatedBy']
+        values:
+          - :User
+          - :System
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'revertActionInitiatedTime'
+        description: 'Gets the time when this recommended action was approved for revert.'
+        output: true
+        azure_sdk_references: ['/revertActionInitiatedTime', '/properties/revertActionInitiatedTime']
+      - !ruby/object:Api::Type::Integer
+        name: 'score'
+        description: 'Gets the impact of this recommended action. Possible values are 1 - Low impact, 2 - Medium Impact and 3 - High Impact'
+        output: true
+        azure_sdk_references: ['/score', '/properties/score']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'implementationDetails'
+        description: 'Gets the implementation details of this recommended action for user to apply it manually.'
+        output: true
+        azure_sdk_references: ['/implementationDetails', '/properties/implementationDetails']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'errorDetails'
+        description: 'Gets the error details if and why this recommended action is put to error state.'
+        output: true
+        azure_sdk_references: ['/errorDetails', '/properties/errorDetails']
+        properties:
+      - !ruby/object:Api::Type::Array
+        name: 'estimatedImpact'
+        description: 'Gets the estimated impact info for this recommended action e.g., Estimated CPU gain, Estimated Disk Space change'
+        output: true
+        azure_sdk_references: ['/estimatedImpact', '/properties/estimatedImpact']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'observedImpact'
+        description: 'Gets the observed/actual impact info for this recommended action e.g., Actual CPU gain, Actual Disk Space change'
+        output: true
+        azure_sdk_references: ['/observedImpact', '/properties/observedImpact']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'timeSeries'
+        description: 'Gets the time series info of metrics for this recommended action e.g., CPU consumption time series'
+        output: true
+        azure_sdk_references: ['/timeSeries', '/properties/timeSeries']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'linkedObjects'
+        description: 'Gets the linked objects, if any.'
+        output: true
+        azure_sdk_references: ['/linkedObjects', '/properties/linkedObjects']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'details'
+        description: 'Gets additional details specific to this recommended action.'
+        output: true
+        azure_sdk_references: ['/details', '/properties/details']

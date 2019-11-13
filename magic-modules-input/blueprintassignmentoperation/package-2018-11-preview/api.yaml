@@ -1,0 +1,301 @@
+--- !ruby/object:Api::Product
+name: Azure AssignmentOperation Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AssignmentOperation
+    api_name: Blueprint
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Blueprint
+      go_client_namespace: blueprint
+      go_client: assignmentOperationsClient
+      python_client_namespace: azure.mgmt.blueprint
+      python_client: BlueprintManagementClient.assignment_operations
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blueprintAssignments
+            go_variable_name: name
+            python_parameter_name: assignment_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AssignmentOperationProperties
+            go_type_name: AssignmentOperationProperties
+          '/properties/blueprintVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BlueprintVersion
+          '/blueprintVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: blueprint_version
+          '/properties/assignmentState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AssignmentState
+          '/assignmentState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: assignment_state
+          '/properties/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeCreated
+          '/timeCreated': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_created
+          '/properties/timeStarted': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeStarted
+          '/timeStarted': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_started
+          '/properties/timeFinished': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeFinished
+          '/timeFinished': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_finished
+          '/properties/deployments': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Deployments
+            go_type_name: AssignmentDeploymentJob
+          '/properties/deployments/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Kind
+          '/properties/deployments/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Action
+          '/properties/deployments/jobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: JobID
+          '/properties/deployments/jobState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: JobState
+          '/properties/deployments/result': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Result
+            go_type_name: AssignmentDeploymentJobResult
+          '/properties/deployments/result/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Error
+            go_type_name: AzureResourceManagerError
+          '/properties/deployments/result/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/deployments/result/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/deployments/result/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Resources
+            go_type_name: AssignmentJobCreatedResource
+          '/properties/deployments/result/resources/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/deployments/result/resources/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/deployments/result/resources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/deployments/result/resources/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"682","$type":"DictionaryType","valueType":{"$id":"683","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"684","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"685","fixed":false},"deprecated":false}
+          '/properties/deployments/history': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: History
+            go_type_name: AssignmentDeploymentJobResult
+          '/properties/deployments/history/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Error
+            go_type_name: AzureResourceManagerError
+          '/properties/deployments/history/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Code
+          '/properties/deployments/history/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Message
+          '/properties/deployments/history/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Resources
+            go_type_name: AssignmentJobCreatedResource
+          '/properties/deployments/history/resources/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/deployments/history/resources/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/properties/deployments/history/resources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/deployments/history/resources/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"682","$type":"DictionaryType","valueType":{"$id":"683","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"684","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"685","fixed":false},"deprecated":false}
+          '/properties/deployments/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RequestUri
+          '/deployments': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: deployments
+          '/deployments/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: kind
+          '/deployments/action': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: action
+          '/deployments/jobId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: job_id
+          '/deployments/jobState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: job_state
+          '/deployments/result': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: result
+          '/deployments/result/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error
+          '/deployments/result/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/deployments/result/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/deployments/result/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: resources
+          '/deployments/result/resources/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/deployments/result/resources/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/deployments/result/resources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/deployments/history': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: history
+          '/deployments/history/error': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: error
+          '/deployments/history/error/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: code
+          '/deployments/history/error/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: message
+          '/deployments/history/resources': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: resources
+          '/deployments/history/resources/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/deployments/history/resources/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/deployments/history/resources/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/deployments/requestUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: request_uri
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: blueprintAssignments
+            go_variable_name: name
+            python_parameter_name: assignment_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure AssignmentOperation instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of the resource. Valid scopes are: management group (format: ''/providers/Microsoft.Management/managementGroups/{managementGroup}''), subscription (format: ''/subscriptions/{subscriptionId}''). For blueprint assignments management group scope is reserved for future use.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the blueprint assignment.'
+        required: true
+        input: true
+        azure_sdk_references: ['assignmentName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'String Id used to locate any resource on Azure.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of this resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of this resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'blueprintVersion'
+        description: 'The published version of the blueprint definition used for the blueprint assignment operation.'
+        output: true
+        azure_sdk_references: ['/blueprintVersion', '/properties/blueprintVersion']
+      - !ruby/object:Api::Type::String
+        name: 'assignmentState'
+        description: 'State of this blueprint assignment operation.'
+        output: true
+        azure_sdk_references: ['/assignmentState', '/properties/assignmentState']
+      - !ruby/object:Api::Type::String
+        name: 'timeCreated'
+        description: 'Create time of this blueprint assignment operation.'
+        output: true
+        azure_sdk_references: ['/timeCreated', '/properties/timeCreated']
+      - !ruby/object:Api::Type::String
+        name: 'timeStarted'
+        description: 'Start time of the underlying deployment.'
+        output: true
+        azure_sdk_references: ['/timeStarted', '/properties/timeStarted']
+      - !ruby/object:Api::Type::String
+        name: 'timeFinished'
+        description: 'Finish time of the overall underlying deployments.'
+        output: true
+        azure_sdk_references: ['/timeFinished', '/properties/timeFinished']
+      - !ruby/object:Api::Type::Array
+        name: 'deployments'
+        description: 'List of jobs in this blueprint assignment operation.'
+        output: true
+        azure_sdk_references: ['/deployments', '/properties/deployments']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:

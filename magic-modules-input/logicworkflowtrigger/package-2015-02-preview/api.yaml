@@ -1,0 +1,267 @@
+--- !ruby/object:Api::Product
+name: Azure WorkflowTrigger Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: WorkflowTrigger
+    api_name: Logic
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Logic
+      go_client_namespace: logic
+      go_client: workflowTriggersClient
+      python_client_namespace: azure.mgmt.logic
+      python_client: LogicManagementClient.workflow_triggers
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: name
+            python_parameter_name: workflow_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WorkflowTriggerProperties
+            go_type_name: WorkflowTriggerProperties
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: WorkflowTriggerProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTime
+          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_time
+          '/properties/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ChangedTime
+          '/changedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: changed_time
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: WorkflowState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: WorkflowStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/properties/lastExecutionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: LastExecutionTime
+          '/lastExecutionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: last_execution_time
+          '/properties/nextExecutionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: NextExecutionTime
+          '/nextExecutionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: next_execution_time
+          '/properties/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Recurrence
+            go_type_name: WorkflowTriggerRecurrence
+          '/properties/recurrence/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Frequency
+            go_enum_type_name: RecurrenceFrequency
+          '/properties/recurrence/interval': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Interval
+          '/properties/recurrence/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTime
+          '/properties/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZone
+          '/recurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: recurrence
+          '/recurrence/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: frequency
+          '/recurrence/interval': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: interval
+          '/recurrence/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time
+          '/recurrence/timeZone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone
+          '/properties/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Workflow
+            go_type_name: ResourceReference
+          '/properties/workflow/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/workflow/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/workflow/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/workflow': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: workflow
+          '/workflow/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/workflow/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/workflow/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: name
+            python_parameter_name: workflow_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure WorkflowTrigger instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The workflow name.'
+        required: true
+        input: true
+        azure_sdk_references: ['workflowName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Gets or sets the resource id.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Gets the provisioning state.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :NotSpecified
+          - :Creating
+          - :Succeeded
+          - :Updating
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'Gets the created time.'
+        output: true
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'changedTime'
+        description: 'Gets the changed time.'
+        output: true
+        azure_sdk_references: ['/changedTime', '/properties/changedTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Gets the state.'
+        output: true
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :NotSpecified
+          - :Enabled
+          - :Disabled
+          - :Deleted
+          - :Suspended
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'Gets the status.'
+        output: true
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :NotSpecified
+          - :Paused
+          - :Running
+          - :Waiting
+          - :Succeeded
+          - :Skipped
+          - :Suspended
+          - :Cancelled
+          - :Failed
+          - :Faulted
+          - :TimedOut
+          - :Aborted
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'lastExecutionTime'
+        description: 'Gets the last execution time.'
+        output: true
+        azure_sdk_references: ['/lastExecutionTime', '/properties/lastExecutionTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'nextExecutionTime'
+        description: 'Gets the next execution time.'
+        output: true
+        azure_sdk_references: ['/nextExecutionTime', '/properties/nextExecutionTime']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'recurrence'
+        description: 'Gets the workflow trigger recurrence.'
+        output: true
+        azure_sdk_references: ['/recurrence', '/properties/recurrence']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'workflow'
+        description: 'Gets the reference to workflow.'
+        output: true
+        azure_sdk_references: ['/workflow', '/properties/workflow']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets the workflow trigger name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets the workflow trigger type.'
+        output: true
+        azure_sdk_references: ['/type']

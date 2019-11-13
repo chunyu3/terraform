@@ -1,0 +1,195 @@
+--- !ruby/object:Api::Product
+name: Azure MarketplaceRegistrationDefinition Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: MarketplaceRegistrationDefinition
+    api_name: ManagedServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ManagedServices
+      go_client_namespace: managedservices
+      go_client: marketplaceRegistrationDefinitionsClient
+      python_client_namespace: azure.mgmt.managedservices
+      python_client: ManagedServicesClient.marketplace_registration_definitions
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+        response:
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RegistrationDefinitionProperties
+            go_type_name: RegistrationDefinitionProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/authorizations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Authorizations
+            go_type_name: Authorization
+          '/properties/authorizations/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalID
+          '/properties/authorizations/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RoleDefinitionID
+          '/authorizations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: authorizations
+          '/authorizations/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_id
+          '/authorizations/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role_definition_id
+          '/properties/registrationDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RegistrationDefinitionName
+          '/registrationDefinitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: registration_definition_name
+          '/properties/managedByTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagedByTenantID
+          '/managedByTenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: managed_by_tenant_id
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
+          '/properties/managedByTenantName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagedByTenantName
+          '/managedByTenantName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: managed_by_tenant_name
+          '/plan': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Plan
+            go_type_name: Plan
+            python_field_name: plan
+          '/plan/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/plan/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Publisher
+            python_field_name: publisher
+          '/plan/product': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Product
+            python_field_name: product
+          '/plan/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Version
+            python_field_name: version
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+
+    description: |
+      Manage Azure MarketplaceRegistrationDefinition instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'Scope of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Description of the registration definition.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Array
+        name: 'authorizations'
+        description: 'Authorization tuple containing principal id of the user/security group or service principal and id of the build-in role.'
+        output: true
+        azure_sdk_references: ['/authorizations', '/properties/authorizations']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::String
+        name: 'registrationDefinitionName'
+        description: 'Name of the registration definition.'
+        output: true
+        azure_sdk_references: ['/registrationDefinitionName', '/properties/registrationDefinitionName']
+      - !ruby/object:Api::Type::String
+        name: 'managedByTenantId'
+        description: 'Id of the managedBy tenant.'
+        output: true
+        azure_sdk_references: ['/managedByTenantId', '/properties/managedByTenantId']
+      - !ruby/object:Api::Type::Enum
+        name: 'provisioningState'
+        description: 'Current state of the registration definition.'
+        output: true
+        azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+        values:
+          - :NotSpecified
+          - :Accepted
+          - :Running
+          - :Ready
+          - :Creating
+          - :Created
+          - :Deleting
+          - :Deleted
+          - :Canceled
+          - :Failed
+          - :Succeeded
+          - :Updating
+      - !ruby/object:Api::Type::String
+        name: 'managedByTenantName'
+        description: 'Name of the managedBy tenant.'
+        output: true
+        azure_sdk_references: ['/managedByTenantName', '/properties/managedByTenantName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'plan'
+        description: 'Plan details for the managed services.'
+        output: true
+        azure_sdk_references: ['/plan']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified path of the registration definition.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the registration definition.'
+        output: true
+        azure_sdk_references: ['/name']

@@ -1,0 +1,130 @@
+--- !ruby/object:Api::Product
+name: Azure HybridRunbookWorkerGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: HybridRunbookWorkerGroup
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: automation
+      go_client: hybridRunbookWorkerGroupClient
+      python_client_namespace: azure.mgmt.automation
+      python_client: AutomationClient.hybrid_runbook_worker_group
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: name
+            python_parameter_name: automation_account_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/hybridRunbookWorkers': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: HybridRunbookWorkers
+            go_type_name: HybridRunbookWorker
+            python_field_name: hybrid_runbook_workers
+          '/hybridRunbookWorkers/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/hybridRunbookWorkers/ip': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Ip
+            python_field_name: ip
+          '/hybridRunbookWorkers/registrationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: RegistrationTime
+            python_field_name: registration_time
+          '/hybridRunbookWorkers/lastSeenDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: LastSeenDateTime
+            python_field_name: last_seen_date_time
+          '/credential': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Credential
+            go_type_name: RunAsCredentialAssociationProperty
+            python_field_name: credential
+          '/credential/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/groupType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: GroupType
+            go_enum_type_name: GroupTypeEnum
+            python_field_name: group_type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAutomationAccount
+        python_func_name: list_by_automation_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: name
+            python_parameter_name: automation_account_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure HybridRunbookWorkerGroup instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Gets or sets the id of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets the name of the group.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::Array
+        name: 'hybridRunbookWorkers'
+        description: 'Gets or sets the list of hybrid runbook workers.'
+        output: true
+        azure_sdk_references: ['/hybridRunbookWorkers']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'credential'
+        description: 'Sets the credential of a worker group.'
+        output: true
+        azure_sdk_references: ['/credential']
+        properties:
+      - !ruby/object:Api::Type::Enum
+        name: 'groupType'
+        description: 'Type of the HybridWorkerGroup.'
+        output: true
+        azure_sdk_references: ['/groupType']
+        values:
+          - :User
+          - :System

@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_vmwarecloudsimplevirtualnetwork
+  description: ListVirtualNetworks
+  code:
+    region_id: myLocation
+    pc_name: myPrivateCloud
+    name: >-
+      /subscriptions/{{ subscription_id
+      }}/providers/Microsoft.VMwareCloudSimple/locations/{{ location_name
+      }}/privateClouds/{{ private_cloud_name }}/resourcePools/{{
+      resource_pool_name }}
+  

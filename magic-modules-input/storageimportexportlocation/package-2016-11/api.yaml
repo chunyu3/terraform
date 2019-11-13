@@ -1,0 +1,174 @@
+--- !ruby/object:Api::Product
+name: Azure Location Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Location
+    api_name: ImportExport
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ImportExport
+      go_client_namespace: storageimportexport
+      go_client: locationsClient
+      python_client_namespace: azure.mgmt.storageimportexport
+      python_client: StorageImportExportClient.locations
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Location_properties
+            go_type_name: Location_properties
+          '/properties/recipientName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RecipientName
+          '/recipientName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: recipient_name
+          '/properties/streetAddress1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StreetAddress1
+          '/streetAddress1': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: street_address1
+          '/properties/streetAddress2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StreetAddress2
+          '/streetAddress2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: street_address2
+          '/properties/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: City
+          '/city': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: city
+          '/properties/stateOrProvince': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StateOrProvince
+          '/stateOrProvince': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state_or_province
+          '/properties/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PostalCode
+          '/postalCode': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: postal_code
+          '/properties/countryOrRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CountryOrRegion
+          '/countryOrRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: country_or_region
+          '/properties/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Phone
+          '/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone
+          '/properties/supportedCarriers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: SupportedCarriers
+          '/supportedCarriers': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: supported_carriers
+          '/properties/alternateLocations': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AlternateLocations
+          '/alternateLocations': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: alternate_locations
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Location instance.
+    properties:
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Specifies the resource identifier of the location. '
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Specifies the name of the location. Use List Locations to get all supported locations. '
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Specifies the type of the location. '
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'recipientName'
+        description: 'The recipient name to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/recipientName', '/properties/recipientName']
+      - !ruby/object:Api::Type::String
+        name: 'streetAddress1'
+        description: 'The first line of the street address to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/streetAddress1', '/properties/streetAddress1']
+      - !ruby/object:Api::Type::String
+        name: 'streetAddress2'
+        description: 'The second line of the street address to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/streetAddress2', '/properties/streetAddress2']
+      - !ruby/object:Api::Type::String
+        name: 'city'
+        description: 'The city name to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/city', '/properties/city']
+      - !ruby/object:Api::Type::String
+        name: 'stateOrProvince'
+        description: 'The state or province to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/stateOrProvince', '/properties/stateOrProvince']
+      - !ruby/object:Api::Type::String
+        name: 'postalCode'
+        description: 'The postal code to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/postalCode', '/properties/postalCode']
+      - !ruby/object:Api::Type::String
+        name: 'countryOrRegion'
+        description: 'The country or region to use when shipping the drives to the Azure data center. '
+        output: true
+        azure_sdk_references: ['/countryOrRegion', '/properties/countryOrRegion']
+      - !ruby/object:Api::Type::String
+        name: 'phone'
+        description: 'The phone number for the Azure data center. '
+        output: true
+        azure_sdk_references: ['/phone', '/properties/phone']
+      - !ruby/object:Api::Type::Array
+        name: 'supportedCarriers'
+        description: 'A list of carriers that are supported at this location. '
+        output: true
+        azure_sdk_references: ['/supportedCarriers', '/properties/supportedCarriers']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::Array
+        name: 'alternateLocations'
+        description: 'A list of location IDs that should be used to ship shipping drives to for jobs created against the current location. If the current location is active, it will be part of the list. If it is temporarily closed due to maintenance, this list may contain other locations. '
+        output: true
+        azure_sdk_references: ['/alternateLocations', '/properties/alternateLocations']
+        item_type: Api::Type::String
