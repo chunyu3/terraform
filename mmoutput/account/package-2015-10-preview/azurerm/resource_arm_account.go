@@ -39,57 +39,79 @@ func resourceArmAccount() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "data_lake_store_accounts": {
+            "default_group": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "encryption_config": {
                 Type: schema.TypeList,
                 Optional: true,
+                MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
+                        "key_vault_meta_info": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            MaxItems: 1,
+                            Elem: &schema.Resource{
+                                Schema: map[string]*schema.Schema{
+                                    "encryption_key_name": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "encryption_key_version": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                    "key_vault_resource_id": {
+                                        Type: schema.TypeString,
+                                        Optional: true,
+                                    },
+                                },
+                            },
                         },
-                        "suffix": {
+                        "type": {
                             Type: schema.TypeString,
                             Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(datalakestore.UserManaged),
+                                string(datalakestore.ServiceManaged),
+                            }, false),
+                            Default: string(datalakestore.UserManaged),
                         },
                     },
                 },
             },
 
-            "default_data_lake_store_account": {
+            "encryption_state": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(datalakestore.Enabled),
+                    string(datalakestore.Disabled),
+                }, false),
+                Default: string(datalakestore.Enabled),
+            },
+
+            "endpoint": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
-            "max_degree_of_parallelism": {
-                Type: schema.TypeInt,
-                Optional: true,
-            },
-
-            "max_job_count": {
-                Type: schema.TypeInt,
-                Optional: true,
-            },
-
-            "storage_accounts": {
+            "identity": {
                 Type: schema.TypeList,
                 Optional: true,
+                MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "access_key": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "suffix": {
+                        "type": {
                             Type: schema.TypeString,
                             Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(datalakestore.SystemAssigned),
+                            }, false),
+                            Default: string(datalakestore.SystemAssigned),
                         },
                     },
                 },
@@ -100,7 +122,7 @@ func resourceArmAccount() *schema.Resource {
                 Computed: true,
             },
 
-            "endpoint": {
+            "encryption_provisioning_state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -150,22 +172,22 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
-    dataLakeStoreAccounts := d.Get("data_lake_store_accounts").([]interface{})
-    defaultDataLakeStoreAccount := d.Get("default_data_lake_store_account").(string)
-    maxDegreeOfParallelism := d.Get("max_degree_of_parallelism").(int)
-    maxJobCount := d.Get("max_job_count").(int)
-    storageAccounts := d.Get("storage_accounts").([]interface{})
+    defaultGroup := d.Get("default_group").(string)
+    encryptionConfig := d.Get("encryption_config").([]interface{})
+    encryptionState := d.Get("encryption_state").(string)
+    endpoint := d.Get("endpoint").(string)
+    identity := d.Get("identity").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := datalakeanalytics.Account{
+    parameters := datalakestore.Account{
+        Identity: expandArmAccountEncryptionIdentity(identity),
         Location: utils.String(location),
         Name: utils.String(name),
-        AccountProperties: &datalakeanalytics.AccountProperties{
-            DataLakeStoreAccounts: expandArmAccountDataLakeStoreAccountInfo(dataLakeStoreAccounts),
-            DefaultDataLakeStoreAccount: utils.String(defaultDataLakeStoreAccount),
-            MaxDegreeOfParallelism: utils.Int32(int32(maxDegreeOfParallelism)),
-            MaxJobCount: utils.Int32(int32(maxJobCount)),
-            StorageAccounts: expandArmAccountStorageAccountInfo(storageAccounts),
+        AccountProperties: &datalakestore.AccountProperties{
+            DefaultGroup: utils.String(defaultGroup),
+            EncryptionConfig: expandArmAccountEncryptionConfig(encryptionConfig),
+            EncryptionState: datalakestore.EncryptionState(encryptionState),
+            Endpoint: utils.String(endpoint),
         },
         Tags: tags.Expand(t),
     }
@@ -220,19 +242,19 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     }
     if accountProperties := resp.AccountProperties; accountProperties != nil {
         d.Set("creation_time", (accountProperties.CreationTime).String())
-        if err := d.Set("data_lake_store_accounts", flattenArmAccountDataLakeStoreAccountInfo(accountProperties.DataLakeStoreAccounts)); err != nil {
-            return fmt.Errorf("Error setting `data_lake_store_accounts`: %+v", err)
+        d.Set("default_group", accountProperties.DefaultGroup)
+        if err := d.Set("encryption_config", flattenArmAccountEncryptionConfig(accountProperties.EncryptionConfig)); err != nil {
+            return fmt.Errorf("Error setting `encryption_config`: %+v", err)
         }
-        d.Set("default_data_lake_store_account", accountProperties.DefaultDataLakeStoreAccount)
+        d.Set("encryption_provisioning_state", string(accountProperties.EncryptionProvisioningState))
+        d.Set("encryption_state", string(accountProperties.EncryptionState))
         d.Set("endpoint", accountProperties.Endpoint)
         d.Set("last_modified_time", (accountProperties.LastModifiedTime).String())
-        d.Set("max_degree_of_parallelism", int(*accountProperties.MaxDegreeOfParallelism))
-        d.Set("max_job_count", int(*accountProperties.MaxJobCount))
         d.Set("provisioning_state", string(accountProperties.ProvisioningState))
         d.Set("state", string(accountProperties.State))
-        if err := d.Set("storage_accounts", flattenArmAccountStorageAccountInfo(accountProperties.StorageAccounts)); err != nil {
-            return fmt.Errorf("Error setting `storage_accounts`: %+v", err)
-        }
+    }
+    if err := d.Set("identity", flattenArmAccountEncryptionIdentity(resp.Identity)); err != nil {
+        return fmt.Errorf("Error setting `identity`: %+v", err)
     }
     d.Set("type", resp.Type)
 
@@ -245,22 +267,22 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
-    dataLakeStoreAccounts := d.Get("data_lake_store_accounts").([]interface{})
-    defaultDataLakeStoreAccount := d.Get("default_data_lake_store_account").(string)
-    maxDegreeOfParallelism := d.Get("max_degree_of_parallelism").(int)
-    maxJobCount := d.Get("max_job_count").(int)
-    storageAccounts := d.Get("storage_accounts").([]interface{})
+    defaultGroup := d.Get("default_group").(string)
+    encryptionConfig := d.Get("encryption_config").([]interface{})
+    encryptionState := d.Get("encryption_state").(string)
+    endpoint := d.Get("endpoint").(string)
+    identity := d.Get("identity").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := datalakeanalytics.Account{
+    parameters := datalakestore.Account{
+        Identity: expandArmAccountEncryptionIdentity(identity),
         Location: utils.String(location),
         Name: utils.String(name),
-        AccountProperties: &datalakeanalytics.AccountProperties{
-            DataLakeStoreAccounts: expandArmAccountDataLakeStoreAccountInfo(dataLakeStoreAccounts),
-            DefaultDataLakeStoreAccount: utils.String(defaultDataLakeStoreAccount),
-            MaxDegreeOfParallelism: utils.Int32(int32(maxDegreeOfParallelism)),
-            MaxJobCount: utils.Int32(int32(maxJobCount)),
-            StorageAccounts: expandArmAccountStorageAccountInfo(storageAccounts),
+        AccountProperties: &datalakestore.AccountProperties{
+            DefaultGroup: utils.String(defaultGroup),
+            EncryptionConfig: expandArmAccountEncryptionConfig(encryptionConfig),
+            EncryptionState: datalakestore.EncryptionState(encryptionState),
+            Endpoint: utils.String(endpoint),
         },
         Tags: tags.Expand(t),
     }
@@ -305,94 +327,96 @@ func resourceArmAccountDelete(d *schema.ResourceData, meta interface{}) error {
     return nil
 }
 
-func expandArmAccountDataLakeStoreAccountInfo(input []interface{}) *[]datalakeanalytics.DataLakeStoreAccountInfo {
-    results := make([]datalakeanalytics.DataLakeStoreAccountInfo, 0)
-    for _, item := range input {
-        v := item.(map[string]interface{})
-        name := v["name"].(string)
-        suffix := v["suffix"].(string)
-
-        result := datalakeanalytics.DataLakeStoreAccountInfo{
-            Name: utils.String(name),
-            DataLakeStoreAccountInfoProperties: &datalakeanalytics.DataLakeStoreAccountInfoProperties{
-                Suffix: utils.String(suffix),
-            },
-        }
-
-        results = append(results, result)
+func expandArmAccountEncryptionIdentity(input []interface{}) *datalakestore.EncryptionIdentity {
+    if len(input) == 0 {
+        return nil
     }
-    return &results
+    v := input[0].(map[string]interface{})
+
+    type := v["type"].(string)
+
+    result := datalakestore.EncryptionIdentity{
+        Type: datalakestore.EncryptionIdentityType(type),
+    }
+    return &result
 }
 
-func expandArmAccountStorageAccountInfo(input []interface{}) *[]datalakeanalytics.StorageAccountInfo {
-    results := make([]datalakeanalytics.StorageAccountInfo, 0)
-    for _, item := range input {
-        v := item.(map[string]interface{})
-        name := v["name"].(string)
-        accessKey := v["access_key"].(string)
-        suffix := v["suffix"].(string)
-
-        result := datalakeanalytics.StorageAccountInfo{
-            Name: utils.String(name),
-            StorageAccountProperties: &datalakeanalytics.StorageAccountProperties{
-                AccessKey: utils.String(accessKey),
-                Suffix: utils.String(suffix),
-            },
-        }
-
-        results = append(results, result)
+func expandArmAccountEncryptionConfig(input []interface{}) *datalakestore.EncryptionConfig {
+    if len(input) == 0 {
+        return nil
     }
-    return &results
+    v := input[0].(map[string]interface{})
+
+    type := v["type"].(string)
+    keyVaultMetaInfo := v["key_vault_meta_info"].([]interface{})
+
+    result := datalakestore.EncryptionConfig{
+        KeyVaultMetaInfo: expandArmAccountKeyVaultMetaInfo(keyVaultMetaInfo),
+        Type: datalakestore.EncryptionConfigType(type),
+    }
+    return &result
+}
+
+func expandArmAccountKeyVaultMetaInfo(input []interface{}) *datalakestore.KeyVaultMetaInfo {
+    if len(input) == 0 {
+        return nil
+    }
+    v := input[0].(map[string]interface{})
+
+    keyVaultResourceId := v["key_vault_resource_id"].(string)
+    encryptionKeyName := v["encryption_key_name"].(string)
+    encryptionKeyVersion := v["encryption_key_version"].(string)
+
+    result := datalakestore.KeyVaultMetaInfo{
+        EncryptionKeyName: utils.String(encryptionKeyName),
+        EncryptionKeyVersion: utils.String(encryptionKeyVersion),
+        KeyVaultResourceID: utils.String(keyVaultResourceId),
+    }
+    return &result
 }
 
 
-func flattenArmAccountDataLakeStoreAccountInfo(input *[]datalakeanalytics.DataLakeStoreAccountInfo) []interface{} {
-    results := make([]interface{}, 0)
+func flattenArmAccountEncryptionConfig(input *datalakestore.EncryptionConfig) []interface{} {
     if input == nil {
-        return results
+        return make([]interface{}, 0)
     }
 
-    for _, item := range *input {
-        v := make(map[string]interface{})
+    result := make(map[string]interface{})
 
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if dataLakeStoreAccountInfoProperties := item.DataLakeStoreAccountInfoProperties; dataLakeStoreAccountInfoProperties != nil {
-            if suffix := dataLakeStoreAccountInfoProperties.Suffix; suffix != nil {
-                v["suffix"] = *suffix
-            }
-        }
+    result["key_vault_meta_info"] = flattenArmAccountKeyVaultMetaInfo(input.KeyVaultMetaInfo)
+    result["type"] = string(input.Type)
 
-        results = append(results, v)
-    }
-
-    return results
+    return []interface{}{result}
 }
 
-func flattenArmAccountStorageAccountInfo(input *[]datalakeanalytics.StorageAccountInfo) []interface{} {
-    results := make([]interface{}, 0)
+func flattenArmAccountEncryptionIdentity(input *datalakestore.EncryptionIdentity) []interface{} {
     if input == nil {
-        return results
+        return make([]interface{}, 0)
     }
 
-    for _, item := range *input {
-        v := make(map[string]interface{})
+    result := make(map[string]interface{})
 
-        if name := item.Name; name != nil {
-            v["name"] = *name
-        }
-        if storageAccountProperties := item.StorageAccountProperties; storageAccountProperties != nil {
-            if accessKey := storageAccountProperties.AccessKey; accessKey != nil {
-                v["access_key"] = *accessKey
-            }
-            if suffix := storageAccountProperties.Suffix; suffix != nil {
-                v["suffix"] = *suffix
-            }
-        }
+    result["type"] = string(input.Type)
 
-        results = append(results, v)
+    return []interface{}{result}
+}
+
+func flattenArmAccountKeyVaultMetaInfo(input *datalakestore.KeyVaultMetaInfo) []interface{} {
+    if input == nil {
+        return make([]interface{}, 0)
     }
 
-    return results
+    result := make(map[string]interface{})
+
+    if encryptionKeyName := input.EncryptionKeyName; encryptionKeyName != nil {
+        result["encryption_key_name"] = *encryptionKeyName
+    }
+    if encryptionKeyVersion := input.EncryptionKeyVersion; encryptionKeyVersion != nil {
+        result["encryption_key_version"] = *encryptionKeyVersion
+    }
+    if keyVaultResourceId := input.KeyVaultResourceID; keyVaultResourceId != nil {
+        result["key_vault_resource_id"] = *keyVaultResourceId
+    }
+
+    return []interface{}{result}
 }

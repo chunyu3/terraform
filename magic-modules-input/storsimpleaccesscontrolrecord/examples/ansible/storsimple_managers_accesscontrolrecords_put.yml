@@ -4,7 +4,18 @@ task: !ruby/object:Provider::Ansible::Task
   description: AccessControlRecordsCreateOrUpdate
   code:
     access_control_record_name: myAccessControlRecord
-    initiator_name: 'iqn.2017-06.com.contoso:ForTest'
+    access_control_record:
+      Client:
+        BaseUri: 'https://management.azure.com/'
+        SubscriptionId: 9eb689cd-7243-43b4-b6f6-5c65cb296641
+        AcceptLanguage: en-US
+        LongRunningOperationRetryTimeout: '30'
+        GenerateClientRequestId: true
+      ResourceGroupName: ResourceGroupForSDKTest
+      ManagerName: hAzureSDKOperations
+      properties:
+        initiatorName: 'iqn.2017-06.com.contoso:ForTest'
+      name: AcrForSDKTest
     resource_group: myResourceGroup
     name: myManager
   

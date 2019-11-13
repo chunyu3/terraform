@@ -9,15 +9,15 @@ scopes:
 objects:
   - !ruby/object:Api::Resource
     name: Account
-    api_name: DataLakeAnalytics
+    api_name: DataLakeStore
     base_url: NotUsedInAzure
 
     azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
-      provider_name: Microsoft.DataLakeAnalytics
-      go_client_namespace: datalakeanalytics
+      provider_name: Microsoft.DataLakeStore
+      go_client_namespace: datalakestore
       go_client: accountClient
-      python_client_namespace: azure.mgmt.datalakeanalytics
-      python_client: DataLakeAnalyticsAccountManagementClient.account
+      python_client_namespace: azure.mgmt.datalakestore
+      python_client: DataLakeStoreAccountManagementClient.account
       create: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Create
@@ -42,6 +42,14 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: EncryptionIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: EncryptionIdentityType
+            python_field_name: type
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -49,76 +57,64 @@ objects:
             applicable_to: [go]
             go_field_name: AccountProperties
             go_type_name: AccountProperties
-          '/defaultDataLakeStoreAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: default_data_lake_store_account
-          '/properties/defaultDataLakeStoreAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: encryption_state
+          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: DefaultDataLakeStoreAccount
-          '/maxDegreeOfParallelism': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: EncryptionState
+            go_enum_type_name: EncryptionState
+          '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: max_degree_of_parallelism
-          '/properties/maxDegreeOfParallelism': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxDegreeOfParallelism
-          '/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            python_field_name: encryption_config
+          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: max_job_count
-          '/properties/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxJobCount
-          '/dataLakeStoreAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: type
+          '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: data_lake_store_accounts
-          '/dataLakeStoreAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: key_vault_meta_info
+          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: name
-          '/dataLakeStoreAccounts/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: key_vault_resource_id
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: suffix
-          '/properties/dataLakeStoreAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: DataLakeStoreAccounts
-            go_type_name: DataLakeStoreAccountInfo
-          '/properties/dataLakeStoreAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/dataLakeStoreAccounts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DataLakeStoreAccountInfoProperties
-            go_type_name: DataLakeStoreAccountInfoProperties
-          '/properties/dataLakeStoreAccounts/properties/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Suffix
-          '/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: encryption_key_name
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: storage_accounts
-          '/storageAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: encryption_key_version
+          '/properties/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptionConfig
+            go_type_name: EncryptionConfig
+          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: EncryptionConfigType
+          '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultMetaInfo
+            go_type_name: KeyVaultMetaInfo
+          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultResourceID
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyName
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyVersion
+          '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: name
-          '/storageAccounts/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: endpoint
+          '/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: access_key
-          '/storageAccounts/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: suffix
-          '/properties/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: default_group
+          '/properties/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StorageAccounts
-            go_type_name: StorageAccountInfo
-          '/properties/storageAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/storageAccounts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccountProperties
-            go_type_name: StorageAccountProperties
-          '/properties/storageAccounts/properties/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccessKey
-          '/properties/storageAccounts/properties/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Suffix
+            go_field_name: DefaultGroup
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -143,6 +139,14 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: EncryptionIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: EncryptionIdentityType
+            python_field_name: type
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -150,76 +154,64 @@ objects:
             applicable_to: [go]
             go_field_name: AccountProperties
             go_type_name: AccountProperties
-          '/defaultDataLakeStoreAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: default_data_lake_store_account
-          '/properties/defaultDataLakeStoreAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: encryption_state
+          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: DefaultDataLakeStoreAccount
-          '/maxDegreeOfParallelism': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: EncryptionState
+            go_enum_type_name: EncryptionState
+          '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: max_degree_of_parallelism
-          '/properties/maxDegreeOfParallelism': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxDegreeOfParallelism
-          '/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            python_field_name: encryption_config
+          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: max_job_count
-          '/properties/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxJobCount
-          '/dataLakeStoreAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: type
+          '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: data_lake_store_accounts
-          '/dataLakeStoreAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: key_vault_meta_info
+          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: name
-          '/dataLakeStoreAccounts/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: key_vault_resource_id
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: suffix
-          '/properties/dataLakeStoreAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: DataLakeStoreAccounts
-            go_type_name: DataLakeStoreAccountInfo
-          '/properties/dataLakeStoreAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/dataLakeStoreAccounts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DataLakeStoreAccountInfoProperties
-            go_type_name: DataLakeStoreAccountInfoProperties
-          '/properties/dataLakeStoreAccounts/properties/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Suffix
-          '/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: encryption_key_name
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: storage_accounts
-          '/storageAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: encryption_key_version
+          '/properties/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EncryptionConfig
+            go_type_name: EncryptionConfig
+          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: EncryptionConfigType
+          '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultMetaInfo
+            go_type_name: KeyVaultMetaInfo
+          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultResourceID
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyName
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyVersion
+          '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: name
-          '/storageAccounts/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: endpoint
+          '/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Endpoint
+          '/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: access_key
-          '/storageAccounts/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: suffix
-          '/properties/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: default_group
+          '/properties/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StorageAccounts
-            go_type_name: StorageAccountInfo
-          '/properties/storageAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/storageAccounts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccountProperties
-            go_type_name: StorageAccountProperties
-          '/properties/storageAccounts/properties/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccessKey
-          '/properties/storageAccounts/properties/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Suffix
+            go_field_name: DefaultGroup
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -246,6 +238,20 @@ objects:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
             python_field_name: location
+          '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Identity
+            go_type_name: EncryptionIdentity
+            python_field_name: identity
+          '/identity/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Type
+            go_enum_type_name: EncryptionIdentityType
+            python_field_name: type
+          '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PrincipalID
+            python_field_name: principal_id
+          '/identity/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: TenantID
+            python_field_name: tenant_id
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -253,76 +259,64 @@ objects:
             applicable_to: [go]
             go_field_name: AccountProperties
             go_type_name: AccountProperties
-          '/properties/defaultDataLakeStoreAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: DefaultDataLakeStoreAccount
-          '/defaultDataLakeStoreAccount': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: EncryptionState
+            go_enum_type_name: EncryptionState
+          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: default_data_lake_store_account
-          '/properties/maxDegreeOfParallelism': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            python_field_name: encryption_state
+          '/properties/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: MaxDegreeOfParallelism
-          '/maxDegreeOfParallelism': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: EncryptionConfig
+            go_type_name: EncryptionConfig
+          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Type
+            go_enum_type_name: EncryptionConfigType
+          '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: KeyVaultMetaInfo
+            go_type_name: KeyVaultMetaInfo
+          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultResourceID
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyName
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyVersion
+          '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: max_degree_of_parallelism
-          '/properties/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: MaxJobCount
-          '/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            python_field_name: encryption_config
+          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: max_job_count
-          '/properties/dataLakeStoreAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: DataLakeStoreAccounts
-            go_type_name: DataLakeStoreAccountInfo
-          '/properties/dataLakeStoreAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/dataLakeStoreAccounts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DataLakeStoreAccountInfoProperties
-            go_type_name: DataLakeStoreAccountInfoProperties
-          '/properties/dataLakeStoreAccounts/properties/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Suffix
-          '/dataLakeStoreAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: type
+          '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: data_lake_store_accounts
-          '/dataLakeStoreAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: key_vault_meta_info
+          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: name
-          '/dataLakeStoreAccounts/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: key_vault_resource_id
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: suffix
-          '/properties/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            python_field_name: encryption_key_name
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_key_version
+          '/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
-            go_field_name: StorageAccounts
-            go_type_name: StorageAccountInfo
-          '/properties/storageAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/storageAccounts/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccountProperties
-            go_type_name: StorageAccountProperties
-          '/properties/storageAccounts/properties/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccessKey
-          '/properties/storageAccounts/properties/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Suffix
-          '/storageAccounts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Endpoint
+          '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: storage_accounts
-          '/storageAccounts/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: endpoint
+          '/properties/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultGroup
+          '/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
-            python_field_name: name
-          '/storageAccounts/accessKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: access_key
-          '/storageAccounts/suffix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: suffix
+            python_field_name: default_group
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -343,18 +337,19 @@ objects:
           '/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: creation_time
+          '/properties/encryptionProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EncryptionProvisioningState
+            go_enum_type_name: EncryptionProvisioningState
+          '/encryptionProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encryption_provisioning_state
           '/properties/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: LastModifiedTime
           '/lastModifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: last_modified_time
-          '/properties/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Endpoint
-          '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: endpoint
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -375,26 +370,8 @@ objects:
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListStorageAccounts
-        python_func_name: list_storage_accounts
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListDataLakeStoreAccounts
-        python_func_name: list_data_lake_store_accounts
-        request:
-          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: resourceGroups
-            go_variable_name: resourceGroup
-            python_parameter_name: resource_group_name
-            python_variable_name: resource_group
-      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
-        go_func_name: ListStorageContainers
-        python_func_name: list_storage_containers
+        go_func_name: ListFirewallRules
+        python_func_name: list_firewall_rules
         request:
           'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: resourceGroups
@@ -407,7 +384,7 @@ objects:
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The name of the Azure resource group that contains the Data Lake Analytics account.the account will be associated with.'
+        description: 'The name of the Azure resource group that contains the Data Lake Store account.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -423,70 +400,85 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'identity'
+        description: 'The Key vault encryption identity, if any.'
+        required: false
+        azure_sdk_references: ['/identity']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The type of encryption being used. Currently the only supported type is ''SystemAssigned''.'
+            required: false
+            azure_sdk_references: ['/identity/type']
+            values:
+              - :SystemAssigned
+            default_value: :SystemAssigned
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'the value of custom properties.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Enum
+        name: 'encryptionState'
+        description: 'The current state of encryption for this Data Lake store account.'
+        required: false
+        azure_sdk_references: ['/encryptionState', '/properties/encryptionState']
+        values:
+          - :Enabled
+          - :Disabled
+        default_value: :Enabled
+      - !ruby/object:Api::Type::NestedObject
+        name: 'encryptionConfig'
+        description: 'The Key vault encryption configuration.'
+        required: false
+        azure_sdk_references: ['/encryptionConfig', '/properties/encryptionConfig']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'type'
+            description: 'The type of encryption configuration being used. Currently the only supported types are ''UserManaged'' and ''ServiceManaged''.'
+            required: false
+            azure_sdk_references: ['/encryptionConfig/type', '/properties/encryptionConfig/type']
+            values:
+              - :UserManaged
+              - :ServiceManaged
+            default_value: :UserManaged
+          - !ruby/object:Api::Type::NestedObject
+            name: 'keyVaultMetaInfo'
+            description: 'The Key vault information for connecting to user managed encryption keys.'
+            required: false
+            azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo', '/properties/encryptionConfig/keyVaultMetaInfo']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'keyVaultResourceId'
+                description: 'The resource identifier for the user managed Key Vault being used to encrypt.'
+                required: false
+                azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId', '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId']
+              - !ruby/object:Api::Type::String
+                name: 'encryptionKeyName'
+                description: 'The name of the user managed encryption key.'
+                required: false
+                azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo/encryptionKeyName', '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName']
+              - !ruby/object:Api::Type::String
+                name: 'encryptionKeyVersion'
+                description: 'The version of the user managed encryption key.'
+                required: false
+                azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion', '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion']
       - !ruby/object:Api::Type::String
-        name: 'defaultDataLakeStoreAccount'
-        description: 'the default data lake storage account associated with this Data Lake Analytics account.'
+        name: 'endpoint'
+        description: 'the gateway host.'
         required: false
-        azure_sdk_references: ['/defaultDataLakeStoreAccount', '/properties/defaultDataLakeStoreAccount']
-      - !ruby/object:Api::Type::Integer
-        name: 'maxDegreeOfParallelism'
-        description: 'the maximum supported degree of parallelism for this account.'
+        azure_sdk_references: ['/endpoint', '/properties/endpoint']
+      - !ruby/object:Api::Type::String
+        name: 'defaultGroup'
+        description: 'the default owner group for all new folders and files created in the Data Lake Store account.'
         required: false
-        azure_sdk_references: ['/maxDegreeOfParallelism', '/properties/maxDegreeOfParallelism']
-      - !ruby/object:Api::Type::Integer
-        name: 'maxJobCount'
-        description: 'the maximum supported jobs running under the account at the same time.'
-        required: false
-        azure_sdk_references: ['/maxJobCount', '/properties/maxJobCount']
-      - !ruby/object:Api::Type::Array
-        name: 'dataLakeStoreAccounts'
-        description: 'the list of Data Lake storage accounts associated with this account.'
-        required: false
-        azure_sdk_references: ['/dataLakeStoreAccounts', '/properties/dataLakeStoreAccounts']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'the account name of the Data Lake Store account.'
-              required: true
-              azure_sdk_references: ['/dataLakeStoreAccounts/name', '/properties/dataLakeStoreAccounts/name']
-            - !ruby/object:Api::Type::String
-              name: 'suffix'
-              description: 'the optional suffix for the Data Lake Store account.'
-              required: false
-              azure_sdk_references: ['/dataLakeStoreAccounts/suffix', '/properties/dataLakeStoreAccounts/properties/suffix']
-      - !ruby/object:Api::Type::Array
-        name: 'storageAccounts'
-        description: 'the list of Azure Blob storage accounts associated with this account.'
-        required: false
-        azure_sdk_references: ['/storageAccounts', '/properties/storageAccounts']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'the account name associated with the Azure storage account.'
-              required: true
-              azure_sdk_references: ['/storageAccounts/name', '/properties/storageAccounts/name']
-            - !ruby/object:Api::Type::String
-              name: 'accessKey'
-              description: 'the access key associated with this Azure Storage account that will be used to connect to it.'
-              required: true
-              azure_sdk_references: ['/storageAccounts/accessKey', '/properties/storageAccounts/properties/accessKey']
-            - !ruby/object:Api::Type::String
-              name: 'suffix'
-              description: 'the optional suffix for the Data Lake account.'
-              required: false
-              azure_sdk_references: ['/storageAccounts/suffix', '/properties/storageAccounts/properties/suffix']
+        azure_sdk_references: ['/defaultGroup', '/properties/defaultGroup']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
-        description: 'the provisioning status of the Data Lake Analytics account.'
+        description: 'the status of the Data Lake Store account while being provisioned.'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
         values:
@@ -501,7 +493,7 @@ objects:
           - :Deleted
       - !ruby/object:Api::Type::Enum
         name: 'state'
-        description: 'the state of the Data Lake Analytics account.'
+        description: 'the status of the Data Lake Store account after provisioning has completed.'
         output: true
         azure_sdk_references: ['/state', '/properties/state']
         values:
@@ -512,16 +504,19 @@ objects:
         description: 'the account creation time.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
+      - !ruby/object:Api::Type::Enum
+        name: 'encryptionProvisioningState'
+        description: 'The current state of encryption provisioning for this Data Lake store account.'
+        output: true
+        azure_sdk_references: ['/encryptionProvisioningState', '/properties/encryptionProvisioningState']
+        values:
+          - :Creating
+          - :Succeeded
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'lastModifiedTime'
         description: 'the account last modified time.'
         output: true
         azure_sdk_references: ['/lastModifiedTime', '/properties/lastModifiedTime']
-      - !ruby/object:Api::Type::String
-        name: 'endpoint'
-        description: 'the full CName endpoint for this account.'
-        output: true
-        azure_sdk_references: ['/endpoint', '/properties/endpoint']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'the namespace and type of the account.'
