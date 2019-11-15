@@ -93,6 +93,19 @@ objects:
           '/properties/buildTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: BuildTimeoutInMinutes
+          '/vmProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vm_profile
+          '/vmProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_size
+          '/properties/vmProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VmProfile
+            go_type_name: ImageTemplateVmProfile
+          '/properties/vmProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmSize
           '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Identity
             go_type_name: ImageTemplateIdentity
@@ -179,6 +192,19 @@ objects:
           '/properties/buildTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: BuildTimeoutInMinutes
+          '/vmProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vm_profile
+          '/vmProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_size
+          '/properties/vmProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VmProfile
+            go_type_name: ImageTemplateVmProfile
+          '/properties/vmProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmSize
           '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Identity
             go_type_name: ImageTemplateIdentity
@@ -275,10 +301,23 @@ objects:
           '/buildTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: build_timeout_in_minutes
+          '/properties/vmProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VmProfile
+            go_type_name: ImageTemplateVmProfile
+          '/properties/vmProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmSize
+          '/vmProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vm_profile
+          '/vmProfile/vmSize': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_size
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
-            go_enum_type_name: 
+            go_enum_type_name: ProvisioningState
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state
@@ -289,7 +328,7 @@ objects:
           '/properties/provisioningError/provisioningErrorCode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningErrorCode
-            go_enum_type_name: 
+            go_enum_type_name: ProvisioningErrorCode
           '/properties/provisioningError/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Message
@@ -315,11 +354,11 @@ objects:
           '/properties/lastRunStatus/runState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: RunState
-            go_enum_type_name: 
+            go_enum_type_name: RunState
           '/properties/lastRunStatus/runSubState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: RunSubState
-            go_enum_type_name: 
+            go_enum_type_name: RunSubState
           '/properties/lastRunStatus/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Message
@@ -435,9 +474,20 @@ objects:
               azure_sdk_references: ['/distribute/artifactTags', '/properties/distribute/artifactTags']
       - !ruby/object:Api::Type::Integer
         name: 'buildTimeoutInMinutes'
-        description: 'Maximum duration to wait while building the image template. Omit or specify 0 to use the default (60 minutes).'
+        description: 'Maximum duration to wait while building the image template. Omit or specify 0 to use the default (4 hours).'
         required: false
         azure_sdk_references: ['/buildTimeoutInMinutes', '/properties/buildTimeoutInMinutes']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'vmProfile'
+        description: 'Describes how virtual machine is set up to build images'
+        required: false
+        azure_sdk_references: ['/vmProfile', '/properties/vmProfile']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'vmSize'
+            description: 'Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2).'
+            required: false
+            azure_sdk_references: ['/vmProfile/vmSize', '/properties/vmProfile/vmSize']
       - !ruby/object:Api::Type::NestedObject
         name: 'identity'
         description: 'The identity of the image template, if configured.'
