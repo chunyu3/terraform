@@ -28,62 +28,55 @@ Manage Azure Account instance.
 
 The following arguments are supported:
 
-* `resource_group` - (Required) The name of the Azure resource group that contains the Data Lake Store account. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the Azure resource group that contains the Data Lake Analytics account.the account will be associated with. Changing this forces a new resource to be created.
 
 * `name` - (Optional) the account name. Changing this forces a new resource to be created.
 
 * `location` - (Optional) the account regional location. Changing this forces a new resource to be created.
 
-* `default_group` - (Optional) the default owner group for all new folders and files created in the Data Lake Store account.
+* `data_lake_store_accounts` - (Optional) One or more `data_lake_store_account` block defined below.
 
-* `encryption_config` - (Optional) One `encryption_config` block defined below.
+* `default_data_lake_store_account` - (Optional) the default data lake storage account associated with this Data Lake Analytics account.
 
-* `encryption_state` - (Optional) The current state of encryption for this Data Lake store account. Defaults to `Enabled`.
+* `max_degree_of_parallelism` - (Optional) the maximum supported degree of parallelism for this account.
 
-* `endpoint` - (Optional) the gateway host.
+* `max_job_count` - (Optional) the maximum supported jobs running under the account at the same time.
 
-* `identity` - (Optional) One `identity` block defined below.
+* `storage_accounts` - (Optional) One or more `storage_account` block defined below.
 
 * `tags` - (Optional) the value of custom properties. Changing this forces a new resource to be created.
 
 ---
 
-The `encryption_config` block supports the following:
+The `data_lake_store_account` block supports the following:
 
-* `type` - (Optional) The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'. Defaults to `UserManaged`.
+* `name` - (Required) the account name of the Data Lake Store account.
 
-* `key_vault_meta_info` - (Optional) One `key_vault_meta_info` block defined below.
-
-
----
-
-The `key_vault_meta_info` block supports the following:
-
-* `key_vault_resource_id` - (Optional) The resource identifier for the user managed Key Vault being used to encrypt.
-
-* `encryption_key_name` - (Optional) The name of the user managed encryption key.
-
-* `encryption_key_version` - (Optional) The version of the user managed encryption key.
+* `suffix` - (Optional) the optional suffix for the Data Lake Store account.
 
 ---
 
-The `identity` block supports the following:
+The `storage_account` block supports the following:
 
-* `type` - (Optional) The type of encryption being used. Currently the only supported type is 'SystemAssigned'. Defaults to `SystemAssigned`.
+* `name` - (Required) the account name associated with the Azure storage account.
+
+* `access_key` - (Required) the access key associated with this Azure Storage account that will be used to connect to it.
+
+* `suffix` - (Optional) the optional suffix for the Data Lake account.
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `provisioning_state` - the status of the Data Lake Store account while being provisioned.
+* `provisioning_state` - the provisioning status of the Data Lake Analytics account.
 
-* `state` - the status of the Data Lake Store account after provisioning has completed.
+* `state` - the state of the Data Lake Analytics account.
 
 * `creation_time` - the account creation time.
 
-* `encryption_provisioning_state` - The current state of encryption provisioning for this Data Lake store account.
-
 * `last_modified_time` - the account last modified time.
+
+* `endpoint` - the full CName endpoint for this account.
 
 * `type` - the namespace and type of the account.
 
