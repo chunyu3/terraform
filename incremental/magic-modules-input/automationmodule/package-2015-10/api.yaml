@@ -39,13 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ModuleCreateOrUpdateParameters
+            go_type_name: ModuleUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ModuleCreateOrUpdateProperties
-            go_type_name: ModuleCreateOrUpdateProperties
+            go_field_name: ModuleUpdateProperties
+            go_type_name: ModuleUpdateProperties
           '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: content_link
@@ -114,13 +114,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ModuleCreateOrUpdateParameters
+            go_type_name: ModuleUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ModuleCreateOrUpdateProperties
-            go_type_name: ModuleCreateOrUpdateProperties
+            go_field_name: ModuleUpdateProperties
+            go_type_name: ModuleUpdateProperties
           '/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: content_link
@@ -209,8 +209,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ModuleCreateOrUpdateProperties
-            go_type_name: ModuleCreateOrUpdateProperties
+            go_field_name: ModuleUpdateProperties
+            go_type_name: ModuleUpdateProperties
           '/properties/contentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ContentLink
@@ -373,14 +373,14 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of module.'
+        description: 'The module name.'
         required: true
         input: true
         azure_sdk_references: ['moduleName']
       - !ruby/object:Api::Type::NestedObject
         name: 'contentLink'
         description: 'Gets or sets the module content link.'
-        required: true
+        required: false
         azure_sdk_references: ['/contentLink', '/properties/contentLink']
         properties:
           - !ruby/object:Api::Type::String

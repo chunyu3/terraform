@@ -47,6 +47,11 @@ objects:
             go_variable_name: name
             python_parameter_name: protected_item_name
             python_variable_name: name
+          'recoveryPointId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recoveryPoints
+            go_variable_name: recoveryPointID
+            python_parameter_name: recovery_point_id
+            python_variable_name: recovery_point_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -117,22 +122,28 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'fabricName'
-        description: 'Fabric name associated with the backed up item.'
+        description: 'Fabric name associated with backed up item.'
         required: true
         input: true
         azure_sdk_references: ['fabricName']
       - !ruby/object:Api::Type::String
         name: 'containerName'
-        description: 'Container name associated with the backed up item.'
+        description: 'Container name associated with backed up item.'
         required: true
         input: true
         azure_sdk_references: ['containerName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Backed up item whose backup copies are to be fetched.'
+        description: 'Backed up item name whose backup data needs to be fetched.'
         required: true
         input: true
         azure_sdk_references: ['protectedItemName']
+      - !ruby/object:Api::Type::String
+        name: 'recoveryPointId'
+        description: 'RecoveryPointID represents the backed up data to be fetched.'
+        required: true
+        input: true
+        azure_sdk_references: ['recoveryPointId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

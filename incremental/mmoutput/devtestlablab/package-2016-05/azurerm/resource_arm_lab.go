@@ -135,9 +135,9 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    lab := devtestlab.Lab{
+    lab := devtestlab.LabFragment{
         Location: utils.String(location),
-        LabProperties: &devtestlab.LabProperties{
+        LabPropertiesFragment: &devtestlab.LabPropertiesFragment{
             LabStorageType: devtestlab.StorageType(labStorageType),
             PremiumDataDisks: devtestlab.PremiumDataDisk(premiumDataDisks),
             UniqueIdentifier: utils.String(uniqueIdentifier),
@@ -194,17 +194,17 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if labProperties := resp.LabProperties; labProperties != nil {
-        d.Set("artifacts_storage_account", labProperties.ArtifactsStorageAccount)
-        d.Set("created_date", (labProperties.CreatedDate).String())
-        d.Set("default_premium_storage_account", labProperties.DefaultPremiumStorageAccount)
-        d.Set("default_storage_account", labProperties.DefaultStorageAccount)
-        d.Set("lab_storage_type", string(labProperties.LabStorageType))
-        d.Set("premium_data_disk_storage_account", labProperties.PremiumDataDiskStorageAccount)
-        d.Set("premium_data_disks", string(labProperties.PremiumDataDisks))
-        d.Set("provisioning_state", labProperties.ProvisioningState)
-        d.Set("unique_identifier", labProperties.UniqueIdentifier)
-        d.Set("vault_name", labProperties.VaultName)
+    if labPropertiesFragment := resp.LabPropertiesFragment; labPropertiesFragment != nil {
+        d.Set("artifacts_storage_account", labPropertiesFragment.ArtifactsStorageAccount)
+        d.Set("created_date", (labPropertiesFragment.CreatedDate).String())
+        d.Set("default_premium_storage_account", labPropertiesFragment.DefaultPremiumStorageAccount)
+        d.Set("default_storage_account", labPropertiesFragment.DefaultStorageAccount)
+        d.Set("lab_storage_type", string(labPropertiesFragment.LabStorageType))
+        d.Set("premium_data_disk_storage_account", labPropertiesFragment.PremiumDataDiskStorageAccount)
+        d.Set("premium_data_disks", string(labPropertiesFragment.PremiumDataDisks))
+        d.Set("provisioning_state", labPropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", labPropertiesFragment.UniqueIdentifier)
+        d.Set("vault_name", labPropertiesFragment.VaultName)
     }
     d.Set("type", resp.Type)
 
@@ -222,9 +222,9 @@ func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    lab := devtestlab.Lab{
+    lab := devtestlab.LabFragment{
         Location: utils.String(location),
-        LabProperties: &devtestlab.LabProperties{
+        LabPropertiesFragment: &devtestlab.LabPropertiesFragment{
             LabStorageType: devtestlab.StorageType(labStorageType),
             PremiumDataDisks: devtestlab.PremiumDataDisk(premiumDataDisks),
             UniqueIdentifier: utils.String(uniqueIdentifier),

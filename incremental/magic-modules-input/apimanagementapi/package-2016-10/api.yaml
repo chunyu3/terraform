@@ -39,7 +39,7 @@ objects:
             python_variable_name: api_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ApiContract
+            go_type_name: ApiUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -106,7 +106,7 @@ objects:
             python_variable_name: api_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ApiContract
+            go_type_name: ApiUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -330,25 +330,25 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'API name.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'serviceUrl'
         description: 'Absolute URL of the backend service implementing this API.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/serviceUrl']
       - !ruby/object:Api::Type::String
         name: 'path'
         description: 'Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/path']
       - !ruby/object:Api::Type::Array
         name: 'protocols'
         description: 'Describes on which protocols the operations in this API can be invoked.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/protocols']
         item_type: !ruby/object:Api::Type::Enum
@@ -357,6 +357,7 @@ objects:
           values:
             - :Http
             - :Https
+          default_value: :Http
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

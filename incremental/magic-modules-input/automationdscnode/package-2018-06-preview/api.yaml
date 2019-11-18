@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: automation_account_name
             python_variable_name: name
+          'nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: nodes
+            go_variable_name: nodeID
+            python_parameter_name: node_id
+            python_variable_name: node_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -156,6 +161,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'nodeId'
+        description: 'The node id.'
+        required: true
+        input: true
+        azure_sdk_references: ['nodeId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

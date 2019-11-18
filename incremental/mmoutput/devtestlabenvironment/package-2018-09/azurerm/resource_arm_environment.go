@@ -145,11 +145,11 @@ func resourceArmEnvironmentCreate(d *schema.ResourceData, meta interface{}) erro
     deploymentProperties := d.Get("deployment_properties").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    dtlEnvironment := devtestlab.DtlEnvironment{
+    dtlEnvironment := devtestlab.DtlEnvironmentFragment{
         Location: utils.String(location),
-        EnvironmentProperties: &devtestlab.EnvironmentProperties{
+        EnvironmentPropertiesFragment: &devtestlab.EnvironmentPropertiesFragment{
             ArmTemplateDisplayName: utils.String(armTemplateDisplayName),
-            DeploymentProperties: expandArmEnvironmentEnvironmentDeploymentProperties(deploymentProperties),
+            DeploymentProperties: expandArmEnvironmentEnvironmentDeploymentPropertiesFragment(deploymentProperties),
         },
         Tags: tags.Expand(t),
     }
@@ -206,15 +206,15 @@ func resourceArmEnvironmentRead(d *schema.ResourceData, meta interface{}) error 
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if environmentProperties := resp.EnvironmentProperties; environmentProperties != nil {
-        d.Set("arm_template_display_name", environmentProperties.ArmTemplateDisplayName)
-        d.Set("created_by_user", environmentProperties.CreatedByUser)
-        if err := d.Set("deployment_properties", flattenArmEnvironmentEnvironmentDeploymentProperties(environmentProperties.DeploymentProperties)); err != nil {
+    if environmentPropertiesFragment := resp.EnvironmentPropertiesFragment; environmentPropertiesFragment != nil {
+        d.Set("arm_template_display_name", environmentPropertiesFragment.ArmTemplateDisplayName)
+        d.Set("created_by_user", environmentPropertiesFragment.CreatedByUser)
+        if err := d.Set("deployment_properties", flattenArmEnvironmentEnvironmentDeploymentPropertiesFragment(environmentPropertiesFragment.DeploymentProperties)); err != nil {
             return fmt.Errorf("Error setting `deployment_properties`: %+v", err)
         }
-        d.Set("provisioning_state", environmentProperties.ProvisioningState)
-        d.Set("resource_group_id", environmentProperties.ResourceGroupID)
-        d.Set("unique_identifier", environmentProperties.UniqueIdentifier)
+        d.Set("provisioning_state", environmentPropertiesFragment.ProvisioningState)
+        d.Set("resource_group_id", environmentPropertiesFragment.ResourceGroupID)
+        d.Set("unique_identifier", environmentPropertiesFragment.UniqueIdentifier)
     }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
@@ -234,11 +234,11 @@ func resourceArmEnvironmentUpdate(d *schema.ResourceData, meta interface{}) erro
     labName := d.Get("lab_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    dtlEnvironment := devtestlab.DtlEnvironment{
+    dtlEnvironment := devtestlab.DtlEnvironmentFragment{
         Location: utils.String(location),
-        EnvironmentProperties: &devtestlab.EnvironmentProperties{
+        EnvironmentPropertiesFragment: &devtestlab.EnvironmentPropertiesFragment{
             ArmTemplateDisplayName: utils.String(armTemplateDisplayName),
-            DeploymentProperties: expandArmEnvironmentEnvironmentDeploymentProperties(deploymentProperties),
+            DeploymentProperties: expandArmEnvironmentEnvironmentDeploymentPropertiesFragment(deploymentProperties),
         },
         Tags: tags.Expand(t),
     }
@@ -282,7 +282,7 @@ func resourceArmEnvironmentDelete(d *schema.ResourceData, meta interface{}) erro
     return nil
 }
 
-func expandArmEnvironmentEnvironmentDeploymentProperties(input []interface{}) *devtestlab.EnvironmentDeploymentProperties {
+func expandArmEnvironmentEnvironmentDeploymentPropertiesFragment(input []interface{}) *devtestlab.EnvironmentDeploymentPropertiesFragment {
     if len(input) == 0 {
         return nil
     }
@@ -291,21 +291,21 @@ func expandArmEnvironmentEnvironmentDeploymentProperties(input []interface{}) *d
     armTemplateId := v["arm_template_id"].(string)
     parameters := v["parameters"].([]interface{})
 
-    result := devtestlab.EnvironmentDeploymentProperties{
+    result := devtestlab.EnvironmentDeploymentPropertiesFragment{
         ArmTemplateID: utils.String(armTemplateId),
-        Parameters: expandArmEnvironmentArmTemplateParameterProperties(parameters),
+        Parameters: expandArmEnvironmentArmTemplateParameterPropertiesFragment(parameters),
     }
     return &result
 }
 
-func expandArmEnvironmentArmTemplateParameterProperties(input []interface{}) *[]devtestlab.ArmTemplateParameterProperties {
-    results := make([]devtestlab.ArmTemplateParameterProperties, 0)
+func expandArmEnvironmentArmTemplateParameterPropertiesFragment(input []interface{}) *[]devtestlab.ArmTemplateParameterPropertiesFragment {
+    results := make([]devtestlab.ArmTemplateParameterPropertiesFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         value := v["value"].(string)
 
-        result := devtestlab.ArmTemplateParameterProperties{
+        result := devtestlab.ArmTemplateParameterPropertiesFragment{
             Name: utils.String(name),
             Value: utils.String(value),
         }
@@ -316,7 +316,7 @@ func expandArmEnvironmentArmTemplateParameterProperties(input []interface{}) *[]
 }
 
 
-func flattenArmEnvironmentEnvironmentDeploymentProperties(input *devtestlab.EnvironmentDeploymentProperties) []interface{} {
+func flattenArmEnvironmentEnvironmentDeploymentPropertiesFragment(input *devtestlab.EnvironmentDeploymentPropertiesFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -326,12 +326,12 @@ func flattenArmEnvironmentEnvironmentDeploymentProperties(input *devtestlab.Envi
     if armTemplateId := input.ArmTemplateID; armTemplateId != nil {
         result["arm_template_id"] = *armTemplateId
     }
-    result["parameters"] = flattenArmEnvironmentArmTemplateParameterProperties(input.Parameters)
+    result["parameters"] = flattenArmEnvironmentArmTemplateParameterPropertiesFragment(input.Parameters)
 
     return []interface{}{result}
 }
 
-func flattenArmEnvironmentArmTemplateParameterProperties(input *[]devtestlab.ArmTemplateParameterProperties) []interface{} {
+func flattenArmEnvironmentArmTemplateParameterPropertiesFragment(input *[]devtestlab.ArmTemplateParameterPropertiesFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results

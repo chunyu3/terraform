@@ -37,6 +37,11 @@ objects:
             go_variable_name: name
             python_parameter_name: workspace_name
             python_variable_name: name
+          'entityId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: entities
+            go_variable_name: entityID
+            python_parameter_name: entity_id
+            python_variable_name: entity_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -88,6 +93,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'entityId'
+        description: 'entity ID'
+        required: true
+        input: true
+        azure_sdk_references: ['entityId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

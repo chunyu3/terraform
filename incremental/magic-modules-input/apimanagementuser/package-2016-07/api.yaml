@@ -39,7 +39,7 @@ objects:
             python_variable_name: uid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UserCreateParameters
+            go_type_name: UserUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -82,7 +82,7 @@ objects:
             python_variable_name: uid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UserCreateParameters
+            go_type_name: UserUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -123,6 +123,11 @@ objects:
             go_variable_name: uid
             python_parameter_name: uid
             python_variable_name: uid
+          'deleteSubscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteSubscriptions
+            python_parameter_name: delete_subscriptions
+            python_variable_name: delete_subscriptions
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -213,31 +218,31 @@ objects:
         azure_sdk_references: ['uid']
       - !ruby/object:Api::Type::String
         name: 'email'
-        description: 'Email address. Must not be empty and must be unique within the service instance.'
-        required: true
+        description: 'Email address.'
+        required: false
         input: true
         azure_sdk_references: ['/email']
       - !ruby/object:Api::Type::String
         name: 'password'
-        description: 'User Password.'
-        required: true
+        description: 'Password.'
+        required: false
         input: true
         azure_sdk_references: ['/password']
       - !ruby/object:Api::Type::String
         name: 'firstName'
         description: 'First name.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/firstName']
       - !ruby/object:Api::Type::String
         name: 'lastName'
         description: 'Last name.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/lastName']
       - !ruby/object:Api::Type::Enum
         name: 'state'
-        description: 'Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active.'
+        description: 'Account state.'
         required: false
         input: true
         azure_sdk_references: ['/state']
@@ -247,10 +252,16 @@ objects:
         default_value: :Active
       - !ruby/object:Api::Type::String
         name: 'note'
-        description: 'Optional note about a user set by the administrator.'
+        description: 'Note about user.'
         required: false
         input: true
         azure_sdk_references: ['/note']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteSubscriptions'
+        description: 'Whether to delete user''s subscription or not.'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteSubscriptions']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

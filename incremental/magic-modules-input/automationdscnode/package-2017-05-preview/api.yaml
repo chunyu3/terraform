@@ -32,7 +32,17 @@ objects:
             go_variable_name: name
             python_parameter_name: automation_account_name
             python_variable_name: name
+          'nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: nodes
+            go_variable_name: nodeID
+            python_parameter_name: node_id
+            python_variable_name: node_id
         response:
+          'nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: nodes
+            go_variable_name: nodeID
+            python_parameter_name: node_id
+            python_variable_name: node_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -64,9 +74,6 @@ objects:
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Status
             python_field_name: status
-          '/nodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: NodeID
-            python_field_name: node_id
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
@@ -110,6 +117,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'nodeId'
+        description: 'The node id.'
+        required: true
+        input: true
+        azure_sdk_references: ['nodeId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -157,11 +170,6 @@ objects:
         description: 'Gets or sets the status of the node.'
         output: true
         azure_sdk_references: ['/status']
-      - !ruby/object:Api::Type::String
-        name: 'nodeId'
-        description: 'Gets or sets the node id.'
-        output: true
-        azure_sdk_references: ['/nodeId']
       - !ruby/object:Api::Type::String
         name: 'etag'
         description: 'Gets or sets the etag of the resource.'

@@ -33,7 +33,7 @@ objects:
             python_parameter_name: provider_name
             python_variable_name: provider_name
           'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {providerName}
+            id_portion: {resourceParentName}
             go_variable_name: resourceType
             python_parameter_name: resource_type
             python_variable_name: resource_type
@@ -44,9 +44,9 @@ objects:
             python_variable_name: resource_name
           'configurationAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: configurationAssignments
-            go_variable_name: name
+            go_variable_name: configurationAssignmentName
             python_parameter_name: configuration_assignment_name
-            python_variable_name: name
+            python_variable_name: configuration_assignment_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: configurationAssignment
             go_type_name: ConfigurationAssignment
@@ -86,7 +86,7 @@ objects:
             python_parameter_name: provider_name
             python_variable_name: provider_name
           'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {providerName}
+            id_portion: {resourceParentName}
             go_variable_name: resourceType
             python_parameter_name: resource_type
             python_variable_name: resource_type
@@ -97,9 +97,9 @@ objects:
             python_variable_name: resource_name
           'configurationAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: configurationAssignments
-            go_variable_name: name
+            go_variable_name: configurationAssignmentName
             python_parameter_name: configuration_assignment_name
-            python_variable_name: name
+            python_variable_name: configuration_assignment_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -115,7 +115,7 @@ objects:
             python_parameter_name: provider_name
             python_variable_name: provider_name
           'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            id_portion: {providerName}
+            id_portion: {resourceParentName}
             go_variable_name: resourceType
             python_parameter_name: resource_type
             python_variable_name: resource_type
@@ -138,8 +138,18 @@ objects:
             go_variable_name: providerName
             python_parameter_name: provider_name
             python_variable_name: provider_name
-          'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          'resourceParentType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {providerName}
+            go_variable_name: resourceParentType
+            python_parameter_name: resource_parent_type
+            python_variable_name: resource_parent_type
+          'resourceParentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceParentType}
+            go_variable_name: name
+            python_parameter_name: resource_parent_name
+            python_variable_name: name
+          'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceParentName}
             go_variable_name: resourceType
             python_parameter_name: resource_type
             python_variable_name: resource_type
@@ -177,8 +187,8 @@ objects:
         input: true
         azure_sdk_references: ['resourceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Configuration assignment name'
+        name: 'configurationAssignmentName'
+        description: 'Unique configuration assignment name'
         required: true
         input: true
         azure_sdk_references: ['configurationAssignmentName']
@@ -198,6 +208,18 @@ objects:
         description: 'The unique resourceId'
         required: false
         azure_sdk_references: ['/resourceId', '/properties/resourceId']
+      - !ruby/object:Api::Type::String
+        name: 'resourceParentType'
+        description: 'Resource parent type'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceParentType']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource parent identifier'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceParentName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

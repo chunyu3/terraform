@@ -134,7 +134,7 @@ func resourceArmSolutionCreate(d *schema.ResourceData, meta interface{}) error {
     workspaceResourceId := d.Get("workspace_resource_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := operationsmanagement.Solution{
+    parameters := operationsmanagement.SolutionPatch{
         Location: utils.String(location),
         Plan: expandArmSolutionSolutionPlan(plan),
         SolutionProperties: &operationsmanagement.SolutionProperties{
@@ -221,7 +221,7 @@ func resourceArmSolutionUpdate(d *schema.ResourceData, meta interface{}) error {
     workspaceResourceId := d.Get("workspace_resource_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := operationsmanagement.Solution{
+    parameters := operationsmanagement.SolutionPatch{
         Location: utils.String(location),
         Plan: expandArmSolutionSolutionPlan(plan),
         SolutionProperties: &operationsmanagement.SolutionProperties{

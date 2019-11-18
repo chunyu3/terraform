@@ -32,19 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
-* `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
-* `sku` - (Required) One `sku` block defined below.
-
----
-
-The `sku` block supports the following:
-
-* `name` - (Required) SKU name.
-
-* `capacity` - (Optional) The number of instances of the cluster.
-
-* `tier` - (Required) SKU tier.
+* `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 
 * `enable_disk_encryption` - (Optional) A boolean value that indicates if the cluster's disks are encrypted.
 
@@ -55,6 +43,8 @@ The `sku` block supports the following:
 * `key_vault_properties` - (Optional) One `key_vault_property` block defined below.
 
 * `optimized_autoscale` - (Optional) One `optimized_autoscale` block defined below.
+
+* `sku` - (Optional) One `sku` block defined below.
 
 * `trusted_external_tenants` - (Optional) One or more `trusted_external_tenant` block defined below.
 
@@ -93,6 +83,16 @@ The `optimized_autoscale` block supports the following:
 * `minimum` - (Required) Minimum allowed instances count.
 
 * `maximum` - (Required) Maximum allowed instances count.
+
+---
+
+The `sku` block supports the following:
+
+* `name` - (Required) SKU name.
+
+* `capacity` - (Optional) The number of instances of the cluster.
+
+* `tier` - (Required) SKU tier.
 
 ---
 

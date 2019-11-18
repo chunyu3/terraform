@@ -44,7 +44,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Project
+            go_type_name: ProjectUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -55,8 +55,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProjectProperties
-            go_type_name: ProjectProperties
+            go_field_name: ProjectPropertiesUpdateParameters
+            go_type_name: ProjectPropertiesUpdateParameters
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -69,12 +75,6 @@ objects:
           '/properties/gitrepo': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Gitrepo
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -101,7 +101,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Project
+            go_type_name: ProjectUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -112,8 +112,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProjectProperties
-            go_type_name: ProjectProperties
+            go_field_name: ProjectPropertiesUpdateParameters
+            go_type_name: ProjectPropertiesUpdateParameters
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -126,12 +132,6 @@ objects:
           '/properties/gitrepo': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Gitrepo
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -189,8 +189,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProjectProperties
-            go_type_name: ProjectProperties
+            go_field_name: ProjectPropertiesUpdateParameters
+            go_type_name: ProjectPropertiesUpdateParameters
+          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FriendlyName
+          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: friendly_name
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -203,12 +209,6 @@ objects:
           '/gitrepo': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: gitrepo
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
           '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: AccountID
@@ -299,10 +299,15 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The tags of the resource.'
+        description: 'The resource tags for the machine learning project.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'The friendly name for this project.'
+        required: false
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
         name: 'description'
         description: 'The description of this project.'
@@ -313,11 +318,6 @@ objects:
         description: 'The reference to git repo for this project.'
         required: false
         azure_sdk_references: ['/gitrepo', '/properties/gitrepo']
-      - !ruby/object:Api::Type::String
-        name: 'friendlyName'
-        description: 'The friendly name for this project.'
-        required: true
-        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'accountId'

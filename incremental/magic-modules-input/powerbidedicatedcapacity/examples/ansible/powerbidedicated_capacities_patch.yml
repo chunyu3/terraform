@@ -5,4 +5,15 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     resource_group: myResourceGroup
     name: myCapacity
+    capacity_update_parameters:
+      sku:
+        name: A1
+        tier: PBIE_Azure
+      tags:
+        testKey: testValue
+      properties:
+        administration:
+          members:
+            - azsdktest@microsoft.com
+            - azsdktest2@microsoft.com
   

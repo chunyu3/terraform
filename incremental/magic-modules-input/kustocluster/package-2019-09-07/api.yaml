@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Cluster
+            go_type_name: ClusterUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -200,7 +200,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Cluster
+            go_type_name: ClusterUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -619,14 +619,14 @@ objects:
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'The geo-location where the resource lives'
-        required: true
+        description: 'Resource location.'
+        required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the cluster.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum

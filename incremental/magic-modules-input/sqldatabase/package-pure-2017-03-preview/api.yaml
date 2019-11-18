@@ -35,12 +35,12 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: name
+            go_variable_name: databaseName
             python_parameter_name: database_name
-            python_variable_name: name
+            python_variable_name: database_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Database
+            go_type_name: DatabaseUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -176,12 +176,12 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: name
+            go_variable_name: databaseName
             python_parameter_name: database_name
-            python_variable_name: name
+            python_variable_name: database_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Database
+            go_type_name: DatabaseUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -317,9 +317,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: name
+            go_variable_name: databaseName
             python_parameter_name: database_name
-            python_variable_name: name
+            python_variable_name: database_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -336,9 +336,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: name
+            go_variable_name: databaseName
             python_parameter_name: database_name
-            python_variable_name: name
+            python_variable_name: database_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -533,6 +533,11 @@ objects:
             go_variable_name: serverName
             python_parameter_name: server_name
             python_variable_name: server_name
+          'elasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: elasticPools
+            go_variable_name: name
+            python_parameter_name: elastic_pool_name
+            python_variable_name: name
 
     description: |
       Manage Azure Database instance.
@@ -550,7 +555,7 @@ objects:
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'databaseName'
         description: 'The name of the database.'
         required: true
         input: true
@@ -689,6 +694,12 @@ objects:
         description: 'Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.'
         required: false
         azure_sdk_references: ['/zoneRedundant', '/properties/zoneRedundant']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the elastic pool.'
+        required: true
+        input: true
+        azure_sdk_references: ['elasticPoolName']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'status'

@@ -22,6 +22,16 @@ objects:
         go_func_name: GetByName
         python_func_name: get_by_name
         request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'actionRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: actionRules
+            go_variable_name: name
+            python_parameter_name: action_rule_name
+            python_variable_name: name
         response:
           '/nextLink': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: NextLink
@@ -311,11 +321,16 @@ objects:
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
         request:
-          'targetResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          'monitorService': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
-            go_variable_name: targetResourceGroup
-            python_parameter_name: target_resource_group
-            python_variable_name: target_resource_group
+            go_variable_name: monitorService
+            python_parameter_name: monitor_service
+            python_variable_name: monitor_service
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
           'targetResourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: targetResourceType
@@ -331,11 +346,11 @@ objects:
             go_variable_name: severity
             python_parameter_name: severity
             python_variable_name: severity
-          'monitorService': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          'targetResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
-            go_variable_name: monitorService
-            python_parameter_name: monitor_service
-            python_variable_name: monitor_service
+            go_variable_name: targetResourceGroup
+            python_parameter_name: target_resource_group
+            python_variable_name: target_resource_group
           'impactedScope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: impactedScope
@@ -425,6 +440,18 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Resource group name where the resource is created.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of action rule that needs to be fetched'
+        required: true
+        input: true
+        azure_sdk_references: ['actionRuleName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'nextLink'

@@ -38,9 +38,6 @@ objects:
             go_type_name: ContainerService
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -342,9 +339,11 @@ objects:
             python_parameter_name: container_service_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -657,9 +656,11 @@ objects:
         go_func_name: ListOrchestrators
         python_func_name: list_orchestrators
         request:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -687,10 +688,10 @@ objects:
         azure_sdk_references: ['containerServiceName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'Resource location'
+        description: 'The name of a supported Azure region.'
         required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'

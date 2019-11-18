@@ -38,13 +38,6 @@ func resourceArmLogger() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "credentials": {
-                Type: schema.TypeMap,
-                Required: true,
-                ForceNew: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
             "loggerid": {
                 Type: schema.TypeString,
                 Required: true,
@@ -57,6 +50,13 @@ func resourceArmLogger() *schema.Resource {
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "credentials": {
+                Type: schema.TypeMap,
+                Optional: true,
+                ForceNew: true,
+                Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "description": {
@@ -99,7 +99,7 @@ func resourceArmLoggerCreate(d *schema.ResourceData, meta interface{}) error {
     isBuffered := d.Get("is_buffered").(bool)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.LoggerCreateParameters{
+    parameters := apimanagement.LoggerUpdateParameters{
         Credentials: utils.ExpandKeyValuePairs(credentials),
         Description: utils.String(description),
         IsBuffered: utils.Bool(isBuffered),
@@ -170,7 +170,7 @@ func resourceArmLoggerUpdate(d *schema.ResourceData, meta interface{}) error {
     loggerid := d.Get("loggerid").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.LoggerCreateParameters{
+    parameters := apimanagement.LoggerUpdateParameters{
         Credentials: utils.ExpandKeyValuePairs(credentials),
         Description: utils.String(description),
         IsBuffered: utils.Bool(isBuffered),

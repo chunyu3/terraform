@@ -241,7 +241,7 @@ func resourceArmApiManagementServiceCreate(d *schema.ResourceData, meta interfac
     vpnconfiguration := d.Get("vpnconfiguration").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := apimanagement.ServiceResource{
+    parameters := apimanagement.ServiceBaseParameters{
         Etag: utils.String(etag),
         Location: utils.String(location),
         ServiceProperties: &apimanagement.ServiceProperties{
@@ -322,7 +322,7 @@ func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interfac
     vpnconfiguration := d.Get("vpnconfiguration").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := apimanagement.ServiceResource{
+    parameters := apimanagement.ServiceBaseParameters{
         Etag: utils.String(etag),
         Location: utils.String(location),
         ServiceProperties: &apimanagement.ServiceProperties{

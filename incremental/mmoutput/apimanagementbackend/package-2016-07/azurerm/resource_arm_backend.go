@@ -47,9 +47,8 @@ func resourceArmBackend() *schema.Resource {
 
             "host": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "skip_certificate_chain_validation": {
@@ -84,7 +83,7 @@ func resourceArmBackendCreate(d *schema.ResourceData, meta interface{}) error {
     host := d.Get("host").(string)
     skipCertificateChainValidation := d.Get("skip_certificate_chain_validation").(bool)
 
-    parameters := apimanagement.BackendContract{
+    parameters := apimanagement.BackendUpdateParameters{
         Host: utils.String(host),
         SkipCertificateChainValidation: utils.Bool(skipCertificateChainValidation),
     }
@@ -149,7 +148,7 @@ func resourceArmBackendUpdate(d *schema.ResourceData, meta interface{}) error {
     host := d.Get("host").(string)
     skipCertificateChainValidation := d.Get("skip_certificate_chain_validation").(bool)
 
-    parameters := apimanagement.BackendContract{
+    parameters := apimanagement.BackendUpdateParameters{
         Host: utils.String(host),
         SkipCertificateChainValidation: utils.Bool(skipCertificateChainValidation),
     }

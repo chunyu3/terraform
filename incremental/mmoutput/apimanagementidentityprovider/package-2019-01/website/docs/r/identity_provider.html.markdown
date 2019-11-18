@@ -32,15 +32,15 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `client_id` - (Required) Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
-
-* `client_secret` - (Required) Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
-
 * `service_name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
 * `allowed_tenants` - (Optional) List of Allowed Tenants when configuring Azure Active Directory login.
 
 * `authority` - (Optional) OpenID Connect discovery endpoint hostname for AAD or AAD B2C.
+
+* `client_id` - (Optional) Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.
+
+* `client_secret` - (Optional) Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.
 
 * `password_reset_policy_name` - (Optional) Password Reset Policy Name. Only applies to AAD B2C Identity Provider.
 

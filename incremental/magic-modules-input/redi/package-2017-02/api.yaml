@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateParameters
+            go_type_name: UpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -46,8 +46,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateProperties
-            go_type_name: CreateProperties
+            go_field_name: UpdateProperties
+            go_type_name: UpdateProperties
           '/redisConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: redis_configuration
@@ -127,7 +127,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateParameters
+            go_type_name: UpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -138,8 +138,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateProperties
-            go_type_name: CreateProperties
+            go_field_name: UpdateProperties
+            go_type_name: UpdateProperties
           '/redisConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: redis_configuration
@@ -246,8 +246,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateProperties
-            go_type_name: CreateProperties
+            go_field_name: UpdateProperties
+            go_type_name: UpdateProperties
           '/properties/redisConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: RedisConfiguration
@@ -460,7 +460,7 @@ objects:
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the Redis cache to deploy.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku', '/properties/sku']
         properties:
           - !ruby/object:Api::Type::Enum

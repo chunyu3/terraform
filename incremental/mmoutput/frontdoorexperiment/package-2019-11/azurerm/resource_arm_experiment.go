@@ -69,36 +69,27 @@ func resourceArmExperiment() *schema.Resource {
 
             "endpoint_a_endpoint": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
             "endpoint_a_name": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
             "endpoint_b_endpoint": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
             "endpoint_b_name": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
             "resource_state": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(frontdoor.Creating),
-                    string(frontdoor.Enabling),
-                    string(frontdoor.Enabled),
-                    string(frontdoor.Disabling),
-                    string(frontdoor.Disabled),
-                    string(frontdoor.Deleting),
-                }, false),
-                Default: string(frontdoor.Creating),
+                Computed: true,
             },
 
             "script_file_uri": {
@@ -144,27 +135,13 @@ func resourceArmExperimentCreate(d *schema.ResourceData, meta interface{}) error
     location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     enabledState := d.Get("enabled_state").(string)
-    endpointAEndpoint := d.Get("endpoint_a_endpoint").(string)
-    endpointAName := d.Get("endpoint_a_name").(string)
-    endpointBEndpoint := d.Get("endpoint_b_endpoint").(string)
-    endpointBName := d.Get("endpoint_b_name").(string)
-    resourceState := d.Get("resource_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := frontdoor.Experiment{
+    parameters := frontdoor.ExperimentUpdateModel{
         Location: utils.String(location),
-        ExperimentProperties: &frontdoor.ExperimentProperties{
+        ExperimentUpdateProperties: &frontdoor.ExperimentUpdateProperties{
             Description: utils.String(description),
             EnabledState: frontdoor.State(enabledState),
-            EndpointA: &frontdoor.Endpoint{
-                endpointA_Endpoint: utils.String(endpointAEndpoint),
-                endpointA_Name: utils.String(endpointAName),
-            },
-            EndpointB: &frontdoor.Endpoint{
-                endpointB_Endpoint: utils.String(endpointBEndpoint),
-                endpointB_Name: utils.String(endpointBName),
-            },
-            ResourceState: frontdoor.NetworkExperimentResourceState(resourceState),
         },
         Tags: tags.Expand(t),
     }
@@ -220,20 +197,20 @@ func resourceArmExperimentRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if experimentProperties := resp.ExperimentProperties; experimentProperties != nil {
-        d.Set("description", experimentProperties.Description)
-        d.Set("enabled_state", string(experimentProperties.EnabledState))
-        if endpointA := experimentProperties.EndpointA; endpointA != nil {
+    if experimentUpdateProperties := resp.ExperimentUpdateProperties; experimentUpdateProperties != nil {
+        d.Set("description", experimentUpdateProperties.Description)
+        d.Set("enabled_state", string(experimentUpdateProperties.EnabledState))
+        if endpointA := experimentUpdateProperties.EndpointA; endpointA != nil {
             d.Set("endpoint_a_endpoint", endpointA.endpointA_Endpoint)
             d.Set("endpoint_a_name", endpointA.endpointA_Name)
         }
-        if endpointB := experimentProperties.EndpointB; endpointB != nil {
+        if endpointB := experimentUpdateProperties.EndpointB; endpointB != nil {
             d.Set("endpoint_b_endpoint", endpointB.endpointB_Endpoint)
             d.Set("endpoint_b_name", endpointB.endpointB_Name)
         }
-        d.Set("resource_state", string(experimentProperties.ResourceState))
-        d.Set("script_file_uri", experimentProperties.ScriptFileUri)
-        d.Set("status", experimentProperties.Status)
+        d.Set("resource_state", string(experimentUpdateProperties.ResourceState))
+        d.Set("script_file_uri", experimentUpdateProperties.ScriptFileUri)
+        d.Set("status", experimentUpdateProperties.Status)
     }
     d.Set("profile_name", profileName)
     d.Set("type", resp.Type)
@@ -249,28 +226,14 @@ func resourceArmExperimentUpdate(d *schema.ResourceData, meta interface{}) error
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     enabledState := d.Get("enabled_state").(string)
-    endpointAEndpoint := d.Get("endpoint_a_endpoint").(string)
-    endpointAName := d.Get("endpoint_a_name").(string)
-    endpointBEndpoint := d.Get("endpoint_b_endpoint").(string)
-    endpointBName := d.Get("endpoint_b_name").(string)
     profileName := d.Get("profile_name").(string)
-    resourceState := d.Get("resource_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := frontdoor.Experiment{
+    parameters := frontdoor.ExperimentUpdateModel{
         Location: utils.String(location),
-        ExperimentProperties: &frontdoor.ExperimentProperties{
+        ExperimentUpdateProperties: &frontdoor.ExperimentUpdateProperties{
             Description: utils.String(description),
             EnabledState: frontdoor.State(enabledState),
-            EndpointA: &frontdoor.Endpoint{
-                endpointA_Endpoint: utils.String(endpointAEndpoint),
-                endpointA_Name: utils.String(endpointAName),
-            },
-            EndpointB: &frontdoor.Endpoint{
-                endpointB_Endpoint: utils.String(endpointBEndpoint),
-                endpointB_Name: utils.String(endpointBName),
-            },
-            ResourceState: frontdoor.NetworkExperimentResourceState(resourceState),
         },
         Tags: tags.Expand(t),
     }

@@ -30,19 +30,19 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
-* `name` - (Required) User-friendly OpenID Connect Provider name. Changing this forces a new resource to be created.
-
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `client_id` - (Required) Client ID of developer console which is the client application. Changing this forces a new resource to be created.
-
-* `metadata_endpoint` - (Required) Metadata endpoint URI. Changing this forces a new resource to be created.
-
 * `opid` - (Required) Identifier of the OpenID Connect Provider. Changing this forces a new resource to be created.
+
+* `name` - (Optional) User-friendly OpenID Connect Provider name. Changing this forces a new resource to be created.
+
+* `client_id` - (Optional) Client ID of developer console which is the client application. Changing this forces a new resource to be created.
 
 * `client_secret` - (Optional) Client Secret of developer console which is the client application. Changing this forces a new resource to be created.
 
 * `description` - (Optional) User-friendly description of OpenID Connect Provider. Changing this forces a new resource to be created.
+
+* `metadata_endpoint` - (Optional) Metadata endpoint URI. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

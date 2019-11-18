@@ -45,30 +45,6 @@ func resourceArmAccount() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "data_lake_store_accounts": {
-                Type: schema.TypeList,
-                Required: true,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "suffix": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "default_data_lake_store_account": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "compute_policies": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -79,26 +55,44 @@ func resourceArmAccount() *schema.Resource {
                             Required: true,
                             ValidateFunc: validate.NoEmptyStrings,
                         },
-                        "object_id": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
-                        "object_type": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(datalakeanalytics.User),
-                                string(datalakeanalytics.Group),
-                                string(datalakeanalytics.ServicePrincipal),
-                            }, false),
-                        },
                         "max_degree_of_parallelism_per_job": {
                             Type: schema.TypeInt,
                             Optional: true,
                         },
                         "min_priority_per_job": {
                             Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "object_id": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "object_type": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(datalakeanalytics.User),
+                                string(datalakeanalytics.Group),
+                                string(datalakeanalytics.ServicePrincipal),
+                            }, false),
+                            Default: string(datalakeanalytics.User),
+                        },
+                    },
+                },
+            },
+
+            "data_lake_store_accounts": {
+                Type: schema.TypeList,
+                Optional: true,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "name": {
+                            Type: schema.TypeString,
+                            Required: true,
+                            ValidateFunc: validate.NoEmptyStrings,
+                        },
+                        "suffix": {
+                            Type: schema.TypeString,
                             Optional: true,
                         },
                     },
@@ -120,20 +114,18 @@ func resourceArmAccount() *schema.Resource {
                 Optional: true,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "end_ip_address": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
                         "name": {
                             Type: schema.TypeString,
                             Required: true,
                             ValidateFunc: validate.NoEmptyStrings,
                         },
+                        "end_ip_address": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
                         "start_ip_address": {
                             Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
+                            Optional: true,
                         },
                     },
                 },
@@ -196,15 +188,14 @@ func resourceArmAccount() *schema.Resource {
                 Optional: true,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "access_key": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
                         "name": {
                             Type: schema.TypeString,
                             Required: true,
                             ValidateFunc: validate.NoEmptyStrings,
+                        },
+                        "access_key": {
+                            Type: schema.TypeString,
+                            Optional: true,
                         },
                         "suffix": {
                             Type: schema.TypeString,
@@ -225,6 +216,11 @@ func resourceArmAccount() *schema.Resource {
             },
 
             "current_tier": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "default_data_lake_store_account": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -291,7 +287,6 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     location := azure.NormalizeLocation(d.Get("location").(string))
     computePolicies := d.Get("compute_policies").([]interface{})
     dataLakeStoreAccounts := d.Get("data_lake_store_accounts").([]interface{})
-    defaultDataLakeStoreAccount := d.Get("default_data_lake_store_account").(string)
     firewallAllowAzureIps := d.Get("firewall_allow_azure_ips").(string)
     firewallRules := d.Get("firewall_rules").([]interface{})
     firewallState := d.Get("firewall_state").(string)
@@ -304,14 +299,13 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     storageAccounts := d.Get("storage_accounts").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := datalakeanalytics.CreateDataLakeAnalyticsAccountParameters{
+    parameters := datalakeanalytics.UpdateDataLakeAnalyticsAccountParameters{
         Location: utils.String(location),
-        CreateDataLakeAnalyticsAccountProperties: &datalakeanalytics.CreateDataLakeAnalyticsAccountProperties{
-            ComputePolicies: expandArmAccountCreateComputePolicyWithAccountParameters(computePolicies),
-            DataLakeStoreAccounts: expandArmAccountAddDataLakeStoreWithAccountParameters(dataLakeStoreAccounts),
-            DefaultDataLakeStoreAccount: utils.String(defaultDataLakeStoreAccount),
+        UpdateDataLakeAnalyticsAccountProperties: &datalakeanalytics.UpdateDataLakeAnalyticsAccountProperties{
+            ComputePolicies: expandArmAccountUpdateComputePolicyWithAccountParameters(computePolicies),
+            DataLakeStoreAccounts: expandArmAccountUpdateDataLakeStoreWithAccountParameters(dataLakeStoreAccounts),
             FirewallAllowAzureIps: datalakeanalytics.FirewallAllowAzureIpsState(firewallAllowAzureIps),
-            FirewallRules: expandArmAccountCreateFirewallRuleWithAccountParameters(firewallRules),
+            FirewallRules: expandArmAccountUpdateFirewallRuleWithAccountParameters(firewallRules),
             FirewallState: datalakeanalytics.FirewallState(firewallState),
             MaxDegreeOfParallelism: utils.Int32(int32(maxDegreeOfParallelism)),
             MaxDegreeOfParallelismPerJob: utils.Int32(int32(maxDegreeOfParallelismPerJob)),
@@ -319,7 +313,7 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
             MinPriorityPerJob: utils.Int32(int32(minPriorityPerJob)),
             NewTier: datalakeanalytics.TierType(newTier),
             QueryStoreRetention: utils.Int32(int32(queryStoreRetention)),
-            StorageAccounts: expandArmAccountAddStorageAccountWithAccountParameters(storageAccounts),
+            StorageAccounts: expandArmAccountUpdateStorageAccountWithAccountParameters(storageAccounts),
         },
         Tags: tags.Expand(t),
     }
@@ -374,37 +368,37 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if createDataLakeAnalyticsAccountProperties := resp.CreateDataLakeAnalyticsAccountProperties; createDataLakeAnalyticsAccountProperties != nil {
-        d.Set("account_id", createDataLakeAnalyticsAccountProperties.AccountID)
-        if err := d.Set("compute_policies", flattenArmAccountCreateComputePolicyWithAccountParameters(createDataLakeAnalyticsAccountProperties.ComputePolicies)); err != nil {
+    if updateDataLakeAnalyticsAccountProperties := resp.UpdateDataLakeAnalyticsAccountProperties; updateDataLakeAnalyticsAccountProperties != nil {
+        d.Set("account_id", updateDataLakeAnalyticsAccountProperties.AccountID)
+        if err := d.Set("compute_policies", flattenArmAccountUpdateComputePolicyWithAccountParameters(updateDataLakeAnalyticsAccountProperties.ComputePolicies)); err != nil {
             return fmt.Errorf("Error setting `compute_policies`: %+v", err)
         }
-        d.Set("creation_time", (createDataLakeAnalyticsAccountProperties.CreationTime).String())
-        d.Set("current_tier", string(createDataLakeAnalyticsAccountProperties.CurrentTier))
-        if err := d.Set("data_lake_store_accounts", flattenArmAccountAddDataLakeStoreWithAccountParameters(createDataLakeAnalyticsAccountProperties.DataLakeStoreAccounts)); err != nil {
+        d.Set("creation_time", (updateDataLakeAnalyticsAccountProperties.CreationTime).String())
+        d.Set("current_tier", string(updateDataLakeAnalyticsAccountProperties.CurrentTier))
+        if err := d.Set("data_lake_store_accounts", flattenArmAccountUpdateDataLakeStoreWithAccountParameters(updateDataLakeAnalyticsAccountProperties.DataLakeStoreAccounts)); err != nil {
             return fmt.Errorf("Error setting `data_lake_store_accounts`: %+v", err)
         }
-        d.Set("default_data_lake_store_account", createDataLakeAnalyticsAccountProperties.DefaultDataLakeStoreAccount)
-        d.Set("endpoint", createDataLakeAnalyticsAccountProperties.Endpoint)
-        d.Set("firewall_allow_azure_ips", string(createDataLakeAnalyticsAccountProperties.FirewallAllowAzureIps))
-        if err := d.Set("firewall_rules", flattenArmAccountCreateFirewallRuleWithAccountParameters(createDataLakeAnalyticsAccountProperties.FirewallRules)); err != nil {
+        d.Set("default_data_lake_store_account", updateDataLakeAnalyticsAccountProperties.DefaultDataLakeStoreAccount)
+        d.Set("endpoint", updateDataLakeAnalyticsAccountProperties.Endpoint)
+        d.Set("firewall_allow_azure_ips", string(updateDataLakeAnalyticsAccountProperties.FirewallAllowAzureIps))
+        if err := d.Set("firewall_rules", flattenArmAccountUpdateFirewallRuleWithAccountParameters(updateDataLakeAnalyticsAccountProperties.FirewallRules)); err != nil {
             return fmt.Errorf("Error setting `firewall_rules`: %+v", err)
         }
-        d.Set("firewall_state", string(createDataLakeAnalyticsAccountProperties.FirewallState))
-        d.Set("last_modified_time", (createDataLakeAnalyticsAccountProperties.LastModifiedTime).String())
-        d.Set("max_degree_of_parallelism", int(*createDataLakeAnalyticsAccountProperties.MaxDegreeOfParallelism))
-        d.Set("max_degree_of_parallelism_per_job", int(*createDataLakeAnalyticsAccountProperties.MaxDegreeOfParallelismPerJob))
-        d.Set("max_job_count", int(*createDataLakeAnalyticsAccountProperties.MaxJobCount))
-        d.Set("min_priority_per_job", int(*createDataLakeAnalyticsAccountProperties.MinPriorityPerJob))
-        d.Set("new_tier", string(createDataLakeAnalyticsAccountProperties.NewTier))
-        d.Set("provisioning_state", string(createDataLakeAnalyticsAccountProperties.ProvisioningState))
-        d.Set("query_store_retention", int(*createDataLakeAnalyticsAccountProperties.QueryStoreRetention))
-        d.Set("state", string(createDataLakeAnalyticsAccountProperties.State))
-        if err := d.Set("storage_accounts", flattenArmAccountAddStorageAccountWithAccountParameters(createDataLakeAnalyticsAccountProperties.StorageAccounts)); err != nil {
+        d.Set("firewall_state", string(updateDataLakeAnalyticsAccountProperties.FirewallState))
+        d.Set("last_modified_time", (updateDataLakeAnalyticsAccountProperties.LastModifiedTime).String())
+        d.Set("max_degree_of_parallelism", int(*updateDataLakeAnalyticsAccountProperties.MaxDegreeOfParallelism))
+        d.Set("max_degree_of_parallelism_per_job", int(*updateDataLakeAnalyticsAccountProperties.MaxDegreeOfParallelismPerJob))
+        d.Set("max_job_count", int(*updateDataLakeAnalyticsAccountProperties.MaxJobCount))
+        d.Set("min_priority_per_job", int(*updateDataLakeAnalyticsAccountProperties.MinPriorityPerJob))
+        d.Set("new_tier", string(updateDataLakeAnalyticsAccountProperties.NewTier))
+        d.Set("provisioning_state", string(updateDataLakeAnalyticsAccountProperties.ProvisioningState))
+        d.Set("query_store_retention", int(*updateDataLakeAnalyticsAccountProperties.QueryStoreRetention))
+        d.Set("state", string(updateDataLakeAnalyticsAccountProperties.State))
+        if err := d.Set("storage_accounts", flattenArmAccountUpdateStorageAccountWithAccountParameters(updateDataLakeAnalyticsAccountProperties.StorageAccounts)); err != nil {
             return fmt.Errorf("Error setting `storage_accounts`: %+v", err)
         }
-        d.Set("system_max_degree_of_parallelism", int(*createDataLakeAnalyticsAccountProperties.SystemMaxDegreeOfParallelism))
-        d.Set("system_max_job_count", int(*createDataLakeAnalyticsAccountProperties.SystemMaxJobCount))
+        d.Set("system_max_degree_of_parallelism", int(*updateDataLakeAnalyticsAccountProperties.SystemMaxDegreeOfParallelism))
+        d.Set("system_max_job_count", int(*updateDataLakeAnalyticsAccountProperties.SystemMaxJobCount))
     }
     d.Set("type", resp.Type)
 
@@ -419,7 +413,6 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := d.Get("resource_group").(string)
     computePolicies := d.Get("compute_policies").([]interface{})
     dataLakeStoreAccounts := d.Get("data_lake_store_accounts").([]interface{})
-    defaultDataLakeStoreAccount := d.Get("default_data_lake_store_account").(string)
     firewallAllowAzureIps := d.Get("firewall_allow_azure_ips").(string)
     firewallRules := d.Get("firewall_rules").([]interface{})
     firewallState := d.Get("firewall_state").(string)
@@ -432,14 +425,13 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     storageAccounts := d.Get("storage_accounts").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := datalakeanalytics.CreateDataLakeAnalyticsAccountParameters{
+    parameters := datalakeanalytics.UpdateDataLakeAnalyticsAccountParameters{
         Location: utils.String(location),
-        CreateDataLakeAnalyticsAccountProperties: &datalakeanalytics.CreateDataLakeAnalyticsAccountProperties{
-            ComputePolicies: expandArmAccountCreateComputePolicyWithAccountParameters(computePolicies),
-            DataLakeStoreAccounts: expandArmAccountAddDataLakeStoreWithAccountParameters(dataLakeStoreAccounts),
-            DefaultDataLakeStoreAccount: utils.String(defaultDataLakeStoreAccount),
+        UpdateDataLakeAnalyticsAccountProperties: &datalakeanalytics.UpdateDataLakeAnalyticsAccountProperties{
+            ComputePolicies: expandArmAccountUpdateComputePolicyWithAccountParameters(computePolicies),
+            DataLakeStoreAccounts: expandArmAccountUpdateDataLakeStoreWithAccountParameters(dataLakeStoreAccounts),
             FirewallAllowAzureIps: datalakeanalytics.FirewallAllowAzureIpsState(firewallAllowAzureIps),
-            FirewallRules: expandArmAccountCreateFirewallRuleWithAccountParameters(firewallRules),
+            FirewallRules: expandArmAccountUpdateFirewallRuleWithAccountParameters(firewallRules),
             FirewallState: datalakeanalytics.FirewallState(firewallState),
             MaxDegreeOfParallelism: utils.Int32(int32(maxDegreeOfParallelism)),
             MaxDegreeOfParallelismPerJob: utils.Int32(int32(maxDegreeOfParallelismPerJob)),
@@ -447,7 +439,7 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
             MinPriorityPerJob: utils.Int32(int32(minPriorityPerJob)),
             NewTier: datalakeanalytics.TierType(newTier),
             QueryStoreRetention: utils.Int32(int32(queryStoreRetention)),
-            StorageAccounts: expandArmAccountAddStorageAccountWithAccountParameters(storageAccounts),
+            StorageAccounts: expandArmAccountUpdateStorageAccountWithAccountParameters(storageAccounts),
         },
         Tags: tags.Expand(t),
     }
@@ -493,8 +485,8 @@ func resourceArmAccountDelete(d *schema.ResourceData, meta interface{}) error {
     return nil
 }
 
-func expandArmAccountCreateComputePolicyWithAccountParameters(input []interface{}) *[]datalakeanalytics.CreateComputePolicyWithAccountParameters {
-    results := make([]datalakeanalytics.CreateComputePolicyWithAccountParameters, 0)
+func expandArmAccountUpdateComputePolicyWithAccountParameters(input []interface{}) *[]datalakeanalytics.UpdateComputePolicyWithAccountParameters {
+    results := make([]datalakeanalytics.UpdateComputePolicyWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
@@ -503,9 +495,9 @@ func expandArmAccountCreateComputePolicyWithAccountParameters(input []interface{
         maxDegreeOfParallelismPerJob := v["max_degree_of_parallelism_per_job"].(int)
         minPriorityPerJob := v["min_priority_per_job"].(int)
 
-        result := datalakeanalytics.CreateComputePolicyWithAccountParameters{
+        result := datalakeanalytics.UpdateComputePolicyWithAccountParameters{
             Name: utils.String(name),
-            CreateOrUpdateComputePolicyProperties: &datalakeanalytics.CreateOrUpdateComputePolicyProperties{
+            UpdateComputePolicyProperties: &datalakeanalytics.UpdateComputePolicyProperties{
                 MaxDegreeOfParallelismPerJob: utils.Int32(int32(maxDegreeOfParallelismPerJob)),
                 MinPriorityPerJob: utils.Int32(int32(minPriorityPerJob)),
                 ObjectID: utils.String(objectId),
@@ -518,16 +510,16 @@ func expandArmAccountCreateComputePolicyWithAccountParameters(input []interface{
     return &results
 }
 
-func expandArmAccountAddDataLakeStoreWithAccountParameters(input []interface{}) *[]datalakeanalytics.AddDataLakeStoreWithAccountParameters {
-    results := make([]datalakeanalytics.AddDataLakeStoreWithAccountParameters, 0)
+func expandArmAccountUpdateDataLakeStoreWithAccountParameters(input []interface{}) *[]datalakeanalytics.UpdateDataLakeStoreWithAccountParameters {
+    results := make([]datalakeanalytics.UpdateDataLakeStoreWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         suffix := v["suffix"].(string)
 
-        result := datalakeanalytics.AddDataLakeStoreWithAccountParameters{
+        result := datalakeanalytics.UpdateDataLakeStoreWithAccountParameters{
             Name: utils.String(name),
-            AddDataLakeStoreProperties: &datalakeanalytics.AddDataLakeStoreProperties{
+            UpdateDataLakeStoreProperties: &datalakeanalytics.UpdateDataLakeStoreProperties{
                 Suffix: utils.String(suffix),
             },
         }
@@ -537,17 +529,17 @@ func expandArmAccountAddDataLakeStoreWithAccountParameters(input []interface{}) 
     return &results
 }
 
-func expandArmAccountCreateFirewallRuleWithAccountParameters(input []interface{}) *[]datalakeanalytics.CreateFirewallRuleWithAccountParameters {
-    results := make([]datalakeanalytics.CreateFirewallRuleWithAccountParameters, 0)
+func expandArmAccountUpdateFirewallRuleWithAccountParameters(input []interface{}) *[]datalakeanalytics.UpdateFirewallRuleWithAccountParameters {
+    results := make([]datalakeanalytics.UpdateFirewallRuleWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         startIpAddress := v["start_ip_address"].(string)
         endIpAddress := v["end_ip_address"].(string)
 
-        result := datalakeanalytics.CreateFirewallRuleWithAccountParameters{
+        result := datalakeanalytics.UpdateFirewallRuleWithAccountParameters{
             Name: utils.String(name),
-            CreateOrUpdateFirewallRuleProperties: &datalakeanalytics.CreateOrUpdateFirewallRuleProperties{
+            UpdateFirewallRuleProperties: &datalakeanalytics.UpdateFirewallRuleProperties{
                 EndIpAddress: utils.String(endIpAddress),
                 StartIpAddress: utils.String(startIpAddress),
             },
@@ -558,17 +550,17 @@ func expandArmAccountCreateFirewallRuleWithAccountParameters(input []interface{}
     return &results
 }
 
-func expandArmAccountAddStorageAccountWithAccountParameters(input []interface{}) *[]datalakeanalytics.AddStorageAccountWithAccountParameters {
-    results := make([]datalakeanalytics.AddStorageAccountWithAccountParameters, 0)
+func expandArmAccountUpdateStorageAccountWithAccountParameters(input []interface{}) *[]datalakeanalytics.UpdateStorageAccountWithAccountParameters {
+    results := make([]datalakeanalytics.UpdateStorageAccountWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         accessKey := v["access_key"].(string)
         suffix := v["suffix"].(string)
 
-        result := datalakeanalytics.AddStorageAccountWithAccountParameters{
+        result := datalakeanalytics.UpdateStorageAccountWithAccountParameters{
             Name: utils.String(name),
-            AddStorageAccountProperties: &datalakeanalytics.AddStorageAccountProperties{
+            UpdateStorageAccountProperties: &datalakeanalytics.UpdateStorageAccountProperties{
                 AccessKey: utils.String(accessKey),
                 Suffix: utils.String(suffix),
             },
@@ -580,7 +572,7 @@ func expandArmAccountAddStorageAccountWithAccountParameters(input []interface{})
 }
 
 
-func flattenArmAccountCreateComputePolicyWithAccountParameters(input *[]datalakeanalytics.CreateComputePolicyWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateComputePolicyWithAccountParameters(input *[]datalakeanalytics.UpdateComputePolicyWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -592,17 +584,17 @@ func flattenArmAccountCreateComputePolicyWithAccountParameters(input *[]datalake
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if createOrUpdateComputePolicyProperties := item.CreateOrUpdateComputePolicyProperties; createOrUpdateComputePolicyProperties != nil {
-            if maxDegreeOfParallelismPerJob := createOrUpdateComputePolicyProperties.MaxDegreeOfParallelismPerJob; maxDegreeOfParallelismPerJob != nil {
+        if updateComputePolicyProperties := item.UpdateComputePolicyProperties; updateComputePolicyProperties != nil {
+            if maxDegreeOfParallelismPerJob := updateComputePolicyProperties.MaxDegreeOfParallelismPerJob; maxDegreeOfParallelismPerJob != nil {
                 v["max_degree_of_parallelism_per_job"] = int(*maxDegreeOfParallelismPerJob)
             }
-            if minPriorityPerJob := createOrUpdateComputePolicyProperties.MinPriorityPerJob; minPriorityPerJob != nil {
+            if minPriorityPerJob := updateComputePolicyProperties.MinPriorityPerJob; minPriorityPerJob != nil {
                 v["min_priority_per_job"] = int(*minPriorityPerJob)
             }
-            if objectId := createOrUpdateComputePolicyProperties.ObjectID; objectId != nil {
+            if objectId := updateComputePolicyProperties.ObjectID; objectId != nil {
                 v["object_id"] = *objectId
             }
-            v["object_type"] = string(createOrUpdateComputePolicyProperties.ObjectType)
+            v["object_type"] = string(updateComputePolicyProperties.ObjectType)
         }
 
         results = append(results, v)
@@ -611,7 +603,7 @@ func flattenArmAccountCreateComputePolicyWithAccountParameters(input *[]datalake
     return results
 }
 
-func flattenArmAccountAddDataLakeStoreWithAccountParameters(input *[]datalakeanalytics.AddDataLakeStoreWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateDataLakeStoreWithAccountParameters(input *[]datalakeanalytics.UpdateDataLakeStoreWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -623,8 +615,8 @@ func flattenArmAccountAddDataLakeStoreWithAccountParameters(input *[]datalakeana
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if addDataLakeStoreProperties := item.AddDataLakeStoreProperties; addDataLakeStoreProperties != nil {
-            if suffix := addDataLakeStoreProperties.Suffix; suffix != nil {
+        if updateDataLakeStoreProperties := item.UpdateDataLakeStoreProperties; updateDataLakeStoreProperties != nil {
+            if suffix := updateDataLakeStoreProperties.Suffix; suffix != nil {
                 v["suffix"] = *suffix
             }
         }
@@ -635,7 +627,7 @@ func flattenArmAccountAddDataLakeStoreWithAccountParameters(input *[]datalakeana
     return results
 }
 
-func flattenArmAccountCreateFirewallRuleWithAccountParameters(input *[]datalakeanalytics.CreateFirewallRuleWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateFirewallRuleWithAccountParameters(input *[]datalakeanalytics.UpdateFirewallRuleWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -647,11 +639,11 @@ func flattenArmAccountCreateFirewallRuleWithAccountParameters(input *[]datalakea
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if createOrUpdateFirewallRuleProperties := item.CreateOrUpdateFirewallRuleProperties; createOrUpdateFirewallRuleProperties != nil {
-            if endIpAddress := createOrUpdateFirewallRuleProperties.EndIpAddress; endIpAddress != nil {
+        if updateFirewallRuleProperties := item.UpdateFirewallRuleProperties; updateFirewallRuleProperties != nil {
+            if endIpAddress := updateFirewallRuleProperties.EndIpAddress; endIpAddress != nil {
                 v["end_ip_address"] = *endIpAddress
             }
-            if startIpAddress := createOrUpdateFirewallRuleProperties.StartIpAddress; startIpAddress != nil {
+            if startIpAddress := updateFirewallRuleProperties.StartIpAddress; startIpAddress != nil {
                 v["start_ip_address"] = *startIpAddress
             }
         }
@@ -662,7 +654,7 @@ func flattenArmAccountCreateFirewallRuleWithAccountParameters(input *[]datalakea
     return results
 }
 
-func flattenArmAccountAddStorageAccountWithAccountParameters(input *[]datalakeanalytics.AddStorageAccountWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateStorageAccountWithAccountParameters(input *[]datalakeanalytics.UpdateStorageAccountWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -674,8 +666,8 @@ func flattenArmAccountAddStorageAccountWithAccountParameters(input *[]datalakean
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if addStorageAccountProperties := item.AddStorageAccountProperties; addStorageAccountProperties != nil {
-            if suffix := addStorageAccountProperties.Suffix; suffix != nil {
+        if updateStorageAccountProperties := item.UpdateStorageAccountProperties; updateStorageAccountProperties != nil {
+            if suffix := updateStorageAccountProperties.Suffix; suffix != nil {
                 v["suffix"] = *suffix
             }
         }

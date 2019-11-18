@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: automationAccounts
-            go_variable_name: name
+            go_variable_name: automationAccountName
             python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'hybridRunbookWorkerGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hybridRunbookWorkerGroups
+            go_variable_name: name
+            python_parameter_name: hybrid_runbook_worker_group_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -77,9 +82,9 @@ objects:
             python_variable_name: resource_group
           'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: automationAccounts
-            go_variable_name: name
+            go_variable_name: automationAccountName
             python_parameter_name: automation_account_name
-            python_variable_name: name
+            python_variable_name: automation_account_name
 
     description: |
       Manage Azure HybridRunbookWorkerGroup instance.
@@ -91,11 +96,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'automationAccountName'
         description: 'The name of the automation account.'
         required: true
         input: true
         azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The hybrid runbook worker group name'
+        required: true
+        input: true
+        azure_sdk_references: ['hybridRunbookWorkerGroupName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

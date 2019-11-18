@@ -52,8 +52,7 @@ func resourceArmTrustedIdProvider() *schema.Resource {
 
             "id_provider": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "type": {
@@ -86,8 +85,8 @@ func resourceArmTrustedIdProviderCreate(d *schema.ResourceData, meta interface{}
 
     idProvider := d.Get("id_provider").(string)
 
-    parameters := datalakestore.CreateOrUpdateTrustedIdProviderParameters{
-        CreateOrUpdateTrustedIdProviderProperties: &datalakestore.CreateOrUpdateTrustedIdProviderProperties{
+    parameters := datalakestore.UpdateTrustedIdProviderParameters{
+        UpdateTrustedIdProviderProperties: &datalakestore.UpdateTrustedIdProviderProperties{
             IDProvider: utils.String(idProvider),
         },
     }
@@ -137,8 +136,8 @@ func resourceArmTrustedIdProviderRead(d *schema.ResourceData, meta interface{}) 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if createOrUpdateTrustedIdProviderProperties := resp.CreateOrUpdateTrustedIdProviderProperties; createOrUpdateTrustedIdProviderProperties != nil {
-        d.Set("id_provider", createOrUpdateTrustedIdProviderProperties.IDProvider)
+    if updateTrustedIdProviderProperties := resp.UpdateTrustedIdProviderProperties; updateTrustedIdProviderProperties != nil {
+        d.Set("id_provider", updateTrustedIdProviderProperties.IDProvider)
     }
     d.Set("type", resp.Type)
 
@@ -154,8 +153,8 @@ func resourceArmTrustedIdProviderUpdate(d *schema.ResourceData, meta interface{}
     accountName := d.Get("account_name").(string)
     idProvider := d.Get("id_provider").(string)
 
-    parameters := datalakestore.CreateOrUpdateTrustedIdProviderParameters{
-        CreateOrUpdateTrustedIdProviderProperties: &datalakestore.CreateOrUpdateTrustedIdProviderProperties{
+    parameters := datalakestore.UpdateTrustedIdProviderParameters{
+        UpdateTrustedIdProviderProperties: &datalakestore.UpdateTrustedIdProviderProperties{
             IDProvider: utils.String(idProvider),
         },
     }

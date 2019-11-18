@@ -39,13 +39,13 @@ objects:
             python_variable_name: prop_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: PropertyContract
+            go_type_name: PropertyUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertyContractProperties
-            go_type_name: PropertyContractProperties
+            go_field_name: PropertyUpdateParameterProperties
+            go_type_name: PropertyUpdateParameterProperties
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [python]
             python_field_name: tags
@@ -91,13 +91,13 @@ objects:
             python_variable_name: prop_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: PropertyContract
+            go_type_name: PropertyUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertyContractProperties
-            go_type_name: PropertyContractProperties
+            go_field_name: PropertyUpdateParameterProperties
+            go_type_name: PropertyUpdateParameterProperties
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [python]
             python_field_name: tags
@@ -163,8 +163,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PropertyContractProperties
-            go_type_name: PropertyContractProperties
+            go_field_name: PropertyUpdateParameterProperties
+            go_type_name: PropertyUpdateParameterProperties
           '/properties/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Tags
@@ -248,12 +248,12 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
         name: 'value'
         description: 'Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.'
-        required: true
+        required: false
         azure_sdk_references: ['/value', '/properties/value']
       # read only values included only in response
       - !ruby/object:Api::Type::String

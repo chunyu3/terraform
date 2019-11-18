@@ -95,7 +95,7 @@ func resourceArmSqlServerRegistrationCreate(d *schema.ResourceData, meta interfa
     subscriptionId := d.Get("subscription_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := azuredata.SqlServerRegistration{
+    parameters := azuredata.SqlServerRegistrationUpdate{
         Location: utils.String(location),
         SqlServerRegistrationProperties: &azuredata.SqlServerRegistrationProperties{
             PropertyBag: utils.String(propertyBag),
@@ -172,7 +172,7 @@ func resourceArmSqlServerRegistrationUpdate(d *schema.ResourceData, meta interfa
     subscriptionId := d.Get("subscription_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := azuredata.SqlServerRegistration{
+    parameters := azuredata.SqlServerRegistrationUpdate{
         Location: utils.String(location),
         SqlServerRegistrationProperties: &azuredata.SqlServerRegistrationProperties{
             PropertyBag: utils.String(propertyBag),

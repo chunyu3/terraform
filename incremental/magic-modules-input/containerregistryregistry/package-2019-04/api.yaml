@@ -54,8 +54,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: RegistryProperties
-            go_type_name: RegistryProperties
+            go_field_name: RegistryPropertiesUpdateParameters
+            go_type_name: RegistryPropertiesUpdateParameters
           '/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: admin_user_enabled
@@ -194,8 +194,8 @@ objects:
             python_field_name: tier
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: RegistryProperties
-            go_type_name: RegistryProperties
+            go_field_name: RegistryPropertiesUpdateParameters
+            go_type_name: RegistryPropertiesUpdateParameters
           '/properties/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: AdminUserEnabled
@@ -387,14 +387,14 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The tags of the resource.'
+        description: 'The tags for the container registry.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the container registry.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum
@@ -414,7 +414,7 @@ objects:
         azure_sdk_references: ['/adminUserEnabled', '/properties/adminUserEnabled']
       - !ruby/object:Api::Type::NestedObject
         name: 'storageAccount'
-        description: 'The properties of the storage account for the container registry. Only applicable to Classic SKU.'
+        description: 'The parameters of a storage account for the container registry. Only applicable to Classic SKU. If specified, the storage account must be in the same physical location as the container registry.'
         required: false
         azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
         properties:

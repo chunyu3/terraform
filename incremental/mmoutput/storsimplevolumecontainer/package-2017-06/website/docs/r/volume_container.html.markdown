@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `storage_account_credential_id` - (Required) The path ID of storage account associated with the volume container.
 
-* `volume_container_name` - (Required) The name of the volume container. Changing this forces a new resource to be created.
+* `volume_container_name` - (Required) The volume container name. Changing this forces a new resource to be created.
 
 * `band_width_rate_in_mbps` - (Optional) The bandwidth-rate set on the volume container.
 

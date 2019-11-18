@@ -28,9 +28,9 @@ Manage Azure ScopeAssignment instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the scope assignment to create. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the scope assignment to get. Changing this forces a new resource to be created.
 
-* `scope` - (Required) The base resource of the scope assignment to create. The scope can be any REST resource instance. For example, use 'subscriptions/{subscription-id}' for a subscription, 'subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and 'subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}' for a resource. Changing this forces a new resource to be created.
+* `scope` - (Required) The base resource of the scope assignment. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

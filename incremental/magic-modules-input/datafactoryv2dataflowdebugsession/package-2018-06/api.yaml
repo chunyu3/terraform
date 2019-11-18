@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: request
-            go_type_name: CreateDataFlowDebugSessionRequest
+            go_type_name: DeleteDataFlowDebugSessionRequest
             python_parameter_name: request
             python_variable_name: request
           '/computeType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -70,6 +70,9 @@ objects:
           '/integrationRuntime/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
+          '/sessionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SessionID
+            python_field_name: session_id
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -86,7 +89,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: request
-            go_type_name: CreateDataFlowDebugSessionRequest
+            go_type_name: DeleteDataFlowDebugSessionRequest
             python_parameter_name: request
             python_variable_name: request
           '/computeType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -121,6 +124,9 @@ objects:
           '/integrationRuntime/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
+          '/sessionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SessionID
+            python_field_name: session_id
 
     description: |
       Manage Azure DataFlowDebugSession instance.
@@ -176,14 +182,15 @@ objects:
             description: 'Integration runtime description.'
             required: false
             azure_sdk_references: ['/integrationRuntime/description', '/integrationRuntime/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'sessionId'
+        description: 'The ID of data flow debug session.'
+        required: false
+        input: true
+        azure_sdk_references: ['/sessionId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'status'
         description: 'The state of the debug session.'
         output: true
         azure_sdk_references: ['/status']
-      - !ruby/object:Api::Type::String
-        name: 'sessionId'
-        description: 'The ID of data flow debug session.'
-        output: true
-        azure_sdk_references: ['/sessionId']

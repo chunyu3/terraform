@@ -50,8 +50,8 @@ objects:
             python_field_name: kind
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DatabaseAccountCreateUpdateProperties
-            go_type_name: DatabaseAccountCreateUpdateProperties
+            go_field_name: DatabaseAccountUpdateProperties
+            go_type_name: DatabaseAccountUpdateProperties
           '/consistencyPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: consistency_policy
@@ -103,12 +103,6 @@ objects:
           '/properties/locations/isZoneRedundant': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: IsZoneRedundant
-          '/databaseAccountOfferType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: database_account_offer_type
-          '/properties/databaseAccountOfferType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DatabaseAccountOfferType
           '/ipRangeFilter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: ip_range_filter
@@ -241,8 +235,8 @@ objects:
             python_field_name: kind
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DatabaseAccountCreateUpdateProperties
-            go_type_name: DatabaseAccountCreateUpdateProperties
+            go_field_name: DatabaseAccountUpdateProperties
+            go_type_name: DatabaseAccountUpdateProperties
           '/properties/consistencyPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ConsistencyPolicy
@@ -312,12 +306,6 @@ objects:
           '/locations/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: provisioning_state
-          '/properties/databaseAccountOfferType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: DatabaseAccountOfferType
-          '/databaseAccountOfferType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: database_account_offer_type
           '/properties/ipRangeFilter': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: IpRangeFilter
@@ -405,6 +393,13 @@ objects:
           '/documentEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: document_endpoint
+          '/properties/databaseAccountOfferType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DatabaseAccountOfferType
+            go_enum_type_name: DatabaseAccountOfferType
+          '/databaseAccountOfferType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: database_account_offer_type
           '/properties/writeLocations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: WriteLocations
@@ -649,7 +644,7 @@ objects:
       - !ruby/object:Api::Type::Array
         name: 'locations'
         description: 'An array that contains the georeplication locations enabled for the Cosmos DB account.'
-        required: true
+        required: false
         azure_sdk_references: ['/locations', '/properties/locations']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
@@ -668,11 +663,6 @@ objects:
               description: 'Flag to indicate whether or not this region is an AvailabilityZone region'
               required: false
               azure_sdk_references: ['/locations/isZoneRedundant', '/properties/locations/isZoneRedundant']
-      - !ruby/object:Api::Type::String
-        name: 'databaseAccountOfferType'
-        description: 'The offer type for the database'
-        required: true
-        azure_sdk_references: ['/databaseAccountOfferType', '/properties/databaseAccountOfferType']
       - !ruby/object:Api::Type::String
         name: 'ipRangeFilter'
         description: 'Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.'
@@ -751,6 +741,13 @@ objects:
         description: 'The connection endpoint for the Cosmos DB database account.'
         output: true
         azure_sdk_references: ['/documentEndpoint', '/properties/documentEndpoint']
+      - !ruby/object:Api::Type::Enum
+        name: 'databaseAccountOfferType'
+        description: 'The offer type for the Cosmos DB database account. Default value: Standard.'
+        output: true
+        azure_sdk_references: ['/databaseAccountOfferType', '/properties/databaseAccountOfferType']
+        values:
+          - :Standard
       - !ruby/object:Api::Type::Array
         name: 'writeLocations'
         description: 'An array that contains the write location for the Cosmos DB account.'

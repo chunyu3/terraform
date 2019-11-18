@@ -28,9 +28,9 @@ Manage Azure ContainerGroup instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the container group to be created or updated. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the container group. Changing this forces a new resource to be created.
 
-* `resource_group` - (Required) The name of the resource group to contain the container group to be created or updated. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group that contains the container group. Changing this forces a new resource to be created.
 
 * `location` - (Required) The resource location. Changing this forces a new resource to be created.
 

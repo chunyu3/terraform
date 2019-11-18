@@ -34,8 +34,13 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: name
+            go_variable_name: databaseName
             python_parameter_name: database_name
+            python_variable_name: database_name
+          'extensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: extensions
+            go_variable_name: name
+            python_parameter_name: extension_name
             python_variable_name: name
         response:
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
@@ -54,9 +59,9 @@ objects:
             python_variable_name: server_name
           'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databases
-            go_variable_name: name
+            go_variable_name: databaseName
             python_parameter_name: database_name
-            python_variable_name: name
+            python_variable_name: database_name
 
     description: |
       Manage Azure Extension instance.
@@ -74,9 +79,15 @@ objects:
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'databaseName'
         description: 'The name of the database to import into'
         required: true
         input: true
         azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the extension to get'
+        required: true
+        input: true
+        azure_sdk_references: ['extensionName']
       # read only values included only in response

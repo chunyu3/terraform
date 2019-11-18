@@ -38,7 +38,7 @@ The following arguments are supported:
 
 * `device_name` - (Required) The device name. Changing this forces a new resource to be created.
 
-* `disk_name` - (Required) The disk name. Changing this forces a new resource to be created.
+* `disk_name` - (Required) The iSCSI disk name. Changing this forces a new resource to be created.
 
 * `disk_status` - (Required) The disk status.
 

@@ -27,6 +27,11 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'commandId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: runCommands
+            go_variable_name: commandID
+            python_parameter_name: command_id
+            python_variable_name: command_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -79,6 +84,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['location']
+      - !ruby/object:Api::Type::String
+        name: 'commandId'
+        description: 'The command id.'
+        required: true
+        input: true
+        azure_sdk_references: ['commandId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

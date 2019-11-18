@@ -32,15 +32,15 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `credentials` - (Required) The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.
-
-* `logger_type` - (Required) Logger type.
-
 * `loggerid` - (Required) Logger identifier. Must be unique in the API Management service instance. Changing this forces a new resource to be created.
+
+* `credentials` - (Optional) Logger credentials.
 
 * `description` - (Optional) Logger description.
 
 * `is_buffered` - (Optional) Whether records are buffered in the logger before publishing. Default is assumed to be true.
+
+* `logger_type` - (Optional) Logger type. Defaults to `azureEventHub`.
 
 ## Attributes Reference
 

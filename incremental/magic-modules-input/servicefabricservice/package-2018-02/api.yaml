@@ -45,7 +45,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServiceResource
+            go_type_name: ServiceResourceUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -53,8 +53,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServiceResourceProperties
-            go_type_name: ServiceResourceProperties
+            go_field_name: ServiceResourceUpdateProperties
+            go_type_name: ServiceResourceUpdateProperties
           '/placementConstraints': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: placement_constraints
@@ -133,19 +133,6 @@ objects:
             applicable_to: [go]
             go_field_name: DefaultMoveCost
             go_enum_type_name: MoveCost
-          '/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_type_name
-          '/properties/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServiceTypeName
-          '/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: partition_description
-          '/properties/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PartitionDescription
-            go_type_name: PartitionSchemeDescription
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -173,7 +160,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServiceResource
+            go_type_name: ServiceResourceUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -181,8 +168,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServiceResourceProperties
-            go_type_name: ServiceResourceProperties
+            go_field_name: ServiceResourceUpdateProperties
+            go_type_name: ServiceResourceUpdateProperties
           '/placementConstraints': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: placement_constraints
@@ -261,19 +248,6 @@ objects:
             applicable_to: [go]
             go_field_name: DefaultMoveCost
             go_enum_type_name: MoveCost
-          '/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: service_type_name
-          '/properties/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServiceTypeName
-          '/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: partition_description
-          '/properties/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PartitionDescription
-            go_type_name: PartitionSchemeDescription
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -329,8 +303,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServiceResourceProperties
-            go_type_name: ServiceResourceProperties
+            go_field_name: ServiceResourceUpdateProperties
+            go_type_name: ServiceResourceUpdateProperties
           '/properties/placementConstraints': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: PlacementConstraints
@@ -409,6 +383,12 @@ objects:
           '/defaultMoveCost': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: default_move_cost
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/properties/serviceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ServiceTypeName
@@ -422,12 +402,6 @@ objects:
           '/partitionDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: partition_description
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -566,17 +540,17 @@ objects:
           - :Medium
           - :High
         default_value: :Zero
-      - !ruby/object:Api::Type::String
-        name: 'serviceTypeName'
-        description: 'The name of the service type'
-        required: false
-        azure_sdk_references: ['/serviceTypeName', '/properties/serviceTypeName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'The current deployment or provisioning state, which only appears in the response'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'serviceTypeName'
+        description: 'The name of the service type'
+        output: true
+        azure_sdk_references: ['/serviceTypeName', '/properties/serviceTypeName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource identifier.'

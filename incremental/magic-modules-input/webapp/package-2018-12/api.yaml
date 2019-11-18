@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: siteEnvelope
-            go_type_name: Site
+            go_type_name: SitePatchResource
             python_parameter_name: site_envelope
             python_variable_name: site_envelope
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -49,8 +49,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Site_properties
-            go_type_name: Site_properties
+            go_field_name: SitePatchResource_properties
+            go_type_name: SitePatchResource_properties
           '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: enabled
@@ -1115,7 +1115,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: siteEnvelope
-            go_type_name: Site
+            go_type_name: SitePatchResource
             python_parameter_name: site_envelope
             python_variable_name: site_envelope
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -1129,8 +1129,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Site_properties
-            go_type_name: Site_properties
+            go_field_name: SitePatchResource_properties
+            go_type_name: SitePatchResource_properties
           '/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: enabled
@@ -2193,6 +2193,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'deleteMetrics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteMetrics
+            python_parameter_name: delete_metrics
+            python_variable_name: delete_metrics
+          'deleteEmptyServerFarm': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteEmptyServerFarm
+            python_parameter_name: delete_empty_server_farm
+            python_variable_name: delete_empty_server_farm
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -2224,8 +2234,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Site_properties
-            go_type_name: Site_properties
+            go_field_name: SitePatchResource_properties
+            go_type_name: SitePatchResource_properties
           '/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: Enabled
@@ -3470,9 +3480,11 @@ objects:
           '/identity/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: PrincipalID
             python_field_name: principal_id
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
+          'id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: history
+            go_variable_name: iD
+            python_parameter_name: id
+            python_variable_name: id
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -3489,6 +3501,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'includeSlots': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: includeSlots
+            python_parameter_name: include_slots
+            python_variable_name: include_slots
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSlots
         python_func_name: list_slots
@@ -3559,6 +3576,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBackups
         python_func_name: list_backups
@@ -3797,6 +3819,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListUsagesSlot
         python_func_name: list_usages_slot
@@ -3811,6 +3838,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListConfigurationSnapshotInfo
         python_func_name: list_configuration_snapshot_info
@@ -3839,6 +3871,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: history
+            go_variable_name: iD
+            python_parameter_name: id
+            python_variable_name: id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWebJobsSlot
         python_func_name: list_web_jobs_slot
@@ -3853,6 +3890,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetricsSlot
         python_func_name: list_metrics_slot
@@ -3867,6 +3909,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBackupsSlot
         python_func_name: list_backups_slot
@@ -3881,6 +3933,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceFunctionsSlot
         python_func_name: list_instance_functions_slot
@@ -3895,6 +3952,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSnapshotsSlot
         python_func_name: list_snapshots_slot
@@ -3909,6 +3971,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListProcessesSlot
         python_func_name: list_processes_slot
@@ -3923,6 +3990,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListNetworkFeatures
         python_func_name: list_network_features
@@ -3937,6 +4009,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'view': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networkFeatures
+            go_variable_name: view
+            python_parameter_name: view
+            python_variable_name: view
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceIdentifiersSlot
         python_func_name: list_instance_identifiers_slot
@@ -3951,6 +4028,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSlotConfigurationNames
         python_func_name: list_slot_configuration_names
@@ -3993,6 +4075,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListDeploymentsSlot
         python_func_name: list_deployments_slot
@@ -4007,6 +4094,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListVnetConnections
         python_func_name: list_vnet_connections
@@ -4035,6 +4127,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListPremierAddOnsSlot
         python_func_name: list_premier_add_ons_slot
@@ -4049,6 +4146,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListDomainOwnershipIdentifiers
         python_func_name: list_domain_ownership_identifiers
@@ -4077,6 +4179,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListProcessModules
         python_func_name: list_process_modules
@@ -4091,6 +4198,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListHostNameBindingsSlot
         python_func_name: list_host_name_bindings_slot
@@ -4105,6 +4217,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListTriggeredWebJobsSlot
         python_func_name: list_triggered_web_jobs_slot
@@ -4119,6 +4236,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListProcessThreads
         python_func_name: list_process_threads
@@ -4133,6 +4255,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListRelayServiceConnectionsSlot
         python_func_name: list_relay_service_connections_slot
@@ -4147,6 +4274,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListContinuousWebJobsSlot
         python_func_name: list_continuous_web_jobs_slot
@@ -4161,6 +4293,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetricDefinitionsSlot
         python_func_name: list_metric_definitions_slot
@@ -4175,6 +4312,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListPublicCertificatesSlot
         python_func_name: list_public_certificates_slot
@@ -4189,6 +4331,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceProcesses
         python_func_name: list_instance_processes
@@ -4203,6 +4350,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListDeploymentLogSlot
         python_func_name: list_deployment_log_slot
@@ -4217,6 +4369,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: history
+            go_variable_name: iD
+            python_parameter_name: id
+            python_variable_name: id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListConfigurationSnapshotInfoSlot
         python_func_name: list_configuration_snapshot_info_slot
@@ -4231,6 +4393,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListNetworkFeaturesSlot
         python_func_name: list_network_features_slot
@@ -4245,6 +4412,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'view': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: networkFeatures
+            go_variable_name: view
+            python_parameter_name: view
+            python_variable_name: view
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListHybridConnectionsSlot
         python_func_name: list_hybrid_connections_slot
@@ -4259,6 +4436,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListTriggeredWebJobHistory
         python_func_name: list_triggered_web_job_history
@@ -4273,6 +4455,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'webJobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: triggeredwebjobs
+            go_variable_name: webJobName
+            python_parameter_name: web_job_name
+            python_variable_name: web_job_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListVnetConnectionsSlot
         python_func_name: list_vnet_connections_slot
@@ -4287,6 +4474,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListDomainOwnershipIdentifiersSlot
         python_func_name: list_domain_ownership_identifiers_slot
@@ -4301,6 +4493,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListProcessModulesSlot
         python_func_name: list_process_modules_slot
@@ -4315,6 +4512,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListProcessThreadsSlot
         python_func_name: list_process_threads_slot
@@ -4329,6 +4536,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceProcessesSlot
         python_func_name: list_instance_processes_slot
@@ -4343,6 +4560,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListTriggeredWebJobHistorySlot
         python_func_name: list_triggered_web_job_history_slot
@@ -4357,6 +4584,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'webJobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: triggeredwebjobs
+            go_variable_name: webJobName
+            python_parameter_name: web_job_name
+            python_variable_name: web_job_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceProcessModules
         python_func_name: list_instance_process_modules
@@ -4371,6 +4608,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceProcessThreads
         python_func_name: list_instance_process_threads
@@ -4385,6 +4632,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceProcessModulesSlot
         python_func_name: list_instance_process_modules_slot
@@ -4399,6 +4656,21 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListInstanceProcessThreadsSlot
         python_func_name: list_instance_process_threads_slot
@@ -4413,6 +4685,21 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
+          'processId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: processes
+            go_variable_name: processID
+            python_parameter_name: process_id
+            python_variable_name: process_id
 
     description: |
       Manage Azure WebApp instance.
@@ -4425,7 +4712,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Unique name of the app to create or update. To create or update a deployment slot, use the {slot} parameter.'
+        description: 'Site name.'
         required: true
         input: true
         azure_sdk_references: ['name']
@@ -5416,6 +5703,162 @@ objects:
             description: 'The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'
             required: false
             azure_sdk_references: ['/identity/userAssignedIdentities']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteMetrics'
+        description: 'If true, web app metrics are also deleted.'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteMetrics']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteEmptyServerFarm'
+        description: 'Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted.'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteEmptyServerFarm']
+      - !ruby/object:Api::Type::Boolean
+        name: 'includeSlots'
+        description: 'Specify <strong>true</strong> to include deployment slots in results. The default is false, which only gives you the production slot of all apps.'
+        required: false
+        input: true
+        azure_sdk_references: ['includeSlots']
+      - !ruby/object:Api::Type::Boolean
+        name: 'details'
+        description: 'Specify "true" to include metric details in the response. It is "false" by default.'
+        required: false
+        input: true
+        azure_sdk_references: ['details']
+      - !ruby/object:Api::Type::String
+        name: 'slot'
+        description: 'Name of the deployment slot. If a slot is not specified, the API returns deployments for the production slot.'
+        required: true
+        input: true
+        azure_sdk_references: ['slot']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'History ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['id']
+      - !ruby/object:Api::Type::String
+        name: 'backupId'
+        description: 'ID of the backup.'
+        required: true
+        input: true
+        azure_sdk_references: ['backupId']
+      - !ruby/object:Api::Type::String
+        name: 'webJobName'
+        description: 'Name of Web Job.'
+        required: true
+        input: true
+        azure_sdk_references: ['webJobName']
+      - !ruby/object:Api::Type::String
+        name: 'processId'
+        description: 'PID.'
+        required: true
+        input: true
+        azure_sdk_references: ['processId']
+      - !ruby/object:Api::Type::String
+        name: 'hostName'
+        description: 'Hostname in the hostname binding.'
+        required: true
+        input: true
+        azure_sdk_references: ['hostName']
+      - !ruby/object:Api::Type::String
+        name: 'view'
+        description: 'The type of view. This can either be "summary" or "detailed".'
+        required: true
+        input: true
+        azure_sdk_references: ['view']
+      - !ruby/object:Api::Type::String
+        name: 'functionName'
+        description: 'Function name.'
+        required: true
+        input: true
+        azure_sdk_references: ['functionName']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'GUID of the operation.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      - !ruby/object:Api::Type::String
+        name: 'entityName'
+        description: 'Name of the hybrid connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['entityName']
+      - !ruby/object:Api::Type::String
+        name: 'siteExtensionId'
+        description: 'Site extension name.'
+        required: true
+        input: true
+        azure_sdk_references: ['siteExtensionId']
+      - !ruby/object:Api::Type::String
+        name: 'instanceId'
+        description: 'ID of a specific scaled-out instance. This is the value of the name property in the JSON response from "GET api/sites/{siteName}/instances".'
+        required: true
+        input: true
+        azure_sdk_references: ['instanceId']
+      - !ruby/object:Api::Type::String
+        name: 'premierAddOnName'
+        description: 'Add-on name.'
+        required: true
+        input: true
+        azure_sdk_references: ['premierAddOnName']
+      - !ruby/object:Api::Type::String
+        name: 'snapshotId'
+        description: 'The ID of the snapshot to read.'
+        required: true
+        input: true
+        azure_sdk_references: ['snapshotId']
+      - !ruby/object:Api::Type::String
+        name: 'vnetName'
+        description: 'Name of the Virtual Network.'
+        required: true
+        input: true
+        azure_sdk_references: ['vnetName']
+      - !ruby/object:Api::Type::String
+        name: 'threadId'
+        description: 'TID.'
+        required: true
+        input: true
+        azure_sdk_references: ['threadId']
+      - !ruby/object:Api::Type::String
+        name: 'publicCertificateName'
+        description: 'Public certificate name.'
+        required: true
+        input: true
+        azure_sdk_references: ['publicCertificateName']
+      - !ruby/object:Api::Type::String
+        name: 'baseAddress'
+        description: 'Module base address.'
+        required: true
+        input: true
+        azure_sdk_references: ['baseAddress']
+      - !ruby/object:Api::Type::String
+        name: 'domainOwnershipIdentifierName'
+        description: 'Name of domain ownership identifier.'
+        required: true
+        input: true
+        azure_sdk_references: ['domainOwnershipIdentifierName']
+      - !ruby/object:Api::Type::String
+        name: 'gatewayName'
+        description: 'Name of the gateway. Currently, the only supported string is "primary".'
+        required: true
+        input: true
+        azure_sdk_references: ['gatewayName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'The namespace for this hybrid connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The relay name for this hybrid connection.'
+        required: true
+        input: true
+        azure_sdk_references: ['relayName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'state'
@@ -5518,11 +5961,6 @@ objects:
         description: 'Specifies an operation id if this site has a pending operation.'
         output: true
         azure_sdk_references: ['/inProgressOperationId', '/properties/inProgressOperationId']
-      - !ruby/object:Api::Type::String
-        name: 'id'
-        description: 'Resource Id.'
-        output: true
-        azure_sdk_references: ['/id']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Resource type.'

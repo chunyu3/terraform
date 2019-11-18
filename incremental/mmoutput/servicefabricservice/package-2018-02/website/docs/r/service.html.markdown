@@ -46,8 +46,6 @@ The following arguments are supported:
 
 * `service_load_metrics` - (Optional) One or more `service_load_metric` block defined below.
 
-* `service_type_name` - (Optional) The name of the service type
-
 ---
 
 The `correlation_scheme` block supports the following:
@@ -75,6 +73,8 @@ The `service_load_metric` block supports the following:
 The following attributes are exported:
 
 * `provisioning_state` - The current deployment or provisioning state, which only appears in the response
+
+* `service_type_name` - The name of the service type
 
 * `id` - Azure resource identifier.
 

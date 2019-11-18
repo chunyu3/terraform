@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `cache_id` - (Required) Identifier of the Cache entity. Cache identifier (should be either 'default' or valid Azure region identifier). Changing this forces a new resource to be created.
 
-* `connection_string` - (Required) Runtime connection string to cache
+* `connection_string` - (Optional) Runtime connection string to cache
 
 * `description` - (Optional) Cache description
 

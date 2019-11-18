@@ -51,8 +51,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: WebhookPropertiesCreateParameters
-            go_type_name: WebhookPropertiesCreateParameters
+            go_field_name: WebhookPropertiesUpdateParameters
+            go_type_name: WebhookPropertiesUpdateParameters
           '/serviceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: service_uri
@@ -152,8 +152,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: WebhookPropertiesCreateParameters
-            go_type_name: WebhookPropertiesCreateParameters
+            go_field_name: WebhookPropertiesUpdateParameters
+            go_type_name: WebhookPropertiesUpdateParameters
           '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -240,7 +240,7 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'serviceUri'
         description: 'The service URI for the webhook to post notifications.'
-        required: true
+        required: false
         azure_sdk_references: ['/serviceUri', '/properties/serviceUri']
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'customHeaders'
@@ -264,7 +264,7 @@ objects:
       - !ruby/object:Api::Type::Array
         name: 'actions'
         description: 'The list of actions that trigger the webhook to post notifications.'
-        required: true
+        required: false
         azure_sdk_references: ['/actions', '/properties/actions']
         item_type: !ruby/object:Api::Type::Enum
           name: 'TBD'
@@ -275,6 +275,7 @@ objects:
             - :quarantine
             - :chart_push
             - :chart_delete
+          default_value: :push
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

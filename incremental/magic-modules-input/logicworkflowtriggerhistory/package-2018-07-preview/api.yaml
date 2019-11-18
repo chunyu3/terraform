@@ -34,8 +34,13 @@ objects:
             python_variable_name: workflow_name
           'triggerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: triggers
-            go_variable_name: name
+            go_variable_name: triggerName
             python_parameter_name: trigger_name
+            python_variable_name: trigger_name
+          'historyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: histories
+            go_variable_name: name
+            python_parameter_name: history_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -248,9 +253,9 @@ objects:
             python_variable_name: workflow_name
           'triggerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: triggers
-            go_variable_name: name
+            go_variable_name: triggerName
             python_parameter_name: trigger_name
-            python_variable_name: name
+            python_variable_name: trigger_name
 
     description: |
       Manage Azure WorkflowTriggerHistory instance.
@@ -268,11 +273,17 @@ objects:
         input: true
         azure_sdk_references: ['workflowName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'triggerName'
         description: 'The workflow trigger name.'
         required: true
         input: true
         azure_sdk_references: ['triggerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The workflow trigger history name. Corresponds to the run name for triggers that resulted in a run.'
+        required: true
+        input: true
+        azure_sdk_references: ['historyName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

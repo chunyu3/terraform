@@ -40,7 +40,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ComputeResource
+            go_type_name: ClusterUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -51,26 +51,33 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Compute
-            go_type_name: Compute
-          '/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ClusterUpdateProperties
+            go_type_name: ClusterUpdateProperties
+          '/scaleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: compute_location
-          '/properties/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ComputeLocation
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: scale_settings
+          '/scaleSettings/maxNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
-            python_field_name: description
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: max_node_count
+          '/scaleSettings/minNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
-            python_field_name: resource_id
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: min_node_count
+          '/scaleSettings/nodeIdleTimeBeforeScaleDown': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: node_idle_time_before_scale_down
+          '/properties/scaleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ResourceID
+            go_field_name: ScaleSettings
+            go_type_name: ScaleSettings
+          '/properties/scaleSettings/maxNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxNodeCount
+          '/properties/scaleSettings/minNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MinNodeCount
+          '/properties/scaleSettings/nodeIdleTimeBeforeScaleDown': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: NodeIdleTimeBeforeScaleDown
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -93,7 +100,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ComputeResource
+            go_type_name: ClusterUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -104,26 +111,33 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Compute
-            go_type_name: Compute
-          '/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ClusterUpdateProperties
+            go_type_name: ClusterUpdateProperties
+          '/scaleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: compute_location
-          '/properties/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ComputeLocation
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: scale_settings
+          '/scaleSettings/maxNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
-            python_field_name: description
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: max_node_count
+          '/scaleSettings/minNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
-            python_field_name: resource_id
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: min_node_count
+          '/scaleSettings/nodeIdleTimeBeforeScaleDown': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: node_idle_time_before_scale_down
+          '/properties/scaleSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ResourceID
+            go_field_name: ScaleSettings
+            go_type_name: ScaleSettings
+          '/properties/scaleSettings/maxNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxNodeCount
+          '/properties/scaleSettings/minNodeCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MinNodeCount
+          '/properties/scaleSettings/nodeIdleTimeBeforeScaleDown': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: NodeIdleTimeBeforeScaleDown
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -144,6 +158,11 @@ objects:
             go_variable_name: name
             python_parameter_name: compute_name
             python_variable_name: name
+          'underlyingResourceAction': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: underlyingResourceAction
+            python_parameter_name: underlying_resource_action
+            python_variable_name: underlying_resource_action
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -172,26 +191,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Compute
-            go_type_name: Compute
+            go_field_name: ClusterUpdateProperties
+            go_type_name: ClusterUpdateProperties
           '/properties/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ComputeLocation
           '/computeLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: compute_location
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceID
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_id
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -199,6 +206,12 @@ objects:
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
           '/properties/createdOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreatedOn
@@ -211,6 +224,12 @@ objects:
           '/modifiedOn': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: modified_on
+          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ResourceID
+          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: resource_id
           '/properties/provisioningErrors': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ProvisioningErrors
@@ -333,22 +352,39 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'scaleSettings'
+        description: 'Desired scale settings for the amlCompute.'
+        required: false
+        azure_sdk_references: ['/scaleSettings', '/properties/scaleSettings']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'maxNodeCount'
+            description: 'Max number of nodes to use'
+            required: true
+            azure_sdk_references: ['/scaleSettings/maxNodeCount', '/properties/scaleSettings/maxNodeCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'minNodeCount'
+            description: 'Min number of nodes to use'
+            required: false
+            azure_sdk_references: ['/scaleSettings/minNodeCount', '/properties/scaleSettings/minNodeCount']
+          - !ruby/object:Api::Azure::Type::ISO8601Duration
+            name: 'nodeIdleTimeBeforeScaleDown'
+            description: 'Node Idle Time before scaling down amlCompute'
+            required: false
+            azure_sdk_references: ['/scaleSettings/nodeIdleTimeBeforeScaleDown', '/properties/scaleSettings/nodeIdleTimeBeforeScaleDown']
+      - !ruby/object:Api::Type::String
+        name: 'underlyingResourceAction'
+        description: 'Delete the underlying compute if ''Delete'', or detach the underlying compute from workspace if ''Detach''.'
+        required: true
+        input: true
+        azure_sdk_references: ['underlyingResourceAction']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'computeLocation'
         description: 'Location for the underlying compute'
-        required: false
+        output: true
         azure_sdk_references: ['/computeLocation', '/properties/computeLocation']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'The description of the Machine Learning compute.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::String
-        name: 'resourceId'
-        description: 'ARM resource id of the underlying compute'
-        required: false
-        azure_sdk_references: ['/resourceId', '/properties/resourceId']
-      # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.'
@@ -362,6 +398,11 @@ objects:
           - :Succeeded
           - :Failed
           - :Canceled
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the Machine Learning compute.'
+        output: true
+        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdOn'
         description: 'The date and time when the compute was created.'
@@ -372,6 +413,11 @@ objects:
         description: 'The date and time when the compute was last modified.'
         output: true
         azure_sdk_references: ['/modifiedOn', '/properties/modifiedOn']
+      - !ruby/object:Api::Type::String
+        name: 'resourceId'
+        description: 'ARM resource id of the underlying compute'
+        output: true
+        azure_sdk_references: ['/resourceId', '/properties/resourceId']
       - !ruby/object:Api::Type::Array
         name: 'provisioningErrors'
         description: 'Errors during provisioning'

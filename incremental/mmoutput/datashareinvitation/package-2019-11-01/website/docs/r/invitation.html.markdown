@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `account_name` - (Required) The name of the share account. Changing this forces a new resource to be created.
 
-* `share_name` - (Required) The name of the share to send the invitation for. Changing this forces a new resource to be created.
+* `share_name` - (Required) The name of the share. Changing this forces a new resource to be created.
 
 * `target_active_directory_id` - (Optional) The target Azure AD Id. Can't be combined with email.
 

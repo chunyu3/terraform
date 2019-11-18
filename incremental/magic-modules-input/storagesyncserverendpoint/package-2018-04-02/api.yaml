@@ -45,7 +45,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServerEndpointCreateParameters
+            go_type_name: ServerEndpointUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -56,14 +56,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerEndpointCreateParametersProperties
-            go_type_name: ServerEndpointCreateParametersProperties
-          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_local_path
-          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerLocalPath
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
           '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: cloud_tiering
@@ -77,18 +71,6 @@ objects:
           '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: VolumeFreeSpacePercent
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_resource_id
-          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerResourceID
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -116,7 +98,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServerEndpointCreateParameters
+            go_type_name: ServerEndpointUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -127,14 +109,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerEndpointCreateParametersProperties
-            go_type_name: ServerEndpointCreateParametersProperties
-          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_local_path
-          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerLocalPath
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
           '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: cloud_tiering
@@ -148,18 +124,6 @@ objects:
           '/properties/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: VolumeFreeSpacePercent
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_resource_id
-          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerResourceID
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -212,14 +176,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerEndpointCreateParametersProperties
-            go_type_name: ServerEndpointCreateParametersProperties
-          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerLocalPath
-          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_local_path
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
           '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: CloudTiering
@@ -233,6 +191,12 @@ objects:
           '/volumeFreeSpacePercent': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: volume_free_space_percent
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
           '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FriendlyName
@@ -333,15 +297,10 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters.'
+        description: 'The user-specified tags associated with the server endpoint.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::String
-        name: 'serverLocalPath'
-        description: 'Server Local path.'
-        required: false
-        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
       - !ruby/object:Api::Type::Enum
         name: 'cloudTiering'
         description: 'Cloud Tiering.'
@@ -356,17 +315,22 @@ objects:
         description: 'Level of free space to be maintained by Cloud Tiering if it is enabled.'
         required: false
         azure_sdk_references: ['/volumeFreeSpacePercent', '/properties/volumeFreeSpacePercent']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'serverLocalPath'
+        description: 'Server Local path.'
+        output: true
+        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
       - !ruby/object:Api::Type::String
         name: 'friendlyName'
         description: 'Friendly Name'
-        required: false
+        output: true
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
         name: 'serverResourceId'
         description: 'Server Resource Id.'
-        required: false
+        output: true
         azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
-      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'ServerEndpoint Provisioning State'

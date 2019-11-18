@@ -38,9 +38,8 @@ func resourceArmCredential() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -52,19 +51,17 @@ func resourceArmCredential() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
+            "description": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
             "password": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "user_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "description": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -112,9 +109,9 @@ func resourceArmCredentialCreate(d *schema.ResourceData, meta interface{}) error
     password := d.Get("password").(string)
     userName := d.Get("user_name").(string)
 
-    parameters := automation.CredentialCreateOrUpdateParameters{
+    parameters := automation.CredentialUpdateParameters{
         Name: utils.String(name),
-        CredentialCreateOrUpdateProperties: &automation.CredentialCreateOrUpdateProperties{
+        CredentialUpdateProperties: &automation.CredentialUpdateProperties{
             Description: utils.String(description),
             Password: utils.String(password),
             UserName: utils.String(userName),
@@ -166,11 +163,11 @@ func resourceArmCredentialRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if credentialCreateOrUpdateProperties := resp.CredentialCreateOrUpdateProperties; credentialCreateOrUpdateProperties != nil {
-        d.Set("creation_time", (credentialCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", credentialCreateOrUpdateProperties.Description)
-        d.Set("last_modified_time", (credentialCreateOrUpdateProperties.LastModifiedTime).String())
-        d.Set("user_name", credentialCreateOrUpdateProperties.UserName)
+    if credentialUpdateProperties := resp.CredentialUpdateProperties; credentialUpdateProperties != nil {
+        d.Set("creation_time", (credentialUpdateProperties.CreationTime).String())
+        d.Set("description", credentialUpdateProperties.Description)
+        d.Set("last_modified_time", (credentialUpdateProperties.LastModifiedTime).String())
+        d.Set("user_name", credentialUpdateProperties.UserName)
     }
     d.Set("type", resp.Type)
 
@@ -189,9 +186,9 @@ func resourceArmCredentialUpdate(d *schema.ResourceData, meta interface{}) error
     password := d.Get("password").(string)
     userName := d.Get("user_name").(string)
 
-    parameters := automation.CredentialCreateOrUpdateParameters{
+    parameters := automation.CredentialUpdateParameters{
         Name: utils.String(name),
-        CredentialCreateOrUpdateProperties: &automation.CredentialCreateOrUpdateProperties{
+        CredentialUpdateProperties: &automation.CredentialUpdateProperties{
             Description: utils.String(description),
             Password: utils.String(password),
             UserName: utils.String(userName),

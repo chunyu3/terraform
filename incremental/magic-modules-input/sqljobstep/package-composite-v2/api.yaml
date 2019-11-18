@@ -452,6 +452,11 @@ objects:
             go_variable_name: jobName
             python_parameter_name: job_name
             python_variable_name: job_name
+          'jobVersion': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: versions
+            go_variable_name: jobVersion
+            python_parameter_name: job_version
+            python_variable_name: job_version
 
     description: |
       Manage Azure JobStep instance.
@@ -608,6 +613,12 @@ objects:
             description: 'The backoff multiplier for the time between retries.'
             required: false
             azure_sdk_references: ['/executionOptions/retryIntervalBackoffMultiplier', '/properties/executionOptions/retryIntervalBackoffMultiplier']
+      - !ruby/object:Api::Type::Integer
+        name: 'jobVersion'
+        description: 'The version of the job to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobVersion']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

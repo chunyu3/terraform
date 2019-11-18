@@ -45,9 +45,45 @@ func resourceArmCluster() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "enable_disk_encryption": {
+                Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "enable_streaming_ingest": {
+                Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "optimized_autoscale": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "is_enabled": {
+                            Type: schema.TypeBool,
+                            Required: true,
+                        },
+                        "maximum": {
+                            Type: schema.TypeInt,
+                            Required: true,
+                        },
+                        "minimum": {
+                            Type: schema.TypeInt,
+                            Required: true,
+                        },
+                        "version": {
+                            Type: schema.TypeInt,
+                            Required: true,
+                        },
+                    },
+                },
+            },
+
             "sku": {
                 Type: schema.TypeList,
-                Required: true,
+                Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
@@ -80,42 +116,6 @@ func resourceArmCluster() *schema.Resource {
                         "capacity": {
                             Type: schema.TypeInt,
                             Optional: true,
-                        },
-                    },
-                },
-            },
-
-            "enable_disk_encryption": {
-                Type: schema.TypeBool,
-                Optional: true,
-            },
-
-            "enable_streaming_ingest": {
-                Type: schema.TypeBool,
-                Optional: true,
-            },
-
-            "optimized_autoscale": {
-                Type: schema.TypeList,
-                Optional: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "is_enabled": {
-                            Type: schema.TypeBool,
-                            Required: true,
-                        },
-                        "maximum": {
-                            Type: schema.TypeInt,
-                            Required: true,
-                        },
-                        "minimum": {
-                            Type: schema.TypeInt,
-                            Required: true,
-                        },
-                        "version": {
-                            Type: schema.TypeInt,
-                            Required: true,
                         },
                     },
                 },
@@ -227,7 +227,7 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     zones := d.Get("zones").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Cluster{
+    parameters := kusto.ClusterUpdate{
         Location: utils.String(location),
         ClusterProperties: &kusto.ClusterProperties{
             EnableDiskEncryption: utils.Bool(enableDiskEncryption),
@@ -332,7 +332,7 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     zones := d.Get("zones").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Cluster{
+    parameters := kusto.ClusterUpdate{
         Location: utils.String(location),
         ClusterProperties: &kusto.ClusterProperties{
             EnableDiskEncryption: utils.Bool(enableDiskEncryption),

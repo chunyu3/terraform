@@ -52,13 +52,12 @@ func resourceArmWorkspace() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "friendly_name": {
+            "description": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
-            "description": {
+            "friendly_name": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -118,9 +117,9 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
     friendlyName := d.Get("friendly_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearningexperimentation.Workspace{
+    parameters := machinelearningexperimentation.WorkspaceUpdateParameters{
         Location: utils.String(location),
-        WorkspaceProperties: &machinelearningexperimentation.WorkspaceProperties{
+        WorkspacePropertiesUpdateParameters: &machinelearningexperimentation.WorkspacePropertiesUpdateParameters{
             Description: utils.String(description),
             FriendlyName: utils.String(friendlyName),
         },
@@ -174,13 +173,13 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if workspaceProperties := resp.WorkspaceProperties; workspaceProperties != nil {
-        d.Set("account_id", workspaceProperties.AccountID)
-        d.Set("creation_date", (workspaceProperties.CreationDate).String())
-        d.Set("description", workspaceProperties.Description)
-        d.Set("friendly_name", workspaceProperties.FriendlyName)
-        d.Set("provisioning_state", string(workspaceProperties.ProvisioningState))
-        d.Set("workspace_id", workspaceProperties.WorkspaceID)
+    if workspacePropertiesUpdateParameters := resp.WorkspacePropertiesUpdateParameters; workspacePropertiesUpdateParameters != nil {
+        d.Set("account_id", workspacePropertiesUpdateParameters.AccountID)
+        d.Set("creation_date", (workspacePropertiesUpdateParameters.CreationDate).String())
+        d.Set("description", workspacePropertiesUpdateParameters.Description)
+        d.Set("friendly_name", workspacePropertiesUpdateParameters.FriendlyName)
+        d.Set("provisioning_state", string(workspacePropertiesUpdateParameters.ProvisioningState))
+        d.Set("workspace_id", workspacePropertiesUpdateParameters.WorkspaceID)
     }
     d.Set("account_name", accountName)
     d.Set("type", resp.Type)
@@ -199,9 +198,9 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     friendlyName := d.Get("friendly_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearningexperimentation.Workspace{
+    parameters := machinelearningexperimentation.WorkspaceUpdateParameters{
         Location: utils.String(location),
-        WorkspaceProperties: &machinelearningexperimentation.WorkspaceProperties{
+        WorkspacePropertiesUpdateParameters: &machinelearningexperimentation.WorkspacePropertiesUpdateParameters{
             Description: utils.String(description),
             FriendlyName: utils.String(friendlyName),
         },

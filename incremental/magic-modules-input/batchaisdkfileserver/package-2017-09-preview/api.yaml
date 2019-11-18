@@ -325,6 +325,11 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -334,6 +339,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
 
     description: |
       Manage Azure FileServer instance.
@@ -435,6 +445,12 @@ objects:
             description: 'The ID of the resource'
             required: true
             azure_sdk_references: ['/subnet/id', '/properties/subnet/id']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxresults'
+        description: 'The maximum number of items to return in the response. A maximum of 1000 files can be returned.'
+        required: false
+        input: true
+        azure_sdk_references: ['maxresults']
       # read only values included only in response
       - !ruby/object:Api::Type::NestedObject
         name: 'mountSettings'

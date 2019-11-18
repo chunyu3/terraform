@@ -69,6 +69,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'annotationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Annotations
+            go_variable_name: annotationID
+            python_parameter_name: annotation_id
+            python_variable_name: annotation_id
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -83,6 +88,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'annotationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Annotations
+            go_variable_name: annotationID
+            python_parameter_name: annotation_id
+            python_variable_name: annotation_id
         response:
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
@@ -98,6 +108,16 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'start': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: start
+            python_parameter_name: start
+            python_variable_name: start
+          'end': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: end
+            python_parameter_name: end
+            python_variable_name: end
 
     description: |
       Manage Azure Annotation instance.
@@ -150,4 +170,22 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/RelatedAnnotation']
+      - !ruby/object:Api::Type::String
+        name: 'annotationId'
+        description: 'The unique annotation ID. This is unique within a Application Insights component.'
+        required: true
+        input: true
+        azure_sdk_references: ['annotationId']
+      - !ruby/object:Api::Type::String
+        name: 'start'
+        description: 'The start time to query from for annotations, cannot be older than 90 days from current date.'
+        required: true
+        input: true
+        azure_sdk_references: ['start']
+      - !ruby/object:Api::Type::String
+        name: 'end'
+        description: 'The end time to query for annotations.'
+        required: true
+        input: true
+        azure_sdk_references: ['end']
       # read only values included only in response

@@ -27,6 +27,16 @@ objects:
             go_variable_name: reservationOrderID
             python_parameter_name: reservation_order_id
             python_variable_name: reservation_order_id
+          'reservationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reservations
+            go_variable_name: reservationID
+            python_parameter_name: reservation_id
+            python_variable_name: reservation_id
+          'expand': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: expand
+            python_parameter_name: expand
+            python_variable_name: expand
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -382,6 +392,11 @@ objects:
             go_variable_name: reservationOrderID
             python_parameter_name: reservation_order_id
             python_variable_name: reservation_order_id
+          'reservationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reservations
+            go_variable_name: reservationID
+            python_parameter_name: reservation_id
+            python_variable_name: reservation_id
 
     description: |
       Manage Azure Reservation instance.
@@ -392,6 +407,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['reservationOrderId']
+      - !ruby/object:Api::Type::String
+        name: 'reservationId'
+        description: 'Id of the Reservation Item'
+        required: true
+        input: true
+        azure_sdk_references: ['reservationId']
+      - !ruby/object:Api::Type::String
+        name: 'expand'
+        description: 'Supported value of this query is renewProperties'
+        required: false
+        input: true
+        azure_sdk_references: ['expand']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'

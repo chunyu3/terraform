@@ -27,6 +27,16 @@ objects:
             go_variable_name: scope
             python_parameter_name: scope
             python_variable_name: scope
+          'assessmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessments
+            go_variable_name: assessmentName
+            python_parameter_name: assessment_name
+            python_variable_name: assessment_name
+          'subAssessmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: subAssessments
+            go_variable_name: name
+            python_parameter_name: sub_assessment_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -148,6 +158,11 @@ objects:
             go_variable_name: scope
             python_parameter_name: scope
             python_variable_name: scope
+          'assessmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessments
+            go_variable_name: assessmentName
+            python_parameter_name: assessment_name
+            python_variable_name: assessment_name
 
     description: |
       Manage Azure SubAssessment instance.
@@ -158,6 +173,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'assessmentName'
+        description: 'The Assessment Key - Unique key for the assessment type'
+        required: true
+        input: true
+        azure_sdk_references: ['assessmentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The Sub-Assessment Key - Unique key for the sub-assessment type'
+        required: true
+        input: true
+        azure_sdk_references: ['subAssessmentName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

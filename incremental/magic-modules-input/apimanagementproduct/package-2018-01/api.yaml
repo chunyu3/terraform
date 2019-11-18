@@ -39,13 +39,13 @@ objects:
             python_variable_name: product_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ProductContract
+            go_type_name: ProductUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProductContractProperties
-            go_type_name: ProductContractProperties
+            go_field_name: ProductUpdateProperties
+            go_type_name: ProductUpdateProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -110,13 +110,13 @@ objects:
             python_variable_name: product_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ProductContract
+            go_type_name: ProductUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProductContractProperties
-            go_type_name: ProductContractProperties
+            go_field_name: ProductUpdateProperties
+            go_type_name: ProductUpdateProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -179,6 +179,11 @@ objects:
             go_variable_name: productID
             python_parameter_name: product_id
             python_variable_name: product_id
+          'deleteSubscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteSubscriptions
+            python_parameter_name: delete_subscriptions
+            python_variable_name: delete_subscriptions
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -201,8 +206,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProductContractProperties
-            go_type_name: ProductContractProperties
+            go_field_name: ProductUpdateProperties
+            go_type_name: ProductUpdateProperties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -269,6 +274,11 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'expandGroups': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: expandGroups
+            python_parameter_name: expand_groups
+            python_variable_name: expand_groups
 
     description: |
       Manage Azure Product instance.
@@ -328,8 +338,20 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'Product name.'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteSubscriptions'
+        description: 'Delete existing subscriptions associated with the product or not.'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteSubscriptions']
+      - !ruby/object:Api::Type::Boolean
+        name: 'expandGroups'
+        description: 'When set to true, the response contains an array of groups that have visibility to the product. The default is false.'
+        required: false
+        input: true
+        azure_sdk_references: ['expandGroups']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

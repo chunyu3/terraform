@@ -130,6 +130,24 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['customTimeRange']
+      - !ruby/object:Api::Type::String
+        name: 'groupby'
+        description: 'This parameter allows the result set to be grouped by input fields. For example, groupby=severity,alertstate.'
+        required: true
+        input: true
+        azure_sdk_references: ['groupby']
+      - !ruby/object:Api::Type::Boolean
+        name: 'includeSmartGroupsCount'
+        description: 'Include count of the SmartGroups as part of the summary. Default value is ''false''.'
+        required: false
+        input: true
+        azure_sdk_references: ['includeSmartGroupsCount']
+      - !ruby/object:Api::Type::String
+        name: 'alertId'
+        description: 'Unique ID of an alert instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['alertId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'nextLink'

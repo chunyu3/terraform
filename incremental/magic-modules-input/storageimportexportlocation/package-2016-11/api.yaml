@@ -22,6 +22,11 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: name
+            python_parameter_name: location_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -104,6 +109,12 @@ objects:
     description: |
       Manage Azure Location instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the location. For example, West US or westus.'
+        required: true
+        input: true
+        azure_sdk_references: ['locationName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

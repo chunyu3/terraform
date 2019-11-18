@@ -252,17 +252,17 @@ func resourceArmLabCreate(d *schema.ResourceData, meta interface{}) error {
     support := d.Get("support").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    lab := devtestlab.Lab{
+    lab := devtestlab.LabFragment{
         Location: utils.String(location),
-        LabProperties: &devtestlab.LabProperties{
-            Announcement: expandArmLabLabAnnouncementProperties(announcement),
+        LabPropertiesFragment: &devtestlab.LabPropertiesFragment{
+            Announcement: expandArmLabLabAnnouncementPropertiesFragment(announcement),
             EnvironmentPermission: devtestlab.EnvironmentPermission(environmentPermission),
             ExtendedProperties: utils.ExpandKeyValuePairs(extendedProperties),
             LabStorageType: devtestlab.StorageType(labStorageType),
             MandatoryArtifactsResourceIdsLinux: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsLinux),
             MandatoryArtifactsResourceIdsWindows: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsWindows),
             PremiumDataDisks: devtestlab.PremiumDataDisk(premiumDataDisks),
-            Support: expandArmLabLabSupportProperties(support),
+            Support: expandArmLabLabSupportPropertiesFragment(support),
         },
         Tags: tags.Expand(t),
     }
@@ -316,31 +316,31 @@ func resourceArmLabRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if labProperties := resp.LabProperties; labProperties != nil {
-        if err := d.Set("announcement", flattenArmLabLabAnnouncementProperties(labProperties.Announcement)); err != nil {
+    if labPropertiesFragment := resp.LabPropertiesFragment; labPropertiesFragment != nil {
+        if err := d.Set("announcement", flattenArmLabLabAnnouncementPropertiesFragment(labPropertiesFragment.Announcement)); err != nil {
             return fmt.Errorf("Error setting `announcement`: %+v", err)
         }
-        d.Set("artifacts_storage_account", labProperties.ArtifactsStorageAccount)
-        d.Set("created_date", (labProperties.CreatedDate).String())
-        d.Set("default_premium_storage_account", labProperties.DefaultPremiumStorageAccount)
-        d.Set("default_storage_account", labProperties.DefaultStorageAccount)
-        d.Set("environment_permission", string(labProperties.EnvironmentPermission))
-        d.Set("extended_properties", utils.FlattenKeyValuePairs(labProperties.ExtendedProperties))
-        d.Set("lab_storage_type", string(labProperties.LabStorageType))
-        d.Set("load_balancer_id", labProperties.LoadBalancerID)
-        d.Set("mandatory_artifacts_resource_ids_linux", utils.FlattenStringSlice(labProperties.MandatoryArtifactsResourceIdsLinux))
-        d.Set("mandatory_artifacts_resource_ids_windows", utils.FlattenStringSlice(labProperties.MandatoryArtifactsResourceIdsWindows))
-        d.Set("network_security_group_id", labProperties.NetworkSecurityGroupID)
-        d.Set("premium_data_disk_storage_account", labProperties.PremiumDataDiskStorageAccount)
-        d.Set("premium_data_disks", string(labProperties.PremiumDataDisks))
-        d.Set("provisioning_state", labProperties.ProvisioningState)
-        d.Set("public_ip_id", labProperties.PublicIpID)
-        if err := d.Set("support", flattenArmLabLabSupportProperties(labProperties.Support)); err != nil {
+        d.Set("artifacts_storage_account", labPropertiesFragment.ArtifactsStorageAccount)
+        d.Set("created_date", (labPropertiesFragment.CreatedDate).String())
+        d.Set("default_premium_storage_account", labPropertiesFragment.DefaultPremiumStorageAccount)
+        d.Set("default_storage_account", labPropertiesFragment.DefaultStorageAccount)
+        d.Set("environment_permission", string(labPropertiesFragment.EnvironmentPermission))
+        d.Set("extended_properties", utils.FlattenKeyValuePairs(labPropertiesFragment.ExtendedProperties))
+        d.Set("lab_storage_type", string(labPropertiesFragment.LabStorageType))
+        d.Set("load_balancer_id", labPropertiesFragment.LoadBalancerID)
+        d.Set("mandatory_artifacts_resource_ids_linux", utils.FlattenStringSlice(labPropertiesFragment.MandatoryArtifactsResourceIdsLinux))
+        d.Set("mandatory_artifacts_resource_ids_windows", utils.FlattenStringSlice(labPropertiesFragment.MandatoryArtifactsResourceIdsWindows))
+        d.Set("network_security_group_id", labPropertiesFragment.NetworkSecurityGroupID)
+        d.Set("premium_data_disk_storage_account", labPropertiesFragment.PremiumDataDiskStorageAccount)
+        d.Set("premium_data_disks", string(labPropertiesFragment.PremiumDataDisks))
+        d.Set("provisioning_state", labPropertiesFragment.ProvisioningState)
+        d.Set("public_ip_id", labPropertiesFragment.PublicIpID)
+        if err := d.Set("support", flattenArmLabLabSupportPropertiesFragment(labPropertiesFragment.Support)); err != nil {
             return fmt.Errorf("Error setting `support`: %+v", err)
         }
-        d.Set("unique_identifier", labProperties.UniqueIdentifier)
-        d.Set("vault_name", labProperties.VaultName)
-        d.Set("vm_creation_resource_group", labProperties.VmCreationResourceGroup)
+        d.Set("unique_identifier", labPropertiesFragment.UniqueIdentifier)
+        d.Set("vault_name", labPropertiesFragment.VaultName)
+        d.Set("vm_creation_resource_group", labPropertiesFragment.VmCreationResourceGroup)
     }
     d.Set("type", resp.Type)
 
@@ -363,17 +363,17 @@ func resourceArmLabUpdate(d *schema.ResourceData, meta interface{}) error {
     support := d.Get("support").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    lab := devtestlab.Lab{
+    lab := devtestlab.LabFragment{
         Location: utils.String(location),
-        LabProperties: &devtestlab.LabProperties{
-            Announcement: expandArmLabLabAnnouncementProperties(announcement),
+        LabPropertiesFragment: &devtestlab.LabPropertiesFragment{
+            Announcement: expandArmLabLabAnnouncementPropertiesFragment(announcement),
             EnvironmentPermission: devtestlab.EnvironmentPermission(environmentPermission),
             ExtendedProperties: utils.ExpandKeyValuePairs(extendedProperties),
             LabStorageType: devtestlab.StorageType(labStorageType),
             MandatoryArtifactsResourceIdsLinux: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsLinux),
             MandatoryArtifactsResourceIdsWindows: utils.ExpandStringSlice(mandatoryArtifactsResourceIdsWindows),
             PremiumDataDisks: devtestlab.PremiumDataDisk(premiumDataDisks),
-            Support: expandArmLabLabSupportProperties(support),
+            Support: expandArmLabLabSupportPropertiesFragment(support),
         },
         Tags: tags.Expand(t),
     }
@@ -415,7 +415,7 @@ func resourceArmLabDelete(d *schema.ResourceData, meta interface{}) error {
     return nil
 }
 
-func expandArmLabLabAnnouncementProperties(input []interface{}) *devtestlab.LabAnnouncementProperties {
+func expandArmLabLabAnnouncementPropertiesFragment(input []interface{}) *devtestlab.LabAnnouncementPropertiesFragment {
     if len(input) == 0 {
         return nil
     }
@@ -427,7 +427,7 @@ func expandArmLabLabAnnouncementProperties(input []interface{}) *devtestlab.LabA
     expirationDate := v["expiration_date"].(string)
     expired := v["expired"].(bool)
 
-    result := devtestlab.LabAnnouncementProperties{
+    result := devtestlab.LabAnnouncementPropertiesFragment{
         Enabled: devtestlab.EnableStatus(enabled),
         ExpirationDate: convertStringToDate(expirationDate),
         Expired: utils.Bool(expired),
@@ -437,7 +437,7 @@ func expandArmLabLabAnnouncementProperties(input []interface{}) *devtestlab.LabA
     return &result
 }
 
-func expandArmLabLabSupportProperties(input []interface{}) *devtestlab.LabSupportProperties {
+func expandArmLabLabSupportPropertiesFragment(input []interface{}) *devtestlab.LabSupportPropertiesFragment {
     if len(input) == 0 {
         return nil
     }
@@ -446,7 +446,7 @@ func expandArmLabLabSupportProperties(input []interface{}) *devtestlab.LabSuppor
     enabled := v["enabled"].(string)
     markdown := v["markdown"].(string)
 
-    result := devtestlab.LabSupportProperties{
+    result := devtestlab.LabSupportPropertiesFragment{
         Enabled: devtestlab.EnableStatus(enabled),
         Markdown: utils.String(markdown),
     }
@@ -469,7 +469,7 @@ func convertStringToDate(input interface{}) *date.Time {
 }
 
 
-func flattenArmLabLabAnnouncementProperties(input *devtestlab.LabAnnouncementProperties) []interface{} {
+func flattenArmLabLabAnnouncementPropertiesFragment(input *devtestlab.LabAnnouncementPropertiesFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -493,7 +493,7 @@ func flattenArmLabLabAnnouncementProperties(input *devtestlab.LabAnnouncementPro
     return []interface{}{result}
 }
 
-func flattenArmLabLabSupportProperties(input *devtestlab.LabSupportProperties) []interface{} {
+func flattenArmLabLabSupportPropertiesFragment(input *devtestlab.LabSupportPropertiesFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }

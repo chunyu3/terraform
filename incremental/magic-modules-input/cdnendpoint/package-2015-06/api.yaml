@@ -40,7 +40,7 @@ objects:
             python_variable_name: endpoint_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: endpointProperties
-            go_type_name: EndpointCreateParameters
+            go_type_name: EndpointUpdateParameters
             python_parameter_name: endpoint_properties
             python_variable_name: endpoint_properties
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointPropertiesCreateParameters
-            go_type_name: EndpointPropertiesCreateParameters
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: origin_host_header
@@ -96,41 +96,6 @@ objects:
             applicable_to: [go]
             go_field_name: QueryStringCachingBehavior
             go_enum_type_name: QueryStringCachingBehavior
-          '/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origins
-          '/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/origins/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/origins/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: http_port
-          '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: https_port
-          '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Origins
-            go_type_name: DeepCreatedOrigin
-          '/properties/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/origins/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeepCreatedOriginProperties
-            go_type_name: DeepCreatedOriginProperties
-          '/properties/origins/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/properties/origins/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpPort
-          '/properties/origins/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpsPort
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -153,7 +118,7 @@ objects:
             python_variable_name: endpoint_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: endpointProperties
-            go_type_name: EndpointCreateParameters
+            go_type_name: EndpointUpdateParameters
             python_parameter_name: endpoint_properties
             python_variable_name: endpoint_properties
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -164,8 +129,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointPropertiesCreateParameters
-            go_type_name: EndpointPropertiesCreateParameters
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: origin_host_header
@@ -209,41 +174,6 @@ objects:
             applicable_to: [go]
             go_field_name: QueryStringCachingBehavior
             go_enum_type_name: QueryStringCachingBehavior
-          '/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origins
-          '/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/origins/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/origins/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: http_port
-          '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: https_port
-          '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Origins
-            go_type_name: DeepCreatedOrigin
-          '/properties/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/origins/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeepCreatedOriginProperties
-            go_type_name: DeepCreatedOriginProperties
-          '/properties/origins/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/properties/origins/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpPort
-          '/properties/origins/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpsPort
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -272,8 +202,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointPropertiesCreateParameters
-            go_type_name: EndpointPropertiesCreateParameters
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/properties/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: OriginHostHeader
@@ -317,6 +247,12 @@ objects:
           '/queryStringCachingBehavior': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: query_string_caching_behavior
+          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
           '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Origins
@@ -352,12 +288,6 @@ objects:
           '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: https_port
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
           '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ResourceState
@@ -419,7 +349,7 @@ objects:
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
         name: 'originHostHeader'
-        description: 'The host header CDN provider will send along with content requests to origins. The default value is the host name of the origin.'
+        description: 'The host header the CDN provider will send along with content requests to origins. The default value is the host name of the origin.'
         required: false
         azure_sdk_references: ['/originHostHeader', '/properties/originHostHeader']
       - !ruby/object:Api::Type::String
@@ -445,12 +375,12 @@ objects:
         azure_sdk_references: ['/isHttpAllowed', '/properties/isHttpAllowed']
       - !ruby/object:Api::Type::Boolean
         name: 'isHttpsAllowed'
-        description: 'Indicates whether https traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.'
+        description: 'Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol (HTTP or HTTPS) must be allowed.'
         required: false
         azure_sdk_references: ['/isHttpsAllowed', '/properties/isHttpsAllowed']
       - !ruby/object:Api::Type::Enum
         name: 'queryStringCachingBehavior'
-        description: 'Defines the query string caching behavior.'
+        description: 'Defines the query string caching behavior'
         required: false
         azure_sdk_references: ['/queryStringCachingBehavior', '/properties/queryStringCachingBehavior']
         values:
@@ -459,33 +389,6 @@ objects:
           - :UseQueryString
           - :NotSet
         default_value: :IgnoreQueryString
-      - !ruby/object:Api::Type::Array
-        name: 'origins'
-        description: 'The set of origins for the CDN endpoint. When multiple origins exist, the first origin will be used as primary and rest will be used as failover options.'
-        required: true
-        azure_sdk_references: ['/origins', '/properties/origins']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Origin name'
-              required: true
-              azure_sdk_references: ['/origins/name', '/properties/origins/name']
-            - !ruby/object:Api::Type::String
-              name: 'hostName'
-              description: 'The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.'
-              required: true
-              azure_sdk_references: ['/origins/hostName', '/properties/origins/properties/hostName']
-            - !ruby/object:Api::Type::Integer
-              name: 'httpPort'
-              description: 'The value of the HTTP port. Must be between 1 and 65535'
-              required: false
-              azure_sdk_references: ['/origins/httpPort', '/properties/origins/properties/httpPort']
-            - !ruby/object:Api::Type::Integer
-              name: 'httpsPort'
-              description: 'The value of the HTTPS port. Must be between 1 and 65535'
-              required: false
-              azure_sdk_references: ['/origins/httpsPort', '/properties/origins/properties/httpsPort']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Name of the CDN profile within the resource group.'
@@ -504,6 +407,13 @@ objects:
         description: 'The host name of the endpoint {endpointName}.{DNSZone}'
         output: true
         azure_sdk_references: ['/hostName', '/properties/hostName']
+      - !ruby/object:Api::Type::Array
+        name: 'origins'
+        description: 'The set of origins for the CDN endpoint. When multiple origins exist, the first origin will be used as primary and rest will be used as failover options.'
+        output: true
+        azure_sdk_references: ['/origins', '/properties/origins']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
       - !ruby/object:Api::Type::Enum
         name: 'resourceState'
         description: 'Resource status of the endpoint.'

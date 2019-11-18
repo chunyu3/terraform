@@ -32,19 +32,23 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `display_name` - (Required) Subscription name.
-
-* `product_id` - (Required) Product (product id path) for which subscription is being created in form /products/{productId}
-
 * `sid` - (Required) Subscription entity Identifier. The entity represents the association between a user and a product in API Management. Changing this forces a new resource to be created.
 
-* `user_id` - (Required) User (user id path) for whom subscription is being created in form /users/{uid}
+* `display_name` - (Optional) Subscription name.
 
-* `primary_key` - (Optional) Primary subscription key. If not specified during request key will be generated automatically.
+* `expiration_date` - (Optional) Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
 
-* `secondary_key` - (Optional) Secondary subscription key. If not specified during request key will be generated automatically.
+* `primary_key` - (Optional) Primary subscription key.
 
-* `state` - (Optional) Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated. Defaults to `suspended`.
+* `product_id` - (Optional) Product identifier path: /products/{productId}
+
+* `secondary_key` - (Optional) Secondary subscription key.
+
+* `state` - (Optional) Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated. Defaults to `suspended`.
+
+* `state_comment` - (Optional) Comments describing subscription state change by the administrator.
+
+* `user_id` - (Optional) User identifier path: /users/{uid}
 
 ## Attributes Reference
 
@@ -54,13 +58,9 @@ The following attributes are exported:
 
 * `start_date` - Subscription activation date. The setting is for audit purposes only and the subscription is not automatically activated. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>
 
-* `expiration_date` - Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>
-
 * `end_date` - Date when subscription was cancelled or expired. The setting is for audit purposes only and the subscription is not automatically cancelled. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>
 
 * `notification_date` - Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>
-
-* `state_comment` - Optional subscription comment added by an administrator.
 
 * `id` - Resource ID.
 

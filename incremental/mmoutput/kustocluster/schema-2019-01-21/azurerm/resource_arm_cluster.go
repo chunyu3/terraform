@@ -47,7 +47,7 @@ func resourceArmCluster() *schema.Resource {
 
             "sku": {
                 Type: schema.TypeList,
-                Required: true,
+                Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
@@ -152,7 +152,7 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     trustedExternalTenants := d.Get("trusted_external_tenants").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Cluster{
+    parameters := kusto.ClusterUpdate{
         Location: utils.String(location),
         ClusterProperties: &kusto.ClusterProperties{
             TrustedExternalTenants: expandArmClusterTrustedExternalTenant(trustedExternalTenants),
@@ -238,7 +238,7 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     trustedExternalTenants := d.Get("trusted_external_tenants").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Cluster{
+    parameters := kusto.ClusterUpdate{
         Location: utils.String(location),
         ClusterProperties: &kusto.ClusterProperties{
             TrustedExternalTenants: expandArmClusterTrustedExternalTenant(trustedExternalTenants),

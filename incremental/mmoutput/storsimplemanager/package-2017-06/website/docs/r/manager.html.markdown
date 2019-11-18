@@ -40,7 +40,7 @@ The following arguments are supported:
 
 * `sku` - (Optional) One `sku` block defined below.
 
-* `tags` - (Optional) The tags attached to the resource. Changing this forces a new resource to be created.
+* `tags` - (Optional) The tags attached to the Manager. Changing this forces a new resource to be created.
 
 ---
 

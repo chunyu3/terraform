@@ -39,8 +39,13 @@ objects:
             python_variable_name: resource_type
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {resourceType}
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
+            python_variable_name: resource_name
+          'adaptiveNetworkHardeningResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: adaptiveNetworkHardenings
+            go_variable_name: name
+            python_parameter_name: adaptive_network_hardening_resource_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -140,9 +145,9 @@ objects:
             python_variable_name: resource_type
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: {resourceType}
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
 
     description: |
       Manage Azure AdaptiveNetworkHardening instance.
@@ -166,11 +171,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceType']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'resourceName'
         description: 'Name of the resource.'
         required: true
         input: true
         azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Adaptive Network Hardening resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['adaptiveNetworkHardeningResourceName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

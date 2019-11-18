@@ -124,7 +124,7 @@ func resourceArmManagerCreate(d *schema.ResourceData, meta interface{}) error {
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := storsimple.Manager{
+    parameters := storsimple.ManagerPatch{
         Etag: utils.String(etag),
         Location: utils.String(location),
         ManagerProperties: &storsimple.ManagerProperties{
@@ -206,7 +206,7 @@ func resourceArmManagerUpdate(d *schema.ResourceData, meta interface{}) error {
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := storsimple.Manager{
+    parameters := storsimple.ManagerPatch{
         Etag: utils.String(etag),
         Location: utils.String(location),
         ManagerProperties: &storsimple.ManagerProperties{

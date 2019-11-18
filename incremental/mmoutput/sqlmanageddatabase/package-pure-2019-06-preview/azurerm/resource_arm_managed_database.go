@@ -177,7 +177,7 @@ func resourceArmManagedDatabaseCreate(d *schema.ResourceData, meta interface{}) 
     storageContainerUri := d.Get("storage_container_uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ManagedDatabase{
+    parameters := sql.ManagedDatabaseUpdate{
         Location: utils.String(location),
         ManagedDatabaseProperties: &sql.ManagedDatabaseProperties{
             CatalogCollation: sql.CatalogCollationType(catalogCollation),
@@ -284,7 +284,7 @@ func resourceArmManagedDatabaseUpdate(d *schema.ResourceData, meta interface{}) 
     storageContainerUri := d.Get("storage_container_uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ManagedDatabase{
+    parameters := sql.ManagedDatabaseUpdate{
         Location: utils.String(location),
         ManagedDatabaseProperties: &sql.ManagedDatabaseProperties{
             CatalogCollation: sql.CatalogCollationType(catalogCollation),

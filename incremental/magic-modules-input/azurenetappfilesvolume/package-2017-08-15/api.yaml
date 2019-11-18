@@ -45,7 +45,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
-            go_type_name: Volume
+            go_type_name: VolumePatch
             python_parameter_name: body
             python_variable_name: body
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -56,14 +56,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VolumeProperties
-            go_type_name: VolumeProperties
-          '/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: creation_token
-          '/properties/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CreationToken
+            go_field_name: VolumePatchProperties
+            go_type_name: VolumePatchProperties
           '/serviceLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: service_level
@@ -107,7 +101,7 @@ objects:
           '/properties/exportPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ExportPolicy
-            go_type_name: VolumeProperties_exportPolicy
+            go_type_name: VolumePatchProperties_exportPolicy
           '/properties/exportPolicy/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Rules
@@ -133,12 +127,6 @@ objects:
           '/properties/exportPolicy/rules/allowedClients': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: AllowedClients
-          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
-          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -165,7 +153,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
-            go_type_name: Volume
+            go_type_name: VolumePatch
             python_parameter_name: body
             python_variable_name: body
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -176,14 +164,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VolumeProperties
-            go_type_name: VolumeProperties
-          '/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: creation_token
-          '/properties/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CreationToken
+            go_field_name: VolumePatchProperties
+            go_type_name: VolumePatchProperties
           '/serviceLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: service_level
@@ -227,7 +209,7 @@ objects:
           '/properties/exportPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ExportPolicy
-            go_type_name: VolumeProperties_exportPolicy
+            go_type_name: VolumePatchProperties_exportPolicy
           '/properties/exportPolicy/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Rules
@@ -253,12 +235,6 @@ objects:
           '/properties/exportPolicy/rules/allowedClients': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: AllowedClients
-          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
-          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -317,14 +293,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VolumeProperties
-            go_type_name: VolumeProperties
-          '/properties/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CreationToken
-          '/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: creation_token
+            go_field_name: VolumePatchProperties
+            go_type_name: VolumePatchProperties
           '/properties/serviceLevel': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ServiceLevel
@@ -341,7 +311,7 @@ objects:
           '/properties/exportPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ExportPolicy
-            go_type_name: VolumeProperties_exportPolicy
+            go_type_name: VolumePatchProperties_exportPolicy
           '/properties/exportPolicy/rules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Rules
@@ -394,24 +364,30 @@ objects:
           '/exportPolicy/rules/allowedClients': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: allowed_clients
-          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
-          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
           '/properties/fileSystemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FileSystemID
           '/fileSystemId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: file_system_id
+          '/properties/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreationToken
+          '/creationToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: creation_token
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetID
+          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -447,7 +423,7 @@ objects:
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
         description: 'Resource location'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
@@ -456,20 +432,16 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::String
-        name: 'creationToken'
-        description: 'A unique file path for the volume. Used when creating mount targets'
-        required: true
-        azure_sdk_references: ['/creationToken', '/properties/creationToken']
       - !ruby/object:Api::Type::Enum
         name: 'serviceLevel'
         description: 'The service level of the file system'
-        required: true
+        required: false
         azure_sdk_references: ['/serviceLevel', '/properties/serviceLevel']
         values:
           - :Standard
           - :Premium
           - :Ultra
+        default_value: :Standard
       - !ruby/object:Api::Type::Integer
         name: 'usageThreshold'
         description: 'Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB.'
@@ -523,11 +495,6 @@ objects:
                   description: 'Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names'
                   required: false
                   azure_sdk_references: ['/exportPolicy/rules/allowedClients', '/properties/exportPolicy/rules/allowedClients']
-      - !ruby/object:Api::Type::String
-        name: 'subnetId'
-        description: 'The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes'
-        required: false
-        azure_sdk_references: ['/subnetId', '/properties/subnetId']
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group.'
@@ -559,10 +526,20 @@ objects:
         output: true
         azure_sdk_references: ['/fileSystemId', '/properties/fileSystemId']
       - !ruby/object:Api::Type::String
+        name: 'creationToken'
+        description: 'A unique file path for the volume. Used when creating mount targets'
+        output: true
+        azure_sdk_references: ['/creationToken', '/properties/creationToken']
+      - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'Azure lifecycle management'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'subnetId'
+        description: 'The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes'
+        output: true
+        azure_sdk_references: ['/subnetId', '/properties/subnetId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

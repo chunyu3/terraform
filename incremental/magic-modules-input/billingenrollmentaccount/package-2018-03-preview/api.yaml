@@ -22,13 +22,20 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: enrollmentAccounts
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
         response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: enrollmentAccounts
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -50,17 +57,18 @@ objects:
     description: |
       Manage Azure EnrollmentAccount instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Enrollment Account name.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Resource name.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Resource type.'

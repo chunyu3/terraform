@@ -32,13 +32,11 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `count` - (Required) Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
-
 * `resource_name` - (Required) The name of the managed cluster resource. Changing this forces a new resource to be created.
 
-* `vm_size` - (Required) Size of agent VMs.
-
 * `availability_zones` - (Optional) (PREVIEW) Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+
+* `count` - (Optional) Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
 
 * `enable_auto_scaling` - (Optional) Whether to enable auto-scaler
 
@@ -63,6 +61,8 @@ The following arguments are supported:
 * `scale_set_priority` - (Optional) ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular. Defaults to `Low`.
 
 * `type` - (Optional) AgentPoolType represents types of an agent pool Defaults to `VirtualMachineScaleSets`.
+
+* `vm_size` - (Optional) Size of agent VMs. Defaults to `Standard_A1`.
 
 * `vnet_subnet_id` - (Optional) VNet SubnetID specifies the VNet's subnet identifier.
 

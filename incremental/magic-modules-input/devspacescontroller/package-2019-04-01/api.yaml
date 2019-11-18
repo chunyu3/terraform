@@ -46,14 +46,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ControllerProperties
-            go_type_name: ControllerProperties
-          '/targetContainerHostResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_container_host_resource_id
-          '/properties/targetContainerHostResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetContainerHostResourceID
+            go_field_name: ControllerUpdateParametersProperties
+            go_type_name: ControllerUpdateParametersProperties
           '/targetContainerHostCredentialsBase64': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: target_container_host_credentials_base64
@@ -128,14 +122,8 @@ objects:
             python_field_name: location
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ControllerProperties
-            go_type_name: ControllerProperties
-          '/properties/targetContainerHostResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TargetContainerHostResourceID
-          '/targetContainerHostResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: target_container_host_resource_id
+            go_field_name: ControllerUpdateParametersProperties
+            go_type_name: ControllerUpdateParametersProperties
           '/properties/targetContainerHostCredentialsBase64': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: TargetContainerHostCredentialsBase64
@@ -161,6 +149,12 @@ objects:
           '/dataPlaneFqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: data_plane_fqdn
+          '/properties/targetContainerHostResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetContainerHostResourceID
+          '/targetContainerHostResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_container_host_resource_id
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: Sku
@@ -209,7 +203,7 @@ objects:
         azure_sdk_references: ['name']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Tags for the Azure resource.'
+        description: 'Tags for the Azure Dev Spaces Controller.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -220,14 +214,9 @@ objects:
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Type::String
-        name: 'targetContainerHostResourceId'
-        description: 'Resource ID of the target container host'
-        required: true
-        azure_sdk_references: ['/targetContainerHostResourceId', '/properties/targetContainerHostResourceId']
-      - !ruby/object:Api::Type::String
         name: 'targetContainerHostCredentialsBase64'
         description: 'Credentials of the target container host (base64).'
-        required: true
+        required: false
         azure_sdk_references: ['/targetContainerHostCredentialsBase64', '/properties/targetContainerHostCredentialsBase64']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
@@ -272,6 +261,11 @@ objects:
         description: 'DNS name for accessing DataPlane services'
         output: true
         azure_sdk_references: ['/dataPlaneFqdn', '/properties/dataPlaneFqdn']
+      - !ruby/object:Api::Type::String
+        name: 'targetContainerHostResourceId'
+        description: 'Resource ID of the target container host'
+        output: true
+        azure_sdk_references: ['/targetContainerHostResourceId', '/properties/targetContainerHostResourceId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource.'

@@ -28,15 +28,15 @@ Manage Azure SourceControl instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The source control name. Changing this forces a new resource to be created.
+* `name` - (Required) The name of source control. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `auto_sync` - (Optional) The auto async of the source control. Default is false.
+* `auto_sync` - (Optional) The auto sync of the source control. Default is false.
 
-* `branch` - (Optional) The repo branch of the source control. Include branch as empty string for VsoTfvc.
+* `branch` - (Optional) The repo branch of the source control.
 
 * `description` - (Optional) The user description of the source control.
 
@@ -44,11 +44,7 @@ The following arguments are supported:
 
 * `publish_runbook` - (Optional) The auto publish of the source control. Default is true.
 
-* `repo_url` - (Optional) The repo url of the source control.
-
 * `security_token` - (Optional) One `security_token` block defined below.
-
-* `source_type` - (Optional) The source type. Must be one of VsoGit, VsoTfvc, GitHub, case sensitive. Defaults to `VsoGit`.
 
 ---
 
@@ -63,6 +59,10 @@ The `security_token` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `repo_url` - The repo url of the source control.
+
+* `source_type` - The source type. Must be one of VsoGit, VsoTfvc, GitHub.
 
 * `creation_time` - The creation time.
 

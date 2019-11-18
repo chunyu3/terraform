@@ -26,10 +26,21 @@ objects:
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
         request:
+          'resourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group
+            python_variable_name: resource_group
 
     description: |
       Manage Azure Configuration instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'The name of the Azure resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroup']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

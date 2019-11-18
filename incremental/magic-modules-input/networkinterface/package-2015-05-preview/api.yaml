@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'networkInterfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: networkInterfaces
-            go_variable_name: name
+            go_variable_name: networkInterfaceName
             python_parameter_name: network_interface_name
-            python_variable_name: name
+            python_variable_name: network_interface_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: Interface
@@ -238,9 +238,9 @@ objects:
             python_variable_name: resource_group
           'networkInterfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: networkInterfaces
-            go_variable_name: name
+            go_variable_name: networkInterfaceName
             python_parameter_name: network_interface_name
-            python_variable_name: name
+            python_variable_name: network_interface_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -252,9 +252,9 @@ objects:
             python_variable_name: resource_group
           'networkInterfaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: networkInterfaces
-            go_variable_name: name
+            go_variable_name: networkInterfaceName
             python_parameter_name: network_interface_name
-            python_variable_name: name
+            python_variable_name: network_interface_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -487,6 +487,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'virtualMachineScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachineScaleSets
+            go_variable_name: name
+            python_parameter_name: virtual_machine_scale_set_name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListVirtualMachineScaleSetVMNetworkInterfaces
         python_func_name: list_virtual_machine_scale_set_vmnetwork_interfaces
@@ -496,6 +501,16 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'virtualMachineScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachineScaleSets
+            go_variable_name: name
+            python_parameter_name: virtual_machine_scale_set_name
+            python_variable_name: name
+          'virtualmachineIndex': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachines
+            go_variable_name: virtualmachineIndex
+            python_parameter_name: virtualmachine_index
+            python_variable_name: virtualmachine_index
 
     description: |
       Manage Azure NetworkInterface instance.
@@ -507,7 +522,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'networkInterfaceName'
         description: 'The name of the network interface.'
         required: true
         input: true
@@ -682,6 +697,18 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the virtual machine scale set.'
+        required: true
+        input: true
+        azure_sdk_references: ['virtualMachineScaleSetName']
+      - !ruby/object:Api::Type::String
+        name: 'virtualmachineIndex'
+        description: 'The virtual machine index.'
+        required: true
+        input: true
+        azure_sdk_references: ['virtualmachineIndex']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'

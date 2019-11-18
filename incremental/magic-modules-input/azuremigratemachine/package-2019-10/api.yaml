@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: assessmentProjects
-            go_variable_name: name
+            go_variable_name: projectName
             python_parameter_name: project_name
+            python_variable_name: project_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: name
+            python_parameter_name: machine_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -157,9 +162,9 @@ objects:
             python_variable_name: resource_group
           'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: assessmentProjects
-            go_variable_name: name
+            go_variable_name: projectName
             python_parameter_name: project_name
-            python_variable_name: name
+            python_variable_name: project_name
 
     description: |
       Manage Azure Machine instance.
@@ -171,11 +176,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'projectName'
         description: 'Name of the Azure Migrate project.'
         required: true
         input: true
         azure_sdk_references: ['projectName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Unique name of a machine in private datacenter.'
+        required: true
+        input: true
+        azure_sdk_references: ['machineName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

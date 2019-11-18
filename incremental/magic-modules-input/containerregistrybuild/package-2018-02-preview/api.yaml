@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: registry_name
             python_variable_name: name
+          'buildId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: builds
+            go_variable_name: buildID
+            python_parameter_name: build_id
+            python_variable_name: build_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -277,6 +282,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['registryName']
+      - !ruby/object:Api::Type::String
+        name: 'buildId'
+        description: 'The build ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['buildId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

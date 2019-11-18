@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: name
+            python_parameter_name: machine_name
             python_variable_name: name
           'timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             id_portion: null
@@ -348,9 +353,9 @@ objects:
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
-            python_variable_name: name
+            python_variable_name: workspace_name
           'live': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             id_portion: null
             go_variable_name: live
@@ -382,8 +387,13 @@ objects:
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: name
+            python_parameter_name: machine_name
             python_variable_name: name
           'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             id_portion: null
@@ -406,8 +416,13 @@ objects:
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: name
+            python_parameter_name: machine_name
             python_variable_name: name
           'live': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             id_portion: null
@@ -440,8 +455,13 @@ objects:
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: name
+            python_parameter_name: machine_name
             python_variable_name: name
           'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             id_portion: null
@@ -464,8 +484,13 @@ objects:
             python_variable_name: resource_group
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
+            python_variable_name: workspace_name
+          'machineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: machines
+            go_variable_name: name
+            python_parameter_name: machine_name
             python_variable_name: name
           'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             id_portion: null
@@ -488,7 +513,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'workspaceName'
         description: 'OMS workspace containing the resources of interest.'
         required: true
         input: true
@@ -513,10 +538,16 @@ objects:
         azure_sdk_references: ['endTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'timestamp'
-        description: 'UTC date and time specifying a time instance relative to which to evaluate each machine resource. Only applies when `live=false`. When not specified, the service uses DateTime.UtcNow.'
+        description: 'UTC date and time specifying a time instance relative to which to evaluate all process resource. Only applies when `live=false`. When not specified, the service uses DateTime.UtcNow.'
         required: false
         input: true
         azure_sdk_references: ['timestamp']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Machine resource name.'
+        required: true
+        input: true
+        azure_sdk_references: ['machineName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

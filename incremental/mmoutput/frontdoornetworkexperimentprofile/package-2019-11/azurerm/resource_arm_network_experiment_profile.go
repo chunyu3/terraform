@@ -63,16 +63,7 @@ func resourceArmNetworkExperimentProfile() *schema.Resource {
 
             "resource_state": {
                 Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(frontdoor.Creating),
-                    string(frontdoor.Enabling),
-                    string(frontdoor.Enabled),
-                    string(frontdoor.Disabling),
-                    string(frontdoor.Disabled),
-                    string(frontdoor.Deleting),
-                }, false),
-                Default: string(frontdoor.Creating),
+                Computed: true,
             },
 
             "type": {
@@ -107,15 +98,13 @@ func resourceArmNetworkExperimentProfileCreate(d *schema.ResourceData, meta inte
     location := azure.NormalizeLocation(d.Get("location").(string))
     enabledState := d.Get("enabled_state").(string)
     etag := d.Get("etag").(string)
-    resourceState := d.Get("resource_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := frontdoor.Profile{
+    parameters := frontdoor.ProfileUpdateModel{
         Etag: utils.String(etag),
         Location: utils.String(location),
-        ProfileProperties: &frontdoor.ProfileProperties{
+        ProfileUpdateProperties: &frontdoor.ProfileUpdateProperties{
             EnabledState: frontdoor.State(enabledState),
-            ResourceState: frontdoor.NetworkExperimentResourceState(resourceState),
         },
         Tags: tags.Expand(t),
     }
@@ -170,9 +159,9 @@ func resourceArmNetworkExperimentProfileRead(d *schema.ResourceData, meta interf
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if profileProperties := resp.ProfileProperties; profileProperties != nil {
-        d.Set("enabled_state", string(profileProperties.EnabledState))
-        d.Set("resource_state", string(profileProperties.ResourceState))
+    if profileUpdateProperties := resp.ProfileUpdateProperties; profileUpdateProperties != nil {
+        d.Set("enabled_state", string(profileUpdateProperties.EnabledState))
+        d.Set("resource_state", string(profileUpdateProperties.ResourceState))
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
@@ -188,15 +177,13 @@ func resourceArmNetworkExperimentProfileUpdate(d *schema.ResourceData, meta inte
     resourceGroup := d.Get("resource_group").(string)
     enabledState := d.Get("enabled_state").(string)
     etag := d.Get("etag").(string)
-    resourceState := d.Get("resource_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := frontdoor.Profile{
+    parameters := frontdoor.ProfileUpdateModel{
         Etag: utils.String(etag),
         Location: utils.String(location),
-        ProfileProperties: &frontdoor.ProfileProperties{
+        ProfileUpdateProperties: &frontdoor.ProfileUpdateProperties{
             EnabledState: frontdoor.State(enabledState),
-            ResourceState: frontdoor.NetworkExperimentResourceState(resourceState),
         },
         Tags: tags.Expand(t),
     }

@@ -52,27 +52,11 @@ func resourceArmVolume() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "creation_token": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "pool_name": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "service_level": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(azurenetappfiles.Standard),
-                    string(azurenetappfiles.Premium),
-                    string(azurenetappfiles.Ultra),
-                }, false),
             },
 
             "export_policy": {
@@ -121,14 +105,25 @@ func resourceArmVolume() *schema.Resource {
                 },
             },
 
-            "subnet_id": {
+            "service_level": {
                 Type: schema.TypeString,
                 Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(azurenetappfiles.Standard),
+                    string(azurenetappfiles.Premium),
+                    string(azurenetappfiles.Ultra),
+                }, false),
+                Default: string(azurenetappfiles.Standard),
             },
 
             "usage_threshold": {
                 Type: schema.TypeInt,
                 Optional: true,
+            },
+
+            "creation_token": {
+                Type: schema.TypeString,
+                Computed: true,
             },
 
             "file_system_id": {
@@ -137,6 +132,11 @@ func resourceArmVolume() *schema.Resource {
             },
 
             "provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "subnet_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -173,20 +173,16 @@ func resourceArmVolumeCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
-    creationToken := d.Get("creation_token").(string)
     exportPolicy := d.Get("export_policy").([]interface{})
     serviceLevel := d.Get("service_level").(string)
-    subnetId := d.Get("subnet_id").(string)
     usageThreshold := d.Get("usage_threshold").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.Volume{
+    body := azurenetappfiles.VolumePatch{
         Location: utils.String(location),
-        VolumeProperties: &azurenetappfiles.VolumeProperties{
-            CreationToken: utils.String(creationToken),
-            ExportPolicy: expandArmVolumeVolumeProperties_exportPolicy(exportPolicy),
+        VolumePatchProperties: &azurenetappfiles.VolumePatchProperties{
+            ExportPolicy: expandArmVolumeVolumePatchProperties_exportPolicy(exportPolicy),
             ServiceLevel: azurenetappfiles.ServiceLevel(serviceLevel),
-            SubnetID: utils.String(subnetId),
             UsageThreshold: utils.Int64(int64(usageThreshold)),
         },
         Tags: tags.Expand(t),
@@ -245,16 +241,16 @@ func resourceArmVolumeRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("account_name", accountName)
-    if volumeProperties := resp.VolumeProperties; volumeProperties != nil {
-        d.Set("creation_token", volumeProperties.CreationToken)
-        if err := d.Set("export_policy", flattenArmVolumeVolumeProperties_exportPolicy(volumeProperties.ExportPolicy)); err != nil {
+    if volumePatchProperties := resp.VolumePatchProperties; volumePatchProperties != nil {
+        d.Set("creation_token", volumePatchProperties.CreationToken)
+        if err := d.Set("export_policy", flattenArmVolumeVolumePatchProperties_exportPolicy(volumePatchProperties.ExportPolicy)); err != nil {
             return fmt.Errorf("Error setting `export_policy`: %+v", err)
         }
-        d.Set("file_system_id", volumeProperties.FileSystemID)
-        d.Set("provisioning_state", volumeProperties.ProvisioningState)
-        d.Set("service_level", string(volumeProperties.ServiceLevel))
-        d.Set("subnet_id", volumeProperties.SubnetID)
-        d.Set("usage_threshold", int(*volumeProperties.UsageThreshold))
+        d.Set("file_system_id", volumePatchProperties.FileSystemID)
+        d.Set("provisioning_state", volumePatchProperties.ProvisioningState)
+        d.Set("service_level", string(volumePatchProperties.ServiceLevel))
+        d.Set("subnet_id", volumePatchProperties.SubnetID)
+        d.Set("usage_threshold", int(*volumePatchProperties.UsageThreshold))
     }
     d.Set("pool_name", poolName)
     d.Set("type", resp.Type)
@@ -269,21 +265,17 @@ func resourceArmVolumeUpdate(d *schema.ResourceData, meta interface{}) error {
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     accountName := d.Get("account_name").(string)
-    creationToken := d.Get("creation_token").(string)
     exportPolicy := d.Get("export_policy").([]interface{})
     poolName := d.Get("pool_name").(string)
     serviceLevel := d.Get("service_level").(string)
-    subnetId := d.Get("subnet_id").(string)
     usageThreshold := d.Get("usage_threshold").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.Volume{
+    body := azurenetappfiles.VolumePatch{
         Location: utils.String(location),
-        VolumeProperties: &azurenetappfiles.VolumeProperties{
-            CreationToken: utils.String(creationToken),
-            ExportPolicy: expandArmVolumeVolumeProperties_exportPolicy(exportPolicy),
+        VolumePatchProperties: &azurenetappfiles.VolumePatchProperties{
+            ExportPolicy: expandArmVolumeVolumePatchProperties_exportPolicy(exportPolicy),
             ServiceLevel: azurenetappfiles.ServiceLevel(serviceLevel),
-            SubnetID: utils.String(subnetId),
             UsageThreshold: utils.Int64(int64(usageThreshold)),
         },
         Tags: tags.Expand(t),
@@ -328,7 +320,7 @@ func resourceArmVolumeDelete(d *schema.ResourceData, meta interface{}) error {
     return nil
 }
 
-func expandArmVolumeVolumeProperties_exportPolicy(input []interface{}) *azurenetappfiles.VolumeProperties_exportPolicy {
+func expandArmVolumeVolumePatchProperties_exportPolicy(input []interface{}) *azurenetappfiles.VolumePatchProperties_exportPolicy {
     if len(input) == 0 {
         return nil
     }
@@ -336,7 +328,7 @@ func expandArmVolumeVolumeProperties_exportPolicy(input []interface{}) *azurenet
 
     rules := v["rules"].([]interface{})
 
-    result := azurenetappfiles.VolumeProperties_exportPolicy{
+    result := azurenetappfiles.VolumePatchProperties_exportPolicy{
         Rules: expandArmVolumeExportPolicyRule(rules),
     }
     return &result
@@ -370,7 +362,7 @@ func expandArmVolumeExportPolicyRule(input []interface{}) *[]azurenetappfiles.Ex
 }
 
 
-func flattenArmVolumeVolumeProperties_exportPolicy(input *azurenetappfiles.VolumeProperties_exportPolicy) []interface{} {
+func flattenArmVolumeVolumePatchProperties_exportPolicy(input *azurenetappfiles.VolumePatchProperties_exportPolicy) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }

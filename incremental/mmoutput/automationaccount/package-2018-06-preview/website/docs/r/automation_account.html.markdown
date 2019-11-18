@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
-* `name` - (Optional) Gets or sets name of the resource. Changing this forces a new resource to be created.
+* `name` - (Optional) Gets or sets the name of the resource. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Gets or sets the location of the resource. Changing this forces a new resource to be created.
 

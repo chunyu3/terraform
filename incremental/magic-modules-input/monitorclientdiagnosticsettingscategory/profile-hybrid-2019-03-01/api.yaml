@@ -27,13 +27,20 @@ objects:
             go_variable_name: resourceUri
             python_parameter_name: resource_uri
             python_variable_name: resource_uri
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnosticSettingsCategories
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
         response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnosticSettingsCategories
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -67,17 +74,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the diagnostic setting.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Azure resource name'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Azure resource type'

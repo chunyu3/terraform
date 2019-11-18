@@ -43,26 +43,17 @@ func resourceArmLogger() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "credentials": {
-                Type: schema.TypeMap,
-                Required: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "logger_type": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(apimanagement.azureEventHub),
-                    string(apimanagement.applicationInsights),
-                }, false),
-            },
-
             "loggerid": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "credentials": {
+                Type: schema.TypeMap,
+                Optional: true,
+                Elem: &schema.Schema{Type: schema.TypeString},
             },
 
             "description": {
@@ -73,6 +64,16 @@ func resourceArmLogger() *schema.Resource {
             "is_buffered": {
                 Type: schema.TypeBool,
                 Optional: true,
+            },
+
+            "logger_type": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(apimanagement.azureEventHub),
+                    string(apimanagement.applicationInsights),
+                }, false),
+                Default: string(apimanagement.azureEventHub),
             },
 
             "type": {
@@ -108,8 +109,8 @@ func resourceArmLoggerCreate(d *schema.ResourceData, meta interface{}) error {
     isBuffered := d.Get("is_buffered").(bool)
     loggerType := d.Get("logger_type").(string)
 
-    parameters := apimanagement.LoggerContract{
-        LoggerContractProperties: &apimanagement.LoggerContractProperties{
+    parameters := apimanagement.LoggerUpdateContract{
+        LoggerUpdateParameters: &apimanagement.LoggerUpdateParameters{
             Credentials: utils.ExpandKeyValuePairs(credentials),
             Description: utils.String(description),
             IsBuffered: utils.Bool(isBuffered),
@@ -161,11 +162,11 @@ func resourceArmLoggerRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if loggerContractProperties := resp.LoggerContractProperties; loggerContractProperties != nil {
-        d.Set("credentials", utils.FlattenKeyValuePairs(loggerContractProperties.Credentials))
-        d.Set("description", loggerContractProperties.Description)
-        d.Set("is_buffered", loggerContractProperties.IsBuffered)
-        d.Set("logger_type", string(loggerContractProperties.LoggerType))
+    if loggerUpdateParameters := resp.LoggerUpdateParameters; loggerUpdateParameters != nil {
+        d.Set("credentials", utils.FlattenKeyValuePairs(loggerUpdateParameters.Credentials))
+        d.Set("description", loggerUpdateParameters.Description)
+        d.Set("is_buffered", loggerUpdateParameters.IsBuffered)
+        d.Set("logger_type", string(loggerUpdateParameters.LoggerType))
     }
     d.Set("loggerid", loggerid)
     d.Set("type", resp.Type)
@@ -185,8 +186,8 @@ func resourceArmLoggerUpdate(d *schema.ResourceData, meta interface{}) error {
     loggerType := d.Get("logger_type").(string)
     loggerid := d.Get("loggerid").(string)
 
-    parameters := apimanagement.LoggerContract{
-        LoggerContractProperties: &apimanagement.LoggerContractProperties{
+    parameters := apimanagement.LoggerUpdateContract{
+        LoggerUpdateParameters: &apimanagement.LoggerUpdateParameters{
             Credentials: utils.ExpandKeyValuePairs(credentials),
             Description: utils.String(description),
             IsBuffered: utils.Bool(isBuffered),

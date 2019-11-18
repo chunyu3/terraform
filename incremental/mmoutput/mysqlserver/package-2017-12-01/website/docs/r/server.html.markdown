@@ -34,13 +34,17 @@ The following arguments are supported:
 
 * `location` - (Required) The location the resource resides in. Changing this forces a new resource to be created.
 
+* `administrator_login_password` - (Optional) The password of the administrator login.
+
+* `replication_role` - (Optional) The replication role of the server.
+
 * `sku` - (Optional) One `sku` block defined below.
 
 * `ssl_enforcement` - (Optional) Enable ssl enforcement or not when connect to server. Defaults to `Enabled`.
 
 * `storage_profile` - (Optional) One `storage_profile` block defined below.
 
-* `version` - (Optional) Server version. Defaults to `5.6`.
+* `version` - (Optional) The version of a server. Defaults to `5.6`.
 
 * `tags` - (Optional) Application-specific metadata in the form of key-value pairs. Changing this forces a new resource to be created.
 
@@ -81,8 +85,6 @@ The following attributes are exported:
 * `fully_qualified_domain_name` - The fully qualified domain name of a server.
 
 * `earliest_restore_date` - Earliest restore point creation time (ISO8601 format)
-
-* `replication_role` - The replication role of the server.
 
 * `master_server_id` - The master server id of a replica server.
 

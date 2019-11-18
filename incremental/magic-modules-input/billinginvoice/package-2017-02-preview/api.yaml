@@ -22,6 +22,11 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'invoiceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: invoices
+            go_variable_name: name
+            python_parameter_name: invoice_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -75,6 +80,12 @@ objects:
     description: |
       Manage Azure Invoice instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of an invoice resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['invoiceName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

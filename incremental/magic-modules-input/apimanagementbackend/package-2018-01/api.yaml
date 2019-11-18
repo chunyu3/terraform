@@ -39,13 +39,13 @@ objects:
             python_variable_name: backendid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BackendContract
+            go_type_name: BackendUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BackendContractProperties
-            go_type_name: BackendContractProperties
+            go_field_name: BackendUpdateParameterProperties
+            go_type_name: BackendUpdateParameterProperties
           '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: title
@@ -240,13 +240,13 @@ objects:
             python_variable_name: backendid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BackendContract
+            go_type_name: BackendUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BackendContractProperties
-            go_type_name: BackendContractProperties
+            go_field_name: BackendUpdateParameterProperties
+            go_type_name: BackendUpdateParameterProperties
           '/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: title
@@ -461,8 +461,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BackendContractProperties
-            go_type_name: BackendContractProperties
+            go_field_name: BackendUpdateParameterProperties
+            go_type_name: BackendUpdateParameterProperties
           '/properties/title': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Title
@@ -819,16 +819,17 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'url'
         description: 'Runtime Url of the Backend.'
-        required: true
+        required: false
         azure_sdk_references: ['/url', '/properties/url']
       - !ruby/object:Api::Type::Enum
         name: 'protocol'
         description: 'Backend communication protocol.'
-        required: true
+        required: false
         azure_sdk_references: ['/protocol', '/properties/protocol']
         values:
           - :http
           - :soap
+        default_value: :http
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

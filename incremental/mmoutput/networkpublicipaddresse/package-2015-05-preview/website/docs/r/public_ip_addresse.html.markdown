@@ -28,7 +28,7 @@ Manage Azure PublicIpAddresse instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the publicIpAddress. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the subnet. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 

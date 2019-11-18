@@ -44,13 +44,13 @@ objects:
             python_variable_name: issue_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: IssueContract
+            go_type_name: IssueUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IssueContractProperties
-            go_type_name: IssueContractProperties
+            go_field_name: IssueUpdateContractProperties
+            go_type_name: IssueUpdateContractProperties
           '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: created_date
@@ -114,13 +114,13 @@ objects:
             python_variable_name: issue_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: IssueContract
+            go_type_name: IssueUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IssueContractProperties
-            go_type_name: IssueContractProperties
+            go_field_name: IssueUpdateContractProperties
+            go_type_name: IssueUpdateContractProperties
           '/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: created_date
@@ -209,8 +209,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IssueContractProperties
-            go_type_name: IssueContractProperties
+            go_field_name: IssueUpdateContractProperties
+            go_type_name: IssueUpdateContractProperties
           '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreatedDate
@@ -329,17 +329,17 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'title'
         description: 'The issue title.'
-        required: true
+        required: false
         azure_sdk_references: ['/title', '/properties/title']
       - !ruby/object:Api::Type::String
         name: 'description'
         description: 'Text describing the issue.'
-        required: true
+        required: false
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::String
         name: 'userId'
         description: 'A resource identifier for the user created the issue.'
-        required: true
+        required: false
         azure_sdk_references: ['/userId', '/properties/userId']
       # read only values included only in response
       - !ruby/object:Api::Type::String

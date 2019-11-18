@@ -34,7 +34,17 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location Changing this forces a new resource to be created.
 
-* `creation_data` - (Required) One `creation_datum` block defined below.
+* `account_type` - (Optional) the storage account type of the disk. Defaults to `Standard_LRS`.
+
+* `creation_data` - (Optional) One `creation_datum` block defined below.
+
+* `disk_size_gb` - (Optional) If creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+
+* `encryption_settings` - (Optional) One `encryption_setting` block defined below.
+
+* `os_type` - (Optional) the Operating System type. Defaults to `Windows`.
+
+* `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 
 ---
 
@@ -58,16 +68,6 @@ The `image_reference` block supports the following:
 * `id` - (Required) A relative uri containing either a Platform Image Repository or user image reference.
 
 * `lun` - (Optional) If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null.
-
-* `account_type` - (Optional) the storage account type of the disk. Defaults to `Standard_LRS`.
-
-* `disk_size_gb` - (Optional) If creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
-
-* `encryption_settings` - (Optional) One `encryption_setting` block defined below.
-
-* `os_type` - (Optional) The Operating System type. Defaults to `Windows`.
-
-* `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 
 ---
 

@@ -230,6 +230,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -239,6 +244,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
         response:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
@@ -383,6 +393,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListDataLakeStoreAccounts
         python_func_name: list_data_lake_store_accounts
@@ -392,6 +407,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListStorageContainers
         python_func_name: list_storage_containers
@@ -401,13 +421,23 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: StorageAccounts
+            go_variable_name: storageAccountName
+            python_parameter_name: storage_account_name
+            python_variable_name: storage_account_name
 
     description: |
       Manage Azure Account instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The name of the Azure resource group that contains the Data Lake Analytics account.the account will be associated with.'
+        description: 'The name of the Azure resource group that contains the Data Lake Analytics account.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -483,6 +513,30 @@ objects:
               description: 'the optional suffix for the Data Lake account.'
               required: false
               azure_sdk_references: ['/storageAccounts/suffix', '/properties/storageAccounts/properties/suffix']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of the Data Lake Analytics account for which to retrieve blob container.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'storageAccountName'
+        description: 'The name of the Azure storage account from which to retrieve the blob container.'
+        required: true
+        input: true
+        azure_sdk_references: ['storageAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'dataLakeStoreAccountName'
+        description: 'The name of the Data Lake Store account to retrieve'
+        required: true
+        input: true
+        azure_sdk_references: ['dataLakeStoreAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Azure storage container to retrieve'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

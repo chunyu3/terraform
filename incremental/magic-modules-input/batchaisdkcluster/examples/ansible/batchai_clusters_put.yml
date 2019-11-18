@@ -6,12 +6,12 @@ task: !ruby/object:Provider::Ansible::Task
     resource_group: myResourceGroup
     name: myCluster
     location: eastus
-    vm_size: STANDARD_NC6
-    vm_priority: dedicated
     scale_settings:
       manual:
         target_node_count: '1'
         node_deallocation_option: requeue
+    vm_size: STANDARD_NC6
+    vm_priority: dedicated
     node_setup:
       mount_volumes:
         azure_file_shares:

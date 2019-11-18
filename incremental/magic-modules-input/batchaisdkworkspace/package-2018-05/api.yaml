@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: WorkspaceCreateParameters
+            go_type_name: WorkspaceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -60,7 +60,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: WorkspaceCreateParameters
+            go_type_name: WorkspaceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -141,6 +141,11 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -150,6 +155,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
 
     description: |
       Manage Azure Workspace instance.
@@ -178,6 +188,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxresults'
+        description: 'The maximum number of items to return in the response. A maximum of 1000 files can be returned.'
+        required: false
+        input: true
+        azure_sdk_references: ['maxresults']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

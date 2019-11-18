@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationalizationCluster
+            go_type_name: OperationalizationClusterUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -297,7 +297,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationalizationCluster
+            go_type_name: OperationalizationClusterUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -558,6 +558,11 @@ objects:
             go_variable_name: name
             python_parameter_name: cluster_name
             python_variable_name: name
+          'deleteAll': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteAll
+            python_parameter_name: delete_all
+            python_variable_name: delete_all
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -944,7 +949,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Contains resource tags defined as key/value pairs.'
+        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -1207,6 +1212,12 @@ objects:
                 description: 'Refresh period in seconds.'
                 required: false
                 azure_sdk_references: ['/globalServiceConfiguration/autoScale/refreshPeriodInSeconds', '/properties/globalServiceConfiguration/autoScale/refreshPeriodInSeconds']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteAll'
+        description: 'If true, deletes all resources associated with this cluster.'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteAll']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdOn'

@@ -5,4 +5,16 @@ task: !ruby/object:Provider::Ansible::Task
   code:
     resource_group: myResourceGroup
     name: myServer
+    server_update_parameters:
+      sku:
+        capacity: '1'
+        name: S1
+        tier: Standard
+      tags:
+        testKey: testValue
+      properties:
+        asAdministrators:
+          members:
+            - azsdktest@microsoft.com
+            - azsdktest2@microsoft.com
   

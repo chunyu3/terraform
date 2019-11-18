@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VariableCreateOrUpdateParameters
+            go_type_name: VariableUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -47,8 +47,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VariableCreateOrUpdateProperties
-            go_type_name: VariableCreateOrUpdateProperties
+            go_field_name: VariableUpdateProperties
+            go_type_name: VariableUpdateProperties
           '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: value
@@ -61,12 +61,6 @@ objects:
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_encrypted
-          '/properties/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsEncrypted
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -88,7 +82,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VariableCreateOrUpdateParameters
+            go_type_name: VariableUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -96,8 +90,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VariableCreateOrUpdateProperties
-            go_type_name: VariableCreateOrUpdateProperties
+            go_field_name: VariableUpdateProperties
+            go_type_name: VariableUpdateProperties
           '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: value
@@ -110,12 +104,6 @@ objects:
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_encrypted
-          '/properties/isEncrypted': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsEncrypted
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -160,8 +148,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VariableCreateOrUpdateProperties
-            go_type_name: VariableCreateOrUpdateProperties
+            go_field_name: VariableUpdateProperties
+            go_type_name: VariableUpdateProperties
           '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Value
@@ -230,14 +218,14 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The variable name.'
+        description: 'The name of variable.'
         required: true
         input: true
         azure_sdk_references: ['variableName']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Gets or sets the name of the variable.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
@@ -250,12 +238,12 @@ objects:
         description: 'Gets or sets the description of the variable.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
+      # read only values included only in response
       - !ruby/object:Api::Type::Boolean
         name: 'isEncrypted'
         description: 'Gets or sets the encrypted flag of the variable.'
-        required: false
+        output: true
         azure_sdk_references: ['/isEncrypted', '/properties/isEncrypted']
-      # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'Gets or sets the creation time.'

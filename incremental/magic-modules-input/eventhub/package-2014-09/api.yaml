@@ -34,9 +34,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: CreateOrUpdateParameters
@@ -90,9 +90,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -109,9 +109,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -196,9 +196,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
 
     description: |
       Manage Azure EventHub instance.
@@ -216,7 +216,7 @@ objects:
         input: true
         azure_sdk_references: ['namespaceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'eventHubName'
         description: 'The Event Hub name'
         required: true
         input: true
@@ -265,6 +265,12 @@ objects:
           - :Renaming
           - :Unknown
         default_value: :Active
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The authorization rule name.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdAt'

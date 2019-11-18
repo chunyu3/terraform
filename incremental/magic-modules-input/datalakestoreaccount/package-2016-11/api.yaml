@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateDataLakeStoreAccountParameters
+            go_type_name: UpdateDataLakeStoreAccountParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -53,8 +53,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateDataLakeStoreAccountProperties
-            go_type_name: CreateDataLakeStoreAccountProperties
+            go_field_name: UpdateDataLakeStoreAccountProperties
+            go_type_name: UpdateDataLakeStoreAccountProperties
           '/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: default_group
@@ -64,49 +64,23 @@ objects:
           '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_config
-          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
           '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: key_vault_meta_info
-          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_vault_resource_id
-          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: encryption_key_name
           '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: encryption_key_version
           '/properties/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: EncryptionConfig
-            go_type_name: EncryptionConfig
-          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: EncryptionConfigType
+            go_type_name: UpdateEncryptionConfig
           '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: KeyVaultMetaInfo
-            go_type_name: KeyVaultMetaInfo
-          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyVaultResourceID
-          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EncryptionKeyName
+            go_type_name: UpdateKeyVaultMetaInfo
           '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: EncryptionKeyVersion
-          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encryption_state
-          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EncryptionState
-            go_enum_type_name: EncryptionState
           '/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: firewall_rules
@@ -122,14 +96,14 @@ objects:
           '/properties/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: FirewallRules
-            go_type_name: CreateFirewallRuleWithAccountParameters
+            go_type_name: UpdateFirewallRuleWithAccountParameters
           '/properties/firewallRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/firewallRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateFirewallRuleProperties
-            go_type_name: CreateOrUpdateFirewallRuleProperties
+            go_field_name: UpdateFirewallRuleProperties
+            go_type_name: UpdateFirewallRuleProperties
           '/properties/firewallRules/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StartIpAddress
@@ -148,14 +122,14 @@ objects:
           '/properties/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VirtualNetworkRules
-            go_type_name: CreateVirtualNetworkRuleWithAccountParameters
+            go_type_name: UpdateVirtualNetworkRuleWithAccountParameters
           '/properties/virtualNetworkRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/virtualNetworkRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateVirtualNetworkRuleProperties
-            go_type_name: CreateOrUpdateVirtualNetworkRuleProperties
+            go_field_name: UpdateVirtualNetworkRuleProperties
+            go_type_name: UpdateVirtualNetworkRuleProperties
           '/properties/virtualNetworkRules/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SubnetID
@@ -185,14 +159,14 @@ objects:
           '/properties/trustedIdProviders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: TrustedIDProviders
-            go_type_name: CreateTrustedIdProviderWithAccountParameters
+            go_type_name: UpdateTrustedIdProviderWithAccountParameters
           '/properties/trustedIdProviders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/trustedIdProviders/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateTrustedIdProviderProperties
-            go_type_name: CreateOrUpdateTrustedIdProviderProperties
+            go_field_name: UpdateTrustedIdProviderProperties
+            go_type_name: UpdateTrustedIdProviderProperties
           '/properties/trustedIdProviders/properties/idProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: IDProvider
@@ -227,7 +201,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateDataLakeStoreAccountParameters
+            go_type_name: UpdateDataLakeStoreAccountParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -245,8 +219,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateDataLakeStoreAccountProperties
-            go_type_name: CreateDataLakeStoreAccountProperties
+            go_field_name: UpdateDataLakeStoreAccountProperties
+            go_type_name: UpdateDataLakeStoreAccountProperties
           '/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: default_group
@@ -256,49 +230,23 @@ objects:
           '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_config
-          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
           '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: key_vault_meta_info
-          '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: key_vault_resource_id
-          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: encryption_key_name
           '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: encryption_key_version
           '/properties/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: EncryptionConfig
-            go_type_name: EncryptionConfig
-          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: EncryptionConfigType
+            go_type_name: UpdateEncryptionConfig
           '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: KeyVaultMetaInfo
-            go_type_name: KeyVaultMetaInfo
-          '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: KeyVaultResourceID
-          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: EncryptionKeyName
+            go_type_name: UpdateKeyVaultMetaInfo
           '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: EncryptionKeyVersion
-          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encryption_state
-          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EncryptionState
-            go_enum_type_name: EncryptionState
           '/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: firewall_rules
@@ -314,14 +262,14 @@ objects:
           '/properties/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: FirewallRules
-            go_type_name: CreateFirewallRuleWithAccountParameters
+            go_type_name: UpdateFirewallRuleWithAccountParameters
           '/properties/firewallRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/firewallRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateFirewallRuleProperties
-            go_type_name: CreateOrUpdateFirewallRuleProperties
+            go_field_name: UpdateFirewallRuleProperties
+            go_type_name: UpdateFirewallRuleProperties
           '/properties/firewallRules/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StartIpAddress
@@ -340,14 +288,14 @@ objects:
           '/properties/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VirtualNetworkRules
-            go_type_name: CreateVirtualNetworkRuleWithAccountParameters
+            go_type_name: UpdateVirtualNetworkRuleWithAccountParameters
           '/properties/virtualNetworkRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/virtualNetworkRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateVirtualNetworkRuleProperties
-            go_type_name: CreateOrUpdateVirtualNetworkRuleProperties
+            go_field_name: UpdateVirtualNetworkRuleProperties
+            go_type_name: UpdateVirtualNetworkRuleProperties
           '/properties/virtualNetworkRules/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SubnetID
@@ -377,14 +325,14 @@ objects:
           '/properties/trustedIdProviders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: TrustedIDProviders
-            go_type_name: CreateTrustedIdProviderWithAccountParameters
+            go_type_name: UpdateTrustedIdProviderWithAccountParameters
           '/properties/trustedIdProviders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/trustedIdProviders/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateTrustedIdProviderProperties
-            go_type_name: CreateOrUpdateTrustedIdProviderProperties
+            go_field_name: UpdateTrustedIdProviderProperties
+            go_type_name: UpdateTrustedIdProviderProperties
           '/properties/trustedIdProviders/properties/idProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: IDProvider
@@ -453,8 +401,8 @@ objects:
             python_field_name: tenant_id
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateDataLakeStoreAccountProperties
-            go_type_name: CreateDataLakeStoreAccountProperties
+            go_field_name: UpdateDataLakeStoreAccountProperties
+            go_type_name: UpdateDataLakeStoreAccountProperties
           '/properties/defaultGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DefaultGroup
@@ -464,60 +412,53 @@ objects:
           '/properties/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: EncryptionConfig
-            go_type_name: EncryptionConfig
-          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Type
-            go_enum_type_name: EncryptionConfigType
+            go_type_name: UpdateEncryptionConfig
           '/properties/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: KeyVaultMetaInfo
-            go_type_name: KeyVaultMetaInfo
+            go_type_name: UpdateKeyVaultMetaInfo
+          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyVersion
           '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: KeyVaultResourceID
           '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: EncryptionKeyName
-          '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: EncryptionKeyVersion
+            go_field_name: Type
+            go_enum_type_name: EncryptionConfigType
           '/encryptionConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: encryption_config
-          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: type
           '/encryptionConfig/keyVaultMetaInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: key_vault_meta_info
+          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_key_version
           '/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: key_vault_resource_id
           '/encryptionConfig/keyVaultMetaInfo/encryptionKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: encryption_key_name
-          '/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/encryptionConfig/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: encryption_key_version
-          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EncryptionState
-            go_enum_type_name: EncryptionState
-          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: encryption_state
+            python_field_name: type
           '/properties/firewallRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: FirewallRules
-            go_type_name: CreateFirewallRuleWithAccountParameters
+            go_type_name: UpdateFirewallRuleWithAccountParameters
           '/properties/firewallRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/firewallRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateFirewallRuleProperties
-            go_type_name: CreateOrUpdateFirewallRuleProperties
+            go_field_name: UpdateFirewallRuleProperties
+            go_type_name: UpdateFirewallRuleProperties
           '/properties/firewallRules/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StartIpAddress
@@ -551,14 +492,14 @@ objects:
           '/properties/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: VirtualNetworkRules
-            go_type_name: CreateVirtualNetworkRuleWithAccountParameters
+            go_type_name: UpdateVirtualNetworkRuleWithAccountParameters
           '/properties/virtualNetworkRules/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/virtualNetworkRules/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateVirtualNetworkRuleProperties
-            go_type_name: CreateOrUpdateVirtualNetworkRuleProperties
+            go_field_name: UpdateVirtualNetworkRuleProperties
+            go_type_name: UpdateVirtualNetworkRuleProperties
           '/properties/virtualNetworkRules/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SubnetID
@@ -600,14 +541,14 @@ objects:
           '/properties/trustedIdProviders': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: TrustedIDProviders
-            go_type_name: CreateTrustedIdProviderWithAccountParameters
+            go_type_name: UpdateTrustedIdProviderWithAccountParameters
           '/properties/trustedIdProviders/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/trustedIdProviders/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateTrustedIdProviderProperties
-            go_type_name: CreateOrUpdateTrustedIdProviderProperties
+            go_field_name: UpdateTrustedIdProviderProperties
+            go_type_name: UpdateTrustedIdProviderProperties
           '/properties/trustedIdProviders/properties/idProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: IDProvider
@@ -684,6 +625,13 @@ objects:
           '/endpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: endpoint
+          '/properties/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: EncryptionState
+            go_enum_type_name: EncryptionState
+          '/encryptionState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: encryption_state
           '/properties/encryptionProvisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: EncryptionProvisioningState
@@ -744,7 +692,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The resource tags.'
+        description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -766,48 +714,21 @@ objects:
         azure_sdk_references: ['/defaultGroup', '/properties/defaultGroup']
       - !ruby/object:Api::Type::NestedObject
         name: 'encryptionConfig'
-        description: 'The Key Vault encryption configuration.'
+        description: 'Used for rotation of user managed Key Vault keys. Can only be used to rotate a user managed encryption Key Vault key.'
         required: false
         azure_sdk_references: ['/encryptionConfig', '/properties/encryptionConfig']
         properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'type'
-            description: 'The type of encryption configuration being used. Currently the only supported types are ''UserManaged'' and ''ServiceManaged''.'
-            required: true
-            azure_sdk_references: ['/encryptionConfig/type', '/properties/encryptionConfig/type']
-            values:
-              - :UserManaged
-              - :ServiceManaged
           - !ruby/object:Api::Type::NestedObject
             name: 'keyVaultMetaInfo'
-            description: 'The Key Vault information for connecting to user managed encryption keys.'
+            description: 'The updated Key Vault key to use in user managed key rotation.'
             required: false
             azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo', '/properties/encryptionConfig/keyVaultMetaInfo']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'keyVaultResourceId'
-                description: 'The resource identifier for the user managed Key Vault being used to encrypt.'
-                required: true
-                azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId', '/properties/encryptionConfig/keyVaultMetaInfo/keyVaultResourceId']
-              - !ruby/object:Api::Type::String
-                name: 'encryptionKeyName'
-                description: 'The name of the user managed encryption key.'
-                required: true
-                azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo/encryptionKeyName', '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyName']
-              - !ruby/object:Api::Type::String
                 name: 'encryptionKeyVersion'
-                description: 'The version of the user managed encryption key.'
-                required: true
+                description: 'The version of the user managed encryption key to update through a key rotation.'
+                required: false
                 azure_sdk_references: ['/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion', '/properties/encryptionConfig/keyVaultMetaInfo/encryptionKeyVersion']
-      - !ruby/object:Api::Type::Enum
-        name: 'encryptionState'
-        description: 'The current state of encryption for this Data Lake Store account.'
-        required: false
-        azure_sdk_references: ['/encryptionState', '/properties/encryptionState']
-        values:
-          - :Enabled
-          - :Disabled
-        default_value: :Enabled
       - !ruby/object:Api::Type::Array
         name: 'firewallRules'
         description: 'The list of firewall rules associated with this Data Lake Store account.'
@@ -817,18 +738,18 @@ objects:
           properties:
             - !ruby/object:Api::Type::String
               name: 'name'
-              description: 'The unique name of the firewall rule to create.'
+              description: 'The unique name of the firewall rule to update.'
               required: true
               azure_sdk_references: ['/firewallRules/name', '/properties/firewallRules/name']
             - !ruby/object:Api::Type::String
               name: 'startIpAddress'
               description: 'The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.'
-              required: true
+              required: false
               azure_sdk_references: ['/firewallRules/startIpAddress', '/properties/firewallRules/properties/startIpAddress']
             - !ruby/object:Api::Type::String
               name: 'endIpAddress'
               description: 'The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.'
-              required: true
+              required: false
               azure_sdk_references: ['/firewallRules/endIpAddress', '/properties/firewallRules/properties/endIpAddress']
       - !ruby/object:Api::Type::Array
         name: 'virtualNetworkRules'
@@ -839,17 +760,17 @@ objects:
           properties:
             - !ruby/object:Api::Type::String
               name: 'name'
-              description: 'The unique name of the virtual network rule to create.'
+              description: 'The unique name of the virtual network rule to update.'
               required: true
               azure_sdk_references: ['/virtualNetworkRules/name', '/properties/virtualNetworkRules/name']
             - !ruby/object:Api::Type::String
               name: 'subnetId'
               description: 'The resource identifier for the subnet.'
-              required: true
+              required: false
               azure_sdk_references: ['/virtualNetworkRules/subnetId', '/properties/virtualNetworkRules/properties/subnetId']
       - !ruby/object:Api::Type::Enum
         name: 'firewallState'
-        description: 'The current state of the IP address firewall for this Data Lake Store account.'
+        description: 'The current state of the IP address firewall for this Data Lake Store account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled.'
         required: false
         azure_sdk_references: ['/firewallState', '/properties/firewallState']
         values:
@@ -874,17 +795,17 @@ objects:
           properties:
             - !ruby/object:Api::Type::String
               name: 'name'
-              description: 'The unique name of the trusted identity provider to create.'
+              description: 'The unique name of the trusted identity provider to update.'
               required: true
               azure_sdk_references: ['/trustedIdProviders/name', '/properties/trustedIdProviders/name']
             - !ruby/object:Api::Type::String
               name: 'idProvider'
               description: 'The URL of this trusted identity provider.'
-              required: true
+              required: false
               azure_sdk_references: ['/trustedIdProviders/idProvider', '/properties/trustedIdProviders/properties/idProvider']
       - !ruby/object:Api::Type::Enum
         name: 'trustedIdProviderState'
-        description: 'The current state of the trusted identity provider feature for this Data Lake Store account.'
+        description: 'The current state of the trusted identity provider feature for this Data Lake Store account. Disabling trusted identity provider functionality does not remove the providers, they will just be ignored until this feature is re-enabled.'
         required: false
         azure_sdk_references: ['/trustedIdProviderState', '/properties/trustedIdProviderState']
         values:
@@ -951,6 +872,14 @@ objects:
         description: 'The full CName endpoint for this account.'
         output: true
         azure_sdk_references: ['/endpoint', '/properties/endpoint']
+      - !ruby/object:Api::Type::Enum
+        name: 'encryptionState'
+        description: 'The current state of encryption for this Data Lake Store account.'
+        output: true
+        azure_sdk_references: ['/encryptionState', '/properties/encryptionState']
+        values:
+          - :Enabled
+          - :Disabled
       - !ruby/object:Api::Type::Enum
         name: 'encryptionProvisioningState'
         description: 'The current state of encryption provisioning for this Data Lake Store account.'

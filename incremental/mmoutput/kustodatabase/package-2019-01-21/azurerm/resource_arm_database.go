@@ -116,7 +116,7 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
     softDeletePeriod := d.Get("soft_delete_period").(string)
     statistics := d.Get("statistics").([]interface{})
 
-    parameters := kusto.Database{
+    parameters := kusto.DatabaseUpdate{
         Location: utils.String(location),
         DatabaseProperties: &kusto.DatabaseProperties{
             HotCachePeriod: utils.String(hotCachePeriod),
@@ -201,7 +201,7 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     softDeletePeriod := d.Get("soft_delete_period").(string)
     statistics := d.Get("statistics").([]interface{})
 
-    parameters := kusto.Database{
+    parameters := kusto.DatabaseUpdate{
         Location: utils.String(location),
         DatabaseProperties: &kusto.DatabaseProperties{
             HotCachePeriod: utils.String(hotCachePeriod),

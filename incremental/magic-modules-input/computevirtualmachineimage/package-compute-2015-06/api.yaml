@@ -27,6 +27,26 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: publishers
+            go_variable_name: name
+            python_parameter_name: publisher_name
+            python_variable_name: name
+          'offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: offers
+            go_variable_name: offer
+            python_parameter_name: offer
+            python_variable_name: offer
+          'skus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: skus
+            go_variable_name: skus
+            python_parameter_name: skus
+            python_variable_name: skus
+          'version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: versions
+            go_variable_name: version
+            python_parameter_name: version
+            python_variable_name: version
         response:
           'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: locations
@@ -116,6 +136,11 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: publishers
+            go_variable_name: name
+            python_parameter_name: publisher_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSkus
         python_func_name: list_skus
@@ -125,6 +150,16 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: publishers
+            go_variable_name: name
+            python_parameter_name: publisher_name
+            python_variable_name: name
+          'offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: offers
+            go_variable_name: offer
+            python_parameter_name: offer
+            python_variable_name: offer
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -134,6 +169,21 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'publisherName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: publishers
+            go_variable_name: name
+            python_parameter_name: publisher_name
+            python_variable_name: name
+          'offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: offers
+            go_variable_name: offer
+            python_parameter_name: offer
+            python_variable_name: offer
+          'skus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: skus
+            go_variable_name: skus
+            python_parameter_name: skus
+            python_variable_name: skus
 
     description: |
       Manage Azure VirtualMachineImage instance.
@@ -144,6 +194,30 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['location']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'A valid image publisher.'
+        required: true
+        input: true
+        azure_sdk_references: ['publisherName']
+      - !ruby/object:Api::Type::String
+        name: 'offer'
+        description: 'A valid image publisher offer.'
+        required: true
+        input: true
+        azure_sdk_references: ['offer']
+      - !ruby/object:Api::Type::String
+        name: 'skus'
+        description: 'A valid image SKU.'
+        required: true
+        input: true
+        azure_sdk_references: ['skus']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'A valid image SKU version.'
+        required: true
+        input: true
+        azure_sdk_references: ['version']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -78,6 +78,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'exportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: exportconfiguration
+            go_variable_name: exportID
+            python_parameter_name: export_id
+            python_variable_name: export_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: exportProperties
             go_type_name: ComponentExportRequest
@@ -124,6 +129,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'exportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: exportconfiguration
+            go_variable_name: exportID
+            python_parameter_name: export_id
+            python_variable_name: export_id
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -138,6 +148,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'exportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: exportconfiguration
+            go_variable_name: exportID
+            python_parameter_name: export_id
+            python_variable_name: export_id
         response:
           '/RecordTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: RecordTypes
@@ -280,6 +295,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/DestinationAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'exportId'
+        description: 'The Continuous Export configuration ID. This is unique within a Application Insights component.'
+        required: true
+        input: true
+        azure_sdk_references: ['exportId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'exportId'

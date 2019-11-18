@@ -34,19 +34,16 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VaultCreateOrUpdateParameters
+            go_type_name: VaultPatchParameters
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VaultProperties
-            go_type_name: VaultProperties
+            go_field_name: VaultPatchProperties
+            go_type_name: VaultPatchProperties
           '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: tenant_id
@@ -129,12 +126,6 @@ objects:
           '/properties/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: Storage
-          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vault_uri
-          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VaultUri
           '/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: enabled_for_deployment
@@ -188,19 +179,16 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VaultCreateOrUpdateParameters
+            go_type_name: VaultPatchParameters
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VaultProperties
-            go_type_name: VaultProperties
+            go_field_name: VaultPatchProperties
+            go_type_name: VaultPatchProperties
           '/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: tenant_id
@@ -283,12 +271,6 @@ objects:
           '/properties/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: Storage
-          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vault_uri
-          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VaultUri
           '/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: enabled_for_deployment
@@ -355,16 +337,18 @@ objects:
             python_parameter_name: vault_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VaultProperties
-            go_type_name: VaultProperties
+            go_field_name: VaultPatchProperties
+            go_type_name: VaultPatchProperties
           '/properties/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: TenantID
@@ -447,12 +431,6 @@ objects:
           '/accessPolicies/permissions/storage': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: storage
-          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VaultUri
-          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vault_uri
           '/properties/enabledForDeployment': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: EnabledForDeployment
@@ -490,6 +468,12 @@ objects:
           '/enablePurgeProtection': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: enable_purge_protection
+          '/properties/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VaultUri
+          '/vaultUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vault_uri
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -526,37 +510,37 @@ objects:
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The name of the Resource Group to which the server belongs.'
+        description: 'The name of the Resource Group to which the vault belongs.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the vault'
+        description: 'The name of the vault.'
         required: true
         input: true
         azure_sdk_references: ['vaultName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'The supported Azure location where the key vault should be created.'
+        description: 'The location of the deleted vault.'
         required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The tags that will be assigned to the key vault.'
+        description: 'The tags that will be assigned to the key vault. '
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
         name: 'tenantId'
         description: 'The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.'
-        required: true
+        required: false
         azure_sdk_references: ['/tenantId', '/properties/tenantId']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'SKU details'
-        required: true
+        required: false
         azure_sdk_references: ['/sku', '/properties/sku']
         properties:
           - !ruby/object:Api::Type::String
@@ -574,7 +558,7 @@ objects:
               - :premium
       - !ruby/object:Api::Type::Array
         name: 'accessPolicies'
-        description: 'An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault''s tenant ID. When `createMode` is set to `recover`, access policies are not required. Otherwise, access policies are required.'
+        description: 'An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault''s tenant ID.'
         required: false
         azure_sdk_references: ['/accessPolicies', '/properties/accessPolicies']
         item_type: !ruby/object:Api::Type::NestedObject
@@ -692,11 +676,6 @@ objects:
                       - :getsas
                       - :deletesas
                     default_value: :get
-      - !ruby/object:Api::Type::String
-        name: 'vaultUri'
-        description: 'The URI of the vault for performing operations on keys and secrets.'
-        required: false
-        azure_sdk_references: ['/vaultUri', '/properties/vaultUri']
       - !ruby/object:Api::Type::Boolean
         name: 'enabledForDeployment'
         description: 'Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.'
@@ -714,7 +693,7 @@ objects:
         azure_sdk_references: ['/enabledForTemplateDeployment', '/properties/enabledForTemplateDeployment']
       - !ruby/object:Api::Type::Boolean
         name: 'enableSoftDelete'
-        description: 'Property specifying whether recoverable deletion is enabled for this key vault. Setting this property to true activates the soft delete feature, whereby vaults or vault entities can be recovered after deletion. Enabling this functionality is irreversible - that is, the property does not accept false as its value.'
+        description: 'Property specifying whether recoverable deletion (''soft'' delete) is enabled for this key vault. The property may not be set to false.'
         required: false
         azure_sdk_references: ['/enableSoftDelete', '/properties/enableSoftDelete']
       - !ruby/object:Api::Type::Enum
@@ -728,10 +707,15 @@ objects:
         default_value: :recover
       - !ruby/object:Api::Type::Boolean
         name: 'enablePurgeProtection'
-        description: 'Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for this vault and its content - only the Key Vault service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible - that is, the property does not accept false as its value.'
+        description: 'Property specifying whether protection against purge is enabled for this vault; it is only effective if soft delete is also enabled. Once activated, the property may no longer be reset to false.'
         required: false
         azure_sdk_references: ['/enablePurgeProtection', '/properties/enablePurgeProtection']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'vaultUri'
+        description: 'The URI of the vault for performing operations on keys and secrets.'
+        output: true
+        azure_sdk_references: ['/vaultUri', '/properties/vaultUri']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The Azure Resource Manager resource ID for the key vault.'

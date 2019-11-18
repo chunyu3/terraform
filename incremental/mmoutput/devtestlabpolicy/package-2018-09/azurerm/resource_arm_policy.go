@@ -162,9 +162,9 @@ func resourceArmPolicyCreate(d *schema.ResourceData, meta interface{}) error {
     threshold := d.Get("threshold").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    policy := devtestlab.Policy{
+    policy := devtestlab.PolicyFragment{
         Location: utils.String(location),
-        PolicyProperties: &devtestlab.PolicyProperties{
+        PolicyPropertiesFragment: &devtestlab.PolicyPropertiesFragment{
             Description: utils.String(description),
             EvaluatorType: devtestlab.PolicyEvaluatorType(evaluatorType),
             FactData: utils.String(factData),
@@ -223,16 +223,16 @@ func resourceArmPolicyRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if policyProperties := resp.PolicyProperties; policyProperties != nil {
-        d.Set("created_date", (policyProperties.CreatedDate).String())
-        d.Set("description", policyProperties.Description)
-        d.Set("evaluator_type", string(policyProperties.EvaluatorType))
-        d.Set("fact_data", policyProperties.FactData)
-        d.Set("fact_name", string(policyProperties.FactName))
-        d.Set("provisioning_state", policyProperties.ProvisioningState)
-        d.Set("status", string(policyProperties.Status))
-        d.Set("threshold", policyProperties.Threshold)
-        d.Set("unique_identifier", policyProperties.UniqueIdentifier)
+    if policyPropertiesFragment := resp.PolicyPropertiesFragment; policyPropertiesFragment != nil {
+        d.Set("created_date", (policyPropertiesFragment.CreatedDate).String())
+        d.Set("description", policyPropertiesFragment.Description)
+        d.Set("evaluator_type", string(policyPropertiesFragment.EvaluatorType))
+        d.Set("fact_data", policyPropertiesFragment.FactData)
+        d.Set("fact_name", string(policyPropertiesFragment.FactName))
+        d.Set("provisioning_state", policyPropertiesFragment.ProvisioningState)
+        d.Set("status", string(policyPropertiesFragment.Status))
+        d.Set("threshold", policyPropertiesFragment.Threshold)
+        d.Set("unique_identifier", policyPropertiesFragment.UniqueIdentifier)
     }
     d.Set("lab_name", labName)
     d.Set("type", resp.Type)
@@ -256,9 +256,9 @@ func resourceArmPolicyUpdate(d *schema.ResourceData, meta interface{}) error {
     threshold := d.Get("threshold").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    policy := devtestlab.Policy{
+    policy := devtestlab.PolicyFragment{
         Location: utils.String(location),
-        PolicyProperties: &devtestlab.PolicyProperties{
+        PolicyPropertiesFragment: &devtestlab.PolicyPropertiesFragment{
             Description: utils.String(description),
             EvaluatorType: devtestlab.PolicyEvaluatorType(evaluatorType),
             FactData: utils.String(factData),

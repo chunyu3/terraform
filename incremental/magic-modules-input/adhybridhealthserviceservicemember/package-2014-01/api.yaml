@@ -23,7 +23,7 @@ objects:
       Manage Azure ServiceMember instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'serviceName'
         description: 'The name of the service.'
         required: true
         input: true
@@ -40,6 +40,60 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['dimensionSignature']
+      - !ruby/object:Api::Type::String
+        name: 'serviceMemberId'
+        description: 'The server id.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceMemberId']
+      - !ruby/object:Api::Type::String
+        name: 'state'
+        description: 'The alert state to query for.'
+        required: false
+        input: true
+        azure_sdk_references: ['state']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'from'
+        description: 'The start date to query for.'
+        required: false
+        input: true
+        azure_sdk_references: ['from']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'to'
+        description: 'The end date till when to query for.'
+        required: false
+        input: true
+        azure_sdk_references: ['to']
+      - !ruby/object:Api::Type::String
+        name: 'metricName'
+        description: 'The metric name'
+        required: true
+        input: true
+        azure_sdk_references: ['metricName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The group name'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'groupKey'
+        description: 'The group key'
+        required: false
+        input: true
+        azure_sdk_references: ['groupKey']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'fromDate'
+        description: 'The start date.'
+        required: false
+        input: true
+        azure_sdk_references: ['fromDate']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'toDate'
+        description: 'The end date.'
+        required: false
+        input: true
+        azure_sdk_references: ['toDate']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'nextLink'

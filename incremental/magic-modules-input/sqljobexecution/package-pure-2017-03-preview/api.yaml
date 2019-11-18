@@ -235,6 +235,31 @@ objects:
             go_variable_name: jobAgentName
             python_parameter_name: job_agent_name
             python_variable_name: job_agent_name
+          'createTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMin
+            python_parameter_name: create_time_min
+            python_variable_name: create_time_min
+          'createTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMax
+            python_parameter_name: create_time_max
+            python_variable_name: create_time_max
+          'endTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMin
+            python_parameter_name: end_time_min
+            python_variable_name: end_time_min
+          'endTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMax
+            python_parameter_name: end_time_max
+            python_variable_name: end_time_max
+          'isActive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: isActive
+            python_parameter_name: is_active
+            python_variable_name: is_active
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByJob
         python_func_name: list_by_job
@@ -259,6 +284,31 @@ objects:
             go_variable_name: name
             python_parameter_name: job_name
             python_variable_name: name
+          'createTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMin
+            python_parameter_name: create_time_min
+            python_variable_name: create_time_min
+          'createTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: createTimeMax
+            python_parameter_name: create_time_max
+            python_variable_name: create_time_max
+          'endTimeMin': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMin
+            python_parameter_name: end_time_min
+            python_variable_name: end_time_min
+          'endTimeMax': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTimeMax
+            python_parameter_name: end_time_max
+            python_variable_name: end_time_max
+          'isActive': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: isActive
+            python_parameter_name: is_active
+            python_variable_name: is_active
 
     description: |
       Manage Azure JobExecution instance.
@@ -283,16 +333,46 @@ objects:
         azure_sdk_references: ['jobAgentName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the job to get.'
+        description: 'The name of the job.'
         required: true
         input: true
         azure_sdk_references: ['jobName']
       - !ruby/object:Api::Type::String
         name: 'jobExecutionId'
-        description: 'The job execution id to create the job execution under.'
+        description: 'The id of the job execution'
         required: true
         input: true
         azure_sdk_references: ['jobExecutionId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTimeMin'
+        description: 'If specified, only job executions created at or after the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['createTimeMin']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createTimeMax'
+        description: 'If specified, only job executions created before the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['createTimeMax']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTimeMin'
+        description: 'If specified, only job executions completed at or after the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['endTimeMin']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTimeMax'
+        description: 'If specified, only job executions completed before the specified time are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['endTimeMax']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isActive'
+        description: 'If specified, only active or only completed job executions are included.'
+        required: false
+        input: true
+        azure_sdk_references: ['isActive']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

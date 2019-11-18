@@ -36,15 +36,15 @@ The following arguments are supported:
 
 * `account_name` - (Required) The name of the machine learning team account. Changing this forces a new resource to be created.
 
-* `friendly_name` - (Required) The friendly name for this project.
-
 * `workspace_name` - (Required) The name of the machine learning team account workspace. Changing this forces a new resource to be created.
 
 * `description` - (Optional) The description of this project.
 
+* `friendly_name` - (Optional) The friendly name for this project.
+
 * `gitrepo` - (Optional) The reference to git repo for this project.
 
-* `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
+* `tags` - (Optional) The resource tags for the machine learning project. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

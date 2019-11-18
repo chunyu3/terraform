@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workflows
-            go_variable_name: name
+            go_variable_name: workflowName
             python_parameter_name: workflow_name
+            python_variable_name: workflow_name
+          'triggerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: triggers
+            go_variable_name: name
+            python_parameter_name: trigger_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -216,9 +221,9 @@ objects:
             python_variable_name: resource_group
           'workflowName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workflows
-            go_variable_name: name
+            go_variable_name: workflowName
             python_parameter_name: workflow_name
-            python_variable_name: name
+            python_variable_name: workflow_name
 
     description: |
       Manage Azure WorkflowTrigger instance.
@@ -230,11 +235,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'workflowName'
         description: 'The workflow name.'
         required: true
         input: true
         azure_sdk_references: ['workflowName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The workflow trigger name.'
+        required: true
+        input: true
+        azure_sdk_references: ['triggerName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

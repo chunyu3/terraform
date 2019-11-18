@@ -37,7 +37,17 @@ objects:
             go_variable_name: nodeID
             python_parameter_name: node_id
             python_variable_name: node_id
+          'reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportID
+            python_parameter_name: report_id
+            python_variable_name: report_id
         response:
+          'reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportID
+            python_parameter_name: report_id
+            python_variable_name: report_id
           '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             go_field_name: EndTime
             python_field_name: end_time
@@ -50,9 +60,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ReportID
-            python_field_name: report_id
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Status
             python_field_name: status
@@ -208,10 +215,16 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'nodeId'
-        description: 'The parameters supplied to the list operation.'
+        description: 'The Dsc node id.'
         required: true
         input: true
         azure_sdk_references: ['nodeId']
+      - !ruby/object:Api::Type::String
+        name: 'reportId'
+        description: 'The report id.'
+        required: true
+        input: true
+        azure_sdk_references: ['reportId']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'endTime'
@@ -233,11 +246,6 @@ objects:
         description: 'Gets or sets the type of the node report.'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::String
-        name: 'reportId'
-        description: 'Gets or sets the id of the node report.'
-        output: true
-        azure_sdk_references: ['/reportId']
       - !ruby/object:Api::Type::String
         name: 'status'
         description: 'Gets or sets the status of the node report.'

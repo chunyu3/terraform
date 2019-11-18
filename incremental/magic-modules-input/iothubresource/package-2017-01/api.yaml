@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: IotHubs
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: iotHubDescription
             go_type_name: Description
@@ -408,9 +408,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: IotHubs
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -422,9 +422,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: IotHubs
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -800,12 +800,14 @@ objects:
             go_field_name: Tier
             go_enum_type_name: SkuTier
             python_field_name: tier
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: ConsumerGroups
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -833,9 +835,9 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: IotHubs
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListEventHubConsumerGroups
         python_func_name: list_event_hub_consumer_groups
@@ -847,8 +849,13 @@ objects:
             python_variable_name: resource_group
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: IotHubs
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
+            python_variable_name: resource_name
+          'eventHubEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: eventHubEndpoints
+            go_variable_name: name
+            python_parameter_name: event_hub_endpoint_name
             python_variable_name: name
 
     description: |
@@ -861,8 +868,8 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the IoT hub to create or update.'
+        name: 'resourceName'
+        description: 'The name of the IoT hub.'
         required: true
         input: true
         azure_sdk_references: ['resourceName']
@@ -1225,6 +1232,24 @@ objects:
             description: 'The number of provisioned IoT Hub units. See: https://docs.microsoft.com/azure/azure-subscription-service-limits#iot-hub-limits.'
             required: true
             azure_sdk_references: ['/sku/capacity']
+      - !ruby/object:Api::Type::String
+        name: 'jobId'
+        description: 'The job identifier.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Event Hub-compatible endpoint in the IoT hub.'
+        required: true
+        input: true
+        azure_sdk_references: ['eventHubEndpointName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the consumer group to retrieve.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
@@ -1241,11 +1266,6 @@ objects:
         description: 'The resource identifier.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The resource name.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'The resource type.'

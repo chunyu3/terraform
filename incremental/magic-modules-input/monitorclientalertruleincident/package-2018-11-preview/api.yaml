@@ -29,15 +29,20 @@ objects:
             python_variable_name: resource_group
           'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: alertrules
-            go_variable_name: name
+            go_variable_name: ruleName
             python_parameter_name: rule_name
+            python_variable_name: rule_name
+          'incidentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: incidents
+            go_variable_name: name
+            python_parameter_name: incident_name
             python_variable_name: name
         response:
           'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: alertrules
-            go_variable_name: name
+            go_variable_name: ruleName
             python_parameter_name: rule_name
-            python_variable_name: name
+            python_variable_name: rule_name
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
@@ -61,9 +66,9 @@ objects:
             python_variable_name: resource_group
           'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: alertrules
-            go_variable_name: name
+            go_variable_name: ruleName
             python_parameter_name: rule_name
-            python_variable_name: name
+            python_variable_name: rule_name
 
     description: |
       Manage Azure AlertRuleIncident instance.
@@ -75,11 +80,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ruleName'
         description: 'The name of the rule.'
         required: true
         input: true
         azure_sdk_references: ['ruleName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the incident to retrieve.'
+        required: true
+        input: true
+        azure_sdk_references: ['incidentName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'name'

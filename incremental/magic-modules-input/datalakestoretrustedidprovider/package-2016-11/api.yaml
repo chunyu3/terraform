@@ -39,13 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateTrustedIdProviderParameters
+            go_type_name: UpdateTrustedIdProviderParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateTrustedIdProviderProperties
-            go_type_name: CreateOrUpdateTrustedIdProviderProperties
+            go_field_name: UpdateTrustedIdProviderProperties
+            go_type_name: UpdateTrustedIdProviderProperties
           '/idProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: id_provider
@@ -73,13 +73,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateTrustedIdProviderParameters
+            go_type_name: UpdateTrustedIdProviderParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateTrustedIdProviderProperties
-            go_type_name: CreateOrUpdateTrustedIdProviderProperties
+            go_field_name: UpdateTrustedIdProviderProperties
+            go_type_name: UpdateTrustedIdProviderProperties
           '/idProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: id_provider
@@ -127,8 +127,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateTrustedIdProviderProperties
-            go_type_name: CreateOrUpdateTrustedIdProviderProperties
+            go_field_name: UpdateTrustedIdProviderProperties
+            go_type_name: UpdateTrustedIdProviderProperties
           '/properties/idProvider': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: IDProvider
@@ -176,14 +176,14 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the trusted identity provider. This is used for differentiation of providers in the account.'
+        description: 'The name of the trusted identity provider to retrieve.'
         required: true
         input: true
         azure_sdk_references: ['trustedIdProviderName']
       - !ruby/object:Api::Type::String
         name: 'idProvider'
         description: 'The URL of this trusted identity provider.'
-        required: true
+        required: false
         azure_sdk_references: ['/idProvider', '/properties/idProvider']
       # read only values included only in response
       - !ruby/object:Api::Type::String

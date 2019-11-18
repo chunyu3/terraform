@@ -129,7 +129,7 @@ func resourceArmJobAgentCreate(d *schema.ResourceData, meta interface{}) error {
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.JobAgent{
+    parameters := sql.JobAgentUpdate{
         Location: utils.String(location),
         JobAgentProperties: &sql.JobAgentProperties{
             DatabaseID: utils.String(databaseId),
@@ -213,7 +213,7 @@ func resourceArmJobAgentUpdate(d *schema.ResourceData, meta interface{}) error {
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.JobAgent{
+    parameters := sql.JobAgentUpdate{
         Location: utils.String(location),
         JobAgentProperties: &sql.JobAgentProperties{
             DatabaseID: utils.String(databaseId),

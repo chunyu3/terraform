@@ -35,13 +35,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateParameters
+            go_type_name: UpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateProperties
-            go_type_name: CreateProperties
+            go_field_name: UpdateProperties
+            go_type_name: UpdateProperties
           '/redisConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: redis_configuration
@@ -93,18 +93,6 @@ objects:
           '/properties/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Capacity
-          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
-          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
-          '/staticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: static_ip
-          '/properties/staticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StaticIp
           '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             go_field_name: Zones
             python_field_name: zones
@@ -130,13 +118,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateParameters
+            go_type_name: UpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateProperties
-            go_type_name: CreateProperties
+            go_field_name: UpdateProperties
+            go_type_name: UpdateProperties
           '/redisConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: redis_configuration
@@ -188,18 +176,6 @@ objects:
           '/properties/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Capacity
-          '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: subnet_id
-          '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SubnetID
-          '/staticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: static_ip
-          '/properties/staticIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StaticIp
           '/zones': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             go_field_name: Zones
             python_field_name: zones
@@ -246,8 +222,8 @@ objects:
             python_variable_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateProperties
-            go_type_name: CreateProperties
+            go_field_name: UpdateProperties
+            go_type_name: UpdateProperties
           '/properties/redisConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: RedisConfiguration
@@ -415,6 +391,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'history': !ruby/object:Api::Azure::SDKTypeDefinition::FloatObject
+            id_portion: null
+            go_variable_name: history
+            python_parameter_name: history
+            python_variable_name: history
 
     description: |
       Manage Azure Redi instance.
@@ -454,7 +435,7 @@ objects:
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the Redis cache to deploy.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku', '/properties/sku']
         properties:
           - !ruby/object:Api::Type::Enum
@@ -479,16 +460,6 @@ objects:
             description: 'The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4).'
             required: true
             azure_sdk_references: ['/sku/capacity', '/properties/sku/capacity']
-      - !ruby/object:Api::Type::String
-        name: 'subnetId'
-        description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
-        required: false
-        azure_sdk_references: ['/subnetId', '/properties/subnetId']
-      - !ruby/object:Api::Type::String
-        name: 'staticIp'
-        description: 'Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.'
-        required: false
-        azure_sdk_references: ['/staticIP', '/properties/staticIP']
       - !ruby/object:Api::Type::Array
         name: 'zones'
         description: 'A list of availability zones denoting where the resource needs to come from.'
@@ -508,7 +479,23 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Double
+        name: 'history'
+        description: 'how many minutes in past to look for upgrade notifications'
+        required: true
+        input: true
+        azure_sdk_references: ['history']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'subnetId'
+        description: 'The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1'
+        output: true
+        azure_sdk_references: ['/subnetId', '/properties/subnetId']
+      - !ruby/object:Api::Type::String
+        name: 'staticIp'
+        description: 'Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network.'
+        output: true
+        azure_sdk_references: ['/staticIP', '/properties/staticIP']
       - !ruby/object:Api::Type::String
         name: 'redisVersion'
         description: 'Redis version.'

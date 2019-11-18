@@ -19,12 +19,12 @@ task: !ruby/object:Provider::Ansible::Task
         admin_password: '{your-password}'
       storage_profile:
         os_disk:
-          name: osDisk
           caching: ReadWrite
-          create_option: FromImage
           image:
             uri: >-
               http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd
+          name: osDisk
+          create_option: FromImage
       network_profile:
         network_interface_configurations:
           - name: '{vmss-name}'

@@ -128,7 +128,7 @@ func resourceArmEventHubConnectionCreate(d *schema.ResourceData, meta interface{
     mappingRuleName := d.Get("mapping_rule_name").(string)
     tableName := d.Get("table_name").(string)
 
-    parameters := kusto.EventHubConnection{
+    parameters := kusto.EventHubConnectionUpdate{
         Location: utils.String(location),
         EventHubConnectionProperties: &kusto.EventHubConnectionProperties{
             ConsumerGroup: utils.String(consumerGroup),
@@ -219,7 +219,7 @@ func resourceArmEventHubConnectionUpdate(d *schema.ResourceData, meta interface{
     mappingRuleName := d.Get("mapping_rule_name").(string)
     tableName := d.Get("table_name").(string)
 
-    parameters := kusto.EventHubConnection{
+    parameters := kusto.EventHubConnectionUpdate{
         Location: utils.String(location),
         EventHubConnectionProperties: &kusto.EventHubConnectionProperties{
             ConsumerGroup: utils.String(consumerGroup),

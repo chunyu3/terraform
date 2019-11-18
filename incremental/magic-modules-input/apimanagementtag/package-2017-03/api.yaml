@@ -172,6 +172,11 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apis
+            go_variable_name: apiID
+            python_parameter_name: api_id
+            python_variable_name: api_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByProduct
         python_func_name: list_by_product
@@ -186,6 +191,11 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: products
+            go_variable_name: productID
+            python_parameter_name: product_id
+            python_variable_name: product_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByOperation
         python_func_name: list_by_operation
@@ -200,6 +210,16 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'apiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apis
+            go_variable_name: apiID
+            python_parameter_name: api_id
+            python_variable_name: api_id
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
 
     description: |
       Manage Azure Tag instance.
@@ -227,6 +247,24 @@ objects:
         description: 'Tag name.'
         required: true
         azure_sdk_references: ['/displayName', '/properties/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'apiId'
+        description: 'API identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['apiId']
+      - !ruby/object:Api::Type::String
+        name: 'productId'
+        description: 'Product identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['productId']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'Operation identifier within an API. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

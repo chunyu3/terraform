@@ -34,7 +34,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Bot
+            go_type_name: CheckNameAvailabilityRequestBody
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -122,6 +122,12 @@ objects:
           '/properties/luisKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LuisKey
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -138,7 +144,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Bot
+            go_type_name: CheckNameAvailabilityRequestBody
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -226,6 +232,12 @@ objects:
           '/properties/luisKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LuisKey
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -362,15 +374,15 @@ objects:
           '/enabledChannels': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [python]
             python_field_name: enabled_channels
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -495,6 +507,18 @@ objects:
         description: 'The LUIS Key'
         required: false
         azure_sdk_references: ['/luisKey', '/properties/luisKey']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'the name of the bot for which availability needs to be checked.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'the type of the bot for which availability needs to be checked'
+        required: false
+        input: true
+        azure_sdk_references: ['/type']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'endpointVersion'
@@ -518,13 +542,3 @@ objects:
         description: 'Specifies the resource ID.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Specifies the name of the resource.'
-        output: true
-        azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'Specifies the type of the resource.'
-        output: true
-        azure_sdk_references: ['/type']

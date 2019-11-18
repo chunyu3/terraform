@@ -138,6 +138,11 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
 
     description: |
       Manage Azure Policy instance.
@@ -176,6 +181,12 @@ objects:
           - :rawxml
           - :rawxml-link
         default_value: :xml
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'Policy scope.'
+        required: false
+        input: true
+        azure_sdk_references: ['scope']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

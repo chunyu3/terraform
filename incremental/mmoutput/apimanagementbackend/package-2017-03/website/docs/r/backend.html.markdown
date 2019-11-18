@@ -34,13 +34,11 @@ The following arguments are supported:
 
 * `backendid` - (Required) Identifier of the Backend entity. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `protocol` - (Required) Backend communication protocol.
-
-* `url` - (Required) Runtime Url of the Backend.
-
 * `credentials` - (Optional) One `credential` block defined below.
 
 * `description` - (Optional) Backend Description.
+
+* `protocol` - (Optional) Backend communication protocol. Defaults to `http`.
 
 * `proxy` - (Optional) One `proxy` block defined below.
 
@@ -51,6 +49,8 @@ The following arguments are supported:
 * `title` - (Optional) Backend Title.
 
 * `tls` - (Optional) One `tl` block defined below.
+
+* `url` - (Optional) Runtime Url of the Backend.
 
 ---
 

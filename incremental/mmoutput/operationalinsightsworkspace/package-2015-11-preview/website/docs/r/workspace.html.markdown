@@ -28,9 +28,9 @@ Manage Azure Workspace instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the workspace. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the Log Analytics Workspace. Changing this forces a new resource to be created.
 
-* `resource_group` - (Required) The resource group name of the workspace. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group to get. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `location` - (Optional) Resource location Changing this forces a new resource to be created.
 

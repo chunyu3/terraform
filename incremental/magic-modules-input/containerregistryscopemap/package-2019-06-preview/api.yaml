@@ -45,8 +45,8 @@ objects:
             python_variable_name: scope_map_create_parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScopeMapProperties
-            go_type_name: ScopeMapProperties
+            go_field_name: ScopeMapPropertiesUpdateParameters
+            go_type_name: ScopeMapPropertiesUpdateParameters
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -121,8 +121,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScopeMapProperties
-            go_type_name: ScopeMapProperties
+            go_field_name: ScopeMapPropertiesUpdateParameters
+            go_type_name: ScopeMapPropertiesUpdateParameters
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -206,8 +206,8 @@ objects:
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Array
         name: 'actions'
-        description: 'The list of scoped permissions for registry artifacts.<br>E.g. repositories/repository-name/content/read,<br>repositories/repository-name/metadata/write'
-        required: true
+        description: 'The list of scope permissions for registry artifacts.<br>E.g. repositories/repository-name/pull, <br>repositories/repository-name/delete'
+        required: false
         azure_sdk_references: ['/actions', '/properties/actions']
         item_type: Api::Type::String
       # read only values included only in response

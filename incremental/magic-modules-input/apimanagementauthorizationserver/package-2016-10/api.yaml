@@ -39,7 +39,7 @@ objects:
             python_variable_name: authsid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OAuth2AuthorizationServerContract
+            go_type_name: OAuth2AuthorizationServerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -118,7 +118,7 @@ objects:
             python_variable_name: authsid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OAuth2AuthorizationServerContract
+            go_type_name: OAuth2AuthorizationServerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -312,7 +312,7 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'User-friendly authorization server name.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
@@ -324,13 +324,13 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'clientRegistrationEndpoint'
         description: 'Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/clientRegistrationEndpoint']
       - !ruby/object:Api::Type::String
         name: 'authorizationEndpoint'
         description: 'OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/authorizationEndpoint']
       - !ruby/object:Api::Type::Array
@@ -403,7 +403,7 @@ objects:
       - !ruby/object:Api::Type::Array
         name: 'grantTypes'
         description: 'Form of an authorization grant, which the client uses to request the access token.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/grantTypes']
         item_type: !ruby/object:Api::Type::Enum
@@ -414,6 +414,7 @@ objects:
             - :implicit
             - :resourceOwnerPassword
             - :clientCredentials
+          default_value: :authorizationCode
       - !ruby/object:Api::Type::Array
         name: 'bearerTokenSendingMethods'
         description: 'Specifies the mechanism by which access token is passed to the API. '
@@ -430,7 +431,7 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'clientId'
         description: 'Client or app id registered with this authorization server.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/clientId']
       - !ruby/object:Api::Type::String

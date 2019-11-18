@@ -130,9 +130,9 @@ func resourceArmTransactionNodeCreate(d *schema.ResourceData, meta interface{}) 
     firewallRules := d.Get("firewall_rules").([]interface{})
     password := d.Get("password").(string)
 
-    transactionNode := blockchain.TransactionNode{
+    transactionNode := blockchain.TransactionNodeUpdate{
         Location: utils.String(location),
-        TransactionNodeProperties: &blockchain.TransactionNodeProperties{
+        TransactionNodePropertiesUpdate: &blockchain.TransactionNodePropertiesUpdate{
             FirewallRules: expandArmTransactionNodeFirewallRule(firewallRules),
             Password: utils.String(password),
         },
@@ -190,15 +190,15 @@ func resourceArmTransactionNodeRead(d *schema.ResourceData, meta interface{}) er
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("blockchain_member_name", blockchainMemberName)
-    if transactionNodeProperties := resp.TransactionNodeProperties; transactionNodeProperties != nil {
-        d.Set("dns", transactionNodeProperties.Dns)
-        if err := d.Set("firewall_rules", flattenArmTransactionNodeFirewallRule(transactionNodeProperties.FirewallRules)); err != nil {
+    if transactionNodePropertiesUpdate := resp.TransactionNodePropertiesUpdate; transactionNodePropertiesUpdate != nil {
+        d.Set("dns", transactionNodePropertiesUpdate.Dns)
+        if err := d.Set("firewall_rules", flattenArmTransactionNodeFirewallRule(transactionNodePropertiesUpdate.FirewallRules)); err != nil {
             return fmt.Errorf("Error setting `firewall_rules`: %+v", err)
         }
-        d.Set("password", transactionNodeProperties.Password)
-        d.Set("provisioning_state", string(transactionNodeProperties.ProvisioningState))
-        d.Set("public_key", transactionNodeProperties.PublicKey)
-        d.Set("user_name", transactionNodeProperties.UserName)
+        d.Set("password", transactionNodePropertiesUpdate.Password)
+        d.Set("provisioning_state", string(transactionNodePropertiesUpdate.ProvisioningState))
+        d.Set("public_key", transactionNodePropertiesUpdate.PublicKey)
+        d.Set("user_name", transactionNodePropertiesUpdate.UserName)
     }
     d.Set("type", resp.Type)
 
@@ -215,9 +215,9 @@ func resourceArmTransactionNodeUpdate(d *schema.ResourceData, meta interface{}) 
     firewallRules := d.Get("firewall_rules").([]interface{})
     password := d.Get("password").(string)
 
-    transactionNode := blockchain.TransactionNode{
+    transactionNode := blockchain.TransactionNodeUpdate{
         Location: utils.String(location),
-        TransactionNodeProperties: &blockchain.TransactionNodeProperties{
+        TransactionNodePropertiesUpdate: &blockchain.TransactionNodePropertiesUpdate{
             FirewallRules: expandArmTransactionNodeFirewallRule(firewallRules),
             Password: utils.String(password),
         },

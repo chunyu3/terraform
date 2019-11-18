@@ -28,23 +28,23 @@ Manage Azure Variable instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The variable name. Changing this forces a new resource to be created.
-
-* `name` - (Required) Gets or sets the name of the variable. Changing this forces a new resource to be created.
+* `name` - (Required) The name of variable. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `description` - (Optional) Gets or sets the description of the variable.
+* `name` - (Optional) Gets or sets the name of the variable. Changing this forces a new resource to be created.
 
-* `is_encrypted` - (Optional) Gets or sets the encrypted flag of the variable.
+* `description` - (Optional) Gets or sets the description of the variable.
 
 * `value` - (Optional) Gets or sets the value of the variable.
 
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `is_encrypted` - Gets or sets the encrypted flag of the variable.
 
 * `creation_time` - Gets or sets the creation time.
 

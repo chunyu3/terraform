@@ -39,19 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: SourceControlCreateOrUpdateParameters
+            go_type_name: SourceControlUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SourceControlCreateOrUpdateProperties
-            go_type_name: SourceControlCreateOrUpdateProperties
-          '/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repo_url
-          '/properties/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RepoURL
+            go_field_name: SourceControlUpdateProperties
+            go_type_name: SourceControlUpdateProperties
           '/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: branch
@@ -76,13 +70,6 @@ objects:
           '/properties/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: PublishRunbook
-          '/sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: source_type
-          '/properties/sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: SourceType
-            go_enum_type_name: SourceType
           '/securityToken': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: security_token
@@ -136,19 +123,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: SourceControlCreateOrUpdateParameters
+            go_type_name: SourceControlUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SourceControlCreateOrUpdateProperties
-            go_type_name: SourceControlCreateOrUpdateProperties
-          '/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repo_url
-          '/properties/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RepoURL
+            go_field_name: SourceControlUpdateProperties
+            go_type_name: SourceControlUpdateProperties
           '/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: branch
@@ -173,13 +154,6 @@ objects:
           '/properties/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: PublishRunbook
-          '/sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: source_type
-          '/properties/sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: SourceType
-            go_enum_type_name: SourceType
           '/securityToken': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: security_token
@@ -253,14 +227,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SourceControlCreateOrUpdateProperties
-            go_type_name: SourceControlCreateOrUpdateProperties
-          '/properties/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RepoURL
-          '/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repo_url
+            go_field_name: SourceControlUpdateProperties
+            go_type_name: SourceControlUpdateProperties
           '/properties/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Branch
@@ -285,6 +253,18 @@ objects:
           '/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: publish_runbook
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RepoURL
+          '/repoUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: repo_url
           '/properties/sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: SourceType
@@ -292,12 +272,6 @@ objects:
           '/sourceType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: source_type
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreationTime
@@ -351,18 +325,13 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The source control name.'
+        description: 'The name of source control.'
         required: true
         input: true
         azure_sdk_references: ['sourceControlName']
       - !ruby/object:Api::Type::String
-        name: 'repoUrl'
-        description: 'The repo url of the source control.'
-        required: false
-        azure_sdk_references: ['/repoUrl', '/properties/repoUrl']
-      - !ruby/object:Api::Type::String
         name: 'branch'
-        description: 'The repo branch of the source control. Include branch as empty string for VsoTfvc.'
+        description: 'The repo branch of the source control.'
         required: false
         azure_sdk_references: ['/branch', '/properties/branch']
       - !ruby/object:Api::Type::String
@@ -372,7 +341,7 @@ objects:
         azure_sdk_references: ['/folderPath', '/properties/folderPath']
       - !ruby/object:Api::Type::Boolean
         name: 'autoSync'
-        description: 'The auto async of the source control. Default is false.'
+        description: 'The auto sync of the source control. Default is false.'
         required: false
         azure_sdk_references: ['/autoSync', '/properties/autoSync']
       - !ruby/object:Api::Type::Boolean
@@ -380,16 +349,6 @@ objects:
         description: 'The auto publish of the source control. Default is true.'
         required: false
         azure_sdk_references: ['/publishRunbook', '/properties/publishRunbook']
-      - !ruby/object:Api::Type::Enum
-        name: 'sourceType'
-        description: 'The source type. Must be one of VsoGit, VsoTfvc, GitHub, case sensitive.'
-        required: false
-        azure_sdk_references: ['/sourceType', '/properties/sourceType']
-        values:
-          - :VsoGit
-          - :VsoTfvc
-          - :GitHub
-        default_value: :VsoGit
       - !ruby/object:Api::Type::NestedObject
         name: 'securityToken'
         description: 'The authorization token for the repo of the source control.'
@@ -421,6 +380,20 @@ objects:
         required: false
         azure_sdk_references: ['/description', '/properties/description']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'repoUrl'
+        description: 'The repo url of the source control.'
+        output: true
+        azure_sdk_references: ['/repoUrl', '/properties/repoUrl']
+      - !ruby/object:Api::Type::Enum
+        name: 'sourceType'
+        description: 'The source type. Must be one of VsoGit, VsoTfvc, GitHub.'
+        output: true
+        azure_sdk_references: ['/sourceType', '/properties/sourceType']
+        values:
+          - :VsoGit
+          - :VsoTfvc
+          - :GitHub
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'The creation time.'

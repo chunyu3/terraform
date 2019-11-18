@@ -152,7 +152,7 @@ func resourceArmSignalRCreate(d *schema.ResourceData, meta interface{}) error {
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := signalr.CreateParameters{
+    parameters := signalr.UpdateParameters{
         Location: utils.String(location),
         CreateOrUpdateProperties: &signalr.CreateOrUpdateProperties{
             HostNamePrefix: utils.String(hostNamePrefix),
@@ -238,7 +238,7 @@ func resourceArmSignalRUpdate(d *schema.ResourceData, meta interface{}) error {
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := signalr.CreateParameters{
+    parameters := signalr.UpdateParameters{
         Location: utils.String(location),
         CreateOrUpdateProperties: &signalr.CreateOrUpdateProperties{
             HostNamePrefix: utils.String(hostNamePrefix),

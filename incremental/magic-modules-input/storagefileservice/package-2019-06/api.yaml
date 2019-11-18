@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: storageAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
 
     description: |
       Manage Azure FileService instance.
@@ -43,11 +43,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'accountName'
         description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.'
         required: true
         input: true
         azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the file Service within the specified storage account. File Service Name must be "default"'
+        required: true
+        input: true
+        azure_sdk_references: ['FileServicesName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

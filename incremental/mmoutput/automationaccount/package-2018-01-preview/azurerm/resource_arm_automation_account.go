@@ -136,10 +136,10 @@ func resourceArmAutomationAccountCreate(d *schema.ResourceData, meta interface{}
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.AccountCreateOrUpdateParameters{
+    parameters := automation.AccountUpdateParameters{
         Location: utils.String(location),
         Name: utils.String(name),
-        AccountCreateOrUpdateProperties: &automation.AccountCreateOrUpdateProperties{
+        AccountUpdateProperties: &automation.AccountUpdateProperties{
             Sku: expandArmAutomationAccountSku(sku),
         },
         Tags: tags.Expand(t),
@@ -191,15 +191,15 @@ func resourceArmAutomationAccountRead(d *schema.ResourceData, meta interface{}) 
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if accountCreateOrUpdateProperties := resp.AccountCreateOrUpdateProperties; accountCreateOrUpdateProperties != nil {
-        d.Set("creation_time", (accountCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", accountCreateOrUpdateProperties.Description)
-        d.Set("last_modified_by", accountCreateOrUpdateProperties.LastModifiedBy)
-        d.Set("last_modified_time", (accountCreateOrUpdateProperties.LastModifiedTime).String())
-        if err := d.Set("sku", flattenArmAutomationAccountSku(accountCreateOrUpdateProperties.Sku)); err != nil {
+    if accountUpdateProperties := resp.AccountUpdateProperties; accountUpdateProperties != nil {
+        d.Set("creation_time", (accountUpdateProperties.CreationTime).String())
+        d.Set("description", accountUpdateProperties.Description)
+        d.Set("last_modified_by", accountUpdateProperties.LastModifiedBy)
+        d.Set("last_modified_time", (accountUpdateProperties.LastModifiedTime).String())
+        if err := d.Set("sku", flattenArmAutomationAccountSku(accountUpdateProperties.Sku)); err != nil {
             return fmt.Errorf("Error setting `sku`: %+v", err)
         }
-        d.Set("state", string(accountCreateOrUpdateProperties.State))
+        d.Set("state", string(accountUpdateProperties.State))
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
@@ -217,10 +217,10 @@ func resourceArmAutomationAccountUpdate(d *schema.ResourceData, meta interface{}
     sku := d.Get("sku").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.AccountCreateOrUpdateParameters{
+    parameters := automation.AccountUpdateParameters{
         Location: utils.String(location),
         Name: utils.String(name),
-        AccountCreateOrUpdateProperties: &automation.AccountCreateOrUpdateProperties{
+        AccountUpdateProperties: &automation.AccountUpdateProperties{
             Sku: expandArmAutomationAccountSku(sku),
         },
         Tags: tags.Expand(t),

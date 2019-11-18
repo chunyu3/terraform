@@ -28,7 +28,7 @@ Manage Azure Cluster instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the Log Analytics cluster. Changing this forces a new resource to be created.
+* `name` - (Required) Name of the Log Analytics Cluster. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name of the Log Analytics cluster. Changing this forces a new resource to be created.
 
@@ -37,8 +37,6 @@ The following arguments are supported:
 * `encryption_key_uri` - (Optional) The Key Vault key or certificate path associated with the Log Analytics cluster.
 
 * `identity` - (Optional) One `identity` block defined below.
-
-* `next_link` - (Optional) The link used to get the next page of recommendations.
 
 * `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 
@@ -51,6 +49,8 @@ The `identity` block supports the following:
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `next_link` - The link used to get the next page of recommendations.
 
 * `cluster_id` - The ID associated with the cluster.
 

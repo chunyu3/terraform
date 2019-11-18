@@ -32,17 +32,17 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `client_id` - (Required) Client ID of developer console which is the client application.
-
-* `display_name` - (Required) User-friendly OpenID Connect Provider name.
-
-* `metadata_endpoint` - (Required) Metadata endpoint URI.
-
 * `opid` - (Required) Identifier of the OpenID Connect Provider. Changing this forces a new resource to be created.
+
+* `client_id` - (Optional) Client ID of developer console which is the client application.
 
 * `client_secret` - (Optional) Client Secret of developer console which is the client application.
 
 * `description` - (Optional) User-friendly description of OpenID Connect Provider.
+
+* `display_name` - (Optional) User-friendly OpenID Connect Provider name.
+
+* `metadata_endpoint` - (Optional) Metadata endpoint URI.
 
 ## Attributes Reference
 

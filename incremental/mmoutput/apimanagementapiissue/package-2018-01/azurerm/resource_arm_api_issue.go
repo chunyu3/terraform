@@ -50,28 +50,10 @@ func resourceArmApiIssue() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "description": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "issue_id": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "title": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "user_id": {
-                Type: schema.TypeString,
-                Required: true,
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
@@ -86,6 +68,11 @@ func resourceArmApiIssue() *schema.Resource {
                 ValidateFunc: validateRFC3339Date,
             },
 
+            "description": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
             "state": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -97,6 +84,16 @@ func resourceArmApiIssue() *schema.Resource {
                     string(apimanagement.closed),
                 }, false),
                 Default: string(apimanagement.proposed),
+            },
+
+            "title": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "user_id": {
+                Type: schema.TypeString,
+                Optional: true,
             },
 
             "type": {
@@ -135,8 +132,8 @@ func resourceArmApiIssueCreate(d *schema.ResourceData, meta interface{}) error {
     title := d.Get("title").(string)
     userId := d.Get("user_id").(string)
 
-    parameters := apimanagement.IssueContract{
-        IssueContractProperties: &apimanagement.IssueContractProperties{
+    parameters := apimanagement.IssueUpdateContract{
+        IssueUpdateContractProperties: &apimanagement.IssueUpdateContractProperties{
             ApiID: utils.String(apiId),
             CreatedDate: convertStringToDate(createdDate),
             Description: utils.String(description),
@@ -192,13 +189,13 @@ func resourceArmApiIssueRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
-    if issueContractProperties := resp.IssueContractProperties; issueContractProperties != nil {
-        d.Set("api_id", issueContractProperties.ApiID)
-        d.Set("created_date", (issueContractProperties.CreatedDate).String())
-        d.Set("description", issueContractProperties.Description)
-        d.Set("state", string(issueContractProperties.State))
-        d.Set("title", issueContractProperties.Title)
-        d.Set("user_id", issueContractProperties.UserID)
+    if issueUpdateContractProperties := resp.IssueUpdateContractProperties; issueUpdateContractProperties != nil {
+        d.Set("api_id", issueUpdateContractProperties.ApiID)
+        d.Set("created_date", (issueUpdateContractProperties.CreatedDate).String())
+        d.Set("description", issueUpdateContractProperties.Description)
+        d.Set("state", string(issueUpdateContractProperties.State))
+        d.Set("title", issueUpdateContractProperties.Title)
+        d.Set("user_id", issueUpdateContractProperties.UserID)
     }
     d.Set("issue_id", issueID)
     d.Set("type", resp.Type)
@@ -221,8 +218,8 @@ func resourceArmApiIssueUpdate(d *schema.ResourceData, meta interface{}) error {
     title := d.Get("title").(string)
     userId := d.Get("user_id").(string)
 
-    parameters := apimanagement.IssueContract{
-        IssueContractProperties: &apimanagement.IssueContractProperties{
+    parameters := apimanagement.IssueUpdateContract{
+        IssueUpdateContractProperties: &apimanagement.IssueUpdateContractProperties{
             ApiID: utils.String(apiId),
             CreatedDate: convertStringToDate(createdDate),
             Description: utils.String(description),

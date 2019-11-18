@@ -39,13 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateFirewallRuleParameters
+            go_type_name: UpdateFirewallRuleParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateFirewallRuleProperties
-            go_type_name: CreateOrUpdateFirewallRuleProperties
+            go_field_name: UpdateFirewallRuleProperties
+            go_type_name: UpdateFirewallRuleProperties
           '/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: start_ip_address
@@ -79,13 +79,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateFirewallRuleParameters
+            go_type_name: UpdateFirewallRuleParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateFirewallRuleProperties
-            go_type_name: CreateOrUpdateFirewallRuleProperties
+            go_field_name: UpdateFirewallRuleProperties
+            go_type_name: UpdateFirewallRuleProperties
           '/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: start_ip_address
@@ -139,8 +139,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateFirewallRuleProperties
-            go_type_name: CreateOrUpdateFirewallRuleProperties
+            go_field_name: UpdateFirewallRuleProperties
+            go_type_name: UpdateFirewallRuleProperties
           '/properties/startIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StartIpAddress
@@ -194,19 +194,19 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the firewall rule to create or update.'
+        description: 'The name of the firewall rule to retrieve.'
         required: true
         input: true
         azure_sdk_references: ['firewallRuleName']
       - !ruby/object:Api::Type::String
         name: 'startIpAddress'
         description: 'The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.'
-        required: true
+        required: false
         azure_sdk_references: ['/startIpAddress', '/properties/startIpAddress']
       - !ruby/object:Api::Type::String
         name: 'endIpAddress'
         description: 'The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.'
-        required: true
+        required: false
         azure_sdk_references: ['/endIpAddress', '/properties/endIpAddress']
       # read only values included only in response
       - !ruby/object:Api::Type::String

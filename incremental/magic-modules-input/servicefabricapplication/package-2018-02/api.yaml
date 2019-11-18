@@ -116,7 +116,7 @@ objects:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ApplicationProperties
-            go_type_name: ApplicationResourceProperties
+            go_type_name: ApplicationResourceUpdateProperties
           '/properties/typeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: TypeVersion
@@ -291,18 +291,18 @@ objects:
           '/metrics/TotalApplicationCapacity': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             applicable_to: [python]
             python_field_name: total_application_capacity
-          '/properties/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TypeName
-          '/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type_name
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TypeName
+          '/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -504,17 +504,17 @@ objects:
               description: 'The total metric capacity for Service Fabric application.<br>This is the total metric capacity for this application in the cluster. Service Fabric will try to limit the sum of loads of services within the application to this value.<br>When creating a new application with application capacity defined, the product of MaximumNodes and MaximumCapacity must always be smaller than or equal to this value.<br>'
               required: false
               azure_sdk_references: ['/metrics/TotalApplicationCapacity', '/properties/metrics/TotalApplicationCapacity']
-      - !ruby/object:Api::Type::String
-        name: 'typeName'
-        description: 'The application type name as defined in the application manifest.'
-        required: false
-        azure_sdk_references: ['/typeName', '/properties/typeName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'The current deployment or provisioning state, which only appears in the response'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'typeName'
+        description: 'The application type name as defined in the application manifest.'
+        output: true
+        azure_sdk_references: ['/typeName', '/properties/typeName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource identifier.'

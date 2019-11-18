@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: name
+            go_variable_name: solutionName
             python_parameter_name: solution_name
+            python_variable_name: solution_name
+          'aggregatedRecommendationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: aggregatedRecommendations
+            go_variable_name: name
+            python_parameter_name: aggregated_recommendation_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -121,9 +126,9 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: name
+            go_variable_name: solutionName
             python_parameter_name: solution_name
-            python_variable_name: name
+            python_variable_name: solution_name
 
     description: |
       Manage Azure IotSecuritySolutionsAnalyticsRecommendation instance.
@@ -135,11 +140,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'solutionName'
         description: 'The name of the IoT Security solution.'
         required: true
         input: true
         azure_sdk_references: ['solutionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the recommendation aggregated for this query.'
+        required: true
+        input: true
+        azure_sdk_references: ['aggregatedRecommendationName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

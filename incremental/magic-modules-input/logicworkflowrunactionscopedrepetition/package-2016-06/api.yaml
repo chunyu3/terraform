@@ -39,8 +39,13 @@ objects:
             python_variable_name: run_name
           'actionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: actions
-            go_variable_name: name
+            go_variable_name: actionName
             python_parameter_name: action_name
+            python_variable_name: action_name
+          'repetitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: scopeRepetitions
+            go_variable_name: name
+            python_parameter_name: repetition_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -351,9 +356,9 @@ objects:
             python_variable_name: run_name
           'actionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: actions
-            go_variable_name: name
+            go_variable_name: actionName
             python_parameter_name: action_name
-            python_variable_name: name
+            python_variable_name: action_name
 
     description: |
       Manage Azure WorkflowRunActionScopedRepetition instance.
@@ -377,11 +382,17 @@ objects:
         input: true
         azure_sdk_references: ['runName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'actionName'
         description: 'The workflow action name.'
         required: true
         input: true
         azure_sdk_references: ['actionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The workflow repetition.'
+        required: true
+        input: true
+        azure_sdk_references: ['repetitionName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -37,6 +37,11 @@ objects:
             go_variable_name: name
             python_parameter_name: workspace_name
             python_variable_name: name
+          'alertRuleTemplateId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: alertRuleTemplates
+            go_variable_name: alertRuleTemplateID
+            python_parameter_name: alert_rule_template_id
+            python_variable_name: alert_rule_template_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -88,6 +93,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['workspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'alertRuleTemplateId'
+        description: 'Alert rule template ID'
+        required: true
+        input: true
+        azure_sdk_references: ['alertRuleTemplateId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -144,7 +144,7 @@ func resourceArmElasticPoolCreate(d *schema.ResourceData, meta interface{}) erro
     zoneRedundant := d.Get("zone_redundant").(bool)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ElasticPool{
+    parameters := sql.ElasticPoolUpdate{
         Location: utils.String(location),
         ElasticPoolProperties: &sql.ElasticPoolProperties{
             DatabaseDtuMax: utils.Int32(int32(databaseDtuMax)),
@@ -240,7 +240,7 @@ func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) erro
     zoneRedundant := d.Get("zone_redundant").(bool)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ElasticPool{
+    parameters := sql.ElasticPoolUpdate{
         Location: utils.String(location),
         ElasticPoolProperties: &sql.ElasticPoolProperties{
             DatabaseDtuMax: utils.Int32(int32(databaseDtuMax)),

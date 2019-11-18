@@ -213,18 +213,18 @@ func resourceArmVirtualMachineScheduleCreate(d *schema.ResourceData, meta interf
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    schedule := devtestlab.Schedule{
+    schedule := devtestlab.ScheduleFragment{
         Location: utils.String(location),
-        ScheduleProperties: &devtestlab.ScheduleProperties{
-            DailyRecurrence: expandArmVirtualMachineScheduleDayDetails(dailyRecurrence),
-            HourlyRecurrence: expandArmVirtualMachineScheduleHourDetails(hourlyRecurrence),
-            NotificationSettings: expandArmVirtualMachineScheduleNotificationSettings(notificationSettings),
+        SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
+            DailyRecurrence: expandArmVirtualMachineScheduleDayDetailsFragment(dailyRecurrence),
+            HourlyRecurrence: expandArmVirtualMachineScheduleHourDetailsFragment(hourlyRecurrence),
+            NotificationSettings: expandArmVirtualMachineScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
             TargetResourceID: utils.String(targetResourceId),
             TaskType: utils.String(taskType),
             TimeZoneID: utils.String(timeZoneId),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            WeeklyRecurrence: expandArmVirtualMachineScheduleWeekDetails(weeklyRecurrence),
+            WeeklyRecurrence: expandArmVirtualMachineScheduleWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
     }
@@ -277,24 +277,24 @@ func resourceArmVirtualMachineScheduleRead(d *schema.ResourceData, meta interfac
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if scheduleProperties := resp.ScheduleProperties; scheduleProperties != nil {
-        d.Set("created_date", (scheduleProperties.CreatedDate).String())
-        if err := d.Set("daily_recurrence", flattenArmVirtualMachineScheduleDayDetails(scheduleProperties.DailyRecurrence)); err != nil {
+    if schedulePropertiesFragment := resp.SchedulePropertiesFragment; schedulePropertiesFragment != nil {
+        d.Set("created_date", (schedulePropertiesFragment.CreatedDate).String())
+        if err := d.Set("daily_recurrence", flattenArmVirtualMachineScheduleDayDetailsFragment(schedulePropertiesFragment.DailyRecurrence)); err != nil {
             return fmt.Errorf("Error setting `daily_recurrence`: %+v", err)
         }
-        if err := d.Set("hourly_recurrence", flattenArmVirtualMachineScheduleHourDetails(scheduleProperties.HourlyRecurrence)); err != nil {
+        if err := d.Set("hourly_recurrence", flattenArmVirtualMachineScheduleHourDetailsFragment(schedulePropertiesFragment.HourlyRecurrence)); err != nil {
             return fmt.Errorf("Error setting `hourly_recurrence`: %+v", err)
         }
-        if err := d.Set("notification_settings", flattenArmVirtualMachineScheduleNotificationSettings(scheduleProperties.NotificationSettings)); err != nil {
+        if err := d.Set("notification_settings", flattenArmVirtualMachineScheduleNotificationSettingsFragment(schedulePropertiesFragment.NotificationSettings)); err != nil {
             return fmt.Errorf("Error setting `notification_settings`: %+v", err)
         }
-        d.Set("provisioning_state", scheduleProperties.ProvisioningState)
-        d.Set("status", string(scheduleProperties.Status))
-        d.Set("target_resource_id", scheduleProperties.TargetResourceID)
-        d.Set("task_type", scheduleProperties.TaskType)
-        d.Set("time_zone_id", scheduleProperties.TimeZoneID)
-        d.Set("unique_identifier", scheduleProperties.UniqueIdentifier)
-        if err := d.Set("weekly_recurrence", flattenArmVirtualMachineScheduleWeekDetails(scheduleProperties.WeeklyRecurrence)); err != nil {
+        d.Set("provisioning_state", schedulePropertiesFragment.ProvisioningState)
+        d.Set("status", string(schedulePropertiesFragment.Status))
+        d.Set("target_resource_id", schedulePropertiesFragment.TargetResourceID)
+        d.Set("task_type", schedulePropertiesFragment.TaskType)
+        d.Set("time_zone_id", schedulePropertiesFragment.TimeZoneID)
+        d.Set("unique_identifier", schedulePropertiesFragment.UniqueIdentifier)
+        if err := d.Set("weekly_recurrence", flattenArmVirtualMachineScheduleWeekDetailsFragment(schedulePropertiesFragment.WeeklyRecurrence)); err != nil {
             return fmt.Errorf("Error setting `weekly_recurrence`: %+v", err)
         }
     }
@@ -323,18 +323,18 @@ func resourceArmVirtualMachineScheduleUpdate(d *schema.ResourceData, meta interf
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    schedule := devtestlab.Schedule{
+    schedule := devtestlab.ScheduleFragment{
         Location: utils.String(location),
-        ScheduleProperties: &devtestlab.ScheduleProperties{
-            DailyRecurrence: expandArmVirtualMachineScheduleDayDetails(dailyRecurrence),
-            HourlyRecurrence: expandArmVirtualMachineScheduleHourDetails(hourlyRecurrence),
-            NotificationSettings: expandArmVirtualMachineScheduleNotificationSettings(notificationSettings),
+        SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
+            DailyRecurrence: expandArmVirtualMachineScheduleDayDetailsFragment(dailyRecurrence),
+            HourlyRecurrence: expandArmVirtualMachineScheduleHourDetailsFragment(hourlyRecurrence),
+            NotificationSettings: expandArmVirtualMachineScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
             TargetResourceID: utils.String(targetResourceId),
             TaskType: utils.String(taskType),
             TimeZoneID: utils.String(timeZoneId),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            WeeklyRecurrence: expandArmVirtualMachineScheduleWeekDetails(weeklyRecurrence),
+            WeeklyRecurrence: expandArmVirtualMachineScheduleWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
     }
@@ -368,7 +368,7 @@ func resourceArmVirtualMachineScheduleDelete(d *schema.ResourceData, meta interf
     return nil
 }
 
-func expandArmVirtualMachineScheduleDayDetails(input []interface{}) *devtestlab.DayDetails {
+func expandArmVirtualMachineScheduleDayDetailsFragment(input []interface{}) *devtestlab.DayDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -376,13 +376,13 @@ func expandArmVirtualMachineScheduleDayDetails(input []interface{}) *devtestlab.
 
     time := v["time"].(string)
 
-    result := devtestlab.DayDetails{
+    result := devtestlab.DayDetailsFragment{
         Time: utils.String(time),
     }
     return &result
 }
 
-func expandArmVirtualMachineScheduleHourDetails(input []interface{}) *devtestlab.HourDetails {
+func expandArmVirtualMachineScheduleHourDetailsFragment(input []interface{}) *devtestlab.HourDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -390,13 +390,13 @@ func expandArmVirtualMachineScheduleHourDetails(input []interface{}) *devtestlab
 
     minute := v["minute"].(int)
 
-    result := devtestlab.HourDetails{
+    result := devtestlab.HourDetailsFragment{
         Minute: utils.Int32(int32(minute)),
     }
     return &result
 }
 
-func expandArmVirtualMachineScheduleNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+func expandArmVirtualMachineScheduleNotificationSettingsFragment(input []interface{}) *devtestlab.NotificationSettingsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -406,7 +406,7 @@ func expandArmVirtualMachineScheduleNotificationSettings(input []interface{}) *d
     timeInMinutes := v["time_in_minutes"].(int)
     webhookUrl := v["webhook_url"].(string)
 
-    result := devtestlab.NotificationSettings{
+    result := devtestlab.NotificationSettingsFragment{
         Status: devtestlab.NotificationStatus(status),
         TimeInMinutes: utils.Int32(int32(timeInMinutes)),
         WebhookURL: utils.String(webhookUrl),
@@ -414,7 +414,7 @@ func expandArmVirtualMachineScheduleNotificationSettings(input []interface{}) *d
     return &result
 }
 
-func expandArmVirtualMachineScheduleWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+func expandArmVirtualMachineScheduleWeekDetailsFragment(input []interface{}) *devtestlab.WeekDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -423,7 +423,7 @@ func expandArmVirtualMachineScheduleWeekDetails(input []interface{}) *devtestlab
     weekdays := v["weekdays"].([]interface{})
     time := v["time"].(string)
 
-    result := devtestlab.WeekDetails{
+    result := devtestlab.WeekDetailsFragment{
         Time: utils.String(time),
         Weekdays: utils.ExpandStringSlice(weekdays),
     }
@@ -431,7 +431,7 @@ func expandArmVirtualMachineScheduleWeekDetails(input []interface{}) *devtestlab
 }
 
 
-func flattenArmVirtualMachineScheduleDayDetails(input *devtestlab.DayDetails) []interface{} {
+func flattenArmVirtualMachineScheduleDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -445,7 +445,7 @@ func flattenArmVirtualMachineScheduleDayDetails(input *devtestlab.DayDetails) []
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineScheduleHourDetails(input *devtestlab.HourDetails) []interface{} {
+func flattenArmVirtualMachineScheduleHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -459,7 +459,7 @@ func flattenArmVirtualMachineScheduleHourDetails(input *devtestlab.HourDetails) 
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineScheduleNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+func flattenArmVirtualMachineScheduleNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -477,7 +477,7 @@ func flattenArmVirtualMachineScheduleNotificationSettings(input *devtestlab.Noti
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineScheduleWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+func flattenArmVirtualMachineScheduleWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }

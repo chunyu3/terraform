@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Workspace
+            go_type_name: WorkspaceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -50,20 +50,20 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: WorkspaceProperties
-            go_type_name: WorkspaceProperties
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
+            go_field_name: WorkspacePropertiesUpdateParameters
+            go_type_name: WorkspacePropertiesUpdateParameters
           '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: friendly_name
           '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FriendlyName
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -85,7 +85,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Workspace
+            go_type_name: WorkspaceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -96,20 +96,20 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: WorkspaceProperties
-            go_type_name: WorkspaceProperties
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
+            go_field_name: WorkspacePropertiesUpdateParameters
+            go_type_name: WorkspacePropertiesUpdateParameters
           '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: friendly_name
           '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FriendlyName
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -157,20 +157,20 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: WorkspaceProperties
-            go_type_name: WorkspaceProperties
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
+            go_field_name: WorkspacePropertiesUpdateParameters
+            go_type_name: WorkspacePropertiesUpdateParameters
           '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FriendlyName
           '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: friendly_name
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
           '/properties/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: AccountID
@@ -249,20 +249,20 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The tags of the resource.'
+        description: 'The resource tags for the machine learning team account workspace.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
+        name: 'friendlyName'
+        description: 'Friendly name of this workspace.'
+        required: false
+        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
+      - !ruby/object:Api::Type::String
         name: 'description'
-        description: 'The description of this workspace.'
+        description: 'Description for this workspace.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::String
-        name: 'friendlyName'
-        description: 'The friendly name for this workspace. This will be the workspace name in the arm id when the workspace object gets created'
-        required: true
-        azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'accountId'

@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CredentialCreateOrUpdateParameters
+            go_type_name: CredentialUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -47,8 +47,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CredentialCreateOrUpdateProperties
-            go_type_name: CredentialCreateOrUpdateProperties
+            go_field_name: CredentialUpdateProperties
+            go_type_name: CredentialUpdateProperties
           '/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: user_name
@@ -88,7 +88,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CredentialCreateOrUpdateParameters
+            go_type_name: CredentialUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -96,8 +96,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CredentialCreateOrUpdateProperties
-            go_type_name: CredentialCreateOrUpdateProperties
+            go_field_name: CredentialUpdateProperties
+            go_type_name: CredentialUpdateProperties
           '/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: user_name
@@ -160,8 +160,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CredentialCreateOrUpdateProperties
-            go_type_name: CredentialCreateOrUpdateProperties
+            go_field_name: CredentialUpdateProperties
+            go_type_name: CredentialUpdateProperties
           '/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UserName
@@ -224,25 +224,25 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The parameters supplied to the create or update credential operation.'
+        description: 'The name of credential.'
         required: true
         input: true
         azure_sdk_references: ['credentialName']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Gets or sets the name of the credential.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'userName'
         description: 'Gets or sets the user name of the credential.'
-        required: true
+        required: false
         azure_sdk_references: ['/userName', '/properties/userName']
       - !ruby/object:Api::Type::String
         name: 'password'
         description: 'Gets or sets the password of the credential.'
-        required: true
+        required: false
         azure_sdk_references: ['/password', '/properties/password']
       - !ruby/object:Api::Type::String
         name: 'description'

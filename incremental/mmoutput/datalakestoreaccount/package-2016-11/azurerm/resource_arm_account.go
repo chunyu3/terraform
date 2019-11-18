@@ -56,50 +56,21 @@ func resourceArmAccount() *schema.Resource {
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "type": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(datalakestore.UserManaged),
-                                string(datalakestore.ServiceManaged),
-                            }, false),
-                        },
                         "key_vault_meta_info": {
                             Type: schema.TypeList,
                             Optional: true,
                             MaxItems: 1,
                             Elem: &schema.Resource{
                                 Schema: map[string]*schema.Schema{
-                                    "encryption_key_name": {
-                                        Type: schema.TypeString,
-                                        Required: true,
-                                        ValidateFunc: validate.NoEmptyStrings,
-                                    },
                                     "encryption_key_version": {
                                         Type: schema.TypeString,
-                                        Required: true,
-                                        ValidateFunc: validate.NoEmptyStrings,
-                                    },
-                                    "key_vault_resource_id": {
-                                        Type: schema.TypeString,
-                                        Required: true,
-                                        ValidateFunc: validate.NoEmptyStrings,
+                                        Optional: true,
                                     },
                                 },
                             },
                         },
                     },
                 },
-            },
-
-            "encryption_state": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(datalakestore.Enabled),
-                    string(datalakestore.Disabled),
-                }, false),
-                Default: string(datalakestore.Enabled),
             },
 
             "firewall_allow_azure_ips": {
@@ -117,20 +88,18 @@ func resourceArmAccount() *schema.Resource {
                 Optional: true,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "end_ip_address": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
                         "name": {
                             Type: schema.TypeString,
                             Required: true,
                             ValidateFunc: validate.NoEmptyStrings,
                         },
+                        "end_ip_address": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
                         "start_ip_address": {
                             Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
+                            Optional: true,
                         },
                     },
                 },
@@ -191,15 +160,14 @@ func resourceArmAccount() *schema.Resource {
                 Optional: true,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "id_provider": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
-                        },
                         "name": {
                             Type: schema.TypeString,
                             Required: true,
                             ValidateFunc: validate.NoEmptyStrings,
+                        },
+                        "id_provider": {
+                            Type: schema.TypeString,
+                            Optional: true,
                         },
                     },
                 },
@@ -217,8 +185,7 @@ func resourceArmAccount() *schema.Resource {
                         },
                         "subnet_id": {
                             Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validate.NoEmptyStrings,
+                            Optional: true,
                         },
                     },
                 },
@@ -240,6 +207,11 @@ func resourceArmAccount() *schema.Resource {
             },
 
             "encryption_provisioning_state": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "encryption_state": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -296,7 +268,6 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     location := azure.NormalizeLocation(d.Get("location").(string))
     defaultGroup := d.Get("default_group").(string)
     encryptionConfig := d.Get("encryption_config").([]interface{})
-    encryptionState := d.Get("encryption_state").(string)
     firewallAllowAzureIps := d.Get("firewall_allow_azure_ips").(string)
     firewallRules := d.Get("firewall_rules").([]interface{})
     firewallState := d.Get("firewall_state").(string)
@@ -307,20 +278,19 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     virtualNetworkRules := d.Get("virtual_network_rules").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := datalakestore.CreateDataLakeStoreAccountParameters{
+    parameters := datalakestore.UpdateDataLakeStoreAccountParameters{
         Identity: expandArmAccountEncryptionIdentity(identity),
         Location: utils.String(location),
-        CreateDataLakeStoreAccountProperties: &datalakestore.CreateDataLakeStoreAccountProperties{
+        UpdateDataLakeStoreAccountProperties: &datalakestore.UpdateDataLakeStoreAccountProperties{
             DefaultGroup: utils.String(defaultGroup),
-            EncryptionConfig: expandArmAccountEncryptionConfig(encryptionConfig),
-            EncryptionState: datalakestore.EncryptionState(encryptionState),
+            EncryptionConfig: expandArmAccountUpdateEncryptionConfig(encryptionConfig),
             FirewallAllowAzureIps: datalakestore.FirewallAllowAzureIpsState(firewallAllowAzureIps),
-            FirewallRules: expandArmAccountCreateFirewallRuleWithAccountParameters(firewallRules),
+            FirewallRules: expandArmAccountUpdateFirewallRuleWithAccountParameters(firewallRules),
             FirewallState: datalakestore.FirewallState(firewallState),
             NewTier: datalakestore.TierType(newTier),
             TrustedIDProviderState: datalakestore.TrustedIdProviderState(trustedIdProviderState),
-            TrustedIDProviders: expandArmAccountCreateTrustedIdProviderWithAccountParameters(trustedIdProviders),
-            VirtualNetworkRules: expandArmAccountCreateVirtualNetworkRuleWithAccountParameters(virtualNetworkRules),
+            TrustedIDProviders: expandArmAccountUpdateTrustedIdProviderWithAccountParameters(trustedIdProviders),
+            VirtualNetworkRules: expandArmAccountUpdateVirtualNetworkRuleWithAccountParameters(virtualNetworkRules),
         },
         Tags: tags.Expand(t),
     }
@@ -375,31 +345,31 @@ func resourceArmAccountRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if createDataLakeStoreAccountProperties := resp.CreateDataLakeStoreAccountProperties; createDataLakeStoreAccountProperties != nil {
-        d.Set("account_id", createDataLakeStoreAccountProperties.AccountID)
-        d.Set("creation_time", (createDataLakeStoreAccountProperties.CreationTime).String())
-        d.Set("current_tier", string(createDataLakeStoreAccountProperties.CurrentTier))
-        d.Set("default_group", createDataLakeStoreAccountProperties.DefaultGroup)
-        if err := d.Set("encryption_config", flattenArmAccountEncryptionConfig(createDataLakeStoreAccountProperties.EncryptionConfig)); err != nil {
+    if updateDataLakeStoreAccountProperties := resp.UpdateDataLakeStoreAccountProperties; updateDataLakeStoreAccountProperties != nil {
+        d.Set("account_id", updateDataLakeStoreAccountProperties.AccountID)
+        d.Set("creation_time", (updateDataLakeStoreAccountProperties.CreationTime).String())
+        d.Set("current_tier", string(updateDataLakeStoreAccountProperties.CurrentTier))
+        d.Set("default_group", updateDataLakeStoreAccountProperties.DefaultGroup)
+        if err := d.Set("encryption_config", flattenArmAccountUpdateEncryptionConfig(updateDataLakeStoreAccountProperties.EncryptionConfig)); err != nil {
             return fmt.Errorf("Error setting `encryption_config`: %+v", err)
         }
-        d.Set("encryption_provisioning_state", string(createDataLakeStoreAccountProperties.EncryptionProvisioningState))
-        d.Set("encryption_state", string(createDataLakeStoreAccountProperties.EncryptionState))
-        d.Set("endpoint", createDataLakeStoreAccountProperties.Endpoint)
-        d.Set("firewall_allow_azure_ips", string(createDataLakeStoreAccountProperties.FirewallAllowAzureIps))
-        if err := d.Set("firewall_rules", flattenArmAccountCreateFirewallRuleWithAccountParameters(createDataLakeStoreAccountProperties.FirewallRules)); err != nil {
+        d.Set("encryption_provisioning_state", string(updateDataLakeStoreAccountProperties.EncryptionProvisioningState))
+        d.Set("encryption_state", string(updateDataLakeStoreAccountProperties.EncryptionState))
+        d.Set("endpoint", updateDataLakeStoreAccountProperties.Endpoint)
+        d.Set("firewall_allow_azure_ips", string(updateDataLakeStoreAccountProperties.FirewallAllowAzureIps))
+        if err := d.Set("firewall_rules", flattenArmAccountUpdateFirewallRuleWithAccountParameters(updateDataLakeStoreAccountProperties.FirewallRules)); err != nil {
             return fmt.Errorf("Error setting `firewall_rules`: %+v", err)
         }
-        d.Set("firewall_state", string(createDataLakeStoreAccountProperties.FirewallState))
-        d.Set("last_modified_time", (createDataLakeStoreAccountProperties.LastModifiedTime).String())
-        d.Set("new_tier", string(createDataLakeStoreAccountProperties.NewTier))
-        d.Set("provisioning_state", string(createDataLakeStoreAccountProperties.ProvisioningState))
-        d.Set("state", string(createDataLakeStoreAccountProperties.State))
-        d.Set("trusted_id_provider_state", string(createDataLakeStoreAccountProperties.TrustedIDProviderState))
-        if err := d.Set("trusted_id_providers", flattenArmAccountCreateTrustedIdProviderWithAccountParameters(createDataLakeStoreAccountProperties.TrustedIDProviders)); err != nil {
+        d.Set("firewall_state", string(updateDataLakeStoreAccountProperties.FirewallState))
+        d.Set("last_modified_time", (updateDataLakeStoreAccountProperties.LastModifiedTime).String())
+        d.Set("new_tier", string(updateDataLakeStoreAccountProperties.NewTier))
+        d.Set("provisioning_state", string(updateDataLakeStoreAccountProperties.ProvisioningState))
+        d.Set("state", string(updateDataLakeStoreAccountProperties.State))
+        d.Set("trusted_id_provider_state", string(updateDataLakeStoreAccountProperties.TrustedIDProviderState))
+        if err := d.Set("trusted_id_providers", flattenArmAccountUpdateTrustedIdProviderWithAccountParameters(updateDataLakeStoreAccountProperties.TrustedIDProviders)); err != nil {
             return fmt.Errorf("Error setting `trusted_id_providers`: %+v", err)
         }
-        if err := d.Set("virtual_network_rules", flattenArmAccountCreateVirtualNetworkRuleWithAccountParameters(createDataLakeStoreAccountProperties.VirtualNetworkRules)); err != nil {
+        if err := d.Set("virtual_network_rules", flattenArmAccountUpdateVirtualNetworkRuleWithAccountParameters(updateDataLakeStoreAccountProperties.VirtualNetworkRules)); err != nil {
             return fmt.Errorf("Error setting `virtual_network_rules`: %+v", err)
         }
     }
@@ -419,7 +389,6 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := d.Get("resource_group").(string)
     defaultGroup := d.Get("default_group").(string)
     encryptionConfig := d.Get("encryption_config").([]interface{})
-    encryptionState := d.Get("encryption_state").(string)
     firewallAllowAzureIps := d.Get("firewall_allow_azure_ips").(string)
     firewallRules := d.Get("firewall_rules").([]interface{})
     firewallState := d.Get("firewall_state").(string)
@@ -430,20 +399,19 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     virtualNetworkRules := d.Get("virtual_network_rules").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := datalakestore.CreateDataLakeStoreAccountParameters{
+    parameters := datalakestore.UpdateDataLakeStoreAccountParameters{
         Identity: expandArmAccountEncryptionIdentity(identity),
         Location: utils.String(location),
-        CreateDataLakeStoreAccountProperties: &datalakestore.CreateDataLakeStoreAccountProperties{
+        UpdateDataLakeStoreAccountProperties: &datalakestore.UpdateDataLakeStoreAccountProperties{
             DefaultGroup: utils.String(defaultGroup),
-            EncryptionConfig: expandArmAccountEncryptionConfig(encryptionConfig),
-            EncryptionState: datalakestore.EncryptionState(encryptionState),
+            EncryptionConfig: expandArmAccountUpdateEncryptionConfig(encryptionConfig),
             FirewallAllowAzureIps: datalakestore.FirewallAllowAzureIpsState(firewallAllowAzureIps),
-            FirewallRules: expandArmAccountCreateFirewallRuleWithAccountParameters(firewallRules),
+            FirewallRules: expandArmAccountUpdateFirewallRuleWithAccountParameters(firewallRules),
             FirewallState: datalakestore.FirewallState(firewallState),
             NewTier: datalakestore.TierType(newTier),
             TrustedIDProviderState: datalakestore.TrustedIdProviderState(trustedIdProviderState),
-            TrustedIDProviders: expandArmAccountCreateTrustedIdProviderWithAccountParameters(trustedIdProviders),
-            VirtualNetworkRules: expandArmAccountCreateVirtualNetworkRuleWithAccountParameters(virtualNetworkRules),
+            TrustedIDProviders: expandArmAccountUpdateTrustedIdProviderWithAccountParameters(trustedIdProviders),
+            VirtualNetworkRules: expandArmAccountUpdateVirtualNetworkRuleWithAccountParameters(virtualNetworkRules),
         },
         Tags: tags.Expand(t),
     }
@@ -503,33 +471,31 @@ func expandArmAccountEncryptionIdentity(input []interface{}) *datalakestore.Encr
     return &result
 }
 
-func expandArmAccountEncryptionConfig(input []interface{}) *datalakestore.EncryptionConfig {
+func expandArmAccountUpdateEncryptionConfig(input []interface{}) *datalakestore.UpdateEncryptionConfig {
     if len(input) == 0 {
         return nil
     }
     v := input[0].(map[string]interface{})
 
-    type := v["type"].(string)
     keyVaultMetaInfo := v["key_vault_meta_info"].([]interface{})
 
-    result := datalakestore.EncryptionConfig{
-        KeyVaultMetaInfo: expandArmAccountKeyVaultMetaInfo(keyVaultMetaInfo),
-        Type: datalakestore.EncryptionConfigType(type),
+    result := datalakestore.UpdateEncryptionConfig{
+        KeyVaultMetaInfo: expandArmAccountUpdateKeyVaultMetaInfo(keyVaultMetaInfo),
     }
     return &result
 }
 
-func expandArmAccountCreateFirewallRuleWithAccountParameters(input []interface{}) *[]datalakestore.CreateFirewallRuleWithAccountParameters {
-    results := make([]datalakestore.CreateFirewallRuleWithAccountParameters, 0)
+func expandArmAccountUpdateFirewallRuleWithAccountParameters(input []interface{}) *[]datalakestore.UpdateFirewallRuleWithAccountParameters {
+    results := make([]datalakestore.UpdateFirewallRuleWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         startIpAddress := v["start_ip_address"].(string)
         endIpAddress := v["end_ip_address"].(string)
 
-        result := datalakestore.CreateFirewallRuleWithAccountParameters{
+        result := datalakestore.UpdateFirewallRuleWithAccountParameters{
             Name: utils.String(name),
-            CreateOrUpdateFirewallRuleProperties: &datalakestore.CreateOrUpdateFirewallRuleProperties{
+            UpdateFirewallRuleProperties: &datalakestore.UpdateFirewallRuleProperties{
                 EndIpAddress: utils.String(endIpAddress),
                 StartIpAddress: utils.String(startIpAddress),
             },
@@ -540,16 +506,16 @@ func expandArmAccountCreateFirewallRuleWithAccountParameters(input []interface{}
     return &results
 }
 
-func expandArmAccountCreateTrustedIdProviderWithAccountParameters(input []interface{}) *[]datalakestore.CreateTrustedIdProviderWithAccountParameters {
-    results := make([]datalakestore.CreateTrustedIdProviderWithAccountParameters, 0)
+func expandArmAccountUpdateTrustedIdProviderWithAccountParameters(input []interface{}) *[]datalakestore.UpdateTrustedIdProviderWithAccountParameters {
+    results := make([]datalakestore.UpdateTrustedIdProviderWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         idProvider := v["id_provider"].(string)
 
-        result := datalakestore.CreateTrustedIdProviderWithAccountParameters{
+        result := datalakestore.UpdateTrustedIdProviderWithAccountParameters{
             Name: utils.String(name),
-            CreateOrUpdateTrustedIdProviderProperties: &datalakestore.CreateOrUpdateTrustedIdProviderProperties{
+            UpdateTrustedIdProviderProperties: &datalakestore.UpdateTrustedIdProviderProperties{
                 IDProvider: utils.String(idProvider),
             },
         }
@@ -559,16 +525,16 @@ func expandArmAccountCreateTrustedIdProviderWithAccountParameters(input []interf
     return &results
 }
 
-func expandArmAccountCreateVirtualNetworkRuleWithAccountParameters(input []interface{}) *[]datalakestore.CreateVirtualNetworkRuleWithAccountParameters {
-    results := make([]datalakestore.CreateVirtualNetworkRuleWithAccountParameters, 0)
+func expandArmAccountUpdateVirtualNetworkRuleWithAccountParameters(input []interface{}) *[]datalakestore.UpdateVirtualNetworkRuleWithAccountParameters {
+    results := make([]datalakestore.UpdateVirtualNetworkRuleWithAccountParameters, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         subnetId := v["subnet_id"].(string)
 
-        result := datalakestore.CreateVirtualNetworkRuleWithAccountParameters{
+        result := datalakestore.UpdateVirtualNetworkRuleWithAccountParameters{
             Name: utils.String(name),
-            CreateOrUpdateVirtualNetworkRuleProperties: &datalakestore.CreateOrUpdateVirtualNetworkRuleProperties{
+            UpdateVirtualNetworkRuleProperties: &datalakestore.UpdateVirtualNetworkRuleProperties{
                 SubnetID: utils.String(subnetId),
             },
         }
@@ -578,39 +544,34 @@ func expandArmAccountCreateVirtualNetworkRuleWithAccountParameters(input []inter
     return &results
 }
 
-func expandArmAccountKeyVaultMetaInfo(input []interface{}) *datalakestore.KeyVaultMetaInfo {
+func expandArmAccountUpdateKeyVaultMetaInfo(input []interface{}) *datalakestore.UpdateKeyVaultMetaInfo {
     if len(input) == 0 {
         return nil
     }
     v := input[0].(map[string]interface{})
 
-    keyVaultResourceId := v["key_vault_resource_id"].(string)
-    encryptionKeyName := v["encryption_key_name"].(string)
     encryptionKeyVersion := v["encryption_key_version"].(string)
 
-    result := datalakestore.KeyVaultMetaInfo{
-        EncryptionKeyName: utils.String(encryptionKeyName),
+    result := datalakestore.UpdateKeyVaultMetaInfo{
         EncryptionKeyVersion: utils.String(encryptionKeyVersion),
-        KeyVaultResourceID: utils.String(keyVaultResourceId),
     }
     return &result
 }
 
 
-func flattenArmAccountEncryptionConfig(input *datalakestore.EncryptionConfig) []interface{} {
+func flattenArmAccountUpdateEncryptionConfig(input *datalakestore.UpdateEncryptionConfig) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
 
     result := make(map[string]interface{})
 
-    result["key_vault_meta_info"] = flattenArmAccountKeyVaultMetaInfo(input.KeyVaultMetaInfo)
-    result["type"] = string(input.Type)
+    result["key_vault_meta_info"] = flattenArmAccountUpdateKeyVaultMetaInfo(input.KeyVaultMetaInfo)
 
     return []interface{}{result}
 }
 
-func flattenArmAccountCreateFirewallRuleWithAccountParameters(input *[]datalakestore.CreateFirewallRuleWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateFirewallRuleWithAccountParameters(input *[]datalakestore.UpdateFirewallRuleWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -622,11 +583,11 @@ func flattenArmAccountCreateFirewallRuleWithAccountParameters(input *[]datalakes
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if createOrUpdateFirewallRuleProperties := item.CreateOrUpdateFirewallRuleProperties; createOrUpdateFirewallRuleProperties != nil {
-            if endIpAddress := createOrUpdateFirewallRuleProperties.EndIpAddress; endIpAddress != nil {
+        if updateFirewallRuleProperties := item.UpdateFirewallRuleProperties; updateFirewallRuleProperties != nil {
+            if endIpAddress := updateFirewallRuleProperties.EndIpAddress; endIpAddress != nil {
                 v["end_ip_address"] = *endIpAddress
             }
-            if startIpAddress := createOrUpdateFirewallRuleProperties.StartIpAddress; startIpAddress != nil {
+            if startIpAddress := updateFirewallRuleProperties.StartIpAddress; startIpAddress != nil {
                 v["start_ip_address"] = *startIpAddress
             }
         }
@@ -637,7 +598,7 @@ func flattenArmAccountCreateFirewallRuleWithAccountParameters(input *[]datalakes
     return results
 }
 
-func flattenArmAccountCreateTrustedIdProviderWithAccountParameters(input *[]datalakestore.CreateTrustedIdProviderWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateTrustedIdProviderWithAccountParameters(input *[]datalakestore.UpdateTrustedIdProviderWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -649,8 +610,8 @@ func flattenArmAccountCreateTrustedIdProviderWithAccountParameters(input *[]data
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if createOrUpdateTrustedIdProviderProperties := item.CreateOrUpdateTrustedIdProviderProperties; createOrUpdateTrustedIdProviderProperties != nil {
-            if idProvider := createOrUpdateTrustedIdProviderProperties.IDProvider; idProvider != nil {
+        if updateTrustedIdProviderProperties := item.UpdateTrustedIdProviderProperties; updateTrustedIdProviderProperties != nil {
+            if idProvider := updateTrustedIdProviderProperties.IDProvider; idProvider != nil {
                 v["id_provider"] = *idProvider
             }
         }
@@ -661,7 +622,7 @@ func flattenArmAccountCreateTrustedIdProviderWithAccountParameters(input *[]data
     return results
 }
 
-func flattenArmAccountCreateVirtualNetworkRuleWithAccountParameters(input *[]datalakestore.CreateVirtualNetworkRuleWithAccountParameters) []interface{} {
+func flattenArmAccountUpdateVirtualNetworkRuleWithAccountParameters(input *[]datalakestore.UpdateVirtualNetworkRuleWithAccountParameters) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -673,8 +634,8 @@ func flattenArmAccountCreateVirtualNetworkRuleWithAccountParameters(input *[]dat
         if name := item.Name; name != nil {
             v["name"] = *name
         }
-        if createOrUpdateVirtualNetworkRuleProperties := item.CreateOrUpdateVirtualNetworkRuleProperties; createOrUpdateVirtualNetworkRuleProperties != nil {
-            if subnetId := createOrUpdateVirtualNetworkRuleProperties.SubnetID; subnetId != nil {
+        if updateVirtualNetworkRuleProperties := item.UpdateVirtualNetworkRuleProperties; updateVirtualNetworkRuleProperties != nil {
+            if subnetId := updateVirtualNetworkRuleProperties.SubnetID; subnetId != nil {
                 v["subnet_id"] = *subnetId
             }
         }
@@ -699,21 +660,15 @@ func flattenArmAccountEncryptionIdentity(input *datalakestore.EncryptionIdentity
     return []interface{}{result}
 }
 
-func flattenArmAccountKeyVaultMetaInfo(input *datalakestore.KeyVaultMetaInfo) []interface{} {
+func flattenArmAccountUpdateKeyVaultMetaInfo(input *datalakestore.UpdateKeyVaultMetaInfo) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
 
     result := make(map[string]interface{})
 
-    if encryptionKeyName := input.EncryptionKeyName; encryptionKeyName != nil {
-        result["encryption_key_name"] = *encryptionKeyName
-    }
     if encryptionKeyVersion := input.EncryptionKeyVersion; encryptionKeyVersion != nil {
         result["encryption_key_version"] = *encryptionKeyVersion
-    }
-    if keyVaultResourceId := input.KeyVaultResourceID; keyVaultResourceId != nil {
-        result["key_vault_resource_id"] = *keyVaultResourceId
     }
 
     return []interface{}{result}

@@ -124,7 +124,7 @@ func resourceArmAccountCreate(d *schema.ResourceData, meta interface{}) error {
     activeDirectories := d.Get("active_directories").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.NetAppAccount{
+    body := azurenetappfiles.NetAppAccountPatch{
         Location: utils.String(location),
         AccountProperties: &azurenetappfiles.AccountProperties{
             ActiveDirectories: expandArmAccountActiveDirectory(activeDirectories),
@@ -202,7 +202,7 @@ func resourceArmAccountUpdate(d *schema.ResourceData, meta interface{}) error {
     activeDirectories := d.Get("active_directories").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.NetAppAccount{
+    body := azurenetappfiles.NetAppAccountPatch{
         Location: utils.String(location),
         AccountProperties: &azurenetappfiles.AccountProperties{
             ActiveDirectories: expandArmAccountActiveDirectory(activeDirectories),

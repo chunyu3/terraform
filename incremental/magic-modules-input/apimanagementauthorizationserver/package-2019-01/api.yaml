@@ -39,13 +39,13 @@ objects:
             python_variable_name: authsid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AuthorizationServerContract
+            go_type_name: AuthorizationServerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AuthorizationServerContractProperties
-            go_type_name: AuthorizationServerContractProperties
+            go_field_name: AuthorizationServerUpdateContractProperties
+            go_type_name: AuthorizationServerUpdateContractProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -176,13 +176,13 @@ objects:
             python_variable_name: authsid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AuthorizationServerContract
+            go_type_name: AuthorizationServerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AuthorizationServerContractProperties
-            go_type_name: AuthorizationServerContractProperties
+            go_field_name: AuthorizationServerUpdateContractProperties
+            go_type_name: AuthorizationServerUpdateContractProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -333,8 +333,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AuthorizationServerContractProperties
-            go_type_name: AuthorizationServerContractProperties
+            go_field_name: AuthorizationServerUpdateContractProperties
+            go_type_name: AuthorizationServerUpdateContractProperties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -586,22 +586,22 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'User-friendly authorization server name.'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
         name: 'clientRegistrationEndpoint'
         description: 'Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced.'
-        required: true
+        required: false
         azure_sdk_references: ['/clientRegistrationEndpoint', '/properties/clientRegistrationEndpoint']
       - !ruby/object:Api::Type::String
         name: 'authorizationEndpoint'
         description: 'OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2.'
-        required: true
+        required: false
         azure_sdk_references: ['/authorizationEndpoint', '/properties/authorizationEndpoint']
       - !ruby/object:Api::Type::Array
         name: 'grantTypes'
         description: 'Form of an authorization grant, which the client uses to request the access token.'
-        required: true
+        required: false
         azure_sdk_references: ['/grantTypes', '/properties/grantTypes']
         item_type: !ruby/object:Api::Type::Enum
           name: 'TBD'
@@ -611,10 +611,11 @@ objects:
             - :implicit
             - :resourceOwnerPassword
             - :clientCredentials
+          default_value: :authorizationCode
       - !ruby/object:Api::Type::String
         name: 'clientId'
         description: 'Client or app id registered with this authorization server.'
-        required: true
+        required: false
         azure_sdk_references: ['/clientId', '/properties/clientId']
       # read only values included only in response
       - !ruby/object:Api::Type::String

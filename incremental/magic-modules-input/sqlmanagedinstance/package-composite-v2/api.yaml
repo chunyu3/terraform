@@ -30,12 +30,12 @@ objects:
             python_variable_name: resource_group
           'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedInstances
-            go_variable_name: name
+            go_variable_name: managedInstanceName
             python_parameter_name: managed_instance_name
-            python_variable_name: name
+            python_variable_name: managed_instance_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ManagedInstance
+            go_type_name: ManagedInstanceUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -180,12 +180,12 @@ objects:
             python_variable_name: resource_group
           'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedInstances
-            go_variable_name: name
+            go_variable_name: managedInstanceName
             python_parameter_name: managed_instance_name
-            python_variable_name: name
+            python_variable_name: managed_instance_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ManagedInstance
+            go_type_name: ManagedInstanceUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -330,9 +330,9 @@ objects:
             python_variable_name: resource_group
           'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedInstances
-            go_variable_name: name
+            go_variable_name: managedInstanceName
             python_parameter_name: managed_instance_name
-            python_variable_name: name
+            python_variable_name: managed_instance_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -344,9 +344,9 @@ objects:
             python_variable_name: resource_group
           'managedInstanceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managedInstances
-            go_variable_name: name
+            go_variable_name: managedInstanceName
             python_parameter_name: managed_instance_name
-            python_variable_name: name
+            python_variable_name: managed_instance_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -533,6 +533,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'instancePoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instancePools
+            go_variable_name: name
+            python_parameter_name: instance_pool_name
+            python_variable_name: name
 
     description: |
       Manage Azure ManagedInstance instance.
@@ -544,7 +549,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'managedInstanceName'
         description: 'The name of the managed instance.'
         required: true
         input: true
@@ -577,7 +582,7 @@ objects:
             default_value: :SystemAssigned
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
-        description: 'Managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5, BC_Gen4, BC_Gen5'
+        description: 'Managed instance sku'
         required: false
         azure_sdk_references: ['/sku']
         properties:
@@ -694,6 +699,12 @@ objects:
         description: 'The Id of the instance pool this managed server belongs to.'
         required: false
         azure_sdk_references: ['/instancePoolId', '/properties/instancePoolId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The instance pool name.'
+        required: true
+        input: true
+        azure_sdk_references: ['instancePoolName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'fullyQualifiedDomainName'

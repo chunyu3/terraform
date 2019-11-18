@@ -32,11 +32,11 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `display_name` - (Required) Group name.
-
 * `group_id` - (Required) Group identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Group description.
+
+* `display_name` - (Optional) Group name.
 
 * `external_id` - (Optional) Identifier of the external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory aad://<tenant>.onmicrosoft.com/groups/<group object id>; otherwise the value is null.
 

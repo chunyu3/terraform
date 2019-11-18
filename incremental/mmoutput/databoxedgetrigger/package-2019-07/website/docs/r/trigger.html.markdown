@@ -28,7 +28,7 @@ Manage Azure Trigger instance.
 
 The following arguments are supported:
 
-* `name` - (Required) Creates or updates a trigger Changing this forces a new resource to be created.
+* `name` - (Required) The device name. Changing this forces a new resource to be created.
 
 * `name` - (Required) The trigger name. Changing this forces a new resource to be created.
 

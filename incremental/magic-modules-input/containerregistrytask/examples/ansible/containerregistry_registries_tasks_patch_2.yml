@@ -6,4 +6,28 @@ task: !ruby/object:Provider::Ansible::Task
     resource_group: myResourceGroup
     registry_name: myRegistry
     name: myTask
+    task_update_parameters:
+      properties:
+        status: Enabled
+        agentConfiguration:
+          cpu: '3'
+        step:
+          imageNames:
+            - 'azurerest:testtag1'
+          dockerFilePath: src/DockerFile
+        trigger:
+          sourceTriggers:
+            - name: mySourceTrigger
+              sourceRepository:
+                sourceControlAuthProperties:
+                  tokenType: PAT
+                  token: xxxxx
+              sourceTriggerEvents:
+                - commit
+        credentials:
+          customRegistries:
+            myregistry.azurecr.io:
+              identity: '[system]'
+      tags:
+        testkey: value
   

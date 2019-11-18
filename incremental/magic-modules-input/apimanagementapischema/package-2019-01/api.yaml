@@ -94,6 +94,11 @@ objects:
             go_variable_name: schemaID
             python_parameter_name: schema_id
             python_variable_name: schema_id
+          'force': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: force
+            python_parameter_name: force
+            python_variable_name: force
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -208,6 +213,12 @@ objects:
             description: 'Json escaped string defining the document representing the Schema.'
             required: false
             azure_sdk_references: ['/document/value', '/properties/document/value']
+      - !ruby/object:Api::Type::Boolean
+        name: 'force'
+        description: 'If true removes all references to the schema before deleting it.'
+        required: false
+        input: true
+        azure_sdk_references: ['force']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

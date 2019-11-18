@@ -32,15 +32,15 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `display_name` - (Required) Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
-
 * `prop_id` - (Required) Identifier of the property. Changing this forces a new resource to be created.
 
-* `value` - (Required) Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
+* `display_name` - (Optional) Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters.
 
 * `secret` - (Optional) Determines whether the value is a secret and should be encrypted or not. Default value is false.
 
 * `tags` - (Optional) Optional tags that when provided can be used to filter the property list.
+
+* `value` - (Optional) Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace.
 
 ## Attributes Reference
 

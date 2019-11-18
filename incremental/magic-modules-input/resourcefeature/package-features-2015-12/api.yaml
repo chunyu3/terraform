@@ -22,6 +22,16 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'resourceProviderNamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: resourceProviderNamespace
+            python_parameter_name: resource_provider_namespace
+            python_variable_name: resource_provider_namespace
+          'featureName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: features
+            go_variable_name: name
+            python_parameter_name: feature_name
+            python_variable_name: name
         response:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
@@ -50,10 +60,27 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
+          'resourceProviderNamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: resourceProviderNamespace
+            python_parameter_name: resource_provider_namespace
+            python_variable_name: resource_provider_namespace
 
     description: |
       Manage Azure Feature instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceProviderNamespace'
+        description: 'The resource provider namespace for the feature.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceProviderNamespace']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the feature to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['featureName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'name'

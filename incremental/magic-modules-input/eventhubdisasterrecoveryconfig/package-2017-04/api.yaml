@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
           'alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disasterRecoveryConfigs
             go_variable_name: alias
@@ -69,9 +69,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
           'alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disasterRecoveryConfigs
             go_variable_name: alias
@@ -88,9 +88,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
           'alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disasterRecoveryConfigs
             go_variable_name: alias
@@ -153,9 +153,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListAuthorizationRules
         python_func_name: list_authorization_rules
@@ -167,9 +167,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
           'alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: disasterRecoveryConfigs
             go_variable_name: alias
@@ -186,7 +186,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'namespaceName'
         description: 'The Namespace name'
         required: true
         input: true
@@ -207,6 +207,12 @@ objects:
         description: 'Alternate name specified when alias and namespace names are same.'
         required: false
         azure_sdk_references: ['/alternateName', '/properties/alternateName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The authorization rule name.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `certificate_id` - (Required) Identifier of the certificate entity. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
+* `certificate_id` - (Required) Identifier of the certificate. Changing this forces a new resource to be created.
 
 * `data` - (Required) Base 64 encoded certificate using the application/x-pkcs12 representation. Changing this forces a new resource to be created.
 

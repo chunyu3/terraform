@@ -34,9 +34,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: 
@@ -154,9 +154,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -173,9 +173,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -330,9 +330,9 @@ objects:
             python_variable_name: namespace_name
           'eventHubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: eventhubs
-            go_variable_name: name
+            go_variable_name: eventHubName
             python_parameter_name: event_hub_name
-            python_variable_name: name
+            python_variable_name: event_hub_name
 
     description: |
       Manage Azure EventHub instance.
@@ -350,7 +350,7 @@ objects:
         input: true
         azure_sdk_references: ['namespaceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'eventHubName'
         description: 'The Event Hub name'
         required: true
         input: true
@@ -442,6 +442,12 @@ objects:
             description: 'A value that indicates whether to Skip Empty Archives'
             required: false
             azure_sdk_references: ['/captureDescription/skipEmptyArchives', '/properties/captureDescription/skipEmptyArchives']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The authorization rule name.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'partitionIds'

@@ -29,8 +29,13 @@ objects:
             python_variable_name: region_id
           'pcName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: privateClouds
-            go_variable_name: name
+            go_variable_name: pcName
             python_parameter_name: pc_name
+            python_variable_name: pc_name
+          'customizationPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: customizationPolicies
+            go_variable_name: name
+            python_parameter_name: customization_policy_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -203,9 +208,9 @@ objects:
             python_variable_name: region_id
           'pcName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: privateClouds
-            go_variable_name: name
+            go_variable_name: pcName
             python_parameter_name: pc_name
-            python_variable_name: name
+            python_variable_name: pc_name
 
     description: |
       Manage Azure CustomizationPolicy instance.
@@ -217,11 +222,17 @@ objects:
         input: true
         azure_sdk_references: ['regionId']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'pcName'
         description: 'The private cloud name'
         required: true
         input: true
         azure_sdk_references: ['pcName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'customization policy name'
+        required: true
+        input: true
+        azure_sdk_references: ['customizationPolicyName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

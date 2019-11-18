@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'issueId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: issues
+            go_variable_name: issueID
+            python_parameter_name: issue_id
+            python_variable_name: issue_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -113,6 +118,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'issueId'
+        description: 'Issue identifier. Must be unique in the current API Management service instance.'
+        required: true
+        input: true
+        azure_sdk_references: ['issueId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

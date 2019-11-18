@@ -50,8 +50,11 @@ objects:
             python_variable_name: build_step_create_parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BuildStepProperties
-            go_type_name: BuildStepProperties
+            go_field_name: BuildStepPropertiesUpdateParameters
+            go_type_name: BuildStepPropertiesUpdateParameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -129,8 +132,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BuildStepProperties
-            go_type_name: BuildStepProperties
+            go_field_name: BuildStepPropertiesUpdateParameters
+            go_type_name: BuildStepPropertiesUpdateParameters
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -194,6 +197,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['stepName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The ARM resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

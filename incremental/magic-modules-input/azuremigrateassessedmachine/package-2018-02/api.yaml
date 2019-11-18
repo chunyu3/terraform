@@ -39,8 +39,13 @@ objects:
             python_variable_name: group_name
           'assessmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: assessments
-            go_variable_name: name
+            go_variable_name: assessmentName
             python_parameter_name: assessment_name
+            python_variable_name: assessment_name
+          'assessedMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assessedMachines
+            go_variable_name: name
+            python_parameter_name: assessed_machine_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -264,9 +269,9 @@ objects:
             python_variable_name: group_name
           'assessmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: assessments
-            go_variable_name: name
+            go_variable_name: assessmentName
             python_parameter_name: assessment_name
-            python_variable_name: name
+            python_variable_name: assessment_name
 
     description: |
       Manage Azure AssessedMachine instance.
@@ -290,11 +295,17 @@ objects:
         input: true
         azure_sdk_references: ['groupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'assessmentName'
         description: 'Unique name of an assessment within a project.'
         required: true
         input: true
         azure_sdk_references: ['assessmentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Unique name of an assessed machine evaluated as part of an assessment.'
+        required: true
+        input: true
+        azure_sdk_references: ['assessedMachineName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -174,9 +174,9 @@ func resourceArmElasticPoolCreate(d *schema.ResourceData, meta interface{}) erro
     zoneRedundant := d.Get("zone_redundant").(bool)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ElasticPool{
+    parameters := sql.ElasticPoolUpdate{
         Location: utils.String(location),
-        ElasticPoolProperties: &sql.ElasticPoolProperties{
+        ElasticPoolUpdateProperties: &sql.ElasticPoolUpdateProperties{
             LicenseType: sql.ElasticPoolLicenseType(licenseType),
             MaxSizeBytes: utils.Int64(int64(maxSizeBytes)),
             PerDatabaseSettings: expandArmElasticPoolElasticPoolPerDatabaseSettings(perDatabaseSettings),
@@ -237,15 +237,15 @@ func resourceArmElasticPoolRead(d *schema.ResourceData, meta interface{}) error 
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if elasticPoolProperties := resp.ElasticPoolProperties; elasticPoolProperties != nil {
-        d.Set("creation_date", (elasticPoolProperties.CreationDate).String())
-        d.Set("license_type", string(elasticPoolProperties.LicenseType))
-        d.Set("max_size_bytes", int(*elasticPoolProperties.MaxSizeBytes))
-        if err := d.Set("per_database_settings", flattenArmElasticPoolElasticPoolPerDatabaseSettings(elasticPoolProperties.PerDatabaseSettings)); err != nil {
+    if elasticPoolUpdateProperties := resp.ElasticPoolUpdateProperties; elasticPoolUpdateProperties != nil {
+        d.Set("creation_date", (elasticPoolUpdateProperties.CreationDate).String())
+        d.Set("license_type", string(elasticPoolUpdateProperties.LicenseType))
+        d.Set("max_size_bytes", int(*elasticPoolUpdateProperties.MaxSizeBytes))
+        if err := d.Set("per_database_settings", flattenArmElasticPoolElasticPoolPerDatabaseSettings(elasticPoolUpdateProperties.PerDatabaseSettings)); err != nil {
             return fmt.Errorf("Error setting `per_database_settings`: %+v", err)
         }
-        d.Set("state", string(elasticPoolProperties.State))
-        d.Set("zone_redundant", elasticPoolProperties.ZoneRedundant)
+        d.Set("state", string(elasticPoolUpdateProperties.State))
+        d.Set("zone_redundant", elasticPoolUpdateProperties.ZoneRedundant)
     }
     d.Set("kind", resp.Kind)
     d.Set("server_name", serverName)
@@ -271,9 +271,9 @@ func resourceArmElasticPoolUpdate(d *schema.ResourceData, meta interface{}) erro
     zoneRedundant := d.Get("zone_redundant").(bool)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ElasticPool{
+    parameters := sql.ElasticPoolUpdate{
         Location: utils.String(location),
-        ElasticPoolProperties: &sql.ElasticPoolProperties{
+        ElasticPoolUpdateProperties: &sql.ElasticPoolUpdateProperties{
             LicenseType: sql.ElasticPoolLicenseType(licenseType),
             MaxSizeBytes: utils.Int64(int64(maxSizeBytes)),
             PerDatabaseSettings: expandArmElasticPoolElasticPoolPerDatabaseSettings(perDatabaseSettings),

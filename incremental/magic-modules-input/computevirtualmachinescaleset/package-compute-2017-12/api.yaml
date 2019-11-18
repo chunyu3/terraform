@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VirtualMachineScaleSet
+            go_type_name: VirtualMachineScaleSetUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -75,8 +75,8 @@ objects:
             python_field_name: promotion_code
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetProperties
-            go_type_name: VirtualMachineScaleSetProperties
+            go_field_name: VirtualMachineScaleSetUpdateProperties
+            go_type_name: VirtualMachineScaleSetUpdateProperties
           '/upgradePolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: upgrade_policy
@@ -147,15 +147,6 @@ objects:
           '/virtualMachineProfile/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: os_profile
-          '/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: computer_name_prefix
-          '/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_username
-          '/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_password
           '/virtualMachineProfile/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: custom_data
@@ -258,21 +249,12 @@ objects:
           '/virtualMachineProfile/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: os_disk
-          '/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/virtualMachineProfile/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: caching
           '/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: write_accelerator_enabled
-          '/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: create_option
-          '/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
           '/virtualMachineProfile/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: image
@@ -318,12 +300,6 @@ objects:
           '/virtualMachineProfile/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: network_profile
-          '/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: health_probe
-          '/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
           '/virtualMachineProfile/networkProfile/networkInterfaceConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: network_interface_configurations
@@ -453,29 +429,14 @@ objects:
           '/virtualMachineProfile/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: license_type
-          '/virtualMachineProfile/priority': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: priority
-          '/virtualMachineProfile/evictionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: eviction_policy
           '/properties/virtualMachineProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: VirtualMachineProfile
-            go_type_name: VirtualMachineScaleSetVMProfile
+            go_type_name: VirtualMachineScaleSetUpdateVMProfile
           '/properties/virtualMachineProfile/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OsProfile
-            go_type_name: VirtualMachineScaleSetOSProfile
-          '/properties/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ComputerNamePrefix
-          '/properties/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminUsername
-          '/properties/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminPassword
+            go_type_name: VirtualMachineScaleSetUpdateOSProfile
           '/properties/virtualMachineProfile/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: CustomData
@@ -571,7 +532,7 @@ objects:
           '/properties/virtualMachineProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: StorageProfile
-            go_type_name: VirtualMachineScaleSetStorageProfile
+            go_type_name: VirtualMachineScaleSetUpdateStorageProfile
           '/properties/virtualMachineProfile/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ImageReference
@@ -594,10 +555,7 @@ objects:
           '/properties/virtualMachineProfile/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OsDisk
-            go_type_name: VirtualMachineScaleSetOSDisk
-          '/properties/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
+            go_type_name: VirtualMachineScaleSetUpdateOSDisk
           '/properties/virtualMachineProfile/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Caching
@@ -605,14 +563,6 @@ objects:
           '/properties/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: WriteAcceleratorEnabled
-          '/properties/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CreateOption
-            go_enum_type_name: DiskCreateOptionTypes
-          '/properties/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OperatingSystemTypes
           '/properties/virtualMachineProfile/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Image
@@ -666,18 +616,11 @@ objects:
           '/properties/virtualMachineProfile/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkProfile
-            go_type_name: VirtualMachineScaleSetNetworkProfile
-          '/properties/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: HealthProbe
-            go_type_name: ApiEntityReference
-          '/properties/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
+            go_type_name: VirtualMachineScaleSetUpdateNetworkProfile
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: NetworkInterfaceConfigurations
-            go_type_name: VirtualMachineScaleSetNetworkConfiguration
+            go_type_name: VirtualMachineScaleSetUpdateNetworkConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -686,8 +629,8 @@ objects:
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetNetworkConfigurationProperties
-            go_type_name: VirtualMachineScaleSetNetworkConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdateNetworkConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdateNetworkConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: Primary
@@ -711,7 +654,7 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: IpConfigurations
-            go_type_name: VirtualMachineScaleSetIPConfiguration
+            go_type_name: VirtualMachineScaleSetUpdateIPConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -720,8 +663,8 @@ objects:
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetIPConfigurationProperties
-            go_type_name: VirtualMachineScaleSetIPConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdateIPConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdateIPConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Subnet
@@ -735,14 +678,14 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: PublicIpAddressConfiguration
-            go_type_name: VirtualMachineScaleSetPublicIPAddressConfiguration
+            go_type_name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetPublicIPAddressConfigurationProperties
-            go_type_name: VirtualMachineScaleSetPublicIPAddressConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: IdleTimeoutInMinutes
@@ -834,14 +777,6 @@ objects:
           '/properties/virtualMachineProfile/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LicenseType
-          '/properties/virtualMachineProfile/priority': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Priority
-            go_enum_type_name: VirtualMachinePriorityTypes
-          '/properties/virtualMachineProfile/evictionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EvictionPolicy
-            go_enum_type_name: VirtualMachineEvictionPolicyTypes
           '/overprovision': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: overprovision
@@ -854,18 +789,6 @@ objects:
           '/properties/singlePlacementGroup': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: SinglePlacementGroup
-          '/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: zone_balance
-          '/properties/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: ZoneBalance
-          '/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: platform_fault_domain_count
-          '/properties/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: PlatformFaultDomainCount
           '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Identity
             go_type_name: VirtualMachineScaleSetIdentity
@@ -897,7 +820,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VirtualMachineScaleSet
+            go_type_name: VirtualMachineScaleSetUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -937,8 +860,8 @@ objects:
             python_field_name: promotion_code
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetProperties
-            go_type_name: VirtualMachineScaleSetProperties
+            go_field_name: VirtualMachineScaleSetUpdateProperties
+            go_type_name: VirtualMachineScaleSetUpdateProperties
           '/upgradePolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: upgrade_policy
@@ -1009,15 +932,6 @@ objects:
           '/virtualMachineProfile/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: os_profile
-          '/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: computer_name_prefix
-          '/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_username
-          '/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_password
           '/virtualMachineProfile/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: custom_data
@@ -1120,21 +1034,12 @@ objects:
           '/virtualMachineProfile/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: os_disk
-          '/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/virtualMachineProfile/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: caching
           '/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: write_accelerator_enabled
-          '/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: create_option
-          '/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
           '/virtualMachineProfile/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: image
@@ -1180,12 +1085,6 @@ objects:
           '/virtualMachineProfile/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: network_profile
-          '/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: health_probe
-          '/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
           '/virtualMachineProfile/networkProfile/networkInterfaceConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: network_interface_configurations
@@ -1315,29 +1214,14 @@ objects:
           '/virtualMachineProfile/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: license_type
-          '/virtualMachineProfile/priority': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: priority
-          '/virtualMachineProfile/evictionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: eviction_policy
           '/properties/virtualMachineProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: VirtualMachineProfile
-            go_type_name: VirtualMachineScaleSetVMProfile
+            go_type_name: VirtualMachineScaleSetUpdateVMProfile
           '/properties/virtualMachineProfile/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OsProfile
-            go_type_name: VirtualMachineScaleSetOSProfile
-          '/properties/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ComputerNamePrefix
-          '/properties/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminUsername
-          '/properties/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminPassword
+            go_type_name: VirtualMachineScaleSetUpdateOSProfile
           '/properties/virtualMachineProfile/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: CustomData
@@ -1433,7 +1317,7 @@ objects:
           '/properties/virtualMachineProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: StorageProfile
-            go_type_name: VirtualMachineScaleSetStorageProfile
+            go_type_name: VirtualMachineScaleSetUpdateStorageProfile
           '/properties/virtualMachineProfile/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ImageReference
@@ -1456,10 +1340,7 @@ objects:
           '/properties/virtualMachineProfile/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OsDisk
-            go_type_name: VirtualMachineScaleSetOSDisk
-          '/properties/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
+            go_type_name: VirtualMachineScaleSetUpdateOSDisk
           '/properties/virtualMachineProfile/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Caching
@@ -1467,14 +1348,6 @@ objects:
           '/properties/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: WriteAcceleratorEnabled
-          '/properties/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CreateOption
-            go_enum_type_name: DiskCreateOptionTypes
-          '/properties/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OperatingSystemTypes
           '/properties/virtualMachineProfile/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Image
@@ -1528,18 +1401,11 @@ objects:
           '/properties/virtualMachineProfile/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkProfile
-            go_type_name: VirtualMachineScaleSetNetworkProfile
-          '/properties/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: HealthProbe
-            go_type_name: ApiEntityReference
-          '/properties/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
+            go_type_name: VirtualMachineScaleSetUpdateNetworkProfile
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: NetworkInterfaceConfigurations
-            go_type_name: VirtualMachineScaleSetNetworkConfiguration
+            go_type_name: VirtualMachineScaleSetUpdateNetworkConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -1548,8 +1414,8 @@ objects:
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetNetworkConfigurationProperties
-            go_type_name: VirtualMachineScaleSetNetworkConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdateNetworkConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdateNetworkConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: Primary
@@ -1573,7 +1439,7 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: IpConfigurations
-            go_type_name: VirtualMachineScaleSetIPConfiguration
+            go_type_name: VirtualMachineScaleSetUpdateIPConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -1582,8 +1448,8 @@ objects:
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetIPConfigurationProperties
-            go_type_name: VirtualMachineScaleSetIPConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdateIPConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdateIPConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Subnet
@@ -1597,14 +1463,14 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: PublicIpAddressConfiguration
-            go_type_name: VirtualMachineScaleSetPublicIPAddressConfiguration
+            go_type_name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetPublicIPAddressConfigurationProperties
-            go_type_name: VirtualMachineScaleSetPublicIPAddressConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: IdleTimeoutInMinutes
@@ -1696,14 +1562,6 @@ objects:
           '/properties/virtualMachineProfile/licenseType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LicenseType
-          '/properties/virtualMachineProfile/priority': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Priority
-            go_enum_type_name: VirtualMachinePriorityTypes
-          '/properties/virtualMachineProfile/evictionPolicy': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: EvictionPolicy
-            go_enum_type_name: VirtualMachineEvictionPolicyTypes
           '/overprovision': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: overprovision
@@ -1716,18 +1574,6 @@ objects:
           '/properties/singlePlacementGroup': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: SinglePlacementGroup
-          '/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: zone_balance
-          '/properties/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: ZoneBalance
-          '/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: platform_fault_domain_count
-          '/properties/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: PlatformFaultDomainCount
           '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Identity
             go_type_name: VirtualMachineScaleSetIdentity
@@ -1809,8 +1655,8 @@ objects:
             python_field_name: promotion_code
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetProperties
-            go_type_name: VirtualMachineScaleSetProperties
+            go_field_name: VirtualMachineScaleSetUpdateProperties
+            go_type_name: VirtualMachineScaleSetUpdateProperties
           '/properties/upgradePolicy': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: UpgradePolicy
@@ -1878,20 +1724,11 @@ objects:
           '/properties/virtualMachineProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: VirtualMachineProfile
-            go_type_name: VirtualMachineScaleSetVMProfile
+            go_type_name: VirtualMachineScaleSetUpdateVMProfile
           '/properties/virtualMachineProfile/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OsProfile
-            go_type_name: VirtualMachineScaleSetOSProfile
-          '/properties/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ComputerNamePrefix
-          '/properties/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminUsername
-          '/properties/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AdminPassword
+            go_type_name: VirtualMachineScaleSetUpdateOSProfile
           '/properties/virtualMachineProfile/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: CustomData
@@ -1984,10 +1821,19 @@ objects:
           '/properties/virtualMachineProfile/osProfile/secrets/vaultCertificates/certificateStore': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: CertificateStore
+          '/properties/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ComputerNamePrefix
+          '/properties/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminUsername
+          '/properties/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AdminPassword
           '/properties/virtualMachineProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: StorageProfile
-            go_type_name: VirtualMachineScaleSetStorageProfile
+            go_type_name: VirtualMachineScaleSetUpdateStorageProfile
           '/properties/virtualMachineProfile/storageProfile/imageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ImageReference
@@ -2010,10 +1856,7 @@ objects:
           '/properties/virtualMachineProfile/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: OsDisk
-            go_type_name: VirtualMachineScaleSetOSDisk
-          '/properties/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
+            go_type_name: VirtualMachineScaleSetUpdateOSDisk
           '/properties/virtualMachineProfile/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Caching
@@ -2021,14 +1864,6 @@ objects:
           '/properties/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: WriteAcceleratorEnabled
-          '/properties/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: CreateOption
-            go_enum_type_name: DiskCreateOptionTypes
-          '/properties/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: OsType
-            go_enum_type_name: OperatingSystemTypes
           '/properties/virtualMachineProfile/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Image
@@ -2047,6 +1882,17 @@ objects:
             applicable_to: [go]
             go_field_name: StorageAccountType
             go_enum_type_name: StorageAccountTypes
+          '/properties/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: CreateOption
+            go_enum_type_name: DiskCreateOptionTypes
+          '/properties/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: OsType
+            go_enum_type_name: OperatingSystemTypes
           '/properties/virtualMachineProfile/storageProfile/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDisks
@@ -2082,18 +1928,11 @@ objects:
           '/properties/virtualMachineProfile/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkProfile
-            go_type_name: VirtualMachineScaleSetNetworkProfile
-          '/properties/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: HealthProbe
-            go_type_name: ApiEntityReference
-          '/properties/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
+            go_type_name: VirtualMachineScaleSetUpdateNetworkProfile
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: NetworkInterfaceConfigurations
-            go_type_name: VirtualMachineScaleSetNetworkConfiguration
+            go_type_name: VirtualMachineScaleSetUpdateNetworkConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -2102,8 +1941,8 @@ objects:
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetNetworkConfigurationProperties
-            go_type_name: VirtualMachineScaleSetNetworkConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdateNetworkConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdateNetworkConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/primary': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: Primary
@@ -2127,7 +1966,7 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: IpConfigurations
-            go_type_name: VirtualMachineScaleSetIPConfiguration
+            go_type_name: VirtualMachineScaleSetUpdateIPConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ID
@@ -2136,8 +1975,8 @@ objects:
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetIPConfigurationProperties
-            go_type_name: VirtualMachineScaleSetIPConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdateIPConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdateIPConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/subnet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Subnet
@@ -2151,14 +1990,14 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: PublicIpAddressConfiguration
-            go_type_name: VirtualMachineScaleSetPublicIPAddressConfiguration
+            go_type_name: VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: VirtualMachineScaleSetPublicIPAddressConfigurationProperties
-            go_type_name: VirtualMachineScaleSetPublicIPAddressConfigurationProperties
+            go_field_name: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
+            go_type_name: VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/properties/idleTimeoutInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: IdleTimeoutInMinutes
@@ -2197,6 +2036,13 @@ objects:
           '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/enableIPForwarding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: EnableIpforwarding
+          '/properties/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HealthProbe
+            go_type_name: ApiEntityReference
+          '/properties/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
           '/properties/virtualMachineProfile/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DiagnosticsProfile
@@ -2270,15 +2116,6 @@ objects:
           '/virtualMachineProfile/osProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: os_profile
-          '/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: computer_name_prefix
-          '/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_username
-          '/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: admin_password
           '/virtualMachineProfile/osProfile/customData': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: custom_data
@@ -2357,6 +2194,15 @@ objects:
           '/virtualMachineProfile/osProfile/secrets/vaultCertificates/certificateStore': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: certificate_store
+          '/virtualMachineProfile/osProfile/computerNamePrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: computer_name_prefix
+          '/virtualMachineProfile/osProfile/adminUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_username
+          '/virtualMachineProfile/osProfile/adminPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: admin_password
           '/virtualMachineProfile/storageProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: storage_profile
@@ -2381,21 +2227,12 @@ objects:
           '/virtualMachineProfile/storageProfile/osDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: os_disk
-          '/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
           '/virtualMachineProfile/storageProfile/osDisk/caching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: caching
           '/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: write_accelerator_enabled
-          '/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: create_option
-          '/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: os_type
           '/virtualMachineProfile/storageProfile/osDisk/image': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: image
@@ -2411,6 +2248,15 @@ objects:
           '/virtualMachineProfile/storageProfile/osDisk/managedDisk/storageAccountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: storage_account_type
+          '/virtualMachineProfile/storageProfile/osDisk/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/virtualMachineProfile/storageProfile/osDisk/createOption': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: create_option
+          '/virtualMachineProfile/storageProfile/osDisk/osType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: os_type
           '/virtualMachineProfile/storageProfile/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: data_disks
@@ -2441,12 +2287,6 @@ objects:
           '/virtualMachineProfile/networkProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: network_profile
-          '/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: health_probe
-          '/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
           '/virtualMachineProfile/networkProfile/networkInterfaceConfigurations': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: network_interface_configurations
@@ -2531,6 +2371,12 @@ objects:
           '/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/enableIPForwarding': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: enable_ipforwarding
+          '/virtualMachineProfile/networkProfile/healthProbe': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: health_probe
+          '/virtualMachineProfile/networkProfile/healthProbe/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/virtualMachineProfile/diagnosticsProfile': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: diagnostics_profile
@@ -2600,18 +2446,6 @@ objects:
           '/singlePlacementGroup': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: single_placement_group
-          '/properties/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: ZoneBalance
-          '/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: zone_balance
-          '/properties/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: PlatformFaultDomainCount
-          '/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: platform_fault_domain_count
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -2624,6 +2458,18 @@ objects:
           '/uniqueId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: unique_id
+          '/properties/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ZoneBalance
+          '/zoneBalance': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: zone_balance
+          '/properties/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: PlatformFaultDomainCount
+          '/platformFaultDomainCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: platform_fault_domain_count
           '/identity': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Identity
             go_type_name: VirtualMachineScaleSetIdentity
@@ -2692,7 +2538,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the VM scale set to create or update.'
+        description: 'The name of the VM scale set.'
         required: true
         input: true
         azure_sdk_references: ['vmScaleSetName']
@@ -2731,7 +2577,7 @@ objects:
             azure_sdk_references: ['/sku/capacity']
       - !ruby/object:Api::Type::NestedObject
         name: 'plan'
-        description: 'Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**.'
+        description: 'The purchase plan when deploying a virtual machine scale set from VM Marketplace images.'
         required: false
         azure_sdk_references: ['/plan']
         properties:
@@ -2821,33 +2667,18 @@ objects:
         properties:
           - !ruby/object:Api::Type::NestedObject
             name: 'osProfile'
-            description: 'Specifies the operating system settings for the virtual machines in the scale set.'
+            description: 'The virtual machine scale set OS profile.'
             required: false
             azure_sdk_references: ['/virtualMachineProfile/osProfile', '/properties/virtualMachineProfile/osProfile']
             properties:
               - !ruby/object:Api::Type::String
-                name: 'computerNamePrefix'
-                description: 'Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name prefixes must be 1 to 15 characters long.'
-                required: false
-                azure_sdk_references: ['/virtualMachineProfile/osProfile/computerNamePrefix', '/properties/virtualMachineProfile/osProfile/computerNamePrefix']
-              - !ruby/object:Api::Type::String
-                name: 'adminUsername'
-                description: 'Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)'
-                required: false
-                azure_sdk_references: ['/virtualMachineProfile/osProfile/adminUsername', '/properties/virtualMachineProfile/osProfile/adminUsername']
-              - !ruby/object:Api::Type::String
-                name: 'adminPassword'
-                description: 'Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)'
-                required: false
-                azure_sdk_references: ['/virtualMachineProfile/osProfile/adminPassword', '/properties/virtualMachineProfile/osProfile/adminPassword']
-              - !ruby/object:Api::Type::String
                 name: 'customData'
-                description: 'Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)'
+                description: 'A base-64 encoded string of custom data.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/osProfile/customData', '/properties/virtualMachineProfile/osProfile/customData']
               - !ruby/object:Api::Type::NestedObject
                 name: 'windowsConfiguration'
-                description: 'Specifies Windows operating system settings on the virtual machine.'
+                description: 'The Windows Configuration of the OS profile.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/osProfile/windowsConfiguration', '/properties/virtualMachineProfile/osProfile/windowsConfiguration']
                 properties:
@@ -2932,7 +2763,7 @@ objects:
                               azure_sdk_references: ['/virtualMachineProfile/osProfile/windowsConfiguration/winRM/listeners/certificateUrl', '/properties/virtualMachineProfile/osProfile/windowsConfiguration/winRM/listeners/certificateUrl']
               - !ruby/object:Api::Type::NestedObject
                 name: 'linuxConfiguration'
-                description: 'Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).'
+                description: 'The Linux Configuration of the OS profile.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/osProfile/linuxConfiguration', '/properties/virtualMachineProfile/osProfile/linuxConfiguration']
                 properties:
@@ -2966,7 +2797,7 @@ objects:
                               azure_sdk_references: ['/virtualMachineProfile/osProfile/linuxConfiguration/ssh/publicKeys/keyData', '/properties/virtualMachineProfile/osProfile/linuxConfiguration/ssh/publicKeys/keyData']
               - !ruby/object:Api::Type::Array
                 name: 'secrets'
-                description: 'Specifies set of certificates that should be installed onto the virtual machines in the scale set.'
+                description: 'The List of certificates for addition to the VM.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/osProfile/secrets', '/properties/virtualMachineProfile/osProfile/secrets']
                 item_type: !ruby/object:Api::Type::NestedObject
@@ -3001,13 +2832,13 @@ objects:
                             azure_sdk_references: ['/virtualMachineProfile/osProfile/secrets/vaultCertificates/certificateStore', '/properties/virtualMachineProfile/osProfile/secrets/vaultCertificates/certificateStore']
           - !ruby/object:Api::Type::NestedObject
             name: 'storageProfile'
-            description: 'Specifies the storage settings for the virtual machine disks.'
+            description: 'The virtual machine scale set storage profile.'
             required: false
             azure_sdk_references: ['/virtualMachineProfile/storageProfile', '/properties/virtualMachineProfile/storageProfile']
             properties:
               - !ruby/object:Api::Type::NestedObject
                 name: 'imageReference'
-                description: 'Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations.'
+                description: 'The image reference.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/storageProfile/imageReference', '/properties/virtualMachineProfile/storageProfile/imageReference']
                 properties:
@@ -3038,18 +2869,13 @@ objects:
                     azure_sdk_references: ['/virtualMachineProfile/storageProfile/imageReference/version', '/properties/virtualMachineProfile/storageProfile/imageReference/version']
               - !ruby/object:Api::Type::NestedObject
                 name: 'osDisk'
-                description: 'Specifies information about the operating system disk used by the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).'
+                description: 'The OS disk.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk', '/properties/virtualMachineProfile/storageProfile/osDisk']
                 properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'name'
-                    description: 'The disk name.'
-                    required: false
-                    azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/name', '/properties/virtualMachineProfile/storageProfile/osDisk/name']
                   - !ruby/object:Api::Type::Enum
                     name: 'caching'
-                    description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
+                    description: 'The caching type.'
                     required: false
                     azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/caching', '/properties/virtualMachineProfile/storageProfile/osDisk/caching']
                     values:
@@ -3062,27 +2888,9 @@ objects:
                     description: 'Specifies whether writeAccelerator should be enabled or disabled on the disk.'
                     required: false
                     azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled', '/properties/virtualMachineProfile/storageProfile/osDisk/writeAcceleratorEnabled']
-                  - !ruby/object:Api::Type::Enum
-                    name: 'createOption'
-                    description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
-                    required: true
-                    azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/createOption', '/properties/virtualMachineProfile/storageProfile/osDisk/createOption']
-                    values:
-                      - :FromImage
-                      - :Empty
-                      - :Attach
-                  - !ruby/object:Api::Type::Enum
-                    name: 'osType'
-                    description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
-                    required: false
-                    azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/osType', '/properties/virtualMachineProfile/storageProfile/osDisk/osType']
-                    values:
-                      - :Windows
-                      - :Linux
-                    default_value: :Windows
                   - !ruby/object:Api::Type::NestedObject
                     name: 'image'
-                    description: 'Specifies information about the unmanaged user image to base the scale set on.'
+                    description: 'The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist.'
                     required: false
                     azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/image', '/properties/virtualMachineProfile/storageProfile/osDisk/image']
                     properties:
@@ -3093,7 +2901,7 @@ objects:
                         azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/image/uri', '/properties/virtualMachineProfile/storageProfile/osDisk/image/uri']
                   - !ruby/object:Api::Type::Array
                     name: 'vhdContainers'
-                    description: 'Specifies the container urls that are used to store operating system disks for the scale set.'
+                    description: 'The list of virtual hard disk container uris.'
                     required: false
                     azure_sdk_references: ['/virtualMachineProfile/storageProfile/osDisk/vhdContainers', '/properties/virtualMachineProfile/storageProfile/osDisk/vhdContainers']
                     item_type: Api::Type::String
@@ -3114,7 +2922,7 @@ objects:
                         default_value: :Standard_LRS
               - !ruby/object:Api::Type::Array
                 name: 'dataDisks'
-                description: 'Specifies the parameters that are used to add data disks to the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).'
+                description: 'The data disks.'
                 required: false
                 azure_sdk_references: ['/virtualMachineProfile/storageProfile/dataDisks', '/properties/virtualMachineProfile/storageProfile/dataDisks']
                 item_type: !ruby/object:Api::Type::NestedObject
@@ -3175,21 +2983,10 @@ objects:
                           default_value: :Standard_LRS
           - !ruby/object:Api::Type::NestedObject
             name: 'networkProfile'
-            description: 'Specifies properties of the network interfaces of the virtual machines in the scale set.'
+            description: 'The virtual machine scale set network profile.'
             required: false
             azure_sdk_references: ['/virtualMachineProfile/networkProfile', '/properties/virtualMachineProfile/networkProfile']
             properties:
-              - !ruby/object:Api::Type::NestedObject
-                name: 'healthProbe'
-                description: 'A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: ''/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}''.'
-                required: false
-                azure_sdk_references: ['/virtualMachineProfile/networkProfile/healthProbe', '/properties/virtualMachineProfile/networkProfile/healthProbe']
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'id'
-                    description: 'The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...'
-                    required: false
-                    azure_sdk_references: ['/virtualMachineProfile/networkProfile/healthProbe/id', '/properties/virtualMachineProfile/networkProfile/healthProbe/id']
               - !ruby/object:Api::Type::Array
                 name: 'networkInterfaceConfigurations'
                 description: 'The list of network configurations.'
@@ -3205,11 +3002,11 @@ objects:
                     - !ruby/object:Api::Type::String
                       name: 'name'
                       description: 'The network configuration name.'
-                      required: true
+                      required: false
                       azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/name', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/name']
                     - !ruby/object:Api::Type::Boolean
                       name: 'primary'
-                      description: 'Specifies the primary network interface in case the virtual machine has more than 1 network interface.'
+                      description: 'Whether this is a primary NIC on a virtual machine.'
                       required: false
                       azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/primary', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/primary']
                     - !ruby/object:Api::Type::Boolean
@@ -3242,8 +3039,8 @@ objects:
                           item_type: Api::Type::String
                     - !ruby/object:Api::Type::Array
                       name: 'ipConfigurations'
-                      description: 'Specifies the IP configurations of the network interface.'
-                      required: true
+                      description: 'The virtual machine scale set IP Configuration.'
+                      required: false
                       azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations']
                       item_type: !ruby/object:Api::Type::NestedObject
                         properties:
@@ -3255,11 +3052,11 @@ objects:
                           - !ruby/object:Api::Type::String
                             name: 'name'
                             description: 'The IP configuration name.'
-                            required: true
+                            required: false
                             azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/name', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/name']
                           - !ruby/object:Api::Type::NestedObject
                             name: 'subnet'
-                            description: 'Specifies the identifier of the subnet.'
+                            description: 'The subnet.'
                             required: false
                             azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/subnet', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/subnet']
                             properties:
@@ -3270,7 +3067,7 @@ objects:
                                 azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/subnet/id', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/subnet/id']
                           - !ruby/object:Api::Type::Boolean
                             name: 'primary'
-                            description: 'Specifies the primary network interface in case the virtual machine has more than 1 network interface.'
+                            description: 'Specifies the primary IP Configuration in case the network interface has more than one IP Configuration.'
                             required: false
                             azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/primary', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/primary']
                           - !ruby/object:Api::Type::NestedObject
@@ -3282,7 +3079,7 @@ objects:
                               - !ruby/object:Api::Type::String
                                 name: 'name'
                                 description: 'The publicIP address configuration name.'
-                                required: true
+                                required: false
                                 azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/publicIPAddressConfiguration/name', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/publicIPAddressConfiguration/name']
                               - !ruby/object:Api::Type::Integer
                                 name: 'idleTimeoutInMinutes'
@@ -3311,7 +3108,7 @@ objects:
                             default_value: :IPv4
                           - !ruby/object:Api::Type::Array
                             name: 'applicationGatewayBackendAddressPools'
-                            description: 'Specifies an array of references to backend address pools of application gateways. A scale set can reference backend address pools of multiple application gateways. Multiple scale sets cannot use the same application gateway.'
+                            description: 'The application gateway backend address pools.'
                             required: false
                             azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/applicationGatewayBackendAddressPools', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/applicationGatewayBackendAddressPools']
                             item_type: !ruby/object:Api::Type::NestedObject
@@ -3323,7 +3120,7 @@ objects:
                                   azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/applicationGatewayBackendAddressPools/id', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/applicationGatewayBackendAddressPools/id']
                           - !ruby/object:Api::Type::Array
                             name: 'loadBalancerBackendAddressPools'
-                            description: 'Specifies an array of references to backend address pools of load balancers. A scale set can reference backend address pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer.'
+                            description: 'The load balancer backend address pools.'
                             required: false
                             azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/loadBalancerBackendAddressPools', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/loadBalancerBackendAddressPools']
                             item_type: !ruby/object:Api::Type::NestedObject
@@ -3335,7 +3132,7 @@ objects:
                                   azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/loadBalancerBackendAddressPools/id', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/loadBalancerBackendAddressPools/id']
                           - !ruby/object:Api::Type::Array
                             name: 'loadBalancerInboundNatPools'
-                            description: 'Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same load balancer'
+                            description: 'The load balancer inbound nat pools.'
                             required: false
                             azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/ipConfigurations/loadBalancerInboundNatPools', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/ipConfigurations/properties/loadBalancerInboundNatPools']
                             item_type: !ruby/object:Api::Type::NestedObject
@@ -3352,7 +3149,7 @@ objects:
                       azure_sdk_references: ['/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/enableIPForwarding', '/properties/virtualMachineProfile/networkProfile/networkInterfaceConfigurations/properties/enableIPForwarding']
           - !ruby/object:Api::Type::NestedObject
             name: 'diagnosticsProfile'
-            description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
+            description: 'The virtual machine scale set diagnostics profile.'
             required: false
             azure_sdk_references: ['/virtualMachineProfile/diagnosticsProfile', '/properties/virtualMachineProfile/diagnosticsProfile']
             properties:
@@ -3374,7 +3171,7 @@ objects:
                     azure_sdk_references: ['/virtualMachineProfile/diagnosticsProfile/bootDiagnostics/storageUri', '/properties/virtualMachineProfile/diagnosticsProfile/bootDiagnostics/storageUri']
           - !ruby/object:Api::Type::NestedObject
             name: 'extensionProfile'
-            description: 'Specifies a collection of settings for extensions installed on virtual machines in the scale set.'
+            description: 'The virtual machine scale set extension profile.'
             required: false
             azure_sdk_references: ['/virtualMachineProfile/extensionProfile', '/properties/virtualMachineProfile/extensionProfile']
             properties:
@@ -3427,27 +3224,9 @@ objects:
                       azure_sdk_references: ['/virtualMachineProfile/extensionProfile/extensions/protectedSettings', '/properties/virtualMachineProfile/extensionProfile/extensions/properties/protectedSettings']
           - !ruby/object:Api::Type::String
             name: 'licenseType'
-            description: 'Specifies that the image or disk that is being used was licensed on-premises. This element is only used for images that contain the Windows Server operating system. <br><br> Possible values are: <br><br> Windows_Client <br><br> Windows_Server <br><br> If this element is included in a request for an update, the value must match the initial value. This value cannot be updated. <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-hybrid-use-benefit-licensing?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Minimum api-version: 2015-06-15'
+            description: 'The license type, which is for bring your own license scenario.'
             required: false
             azure_sdk_references: ['/virtualMachineProfile/licenseType', '/properties/virtualMachineProfile/licenseType']
-          - !ruby/object:Api::Type::Enum
-            name: 'priority'
-            description: 'Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview'
-            required: false
-            azure_sdk_references: ['/virtualMachineProfile/priority', '/properties/virtualMachineProfile/priority']
-            values:
-              - :Regular
-              - :Low
-            default_value: :Regular
-          - !ruby/object:Api::Type::Enum
-            name: 'evictionPolicy'
-            description: 'Specifies the eviction policy for virtual machines in a low priority scale set. <br><br>Minimum api-version: 2017-10-30-preview'
-            required: false
-            azure_sdk_references: ['/virtualMachineProfile/evictionPolicy', '/properties/virtualMachineProfile/evictionPolicy']
-            values:
-              - :Deallocate
-              - :Delete
-            default_value: :Deallocate
       - !ruby/object:Api::Type::Boolean
         name: 'overprovision'
         description: 'Specifies whether the Virtual Machine Scale Set should be overprovisioned.'
@@ -3458,16 +3237,6 @@ objects:
         description: 'When true this limits the scale set to a single placement group, of max size 100 virtual machines.'
         required: false
         azure_sdk_references: ['/singlePlacementGroup', '/properties/singlePlacementGroup']
-      - !ruby/object:Api::Type::Boolean
-        name: 'zoneBalance'
-        description: 'Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.'
-        required: false
-        azure_sdk_references: ['/zoneBalance', '/properties/zoneBalance']
-      - !ruby/object:Api::Type::Integer
-        name: 'platformFaultDomainCount'
-        description: 'Fault Domain count for each placement group.'
-        required: false
-        azure_sdk_references: ['/platformFaultDomainCount', '/properties/platformFaultDomainCount']
       - !ruby/object:Api::Type::NestedObject
         name: 'identity'
         description: 'The identity of the virtual machine scale set, if configured.'
@@ -3509,6 +3278,16 @@ objects:
         description: 'Specifies the ID which uniquely identifies a Virtual Machine Scale Set.'
         output: true
         azure_sdk_references: ['/uniqueId', '/properties/uniqueId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'zoneBalance'
+        description: 'Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.'
+        output: true
+        azure_sdk_references: ['/zoneBalance', '/properties/zoneBalance']
+      - !ruby/object:Api::Type::Integer
+        name: 'platformFaultDomainCount'
+        description: 'Fault Domain count for each placement group.'
+        output: true
+        azure_sdk_references: ['/platformFaultDomainCount', '/properties/platformFaultDomainCount']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

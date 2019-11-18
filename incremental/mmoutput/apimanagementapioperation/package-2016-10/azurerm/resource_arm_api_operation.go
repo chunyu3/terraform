@@ -38,21 +38,13 @@ func resourceArmApiOperation() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
             "api_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "method": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
@@ -66,14 +58,13 @@ func resourceArmApiOperation() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "url_template": {
+            "description": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "description": {
+            "method": {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
@@ -255,6 +246,12 @@ func resourceArmApiOperation() *schema.Resource {
                     },
                 },
             },
+
+            "url_template": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
         },
     }
 }
@@ -288,7 +285,7 @@ func resourceArmApiOperationCreate(d *schema.ResourceData, meta interface{}) err
     templateParameters := d.Get("template_parameters").([]interface{})
     urlTemplate := d.Get("url_template").(string)
 
-    parameters := apimanagement.OperationContract{
+    parameters := apimanagement.OperationUpdateContract{
         Description: utils.String(description),
         Method: utils.String(method),
         Name: utils.String(name),
@@ -377,7 +374,7 @@ func resourceArmApiOperationUpdate(d *schema.ResourceData, meta interface{}) err
     templateParameters := d.Get("template_parameters").([]interface{})
     urlTemplate := d.Get("url_template").(string)
 
-    parameters := apimanagement.OperationContract{
+    parameters := apimanagement.OperationUpdateContract{
         Description: utils.String(description),
         Method: utils.String(method),
         Name: utils.String(name),

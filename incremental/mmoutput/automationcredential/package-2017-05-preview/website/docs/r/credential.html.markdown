@@ -28,19 +28,19 @@ Manage Azure Credential instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The parameters supplied to the create or update credential operation. Changing this forces a new resource to be created.
-
-* `name` - (Required) Gets or sets the name of the credential. Changing this forces a new resource to be created.
+* `name` - (Required) The name of credential. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `password` - (Required) Gets or sets the password of the credential.
-
-* `user_name` - (Required) Gets or sets the user name of the credential.
+* `name` - (Optional) Gets or sets the name of the credential. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Gets or sets the description of the credential.
+
+* `password` - (Optional) Gets or sets the password of the credential.
+
+* `user_name` - (Optional) Gets or sets the user name of the credential.
 
 ## Attributes Reference
 

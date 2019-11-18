@@ -39,13 +39,13 @@ objects:
             python_variable_name: opid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OpenidConnectProviderContract
+            go_type_name: OpenidConnectProviderUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: OpenidConnectProviderContractProperties
-            go_type_name: OpenidConnectProviderContractProperties
+            go_field_name: OpenidConnectProviderUpdateContractProperties
+            go_type_name: OpenidConnectProviderUpdateContractProperties
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: display_name
@@ -97,13 +97,13 @@ objects:
             python_variable_name: opid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OpenidConnectProviderContract
+            go_type_name: OpenidConnectProviderUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: OpenidConnectProviderContractProperties
-            go_type_name: OpenidConnectProviderContractProperties
+            go_field_name: OpenidConnectProviderUpdateContractProperties
+            go_type_name: OpenidConnectProviderUpdateContractProperties
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: display_name
@@ -175,8 +175,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: OpenidConnectProviderContractProperties
-            go_type_name: OpenidConnectProviderContractProperties
+            go_field_name: OpenidConnectProviderUpdateContractProperties
+            go_type_name: OpenidConnectProviderUpdateContractProperties
           '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DisplayName
@@ -255,7 +255,7 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'User-friendly OpenID Connect Provider name.'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
         name: 'description'
@@ -265,12 +265,12 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'metadataEndpoint'
         description: 'Metadata endpoint URI.'
-        required: true
+        required: false
         azure_sdk_references: ['/metadataEndpoint', '/properties/metadataEndpoint']
       - !ruby/object:Api::Type::String
         name: 'clientId'
         description: 'Client ID of developer console which is the client application.'
-        required: true
+        required: false
         azure_sdk_references: ['/clientId', '/properties/clientId']
       - !ruby/object:Api::Type::String
         name: 'clientSecret'

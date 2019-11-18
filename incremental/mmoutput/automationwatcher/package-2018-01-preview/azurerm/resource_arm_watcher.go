@@ -38,7 +38,8 @@ func resourceArmWatcher() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -52,11 +53,6 @@ func resourceArmWatcher() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "description": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
             "etag": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -68,23 +64,12 @@ func resourceArmWatcher() *schema.Resource {
                 Optional: true,
             },
 
-            "script_name": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
-            "script_parameters": {
-                Type: schema.TypeMap,
-                Optional: true,
-                Elem: &schema.Schema{Type: schema.TypeString},
-            },
-
-            "script_run_on": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
             "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "description": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -95,6 +80,22 @@ func resourceArmWatcher() *schema.Resource {
             },
 
             "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "script_name": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "script_parameters": {
+                Type: schema.TypeMap,
+                Computed: true,
+                Elem: &schema.Schema{Type: schema.TypeString},
+            },
+
+            "script_run_on": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -134,24 +135,18 @@ func resourceArmWatcherCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
-    description := d.Get("description").(string)
     etag := d.Get("etag").(string)
     executionFrequencyInSeconds := d.Get("execution_frequency_in_seconds").(int)
-    scriptName := d.Get("script_name").(string)
-    scriptParameters := d.Get("script_parameters").(map[string]interface{})
-    scriptRunOn := d.Get("script_run_on").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.Watcher{
+    parameters := automation.WatcherUpdateParameters{
         Etag: utils.String(etag),
         Location: utils.String(location),
-        WatcherProperties: &automation.WatcherProperties{
-            Description: utils.String(description),
+        Name: utils.String(name),
+        WatcherUpdateProperties: &automation.WatcherUpdateProperties{
             ExecutionFrequencyInSeconds: utils.Int64(int64(executionFrequencyInSeconds)),
-            ScriptName: utils.String(scriptName),
-            ScriptParameters: utils.ExpandKeyValuePairs(scriptParameters),
-            ScriptRunOn: utils.String(scriptRunOn),
         },
         Tags: tags.Expand(t),
     }
@@ -204,16 +199,16 @@ func resourceArmWatcherRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("automation_account_name", automationAccountName)
-    if watcherProperties := resp.WatcherProperties; watcherProperties != nil {
-        d.Set("creation_time", (watcherProperties.CreationTime).String())
-        d.Set("description", watcherProperties.Description)
-        d.Set("execution_frequency_in_seconds", int(*watcherProperties.ExecutionFrequencyInSeconds))
-        d.Set("last_modified_by", watcherProperties.LastModifiedBy)
-        d.Set("last_modified_time", (watcherProperties.LastModifiedTime).String())
-        d.Set("script_name", watcherProperties.ScriptName)
-        d.Set("script_parameters", utils.FlattenKeyValuePairs(watcherProperties.ScriptParameters))
-        d.Set("script_run_on", watcherProperties.ScriptRunOn)
-        d.Set("status", watcherProperties.Status)
+    if watcherUpdateProperties := resp.WatcherUpdateProperties; watcherUpdateProperties != nil {
+        d.Set("creation_time", (watcherUpdateProperties.CreationTime).String())
+        d.Set("description", watcherUpdateProperties.Description)
+        d.Set("execution_frequency_in_seconds", int(*watcherUpdateProperties.ExecutionFrequencyInSeconds))
+        d.Set("last_modified_by", watcherUpdateProperties.LastModifiedBy)
+        d.Set("last_modified_time", (watcherUpdateProperties.LastModifiedTime).String())
+        d.Set("script_name", watcherUpdateProperties.ScriptName)
+        d.Set("script_parameters", utils.FlattenKeyValuePairs(watcherUpdateProperties.ScriptParameters))
+        d.Set("script_run_on", watcherUpdateProperties.ScriptRunOn)
+        d.Set("status", watcherUpdateProperties.Status)
     }
     d.Set("etag", resp.Etag)
     d.Set("type", resp.Type)
@@ -226,25 +221,19 @@ func resourceArmWatcherUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    description := d.Get("description").(string)
     etag := d.Get("etag").(string)
     executionFrequencyInSeconds := d.Get("execution_frequency_in_seconds").(int)
-    scriptName := d.Get("script_name").(string)
-    scriptParameters := d.Get("script_parameters").(map[string]interface{})
-    scriptRunOn := d.Get("script_run_on").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := automation.Watcher{
+    parameters := automation.WatcherUpdateParameters{
         Etag: utils.String(etag),
         Location: utils.String(location),
-        WatcherProperties: &automation.WatcherProperties{
-            Description: utils.String(description),
+        Name: utils.String(name),
+        WatcherUpdateProperties: &automation.WatcherUpdateProperties{
             ExecutionFrequencyInSeconds: utils.Int64(int64(executionFrequencyInSeconds)),
-            ScriptName: utils.String(scriptName),
-            ScriptParameters: utils.ExpandKeyValuePairs(scriptParameters),
-            ScriptRunOn: utils.String(scriptRunOn),
         },
         Tags: tags.Expand(t),
     }

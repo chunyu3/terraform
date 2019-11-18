@@ -50,22 +50,6 @@ func resourceArmComputePolicy() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "object_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "object_type": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(datalakeanalytics.User),
-                    string(datalakeanalytics.Group),
-                    string(datalakeanalytics.ServicePrincipal),
-                }, false),
-            },
-
             "max_degree_of_parallelism_per_job": {
                 Type: schema.TypeInt,
                 Optional: true,
@@ -74,6 +58,22 @@ func resourceArmComputePolicy() *schema.Resource {
             "min_priority_per_job": {
                 Type: schema.TypeInt,
                 Optional: true,
+            },
+
+            "object_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "object_type": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(datalakeanalytics.User),
+                    string(datalakeanalytics.Group),
+                    string(datalakeanalytics.ServicePrincipal),
+                }, false),
+                Default: string(datalakeanalytics.User),
             },
 
             "type": {
@@ -109,8 +109,8 @@ func resourceArmComputePolicyCreate(d *schema.ResourceData, meta interface{}) er
     objectId := d.Get("object_id").(string)
     objectType := d.Get("object_type").(string)
 
-    parameters := datalakeanalytics.CreateOrUpdateComputePolicyParameters{
-        CreateOrUpdateComputePolicyProperties: &datalakeanalytics.CreateOrUpdateComputePolicyProperties{
+    parameters := datalakeanalytics.UpdateComputePolicyParameters{
+        UpdateComputePolicyProperties: &datalakeanalytics.UpdateComputePolicyProperties{
             MaxDegreeOfParallelismPerJob: utils.Int32(int32(maxDegreeOfParallelismPerJob)),
             MinPriorityPerJob: utils.Int32(int32(minPriorityPerJob)),
             ObjectID: utils.String(objectId),
@@ -163,11 +163,11 @@ func resourceArmComputePolicyRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if createOrUpdateComputePolicyProperties := resp.CreateOrUpdateComputePolicyProperties; createOrUpdateComputePolicyProperties != nil {
-        d.Set("max_degree_of_parallelism_per_job", int(*createOrUpdateComputePolicyProperties.MaxDegreeOfParallelismPerJob))
-        d.Set("min_priority_per_job", int(*createOrUpdateComputePolicyProperties.MinPriorityPerJob))
-        d.Set("object_id", createOrUpdateComputePolicyProperties.ObjectID)
-        d.Set("object_type", string(createOrUpdateComputePolicyProperties.ObjectType))
+    if updateComputePolicyProperties := resp.UpdateComputePolicyProperties; updateComputePolicyProperties != nil {
+        d.Set("max_degree_of_parallelism_per_job", int(*updateComputePolicyProperties.MaxDegreeOfParallelismPerJob))
+        d.Set("min_priority_per_job", int(*updateComputePolicyProperties.MinPriorityPerJob))
+        d.Set("object_id", updateComputePolicyProperties.ObjectID)
+        d.Set("object_type", string(updateComputePolicyProperties.ObjectType))
     }
     d.Set("type", resp.Type)
 
@@ -186,8 +186,8 @@ func resourceArmComputePolicyUpdate(d *schema.ResourceData, meta interface{}) er
     objectId := d.Get("object_id").(string)
     objectType := d.Get("object_type").(string)
 
-    parameters := datalakeanalytics.CreateOrUpdateComputePolicyParameters{
-        CreateOrUpdateComputePolicyProperties: &datalakeanalytics.CreateOrUpdateComputePolicyProperties{
+    parameters := datalakeanalytics.UpdateComputePolicyParameters{
+        UpdateComputePolicyProperties: &datalakeanalytics.UpdateComputePolicyProperties{
             MaxDegreeOfParallelismPerJob: utils.Int32(int32(maxDegreeOfParallelismPerJob)),
             MinPriorityPerJob: utils.Int32(int32(minPriorityPerJob)),
             ObjectID: utils.String(objectId),

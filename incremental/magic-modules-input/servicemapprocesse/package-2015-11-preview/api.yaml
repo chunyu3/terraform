@@ -344,6 +344,16 @@ objects:
             go_variable_name: name
             python_parameter_name: process_name
             python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListAcceptingPorts
         python_func_name: list_accepting_ports
@@ -368,6 +378,16 @@ objects:
             go_variable_name: name
             python_parameter_name: process_name
             python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
 
     description: |
       Manage Azure Processe instance.
@@ -402,6 +422,18 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['timestamp']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'UTC date and time specifying the start time of an interval. When not specified the service uses DateTime.UtcNow - 10m'
+        required: false
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'UTC date and time specifying the end time of an interval. When not specified the service uses DateTime.UtcNow'
+        required: false
+        input: true
+        azure_sdk_references: ['endTime']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

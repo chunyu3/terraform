@@ -27,6 +27,11 @@ objects:
             go_variable_name: regionID
             python_parameter_name: region_id
             python_variable_name: region_id
+          'pcName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateClouds
+            go_variable_name: name
+            python_parameter_name: pc_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -595,6 +600,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['regionId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The private cloud name'
+        required: true
+        input: true
+        azure_sdk_references: ['pcName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

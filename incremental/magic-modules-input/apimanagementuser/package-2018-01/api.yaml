@@ -39,13 +39,13 @@ objects:
             python_variable_name: uid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UserCreateParameters
+            go_type_name: UserUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: UserCreateParameterProperties
-            go_type_name: UserCreateParameterProperties
+            go_field_name: UserUpdateParametersProperties
+            go_type_name: UserUpdateParametersProperties
           '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: state
@@ -84,6 +84,12 @@ objects:
           '/properties/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Email
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
           '/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: first_name
@@ -96,19 +102,6 @@ objects:
           '/properties/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LastName
-          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: password
-          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Password
-          '/confirmation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: confirmation
-          '/properties/confirmation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Confirmation
-            go_enum_type_name: Confirmation
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -130,13 +123,13 @@ objects:
             python_variable_name: uid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: UserCreateParameters
+            go_type_name: UserUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: UserCreateParameterProperties
-            go_type_name: UserCreateParameterProperties
+            go_field_name: UserUpdateParametersProperties
+            go_type_name: UserUpdateParametersProperties
           '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: state
@@ -175,6 +168,12 @@ objects:
           '/properties/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Email
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
           '/firstName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: first_name
@@ -187,19 +186,6 @@ objects:
           '/properties/lastName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LastName
-          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: password
-          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Password
-          '/confirmation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: confirmation
-          '/properties/confirmation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Confirmation
-            go_enum_type_name: Confirmation
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -219,6 +205,16 @@ objects:
             go_variable_name: uid
             python_parameter_name: uid
             python_variable_name: uid
+          'deleteSubscriptions': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteSubscriptions
+            python_parameter_name: delete_subscriptions
+            python_variable_name: delete_subscriptions
+          'notify': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: notify
+            python_parameter_name: notify
+            python_variable_name: notify
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -241,8 +237,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: UserCreateParameterProperties
-            go_type_name: UserCreateParameterProperties
+            go_field_name: UserUpdateParametersProperties
+            go_type_name: UserUpdateParametersProperties
           '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: State
@@ -418,32 +414,35 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'email'
         description: 'Email address. Must not be empty and must be unique within the service instance.'
-        required: true
+        required: false
         azure_sdk_references: ['/email', '/properties/email']
+      - !ruby/object:Api::Type::String
+        name: 'password'
+        description: 'User Password.'
+        required: false
+        azure_sdk_references: ['/password', '/properties/password']
       - !ruby/object:Api::Type::String
         name: 'firstName'
         description: 'First name.'
-        required: true
+        required: false
         azure_sdk_references: ['/firstName', '/properties/firstName']
       - !ruby/object:Api::Type::String
         name: 'lastName'
         description: 'Last name.'
-        required: true
+        required: false
         azure_sdk_references: ['/lastName', '/properties/lastName']
-      - !ruby/object:Api::Type::String
-        name: 'password'
-        description: 'User Password. If no value is provided, a default password is generated.'
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteSubscriptions'
+        description: 'Whether to delete user''s subscription or not.'
         required: false
-        azure_sdk_references: ['/password', '/properties/password']
-      - !ruby/object:Api::Type::Enum
-        name: 'confirmation'
-        description: 'Determines the type of confirmation e-mail that will be sent to the newly created user.'
+        input: true
+        azure_sdk_references: ['deleteSubscriptions']
+      - !ruby/object:Api::Type::Boolean
+        name: 'notify'
+        description: 'Send an Account Closed Email notification to the User.'
         required: false
-        azure_sdk_references: ['/confirmation', '/properties/confirmation']
-        values:
-          - :signup
-          - :invite
-        default_value: :signup
+        input: true
+        azure_sdk_references: ['notify']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'registrationDate'

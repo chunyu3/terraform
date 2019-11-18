@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: appServicePlan
-            go_type_name: AppServicePlan
+            go_type_name: AppServicePlanPatchResource
             python_parameter_name: app_service_plan
             python_variable_name: app_service_plan
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -49,8 +49,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AppServicePlan_properties
-            go_type_name: AppServicePlan_properties
+            go_field_name: AppServicePlanPatchResource_properties
+            go_type_name: AppServicePlanPatchResource_properties
           '/workerTierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: worker_tier_name
@@ -197,7 +197,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: appServicePlan
-            go_type_name: AppServicePlan
+            go_type_name: AppServicePlanPatchResource
             python_parameter_name: app_service_plan
             python_variable_name: app_service_plan
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -211,8 +211,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AppServicePlan_properties
-            go_type_name: AppServicePlan_properties
+            go_field_name: AppServicePlanPatchResource_properties
+            go_type_name: AppServicePlanPatchResource_properties
           '/workerTierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: worker_tier_name
@@ -388,8 +388,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AppServicePlan_properties
-            go_type_name: AppServicePlan_properties
+            go_field_name: AppServicePlanPatchResource_properties
+            go_type_name: AppServicePlanPatchResource_properties
           '/properties/workerTierName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: WorkerTierName
@@ -586,6 +586,11 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
+          'detailed': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: detailed
+            python_parameter_name: detailed
+            python_variable_name: detailed
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -679,6 +684,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'vnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualNetworkConnections
+            go_variable_name: vnetName
+            python_parameter_name: vnet_name
+            python_variable_name: vnet_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWebAppsByHybridConnection
         python_func_name: list_web_apps_by_hybrid_connection
@@ -692,6 +702,16 @@ objects:
             id_portion: serverfarms
             go_variable_name: name
             python_parameter_name: name
+            python_variable_name: name
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hybridConnectionNamespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'relayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: relays
+            go_variable_name: name
+            python_parameter_name: relay_name
             python_variable_name: name
 
     description: |
@@ -878,6 +898,42 @@ objects:
                   description: 'Reason of the SKU capability.'
                   required: false
                   azure_sdk_references: ['/sku/capabilities/reason']
+      - !ruby/object:Api::Type::Boolean
+        name: 'detailed'
+        description: 'Specify <code>true</code> to return all App Service plan properties. The default is <code>false</code>, which returns a subset of the properties.<br> Retrieval of all properties may increase the API latency.'
+        required: false
+        input: true
+        azure_sdk_references: ['detailed']
+      - !ruby/object:Api::Type::String
+        name: 'vnetName'
+        description: 'Name of the Virtual Network.'
+        required: true
+        input: true
+        azure_sdk_references: ['vnetName']
+      - !ruby/object:Api::Type::String
+        name: 'routeName'
+        description: 'Name of the Virtual Network route.'
+        required: true
+        input: true
+        azure_sdk_references: ['routeName']
+      - !ruby/object:Api::Type::String
+        name: 'gatewayName'
+        description: 'Name of the gateway. Only the ''primary'' gateway is supported.'
+        required: true
+        input: true
+        azure_sdk_references: ['gatewayName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'Name of the Hybrid Connection namespace.'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Hybrid Connection relay.'
+        required: true
+        input: true
+        azure_sdk_references: ['relayName']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'status'

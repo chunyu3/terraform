@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: SecretCreateOrUpdateParameters
+            go_type_name: SecretPatchParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -47,8 +47,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SecretProperties
-            go_type_name: SecretProperties
+            go_field_name: SecretPatchProperties
+            go_type_name: SecretPatchProperties
           '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: value
@@ -107,7 +107,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: SecretCreateOrUpdateParameters
+            go_type_name: SecretPatchParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -115,8 +115,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SecretProperties
-            go_type_name: SecretProperties
+            go_field_name: SecretPatchProperties
+            go_type_name: SecretPatchProperties
           '/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: value
@@ -179,8 +179,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SecretProperties
-            go_type_name: SecretProperties
+            go_field_name: SecretPatchProperties
+            go_type_name: SecretPatchProperties
           '/properties/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Value
@@ -280,13 +280,13 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'vaultName'
-        description: 'Name of the vault'
+        description: 'The name of the vault.'
         required: true
         input: true
         azure_sdk_references: ['vaultName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the secret'
+        description: 'The name of the secret.'
         required: true
         input: true
         azure_sdk_references: ['secretName']
@@ -298,7 +298,7 @@ objects:
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
         name: 'value'
-        description: 'The value of the secret. NOTE: ''value'' will never be returned from the service, as APIs using this model are is intended for internal use in ARM deployments. Users should use the data-plane REST service for interaction with vault secrets.'
+        description: 'The value of the secret.'
         required: false
         azure_sdk_references: ['/value', '/properties/value']
       - !ruby/object:Api::Type::String

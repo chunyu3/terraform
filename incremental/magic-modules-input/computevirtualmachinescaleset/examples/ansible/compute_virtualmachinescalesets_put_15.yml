@@ -24,7 +24,6 @@ task: !ruby/object:Provider::Ansible::Task
             }}/providers/Microsoft.Compute/images/{{ image_name }}
         os_disk:
           caching: ReadWrite
-          create_option: FromImage
           managed_disk:
             storage_account_type: Standard_LRS
             disk_encryption_set:
@@ -33,6 +32,7 @@ task: !ruby/object:Provider::Ansible::Task
                 resource_group
                 }}/providers/Microsoft.Compute/diskEncryptionSets/{{
                 disk_encryption_set_name }}
+          create_option: FromImage
         data_disks:
           - lun: '0'
             caching: ReadWrite

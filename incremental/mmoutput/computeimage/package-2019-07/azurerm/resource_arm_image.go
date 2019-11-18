@@ -296,7 +296,7 @@ func resourceArmImageCreate(d *schema.ResourceData, meta interface{}) error {
     storageProfile := d.Get("storage_profile").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := compute.Image{
+    parameters := compute.ImageUpdate{
         Location: utils.String(location),
         ImageProperties: &compute.ImageProperties{
             HyperVgeneration: compute.HyperVGenerationTypes(hyperVgeneration),
@@ -382,7 +382,7 @@ func resourceArmImageUpdate(d *schema.ResourceData, meta interface{}) error {
     storageProfile := d.Get("storage_profile").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := compute.Image{
+    parameters := compute.ImageUpdate{
         Location: utils.String(location),
         ImageProperties: &compute.ImageProperties{
             HyperVgeneration: compute.HyperVGenerationTypes(hyperVgeneration),

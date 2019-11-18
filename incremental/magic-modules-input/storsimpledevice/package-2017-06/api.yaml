@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
+            python_variable_name: manager_name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: name
+            python_parameter_name: device_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -263,9 +268,9 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
-            python_variable_name: name
+            python_variable_name: manager_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetrics
         python_func_name: list_metrics
@@ -277,8 +282,13 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
+            python_variable_name: manager_name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: name
+            python_parameter_name: device_name
             python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetricDefinition
@@ -291,8 +301,13 @@ objects:
             python_variable_name: resource_group
           'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: managers
-            go_variable_name: name
+            go_variable_name: managerName
             python_parameter_name: manager_name
+            python_variable_name: manager_name
+          'deviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: devices
+            go_variable_name: name
+            python_parameter_name: device_name
             python_variable_name: name
 
     description: |
@@ -305,11 +320,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'managerName'
         description: 'The manager name'
         required: true
         input: true
         azure_sdk_references: ['managerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The device name'
+        required: true
+        input: true
+        azure_sdk_references: ['deviceName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

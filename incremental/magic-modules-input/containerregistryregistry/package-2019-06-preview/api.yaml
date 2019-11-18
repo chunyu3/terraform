@@ -54,27 +54,14 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: RegistryProperties
-            go_type_name: RegistryProperties
+            go_field_name: RegistryPropertiesUpdateParameters
+            go_type_name: RegistryPropertiesUpdateParameters
           '/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: admin_user_enabled
           '/properties/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: AdminUserEnabled
-          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: storage_account
-          '/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccount
-            go_type_name: StorageAccountProperties
-          '/properties/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
           '/networkRuleSet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: network_rule_set
@@ -256,27 +243,14 @@ objects:
             python_field_name: tier
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: RegistryProperties
-            go_type_name: RegistryProperties
+            go_field_name: RegistryPropertiesUpdateParameters
+            go_type_name: RegistryPropertiesUpdateParameters
           '/properties/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: AdminUserEnabled
           '/adminUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: admin_user_enabled
-          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: StorageAccount
-            go_type_name: StorageAccountProperties
-          '/properties/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: storage_account
-          '/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
           '/properties/networkRuleSet': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkRuleSet
@@ -443,6 +417,19 @@ objects:
           '/status/timestamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: timestamp
+          '/properties/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StorageAccount
+            go_type_name: StorageAccountProperties
+          '/properties/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/storageAccount': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: storage_account
+          '/storageAccount/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -503,14 +490,14 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The tags of the resource.'
+        description: 'The tags for the container registry.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the container registry.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum
@@ -528,17 +515,6 @@ objects:
         description: 'The value that indicates whether the admin user is enabled.'
         required: false
         azure_sdk_references: ['/adminUserEnabled', '/properties/adminUserEnabled']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'storageAccount'
-        description: 'The properties of the storage account for the container registry. Only applicable to Classic SKU.'
-        required: false
-        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'The resource ID of the storage account.'
-            required: true
-            azure_sdk_references: ['/storageAccount/id', '/properties/storageAccount/id']
       - !ruby/object:Api::Type::NestedObject
         name: 'networkRuleSet'
         description: 'The network rule set for a container registry.'
@@ -685,6 +661,12 @@ objects:
         description: 'The status of the container registry at the time the operation was called.'
         output: true
         azure_sdk_references: ['/status', '/properties/status']
+        properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'storageAccount'
+        description: 'The properties of the storage account for the container registry. Only applicable to Classic SKU.'
+        output: true
+        azure_sdk_references: ['/storageAccount', '/properties/storageAccount']
         properties:
       - !ruby/object:Api::Type::String
         name: 'id'

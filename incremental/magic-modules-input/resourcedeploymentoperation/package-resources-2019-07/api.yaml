@@ -22,18 +22,30 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
             python_parameter_name: deployment_name
             python_variable_name: name
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
         response:
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: OperationID
-            python_field_name: operation_id
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DeploymentOperationProperties
@@ -138,6 +150,11 @@ objects:
         go_func_name: ListAtScope
         python_func_name: list_at_scope
         request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
@@ -156,6 +173,11 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
@@ -165,6 +187,11 @@ objects:
         go_func_name: ListAtManagementGroupScope
         python_func_name: list_at_management_group_scope
         request:
+          'groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managementGroups
+            go_variable_name: groupID
+            python_parameter_name: group_id
+            python_variable_name: group_id
           'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: deployments
             go_variable_name: name
@@ -180,17 +207,36 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['deploymentName']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of a deployment.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'The ID of the operation to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'groupId'
+        description: 'The management group ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['groupId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Full deployment operation ID.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'operationId'
-        description: 'Deployment operation ID.'
-        output: true
-        azure_sdk_references: ['/operationId']
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'The state of the provisioning.'

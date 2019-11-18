@@ -39,7 +39,7 @@ objects:
             python_variable_name: loggerid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: LoggerCreateParameters
+            go_type_name: LoggerUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -75,7 +75,7 @@ objects:
             python_variable_name: loggerid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: LoggerCreateParameters
+            go_type_name: LoggerUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -194,13 +194,13 @@ objects:
         azure_sdk_references: ['/description']
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'credentials'
-        description: 'The name and SendRule connection string of the event hub.'
-        required: true
+        description: 'Logger credentials.'
+        required: false
         input: true
         azure_sdk_references: ['/credentials']
       - !ruby/object:Api::Type::Boolean
         name: 'isBuffered'
-        description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
+        description: 'whether records are buffered in the logger before publishing. Default is assumed to be true.'
         required: false
         input: true
         azure_sdk_references: ['/isBuffered']

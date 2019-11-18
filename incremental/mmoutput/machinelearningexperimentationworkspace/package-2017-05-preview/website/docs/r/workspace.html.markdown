@@ -36,11 +36,11 @@ The following arguments are supported:
 
 * `account_name` - (Required) The name of the machine learning team account. Changing this forces a new resource to be created.
 
-* `friendly_name` - (Required) The friendly name for this workspace. This will be the workspace name in the arm id when the workspace object gets created
+* `description` - (Optional) Description for this workspace.
 
-* `description` - (Optional) The description of this workspace.
+* `friendly_name` - (Optional) Friendly name of this workspace.
 
-* `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
+* `tags` - (Optional) The resource tags for the machine learning team account workspace. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

@@ -60,14 +60,11 @@ objects:
             python_field_name: family
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: JobProperties
-            go_type_name: JobProperties
+            go_field_name: UpdateJobProperties
+            go_type_name: UpdateJobProperties
           '/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: details
-          '/details/expectedDataSizeInTerabytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: expected_data_size_in_terabytes
           '/details/contactDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: contact_details
@@ -128,34 +125,10 @@ objects:
           '/details/shippingAddress/addressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: address_type
-          '/details/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: destination_account_details
-          '/details/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_id
-          '/details/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: share_password
-          '/details/preferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: preferences
-          '/details/preferences/preferredDataCenterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: preferred_data_center_region
-          '/details/preferences/transportPreferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: transport_preferences
-          '/details/preferences/transportPreferences/preferredShipmentType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: preferred_shipment_type
           '/properties/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Details
-            go_type_name: JobDetails
-          '/properties/details/expectedDataSizeInTerabytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: ExpectedDataSizeInTerabytes
+            go_type_name: UpdateJobDetails
           '/properties/details/contactDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ContactDetails
@@ -221,51 +194,25 @@ objects:
             applicable_to: [go]
             go_field_name: AddressType
             go_enum_type_name: AddressType
-          '/properties/details/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+          '/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: destination_account_details
+          '/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_id
+          '/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_password
+          '/properties/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DestinationAccountDetails
             go_type_name: DestinationAccountDetails
-          '/properties/details/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: AccountID
-          '/properties/details/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SharePassword
-          '/properties/details/preferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Preferences
-            go_type_name: Preferences
-          '/properties/details/preferences/preferredDataCenterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: PreferredDataCenterRegion
-          '/properties/details/preferences/transportPreferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: TransportPreferences
-            go_type_name: TransportPreferences
-          '/properties/details/preferences/transportPreferences/preferredShipmentType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PreferredShipmentType
-            go_enum_type_name: TransportShipmentTypes
-          '/deliveryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: delivery_type
-          '/properties/deliveryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DeliveryType
-            go_enum_type_name: JobDeliveryType
-          '/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: delivery_info
-          '/deliveryInfo/scheduledDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: scheduled_date_time
-          '/properties/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeliveryInfo
-            go_type_name: JobDeliveryInfo
-          '/properties/deliveryInfo/scheduledDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ScheduledDateTime
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -333,15 +280,12 @@ objects:
             python_field_name: family
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: JobProperties
-            go_type_name: JobProperties
+            go_field_name: UpdateJobProperties
+            go_type_name: UpdateJobProperties
           '/properties/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Details
-            go_type_name: JobDetails
-          '/properties/details/expectedDataSizeInTerabytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: ExpectedDataSizeInTerabytes
+            go_type_name: UpdateJobDetails
           '/properties/details/contactDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ContactDetails
@@ -407,31 +351,9 @@ objects:
             applicable_to: [go]
             go_field_name: AddressType
             go_enum_type_name: AddressType
-          '/properties/details/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+          '/properties/details/expectedDataSizeInTerabytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
-            go_field_name: DestinationAccountDetails
-            go_type_name: DestinationAccountDetails
-          '/properties/details/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccountID
-          '/properties/details/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: SharePassword
-          '/properties/details/preferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: Preferences
-            go_type_name: Preferences
-          '/properties/details/preferences/preferredDataCenterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: PreferredDataCenterRegion
-          '/properties/details/preferences/transportPreferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: TransportPreferences
-            go_type_name: TransportPreferences
-          '/properties/details/preferences/transportPreferences/preferredShipmentType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PreferredShipmentType
-            go_enum_type_name: TransportShipmentTypes
+            go_field_name: ExpectedDataSizeInTerabytes
           '/properties/details/jobStages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: JobStages
@@ -495,6 +417,16 @@ objects:
           '/properties/details/returnPackage/trackingUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: TrackingURL
+          '/properties/details/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DestinationAccountDetails
+            go_type_name: DestinationAccountDetails
+          '/properties/details/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountID
+          '/properties/details/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SharePassword
           '/properties/details/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ErrorDetails
@@ -511,6 +443,21 @@ objects:
           '/properties/details/errorDetails/exceptionMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ExceptionMessage
+          '/properties/details/preferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Preferences
+            go_type_name: Preferences
+          '/properties/details/preferences/preferredDataCenterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: PreferredDataCenterRegion
+          '/properties/details/preferences/transportPreferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TransportPreferences
+            go_type_name: TransportPreferences
+          '/properties/details/preferences/transportPreferences/preferredShipmentType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PreferredShipmentType
+            go_enum_type_name: TransportShipmentTypes
           '/properties/details/copyLogDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: CopyLogDetails
@@ -524,9 +471,6 @@ objects:
           '/details': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: details
-          '/details/expectedDataSizeInTerabytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: expected_data_size_in_terabytes
           '/details/contactDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: contact_details
@@ -587,27 +531,9 @@ objects:
           '/details/shippingAddress/addressType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: address_type
-          '/details/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+          '/details/expectedDataSizeInTerabytes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [python]
-            python_field_name: destination_account_details
-          '/details/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_id
-          '/details/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: share_password
-          '/details/preferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: preferences
-          '/details/preferences/preferredDataCenterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: preferred_data_center_region
-          '/details/preferences/transportPreferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: transport_preferences
-          '/details/preferences/transportPreferences/preferredShipmentType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: preferred_shipment_type
+            python_field_name: expected_data_size_in_terabytes
           '/details/jobStages': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: job_stages
@@ -665,6 +591,15 @@ objects:
           '/details/returnPackage/trackingUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: tracking_url
+          '/details/destinationAccountDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: destination_account_details
+          '/details/destinationAccountDetails/accountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_id
+          '/details/destinationAccountDetails/sharePassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: share_password
           '/details/errorDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: error_details
@@ -680,6 +615,18 @@ objects:
           '/details/errorDetails/exceptionMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: exception_message
+          '/details/preferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: preferences
+          '/details/preferences/preferredDataCenterRegion': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: preferred_data_center_region
+          '/details/preferences/transportPreferences': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: transport_preferences
+          '/details/preferences/transportPreferences/preferredShipmentType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: preferred_shipment_type
           '/details/copyLogDetails': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: copy_log_details
@@ -689,26 +636,6 @@ objects:
           '/details/chainOfCustodySasKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: chain_of_custody_sas_key
-          '/properties/deliveryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DeliveryType
-            go_enum_type_name: JobDeliveryType
-          '/deliveryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: delivery_type
-          '/properties/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeliveryInfo
-            go_type_name: JobDeliveryInfo
-          '/properties/deliveryInfo/scheduledDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ScheduledDateTime
-          '/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: delivery_info
-          '/deliveryInfo/scheduledDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: scheduled_date_time
           '/properties/isCancellable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: IsCancellable
@@ -765,6 +692,26 @@ objects:
           '/cancellationReason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: cancellation_reason
+          '/properties/deliveryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DeliveryType
+            go_enum_type_name: JobDeliveryType
+          '/deliveryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: delivery_type
+          '/properties/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DeliveryInfo
+            go_type_name: JobDeliveryInfo
+          '/properties/deliveryInfo/scheduledDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ScheduledDateTime
+          '/deliveryInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: delivery_info
+          '/deliveryInfo/scheduledDateTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: scheduled_date_time
           '/properties/isCancellableWithoutFee': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: IsCancellableWithoutFee
@@ -848,19 +795,14 @@ objects:
             azure_sdk_references: ['/sku/family']
       - !ruby/object:Api::Type::NestedObject
         name: 'details'
-        description: 'Details of a job run. This field will only be sent for expand details filter.'
+        description: 'Details of a job to be updated.'
         required: false
         azure_sdk_references: ['/details', '/properties/details']
         properties:
-          - !ruby/object:Api::Type::Integer
-            name: 'expectedDataSizeInTerabytes'
-            description: 'The expected size of the data, which needs to be transferred in this job, in terabytes.'
-            required: false
-            azure_sdk_references: ['/details/expectedDataSizeInTerabytes', '/properties/details/expectedDataSizeInTerabytes']
           - !ruby/object:Api::Type::NestedObject
             name: 'contactDetails'
             description: 'Contact details for notification and shipping.'
-            required: true
+            required: false
             azure_sdk_references: ['/details/contactDetails', '/properties/details/contactDetails']
             properties:
               - !ruby/object:Api::Type::String
@@ -916,7 +858,7 @@ objects:
           - !ruby/object:Api::Type::NestedObject
             name: 'shippingAddress'
             description: 'Shipping address of the customer.'
-            required: true
+            required: false
             azure_sdk_references: ['/details/shippingAddress', '/properties/details/shippingAddress']
             properties:
               - !ruby/object:Api::Type::String
@@ -974,69 +916,23 @@ objects:
                   - :Residential
                   - :Commercial
                 default_value: :None
-          - !ruby/object:Api::Type::Array
-            name: 'destinationAccountDetails'
-            description: 'Destination account details.'
-            required: true
-            azure_sdk_references: ['/details/destinationAccountDetails', '/properties/details/destinationAccountDetails']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'accountId'
-                  description: 'Arm Id of the destination where the data has to be moved.'
-                  required: false
-                  azure_sdk_references: ['/details/destinationAccountDetails/accountId', '/properties/details/destinationAccountDetails/accountId']
-                - !ruby/object:Api::Type::String
-                  name: 'sharePassword'
-                  description: 'Share password to be shared by all shares in SA.'
-                  required: false
-                  azure_sdk_references: ['/details/destinationAccountDetails/sharePassword', '/properties/details/destinationAccountDetails/sharePassword']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'preferences'
-            description: 'Preferences for the order.'
-            required: false
-            azure_sdk_references: ['/details/preferences', '/properties/details/preferences']
-            properties:
-              - !ruby/object:Api::Type::Array
-                name: 'preferredDataCenterRegion'
-                description: 'Preferred Data Center Region.'
-                required: false
-                azure_sdk_references: ['/details/preferences/preferredDataCenterRegion', '/properties/details/preferences/preferredDataCenterRegion']
-                item_type: Api::Type::String
-              - !ruby/object:Api::Type::NestedObject
-                name: 'transportPreferences'
-                description: 'Preferences related to the shipment logistics of the sku.'
-                required: false
-                azure_sdk_references: ['/details/preferences/transportPreferences', '/properties/details/preferences/transportPreferences']
-                properties:
-                  - !ruby/object:Api::Type::Enum
-                    name: 'preferredShipmentType'
-                    description: 'Indicates Shipment Logistics type that the customer preferred.'
-                    required: true
-                    azure_sdk_references: ['/details/preferences/transportPreferences/preferredShipmentType', '/properties/details/preferences/transportPreferences/preferredShipmentType']
-                    values:
-                      - :CustomerManaged
-                      - :MicrosoftManaged
-      - !ruby/object:Api::Type::Enum
-        name: 'deliveryType'
-        description: 'Delivery type of Job.'
+      - !ruby/object:Api::Type::Array
+        name: 'destinationAccountDetails'
+        description: 'Destination account details.'
         required: false
-        azure_sdk_references: ['/deliveryType', '/properties/deliveryType']
-        values:
-          - :NonScheduled
-          - :Scheduled
-        default_value: :NonScheduled
-      - !ruby/object:Api::Type::NestedObject
-        name: 'deliveryInfo'
-        description: 'Delivery Info of Job.'
-        required: false
-        azure_sdk_references: ['/deliveryInfo', '/properties/deliveryInfo']
-        properties:
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'scheduledDateTime'
-            description: 'Scheduled date time.'
-            required: false
-            azure_sdk_references: ['/deliveryInfo/scheduledDateTime', '/properties/deliveryInfo/scheduledDateTime']
+        azure_sdk_references: ['/destinationAccountDetails', '/properties/destinationAccountDetails']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'accountId'
+              description: 'Arm Id of the destination where the data has to be moved.'
+              required: false
+              azure_sdk_references: ['/destinationAccountDetails/accountId', '/properties/destinationAccountDetails/accountId']
+            - !ruby/object:Api::Type::String
+              name: 'sharePassword'
+              description: 'Share password to be shared by all shares in SA.'
+              required: false
+              azure_sdk_references: ['/destinationAccountDetails/sharePassword', '/properties/destinationAccountDetails/sharePassword']
       # read only values included only in response
       - !ruby/object:Api::Type::Boolean
         name: 'isCancellable'
@@ -1091,6 +987,20 @@ objects:
         description: 'Reason for cancellation.'
         output: true
         azure_sdk_references: ['/cancellationReason', '/properties/cancellationReason']
+      - !ruby/object:Api::Type::Enum
+        name: 'deliveryType'
+        description: 'Delivery type of Job.'
+        output: true
+        azure_sdk_references: ['/deliveryType', '/properties/deliveryType']
+        values:
+          - :NonScheduled
+          - :Scheduled
+      - !ruby/object:Api::Type::NestedObject
+        name: 'deliveryInfo'
+        description: 'Delivery Info of Job.'
+        output: true
+        azure_sdk_references: ['/deliveryInfo', '/properties/deliveryInfo']
+        properties:
       - !ruby/object:Api::Type::Boolean
         name: 'isCancellableWithoutFee'
         description: 'Flag to indicate cancellation of scheduled job.'

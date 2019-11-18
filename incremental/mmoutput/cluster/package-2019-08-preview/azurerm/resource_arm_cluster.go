@@ -68,12 +68,12 @@ func resourceArmCluster() *schema.Resource {
                 },
             },
 
-            "next_link": {
+            "cluster_id": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
-            "cluster_id": {
+            "next_link": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -115,15 +115,13 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     location := azure.NormalizeLocation(d.Get("location").(string))
     encryptionKeyUri := d.Get("encryption_key_uri").(string)
     identity := d.Get("identity").([]interface{})
-    nextLink := d.Get("next_link").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := operationalinsights.Cluster{
+    parameters := operationalinsights.ClusterPatch{
         Identity: expandArmClusterIdentity(identity),
         Location: utils.String(location),
-        ClusterProperties: &operationalinsights.ClusterProperties{
+        ClusterPatchProperties: &operationalinsights.ClusterPatchProperties{
             EncryptionKeyUri: utils.String(encryptionKeyUri),
-            NextLink: utils.String(nextLink),
         },
         Tags: tags.Expand(t),
     }
@@ -178,11 +176,11 @@ func resourceArmClusterRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if clusterProperties := resp.ClusterProperties; clusterProperties != nil {
-        d.Set("cluster_id", clusterProperties.ClusterID)
-        d.Set("encryption_key_uri", clusterProperties.EncryptionKeyUri)
-        d.Set("next_link", clusterProperties.NextLink)
-        d.Set("provisioning_state", string(clusterProperties.ProvisioningState))
+    if clusterPatchProperties := resp.ClusterPatchProperties; clusterPatchProperties != nil {
+        d.Set("cluster_id", clusterPatchProperties.ClusterID)
+        d.Set("encryption_key_uri", clusterPatchProperties.EncryptionKeyUri)
+        d.Set("next_link", clusterPatchProperties.NextLink)
+        d.Set("provisioning_state", string(clusterPatchProperties.ProvisioningState))
     }
     if err := d.Set("identity", flattenArmClusterIdentity(resp.Identity)); err != nil {
         return fmt.Errorf("Error setting `identity`: %+v", err)
@@ -200,15 +198,13 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := d.Get("resource_group").(string)
     encryptionKeyUri := d.Get("encryption_key_uri").(string)
     identity := d.Get("identity").([]interface{})
-    nextLink := d.Get("next_link").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := operationalinsights.Cluster{
+    parameters := operationalinsights.ClusterPatch{
         Identity: expandArmClusterIdentity(identity),
         Location: utils.String(location),
-        ClusterProperties: &operationalinsights.ClusterProperties{
+        ClusterPatchProperties: &operationalinsights.ClusterPatchProperties{
             EncryptionKeyUri: utils.String(encryptionKeyUri),
-            NextLink: utils.String(nextLink),
         },
         Tags: tags.Expand(t),
     }

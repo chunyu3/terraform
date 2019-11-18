@@ -32,19 +32,15 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `location` - (Required) Resource location Changing this forces a new resource to be created.
-
 * `account_name` - (Required) The name of the NetApp account Changing this forces a new resource to be created.
-
-* `creation_token` - (Required) A unique file path for the volume. Used when creating mount targets
 
 * `pool_name` - (Required) The name of the capacity pool Changing this forces a new resource to be created.
 
-* `service_level` - (Required) The service level of the file system
+* `location` - (Optional) Resource location Changing this forces a new resource to be created.
 
 * `export_policy` - (Optional) One `export_policy` block defined below.
 
-* `subnet_id` - (Optional) The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
+* `service_level` - (Optional) The service level of the file system Defaults to `Standard`.
 
 * `usage_threshold` - (Optional) Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB.
 
@@ -81,7 +77,11 @@ The following attributes are exported:
 
 * `file_system_id` - Unique FileSystem Identifier.
 
+* `creation_token` - A unique file path for the volume. Used when creating mount targets
+
 * `provisioning_state` - Azure lifecycle management
+
+* `subnet_id` - The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
 
 * `id` - Resource Id
 

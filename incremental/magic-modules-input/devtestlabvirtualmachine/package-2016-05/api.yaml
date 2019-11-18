@@ -40,7 +40,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: labVirtualMachine
-            go_type_name: LabVirtualMachine
+            go_type_name: LabVirtualMachineFragment
             python_parameter_name: lab_virtual_machine
             python_variable_name: lab_virtual_machine
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LabVirtualMachineProperties
-            go_type_name: LabVirtualMachineProperties
+            go_field_name: LabVirtualMachinePropertiesFragment
+            go_type_name: LabVirtualMachinePropertiesFragment
           '/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: notes
@@ -185,14 +185,14 @@ objects:
           '/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Artifacts
-            go_type_name: ArtifactInstallProperties
+            go_type_name: ArtifactInstallPropertiesFragment
           '/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ArtifactID
           '/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Parameters
-            go_type_name: ArtifactParameterProperties
+            go_type_name: ArtifactParameterPropertiesFragment
           '/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -226,7 +226,7 @@ objects:
           '/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ArtifactDeploymentStatus
-            go_type_name: ArtifactDeploymentStatusProperties
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
           '/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DeploymentStatus
@@ -257,7 +257,7 @@ objects:
           '/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GalleryImageReference
-            go_type_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
           '/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Offer
@@ -321,11 +321,11 @@ objects:
           '/properties/computeVm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ComputeVm
-            go_type_name: ComputeVmProperties
+            go_type_name: ComputeVmPropertiesFragment
           '/properties/computeVm/statuses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Statuses
-            go_type_name: ComputeVmInstanceViewStatus
+            go_type_name: ComputeVmInstanceViewStatusFragment
           '/properties/computeVm/statuses/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Code
@@ -353,7 +353,7 @@ objects:
           '/properties/computeVm/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDisks
-            go_type_name: ComputeDataDisk
+            go_type_name: ComputeDataDiskFragment
           '/properties/computeVm/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -411,7 +411,7 @@ objects:
           '/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkInterface
-            go_type_name: NetworkInterfaceProperties
+            go_type_name: NetworkInterfacePropertiesFragment
           '/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VirtualNetworkID
@@ -439,11 +439,11 @@ objects:
           '/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SharedPublicIpAddressConfiguration
-            go_type_name: SharedPublicIpAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
           '/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
+            go_type_name: InboundNatRuleFragment
           '/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: TransportProtocol
@@ -580,7 +580,7 @@ objects:
           '/properties/applicableSchedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ApplicableSchedule
-            go_type_name: ApplicableSchedule
+            go_type_name: ApplicableScheduleFragment
           '/properties/applicableSchedule/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -589,12 +589,12 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ApplicableScheduleProperties
-            go_type_name: ApplicableScheduleProperties
+            go_field_name: ApplicableSchedulePropertiesFragment
+            go_type_name: ApplicableSchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsShutdown': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LabVmsShutdown
-            go_type_name: Schedule
+            go_type_name: ScheduleFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -603,8 +603,8 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties/labVmsShutdown/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleProperties
-            go_type_name: ScheduleProperties
+            go_field_name: SchedulePropertiesFragment
+            go_type_name: SchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -615,7 +615,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -625,14 +625,14 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -642,7 +642,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -662,7 +662,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LabVmsStartup
-            go_type_name: Schedule
+            go_type_name: ScheduleFragment
           '/properties/applicableSchedule/properties/labVmsStartup/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -671,8 +671,8 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties/labVmsStartup/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleProperties
-            go_type_name: ScheduleProperties
+            go_field_name: SchedulePropertiesFragment
+            go_type_name: SchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -683,7 +683,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -693,14 +693,14 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/applicableSchedule/properties/labVmsStartup/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -710,7 +710,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -785,7 +785,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: labVirtualMachine
-            go_type_name: LabVirtualMachine
+            go_type_name: LabVirtualMachineFragment
             python_parameter_name: lab_virtual_machine
             python_variable_name: lab_virtual_machine
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -796,8 +796,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LabVirtualMachineProperties
-            go_type_name: LabVirtualMachineProperties
+            go_field_name: LabVirtualMachinePropertiesFragment
+            go_type_name: LabVirtualMachinePropertiesFragment
           '/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: notes
@@ -930,14 +930,14 @@ objects:
           '/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Artifacts
-            go_type_name: ArtifactInstallProperties
+            go_type_name: ArtifactInstallPropertiesFragment
           '/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ArtifactID
           '/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Parameters
-            go_type_name: ArtifactParameterProperties
+            go_type_name: ArtifactParameterPropertiesFragment
           '/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -971,7 +971,7 @@ objects:
           '/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ArtifactDeploymentStatus
-            go_type_name: ArtifactDeploymentStatusProperties
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
           '/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DeploymentStatus
@@ -1002,7 +1002,7 @@ objects:
           '/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GalleryImageReference
-            go_type_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
           '/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Offer
@@ -1066,11 +1066,11 @@ objects:
           '/properties/computeVm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ComputeVm
-            go_type_name: ComputeVmProperties
+            go_type_name: ComputeVmPropertiesFragment
           '/properties/computeVm/statuses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Statuses
-            go_type_name: ComputeVmInstanceViewStatus
+            go_type_name: ComputeVmInstanceViewStatusFragment
           '/properties/computeVm/statuses/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Code
@@ -1098,7 +1098,7 @@ objects:
           '/properties/computeVm/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDisks
-            go_type_name: ComputeDataDisk
+            go_type_name: ComputeDataDiskFragment
           '/properties/computeVm/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -1156,7 +1156,7 @@ objects:
           '/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkInterface
-            go_type_name: NetworkInterfaceProperties
+            go_type_name: NetworkInterfacePropertiesFragment
           '/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VirtualNetworkID
@@ -1184,11 +1184,11 @@ objects:
           '/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SharedPublicIpAddressConfiguration
-            go_type_name: SharedPublicIpAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
           '/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
+            go_type_name: InboundNatRuleFragment
           '/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: TransportProtocol
@@ -1325,7 +1325,7 @@ objects:
           '/properties/applicableSchedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ApplicableSchedule
-            go_type_name: ApplicableSchedule
+            go_type_name: ApplicableScheduleFragment
           '/properties/applicableSchedule/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -1334,12 +1334,12 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ApplicableScheduleProperties
-            go_type_name: ApplicableScheduleProperties
+            go_field_name: ApplicableSchedulePropertiesFragment
+            go_type_name: ApplicableSchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsShutdown': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LabVmsShutdown
-            go_type_name: Schedule
+            go_type_name: ScheduleFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -1348,8 +1348,8 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties/labVmsShutdown/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleProperties
-            go_type_name: ScheduleProperties
+            go_field_name: SchedulePropertiesFragment
+            go_type_name: SchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1360,7 +1360,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -1370,14 +1370,14 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -1387,7 +1387,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1407,7 +1407,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LabVmsStartup
-            go_type_name: Schedule
+            go_type_name: ScheduleFragment
           '/properties/applicableSchedule/properties/labVmsStartup/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -1416,8 +1416,8 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties/labVmsStartup/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleProperties
-            go_type_name: ScheduleProperties
+            go_field_name: SchedulePropertiesFragment
+            go_type_name: SchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1428,7 +1428,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -1438,14 +1438,14 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/applicableSchedule/properties/labVmsStartup/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -1455,7 +1455,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1562,8 +1562,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LabVirtualMachineProperties
-            go_type_name: LabVirtualMachineProperties
+            go_field_name: LabVirtualMachinePropertiesFragment
+            go_type_name: LabVirtualMachinePropertiesFragment
           '/properties/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Notes
@@ -1669,14 +1669,14 @@ objects:
           '/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Artifacts
-            go_type_name: ArtifactInstallProperties
+            go_type_name: ArtifactInstallPropertiesFragment
           '/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ArtifactID
           '/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Parameters
-            go_type_name: ArtifactParameterProperties
+            go_type_name: ArtifactParameterPropertiesFragment
           '/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -1725,7 +1725,7 @@ objects:
           '/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ArtifactDeploymentStatus
-            go_type_name: ArtifactDeploymentStatusProperties
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
           '/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DeploymentStatus
@@ -1750,7 +1750,7 @@ objects:
           '/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GalleryImageReference
-            go_type_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
           '/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Offer
@@ -1787,11 +1787,11 @@ objects:
           '/properties/computeVm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ComputeVm
-            go_type_name: ComputeVmProperties
+            go_type_name: ComputeVmPropertiesFragment
           '/properties/computeVm/statuses': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Statuses
-            go_type_name: ComputeVmInstanceViewStatus
+            go_type_name: ComputeVmInstanceViewStatusFragment
           '/properties/computeVm/statuses/code': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Code
@@ -1819,7 +1819,7 @@ objects:
           '/properties/computeVm/dataDisks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDisks
-            go_type_name: ComputeDataDisk
+            go_type_name: ComputeDataDiskFragment
           '/properties/computeVm/dataDisks/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -1880,7 +1880,7 @@ objects:
           '/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkInterface
-            go_type_name: NetworkInterfaceProperties
+            go_type_name: NetworkInterfacePropertiesFragment
           '/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VirtualNetworkID
@@ -1908,11 +1908,11 @@ objects:
           '/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SharedPublicIpAddressConfiguration
-            go_type_name: SharedPublicIpAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
           '/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
+            go_type_name: InboundNatRuleFragment
           '/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: TransportProtocol
@@ -1968,7 +1968,7 @@ objects:
           '/properties/applicableSchedule': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ApplicableSchedule
-            go_type_name: ApplicableSchedule
+            go_type_name: ApplicableScheduleFragment
           '/properties/applicableSchedule/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -1977,12 +1977,12 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ApplicableScheduleProperties
-            go_type_name: ApplicableScheduleProperties
+            go_field_name: ApplicableSchedulePropertiesFragment
+            go_type_name: ApplicableSchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsShutdown': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LabVmsShutdown
-            go_type_name: Schedule
+            go_type_name: ScheduleFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -1991,8 +1991,8 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties/labVmsShutdown/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleProperties
-            go_type_name: ScheduleProperties
+            go_field_name: SchedulePropertiesFragment
+            go_type_name: SchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -2003,7 +2003,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -2013,14 +2013,14 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -2030,7 +2030,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/applicableSchedule/properties/labVmsShutdown/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -2065,7 +2065,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: LabVmsStartup
-            go_type_name: Schedule
+            go_type_name: ScheduleFragment
           '/properties/applicableSchedule/properties/labVmsStartup/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Location
@@ -2074,8 +2074,8 @@ objects:
             go_field_name: Tags
           '/properties/applicableSchedule/properties/labVmsStartup/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleProperties
-            go_type_name: ScheduleProperties
+            go_field_name: SchedulePropertiesFragment
+            go_type_name: SchedulePropertiesFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -2086,7 +2086,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -2096,14 +2096,14 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/applicableSchedule/properties/labVmsStartup/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -2113,7 +2113,7 @@ objects:
           '/properties/applicableSchedule/properties/labVmsStartup/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/applicableSchedule/properties/labVmsStartup/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status

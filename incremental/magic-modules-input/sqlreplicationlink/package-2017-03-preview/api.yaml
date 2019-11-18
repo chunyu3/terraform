@@ -37,6 +37,11 @@ objects:
             go_variable_name: name
             python_parameter_name: database_name
             python_variable_name: name
+          'linkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: replicationLinks
+            go_variable_name: linkID
+            python_parameter_name: link_id
+            python_variable_name: link_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -154,10 +159,16 @@ objects:
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the database to retrieve links for.'
+        description: 'The name of the database to get the link for.'
         required: true
         input: true
         azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'linkId'
+        description: 'The replication link ID to be retrieved.'
+        required: true
+        input: true
+        azure_sdk_references: ['linkId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

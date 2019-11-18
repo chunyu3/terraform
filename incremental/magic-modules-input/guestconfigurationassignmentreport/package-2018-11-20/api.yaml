@@ -37,6 +37,11 @@ objects:
             go_variable_name: guestConfigurationAssignmentName
             python_parameter_name: guest_configuration_assignment_name
             python_variable_name: guest_configuration_assignment_name
+          'reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportID
+            python_parameter_name: report_id
+            python_variable_name: report_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -240,6 +245,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['vmName']
+      - !ruby/object:Api::Type::String
+        name: 'reportId'
+        description: 'The GUID for the guest configuration assignment report.'
+        required: true
+        input: true
+        azure_sdk_references: ['reportId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

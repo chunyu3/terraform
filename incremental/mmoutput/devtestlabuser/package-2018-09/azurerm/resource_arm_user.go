@@ -145,11 +145,11 @@ func resourceArmUserCreate(d *schema.ResourceData, meta interface{}) error {
     secretStore := d.Get("secret_store").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    user := devtestlab.User{
+    user := devtestlab.UserFragment{
         Location: utils.String(location),
-        UserProperties: &devtestlab.UserProperties{
-            Identity: expandArmUserUserIdentity(identity),
-            SecretStore: expandArmUserUserSecretStore(secretStore),
+        UserPropertiesFragment: &devtestlab.UserPropertiesFragment{
+            Identity: expandArmUserUserIdentityFragment(identity),
+            SecretStore: expandArmUserUserSecretStoreFragment(secretStore),
         },
         Tags: tags.Expand(t),
     }
@@ -205,16 +205,16 @@ func resourceArmUserRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if userProperties := resp.UserProperties; userProperties != nil {
-        d.Set("created_date", (userProperties.CreatedDate).String())
-        if err := d.Set("identity", flattenArmUserUserIdentity(userProperties.Identity)); err != nil {
+    if userPropertiesFragment := resp.UserPropertiesFragment; userPropertiesFragment != nil {
+        d.Set("created_date", (userPropertiesFragment.CreatedDate).String())
+        if err := d.Set("identity", flattenArmUserUserIdentityFragment(userPropertiesFragment.Identity)); err != nil {
             return fmt.Errorf("Error setting `identity`: %+v", err)
         }
-        d.Set("provisioning_state", userProperties.ProvisioningState)
-        if err := d.Set("secret_store", flattenArmUserUserSecretStore(userProperties.SecretStore)); err != nil {
+        d.Set("provisioning_state", userPropertiesFragment.ProvisioningState)
+        if err := d.Set("secret_store", flattenArmUserUserSecretStoreFragment(userPropertiesFragment.SecretStore)); err != nil {
             return fmt.Errorf("Error setting `secret_store`: %+v", err)
         }
-        d.Set("unique_identifier", userProperties.UniqueIdentifier)
+        d.Set("unique_identifier", userPropertiesFragment.UniqueIdentifier)
     }
     d.Set("type", resp.Type)
 
@@ -232,11 +232,11 @@ func resourceArmUserUpdate(d *schema.ResourceData, meta interface{}) error {
     secretStore := d.Get("secret_store").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    user := devtestlab.User{
+    user := devtestlab.UserFragment{
         Location: utils.String(location),
-        UserProperties: &devtestlab.UserProperties{
-            Identity: expandArmUserUserIdentity(identity),
-            SecretStore: expandArmUserUserSecretStore(secretStore),
+        UserPropertiesFragment: &devtestlab.UserPropertiesFragment{
+            Identity: expandArmUserUserIdentityFragment(identity),
+            SecretStore: expandArmUserUserSecretStoreFragment(secretStore),
         },
         Tags: tags.Expand(t),
     }
@@ -279,7 +279,7 @@ func resourceArmUserDelete(d *schema.ResourceData, meta interface{}) error {
     return nil
 }
 
-func expandArmUserUserIdentity(input []interface{}) *devtestlab.UserIdentity {
+func expandArmUserUserIdentityFragment(input []interface{}) *devtestlab.UserIdentityFragment {
     if len(input) == 0 {
         return nil
     }
@@ -291,7 +291,7 @@ func expandArmUserUserIdentity(input []interface{}) *devtestlab.UserIdentity {
     objectId := v["object_id"].(string)
     appId := v["app_id"].(string)
 
-    result := devtestlab.UserIdentity{
+    result := devtestlab.UserIdentityFragment{
         AppID: utils.String(appId),
         ObjectID: utils.String(objectId),
         PrincipalID: utils.String(principalId),
@@ -301,7 +301,7 @@ func expandArmUserUserIdentity(input []interface{}) *devtestlab.UserIdentity {
     return &result
 }
 
-func expandArmUserUserSecretStore(input []interface{}) *devtestlab.UserSecretStore {
+func expandArmUserUserSecretStoreFragment(input []interface{}) *devtestlab.UserSecretStoreFragment {
     if len(input) == 0 {
         return nil
     }
@@ -310,7 +310,7 @@ func expandArmUserUserSecretStore(input []interface{}) *devtestlab.UserSecretSto
     keyVaultUri := v["key_vault_uri"].(string)
     keyVaultId := v["key_vault_id"].(string)
 
-    result := devtestlab.UserSecretStore{
+    result := devtestlab.UserSecretStoreFragment{
         KeyVaultID: utils.String(keyVaultId),
         KeyVaultUri: utils.String(keyVaultUri),
     }
@@ -318,7 +318,7 @@ func expandArmUserUserSecretStore(input []interface{}) *devtestlab.UserSecretSto
 }
 
 
-func flattenArmUserUserIdentity(input *devtestlab.UserIdentity) []interface{} {
+func flattenArmUserUserIdentityFragment(input *devtestlab.UserIdentityFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -344,7 +344,7 @@ func flattenArmUserUserIdentity(input *devtestlab.UserIdentity) []interface{} {
     return []interface{}{result}
 }
 
-func flattenArmUserUserSecretStore(input *devtestlab.UserSecretStore) []interface{} {
+func flattenArmUserUserSecretStoreFragment(input *devtestlab.UserSecretStoreFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }

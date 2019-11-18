@@ -38,9 +38,6 @@ objects:
             go_type_name: Server
             python_parameter_name: server_parameters
             python_variable_name: server_parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: ResourceSku
@@ -57,8 +54,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerProperties
-            go_type_name: ServerProperties
+            go_field_name: ServerMutableProperties
+            go_type_name: ServerMutableProperties
           '/asAdministrators': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: as_administrators
@@ -129,16 +126,30 @@ objects:
         go_func_name: ListOperationResults
         python_func_name: list_operation_results
         request:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationstatuses
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListOperationStatuses
         python_func_name: list_operation_statuses
         request:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationstatuses
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSkusForExisting
         python_func_name: list_skus_for_existing
@@ -165,20 +176,20 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the Analysis Services server. It must be a minimum of 3 characters, and a maximum of 63.'
+        description: 'The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'Location of the Analysis Services resource.'
+        description: 'The region name which the operation will lookup into.'
         required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The SKU of the Analysis Services resource.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::String
@@ -198,7 +209,7 @@ objects:
             default_value: :Development
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Key-value pairs of additional resource provisioning properties.'
+        description: 'Key-value pairs of additional provisioning properties.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -219,6 +230,12 @@ objects:
         description: 'The container URI of backup blob.'
         required: false
         azure_sdk_references: ['/backupBlobContainerUri', '/properties/backupBlobContainerUri']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'The target operation Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'state'

@@ -38,7 +38,8 @@ func resourceArmBot() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Computed: true,
+                Optional: true,
+                ForceNew: true,
             },
 
             "location": azure.SchemaLocation(),
@@ -138,6 +139,12 @@ func resourceArmBot() *schema.Resource {
                 },
             },
 
+            "type": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "configured_channels": {
                 Type: schema.TypeList,
                 Computed: true,
@@ -155,11 +162,6 @@ func resourceArmBot() *schema.Resource {
             },
 
             "endpoint_version": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -188,6 +190,7 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
         }
     }
 
+    name := d.Get("name").(string)
     location := azure.NormalizeLocation(d.Get("location").(string))
     description := d.Get("description").(string)
     developerAppInsightKey := d.Get("developer_app_insight_key").(string)
@@ -202,12 +205,14 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
     luisKey := d.Get("luis_key").(string)
     msaAppId := d.Get("msa_app_id").(string)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := botservice.Bot{
+    parameters := botservice.CheckNameAvailabilityRequestBody{
         Etag: utils.String(etag),
         Kind: botservice.Kind(kind),
         Location: utils.String(location),
+        Name: utils.String(name),
         BotProperties: &botservice.BotProperties{
             Description: utils.String(description),
             DeveloperAppInsightKey: utils.String(developerAppInsightKey),
@@ -222,6 +227,7 @@ func resourceArmBotCreate(d *schema.ResourceData, meta interface{}) error {
         },
         Sku: expandArmBotSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 
@@ -300,6 +306,7 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     ctx := meta.(*ArmClient).StopContext
 
     name := d.Get("name").(string)
+    name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     description := d.Get("description").(string)
     developerAppInsightKey := d.Get("developer_app_insight_key").(string)
@@ -314,12 +321,14 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
     luisKey := d.Get("luis_key").(string)
     msaAppId := d.Get("msa_app_id").(string)
     sku := d.Get("sku").([]interface{})
+    type := d.Get("type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := botservice.Bot{
+    parameters := botservice.CheckNameAvailabilityRequestBody{
         Etag: utils.String(etag),
         Kind: botservice.Kind(kind),
         Location: utils.String(location),
+        Name: utils.String(name),
         BotProperties: &botservice.BotProperties{
             Description: utils.String(description),
             DeveloperAppInsightKey: utils.String(developerAppInsightKey),
@@ -334,6 +343,7 @@ func resourceArmBotUpdate(d *schema.ResourceData, meta interface{}) error {
         },
         Sku: expandArmBotSku(sku),
         Tags: tags.Expand(t),
+        Type: utils.String(type),
     }
 
 

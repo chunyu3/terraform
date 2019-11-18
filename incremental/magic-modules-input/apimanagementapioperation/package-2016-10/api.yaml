@@ -44,7 +44,7 @@ objects:
             python_variable_name: operation_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationContract
+            go_type_name: OperationUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/templateParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
@@ -188,7 +188,7 @@ objects:
             python_variable_name: operation_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationContract
+            go_type_name: OperationUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/templateParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
@@ -705,19 +705,19 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Operation Name.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'method'
         description: 'A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/method']
       - !ruby/object:Api::Type::String
         name: 'urlTemplate'
         description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/urlTemplate']
       # read only values included only in response

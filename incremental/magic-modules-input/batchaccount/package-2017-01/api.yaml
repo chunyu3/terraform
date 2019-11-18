@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AccountCreateParameters
+            go_type_name: AccountUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,8 +46,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountBaseProperties
-            go_type_name: AccountBaseProperties
+            go_field_name: AccountUpdateBaseProperties
+            go_type_name: AccountUpdateBaseProperties
           '/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: auto_storage
@@ -61,32 +61,6 @@ objects:
           '/properties/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StorageAccountID
-          '/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: pool_allocation_mode
-          '/properties/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PoolAllocationMode
-            go_enum_type_name: PoolAllocationMode
-          '/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: key_vault_reference
-          '/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: url
-          '/properties/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: KeyVaultReference
-            go_type_name: KeyVaultReference
-          '/properties/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: URL
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -103,7 +77,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AccountCreateParameters
+            go_type_name: AccountUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -114,8 +88,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountBaseProperties
-            go_type_name: AccountBaseProperties
+            go_field_name: AccountUpdateBaseProperties
+            go_type_name: AccountUpdateBaseProperties
           '/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: auto_storage
@@ -129,32 +103,6 @@ objects:
           '/properties/autoStorage/storageAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: StorageAccountID
-          '/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: pool_allocation_mode
-          '/properties/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: PoolAllocationMode
-            go_enum_type_name: PoolAllocationMode
-          '/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: key_vault_reference
-          '/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: url
-          '/properties/keyVaultReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: KeyVaultReference
-            go_type_name: KeyVaultReference
-          '/properties/keyVaultReference/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: URL
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -193,8 +141,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountBaseProperties
-            go_type_name: AccountBaseProperties
+            go_field_name: AccountUpdateBaseProperties
+            go_type_name: AccountUpdateBaseProperties
           '/properties/autoStorage': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: AutoStorage
@@ -214,6 +162,19 @@ objects:
           '/autoStorage/lastKeySync': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: last_key_sync
+          '/properties/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccountEndpoint
+          '/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: account_endpoint
+          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ProvisioningState
+            go_enum_type_name: ProvisioningState
+          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: provisioning_state
           '/properties/poolAllocationMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: PoolAllocationMode
@@ -240,19 +201,6 @@ objects:
           '/keyVaultReference/url': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: url
-          '/properties/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: AccountEndpoint
-          '/accountEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: account_endpoint
-          '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProvisioningState
-            go_enum_type_name: ProvisioningState
-          '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: provisioning_state
           '/properties/coreQuota': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: CoreQuota
@@ -299,13 +247,13 @@ objects:
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The name of the resource group that contains the new Batch account.'
+        description: 'The name of the resource group that contains the Batch account.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/.'
+        description: 'The name of the account.'
         required: true
         input: true
         azure_sdk_references: ['accountName']
@@ -332,31 +280,6 @@ objects:
             description: 'The resource ID of the storage account to be used for auto storage account.'
             required: true
             azure_sdk_references: ['/autoStorage/storageAccountId', '/properties/autoStorage/storageAccountId']
-      - !ruby/object:Api::Type::Enum
-        name: 'poolAllocationMode'
-        description: 'The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService.'
-        required: false
-        azure_sdk_references: ['/poolAllocationMode', '/properties/poolAllocationMode']
-        values:
-          - :BatchService
-          - :UserSubscription
-        default_value: :BatchService
-      - !ruby/object:Api::Type::NestedObject
-        name: 'keyVaultReference'
-        description: 'A reference to the Azure key vault associated with the Batch account.'
-        required: false
-        azure_sdk_references: ['/keyVaultReference', '/properties/keyVaultReference']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'id'
-            description: 'The resource ID of the Azure key vault associated with the Batch account.'
-            required: true
-            azure_sdk_references: ['/keyVaultReference/id', '/properties/keyVaultReference/id']
-          - !ruby/object:Api::Type::String
-            name: 'url'
-            description: 'The Url of the Azure key vault associated with the Batch account.'
-            required: true
-            azure_sdk_references: ['/keyVaultReference/url', '/properties/keyVaultReference/url']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'accountEndpoint'
@@ -375,6 +298,20 @@ objects:
           - :Succeeded
           - :Failed
           - :Cancelled
+      - !ruby/object:Api::Type::Enum
+        name: 'poolAllocationMode'
+        description: ''
+        output: true
+        azure_sdk_references: ['/poolAllocationMode', '/properties/poolAllocationMode']
+        values:
+          - :BatchService
+          - :UserSubscription
+      - !ruby/object:Api::Type::NestedObject
+        name: 'keyVaultReference'
+        description: ''
+        output: true
+        azure_sdk_references: ['/keyVaultReference', '/properties/keyVaultReference']
+        properties:
       - !ruby/object:Api::Type::Integer
         name: 'coreQuota'
         description: ''

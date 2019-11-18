@@ -22,6 +22,16 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
+          'invitationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: consumerInvitations
+            go_variable_name: invitationID
+            python_parameter_name: invitation_id
+            python_variable_name: invitation_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -129,6 +139,18 @@ objects:
     description: |
       Manage Azure ConsumerInvitation instance.
     properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Location of the invitation'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      - !ruby/object:Api::Type::String
+        name: 'invitationId'
+        description: 'An invitation id'
+        required: true
+        input: true
+        azure_sdk_references: ['invitationId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

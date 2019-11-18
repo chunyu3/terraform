@@ -52,8 +52,7 @@ func resourceArmCache() *schema.Resource {
 
             "connection_string": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "description": {
@@ -98,8 +97,8 @@ func resourceArmCacheCreate(d *schema.ResourceData, meta interface{}) error {
     description := d.Get("description").(string)
     resourceId := d.Get("resource_id").(string)
 
-    parameters := apimanagement.CacheContract{
-        CacheContractProperties: &apimanagement.CacheContractProperties{
+    parameters := apimanagement.CacheUpdateParameters{
+        CacheUpdateProperties: &apimanagement.CacheUpdateProperties{
             ConnectionString: utils.String(connectionString),
             Description: utils.String(description),
             ResourceID: utils.String(resourceId),
@@ -151,10 +150,10 @@ func resourceArmCacheRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("cache_id", cacheID)
-    if cacheContractProperties := resp.CacheContractProperties; cacheContractProperties != nil {
-        d.Set("connection_string", cacheContractProperties.ConnectionString)
-        d.Set("description", cacheContractProperties.Description)
-        d.Set("resource_id", cacheContractProperties.ResourceID)
+    if cacheUpdateProperties := resp.CacheUpdateProperties; cacheUpdateProperties != nil {
+        d.Set("connection_string", cacheUpdateProperties.ConnectionString)
+        d.Set("description", cacheUpdateProperties.Description)
+        d.Set("resource_id", cacheUpdateProperties.ResourceID)
     }
     d.Set("type", resp.Type)
 
@@ -172,8 +171,8 @@ func resourceArmCacheUpdate(d *schema.ResourceData, meta interface{}) error {
     description := d.Get("description").(string)
     resourceId := d.Get("resource_id").(string)
 
-    parameters := apimanagement.CacheContract{
-        CacheContractProperties: &apimanagement.CacheContractProperties{
+    parameters := apimanagement.CacheUpdateParameters{
+        CacheUpdateProperties: &apimanagement.CacheUpdateProperties{
             ConnectionString: utils.String(connectionString),
             Description: utils.String(description),
             ResourceID: utils.String(resourceId),

@@ -43,18 +43,6 @@ func resourceArmIdentityProvider() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "client_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "client_secret": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "service_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -68,6 +56,16 @@ func resourceArmIdentityProvider() *schema.Resource {
                 Elem: &schema.Schema{
                     Type: schema.TypeString,
                 },
+            },
+
+            "client_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "client_secret": {
+                Type: schema.TypeString,
+                Optional: true,
             },
 
             "password_reset_policy_name": {
@@ -141,8 +139,8 @@ func resourceArmIdentityProviderCreate(d *schema.ResourceData, meta interface{})
     signupPolicyName := d.Get("signup_policy_name").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.IdentityProviderContract{
-        IdentityProviderContractProperties: &apimanagement.IdentityProviderContractProperties{
+    parameters := apimanagement.IdentityProviderUpdateParameters{
+        IdentityProviderUpdateProperties: &apimanagement.IdentityProviderUpdateProperties{
             AllowedTenants: utils.ExpandStringSlice(allowedTenants),
             ClientID: utils.String(clientId),
             ClientSecret: utils.String(clientSecret),
@@ -198,15 +196,15 @@ func resourceArmIdentityProviderRead(d *schema.ResourceData, meta interface{}) e
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if identityProviderContractProperties := resp.IdentityProviderContractProperties; identityProviderContractProperties != nil {
-        d.Set("allowed_tenants", utils.FlattenStringSlice(identityProviderContractProperties.AllowedTenants))
-        d.Set("client_id", identityProviderContractProperties.ClientID)
-        d.Set("client_secret", identityProviderContractProperties.ClientSecret)
-        d.Set("password_reset_policy_name", identityProviderContractProperties.PasswordResetPolicyName)
-        d.Set("profile_editing_policy_name", identityProviderContractProperties.ProfileEditingPolicyName)
-        d.Set("signin_policy_name", identityProviderContractProperties.SigninPolicyName)
-        d.Set("signup_policy_name", identityProviderContractProperties.SignupPolicyName)
-        d.Set("type", string(identityProviderContractProperties.Type))
+    if identityProviderUpdateProperties := resp.IdentityProviderUpdateProperties; identityProviderUpdateProperties != nil {
+        d.Set("allowed_tenants", utils.FlattenStringSlice(identityProviderUpdateProperties.AllowedTenants))
+        d.Set("client_id", identityProviderUpdateProperties.ClientID)
+        d.Set("client_secret", identityProviderUpdateProperties.ClientSecret)
+        d.Set("password_reset_policy_name", identityProviderUpdateProperties.PasswordResetPolicyName)
+        d.Set("profile_editing_policy_name", identityProviderUpdateProperties.ProfileEditingPolicyName)
+        d.Set("signin_policy_name", identityProviderUpdateProperties.SigninPolicyName)
+        d.Set("signup_policy_name", identityProviderUpdateProperties.SignupPolicyName)
+        d.Set("type", string(identityProviderUpdateProperties.Type))
     }
     d.Set("service_name", serviceName)
     d.Set("type", resp.Type)
@@ -233,8 +231,8 @@ func resourceArmIdentityProviderUpdate(d *schema.ResourceData, meta interface{})
     signupPolicyName := d.Get("signup_policy_name").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.IdentityProviderContract{
-        IdentityProviderContractProperties: &apimanagement.IdentityProviderContractProperties{
+    parameters := apimanagement.IdentityProviderUpdateParameters{
+        IdentityProviderUpdateProperties: &apimanagement.IdentityProviderUpdateProperties{
             AllowedTenants: utils.ExpandStringSlice(allowedTenants),
             ClientID: utils.String(clientId),
             ClientSecret: utils.String(clientSecret),

@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
-* `backup_policy_name` - (Required) The name of the backup policy to be created/updated. Changing this forces a new resource to be created.
+* `backup_policy_name` - (Required) The name of backup policy to be fetched. Changing this forces a new resource to be created.
 
 * `device_name` - (Required) The device name Changing this forces a new resource to be created.
 

@@ -80,9 +80,9 @@ The `aad_profile` block supports the following:
 
 The `agent_pool_profile` block supports the following:
 
-* `count` - (Required) Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+* `count` - (Optional) Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
 
-* `vm_size` - (Required) Size of agent VMs.
+* `vm_size` - (Optional) Size of agent VMs. Defaults to `Standard_A1`.
 
 * `os_disk_size_gb` - (Optional) OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
 

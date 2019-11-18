@@ -45,24 +45,32 @@ func resourceArmWorkspace() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "owner_email": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "user_storage_account_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "key_vault_identifier_id": {
                 Type: schema.TypeString,
                 Optional: true,
             },
 
+            "workspace_state": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(machinelearning.Deleted),
+                    string(machinelearning.Enabled),
+                    string(machinelearning.Disabled),
+                    string(machinelearning.Migrated),
+                    string(machinelearning.Updated),
+                    string(machinelearning.Registered),
+                    string(machinelearning.Unregistered),
+                }, false),
+                Default: string(machinelearning.Deleted),
+            },
+
             "creation_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "owner_email": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -77,12 +85,12 @@ func resourceArmWorkspace() *schema.Resource {
                 Computed: true,
             },
 
-            "workspace_id": {
+            "user_storage_account_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
-            "workspace_state": {
+            "workspace_id": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -118,16 +126,14 @@ func resourceArmWorkspaceCreate(d *schema.ResourceData, meta interface{}) error 
 
     location := azure.NormalizeLocation(d.Get("location").(string))
     keyVaultIdentifierId := d.Get("key_vault_identifier_id").(string)
-    ownerEmail := d.Get("owner_email").(string)
-    userStorageAccountId := d.Get("user_storage_account_id").(string)
+    workspaceState := d.Get("workspace_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearning.Workspace{
+    parameters := machinelearning.WorkspaceUpdateParameters{
         Location: utils.String(location),
-        WorkspaceProperties: &machinelearning.WorkspaceProperties{
+        WorkspacePropertiesUpdateParameters: &machinelearning.WorkspacePropertiesUpdateParameters{
             KeyVaultIdentifierID: utils.String(keyVaultIdentifierId),
-            OwnerEmail: utils.String(ownerEmail),
-            UserStorageAccountID: utils.String(userStorageAccountId),
+            WorkspaceState: machinelearning.WorkspaceState(workspaceState),
         },
         Tags: tags.Expand(t),
     }
@@ -178,15 +184,15 @@ func resourceArmWorkspaceRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if workspaceProperties := resp.WorkspaceProperties; workspaceProperties != nil {
-        d.Set("creation_time", workspaceProperties.CreationTime)
-        d.Set("key_vault_identifier_id", workspaceProperties.KeyVaultIdentifierID)
-        d.Set("owner_email", workspaceProperties.OwnerEmail)
-        d.Set("studio_endpoint", workspaceProperties.StudioEndpoint)
-        d.Set("user_storage_account_id", workspaceProperties.UserStorageAccountID)
-        d.Set("workspace_id", workspaceProperties.WorkspaceID)
-        d.Set("workspace_state", string(workspaceProperties.WorkspaceState))
-        d.Set("workspace_type", string(workspaceProperties.WorkspaceType))
+    if workspacePropertiesUpdateParameters := resp.WorkspacePropertiesUpdateParameters; workspacePropertiesUpdateParameters != nil {
+        d.Set("creation_time", workspacePropertiesUpdateParameters.CreationTime)
+        d.Set("key_vault_identifier_id", workspacePropertiesUpdateParameters.KeyVaultIdentifierID)
+        d.Set("owner_email", workspacePropertiesUpdateParameters.OwnerEmail)
+        d.Set("studio_endpoint", workspacePropertiesUpdateParameters.StudioEndpoint)
+        d.Set("user_storage_account_id", workspacePropertiesUpdateParameters.UserStorageAccountID)
+        d.Set("workspace_id", workspacePropertiesUpdateParameters.WorkspaceID)
+        d.Set("workspace_state", string(workspacePropertiesUpdateParameters.WorkspaceState))
+        d.Set("workspace_type", string(workspacePropertiesUpdateParameters.WorkspaceType))
     }
     d.Set("type", resp.Type)
 
@@ -200,16 +206,14 @@ func resourceArmWorkspaceUpdate(d *schema.ResourceData, meta interface{}) error 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     keyVaultIdentifierId := d.Get("key_vault_identifier_id").(string)
-    ownerEmail := d.Get("owner_email").(string)
-    userStorageAccountId := d.Get("user_storage_account_id").(string)
+    workspaceState := d.Get("workspace_state").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearning.Workspace{
+    parameters := machinelearning.WorkspaceUpdateParameters{
         Location: utils.String(location),
-        WorkspaceProperties: &machinelearning.WorkspaceProperties{
+        WorkspacePropertiesUpdateParameters: &machinelearning.WorkspacePropertiesUpdateParameters{
             KeyVaultIdentifierID: utils.String(keyVaultIdentifierId),
-            OwnerEmail: utils.String(ownerEmail),
-            UserStorageAccountID: utils.String(userStorageAccountId),
+            WorkspaceState: machinelearning.WorkspaceState(workspaceState),
         },
         Tags: tags.Expand(t),
     }

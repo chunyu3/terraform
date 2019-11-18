@@ -228,17 +228,17 @@ func resourceArmServiceFabricScheduleCreate(d *schema.ResourceData, meta interfa
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    schedule := devtestlab.Schedule{
+    schedule := devtestlab.ScheduleFragment{
         Location: utils.String(location),
-        ScheduleProperties: &devtestlab.ScheduleProperties{
-            DailyRecurrence: expandArmServiceFabricScheduleDayDetails(dailyRecurrence),
-            HourlyRecurrence: expandArmServiceFabricScheduleHourDetails(hourlyRecurrence),
-            NotificationSettings: expandArmServiceFabricScheduleNotificationSettings(notificationSettings),
+        SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
+            DailyRecurrence: expandArmServiceFabricScheduleDayDetailsFragment(dailyRecurrence),
+            HourlyRecurrence: expandArmServiceFabricScheduleHourDetailsFragment(hourlyRecurrence),
+            NotificationSettings: expandArmServiceFabricScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
             TargetResourceID: utils.String(targetResourceId),
             TaskType: utils.String(taskType),
             TimeZoneID: utils.String(timeZoneId),
-            WeeklyRecurrence: expandArmServiceFabricScheduleWeekDetails(weeklyRecurrence),
+            WeeklyRecurrence: expandArmServiceFabricScheduleWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
     }
@@ -292,24 +292,24 @@ func resourceArmServiceFabricScheduleRead(d *schema.ResourceData, meta interface
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if scheduleProperties := resp.ScheduleProperties; scheduleProperties != nil {
-        d.Set("created_date", (scheduleProperties.CreatedDate).String())
-        if err := d.Set("daily_recurrence", flattenArmServiceFabricScheduleDayDetails(scheduleProperties.DailyRecurrence)); err != nil {
+    if schedulePropertiesFragment := resp.SchedulePropertiesFragment; schedulePropertiesFragment != nil {
+        d.Set("created_date", (schedulePropertiesFragment.CreatedDate).String())
+        if err := d.Set("daily_recurrence", flattenArmServiceFabricScheduleDayDetailsFragment(schedulePropertiesFragment.DailyRecurrence)); err != nil {
             return fmt.Errorf("Error setting `daily_recurrence`: %+v", err)
         }
-        if err := d.Set("hourly_recurrence", flattenArmServiceFabricScheduleHourDetails(scheduleProperties.HourlyRecurrence)); err != nil {
+        if err := d.Set("hourly_recurrence", flattenArmServiceFabricScheduleHourDetailsFragment(schedulePropertiesFragment.HourlyRecurrence)); err != nil {
             return fmt.Errorf("Error setting `hourly_recurrence`: %+v", err)
         }
-        if err := d.Set("notification_settings", flattenArmServiceFabricScheduleNotificationSettings(scheduleProperties.NotificationSettings)); err != nil {
+        if err := d.Set("notification_settings", flattenArmServiceFabricScheduleNotificationSettingsFragment(schedulePropertiesFragment.NotificationSettings)); err != nil {
             return fmt.Errorf("Error setting `notification_settings`: %+v", err)
         }
-        d.Set("provisioning_state", scheduleProperties.ProvisioningState)
-        d.Set("status", string(scheduleProperties.Status))
-        d.Set("target_resource_id", scheduleProperties.TargetResourceID)
-        d.Set("task_type", scheduleProperties.TaskType)
-        d.Set("time_zone_id", scheduleProperties.TimeZoneID)
-        d.Set("unique_identifier", scheduleProperties.UniqueIdentifier)
-        if err := d.Set("weekly_recurrence", flattenArmServiceFabricScheduleWeekDetails(scheduleProperties.WeeklyRecurrence)); err != nil {
+        d.Set("provisioning_state", schedulePropertiesFragment.ProvisioningState)
+        d.Set("status", string(schedulePropertiesFragment.Status))
+        d.Set("target_resource_id", schedulePropertiesFragment.TargetResourceID)
+        d.Set("task_type", schedulePropertiesFragment.TaskType)
+        d.Set("time_zone_id", schedulePropertiesFragment.TimeZoneID)
+        d.Set("unique_identifier", schedulePropertiesFragment.UniqueIdentifier)
+        if err := d.Set("weekly_recurrence", flattenArmServiceFabricScheduleWeekDetailsFragment(schedulePropertiesFragment.WeeklyRecurrence)); err != nil {
             return fmt.Errorf("Error setting `weekly_recurrence`: %+v", err)
         }
     }
@@ -339,17 +339,17 @@ func resourceArmServiceFabricScheduleUpdate(d *schema.ResourceData, meta interfa
     weeklyRecurrence := d.Get("weekly_recurrence").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    schedule := devtestlab.Schedule{
+    schedule := devtestlab.ScheduleFragment{
         Location: utils.String(location),
-        ScheduleProperties: &devtestlab.ScheduleProperties{
-            DailyRecurrence: expandArmServiceFabricScheduleDayDetails(dailyRecurrence),
-            HourlyRecurrence: expandArmServiceFabricScheduleHourDetails(hourlyRecurrence),
-            NotificationSettings: expandArmServiceFabricScheduleNotificationSettings(notificationSettings),
+        SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
+            DailyRecurrence: expandArmServiceFabricScheduleDayDetailsFragment(dailyRecurrence),
+            HourlyRecurrence: expandArmServiceFabricScheduleHourDetailsFragment(hourlyRecurrence),
+            NotificationSettings: expandArmServiceFabricScheduleNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
             TargetResourceID: utils.String(targetResourceId),
             TaskType: utils.String(taskType),
             TimeZoneID: utils.String(timeZoneId),
-            WeeklyRecurrence: expandArmServiceFabricScheduleWeekDetails(weeklyRecurrence),
+            WeeklyRecurrence: expandArmServiceFabricScheduleWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
     }
@@ -384,7 +384,7 @@ func resourceArmServiceFabricScheduleDelete(d *schema.ResourceData, meta interfa
     return nil
 }
 
-func expandArmServiceFabricScheduleDayDetails(input []interface{}) *devtestlab.DayDetails {
+func expandArmServiceFabricScheduleDayDetailsFragment(input []interface{}) *devtestlab.DayDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -392,13 +392,13 @@ func expandArmServiceFabricScheduleDayDetails(input []interface{}) *devtestlab.D
 
     time := v["time"].(string)
 
-    result := devtestlab.DayDetails{
+    result := devtestlab.DayDetailsFragment{
         Time: utils.String(time),
     }
     return &result
 }
 
-func expandArmServiceFabricScheduleHourDetails(input []interface{}) *devtestlab.HourDetails {
+func expandArmServiceFabricScheduleHourDetailsFragment(input []interface{}) *devtestlab.HourDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -406,13 +406,13 @@ func expandArmServiceFabricScheduleHourDetails(input []interface{}) *devtestlab.
 
     minute := v["minute"].(int)
 
-    result := devtestlab.HourDetails{
+    result := devtestlab.HourDetailsFragment{
         Minute: utils.Int32(int32(minute)),
     }
     return &result
 }
 
-func expandArmServiceFabricScheduleNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+func expandArmServiceFabricScheduleNotificationSettingsFragment(input []interface{}) *devtestlab.NotificationSettingsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -424,7 +424,7 @@ func expandArmServiceFabricScheduleNotificationSettings(input []interface{}) *de
     emailRecipient := v["email_recipient"].(string)
     notificationLocale := v["notification_locale"].(string)
 
-    result := devtestlab.NotificationSettings{
+    result := devtestlab.NotificationSettingsFragment{
         EmailRecipient: utils.String(emailRecipient),
         NotificationLocale: utils.String(notificationLocale),
         Status: devtestlab.EnableStatus(status),
@@ -434,7 +434,7 @@ func expandArmServiceFabricScheduleNotificationSettings(input []interface{}) *de
     return &result
 }
 
-func expandArmServiceFabricScheduleWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+func expandArmServiceFabricScheduleWeekDetailsFragment(input []interface{}) *devtestlab.WeekDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -443,7 +443,7 @@ func expandArmServiceFabricScheduleWeekDetails(input []interface{}) *devtestlab.
     weekdays := v["weekdays"].([]interface{})
     time := v["time"].(string)
 
-    result := devtestlab.WeekDetails{
+    result := devtestlab.WeekDetailsFragment{
         Time: utils.String(time),
         Weekdays: utils.ExpandStringSlice(weekdays),
     }
@@ -451,7 +451,7 @@ func expandArmServiceFabricScheduleWeekDetails(input []interface{}) *devtestlab.
 }
 
 
-func flattenArmServiceFabricScheduleDayDetails(input *devtestlab.DayDetails) []interface{} {
+func flattenArmServiceFabricScheduleDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -465,7 +465,7 @@ func flattenArmServiceFabricScheduleDayDetails(input *devtestlab.DayDetails) []i
     return []interface{}{result}
 }
 
-func flattenArmServiceFabricScheduleHourDetails(input *devtestlab.HourDetails) []interface{} {
+func flattenArmServiceFabricScheduleHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -479,7 +479,7 @@ func flattenArmServiceFabricScheduleHourDetails(input *devtestlab.HourDetails) [
     return []interface{}{result}
 }
 
-func flattenArmServiceFabricScheduleNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+func flattenArmServiceFabricScheduleNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -503,7 +503,7 @@ func flattenArmServiceFabricScheduleNotificationSettings(input *devtestlab.Notif
     return []interface{}{result}
 }
 
-func flattenArmServiceFabricScheduleWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+func flattenArmServiceFabricScheduleWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }

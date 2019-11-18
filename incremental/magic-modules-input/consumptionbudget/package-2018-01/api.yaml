@@ -241,6 +241,11 @@ objects:
         go_func_name: ListByResourceGroupName
         python_func_name: list_by_resource_group_name
         request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
 
     description: |
       Manage Azure Budget instance.
@@ -324,6 +329,12 @@ objects:
         description: 'Dictionary of notifications associated with the budget. Budget can have up to five notifications.'
         required: false
         azure_sdk_references: ['/notifications', '/properties/notifications']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Azure Resource Group Name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
       # read only values included only in response
       - !ruby/object:Api::Type::NestedObject
         name: 'currentSpend'

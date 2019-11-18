@@ -123,6 +123,9 @@ objects:
           '/properties/partnerNodeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: PartnerNodeID
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -328,6 +331,9 @@ objects:
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -337,9 +343,6 @@ objects:
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
-          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            go_field_name: Tags
-            python_field_name: tags
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -443,6 +446,12 @@ objects:
         description: 'ARM ID of another HanaInstance that will share a network with this HanaInstance'
         required: false
         azure_sdk_references: ['/partnerNodeId', '/properties/partnerNodeId']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Tags field of the HANA instance.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'hanaInstanceId'
@@ -499,8 +508,3 @@ objects:
         description: 'Resource type'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Azure::Type::Tags
-        name: 'tags'
-        description: 'Resource tags'
-        output: true
-        azure_sdk_references: ['tags', '/tags']

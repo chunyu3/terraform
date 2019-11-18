@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointProperties
-            go_type_name: EndpointProperties
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: origin_host_header
@@ -135,41 +135,6 @@ objects:
           '/properties/geoFilters/countryCodes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: CountryCodes
-          '/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origins
-          '/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/origins/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/origins/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: http_port
-          '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: https_port
-          '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Origins
-            go_type_name: DeepCreatedOrigin
-          '/properties/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/origins/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeepCreatedOriginProperties
-            go_type_name: DeepCreatedOriginProperties
-          '/properties/origins/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/properties/origins/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpPort
-          '/properties/origins/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpsPort
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -238,8 +203,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointProperties
-            go_type_name: EndpointProperties
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/properties/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: OriginHostHeader
@@ -322,6 +287,12 @@ objects:
           '/geoFilters/countryCodes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [python]
             python_field_name: country_codes
+          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
           '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Origins
@@ -357,12 +328,6 @@ objects:
           '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: https_port
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
           '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ResourceState
@@ -429,7 +394,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Resource tags.'
+        description: 'Endpoint tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -518,39 +483,19 @@ objects:
               required: true
               azure_sdk_references: ['/geoFilters/countryCodes', '/properties/geoFilters/countryCodes']
               item_type: Api::Type::String
-      - !ruby/object:Api::Type::Array
-        name: 'origins'
-        description: 'The source of the content being delivered via CDN.'
-        required: true
-        azure_sdk_references: ['/origins', '/properties/origins']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Origin name'
-              required: true
-              azure_sdk_references: ['/origins/name', '/properties/origins/name']
-            - !ruby/object:Api::Type::String
-              name: 'hostName'
-              description: 'The address of the origin. It can be a domain name, IPv4 address, or IPv6 address.'
-              required: true
-              azure_sdk_references: ['/origins/hostName', '/properties/origins/properties/hostName']
-            - !ruby/object:Api::Type::Integer
-              name: 'httpPort'
-              description: 'The value of the HTTP port. Must be between 1 and 65535'
-              required: false
-              azure_sdk_references: ['/origins/httpPort', '/properties/origins/properties/httpPort']
-            - !ruby/object:Api::Type::Integer
-              name: 'httpsPort'
-              description: 'The value of the HTTPS port. Must be between 1 and 65535'
-              required: false
-              azure_sdk_references: ['/origins/httpsPort', '/properties/origins/properties/httpsPort']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'hostName'
         description: 'The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net'
         output: true
         azure_sdk_references: ['/hostName', '/properties/hostName']
+      - !ruby/object:Api::Type::Array
+        name: 'origins'
+        description: 'The source of the content being delivered via CDN.'
+        output: true
+        azure_sdk_references: ['/origins', '/properties/origins']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
       - !ruby/object:Api::Type::Enum
         name: 'resourceState'
         description: 'Resource status of the endpoint.'

@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
+            python_variable_name: server_name
+          'serviceObjectiveName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: serviceObjectives
+            go_variable_name: name
+            python_parameter_name: service_objective_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -87,9 +92,9 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
-            python_variable_name: name
+            python_variable_name: server_name
 
     description: |
       Manage Azure ServiceObjective instance.
@@ -101,11 +106,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'serverName'
         description: 'The name of the server.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the service objective to retrieve.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceObjectiveName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

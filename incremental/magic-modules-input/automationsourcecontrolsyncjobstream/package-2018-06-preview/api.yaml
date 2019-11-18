@@ -42,6 +42,11 @@ objects:
             go_variable_name: sourceControlSyncJobID
             python_parameter_name: source_control_sync_job_id
             python_variable_name: source_control_sync_job_id
+          'streamId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: streams
+            go_variable_name: streamID
+            python_parameter_name: stream_id
+            python_variable_name: stream_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -139,6 +144,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['sourceControlSyncJobId']
+      - !ruby/object:Api::Type::String
+        name: 'streamId'
+        description: 'The id of the sync job stream.'
+        required: true
+        input: true
+        azure_sdk_references: ['streamId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

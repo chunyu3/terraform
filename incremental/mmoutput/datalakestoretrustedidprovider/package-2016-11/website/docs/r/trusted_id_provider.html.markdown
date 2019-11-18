@@ -28,13 +28,13 @@ Manage Azure TrustedIdProvider instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the trusted identity provider. This is used for differentiation of providers in the account. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the trusted identity provider to retrieve. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the Data Lake Store account. Changing this forces a new resource to be created.
 
-* `id_provider` - (Required) The URL of this trusted identity provider.
+* `id_provider` - (Optional) The URL of this trusted identity provider.
 
 ## Attributes Reference
 
