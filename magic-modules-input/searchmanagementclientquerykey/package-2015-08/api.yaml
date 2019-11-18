@@ -51,6 +51,11 @@ objects:
             go_variable_name: name
             python_parameter_name: search_service_name
             python_variable_name: name
+          'key': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deleteQueryKey
+            go_variable_name: key
+            python_parameter_name: key
+            python_variable_name: key
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBySearchService
         python_func_name: list_by_search_service
@@ -87,9 +92,10 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['name']
-      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'key'
-        description: 'The value of the query API key.'
-        output: true
-        azure_sdk_references: ['/key']
+        description: 'The query key to be deleted. Query keys are identified by value, not by name.'
+        required: true
+        input: true
+        azure_sdk_references: ['key']
+      # read only values included only in response

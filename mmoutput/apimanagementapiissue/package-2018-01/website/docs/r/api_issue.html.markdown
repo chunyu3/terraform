@@ -34,19 +34,19 @@ The following arguments are supported:
 
 * `api_id` - (Required) API identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `description` - (Required) Text describing the issue.
-
 * `issue_id` - (Required) Issue identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
-
-* `title` - (Required) The issue title.
-
-* `user_id` - (Required) A resource identifier for the user created the issue.
 
 * `api_id` - (Optional) A resource identifier for the API the issue was created for.
 
 * `created_date` - (Optional) Date and time when the issue was created.
 
+* `description` - (Optional) Text describing the issue.
+
 * `state` - (Optional) Status of the issue. Defaults to `proposed`.
+
+* `title` - (Optional) The issue title.
+
+* `user_id` - (Optional) A resource identifier for the user created the issue.
 
 ## Attributes Reference
 

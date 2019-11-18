@@ -38,9 +38,8 @@ func resourceArmVariable() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -57,11 +56,6 @@ func resourceArmVariable() *schema.Resource {
                 Optional: true,
             },
 
-            "is_encrypted": {
-                Type: schema.TypeBool,
-                Optional: true,
-            },
-
             "value": {
                 Type: schema.TypeString,
                 Optional: true,
@@ -69,6 +63,11 @@ func resourceArmVariable() *schema.Resource {
 
             "creation_time": {
                 Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "is_encrypted": {
+                Type: schema.TypeBool,
                 Computed: true,
             },
 
@@ -107,14 +106,12 @@ func resourceArmVariableCreate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     description := d.Get("description").(string)
-    isEncrypted := d.Get("is_encrypted").(bool)
     value := d.Get("value").(string)
 
-    parameters := automation.VariableCreateOrUpdateParameters{
+    parameters := automation.VariableUpdateParameters{
         Name: utils.String(name),
-        VariableCreateOrUpdateProperties: &automation.VariableCreateOrUpdateProperties{
+        VariableUpdateProperties: &automation.VariableUpdateProperties{
             Description: utils.String(description),
-            IsEncrypted: utils.Bool(isEncrypted),
             Value: utils.String(value),
         },
     }
@@ -164,12 +161,12 @@ func resourceArmVariableRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if variableCreateOrUpdateProperties := resp.VariableCreateOrUpdateProperties; variableCreateOrUpdateProperties != nil {
-        d.Set("creation_time", (variableCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", variableCreateOrUpdateProperties.Description)
-        d.Set("is_encrypted", variableCreateOrUpdateProperties.IsEncrypted)
-        d.Set("last_modified_time", (variableCreateOrUpdateProperties.LastModifiedTime).String())
-        d.Set("value", variableCreateOrUpdateProperties.Value)
+    if variableUpdateProperties := resp.VariableUpdateProperties; variableUpdateProperties != nil {
+        d.Set("creation_time", (variableUpdateProperties.CreationTime).String())
+        d.Set("description", variableUpdateProperties.Description)
+        d.Set("is_encrypted", variableUpdateProperties.IsEncrypted)
+        d.Set("last_modified_time", (variableUpdateProperties.LastModifiedTime).String())
+        d.Set("value", variableUpdateProperties.Value)
     }
     d.Set("type", resp.Type)
 
@@ -185,14 +182,12 @@ func resourceArmVariableUpdate(d *schema.ResourceData, meta interface{}) error {
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
     description := d.Get("description").(string)
-    isEncrypted := d.Get("is_encrypted").(bool)
     value := d.Get("value").(string)
 
-    parameters := automation.VariableCreateOrUpdateParameters{
+    parameters := automation.VariableUpdateParameters{
         Name: utils.String(name),
-        VariableCreateOrUpdateProperties: &automation.VariableCreateOrUpdateProperties{
+        VariableUpdateProperties: &automation.VariableUpdateProperties{
             Description: utils.String(description),
-            IsEncrypted: utils.Bool(isEncrypted),
             Value: utils.String(value),
         },
     }

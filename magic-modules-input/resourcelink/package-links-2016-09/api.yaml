@@ -102,6 +102,11 @@ objects:
         go_func_name: ListAtSourceScope
         python_func_name: list_at_source_scope
         request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListAtSubscription
         python_func_name: list_at_subscription
@@ -112,7 +117,7 @@ objects:
     properties:
       - !ruby/object:Api::Type::String
         name: 'linkId'
-        description: 'The fully qualified ID of the resource link. Use the format, /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/{provider-namespace}/{resource-type}/{resource-name}/Microsoft.Resources/links/{link-name}. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink'
+        description: 'The fully qualified Id of the resource link. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink'
         required: true
         input: true
         azure_sdk_references: ['linkId']
@@ -126,6 +131,12 @@ objects:
         description: 'Notes about the resource link.'
         required: false
         azure_sdk_references: ['/notes', '/properties/notes']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The fully qualified ID of the scope for getting the resource links. For example, to list resource links at and under a resource group, set the scope to /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'sourceId'

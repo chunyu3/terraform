@@ -30,9 +30,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: createUpdateParameters
             go_type_name: DatabaseAccountCreateUpdateParameters
@@ -190,9 +190,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -204,9 +204,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -479,9 +479,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetrics
         python_func_name: list_metrics
@@ -493,9 +493,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetricDefinitions
         python_func_name: list_metric_definitions
@@ -507,9 +507,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListTables
         python_func_name: list_tables
@@ -521,9 +521,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSqlDatabases
         python_func_name: list_sql_databases
@@ -535,9 +535,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMongoDBDatabases
         python_func_name: list_mongo_dbdatabases
@@ -549,9 +549,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListGremlinDatabases
         python_func_name: list_gremlin_databases
@@ -563,9 +563,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListCassandraKeyspaces
         python_func_name: list_cassandra_keyspaces
@@ -577,9 +577,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListGremlinGraphs
         python_func_name: list_gremlin_graphs
@@ -591,9 +591,14 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSqlContainers
         python_func_name: list_sql_containers
@@ -605,9 +610,14 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListCassandraTables
         python_func_name: list_cassandra_tables
@@ -619,9 +629,14 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
+          'keyspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: keyspaces
+            go_variable_name: keyspaceName
+            python_parameter_name: keyspace_name
+            python_variable_name: keyspace_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMongoDBCollections
         python_func_name: list_mongo_dbcollections
@@ -633,9 +648,14 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: databases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
 
     description: |
       Manage Azure DatabaseAccount instance.
@@ -647,7 +667,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'accountName'
         description: 'Cosmos DB database account name.'
         required: true
         input: true
@@ -791,6 +811,42 @@ objects:
         values:
           - :Small
         default_value: :Small
+      - !ruby/object:Api::Type::String
+        name: 'tableName'
+        description: 'Cosmos DB table name.'
+        required: true
+        input: true
+        azure_sdk_references: ['tableName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'Cosmos DB database name.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'keyspaceName'
+        description: 'Cosmos DB keyspace name.'
+        required: true
+        input: true
+        azure_sdk_references: ['keyspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'graphName'
+        description: 'Cosmos DB graph name.'
+        required: true
+        input: true
+        azure_sdk_references: ['graphName']
+      - !ruby/object:Api::Type::String
+        name: 'containerName'
+        description: 'Cosmos DB container name.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Cosmos DB collection name.'
+        required: true
+        input: true
+        azure_sdk_references: ['collectionName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'

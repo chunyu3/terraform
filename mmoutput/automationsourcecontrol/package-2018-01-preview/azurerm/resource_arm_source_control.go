@@ -75,11 +75,6 @@ func resourceArmSourceControl() *schema.Resource {
                 Optional: true,
             },
 
-            "repo_url": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
             "security_token": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -107,23 +102,22 @@ func resourceArmSourceControl() *schema.Resource {
                 },
             },
 
-            "source_type": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(automation.VsoGit),
-                    string(automation.VsoTfvc),
-                    string(automation.GitHub),
-                }, false),
-                Default: string(automation.VsoGit),
-            },
-
             "creation_time": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
             "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "repo_url": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "source_type": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -161,20 +155,16 @@ func resourceArmSourceControlCreate(d *schema.ResourceData, meta interface{}) er
     description := d.Get("description").(string)
     folderPath := d.Get("folder_path").(string)
     publishRunbook := d.Get("publish_runbook").(bool)
-    repoUrl := d.Get("repo_url").(string)
     securityToken := d.Get("security_token").([]interface{})
-    sourceType := d.Get("source_type").(string)
 
-    parameters := automation.SourceControlCreateOrUpdateParameters{
-        SourceControlCreateOrUpdateProperties: &automation.SourceControlCreateOrUpdateProperties{
+    parameters := automation.SourceControlUpdateParameters{
+        SourceControlUpdateProperties: &automation.SourceControlUpdateProperties{
             AutoSync: utils.Bool(autoSync),
             Branch: utils.String(branch),
             Description: utils.String(description),
             FolderPath: utils.String(folderPath),
             PublishRunbook: utils.Bool(publishRunbook),
-            RepoURL: utils.String(repoUrl),
             SecurityToken: expandArmSourceControlSourceControlSecurityTokenProperties(securityToken),
-            SourceType: automation.SourceType(sourceType),
         },
     }
 
@@ -222,16 +212,16 @@ func resourceArmSourceControlRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if sourceControlCreateOrUpdateProperties := resp.SourceControlCreateOrUpdateProperties; sourceControlCreateOrUpdateProperties != nil {
-        d.Set("auto_sync", sourceControlCreateOrUpdateProperties.AutoSync)
-        d.Set("branch", sourceControlCreateOrUpdateProperties.Branch)
-        d.Set("creation_time", (sourceControlCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", sourceControlCreateOrUpdateProperties.Description)
-        d.Set("folder_path", sourceControlCreateOrUpdateProperties.FolderPath)
-        d.Set("last_modified_time", (sourceControlCreateOrUpdateProperties.LastModifiedTime).String())
-        d.Set("publish_runbook", sourceControlCreateOrUpdateProperties.PublishRunbook)
-        d.Set("repo_url", sourceControlCreateOrUpdateProperties.RepoURL)
-        d.Set("source_type", string(sourceControlCreateOrUpdateProperties.SourceType))
+    if sourceControlUpdateProperties := resp.SourceControlUpdateProperties; sourceControlUpdateProperties != nil {
+        d.Set("auto_sync", sourceControlUpdateProperties.AutoSync)
+        d.Set("branch", sourceControlUpdateProperties.Branch)
+        d.Set("creation_time", (sourceControlUpdateProperties.CreationTime).String())
+        d.Set("description", sourceControlUpdateProperties.Description)
+        d.Set("folder_path", sourceControlUpdateProperties.FolderPath)
+        d.Set("last_modified_time", (sourceControlUpdateProperties.LastModifiedTime).String())
+        d.Set("publish_runbook", sourceControlUpdateProperties.PublishRunbook)
+        d.Set("repo_url", sourceControlUpdateProperties.RepoURL)
+        d.Set("source_type", string(sourceControlUpdateProperties.SourceType))
     }
     d.Set("automation_account_name", automationAccountName)
     d.Set("type", resp.Type)
@@ -251,20 +241,16 @@ func resourceArmSourceControlUpdate(d *schema.ResourceData, meta interface{}) er
     description := d.Get("description").(string)
     folderPath := d.Get("folder_path").(string)
     publishRunbook := d.Get("publish_runbook").(bool)
-    repoUrl := d.Get("repo_url").(string)
     securityToken := d.Get("security_token").([]interface{})
-    sourceType := d.Get("source_type").(string)
 
-    parameters := automation.SourceControlCreateOrUpdateParameters{
-        SourceControlCreateOrUpdateProperties: &automation.SourceControlCreateOrUpdateProperties{
+    parameters := automation.SourceControlUpdateParameters{
+        SourceControlUpdateProperties: &automation.SourceControlUpdateProperties{
             AutoSync: utils.Bool(autoSync),
             Branch: utils.String(branch),
             Description: utils.String(description),
             FolderPath: utils.String(folderPath),
             PublishRunbook: utils.Bool(publishRunbook),
-            RepoURL: utils.String(repoUrl),
             SecurityToken: expandArmSourceControlSourceControlSecurityTokenProperties(securityToken),
-            SourceType: automation.SourceType(sourceType),
         },
     }
 

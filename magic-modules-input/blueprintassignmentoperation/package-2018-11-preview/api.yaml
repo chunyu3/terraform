@@ -29,8 +29,13 @@ objects:
             python_variable_name: scope
           'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprintAssignments
-            go_variable_name: name
+            go_variable_name: assignmentName
             python_parameter_name: assignment_name
+            python_variable_name: assignment_name
+          'assignmentOperationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: assignmentOperations
+            go_variable_name: name
+            python_parameter_name: assignment_operation_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -232,9 +237,9 @@ objects:
             python_variable_name: scope
           'assignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprintAssignments
-            go_variable_name: name
+            go_variable_name: assignmentName
             python_parameter_name: assignment_name
-            python_variable_name: name
+            python_variable_name: assignment_name
 
     description: |
       Manage Azure AssignmentOperation instance.
@@ -246,11 +251,17 @@ objects:
         input: true
         azure_sdk_references: ['scope']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'assignmentName'
         description: 'Name of the blueprint assignment.'
         required: true
         input: true
         azure_sdk_references: ['assignmentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the blueprint assignment operation.'
+        required: true
+        input: true
+        azure_sdk_references: ['assignmentOperationName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

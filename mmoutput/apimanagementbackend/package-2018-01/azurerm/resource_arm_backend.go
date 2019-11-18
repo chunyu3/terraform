@@ -50,21 +50,6 @@ func resourceArmBackend() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "protocol": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(apimanagement.http),
-                    string(apimanagement.soap),
-                }, false),
-            },
-
-            "url": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "credentials": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -114,6 +99,16 @@ func resourceArmBackend() *schema.Resource {
             "description": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "protocol": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(apimanagement.http),
+                    string(apimanagement.soap),
+                }, false),
+                Default: string(apimanagement.http),
             },
 
             "proxy": {
@@ -216,6 +211,11 @@ func resourceArmBackend() *schema.Resource {
                 },
             },
 
+            "url": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -254,8 +254,8 @@ func resourceArmBackendCreate(d *schema.ResourceData, meta interface{}) error {
     tls := d.Get("tls").([]interface{})
     url := d.Get("url").(string)
 
-    parameters := apimanagement.BackendContract{
-        BackendContractProperties: &apimanagement.BackendContractProperties{
+    parameters := apimanagement.BackendUpdateParameters{
+        BackendUpdateParameterProperties: &apimanagement.BackendUpdateParameterProperties{
             Credentials: expandArmBackendBackendCredentialsContract(credentials),
             Description: utils.String(description),
             BackendProperties: &apimanagement.BackendProperties{
@@ -315,26 +315,26 @@ func resourceArmBackendRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("backendid", backendid)
-    if backendContractProperties := resp.BackendContractProperties; backendContractProperties != nil {
-        if err := d.Set("credentials", flattenArmBackendBackendCredentialsContract(backendContractProperties.Credentials)); err != nil {
+    if backendUpdateParameterProperties := resp.BackendUpdateParameterProperties; backendUpdateParameterProperties != nil {
+        if err := d.Set("credentials", flattenArmBackendBackendCredentialsContract(backendUpdateParameterProperties.Credentials)); err != nil {
             return fmt.Errorf("Error setting `credentials`: %+v", err)
         }
-        d.Set("description", backendContractProperties.Description)
-        d.Set("protocol", string(backendContractProperties.Protocol))
-        if err := d.Set("proxy", flattenArmBackendBackendProxyContract(backendContractProperties.Proxy)); err != nil {
+        d.Set("description", backendUpdateParameterProperties.Description)
+        d.Set("protocol", string(backendUpdateParameterProperties.Protocol))
+        if err := d.Set("proxy", flattenArmBackendBackendProxyContract(backendUpdateParameterProperties.Proxy)); err != nil {
             return fmt.Errorf("Error setting `proxy`: %+v", err)
         }
-        d.Set("resource_id", backendContractProperties.ResourceID)
-        if backendProperties := backendContractProperties.BackendProperties; backendProperties != nil {
+        d.Set("resource_id", backendUpdateParameterProperties.ResourceID)
+        if backendProperties := backendUpdateParameterProperties.BackendProperties; backendProperties != nil {
             if err := d.Set("service_fabric_cluster", flattenArmBackendBackendServiceFabricClusterProperties(backendProperties.ServiceFabricCluster)); err != nil {
                 return fmt.Errorf("Error setting `service_fabric_cluster`: %+v", err)
             }
         }
-        d.Set("title", backendContractProperties.Title)
-        if err := d.Set("tls", flattenArmBackendBackendTlsProperties(backendContractProperties.Tls)); err != nil {
+        d.Set("title", backendUpdateParameterProperties.Title)
+        if err := d.Set("tls", flattenArmBackendBackendTlsProperties(backendUpdateParameterProperties.Tls)); err != nil {
             return fmt.Errorf("Error setting `tls`: %+v", err)
         }
-        d.Set("url", backendContractProperties.URL)
+        d.Set("url", backendUpdateParameterProperties.URL)
     }
     d.Set("type", resp.Type)
 
@@ -358,8 +358,8 @@ func resourceArmBackendUpdate(d *schema.ResourceData, meta interface{}) error {
     tls := d.Get("tls").([]interface{})
     url := d.Get("url").(string)
 
-    parameters := apimanagement.BackendContract{
-        BackendContractProperties: &apimanagement.BackendContractProperties{
+    parameters := apimanagement.BackendUpdateParameters{
+        BackendUpdateParameterProperties: &apimanagement.BackendUpdateParameterProperties{
             Credentials: expandArmBackendBackendCredentialsContract(credentials),
             Description: utils.String(description),
             BackendProperties: &apimanagement.BackendProperties{

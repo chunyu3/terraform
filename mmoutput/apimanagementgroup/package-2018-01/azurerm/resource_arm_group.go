@@ -43,12 +43,6 @@ func resourceArmGroup() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "display_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "group_id": {
                 Type: schema.TypeString,
                 Required: true,
@@ -57,6 +51,11 @@ func resourceArmGroup() *schema.Resource {
             },
 
             "description": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "display_name": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -115,8 +114,8 @@ func resourceArmGroupCreate(d *schema.ResourceData, meta interface{}) error {
     externalId := d.Get("external_id").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.GroupCreateParameters{
-        GroupCreateParametersProperties: &apimanagement.GroupCreateParametersProperties{
+    parameters := apimanagement.GroupUpdateParameters{
+        GroupUpdateParametersProperties: &apimanagement.GroupUpdateParametersProperties{
             Description: utils.String(description),
             DisplayName: utils.String(displayName),
             ExternalID: utils.String(externalId),
@@ -168,12 +167,12 @@ func resourceArmGroupRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if groupCreateParametersProperties := resp.GroupCreateParametersProperties; groupCreateParametersProperties != nil {
-        d.Set("built_in", groupCreateParametersProperties.BuiltIn)
-        d.Set("description", groupCreateParametersProperties.Description)
-        d.Set("display_name", groupCreateParametersProperties.DisplayName)
-        d.Set("external_id", groupCreateParametersProperties.ExternalID)
-        d.Set("type", string(groupCreateParametersProperties.Type))
+    if groupUpdateParametersProperties := resp.GroupUpdateParametersProperties; groupUpdateParametersProperties != nil {
+        d.Set("built_in", groupUpdateParametersProperties.BuiltIn)
+        d.Set("description", groupUpdateParametersProperties.Description)
+        d.Set("display_name", groupUpdateParametersProperties.DisplayName)
+        d.Set("external_id", groupUpdateParametersProperties.ExternalID)
+        d.Set("type", string(groupUpdateParametersProperties.Type))
     }
     d.Set("group_id", groupID)
     d.Set("type", resp.Type)
@@ -196,8 +195,8 @@ func resourceArmGroupUpdate(d *schema.ResourceData, meta interface{}) error {
     groupID := d.Get("group_id").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.GroupCreateParameters{
-        GroupCreateParametersProperties: &apimanagement.GroupCreateParametersProperties{
+    parameters := apimanagement.GroupUpdateParameters{
+        GroupUpdateParametersProperties: &apimanagement.GroupUpdateParametersProperties{
             Description: utils.String(description),
             DisplayName: utils.String(displayName),
             ExternalID: utils.String(externalId),

@@ -38,9 +38,8 @@ func resourceArmCertificate() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -52,23 +51,7 @@ func resourceArmCertificate() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "base64value": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "description": {
-                Type: schema.TypeString,
-                Optional: true,
-            },
-
-            "is_exportable": {
-                Type: schema.TypeBool,
-                Optional: true,
-            },
-
-            "thumbprint": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -83,7 +66,17 @@ func resourceArmCertificate() *schema.Resource {
                 Computed: true,
             },
 
+            "is_exportable": {
+                Type: schema.TypeBool,
+                Computed: true,
+            },
+
             "last_modified_time": {
+                Type: schema.TypeString,
+                Computed: true,
+            },
+
+            "thumbprint": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -117,18 +110,12 @@ func resourceArmCertificateCreate(d *schema.ResourceData, meta interface{}) erro
     }
 
     name := d.Get("name").(string)
-    base64value := d.Get("base64value").(string)
     description := d.Get("description").(string)
-    isExportable := d.Get("is_exportable").(bool)
-    thumbprint := d.Get("thumbprint").(string)
 
-    parameters := automation.CertificateCreateOrUpdateParameters{
+    parameters := automation.CertificateUpdateParameters{
         Name: utils.String(name),
-        CertificateCreateOrUpdateProperties: &automation.CertificateCreateOrUpdateProperties{
-            Base64value: utils.String(base64value),
+        CertificateUpdateProperties: &automation.CertificateUpdateProperties{
             Description: utils.String(description),
-            IsExportable: utils.Bool(isExportable),
-            Thumbprint: utils.String(thumbprint),
         },
     }
 
@@ -177,13 +164,13 @@ func resourceArmCertificateRead(d *schema.ResourceData, meta interface{}) error 
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("automation_account_name", automationAccountName)
-    if certificateCreateOrUpdateProperties := resp.CertificateCreateOrUpdateProperties; certificateCreateOrUpdateProperties != nil {
-        d.Set("creation_time", (certificateCreateOrUpdateProperties.CreationTime).String())
-        d.Set("description", certificateCreateOrUpdateProperties.Description)
-        d.Set("expiry_time", (certificateCreateOrUpdateProperties.ExpiryTime).String())
-        d.Set("is_exportable", certificateCreateOrUpdateProperties.IsExportable)
-        d.Set("last_modified_time", (certificateCreateOrUpdateProperties.LastModifiedTime).String())
-        d.Set("thumbprint", certificateCreateOrUpdateProperties.Thumbprint)
+    if certificateUpdateProperties := resp.CertificateUpdateProperties; certificateUpdateProperties != nil {
+        d.Set("creation_time", (certificateUpdateProperties.CreationTime).String())
+        d.Set("description", certificateUpdateProperties.Description)
+        d.Set("expiry_time", (certificateUpdateProperties.ExpiryTime).String())
+        d.Set("is_exportable", certificateUpdateProperties.IsExportable)
+        d.Set("last_modified_time", (certificateUpdateProperties.LastModifiedTime).String())
+        d.Set("thumbprint", certificateUpdateProperties.Thumbprint)
     }
     d.Set("type", resp.Type)
 
@@ -198,18 +185,12 @@ func resourceArmCertificateUpdate(d *schema.ResourceData, meta interface{}) erro
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     automationAccountName := d.Get("automation_account_name").(string)
-    base64value := d.Get("base64value").(string)
     description := d.Get("description").(string)
-    isExportable := d.Get("is_exportable").(bool)
-    thumbprint := d.Get("thumbprint").(string)
 
-    parameters := automation.CertificateCreateOrUpdateParameters{
+    parameters := automation.CertificateUpdateParameters{
         Name: utils.String(name),
-        CertificateCreateOrUpdateProperties: &automation.CertificateCreateOrUpdateProperties{
-            Base64value: utils.String(base64value),
+        CertificateUpdateProperties: &automation.CertificateUpdateProperties{
             Description: utils.String(description),
-            IsExportable: utils.Bool(isExportable),
-            Thumbprint: utils.String(thumbprint),
         },
     }
 

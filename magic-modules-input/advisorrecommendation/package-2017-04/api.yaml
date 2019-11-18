@@ -22,6 +22,16 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'resourceUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceUri
+            python_parameter_name: resource_uri
+            python_variable_name: resource_uri
+          'recommendationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recommendations
+            go_variable_name: recommendationID
+            python_parameter_name: recommendation_id
+            python_variable_name: recommendation_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -126,6 +136,24 @@ objects:
     description: |
       Manage Azure Recommendation instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceUri'
+        description: 'The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceUri']
+      - !ruby/object:Api::Type::String
+        name: 'recommendationId'
+        description: 'The recommendation ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['recommendationId']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'The operation ID, which can be found from the Location field in the generate recommendation response header.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

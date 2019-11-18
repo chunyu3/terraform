@@ -30,7 +30,7 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the association. Changing this forces a new resource to be created.
 
-* `scope` - (Required) The scope of the association. The scope can be any valid REST resource instance. For example, use '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/virtualMachines/{vm-name}' for a virtual machine resource. Changing this forces a new resource to be created.
+* `scope` - (Required) The scope of the association. Changing this forces a new resource to be created.
 
 * `target_resource_id` - (Optional) The REST resource instance of the target resource for this association.
 

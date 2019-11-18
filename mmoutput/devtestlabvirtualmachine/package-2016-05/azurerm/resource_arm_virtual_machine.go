@@ -720,14 +720,14 @@ func resourceArmVirtualMachineCreate(d *schema.ResourceData, meta interface{}) e
     virtualMachineCreationSource := d.Get("virtual_machine_creation_source").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    labVirtualMachine := devtestlab.LabVirtualMachine{
+    labVirtualMachine := devtestlab.LabVirtualMachineFragment{
         Location: utils.String(location),
-        LabVirtualMachineProperties: &devtestlab.LabVirtualMachineProperties{
+        LabVirtualMachinePropertiesFragment: &devtestlab.LabVirtualMachinePropertiesFragment{
             AllowClaim: utils.Bool(allowClaim),
-            ApplicableSchedule: expandArmVirtualMachineApplicableSchedule(applicableSchedule),
-            ArtifactDeploymentStatus: expandArmVirtualMachineArtifactDeploymentStatusProperties(artifactDeploymentStatus),
-            Artifacts: expandArmVirtualMachineArtifactInstallProperties(artifacts),
-            ComputeVm: expandArmVirtualMachineComputeVmProperties(computeVm),
+            ApplicableSchedule: expandArmVirtualMachineApplicableScheduleFragment(applicableSchedule),
+            ArtifactDeploymentStatus: expandArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(artifactDeploymentStatus),
+            Artifacts: expandArmVirtualMachineArtifactInstallPropertiesFragment(artifacts),
+            ComputeVm: expandArmVirtualMachineComputeVmPropertiesFragment(computeVm),
             CreatedByUser: utils.String(createdByUser),
             CreatedByUserID: utils.String(createdByUserId),
             CreatedDate: convertStringToDate(createdDate),
@@ -736,11 +736,11 @@ func resourceArmVirtualMachineCreate(d *schema.ResourceData, meta interface{}) e
             EnvironmentID: utils.String(environmentId),
             ExpirationDate: convertStringToDate(expirationDate),
             Fqdn: utils.String(fqdn),
-            GalleryImageReference: expandArmVirtualMachineGalleryImageReference(galleryImageReference),
+            GalleryImageReference: expandArmVirtualMachineGalleryImageReferenceFragment(galleryImageReference),
             IsAuthenticationWithSshKey: utils.Bool(isAuthenticationWithSshKey),
             LabSubnetName: utils.String(labSubnetName),
             LabVirtualNetworkID: utils.String(labVirtualNetworkId),
-            NetworkInterface: expandArmVirtualMachineNetworkInterfaceProperties(networkInterface),
+            NetworkInterface: expandArmVirtualMachineNetworkInterfacePropertiesFragment(networkInterface),
             Notes: utils.String(notes),
             OsType: utils.String(osType),
             OwnerObjectID: utils.String(ownerObjectId),
@@ -807,50 +807,50 @@ func resourceArmVirtualMachineRead(d *schema.ResourceData, meta interface{}) err
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if labVirtualMachineProperties := resp.LabVirtualMachineProperties; labVirtualMachineProperties != nil {
-        d.Set("allow_claim", labVirtualMachineProperties.AllowClaim)
-        if err := d.Set("applicable_schedule", flattenArmVirtualMachineApplicableSchedule(labVirtualMachineProperties.ApplicableSchedule)); err != nil {
+    if labVirtualMachinePropertiesFragment := resp.LabVirtualMachinePropertiesFragment; labVirtualMachinePropertiesFragment != nil {
+        d.Set("allow_claim", labVirtualMachinePropertiesFragment.AllowClaim)
+        if err := d.Set("applicable_schedule", flattenArmVirtualMachineApplicableScheduleFragment(labVirtualMachinePropertiesFragment.ApplicableSchedule)); err != nil {
             return fmt.Errorf("Error setting `applicable_schedule`: %+v", err)
         }
-        if err := d.Set("artifact_deployment_status", flattenArmVirtualMachineArtifactDeploymentStatusProperties(labVirtualMachineProperties.ArtifactDeploymentStatus)); err != nil {
+        if err := d.Set("artifact_deployment_status", flattenArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(labVirtualMachinePropertiesFragment.ArtifactDeploymentStatus)); err != nil {
             return fmt.Errorf("Error setting `artifact_deployment_status`: %+v", err)
         }
-        if err := d.Set("artifacts", flattenArmVirtualMachineArtifactInstallProperties(labVirtualMachineProperties.Artifacts)); err != nil {
+        if err := d.Set("artifacts", flattenArmVirtualMachineArtifactInstallPropertiesFragment(labVirtualMachinePropertiesFragment.Artifacts)); err != nil {
             return fmt.Errorf("Error setting `artifacts`: %+v", err)
         }
-        d.Set("compute_id", labVirtualMachineProperties.ComputeID)
-        if err := d.Set("compute_vm", flattenArmVirtualMachineComputeVmProperties(labVirtualMachineProperties.ComputeVm)); err != nil {
+        d.Set("compute_id", labVirtualMachinePropertiesFragment.ComputeID)
+        if err := d.Set("compute_vm", flattenArmVirtualMachineComputeVmPropertiesFragment(labVirtualMachinePropertiesFragment.ComputeVm)); err != nil {
             return fmt.Errorf("Error setting `compute_vm`: %+v", err)
         }
-        d.Set("created_by_user", labVirtualMachineProperties.CreatedByUser)
-        d.Set("created_by_user_id", labVirtualMachineProperties.CreatedByUserID)
-        d.Set("created_date", (labVirtualMachineProperties.CreatedDate).String())
-        d.Set("custom_image_id", labVirtualMachineProperties.CustomImageID)
-        d.Set("disallow_public_ip_address", labVirtualMachineProperties.DisallowPublicIpAddress)
-        d.Set("environment_id", labVirtualMachineProperties.EnvironmentID)
-        d.Set("expiration_date", (labVirtualMachineProperties.ExpirationDate).String())
-        d.Set("fqdn", labVirtualMachineProperties.Fqdn)
-        if err := d.Set("gallery_image_reference", flattenArmVirtualMachineGalleryImageReference(labVirtualMachineProperties.GalleryImageReference)); err != nil {
+        d.Set("created_by_user", labVirtualMachinePropertiesFragment.CreatedByUser)
+        d.Set("created_by_user_id", labVirtualMachinePropertiesFragment.CreatedByUserID)
+        d.Set("created_date", (labVirtualMachinePropertiesFragment.CreatedDate).String())
+        d.Set("custom_image_id", labVirtualMachinePropertiesFragment.CustomImageID)
+        d.Set("disallow_public_ip_address", labVirtualMachinePropertiesFragment.DisallowPublicIpAddress)
+        d.Set("environment_id", labVirtualMachinePropertiesFragment.EnvironmentID)
+        d.Set("expiration_date", (labVirtualMachinePropertiesFragment.ExpirationDate).String())
+        d.Set("fqdn", labVirtualMachinePropertiesFragment.Fqdn)
+        if err := d.Set("gallery_image_reference", flattenArmVirtualMachineGalleryImageReferenceFragment(labVirtualMachinePropertiesFragment.GalleryImageReference)); err != nil {
             return fmt.Errorf("Error setting `gallery_image_reference`: %+v", err)
         }
-        d.Set("is_authentication_with_ssh_key", labVirtualMachineProperties.IsAuthenticationWithSshKey)
-        d.Set("lab_subnet_name", labVirtualMachineProperties.LabSubnetName)
-        d.Set("lab_virtual_network_id", labVirtualMachineProperties.LabVirtualNetworkID)
-        if err := d.Set("network_interface", flattenArmVirtualMachineNetworkInterfaceProperties(labVirtualMachineProperties.NetworkInterface)); err != nil {
+        d.Set("is_authentication_with_ssh_key", labVirtualMachinePropertiesFragment.IsAuthenticationWithSshKey)
+        d.Set("lab_subnet_name", labVirtualMachinePropertiesFragment.LabSubnetName)
+        d.Set("lab_virtual_network_id", labVirtualMachinePropertiesFragment.LabVirtualNetworkID)
+        if err := d.Set("network_interface", flattenArmVirtualMachineNetworkInterfacePropertiesFragment(labVirtualMachinePropertiesFragment.NetworkInterface)); err != nil {
             return fmt.Errorf("Error setting `network_interface`: %+v", err)
         }
-        d.Set("notes", labVirtualMachineProperties.Notes)
-        d.Set("os_type", labVirtualMachineProperties.OsType)
-        d.Set("owner_object_id", labVirtualMachineProperties.OwnerObjectID)
-        d.Set("owner_user_principal_name", labVirtualMachineProperties.OwnerUserPrincipalName)
-        d.Set("password", labVirtualMachineProperties.Password)
-        d.Set("provisioning_state", labVirtualMachineProperties.ProvisioningState)
-        d.Set("size", labVirtualMachineProperties.Size)
-        d.Set("ssh_key", labVirtualMachineProperties.SshKey)
-        d.Set("storage_type", labVirtualMachineProperties.StorageType)
-        d.Set("unique_identifier", labVirtualMachineProperties.UniqueIdentifier)
-        d.Set("user_name", labVirtualMachineProperties.UserName)
-        d.Set("virtual_machine_creation_source", string(labVirtualMachineProperties.VirtualMachineCreationSource))
+        d.Set("notes", labVirtualMachinePropertiesFragment.Notes)
+        d.Set("os_type", labVirtualMachinePropertiesFragment.OsType)
+        d.Set("owner_object_id", labVirtualMachinePropertiesFragment.OwnerObjectID)
+        d.Set("owner_user_principal_name", labVirtualMachinePropertiesFragment.OwnerUserPrincipalName)
+        d.Set("password", labVirtualMachinePropertiesFragment.Password)
+        d.Set("provisioning_state", labVirtualMachinePropertiesFragment.ProvisioningState)
+        d.Set("size", labVirtualMachinePropertiesFragment.Size)
+        d.Set("ssh_key", labVirtualMachinePropertiesFragment.SshKey)
+        d.Set("storage_type", labVirtualMachinePropertiesFragment.StorageType)
+        d.Set("unique_identifier", labVirtualMachinePropertiesFragment.UniqueIdentifier)
+        d.Set("user_name", labVirtualMachinePropertiesFragment.UserName)
+        d.Set("virtual_machine_creation_source", string(labVirtualMachinePropertiesFragment.VirtualMachineCreationSource))
     }
     d.Set("type", resp.Type)
 
@@ -895,14 +895,14 @@ func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) e
     virtualMachineCreationSource := d.Get("virtual_machine_creation_source").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    labVirtualMachine := devtestlab.LabVirtualMachine{
+    labVirtualMachine := devtestlab.LabVirtualMachineFragment{
         Location: utils.String(location),
-        LabVirtualMachineProperties: &devtestlab.LabVirtualMachineProperties{
+        LabVirtualMachinePropertiesFragment: &devtestlab.LabVirtualMachinePropertiesFragment{
             AllowClaim: utils.Bool(allowClaim),
-            ApplicableSchedule: expandArmVirtualMachineApplicableSchedule(applicableSchedule),
-            ArtifactDeploymentStatus: expandArmVirtualMachineArtifactDeploymentStatusProperties(artifactDeploymentStatus),
-            Artifacts: expandArmVirtualMachineArtifactInstallProperties(artifacts),
-            ComputeVm: expandArmVirtualMachineComputeVmProperties(computeVm),
+            ApplicableSchedule: expandArmVirtualMachineApplicableScheduleFragment(applicableSchedule),
+            ArtifactDeploymentStatus: expandArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(artifactDeploymentStatus),
+            Artifacts: expandArmVirtualMachineArtifactInstallPropertiesFragment(artifacts),
+            ComputeVm: expandArmVirtualMachineComputeVmPropertiesFragment(computeVm),
             CreatedByUser: utils.String(createdByUser),
             CreatedByUserID: utils.String(createdByUserId),
             CreatedDate: convertStringToDate(createdDate),
@@ -911,11 +911,11 @@ func resourceArmVirtualMachineUpdate(d *schema.ResourceData, meta interface{}) e
             EnvironmentID: utils.String(environmentId),
             ExpirationDate: convertStringToDate(expirationDate),
             Fqdn: utils.String(fqdn),
-            GalleryImageReference: expandArmVirtualMachineGalleryImageReference(galleryImageReference),
+            GalleryImageReference: expandArmVirtualMachineGalleryImageReferenceFragment(galleryImageReference),
             IsAuthenticationWithSshKey: utils.Bool(isAuthenticationWithSshKey),
             LabSubnetName: utils.String(labSubnetName),
             LabVirtualNetworkID: utils.String(labVirtualNetworkId),
-            NetworkInterface: expandArmVirtualMachineNetworkInterfaceProperties(networkInterface),
+            NetworkInterface: expandArmVirtualMachineNetworkInterfacePropertiesFragment(networkInterface),
             Notes: utils.String(notes),
             OsType: utils.String(osType),
             OwnerObjectID: utils.String(ownerObjectId),
@@ -969,7 +969,7 @@ func resourceArmVirtualMachineDelete(d *schema.ResourceData, meta interface{}) e
     return nil
 }
 
-func expandArmVirtualMachineApplicableSchedule(input []interface{}) *devtestlab.ApplicableSchedule {
+func expandArmVirtualMachineApplicableScheduleFragment(input []interface{}) *devtestlab.ApplicableScheduleFragment {
     if len(input) == 0 {
         return nil
     }
@@ -980,18 +980,18 @@ func expandArmVirtualMachineApplicableSchedule(input []interface{}) *devtestlab.
     labVmsShutdown := v["lab_vms_shutdown"].([]interface{})
     labVmsStartup := v["lab_vms_startup"].([]interface{})
 
-    result := devtestlab.ApplicableSchedule{
+    result := devtestlab.ApplicableScheduleFragment{
         Location: utils.String(location),
-        ApplicableScheduleProperties: &devtestlab.ApplicableScheduleProperties{
-            LabVmsShutdown: expandArmVirtualMachineSchedule(labVmsShutdown),
-            LabVmsStartup: expandArmVirtualMachineSchedule(labVmsStartup),
+        ApplicableSchedulePropertiesFragment: &devtestlab.ApplicableSchedulePropertiesFragment{
+            LabVmsShutdown: expandArmVirtualMachineScheduleFragment(labVmsShutdown),
+            LabVmsStartup: expandArmVirtualMachineScheduleFragment(labVmsStartup),
         },
         Tags: tags.Expand(t),
     }
     return &result
 }
 
-func expandArmVirtualMachineArtifactDeploymentStatusProperties(input []interface{}) *devtestlab.ArtifactDeploymentStatusProperties {
+func expandArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(input []interface{}) *devtestlab.ArtifactDeploymentStatusPropertiesFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1001,7 +1001,7 @@ func expandArmVirtualMachineArtifactDeploymentStatusProperties(input []interface
     artifactsApplied := v["artifacts_applied"].(int)
     totalArtifacts := v["total_artifacts"].(int)
 
-    result := devtestlab.ArtifactDeploymentStatusProperties{
+    result := devtestlab.ArtifactDeploymentStatusPropertiesFragment{
         ArtifactsApplied: utils.Int32(int32(artifactsApplied)),
         DeploymentStatus: utils.String(deploymentStatus),
         TotalArtifacts: utils.Int32(int32(totalArtifacts)),
@@ -1009,8 +1009,8 @@ func expandArmVirtualMachineArtifactDeploymentStatusProperties(input []interface
     return &result
 }
 
-func expandArmVirtualMachineArtifactInstallProperties(input []interface{}) *[]devtestlab.ArtifactInstallProperties {
-    results := make([]devtestlab.ArtifactInstallProperties, 0)
+func expandArmVirtualMachineArtifactInstallPropertiesFragment(input []interface{}) *[]devtestlab.ArtifactInstallPropertiesFragment {
+    results := make([]devtestlab.ArtifactInstallPropertiesFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         artifactId := v["artifact_id"].(string)
@@ -1020,11 +1020,11 @@ func expandArmVirtualMachineArtifactInstallProperties(input []interface{}) *[]de
         vmExtensionStatusMessage := v["vm_extension_status_message"].(string)
         installTime := v["install_time"].(string)
 
-        result := devtestlab.ArtifactInstallProperties{
+        result := devtestlab.ArtifactInstallPropertiesFragment{
             ArtifactID: utils.String(artifactId),
             DeploymentStatusMessage: utils.String(deploymentStatusMessage),
             InstallTime: convertStringToDate(installTime),
-            Parameters: expandArmVirtualMachineArtifactParameterProperties(parameters),
+            Parameters: expandArmVirtualMachineArtifactParameterPropertiesFragment(parameters),
             Status: utils.String(status),
             VmExtensionStatusMessage: utils.String(vmExtensionStatusMessage),
         }
@@ -1034,7 +1034,7 @@ func expandArmVirtualMachineArtifactInstallProperties(input []interface{}) *[]de
     return &results
 }
 
-func expandArmVirtualMachineComputeVmProperties(input []interface{}) *devtestlab.ComputeVmProperties {
+func expandArmVirtualMachineComputeVmPropertiesFragment(input []interface{}) *devtestlab.ComputeVmPropertiesFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1048,13 +1048,13 @@ func expandArmVirtualMachineComputeVmProperties(input []interface{}) *devtestlab
     dataDiskIds := v["data_disk_ids"].([]interface{})
     dataDisks := v["data_disks"].([]interface{})
 
-    result := devtestlab.ComputeVmProperties{
+    result := devtestlab.ComputeVmPropertiesFragment{
         DataDiskIds: utils.ExpandStringSlice(dataDiskIds),
-        DataDisks: expandArmVirtualMachineComputeDataDisk(dataDisks),
+        DataDisks: expandArmVirtualMachineComputeDataDiskFragment(dataDisks),
         NetworkInterfaceID: utils.String(networkInterfaceId),
         OsDiskID: utils.String(osDiskId),
         OsType: utils.String(osType),
-        Statuses: expandArmVirtualMachineComputeVmInstanceViewStatus(statuses),
+        Statuses: expandArmVirtualMachineComputeVmInstanceViewStatusFragment(statuses),
         VmSize: utils.String(vmSize),
     }
     return &result
@@ -1075,7 +1075,7 @@ func convertStringToDate(input interface{}) *date.Time {
   return &result
 }
 
-func expandArmVirtualMachineGalleryImageReference(input []interface{}) *devtestlab.GalleryImageReference {
+func expandArmVirtualMachineGalleryImageReferenceFragment(input []interface{}) *devtestlab.GalleryImageReferenceFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1087,7 +1087,7 @@ func expandArmVirtualMachineGalleryImageReference(input []interface{}) *devtestl
     osType := v["os_type"].(string)
     version := v["version"].(string)
 
-    result := devtestlab.GalleryImageReference{
+    result := devtestlab.GalleryImageReferenceFragment{
         Offer: utils.String(offer),
         OsType: utils.String(osType),
         Publisher: utils.String(publisher),
@@ -1097,7 +1097,7 @@ func expandArmVirtualMachineGalleryImageReference(input []interface{}) *devtestl
     return &result
 }
 
-func expandArmVirtualMachineNetworkInterfaceProperties(input []interface{}) *devtestlab.NetworkInterfaceProperties {
+func expandArmVirtualMachineNetworkInterfacePropertiesFragment(input []interface{}) *devtestlab.NetworkInterfacePropertiesFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1113,13 +1113,13 @@ func expandArmVirtualMachineNetworkInterfaceProperties(input []interface{}) *dev
     sshAuthority := v["ssh_authority"].(string)
     sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
 
-    result := devtestlab.NetworkInterfaceProperties{
+    result := devtestlab.NetworkInterfacePropertiesFragment{
         DnsName: utils.String(dnsName),
         PrivateIpAddress: utils.String(privateIpAddress),
         PublicIpAddress: utils.String(publicIpAddress),
         PublicIpAddressID: utils.String(publicIpAddressId),
         RdpAuthority: utils.String(rdpAuthority),
-        SharedPublicIpAddressConfiguration: expandArmVirtualMachineSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
+        SharedPublicIpAddressConfiguration: expandArmVirtualMachineSharedPublicIpAddressConfigurationFragment(sharedPublicIpAddressConfiguration),
         SshAuthority: utils.String(sshAuthority),
         SubnetID: utils.String(subnetId),
         VirtualNetworkID: utils.String(virtualNetworkId),
@@ -1127,7 +1127,7 @@ func expandArmVirtualMachineNetworkInterfaceProperties(input []interface{}) *dev
     return &result
 }
 
-func expandArmVirtualMachineSchedule(input []interface{}) *devtestlab.Schedule {
+func expandArmVirtualMachineScheduleFragment(input []interface{}) *devtestlab.ScheduleFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1145,32 +1145,32 @@ func expandArmVirtualMachineSchedule(input []interface{}) *devtestlab.Schedule {
     targetResourceId := v["target_resource_id"].(string)
     uniqueIdentifier := v["unique_identifier"].(string)
 
-    result := devtestlab.Schedule{
+    result := devtestlab.ScheduleFragment{
         Location: utils.String(location),
-        ScheduleProperties: &devtestlab.ScheduleProperties{
-            DailyRecurrence: expandArmVirtualMachineDayDetails(dailyRecurrence),
-            HourlyRecurrence: expandArmVirtualMachineHourDetails(hourlyRecurrence),
-            NotificationSettings: expandArmVirtualMachineNotificationSettings(notificationSettings),
+        SchedulePropertiesFragment: &devtestlab.SchedulePropertiesFragment{
+            DailyRecurrence: expandArmVirtualMachineDayDetailsFragment(dailyRecurrence),
+            HourlyRecurrence: expandArmVirtualMachineHourDetailsFragment(hourlyRecurrence),
+            NotificationSettings: expandArmVirtualMachineNotificationSettingsFragment(notificationSettings),
             Status: devtestlab.EnableStatus(status),
             TargetResourceID: utils.String(targetResourceId),
             TaskType: utils.String(taskType),
             TimeZoneID: utils.String(timeZoneId),
             UniqueIdentifier: utils.String(uniqueIdentifier),
-            WeeklyRecurrence: expandArmVirtualMachineWeekDetails(weeklyRecurrence),
+            WeeklyRecurrence: expandArmVirtualMachineWeekDetailsFragment(weeklyRecurrence),
         },
         Tags: tags.Expand(t),
     }
     return &result
 }
 
-func expandArmVirtualMachineArtifactParameterProperties(input []interface{}) *[]devtestlab.ArtifactParameterProperties {
-    results := make([]devtestlab.ArtifactParameterProperties, 0)
+func expandArmVirtualMachineArtifactParameterPropertiesFragment(input []interface{}) *[]devtestlab.ArtifactParameterPropertiesFragment {
+    results := make([]devtestlab.ArtifactParameterPropertiesFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
         value := v["value"].(string)
 
-        result := devtestlab.ArtifactParameterProperties{
+        result := devtestlab.ArtifactParameterPropertiesFragment{
             Name: utils.String(name),
             Value: utils.String(value),
         }
@@ -1180,8 +1180,8 @@ func expandArmVirtualMachineArtifactParameterProperties(input []interface{}) *[]
     return &results
 }
 
-func expandArmVirtualMachineComputeDataDisk(input []interface{}) *[]devtestlab.ComputeDataDisk {
-    results := make([]devtestlab.ComputeDataDisk, 0)
+func expandArmVirtualMachineComputeDataDiskFragment(input []interface{}) *[]devtestlab.ComputeDataDiskFragment {
+    results := make([]devtestlab.ComputeDataDiskFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         name := v["name"].(string)
@@ -1189,7 +1189,7 @@ func expandArmVirtualMachineComputeDataDisk(input []interface{}) *[]devtestlab.C
         managedDiskId := v["managed_disk_id"].(string)
         diskSizeGiB := v["disk_size_gi_b"].(int)
 
-        result := devtestlab.ComputeDataDisk{
+        result := devtestlab.ComputeDataDiskFragment{
             DiskSizeGiB: utils.Int32(int32(diskSizeGiB)),
             DiskUri: utils.String(diskUri),
             ManagedDiskID: utils.String(managedDiskId),
@@ -1201,15 +1201,15 @@ func expandArmVirtualMachineComputeDataDisk(input []interface{}) *[]devtestlab.C
     return &results
 }
 
-func expandArmVirtualMachineComputeVmInstanceViewStatus(input []interface{}) *[]devtestlab.ComputeVmInstanceViewStatus {
-    results := make([]devtestlab.ComputeVmInstanceViewStatus, 0)
+func expandArmVirtualMachineComputeVmInstanceViewStatusFragment(input []interface{}) *[]devtestlab.ComputeVmInstanceViewStatusFragment {
+    results := make([]devtestlab.ComputeVmInstanceViewStatusFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         code := v["code"].(string)
         displayStatus := v["display_status"].(string)
         message := v["message"].(string)
 
-        result := devtestlab.ComputeVmInstanceViewStatus{
+        result := devtestlab.ComputeVmInstanceViewStatusFragment{
             Code: utils.String(code),
             DisplayStatus: utils.String(displayStatus),
             Message: utils.String(message),
@@ -1220,7 +1220,7 @@ func expandArmVirtualMachineComputeVmInstanceViewStatus(input []interface{}) *[]
     return &results
 }
 
-func expandArmVirtualMachineSharedPublicIpAddressConfiguration(input []interface{}) *devtestlab.SharedPublicIpAddressConfiguration {
+func expandArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input []interface{}) *devtestlab.SharedPublicIpAddressConfigurationFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1228,13 +1228,13 @@ func expandArmVirtualMachineSharedPublicIpAddressConfiguration(input []interface
 
     inboundNatRules := v["inbound_nat_rules"].([]interface{})
 
-    result := devtestlab.SharedPublicIpAddressConfiguration{
-        InboundNatRules: expandArmVirtualMachineInboundNatRule(inboundNatRules),
+    result := devtestlab.SharedPublicIpAddressConfigurationFragment{
+        InboundNatRules: expandArmVirtualMachineInboundNatRuleFragment(inboundNatRules),
     }
     return &result
 }
 
-func expandArmVirtualMachineDayDetails(input []interface{}) *devtestlab.DayDetails {
+func expandArmVirtualMachineDayDetailsFragment(input []interface{}) *devtestlab.DayDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1242,13 +1242,13 @@ func expandArmVirtualMachineDayDetails(input []interface{}) *devtestlab.DayDetai
 
     time := v["time"].(string)
 
-    result := devtestlab.DayDetails{
+    result := devtestlab.DayDetailsFragment{
         Time: utils.String(time),
     }
     return &result
 }
 
-func expandArmVirtualMachineHourDetails(input []interface{}) *devtestlab.HourDetails {
+func expandArmVirtualMachineHourDetailsFragment(input []interface{}) *devtestlab.HourDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1256,13 +1256,13 @@ func expandArmVirtualMachineHourDetails(input []interface{}) *devtestlab.HourDet
 
     minute := v["minute"].(int)
 
-    result := devtestlab.HourDetails{
+    result := devtestlab.HourDetailsFragment{
         Minute: utils.Int32(int32(minute)),
     }
     return &result
 }
 
-func expandArmVirtualMachineNotificationSettings(input []interface{}) *devtestlab.NotificationSettings {
+func expandArmVirtualMachineNotificationSettingsFragment(input []interface{}) *devtestlab.NotificationSettingsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1272,7 +1272,7 @@ func expandArmVirtualMachineNotificationSettings(input []interface{}) *devtestla
     timeInMinutes := v["time_in_minutes"].(int)
     webhookUrl := v["webhook_url"].(string)
 
-    result := devtestlab.NotificationSettings{
+    result := devtestlab.NotificationSettingsFragment{
         Status: devtestlab.NotificationStatus(status),
         TimeInMinutes: utils.Int32(int32(timeInMinutes)),
         WebhookURL: utils.String(webhookUrl),
@@ -1280,7 +1280,7 @@ func expandArmVirtualMachineNotificationSettings(input []interface{}) *devtestla
     return &result
 }
 
-func expandArmVirtualMachineWeekDetails(input []interface{}) *devtestlab.WeekDetails {
+func expandArmVirtualMachineWeekDetailsFragment(input []interface{}) *devtestlab.WeekDetailsFragment {
     if len(input) == 0 {
         return nil
     }
@@ -1289,22 +1289,22 @@ func expandArmVirtualMachineWeekDetails(input []interface{}) *devtestlab.WeekDet
     weekdays := v["weekdays"].([]interface{})
     time := v["time"].(string)
 
-    result := devtestlab.WeekDetails{
+    result := devtestlab.WeekDetailsFragment{
         Time: utils.String(time),
         Weekdays: utils.ExpandStringSlice(weekdays),
     }
     return &result
 }
 
-func expandArmVirtualMachineInboundNatRule(input []interface{}) *[]devtestlab.InboundNatRule {
-    results := make([]devtestlab.InboundNatRule, 0)
+func expandArmVirtualMachineInboundNatRuleFragment(input []interface{}) *[]devtestlab.InboundNatRuleFragment {
+    results := make([]devtestlab.InboundNatRuleFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         transportProtocol := v["transport_protocol"].(string)
         frontendPort := v["frontend_port"].(int)
         backendPort := v["backend_port"].(int)
 
-        result := devtestlab.InboundNatRule{
+        result := devtestlab.InboundNatRuleFragment{
             BackendPort: utils.Int32(int32(backendPort)),
             FrontendPort: utils.Int32(int32(frontendPort)),
             TransportProtocol: devtestlab.TransportProtocol(transportProtocol),
@@ -1316,7 +1316,7 @@ func expandArmVirtualMachineInboundNatRule(input []interface{}) *[]devtestlab.In
 }
 
 
-func flattenArmVirtualMachineApplicableSchedule(input *devtestlab.ApplicableSchedule) []interface{} {
+func flattenArmVirtualMachineApplicableScheduleFragment(input *devtestlab.ApplicableScheduleFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1326,15 +1326,15 @@ func flattenArmVirtualMachineApplicableSchedule(input *devtestlab.ApplicableSche
     if location := input.Location; location != nil {
         result["location"] = azure.NormalizeLocation(*location)
     }
-    if applicableScheduleProperties := input.ApplicableScheduleProperties; applicableScheduleProperties != nil {
-        result["lab_vms_shutdown"] = flattenArmVirtualMachineSchedule(applicableScheduleProperties.LabVmsShutdown)
-        result["lab_vms_startup"] = flattenArmVirtualMachineSchedule(applicableScheduleProperties.LabVmsStartup)
+    if applicableSchedulePropertiesFragment := input.ApplicableSchedulePropertiesFragment; applicableSchedulePropertiesFragment != nil {
+        result["lab_vms_shutdown"] = flattenArmVirtualMachineScheduleFragment(applicableSchedulePropertiesFragment.LabVmsShutdown)
+        result["lab_vms_startup"] = flattenArmVirtualMachineScheduleFragment(applicableSchedulePropertiesFragment.LabVmsStartup)
     }
 
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineArtifactDeploymentStatusProperties(input *devtestlab.ArtifactDeploymentStatusProperties) []interface{} {
+func flattenArmVirtualMachineArtifactDeploymentStatusPropertiesFragment(input *devtestlab.ArtifactDeploymentStatusPropertiesFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1354,7 +1354,7 @@ func flattenArmVirtualMachineArtifactDeploymentStatusProperties(input *devtestla
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineArtifactInstallProperties(input *[]devtestlab.ArtifactInstallProperties) []interface{} {
+func flattenArmVirtualMachineArtifactInstallPropertiesFragment(input *[]devtestlab.ArtifactInstallPropertiesFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -1372,7 +1372,7 @@ func flattenArmVirtualMachineArtifactInstallProperties(input *[]devtestlab.Artif
         if installTime := item.InstallTime; installTime != nil {
             v["install_time"] = (*installTime).String()
         }
-        v["parameters"] = flattenArmVirtualMachineArtifactParameterProperties(item.Parameters)
+        v["parameters"] = flattenArmVirtualMachineArtifactParameterPropertiesFragment(item.Parameters)
         if status := item.Status; status != nil {
             v["status"] = *status
         }
@@ -1386,7 +1386,7 @@ func flattenArmVirtualMachineArtifactInstallProperties(input *[]devtestlab.Artif
     return results
 }
 
-func flattenArmVirtualMachineComputeVmProperties(input *devtestlab.ComputeVmProperties) []interface{} {
+func flattenArmVirtualMachineComputeVmPropertiesFragment(input *devtestlab.ComputeVmPropertiesFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1394,7 +1394,7 @@ func flattenArmVirtualMachineComputeVmProperties(input *devtestlab.ComputeVmProp
     result := make(map[string]interface{})
 
     result["data_disk_ids"] = utils.FlattenStringSlice(input.DataDiskIds)
-    result["data_disks"] = flattenArmVirtualMachineComputeDataDisk(input.DataDisks)
+    result["data_disks"] = flattenArmVirtualMachineComputeDataDiskFragment(input.DataDisks)
     if networkInterfaceId := input.NetworkInterfaceID; networkInterfaceId != nil {
         result["network_interface_id"] = *networkInterfaceId
     }
@@ -1404,7 +1404,7 @@ func flattenArmVirtualMachineComputeVmProperties(input *devtestlab.ComputeVmProp
     if osType := input.OsType; osType != nil {
         result["os_type"] = *osType
     }
-    result["statuses"] = flattenArmVirtualMachineComputeVmInstanceViewStatus(input.Statuses)
+    result["statuses"] = flattenArmVirtualMachineComputeVmInstanceViewStatusFragment(input.Statuses)
     if vmSize := input.VmSize; vmSize != nil {
         result["vm_size"] = *vmSize
     }
@@ -1412,7 +1412,7 @@ func flattenArmVirtualMachineComputeVmProperties(input *devtestlab.ComputeVmProp
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineGalleryImageReference(input *devtestlab.GalleryImageReference) []interface{} {
+func flattenArmVirtualMachineGalleryImageReferenceFragment(input *devtestlab.GalleryImageReferenceFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1438,7 +1438,7 @@ func flattenArmVirtualMachineGalleryImageReference(input *devtestlab.GalleryImag
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineNetworkInterfaceProperties(input *devtestlab.NetworkInterfaceProperties) []interface{} {
+func flattenArmVirtualMachineNetworkInterfacePropertiesFragment(input *devtestlab.NetworkInterfacePropertiesFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1460,7 +1460,7 @@ func flattenArmVirtualMachineNetworkInterfaceProperties(input *devtestlab.Networ
     if rdpAuthority := input.RdpAuthority; rdpAuthority != nil {
         result["rdp_authority"] = *rdpAuthority
     }
-    result["shared_public_ip_address_configuration"] = flattenArmVirtualMachineSharedPublicIpAddressConfiguration(input.SharedPublicIpAddressConfiguration)
+    result["shared_public_ip_address_configuration"] = flattenArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input.SharedPublicIpAddressConfiguration)
     if sshAuthority := input.SshAuthority; sshAuthority != nil {
         result["ssh_authority"] = *sshAuthority
     }
@@ -1474,7 +1474,7 @@ func flattenArmVirtualMachineNetworkInterfaceProperties(input *devtestlab.Networ
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineSchedule(input *devtestlab.Schedule) []interface{} {
+func flattenArmVirtualMachineScheduleFragment(input *devtestlab.ScheduleFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1484,30 +1484,30 @@ func flattenArmVirtualMachineSchedule(input *devtestlab.Schedule) []interface{} 
     if location := input.Location; location != nil {
         result["location"] = azure.NormalizeLocation(*location)
     }
-    if scheduleProperties := input.ScheduleProperties; scheduleProperties != nil {
-        result["daily_recurrence"] = flattenArmVirtualMachineDayDetails(scheduleProperties.DailyRecurrence)
-        result["hourly_recurrence"] = flattenArmVirtualMachineHourDetails(scheduleProperties.HourlyRecurrence)
-        result["notification_settings"] = flattenArmVirtualMachineNotificationSettings(scheduleProperties.NotificationSettings)
-        result["status"] = string(scheduleProperties.Status)
-        if targetResourceId := scheduleProperties.TargetResourceID; targetResourceId != nil {
+    if schedulePropertiesFragment := input.SchedulePropertiesFragment; schedulePropertiesFragment != nil {
+        result["daily_recurrence"] = flattenArmVirtualMachineDayDetailsFragment(schedulePropertiesFragment.DailyRecurrence)
+        result["hourly_recurrence"] = flattenArmVirtualMachineHourDetailsFragment(schedulePropertiesFragment.HourlyRecurrence)
+        result["notification_settings"] = flattenArmVirtualMachineNotificationSettingsFragment(schedulePropertiesFragment.NotificationSettings)
+        result["status"] = string(schedulePropertiesFragment.Status)
+        if targetResourceId := schedulePropertiesFragment.TargetResourceID; targetResourceId != nil {
             result["target_resource_id"] = *targetResourceId
         }
-        if taskType := scheduleProperties.TaskType; taskType != nil {
+        if taskType := schedulePropertiesFragment.TaskType; taskType != nil {
             result["task_type"] = *taskType
         }
-        if timeZoneId := scheduleProperties.TimeZoneID; timeZoneId != nil {
+        if timeZoneId := schedulePropertiesFragment.TimeZoneID; timeZoneId != nil {
             result["time_zone_id"] = *timeZoneId
         }
-        if uniqueIdentifier := scheduleProperties.UniqueIdentifier; uniqueIdentifier != nil {
+        if uniqueIdentifier := schedulePropertiesFragment.UniqueIdentifier; uniqueIdentifier != nil {
             result["unique_identifier"] = *uniqueIdentifier
         }
-        result["weekly_recurrence"] = flattenArmVirtualMachineWeekDetails(scheduleProperties.WeeklyRecurrence)
+        result["weekly_recurrence"] = flattenArmVirtualMachineWeekDetailsFragment(schedulePropertiesFragment.WeeklyRecurrence)
     }
 
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineArtifactParameterProperties(input *[]devtestlab.ArtifactParameterProperties) []interface{} {
+func flattenArmVirtualMachineArtifactParameterPropertiesFragment(input *[]devtestlab.ArtifactParameterPropertiesFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -1529,7 +1529,7 @@ func flattenArmVirtualMachineArtifactParameterProperties(input *[]devtestlab.Art
     return results
 }
 
-func flattenArmVirtualMachineComputeDataDisk(input *[]devtestlab.ComputeDataDisk) []interface{} {
+func flattenArmVirtualMachineComputeDataDiskFragment(input *[]devtestlab.ComputeDataDiskFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -1557,7 +1557,7 @@ func flattenArmVirtualMachineComputeDataDisk(input *[]devtestlab.ComputeDataDisk
     return results
 }
 
-func flattenArmVirtualMachineComputeVmInstanceViewStatus(input *[]devtestlab.ComputeVmInstanceViewStatus) []interface{} {
+func flattenArmVirtualMachineComputeVmInstanceViewStatusFragment(input *[]devtestlab.ComputeVmInstanceViewStatusFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -1582,19 +1582,19 @@ func flattenArmVirtualMachineComputeVmInstanceViewStatus(input *[]devtestlab.Com
     return results
 }
 
-func flattenArmVirtualMachineSharedPublicIpAddressConfiguration(input *devtestlab.SharedPublicIpAddressConfiguration) []interface{} {
+func flattenArmVirtualMachineSharedPublicIpAddressConfigurationFragment(input *devtestlab.SharedPublicIpAddressConfigurationFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
 
     result := make(map[string]interface{})
 
-    result["inbound_nat_rules"] = flattenArmVirtualMachineInboundNatRule(input.InboundNatRules)
+    result["inbound_nat_rules"] = flattenArmVirtualMachineInboundNatRuleFragment(input.InboundNatRules)
 
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineDayDetails(input *devtestlab.DayDetails) []interface{} {
+func flattenArmVirtualMachineDayDetailsFragment(input *devtestlab.DayDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1608,7 +1608,7 @@ func flattenArmVirtualMachineDayDetails(input *devtestlab.DayDetails) []interfac
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineHourDetails(input *devtestlab.HourDetails) []interface{} {
+func flattenArmVirtualMachineHourDetailsFragment(input *devtestlab.HourDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1622,7 +1622,7 @@ func flattenArmVirtualMachineHourDetails(input *devtestlab.HourDetails) []interf
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineNotificationSettings(input *devtestlab.NotificationSettings) []interface{} {
+func flattenArmVirtualMachineNotificationSettingsFragment(input *devtestlab.NotificationSettingsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1640,7 +1640,7 @@ func flattenArmVirtualMachineNotificationSettings(input *devtestlab.Notification
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineWeekDetails(input *devtestlab.WeekDetails) []interface{} {
+func flattenArmVirtualMachineWeekDetailsFragment(input *devtestlab.WeekDetailsFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
@@ -1655,7 +1655,7 @@ func flattenArmVirtualMachineWeekDetails(input *devtestlab.WeekDetails) []interf
     return []interface{}{result}
 }
 
-func flattenArmVirtualMachineInboundNatRule(input *[]devtestlab.InboundNatRule) []interface{} {
+func flattenArmVirtualMachineInboundNatRuleFragment(input *[]devtestlab.InboundNatRuleFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results

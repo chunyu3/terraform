@@ -122,7 +122,7 @@ func resourceArmDatabaseCreate(d *schema.ResourceData, meta interface{}) error {
     statistics := d.Get("statistics").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Database{
+    parameters := kusto.DatabaseUpdate{
         Location: utils.String(location),
         DatabaseProperties: &kusto.DatabaseProperties{
             HotCachePeriodInDays: utils.Int(hotCachePeriodInDays),
@@ -210,7 +210,7 @@ func resourceArmDatabaseUpdate(d *schema.ResourceData, meta interface{}) error {
     statistics := d.Get("statistics").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Database{
+    parameters := kusto.DatabaseUpdate{
         Location: utils.String(location),
         DatabaseProperties: &kusto.DatabaseProperties{
             HotCachePeriodInDays: utils.Int(hotCachePeriodInDays),

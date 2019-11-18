@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `cloud_type` - (Required) The cloud service provider
 
-* `credential_name` - (Required) The credential name. Changing this forces a new resource to be created.
+* `credential_name` - (Required) The name of storage account credential to be fetched. Changing this forces a new resource to be created.
 
 * `enable_ssl` - (Required) SSL needs to be enabled or not
 

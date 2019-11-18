@@ -520,6 +520,12 @@ objects:
         description: 'The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string.'
         required: false
         azure_sdk_references: ['/createUiDefinition', '/properties/createUiDefinition']
+      - !ruby/object:Api::Type::String
+        name: 'applicationDefinitionId'
+        description: 'The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}'
+        required: true
+        input: true
+        azure_sdk_references: ['applicationDefinitionId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

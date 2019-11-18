@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: workflow_name
             python_variable_name: name
+          'versionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: versions
+            go_variable_name: versionID
+            python_parameter_name: version_id
+            python_variable_name: version_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -189,6 +194,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['workflowName']
+      - !ruby/object:Api::Type::String
+        name: 'versionId'
+        description: 'The workflow versionId.'
+        required: true
+        input: true
+        azure_sdk_references: ['versionId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

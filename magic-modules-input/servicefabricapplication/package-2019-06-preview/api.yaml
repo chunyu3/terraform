@@ -136,7 +136,7 @@ objects:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ApplicationProperties
-            go_type_name: ApplicationResourceProperties
+            go_type_name: ApplicationResourceUpdateProperties
           '/properties/typeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: TypeVersion
@@ -330,18 +330,18 @@ objects:
           '/managedIdentities/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: principal_id
-          '/properties/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TypeName
-          '/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: type_name
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProvisioningState
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TypeName
+          '/typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type_name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -591,17 +591,17 @@ objects:
               description: 'The principal id of user assigned identity.'
               required: true
               azure_sdk_references: ['/managedIdentities/principalId', '/properties/managedIdentities/principalId']
-      - !ruby/object:Api::Type::String
-        name: 'typeName'
-        description: 'The application type name as defined in the application manifest.'
-        required: false
-        azure_sdk_references: ['/typeName', '/properties/typeName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'The current deployment or provisioning state, which only appears in the response'
         output: true
         azure_sdk_references: ['/provisioningState', '/properties/provisioningState']
+      - !ruby/object:Api::Type::String
+        name: 'typeName'
+        description: 'The application type name as defined in the application manifest.'
+        output: true
+        azure_sdk_references: ['/typeName', '/properties/typeName']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource identifier.'

@@ -132,7 +132,7 @@ func resourceArmInstancePoolCreate(d *schema.ResourceData, meta interface{}) err
     vCores := d.Get("v_cores").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.InstancePool{
+    parameters := sql.InstancePoolUpdate{
         Location: utils.String(location),
         InstancePoolProperties: &sql.InstancePoolProperties{
             LicenseType: sql.InstancePoolLicenseType(licenseType),
@@ -218,7 +218,7 @@ func resourceArmInstancePoolUpdate(d *schema.ResourceData, meta interface{}) err
     vCores := d.Get("v_cores").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.InstancePool{
+    parameters := sql.InstancePoolUpdate{
         Location: utils.String(location),
         InstancePoolProperties: &sql.InstancePoolProperties{
             LicenseType: sql.InstancePoolLicenseType(licenseType),

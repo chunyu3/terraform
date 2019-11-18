@@ -161,6 +161,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: name
+            python_parameter_name: cache_name
+            python_variable_name: name
 
     description: |
       Manage Azure PatchSchedule instance.
@@ -173,7 +178,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the Redis cache.'
+        description: 'The name of the redis cache.'
         required: true
         input: true
         azure_sdk_references: ['name']
@@ -215,6 +220,12 @@ objects:
               description: 'ISO8601 timespan specifying how much time cache patching can take. '
               required: false
               azure_sdk_references: ['/scheduleEntries/maintenanceWindow', '/properties/scheduleEntries/maintenanceWindow']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Redis cache.'
+        required: true
+        input: true
+        azure_sdk_references: ['cacheName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

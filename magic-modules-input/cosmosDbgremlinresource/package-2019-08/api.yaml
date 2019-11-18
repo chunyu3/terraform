@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListGremlinGraphs
         python_func_name: list_gremlin_graphs
@@ -43,9 +43,14 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
+          'databaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: gremlinDatabases
+            go_variable_name: databaseName
+            python_parameter_name: database_name
+            python_variable_name: database_name
 
     description: |
       Manage Azure GremlinResource instance.
@@ -57,11 +62,23 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'accountName'
         description: 'Cosmos DB database account name.'
         required: true
         input: true
         azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'databaseName'
+        description: 'Cosmos DB database name.'
+        required: true
+        input: true
+        azure_sdk_references: ['databaseName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Cosmos DB graph name.'
+        required: true
+        input: true
+        azure_sdk_references: ['graphName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

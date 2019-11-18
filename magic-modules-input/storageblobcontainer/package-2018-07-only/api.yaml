@@ -34,9 +34,9 @@ objects:
             python_variable_name: account_name
           'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containers
-            go_variable_name: name
+            go_variable_name: containerName
             python_parameter_name: container_name
-            python_variable_name: name
+            python_variable_name: container_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: blobContainer
             go_type_name: BlobContainer
@@ -75,9 +75,9 @@ objects:
             python_variable_name: account_name
           'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containers
-            go_variable_name: name
+            go_variable_name: containerName
             python_parameter_name: container_name
-            python_variable_name: name
+            python_variable_name: container_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: blobContainer
             go_type_name: BlobContainer
@@ -116,9 +116,9 @@ objects:
             python_variable_name: account_name
           'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containers
-            go_variable_name: name
+            go_variable_name: containerName
             python_parameter_name: container_name
-            python_variable_name: name
+            python_variable_name: container_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -135,9 +135,9 @@ objects:
             python_variable_name: account_name
           'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: containers
-            go_variable_name: name
+            go_variable_name: containerName
             python_parameter_name: container_name
-            python_variable_name: name
+            python_variable_name: container_name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -362,7 +362,7 @@ objects:
         input: true
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'containerName'
         description: 'The name of the blob container within the specified storage account. Blob container names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number.'
         required: true
         input: true
@@ -382,6 +382,12 @@ objects:
         description: 'A name-value pair to associate with the container as metadata.'
         required: false
         azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the blob container immutabilityPolicy within the specified storage account. ImmutabilityPolicy Name must be ''default'''
+        required: true
+        input: true
+        azure_sdk_references: ['immutabilityPolicyName']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'lastModifiedTime'

@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: frontDoors
-            go_variable_name: name
+            go_variable_name: frontDoorName
             python_parameter_name: front_door_name
+            python_variable_name: front_door_name
+          'frontendEndpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: frontendEndpoints
+            go_variable_name: name
+            python_parameter_name: frontend_endpoint_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -177,9 +182,9 @@ objects:
             python_variable_name: resource_group
           'frontDoorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: frontDoors
-            go_variable_name: name
+            go_variable_name: frontDoorName
             python_parameter_name: front_door_name
-            python_variable_name: name
+            python_variable_name: front_door_name
 
     description: |
       Manage Azure FrontendEndpoint instance.
@@ -191,11 +196,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'frontDoorName'
         description: 'Name of the Front Door which is globally unique.'
         required: true
         input: true
         azure_sdk_references: ['frontDoorName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the Frontend endpoint which is unique within the Front Door.'
+        required: true
+        input: true
+        azure_sdk_references: ['frontendEndpointName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -39,14 +39,19 @@ objects:
             python_variable_name: job_agent_name
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: name
+            go_variable_name: jobName
             python_parameter_name: job_name
-            python_variable_name: name
+            python_variable_name: job_name
           'jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: executions
             go_variable_name: jobExecutionID
             python_parameter_name: job_execution_id
             python_variable_name: job_execution_id
+          'stepName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: steps
+            go_variable_name: name
+            python_parameter_name: step_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -182,9 +187,9 @@ objects:
             python_variable_name: job_agent_name
           'jobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: jobs
-            go_variable_name: name
+            go_variable_name: jobName
             python_parameter_name: job_name
-            python_variable_name: name
+            python_variable_name: job_name
           'jobExecutionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: executions
             go_variable_name: jobExecutionID
@@ -238,14 +243,14 @@ objects:
         input: true
         azure_sdk_references: ['jobAgentName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'jobName'
         description: 'The name of the job to get.'
         required: true
         input: true
         azure_sdk_references: ['jobName']
       - !ruby/object:Api::Type::String
         name: 'jobExecutionId'
-        description: 'The id of the job execution'
+        description: 'The unique id of the job execution'
         required: true
         input: true
         azure_sdk_references: ['jobExecutionId']
@@ -279,6 +284,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['isActive']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the step.'
+        required: true
+        input: true
+        azure_sdk_references: ['stepName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

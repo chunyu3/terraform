@@ -26,10 +26,21 @@ objects:
         go_func_name: ListByLocation
         python_func_name: list_by_location
         request:
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
 
     description: |
       Manage Azure Usage instance.
     properties:
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the Azure Storage resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

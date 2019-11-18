@@ -32,13 +32,13 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `location` - (Required) Resource location Changing this forces a new resource to be created.
-
 * `account_name` - (Required) The name of the NetApp account Changing this forces a new resource to be created.
 
-* `service_level` - (Required) The service level of the file system
+* `location` - (Optional) Resource location Changing this forces a new resource to be created.
 
-* `size` - (Required) Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104).
+* `service_level` - (Optional) The service level of the file system Defaults to `Standard`.
+
+* `size` - (Optional) Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104).
 
 * `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 

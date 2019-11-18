@@ -34,20 +34,6 @@ The following arguments are supported:
 
 * `location` - (Required) Resource location. Changing this forces a new resource to be created.
 
-* `publisher_email` - (Required) Publisher email.
-
-* `publisher_name` - (Required) Publisher name.
-
-* `sku` - (Required) One `sku` block defined below.
-
----
-
-The `sku` block supports the following:
-
-* `name` - (Required) Name of the Sku.
-
-* `capacity` - (Optional) Capacity of the SKU (number of deployed units of the SKU). The default value is 1.
-
 * `additional_locations` - (Optional) One or more `additional_location` block defined below.
 
 * `certificates` - (Optional) One or more `certificate` block defined below.
@@ -59,6 +45,12 @@ The `sku` block supports the following:
 * `identity` - (Optional) One `identity` block defined below.
 
 * `notification_sender_email` - (Optional) Email address from which the notification will be sent.
+
+* `publisher_email` - (Optional) Publisher email.
+
+* `publisher_name` - (Optional) Publisher name.
+
+* `sku` - (Optional) One `sku` block defined below.
 
 * `virtual_network_configuration` - (Optional) One `virtual_network_configuration` block defined below.
 
@@ -150,6 +142,14 @@ The `certificate` block supports the following:
 The `identity` block supports the following:
 
 * `type` - (Required) The identity type. Currently the only supported type is 'SystemAssigned'.
+
+---
+
+The `sku` block supports the following:
+
+* `name` - (Required) Name of the Sku.
+
+* `capacity` - (Optional) Capacity of the SKU (number of deployed units of the SKU). The default value is 1.
 
 ---
 

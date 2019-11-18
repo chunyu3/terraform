@@ -45,46 +45,6 @@ func resourceArmCluster() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "sku": {
-                Type: schema.TypeList,
-                Required: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(kusto.Standard_DS13_v2+1TB_PS),
-                                string(kusto.Standard_DS13_v2+2TB_PS),
-                                string(kusto.Standard_DS14_v2+3TB_PS),
-                                string(kusto.Standard_DS14_v2+4TB_PS),
-                                string(kusto.Standard_D13_v2),
-                                string(kusto.Standard_D14_v2),
-                                string(kusto.Standard_L8s),
-                                string(kusto.Standard_L16s),
-                                string(kusto.Standard_D11_v2),
-                                string(kusto.Standard_D12_v2),
-                                string(kusto.Standard_L4s),
-                                string(kusto.Dev(No SLA)_Standard_D11_v2),
-                            }, false),
-                        },
-                        "tier": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(kusto.Basic),
-                                string(kusto.Standard),
-                            }, false),
-                        },
-                        "capacity": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
             "enable_disk_encryption": {
                 Type: schema.TypeBool,
                 Optional: true,
@@ -164,6 +124,46 @@ func resourceArmCluster() *schema.Resource {
                         "version": {
                             Type: schema.TypeInt,
                             Required: true,
+                        },
+                    },
+                },
+            },
+
+            "sku": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "name": {
+                            Type: schema.TypeString,
+                            Required: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(kusto.Standard_DS13_v2+1TB_PS),
+                                string(kusto.Standard_DS13_v2+2TB_PS),
+                                string(kusto.Standard_DS14_v2+3TB_PS),
+                                string(kusto.Standard_DS14_v2+4TB_PS),
+                                string(kusto.Standard_D13_v2),
+                                string(kusto.Standard_D14_v2),
+                                string(kusto.Standard_L8s),
+                                string(kusto.Standard_L16s),
+                                string(kusto.Standard_D11_v2),
+                                string(kusto.Standard_D12_v2),
+                                string(kusto.Standard_L4s),
+                                string(kusto.Dev(No SLA)_Standard_D11_v2),
+                            }, false),
+                        },
+                        "tier": {
+                            Type: schema.TypeString,
+                            Required: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(kusto.Basic),
+                                string(kusto.Standard),
+                            }, false),
+                        },
+                        "capacity": {
+                            Type: schema.TypeInt,
+                            Optional: true,
                         },
                     },
                 },
@@ -277,7 +277,7 @@ func resourceArmClusterCreate(d *schema.ResourceData, meta interface{}) error {
     zones := d.Get("zones").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Cluster{
+    parameters := kusto.ClusterUpdate{
         Identity: expandArmClusterIdentity(identity),
         Location: utils.String(location),
         ClusterProperties: &kusto.ClusterProperties{
@@ -392,7 +392,7 @@ func resourceArmClusterUpdate(d *schema.ResourceData, meta interface{}) error {
     zones := d.Get("zones").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := kusto.Cluster{
+    parameters := kusto.ClusterUpdate{
         Identity: expandArmClusterIdentity(identity),
         Location: utils.String(location),
         ClusterProperties: &kusto.ClusterProperties{

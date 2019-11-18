@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'applicationResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
-            go_variable_name: name
+            go_variable_name: applicationResourceName
             python_parameter_name: application_resource_name
+            python_variable_name: application_resource_name
+          'serviceResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_resource_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -588,9 +593,9 @@ objects:
             python_variable_name: resource_group
           'applicationResourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: applications
-            go_variable_name: name
+            go_variable_name: applicationResourceName
             python_parameter_name: application_resource_name
-            python_variable_name: name
+            python_variable_name: application_resource_name
 
     description: |
       Manage Azure Service instance.
@@ -602,11 +607,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'applicationResourceName'
         description: 'The identity of the application.'
         required: true
         input: true
         azure_sdk_references: ['applicationResourceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The identity of the service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceResourceName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

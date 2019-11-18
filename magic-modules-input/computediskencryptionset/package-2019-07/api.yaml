@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: diskEncryptionSet
-            go_type_name: DiskEncryptionSet
+            go_type_name: DiskEncryptionSetUpdate
             python_parameter_name: disk_encryption_set
             python_variable_name: disk_encryption_set
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -54,8 +54,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EncryptionSetProperties
-            go_type_name: EncryptionSetProperties
+            go_field_name: DiskEncryptionSetUpdateProperties
+            go_type_name: DiskEncryptionSetUpdateProperties
           '/activeKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: active_key
@@ -99,7 +99,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: diskEncryptionSet
-            go_type_name: DiskEncryptionSet
+            go_type_name: DiskEncryptionSetUpdate
             python_parameter_name: disk_encryption_set
             python_variable_name: disk_encryption_set
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -118,8 +118,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EncryptionSetProperties
-            go_type_name: EncryptionSetProperties
+            go_field_name: DiskEncryptionSetUpdateProperties
+            go_type_name: DiskEncryptionSetUpdateProperties
           '/activeKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: active_key
@@ -198,8 +198,8 @@ objects:
             python_field_name: tenant_id
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EncryptionSetProperties
-            go_type_name: EncryptionSetProperties
+            go_field_name: DiskEncryptionSetUpdateProperties
+            go_type_name: DiskEncryptionSetUpdateProperties
           '/properties/activeKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ActiveKey
@@ -324,7 +324,7 @@ objects:
             default_value: :SystemAssigned
       - !ruby/object:Api::Type::NestedObject
         name: 'activeKey'
-        description: 'The key vault key which is currently used by this disk encryption set.'
+        description: ''
         required: false
         azure_sdk_references: ['/activeKey', '/properties/activeKey']
         properties:

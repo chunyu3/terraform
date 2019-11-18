@@ -23,11 +23,17 @@ objects:
       Manage Azure Android instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'hostName'
         description: 'Location hostName for the tenant'
         required: true
         input: true
         azure_sdk_references: ['hostName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'policy name for the tenant'
+        required: true
+        input: true
+        azure_sdk_references: ['policyName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

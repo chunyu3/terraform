@@ -40,7 +40,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
-            go_type_name: CapacityPool
+            go_type_name: CapacityPoolPatch
             python_parameter_name: body
             python_variable_name: body
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PoolProperties
-            go_type_name: PoolProperties
+            go_field_name: PoolPatchProperties
+            go_type_name: PoolPatchProperties
           '/size': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             applicable_to: [python]
             python_field_name: size
@@ -87,7 +87,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
-            go_type_name: CapacityPool
+            go_type_name: CapacityPoolPatch
             python_parameter_name: body
             python_variable_name: body
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -98,8 +98,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PoolProperties
-            go_type_name: PoolProperties
+            go_field_name: PoolPatchProperties
+            go_type_name: PoolPatchProperties
           '/size': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             applicable_to: [python]
             python_field_name: size
@@ -161,8 +161,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: PoolProperties
-            go_type_name: PoolProperties
+            go_field_name: PoolPatchProperties
+            go_type_name: PoolPatchProperties
           '/properties/size': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
             applicable_to: [go]
             go_field_name: Size
@@ -218,7 +218,7 @@ objects:
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
         description: 'Resource location'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
@@ -230,17 +230,18 @@ objects:
       - !ruby/object:Api::Type::Integer
         name: 'size'
         description: 'Provisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104).'
-        required: true
+        required: false
         azure_sdk_references: ['/size', '/properties/size']
       - !ruby/object:Api::Type::Enum
         name: 'serviceLevel'
         description: 'The service level of the file system'
-        required: true
+        required: false
         azure_sdk_references: ['/serviceLevel', '/properties/serviceLevel']
         values:
           - :Standard
           - :Premium
           - :Ultra
+        default_value: :Standard
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group.'

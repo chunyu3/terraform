@@ -12,12 +12,11 @@ task: !ruby/object:Provider::Ansible::Task
       type: SystemAssigned
     default_group: test_default_group
     encryption_config:
-      type: UserManaged
       key_vault_meta_info:
+        encryption_key_version: encryption_key_version
         key_vault_resource_id: 34adfa4f-cedf-4dc0-ba29-b6d1a69ab345
         encryption_key_name: test_encryption_key_name
-        encryption_key_version: encryption_key_version
-    encryption_state: Enabled
+      type: UserManaged
     firewall_rules:
       - name: test_rule
         start_ip_address: 1.1.1.1
@@ -29,4 +28,5 @@ task: !ruby/object:Provider::Ansible::Task
         id_provider: 'https://sts.windows.net/ea9ec534-a3e3-4e45-ad36-3afc5bb291c1'
     trusted_id_provider_state: Enabled
     new_tier: Consumption
+    encryption_state: Enabled
   

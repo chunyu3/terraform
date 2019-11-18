@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: hubs
-            go_variable_name: name
+            go_variable_name: hubName
             python_parameter_name: hub_name
+            python_variable_name: hub_name
+          'widgetTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: widgetTypes
+            go_variable_name: name
+            python_parameter_name: widget_type_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -111,9 +116,9 @@ objects:
             python_variable_name: resource_group
           'hubName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: hubs
-            go_variable_name: name
+            go_variable_name: hubName
             python_parameter_name: hub_name
-            python_variable_name: name
+            python_variable_name: hub_name
 
     description: |
       Manage Azure WidgetType instance.
@@ -125,11 +130,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'hubName'
         description: 'The name of the hub.'
         required: true
         input: true
         azure_sdk_references: ['hubName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the widget type.'
+        required: true
+        input: true
+        azure_sdk_references: ['widgetTypeName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

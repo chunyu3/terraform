@@ -34,8 +34,13 @@ objects:
             python_variable_name: profile_name
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: endpoints
-            go_variable_name: name
+            go_variable_name: endpointName
             python_parameter_name: endpoint_name
+            python_variable_name: endpoint_name
+          'originName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: origins
+            go_variable_name: name
+            python_parameter_name: origin_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -104,9 +109,9 @@ objects:
             python_variable_name: profile_name
           'endpointName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: endpoints
-            go_variable_name: name
+            go_variable_name: endpointName
             python_parameter_name: endpoint_name
-            python_variable_name: name
+            python_variable_name: endpoint_name
 
     description: |
       Manage Azure Origin instance.
@@ -124,11 +129,17 @@ objects:
         input: true
         azure_sdk_references: ['profileName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'endpointName'
         description: 'Name of the endpoint under the profile which is unique globally.'
         required: true
         input: true
         azure_sdk_references: ['endpointName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the origin which is unique within the endpoint.'
+        required: true
+        input: true
+        azure_sdk_references: ['originName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

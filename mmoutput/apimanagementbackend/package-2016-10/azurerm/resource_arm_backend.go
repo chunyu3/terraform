@@ -45,16 +45,6 @@ func resourceArmBackend() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "protocol": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(apimanagement.http),
-                    string(apimanagement.soap),
-                }, false),
-            },
-
             "url": {
                 Type: schema.TypeString,
                 Required: true,
@@ -88,6 +78,17 @@ func resourceArmBackend() *schema.Resource {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
+            },
+
+            "protocol": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(apimanagement.http),
+                    string(apimanagement.soap),
+                }, false),
+                Default: string(apimanagement.http),
             },
 
             "query": {
@@ -161,7 +162,7 @@ func resourceArmBackendCreate(d *schema.ResourceData, meta interface{}) error {
     url := d.Get("url").(string)
     username := d.Get("username").(string)
 
-    parameters := apimanagement.BackendContract{
+    parameters := apimanagement.BackendUpdateParameters{
         Certificate: utils.ExpandStringSlice(certificate),
         Description: utils.String(description),
         Header: utils.ExpandKeyValuePairs(header),
@@ -260,7 +261,7 @@ func resourceArmBackendUpdate(d *schema.ResourceData, meta interface{}) error {
     url := d.Get("url").(string)
     username := d.Get("username").(string)
 
-    parameters := apimanagement.BackendContract{
+    parameters := apimanagement.BackendUpdateParameters{
         Certificate: utils.ExpandStringSlice(certificate),
         Description: utils.String(description),
         Header: utils.ExpandKeyValuePairs(header),

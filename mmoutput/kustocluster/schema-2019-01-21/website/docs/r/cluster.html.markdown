@@ -32,9 +32,13 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
-* `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
+* `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 
-* `sku` - (Required) One `sku` block defined below.
+* `sku` - (Optional) One `sku` block defined below.
+
+* `trusted_external_tenants` - (Optional) One or more `trusted_external_tenant` block defined below.
+
+* `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ---
 
@@ -45,10 +49,6 @@ The `sku` block supports the following:
 * `capacity` - (Optional) The number of instances of the cluster.
 
 * `tier` - (Required) SKU tier.
-
-* `trusted_external_tenants` - (Optional) One or more `trusted_external_tenant` block defined below.
-
-* `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ---
 

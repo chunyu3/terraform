@@ -226,14 +226,14 @@ func resourceArmVirtualNetworkCreate(d *schema.ResourceData, meta interface{}) e
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    virtualNetwork := devtestlab.VirtualNetwork{
+    virtualNetwork := devtestlab.VirtualNetworkFragment{
         Location: utils.String(location),
-        VirtualNetworkProperties: &devtestlab.VirtualNetworkProperties{
-            AllowedSubnets: expandArmVirtualNetworkSubnet(allowedSubnets),
+        VirtualNetworkPropertiesFragment: &devtestlab.VirtualNetworkPropertiesFragment{
+            AllowedSubnets: expandArmVirtualNetworkSubnetFragment(allowedSubnets),
             Description: utils.String(description),
             ExternalProviderResourceID: utils.String(externalProviderResourceId),
-            ExternalSubnets: expandArmVirtualNetworkExternalSubnet(externalSubnets),
-            SubnetOverrides: expandArmVirtualNetworkSubnetOverride(subnetOverrides),
+            ExternalSubnets: expandArmVirtualNetworkExternalSubnetFragment(externalSubnets),
+            SubnetOverrides: expandArmVirtualNetworkSubnetOverrideFragment(subnetOverrides),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
         Tags: tags.Expand(t),
@@ -290,21 +290,21 @@ func resourceArmVirtualNetworkRead(d *schema.ResourceData, meta interface{}) err
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if virtualNetworkProperties := resp.VirtualNetworkProperties; virtualNetworkProperties != nil {
-        if err := d.Set("allowed_subnets", flattenArmVirtualNetworkSubnet(virtualNetworkProperties.AllowedSubnets)); err != nil {
+    if virtualNetworkPropertiesFragment := resp.VirtualNetworkPropertiesFragment; virtualNetworkPropertiesFragment != nil {
+        if err := d.Set("allowed_subnets", flattenArmVirtualNetworkSubnetFragment(virtualNetworkPropertiesFragment.AllowedSubnets)); err != nil {
             return fmt.Errorf("Error setting `allowed_subnets`: %+v", err)
         }
-        d.Set("created_date", (virtualNetworkProperties.CreatedDate).String())
-        d.Set("description", virtualNetworkProperties.Description)
-        d.Set("external_provider_resource_id", virtualNetworkProperties.ExternalProviderResourceID)
-        if err := d.Set("external_subnets", flattenArmVirtualNetworkExternalSubnet(virtualNetworkProperties.ExternalSubnets)); err != nil {
+        d.Set("created_date", (virtualNetworkPropertiesFragment.CreatedDate).String())
+        d.Set("description", virtualNetworkPropertiesFragment.Description)
+        d.Set("external_provider_resource_id", virtualNetworkPropertiesFragment.ExternalProviderResourceID)
+        if err := d.Set("external_subnets", flattenArmVirtualNetworkExternalSubnetFragment(virtualNetworkPropertiesFragment.ExternalSubnets)); err != nil {
             return fmt.Errorf("Error setting `external_subnets`: %+v", err)
         }
-        d.Set("provisioning_state", virtualNetworkProperties.ProvisioningState)
-        if err := d.Set("subnet_overrides", flattenArmVirtualNetworkSubnetOverride(virtualNetworkProperties.SubnetOverrides)); err != nil {
+        d.Set("provisioning_state", virtualNetworkPropertiesFragment.ProvisioningState)
+        if err := d.Set("subnet_overrides", flattenArmVirtualNetworkSubnetOverrideFragment(virtualNetworkPropertiesFragment.SubnetOverrides)); err != nil {
             return fmt.Errorf("Error setting `subnet_overrides`: %+v", err)
         }
-        d.Set("unique_identifier", virtualNetworkProperties.UniqueIdentifier)
+        d.Set("unique_identifier", virtualNetworkPropertiesFragment.UniqueIdentifier)
     }
     d.Set("type", resp.Type)
 
@@ -326,14 +326,14 @@ func resourceArmVirtualNetworkUpdate(d *schema.ResourceData, meta interface{}) e
     uniqueIdentifier := d.Get("unique_identifier").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    virtualNetwork := devtestlab.VirtualNetwork{
+    virtualNetwork := devtestlab.VirtualNetworkFragment{
         Location: utils.String(location),
-        VirtualNetworkProperties: &devtestlab.VirtualNetworkProperties{
-            AllowedSubnets: expandArmVirtualNetworkSubnet(allowedSubnets),
+        VirtualNetworkPropertiesFragment: &devtestlab.VirtualNetworkPropertiesFragment{
+            AllowedSubnets: expandArmVirtualNetworkSubnetFragment(allowedSubnets),
             Description: utils.String(description),
             ExternalProviderResourceID: utils.String(externalProviderResourceId),
-            ExternalSubnets: expandArmVirtualNetworkExternalSubnet(externalSubnets),
-            SubnetOverrides: expandArmVirtualNetworkSubnetOverride(subnetOverrides),
+            ExternalSubnets: expandArmVirtualNetworkExternalSubnetFragment(externalSubnets),
+            SubnetOverrides: expandArmVirtualNetworkSubnetOverrideFragment(subnetOverrides),
             UniqueIdentifier: utils.String(uniqueIdentifier),
         },
         Tags: tags.Expand(t),
@@ -377,15 +377,15 @@ func resourceArmVirtualNetworkDelete(d *schema.ResourceData, meta interface{}) e
     return nil
 }
 
-func expandArmVirtualNetworkSubnet(input []interface{}) *[]devtestlab.Subnet {
-    results := make([]devtestlab.Subnet, 0)
+func expandArmVirtualNetworkSubnetFragment(input []interface{}) *[]devtestlab.SubnetFragment {
+    results := make([]devtestlab.SubnetFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         resourceId := v["resource_id"].(string)
         labSubnetName := v["lab_subnet_name"].(string)
         allowPublicIp := v["allow_public_ip"].(string)
 
-        result := devtestlab.Subnet{
+        result := devtestlab.SubnetFragment{
             AllowPublicIp: devtestlab.UsagePermissionType(allowPublicIp),
             LabSubnetName: utils.String(labSubnetName),
             ResourceID: utils.String(resourceId),
@@ -396,14 +396,14 @@ func expandArmVirtualNetworkSubnet(input []interface{}) *[]devtestlab.Subnet {
     return &results
 }
 
-func expandArmVirtualNetworkExternalSubnet(input []interface{}) *[]devtestlab.ExternalSubnet {
-    results := make([]devtestlab.ExternalSubnet, 0)
+func expandArmVirtualNetworkExternalSubnetFragment(input []interface{}) *[]devtestlab.ExternalSubnetFragment {
+    results := make([]devtestlab.ExternalSubnetFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         id := v["id"].(string)
         name := v["name"].(string)
 
-        result := devtestlab.ExternalSubnet{
+        result := devtestlab.ExternalSubnetFragment{
             ID: utils.String(id),
             Name: utils.String(name),
         }
@@ -413,8 +413,8 @@ func expandArmVirtualNetworkExternalSubnet(input []interface{}) *[]devtestlab.Ex
     return &results
 }
 
-func expandArmVirtualNetworkSubnetOverride(input []interface{}) *[]devtestlab.SubnetOverride {
-    results := make([]devtestlab.SubnetOverride, 0)
+func expandArmVirtualNetworkSubnetOverrideFragment(input []interface{}) *[]devtestlab.SubnetOverrideFragment {
+    results := make([]devtestlab.SubnetOverrideFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         resourceId := v["resource_id"].(string)
@@ -424,10 +424,10 @@ func expandArmVirtualNetworkSubnetOverride(input []interface{}) *[]devtestlab.Su
         sharedPublicIpAddressConfiguration := v["shared_public_ip_address_configuration"].([]interface{})
         virtualNetworkPoolName := v["virtual_network_pool_name"].(string)
 
-        result := devtestlab.SubnetOverride{
+        result := devtestlab.SubnetOverrideFragment{
             LabSubnetName: utils.String(labSubnetName),
             ResourceID: utils.String(resourceId),
-            SharedPublicIpAddressConfiguration: expandArmVirtualNetworkSubnetSharedPublicIpAddressConfiguration(sharedPublicIpAddressConfiguration),
+            SharedPublicIpAddressConfiguration: expandArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(sharedPublicIpAddressConfiguration),
             UseInVmCreationPermission: devtestlab.UsagePermissionType(useInVmCreationPermission),
             UsePublicIpAddressPermission: devtestlab.UsagePermissionType(usePublicIpAddressPermission),
             VirtualNetworkPoolName: utils.String(virtualNetworkPoolName),
@@ -438,7 +438,7 @@ func expandArmVirtualNetworkSubnetOverride(input []interface{}) *[]devtestlab.Su
     return &results
 }
 
-func expandArmVirtualNetworkSubnetSharedPublicIpAddressConfiguration(input []interface{}) *devtestlab.SubnetSharedPublicIpAddressConfiguration {
+func expandArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(input []interface{}) *devtestlab.SubnetSharedPublicIpAddressConfigurationFragment {
     if len(input) == 0 {
         return nil
     }
@@ -446,20 +446,20 @@ func expandArmVirtualNetworkSubnetSharedPublicIpAddressConfiguration(input []int
 
     allowedPorts := v["allowed_ports"].([]interface{})
 
-    result := devtestlab.SubnetSharedPublicIpAddressConfiguration{
-        AllowedPorts: expandArmVirtualNetworkPort(allowedPorts),
+    result := devtestlab.SubnetSharedPublicIpAddressConfigurationFragment{
+        AllowedPorts: expandArmVirtualNetworkPortFragment(allowedPorts),
     }
     return &result
 }
 
-func expandArmVirtualNetworkPort(input []interface{}) *[]devtestlab.Port {
-    results := make([]devtestlab.Port, 0)
+func expandArmVirtualNetworkPortFragment(input []interface{}) *[]devtestlab.PortFragment {
+    results := make([]devtestlab.PortFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         transportProtocol := v["transport_protocol"].(string)
         backendPort := v["backend_port"].(int)
 
-        result := devtestlab.Port{
+        result := devtestlab.PortFragment{
             BackendPort: utils.Int32(int32(backendPort)),
             TransportProtocol: devtestlab.TransportProtocol(transportProtocol),
         }
@@ -470,7 +470,7 @@ func expandArmVirtualNetworkPort(input []interface{}) *[]devtestlab.Port {
 }
 
 
-func flattenArmVirtualNetworkSubnet(input *[]devtestlab.Subnet) []interface{} {
+func flattenArmVirtualNetworkSubnetFragment(input *[]devtestlab.SubnetFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -493,7 +493,7 @@ func flattenArmVirtualNetworkSubnet(input *[]devtestlab.Subnet) []interface{} {
     return results
 }
 
-func flattenArmVirtualNetworkExternalSubnet(input *[]devtestlab.ExternalSubnet) []interface{} {
+func flattenArmVirtualNetworkExternalSubnetFragment(input *[]devtestlab.ExternalSubnetFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -515,7 +515,7 @@ func flattenArmVirtualNetworkExternalSubnet(input *[]devtestlab.ExternalSubnet) 
     return results
 }
 
-func flattenArmVirtualNetworkSubnetOverride(input *[]devtestlab.SubnetOverride) []interface{} {
+func flattenArmVirtualNetworkSubnetOverrideFragment(input *[]devtestlab.SubnetOverrideFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results
@@ -530,7 +530,7 @@ func flattenArmVirtualNetworkSubnetOverride(input *[]devtestlab.SubnetOverride) 
         if resourceId := item.ResourceID; resourceId != nil {
             v["resource_id"] = *resourceId
         }
-        v["shared_public_ip_address_configuration"] = flattenArmVirtualNetworkSubnetSharedPublicIpAddressConfiguration(item.SharedPublicIpAddressConfiguration)
+        v["shared_public_ip_address_configuration"] = flattenArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(item.SharedPublicIpAddressConfiguration)
         v["use_in_vm_creation_permission"] = string(item.UseInVmCreationPermission)
         v["use_public_ip_address_permission"] = string(item.UsePublicIpAddressPermission)
         if virtualNetworkPoolName := item.VirtualNetworkPoolName; virtualNetworkPoolName != nil {
@@ -543,19 +543,19 @@ func flattenArmVirtualNetworkSubnetOverride(input *[]devtestlab.SubnetOverride) 
     return results
 }
 
-func flattenArmVirtualNetworkSubnetSharedPublicIpAddressConfiguration(input *devtestlab.SubnetSharedPublicIpAddressConfiguration) []interface{} {
+func flattenArmVirtualNetworkSubnetSharedPublicIpAddressConfigurationFragment(input *devtestlab.SubnetSharedPublicIpAddressConfigurationFragment) []interface{} {
     if input == nil {
         return make([]interface{}, 0)
     }
 
     result := make(map[string]interface{})
 
-    result["allowed_ports"] = flattenArmVirtualNetworkPort(input.AllowedPorts)
+    result["allowed_ports"] = flattenArmVirtualNetworkPortFragment(input.AllowedPorts)
 
     return []interface{}{result}
 }
 
-func flattenArmVirtualNetworkPort(input *[]devtestlab.Port) []interface{} {
+func flattenArmVirtualNetworkPortFragment(input *[]devtestlab.PortFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results

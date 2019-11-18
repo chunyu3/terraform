@@ -45,19 +45,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServerEndpointCreateParameters
+            go_type_name: ServerEndpointUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerEndpointCreateParametersProperties
-            go_type_name: ServerEndpointCreateParametersProperties
-          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_local_path
-          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerLocalPath
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
           '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: cloud_tiering
@@ -77,18 +71,6 @@ objects:
           '/properties/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: TierFilesOlderThanDays
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_resource_id
-          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerResourceID
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -116,19 +98,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServerEndpointCreateParameters
+            go_type_name: ServerEndpointUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerEndpointCreateParametersProperties
-            go_type_name: ServerEndpointCreateParametersProperties
-          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_local_path
-          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerLocalPath
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
           '/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: cloud_tiering
@@ -148,18 +124,6 @@ objects:
           '/properties/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: TierFilesOlderThanDays
-          '/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: friendly_name
-          '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: FriendlyName
-          '/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_resource_id
-          '/properties/serverResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerResourceID
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -212,14 +176,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServerEndpointCreateParametersProperties
-            go_type_name: ServerEndpointCreateParametersProperties
-          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ServerLocalPath
-          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: server_local_path
+            go_field_name: ServerEndpointUpdateProperties
+            go_type_name: ServerEndpointUpdateProperties
           '/properties/cloudTiering': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: CloudTiering
@@ -239,6 +197,12 @@ objects:
           '/tierFilesOlderThanDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: tier_files_older_than_days
+          '/properties/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ServerLocalPath
+          '/serverLocalPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: server_local_path
           '/properties/friendlyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: FriendlyName
@@ -331,11 +295,6 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serverEndpointName']
-      - !ruby/object:Api::Type::String
-        name: 'serverLocalPath'
-        description: 'Server Local path.'
-        required: false
-        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
       - !ruby/object:Api::Type::Enum
         name: 'cloudTiering'
         description: 'Cloud Tiering.'
@@ -355,17 +314,22 @@ objects:
         description: 'Tier files older than days.'
         required: false
         azure_sdk_references: ['/tierFilesOlderThanDays', '/properties/tierFilesOlderThanDays']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'serverLocalPath'
+        description: 'Server Local path.'
+        output: true
+        azure_sdk_references: ['/serverLocalPath', '/properties/serverLocalPath']
       - !ruby/object:Api::Type::String
         name: 'friendlyName'
         description: 'Friendly Name'
-        required: false
+        output: true
         azure_sdk_references: ['/friendlyName', '/properties/friendlyName']
       - !ruby/object:Api::Type::String
         name: 'serverResourceId'
         description: 'Server Resource Id.'
-        required: false
+        output: true
         azure_sdk_references: ['/serverResourceId', '/properties/serverResourceId']
-      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'ServerEndpoint Provisioning State'

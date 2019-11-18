@@ -32,13 +32,20 @@ objects:
             go_variable_name: name
             python_parameter_name: deployment_name
             python_variable_name: name
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
         response:
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operations
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: OperationID
-            python_field_name: operation_id
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DeploymentOperationProperties
@@ -122,17 +129,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['deploymentName']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'Operation Id.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Gets or sets full deployment operation id.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'operationId'
-        description: 'Gets or sets deployment operation id.'
-        output: true
-        azure_sdk_references: ['/operationId']
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
         description: 'Gets or sets the state of the provisioning.'

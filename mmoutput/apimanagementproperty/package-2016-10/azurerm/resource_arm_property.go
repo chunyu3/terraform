@@ -38,9 +38,8 @@ func resourceArmProperty() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -52,15 +51,14 @@ func resourceArmProperty() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "value": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "secret": {
                 Type: schema.TypeBool,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "value": {
+                Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
             },
@@ -102,7 +100,7 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
-    parameters := apimanagement.PropertyCreateParameters{
+    parameters := apimanagement.PropertyUpdateParameters{
         Name: utils.String(name),
         Secret: utils.Bool(secret),
         Tags: utils.ExpandStringSlice(tags),
@@ -173,7 +171,7 @@ func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
-    parameters := apimanagement.PropertyCreateParameters{
+    parameters := apimanagement.PropertyUpdateParameters{
         Name: utils.String(name),
         Secret: utils.Bool(secret),
         Tags: utils.ExpandStringSlice(tags),

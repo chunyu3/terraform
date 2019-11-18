@@ -34,25 +34,15 @@ The following arguments are supported:
 
 * `location` - (Required) The resource location. Changing this forces a new resource to be created.
 
-* `data_lake_store_accounts` - (Required) One or more `data_lake_store_account` block defined below.
-
-* `default_data_lake_store_account` - (Required) The default Data Lake Store account associated with this account.
-
----
-
-The `data_lake_store_account` block supports the following:
-
-* `name` - (Required) The unique name of the Data Lake Store account to add.
-
-* `suffix` - (Optional) The optional suffix for the Data Lake Store account.
-
 * `compute_policies` - (Optional) One or more `compute_policy` block defined below.
+
+* `data_lake_store_accounts` - (Optional) One or more `data_lake_store_account` block defined below.
 
 * `firewall_allow_azure_ips` - (Optional) The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. Defaults to `Enabled`.
 
 * `firewall_rules` - (Optional) One or more `firewall_rule` block defined below.
 
-* `firewall_state` - (Optional) The current state of the IP address firewall for this account. Defaults to `Enabled`.
+* `firewall_state` - (Optional) The current state of the IP address firewall for this account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. Defaults to `Enabled`.
 
 * `max_degree_of_parallelism` - (Optional) The maximum supported degree of parallelism for this account.
 
@@ -62,7 +52,7 @@ The `data_lake_store_account` block supports the following:
 
 * `min_priority_per_job` - (Optional) The minimum supported priority per job for this account.
 
-* `new_tier` - (Optional) The commitment tier for the next month. Defaults to `Consumption`.
+* `new_tier` - (Optional) The commitment tier to use for next month. Defaults to `Consumption`.
 
 * `query_store_retention` - (Optional) The number of days that job metadata is retained.
 
@@ -74,11 +64,11 @@ The `data_lake_store_account` block supports the following:
 
 The `compute_policy` block supports the following:
 
-* `name` - (Required) The unique name of the compute policy to create.
+* `name` - (Required) The unique name of the compute policy to update.
 
-* `object_id` - (Required) The AAD object identifier for the entity to create a policy for.
+* `object_id` - (Optional) The AAD object identifier for the entity to create a policy for.
 
-* `object_type` - (Required) The type of AAD object the object identifier refers to.
+* `object_type` - (Optional) The type of AAD object the object identifier refers to. Defaults to `User`.
 
 * `max_degree_of_parallelism_per_job` - (Optional) The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
 
@@ -86,21 +76,29 @@ The `compute_policy` block supports the following:
 
 ---
 
+The `data_lake_store_account` block supports the following:
+
+* `name` - (Required) The unique name of the Data Lake Store account to update.
+
+* `suffix` - (Optional) The optional suffix for the Data Lake Store account.
+
+---
+
 The `firewall_rule` block supports the following:
 
-* `name` - (Required) The unique name of the firewall rule to create.
+* `name` - (Required) The unique name of the firewall rule to update.
 
-* `start_ip_address` - (Required) The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+* `start_ip_address` - (Optional) The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
 
-* `end_ip_address` - (Required) The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+* `end_ip_address` - (Optional) The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
 
 ---
 
 The `storage_account` block supports the following:
 
-* `name` - (Required) The unique name of the Azure Storage account to add.
+* `name` - (Required) The unique name of the Azure Storage account to update.
 
-* `access_key` - (Required) The access key associated with this Azure Storage account that will be used to connect to it.
+* `access_key` - (Optional) The updated access key associated with this Azure Storage account that will be used to connect to it.
 
 * `suffix` - (Optional) The optional suffix for the storage account.
 
@@ -119,6 +117,8 @@ The following attributes are exported:
 * `last_modified_time` - The account last modified time.
 
 * `endpoint` - The full CName endpoint for this account.
+
+* `default_data_lake_store_account` - The default Data Lake Store account associated with this account.
 
 * `current_tier` - The commitment tier in use for the current month.
 

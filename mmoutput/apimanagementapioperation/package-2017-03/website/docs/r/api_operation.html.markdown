@@ -34,15 +34,13 @@ The following arguments are supported:
 
 * `api_id` - (Required) API revision identifier. Must be unique in the current API Management service instance. Non-current revision has ;rev=n as a suffix where n is the revision number. Changing this forces a new resource to be created.
 
-* `display_name` - (Required) Operation Name.
-
-* `method` - (Required) A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
-
 * `operation_id` - (Required) Operation identifier within an API. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `url_template` - (Required) Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}
-
 * `description` - (Optional) Description of the operation. May include HTML formatting tags.
+
+* `display_name` - (Optional) Operation Name.
+
+* `method` - (Optional) A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.
 
 * `policies` - (Optional) Operation Policies
 
@@ -51,6 +49,8 @@ The following arguments are supported:
 * `responses` - (Optional) One or more `response` block defined below.
 
 * `template_parameters` - (Optional) One or more `template_parameter` block defined below.
+
+* `url_template` - (Optional) Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}
 
 ---
 

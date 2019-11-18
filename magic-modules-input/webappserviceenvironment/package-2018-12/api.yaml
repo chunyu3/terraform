@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: hostingEnvironmentEnvelope
-            go_type_name: AppServiceEnvironmentResource
+            go_type_name: AppServiceEnvironmentPatchResource
             python_parameter_name: hosting_environment_envelope
             python_variable_name: hosting_environment_envelope
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -278,7 +278,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: hostingEnvironmentEnvelope
-            go_type_name: AppServiceEnvironmentResource
+            go_type_name: AppServiceEnvironmentPatchResource
             python_parameter_name: hosting_environment_envelope
             python_variable_name: hosting_environment_envelope
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -520,6 +520,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'forceDelete': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: forceDelete
+            python_parameter_name: force_delete
+            python_variable_name: force_delete
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -1013,6 +1018,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'propertiesToInclude': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: propertiesToInclude
+            python_parameter_name: properties_to_include
+            python_variable_name: properties_to_include
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListUsages
         python_func_name: list_usages
@@ -1041,6 +1051,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListOperations
         python_func_name: list_operations
@@ -1195,6 +1210,26 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
+          'timeGrain': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: timeGrain
+            python_parameter_name: time_grain
+            python_variable_name: time_grain
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWorkerPoolSkus
         python_func_name: list_worker_pool_skus
@@ -1209,6 +1244,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'workerPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workerPools
+            go_variable_name: workerPoolName
+            python_parameter_name: worker_pool_name
+            python_variable_name: worker_pool_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWebWorkerUsages
         python_func_name: list_web_worker_usages
@@ -1223,6 +1263,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'workerPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workerPools
+            go_variable_name: workerPoolName
+            python_parameter_name: worker_pool_name
+            python_variable_name: worker_pool_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWebWorkerMetrics
         python_func_name: list_web_worker_metrics
@@ -1237,6 +1282,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'workerPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workerPools
+            go_variable_name: workerPoolName
+            python_parameter_name: worker_pool_name
+            python_variable_name: worker_pool_name
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMultiRoleMetricDefinitions
         python_func_name: list_multi_role_metric_definitions
@@ -1265,6 +1320,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'workerPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workerPools
+            go_variable_name: workerPoolName
+            python_parameter_name: worker_pool_name
+            python_variable_name: worker_pool_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMultiRolePoolInstanceMetrics
         python_func_name: list_multi_role_pool_instance_metrics
@@ -1279,6 +1339,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'instance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instance
+            python_parameter_name: instance
+            python_variable_name: instance
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWorkerPoolInstanceMetrics
         python_func_name: list_worker_pool_instance_metrics
@@ -1293,6 +1363,21 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'workerPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workerPools
+            go_variable_name: workerPoolName
+            python_parameter_name: worker_pool_name
+            python_variable_name: worker_pool_name
+          'instance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instance
+            python_parameter_name: instance
+            python_variable_name: instance
+          'details': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: details
+            python_parameter_name: details
+            python_variable_name: details
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMultiRolePoolInstanceMetricDefinitions
         python_func_name: list_multi_role_pool_instance_metric_definitions
@@ -1307,6 +1392,11 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'instance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instance
+            python_parameter_name: instance
+            python_variable_name: instance
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListWorkerPoolInstanceMetricDefinitions
         python_func_name: list_worker_pool_instance_metric_definitions
@@ -1321,6 +1411,16 @@ objects:
             go_variable_name: name
             python_parameter_name: name
             python_variable_name: name
+          'workerPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workerPools
+            go_variable_name: workerPoolName
+            python_parameter_name: worker_pool_name
+            python_variable_name: worker_pool_name
+          'instance': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: instances
+            go_variable_name: instance
+            python_parameter_name: instance
+            python_variable_name: instance
 
     description: |
       Manage Azure AppServiceEnvironment instance.
@@ -1548,6 +1648,60 @@ objects:
         description: 'Key Vault Secret Name for ILB App Service Environment default SSL certificate'
         required: false
         azure_sdk_references: ['/sslCertKeyVaultSecretName', '/properties/sslCertKeyVaultSecretName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'forceDelete'
+        description: 'Specify <code>true</code> to force the deletion even if the App Service Environment contains resources. The default is <code>false</code>.'
+        required: false
+        input: true
+        azure_sdk_references: ['forceDelete']
+      - !ruby/object:Api::Type::String
+        name: 'propertiesToInclude'
+        description: 'Comma separated list of app properties to include.'
+        required: false
+        input: true
+        azure_sdk_references: ['propertiesToInclude']
+      - !ruby/object:Api::Type::Boolean
+        name: 'details'
+        description: 'Specify <code>true</code> to include instance details. The default is <code>false</code>.'
+        required: false
+        input: true
+        azure_sdk_references: ['details']
+      - !ruby/object:Api::Type::String
+        name: 'workerPoolName'
+        description: 'Name of the worker pool.'
+        required: true
+        input: true
+        azure_sdk_references: ['workerPoolName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the diagnostics item.'
+        required: true
+        input: true
+        azure_sdk_references: ['diagnosticsName']
+      - !ruby/object:Api::Type::String
+        name: 'startTime'
+        description: 'Beginning time of the metrics query.'
+        required: false
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Type::String
+        name: 'endTime'
+        description: 'End time of the metrics query.'
+        required: false
+        input: true
+        azure_sdk_references: ['endTime']
+      - !ruby/object:Api::Type::String
+        name: 'timeGrain'
+        description: 'Time granularity of the metrics query.'
+        required: false
+        input: true
+        azure_sdk_references: ['timeGrain']
+      - !ruby/object:Api::Type::String
+        name: 'instance'
+        description: 'Name of the instance in the worker pool.'
+        required: true
+        input: true
+        azure_sdk_references: ['instance']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

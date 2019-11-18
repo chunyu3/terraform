@@ -7,4 +7,24 @@ task: !ruby/object:Provider::Ansible::Task
     registry_name: myRegistry
     build_task_name: myBuildTask
     name: myStep
+    build_step_update_parameters:
+      properties:
+        type: Docker
+        imageNames:
+          - 'azurerest:testtag'
+          - 'azurerest1:testtag1'
+        dockerFilePath: subfolder/Dockerfile
+        contextPath: dockerfiles
+        isPushEnabled: true
+        noCache: false
+        baseImageTrigger: None
+        buildArguments:
+          - type: DockerBuildArgument
+            name: mytestargument
+            value: mytestvalue
+            isSecret: false
+          - type: DockerBuildArgument
+            name: mysecrettestargument
+            value: mysecrettestvalue
+            isSecret: true
   

@@ -29,8 +29,13 @@ objects:
             python_variable_name: regulatory_compliance_standard_name
           'regulatoryComplianceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: regulatoryComplianceControls
-            go_variable_name: name
+            go_variable_name: regulatoryComplianceControlName
             python_parameter_name: regulatory_compliance_control_name
+            python_variable_name: regulatory_compliance_control_name
+          'regulatoryComplianceAssessmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: regulatoryComplianceAssessments
+            go_variable_name: name
+            python_parameter_name: regulatory_compliance_assessment_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -106,9 +111,9 @@ objects:
             python_variable_name: regulatory_compliance_standard_name
           'regulatoryComplianceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: regulatoryComplianceControls
-            go_variable_name: name
+            go_variable_name: regulatoryComplianceControlName
             python_parameter_name: regulatory_compliance_control_name
-            python_variable_name: name
+            python_variable_name: regulatory_compliance_control_name
 
     description: |
       Manage Azure RegulatoryComplianceAssessment instance.
@@ -120,11 +125,17 @@ objects:
         input: true
         azure_sdk_references: ['regulatoryComplianceStandardName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'regulatoryComplianceControlName'
         description: 'Name of the regulatory compliance control object'
         required: true
         input: true
         azure_sdk_references: ['regulatoryComplianceControlName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the regulatory compliance assessment object'
+        required: true
+        input: true
+        azure_sdk_references: ['regulatoryComplianceAssessmentName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

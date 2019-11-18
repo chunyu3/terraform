@@ -52,14 +52,12 @@ func resourceArmFirewallRule() *schema.Resource {
 
             "end_ip_address": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "start_ip_address": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "type": {
@@ -93,8 +91,8 @@ func resourceArmFirewallRuleCreate(d *schema.ResourceData, meta interface{}) err
     endIpAddress := d.Get("end_ip_address").(string)
     startIpAddress := d.Get("start_ip_address").(string)
 
-    parameters := datalakeanalytics.CreateOrUpdateFirewallRuleParameters{
-        CreateOrUpdateFirewallRuleProperties: &datalakeanalytics.CreateOrUpdateFirewallRuleProperties{
+    parameters := datalakeanalytics.UpdateFirewallRuleParameters{
+        UpdateFirewallRuleProperties: &datalakeanalytics.UpdateFirewallRuleProperties{
             EndIpAddress: utils.String(endIpAddress),
             StartIpAddress: utils.String(startIpAddress),
         },
@@ -145,9 +143,9 @@ func resourceArmFirewallRuleRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if createOrUpdateFirewallRuleProperties := resp.CreateOrUpdateFirewallRuleProperties; createOrUpdateFirewallRuleProperties != nil {
-        d.Set("end_ip_address", createOrUpdateFirewallRuleProperties.EndIpAddress)
-        d.Set("start_ip_address", createOrUpdateFirewallRuleProperties.StartIpAddress)
+    if updateFirewallRuleProperties := resp.UpdateFirewallRuleProperties; updateFirewallRuleProperties != nil {
+        d.Set("end_ip_address", updateFirewallRuleProperties.EndIpAddress)
+        d.Set("start_ip_address", updateFirewallRuleProperties.StartIpAddress)
     }
     d.Set("type", resp.Type)
 
@@ -164,8 +162,8 @@ func resourceArmFirewallRuleUpdate(d *schema.ResourceData, meta interface{}) err
     endIpAddress := d.Get("end_ip_address").(string)
     startIpAddress := d.Get("start_ip_address").(string)
 
-    parameters := datalakeanalytics.CreateOrUpdateFirewallRuleParameters{
-        CreateOrUpdateFirewallRuleProperties: &datalakeanalytics.CreateOrUpdateFirewallRuleProperties{
+    parameters := datalakeanalytics.UpdateFirewallRuleParameters{
+        UpdateFirewallRuleProperties: &datalakeanalytics.UpdateFirewallRuleProperties{
             EndIpAddress: utils.String(endIpAddress),
             StartIpAddress: utils.String(startIpAddress),
         },

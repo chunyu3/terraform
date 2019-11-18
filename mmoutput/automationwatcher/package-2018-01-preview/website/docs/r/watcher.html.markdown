@@ -34,25 +34,25 @@ The following arguments are supported:
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `location` - (Optional) The Azure Region where the resource lives Changing this forces a new resource to be created.
+* `name` - (Optional) Gets or sets the name of the resource. Changing this forces a new resource to be created.
 
-* `description` - (Optional) Gets or sets the description.
+* `location` - (Optional) The Azure Region where the resource lives Changing this forces a new resource to be created.
 
 * `etag` - (Optional) Gets or sets the etag of the resource. Changing this forces a new resource to be created.
 
 * `execution_frequency_in_seconds` - (Optional) Gets or sets the frequency at which the watcher is invoked.
-
-* `script_name` - (Optional) Gets or sets the name of the script the watcher is attached to, i.e. the name of an existing runbook.
-
-* `script_parameters` - (Optional) Gets or sets the parameters of the script.
-
-* `script_run_on` - (Optional) Gets or sets the name of the hybrid worker group the watcher will run on.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `script_name` - Gets or sets the name of the script the watcher is attached to, i.e. the name of an existing runbook.
+
+* `script_parameters` - Gets or sets the parameters of the script.
+
+* `script_run_on` - Gets or sets the name of the hybrid worker group the watcher will run on.
 
 * `status` - Gets the current status of the watcher.
 
@@ -62,8 +62,8 @@ The following attributes are exported:
 
 * `last_modified_by` - Details of the user who last modified the watcher.
 
-* `id` - Fully qualified resource Id for the resource
+* `description` - Gets or sets the description.
 
-* `name` - The name of the resource
+* `id` - Fully qualified resource Id for the resource
 
 * `type` - The type of the resource.

@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: certificateDistinguishedName
-            go_type_name: AppServiceCertificateOrder
+            go_type_name: AppServiceCertificateOrderPatchResource
             python_parameter_name: certificate_distinguished_name
             python_variable_name: certificate_distinguished_name
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -49,8 +49,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AppServiceCertificateOrder_properties
-            go_type_name: AppServiceCertificateOrder_properties
+            go_field_name: AppServiceCertificateOrderPatchResource_properties
+            go_type_name: AppServiceCertificateOrderPatchResource_properties
           '/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: certificates
@@ -110,7 +110,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: certificateDistinguishedName
-            go_type_name: AppServiceCertificateOrder
+            go_type_name: AppServiceCertificateOrderPatchResource
             python_parameter_name: certificate_distinguished_name
             python_variable_name: certificate_distinguished_name
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -124,8 +124,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AppServiceCertificateOrder_properties
-            go_type_name: AppServiceCertificateOrder_properties
+            go_field_name: AppServiceCertificateOrderPatchResource_properties
+            go_type_name: AppServiceCertificateOrderPatchResource_properties
           '/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: certificates
@@ -209,8 +209,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AppServiceCertificateOrder_properties
-            go_type_name: AppServiceCertificateOrder_properties
+            go_field_name: AppServiceCertificateOrderPatchResource_properties
+            go_type_name: AppServiceCertificateOrderPatchResource_properties
           '/properties/certificates': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [go]
             go_field_name: Certificates
@@ -493,12 +493,14 @@ objects:
           '/nextAutoRenewalTimeStamp': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: next_auto_renewal_time_stamp
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: certificates
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -601,6 +603,12 @@ objects:
         description: 'Last CSR that was created for this order.'
         required: false
         azure_sdk_references: ['/csr', '/properties/csr']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the certificate.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'domainVerificationToken'
@@ -694,11 +702,6 @@ objects:
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Resource Name.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Resource type.'

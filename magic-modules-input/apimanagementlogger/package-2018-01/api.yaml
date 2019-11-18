@@ -39,13 +39,13 @@ objects:
             python_variable_name: loggerid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: LoggerContract
+            go_type_name: LoggerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LoggerContractProperties
-            go_type_name: LoggerContractProperties
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
           '/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: logger_type
@@ -92,13 +92,13 @@ objects:
             python_variable_name: loggerid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: LoggerContract
+            go_type_name: LoggerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LoggerContractProperties
-            go_type_name: LoggerContractProperties
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
           '/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: logger_type
@@ -165,8 +165,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LoggerContractProperties
-            go_type_name: LoggerContractProperties
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
           '/properties/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: LoggerType
@@ -240,11 +240,12 @@ objects:
       - !ruby/object:Api::Type::Enum
         name: 'loggerType'
         description: 'Logger type.'
-        required: true
+        required: false
         azure_sdk_references: ['/loggerType', '/properties/loggerType']
         values:
           - :azureEventHub
           - :applicationInsights
+        default_value: :azureEventHub
       - !ruby/object:Api::Type::String
         name: 'description'
         description: 'Logger description.'
@@ -252,8 +253,8 @@ objects:
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'credentials'
-        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
-        required: true
+        description: 'Logger credentials.'
+        required: false
         azure_sdk_references: ['/credentials', '/properties/credentials']
       - !ruby/object:Api::Type::Boolean
         name: 'isBuffered'

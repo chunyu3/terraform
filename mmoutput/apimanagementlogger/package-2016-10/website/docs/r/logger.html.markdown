@@ -32,15 +32,15 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `credentials` - (Required) The name and SendRule connection string of the event hub. Changing this forces a new resource to be created.
-
 * `loggerid` - (Required) Logger identifier. Must be unique in the API Management service instance. Changing this forces a new resource to be created.
 
 * `type` - (Required) Logger type. Changing this forces a new resource to be created.
 
+* `credentials` - (Optional) Logger credentials. Changing this forces a new resource to be created.
+
 * `description` - (Optional) Logger description. Changing this forces a new resource to be created.
 
-* `is_buffered` - (Optional) Whether records are buffered in the logger before publishing. Default is assumed to be true. Changing this forces a new resource to be created.
+* `is_buffered` - (Optional) whether records are buffered in the logger before publishing. Default is assumed to be true. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

@@ -32,6 +32,11 @@ objects:
             go_variable_name: pcName
             python_parameter_name: pc_name
             python_variable_name: pc_name
+          'virtualMachineTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachineTemplates
+            go_variable_name: name
+            python_parameter_name: virtual_machine_template_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -341,9 +346,9 @@ objects:
             python_variable_name: pc_name
           'resourcePoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
-            go_variable_name: name
+            go_variable_name: resourcePoolName
             python_parameter_name: resource_pool_name
-            python_variable_name: name
+            python_variable_name: resource_pool_name
 
     description: |
       Manage Azure VirtualMachineTemplate instance.
@@ -361,11 +366,17 @@ objects:
         input: true
         azure_sdk_references: ['regionId']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'resourcePoolName'
         description: 'Resource pool used to derive vSphere cluster which contains VM templates'
         required: true
         input: true
         azure_sdk_references: ['resourcePoolName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'virtual machine template id (vsphereId)'
+        required: true
+        input: true
+        azure_sdk_references: ['virtualMachineTemplateName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

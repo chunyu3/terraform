@@ -29,7 +29,7 @@ objects:
             python_variable_name: resource_group
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Group
+            go_type_name: GroupPatchable
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -45,6 +45,9 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -56,7 +59,7 @@ objects:
             python_variable_name: resource_group
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Group
+            go_type_name: GroupPatchable
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -72,6 +75,9 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Delete
@@ -111,12 +117,12 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -130,7 +136,7 @@ objects:
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.'
+        description: 'The name of the resource group to get. The name is case insensitive.'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -152,6 +158,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource group.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'
@@ -163,11 +175,6 @@ objects:
         description: 'The ID of the resource group.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The name of the resource group.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'The type of the resource group.'

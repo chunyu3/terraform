@@ -188,6 +188,11 @@ objects:
             go_variable_name: name
             python_parameter_name: alert_rule_name
             python_variable_name: name
+          'expandDetector': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: expandDetector
+            python_parameter_name: expand_detector
+            python_variable_name: expand_detector
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -325,6 +330,11 @@ objects:
         go_func_name: List
         python_func_name: list
         request:
+          'expandDetector': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: expandDetector
+            python_parameter_name: expand_detector
+            python_variable_name: expand_detector
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByResourceGroup
         python_func_name: list_by_resource_group
@@ -334,6 +344,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'expandDetector': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: expandDetector
+            python_parameter_name: expand_detector
+            python_variable_name: expand_detector
 
     description: |
       Manage Azure SmartDetectorAlertRule instance.
@@ -468,6 +483,12 @@ objects:
             description: 'The required duration (in ISO8601 format) to wait before notifying on the alert rule again. The time granularity must be in minutes and minimum value is 0 minutes'
             required: false
             azure_sdk_references: ['/throttling/duration', '/properties/throttling/duration']
+      - !ruby/object:Api::Type::Boolean
+        name: 'expandDetector'
+        description: 'Indicates if Smart Detector should be expanded.'
+        required: false
+        input: true
+        azure_sdk_references: ['expandDetector']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteDiagnosticCategories
         python_func_name: list_site_diagnostic_categories
@@ -43,9 +43,9 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListHostingEnvironmentDetectorResponses
         python_func_name: list_hosting_environment_detector_responses
@@ -55,6 +55,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: hostingEnvironments
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteDetectorResponsesSlot
         python_func_name: list_site_detector_responses_slot
@@ -66,9 +71,14 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteDiagnosticCategoriesSlot
         python_func_name: list_site_diagnostic_categories_slot
@@ -80,9 +90,14 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteAnalyses
         python_func_name: list_site_analyses
@@ -94,9 +109,14 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
+          'diagnosticCategory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticCategory
+            python_parameter_name: diagnostic_category
+            python_variable_name: diagnostic_category
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteDetectors
         python_func_name: list_site_detectors
@@ -108,9 +128,14 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
+          'diagnosticCategory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticCategory
+            python_parameter_name: diagnostic_category
+            python_variable_name: diagnostic_category
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteAnalysesSlot
         python_func_name: list_site_analyses_slot
@@ -122,9 +147,19 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'diagnosticCategory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticCategory
+            python_parameter_name: diagnostic_category
+            python_variable_name: diagnostic_category
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteDetectorsSlot
         python_func_name: list_site_detectors_slot
@@ -136,9 +171,19 @@ objects:
             python_variable_name: resource_group
           'siteName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sites
-            go_variable_name: name
+            go_variable_name: siteName
             python_parameter_name: site_name
-            python_variable_name: name
+            python_variable_name: site_name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
+          'diagnosticCategory': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: diagnostics
+            go_variable_name: diagnosticCategory
+            python_parameter_name: diagnostic_category
+            python_variable_name: diagnostic_category
 
     description: |
       Manage Azure Diagnostic instance.
@@ -150,11 +195,59 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'siteName'
         description: 'Site Name'
         required: true
         input: true
         azure_sdk_references: ['siteName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'App Service Environment Name'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Type::String
+        name: 'slot'
+        description: 'Slot Name'
+        required: true
+        input: true
+        azure_sdk_references: ['slot']
+      - !ruby/object:Api::Type::String
+        name: 'detectorName'
+        description: 'Detector Name'
+        required: true
+        input: true
+        azure_sdk_references: ['detectorName']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Start Time'
+        required: false
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'End Time'
+        required: false
+        input: true
+        azure_sdk_references: ['endTime']
+      - !ruby/object:Api::Type::String
+        name: 'timeGrain'
+        description: 'Time Grain'
+        required: false
+        input: true
+        azure_sdk_references: ['timeGrain']
+      - !ruby/object:Api::Type::String
+        name: 'diagnosticCategory'
+        description: 'Diagnostic Category'
+        required: true
+        input: true
+        azure_sdk_references: ['diagnosticCategory']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Analysis Name'
+        required: true
+        input: true
+        azure_sdk_references: ['analysisName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

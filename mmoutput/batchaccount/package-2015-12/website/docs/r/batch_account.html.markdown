@@ -28,9 +28,9 @@ Manage Azure BatchAccount instance.
 
 The following arguments are supported:
 
-* `name` - (Required) A name for the Batch account which must be unique within the region. Batch account names must be between 3 and 24 characters in length and must use only numbers and lowercase letters. This name is used as part of the DNS name that is used to access the Batch service in the region in which the account is created. For example: http://accountname.region.batch.azure.com/. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the account. Changing this forces a new resource to be created.
 
-* `resource_group` - (Required) The name of the resource group that contains the new Batch account. Changing this forces a new resource to be created.
+* `resource_group` - (Required) The name of the resource group that contains the Batch account. Changing this forces a new resource to be created.
 
 * `location` - (Required) The region in which to create the account. Changing this forces a new resource to be created.
 

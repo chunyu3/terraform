@@ -37,6 +37,11 @@ objects:
             go_variable_name: name
             python_parameter_name: job_name
             python_variable_name: name
+          'jobStreamId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: streams
+            go_variable_name: jobStreamID
+            python_parameter_name: job_stream_id
+            python_variable_name: job_stream_id
           'clientRequestId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: clientRequestID
@@ -139,6 +144,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['clientRequestId']
+      - !ruby/object:Api::Type::String
+        name: 'jobStreamId'
+        description: 'The job stream id.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobStreamId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -22,6 +22,21 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'regionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: regionID
+            python_parameter_name: region_id
+            python_variable_name: region_id
+          'operationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: operationResults
+            go_variable_name: operationID
+            python_parameter_name: operation_id
+            python_variable_name: operation_id
+          'Referer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: referer
+            python_parameter_name: referer
+            python_variable_name: referer
         response:
           '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             go_field_name: EndTime
@@ -56,6 +71,24 @@ objects:
     description: |
       Manage Azure Operation instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'regionId'
+        description: 'The region Id (westus, eastus)'
+        required: true
+        input: true
+        azure_sdk_references: ['regionId']
+      - !ruby/object:Api::Type::String
+        name: 'referer'
+        description: 'referer url'
+        required: true
+        input: true
+        azure_sdk_references: ['Referer']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'operation id'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'endTime'

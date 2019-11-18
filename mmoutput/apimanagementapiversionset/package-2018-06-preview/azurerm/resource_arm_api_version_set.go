@@ -43,12 +43,6 @@ func resourceArmApiVersionSet() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "display_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "version_set_id": {
                 Type: schema.TypeString,
                 Required: true,
@@ -56,17 +50,12 @@ func resourceArmApiVersionSet() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "versioning_scheme": {
+            "description": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(apimanagement.Segment),
-                    string(apimanagement.Query),
-                    string(apimanagement.Header),
-                }, false),
+                Optional: true,
             },
 
-            "description": {
+            "display_name": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -79,6 +68,17 @@ func resourceArmApiVersionSet() *schema.Resource {
             "version_query_name": {
                 Type: schema.TypeString,
                 Optional: true,
+            },
+
+            "versioning_scheme": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(apimanagement.Segment),
+                    string(apimanagement.Query),
+                    string(apimanagement.Header),
+                }, false),
+                Default: string(apimanagement.Segment),
             },
 
             "type": {
@@ -115,8 +115,8 @@ func resourceArmApiVersionSetCreate(d *schema.ResourceData, meta interface{}) er
     versionQueryName := d.Get("version_query_name").(string)
     versioningScheme := d.Get("versioning_scheme").(string)
 
-    parameters := apimanagement.ApiVersionSetContract{
-        ApiVersionSetContractProperties: &apimanagement.ApiVersionSetContractProperties{
+    parameters := apimanagement.ApiVersionSetUpdateParameters{
+        ApiVersionSetUpdateParametersProperties: &apimanagement.ApiVersionSetUpdateParametersProperties{
             Description: utils.String(description),
             DisplayName: utils.String(displayName),
             VersionHeaderName: utils.String(versionHeaderName),
@@ -169,12 +169,12 @@ func resourceArmApiVersionSetRead(d *schema.ResourceData, meta interface{}) erro
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if apiVersionSetContractProperties := resp.ApiVersionSetContractProperties; apiVersionSetContractProperties != nil {
-        d.Set("description", apiVersionSetContractProperties.Description)
-        d.Set("display_name", apiVersionSetContractProperties.DisplayName)
-        d.Set("version_header_name", apiVersionSetContractProperties.VersionHeaderName)
-        d.Set("version_query_name", apiVersionSetContractProperties.VersionQueryName)
-        d.Set("versioning_scheme", string(apiVersionSetContractProperties.VersioningScheme))
+    if apiVersionSetUpdateParametersProperties := resp.ApiVersionSetUpdateParametersProperties; apiVersionSetUpdateParametersProperties != nil {
+        d.Set("description", apiVersionSetUpdateParametersProperties.Description)
+        d.Set("display_name", apiVersionSetUpdateParametersProperties.DisplayName)
+        d.Set("version_header_name", apiVersionSetUpdateParametersProperties.VersionHeaderName)
+        d.Set("version_query_name", apiVersionSetUpdateParametersProperties.VersionQueryName)
+        d.Set("versioning_scheme", string(apiVersionSetUpdateParametersProperties.VersioningScheme))
     }
     d.Set("type", resp.Type)
     d.Set("version_set_id", versionSetID)
@@ -195,8 +195,8 @@ func resourceArmApiVersionSetUpdate(d *schema.ResourceData, meta interface{}) er
     versionSetID := d.Get("version_set_id").(string)
     versioningScheme := d.Get("versioning_scheme").(string)
 
-    parameters := apimanagement.ApiVersionSetContract{
-        ApiVersionSetContractProperties: &apimanagement.ApiVersionSetContractProperties{
+    parameters := apimanagement.ApiVersionSetUpdateParameters{
+        ApiVersionSetUpdateParametersProperties: &apimanagement.ApiVersionSetUpdateParametersProperties{
             Description: utils.String(description),
             DisplayName: utils.String(displayName),
             VersionHeaderName: utils.String(versionHeaderName),

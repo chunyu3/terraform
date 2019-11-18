@@ -38,31 +38,27 @@ The following arguments are supported:
 
 * `encryption_config` - (Optional) One `encryption_config` block defined below.
 
-* `encryption_state` - (Optional) The current state of encryption for this Data Lake Store account. Defaults to `Enabled`.
-
 * `firewall_allow_azure_ips` - (Optional) The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. Defaults to `Enabled`.
 
 * `firewall_rules` - (Optional) One or more `firewall_rule` block defined below.
 
-* `firewall_state` - (Optional) The current state of the IP address firewall for this Data Lake Store account. Defaults to `Enabled`.
+* `firewall_state` - (Optional) The current state of the IP address firewall for this Data Lake Store account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. Defaults to `Enabled`.
 
 * `identity` - (Optional) One `identity` block defined below.
 
 * `new_tier` - (Optional) The commitment tier to use for next month. Defaults to `Consumption`.
 
-* `trusted_id_provider_state` - (Optional) The current state of the trusted identity provider feature for this Data Lake Store account. Defaults to `Enabled`.
+* `trusted_id_provider_state` - (Optional) The current state of the trusted identity provider feature for this Data Lake Store account. Disabling trusted identity provider functionality does not remove the providers, they will just be ignored until this feature is re-enabled. Defaults to `Enabled`.
 
 * `trusted_id_providers` - (Optional) One or more `trusted_id_provider` block defined below.
 
 * `virtual_network_rules` - (Optional) One or more `virtual_network_rule` block defined below.
 
-* `tags` - (Optional) The resource tags. Changing this forces a new resource to be created.
+* `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 
 ---
 
 The `encryption_config` block supports the following:
-
-* `type` - (Required) The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'.
 
 * `key_vault_meta_info` - (Optional) One `key_vault_meta_info` block defined below.
 
@@ -71,21 +67,17 @@ The `encryption_config` block supports the following:
 
 The `key_vault_meta_info` block supports the following:
 
-* `key_vault_resource_id` - (Required) The resource identifier for the user managed Key Vault being used to encrypt.
-
-* `encryption_key_name` - (Required) The name of the user managed encryption key.
-
-* `encryption_key_version` - (Required) The version of the user managed encryption key.
+* `encryption_key_version` - (Optional) The version of the user managed encryption key to update through a key rotation.
 
 ---
 
 The `firewall_rule` block supports the following:
 
-* `name` - (Required) The unique name of the firewall rule to create.
+* `name` - (Required) The unique name of the firewall rule to update.
 
-* `start_ip_address` - (Required) The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+* `start_ip_address` - (Optional) The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
 
-* `end_ip_address` - (Required) The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+* `end_ip_address` - (Optional) The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
 
 ---
 
@@ -97,17 +89,17 @@ The `identity` block supports the following:
 
 The `trusted_id_provider` block supports the following:
 
-* `name` - (Required) The unique name of the trusted identity provider to create.
+* `name` - (Required) The unique name of the trusted identity provider to update.
 
-* `id_provider` - (Required) The URL of this trusted identity provider.
+* `id_provider` - (Optional) The URL of this trusted identity provider.
 
 ---
 
 The `virtual_network_rule` block supports the following:
 
-* `name` - (Required) The unique name of the virtual network rule to create.
+* `name` - (Required) The unique name of the virtual network rule to update.
 
-* `subnet_id` - (Required) The resource identifier for the subnet.
+* `subnet_id` - (Optional) The resource identifier for the subnet.
 
 ## Attributes Reference
 
@@ -124,6 +116,8 @@ The following attributes are exported:
 * `last_modified_time` - The account last modified time.
 
 * `endpoint` - The full CName endpoint for this account.
+
+* `encryption_state` - The current state of encryption for this Data Lake Store account.
 
 * `encryption_provisioning_state` - The current state of encryption provisioning for this Data Lake Store account.
 

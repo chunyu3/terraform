@@ -34,8 +34,6 @@ The following arguments are supported:
 
 * `backendid` - (Required) Identifier of the Backend entity. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `protocol` - (Required) Backend communication protocol. Changing this forces a new resource to be created.
-
 * `url` - (Required) WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all fragments and query strings. Changing this forces a new resource to be created.
 
 * `certificate` - (Optional) List of Client Certificate Thumbprint. Changing this forces a new resource to be created.
@@ -45,6 +43,8 @@ The following arguments are supported:
 * `header` - (Optional) Header Parameter description. Changing this forces a new resource to be created.
 
 * `password` - (Optional) Password to connect to the WebProxy Server Changing this forces a new resource to be created.
+
+* `protocol` - (Optional) Backend communication protocol. Defaults to `http`. Changing this forces a new resource to be created.
 
 * `query` - (Optional) Query Parameter description. Changing this forces a new resource to be created.
 

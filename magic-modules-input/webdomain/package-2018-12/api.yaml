@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: domain
-            go_type_name: Domain
+            go_type_name: DomainPatchResource
             python_parameter_name: domain
             python_variable_name: domain
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -49,8 +49,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Domain_properties
-            go_type_name: Domain_properties
+            go_field_name: DomainPatchResource_properties
+            go_type_name: DomainPatchResource_properties
           '/contactAdmin': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: contact_admin
@@ -522,7 +522,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: domain
-            go_type_name: Domain
+            go_type_name: DomainPatchResource
             python_parameter_name: domain
             python_variable_name: domain
           '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -536,8 +536,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Domain_properties
-            go_type_name: Domain_properties
+            go_field_name: DomainPatchResource_properties
+            go_type_name: DomainPatchResource_properties
           '/contactAdmin': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: contact_admin
@@ -1007,6 +1007,11 @@ objects:
             go_variable_name: name
             python_parameter_name: domain_name
             python_variable_name: name
+          'forceHardDeleteDomain': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: forceHardDeleteDomain
+            python_parameter_name: force_hard_delete_domain
+            python_variable_name: force_hard_delete_domain
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -1033,8 +1038,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: Domain_properties
-            go_type_name: Domain_properties
+            go_field_name: DomainPatchResource_properties
+            go_type_name: DomainPatchResource_properties
           '/properties/contactAdmin': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ContactAdmin
@@ -1586,12 +1591,14 @@ objects:
           '/domainNotRenewableReasons': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: domain_not_renewable_reasons
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: domainOwnershipIdentifiers
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Type
             python_field_name: type
@@ -1634,7 +1641,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the domain.'
+        description: 'Name of domain.'
         required: true
         input: true
         azure_sdk_references: ['domainName']
@@ -2044,6 +2051,18 @@ objects:
         description: ''
         required: false
         azure_sdk_references: ['/authCode', '/properties/authCode']
+      - !ruby/object:Api::Type::Boolean
+        name: 'forceHardDeleteDomain'
+        description: 'Specify <code>true</code> to delete the domain immediately. The default is <code>false</code> which deletes the domain after 24 hours.'
+        required: false
+        input: true
+        azure_sdk_references: ['forceHardDeleteDomain']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of identifier.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'registrationStatus'
@@ -2133,11 +2152,6 @@ objects:
         description: 'Resource Id.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'Resource Name.'
-        output: true
-        azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
         name: 'type'
         description: 'Resource type.'

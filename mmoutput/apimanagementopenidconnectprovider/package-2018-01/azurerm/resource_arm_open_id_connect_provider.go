@@ -43,29 +43,16 @@ func resourceArmOpenIdConnectProvider() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "client_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "display_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "metadata_endpoint": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "opid": {
                 Type: schema.TypeString,
                 Required: true,
                 ForceNew: true,
                 ValidateFunc: validate.NoEmptyStrings,
+            },
+
+            "client_id": {
+                Type: schema.TypeString,
+                Optional: true,
             },
 
             "client_secret": {
@@ -74,6 +61,16 @@ func resourceArmOpenIdConnectProvider() *schema.Resource {
             },
 
             "description": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "display_name": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "metadata_endpoint": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -112,8 +109,8 @@ func resourceArmOpenIdConnectProviderCreate(d *schema.ResourceData, meta interfa
     displayName := d.Get("display_name").(string)
     metadataEndpoint := d.Get("metadata_endpoint").(string)
 
-    parameters := apimanagement.OpenidConnectProviderContract{
-        OpenidConnectProviderContractProperties: &apimanagement.OpenidConnectProviderContractProperties{
+    parameters := apimanagement.OpenidConnectProviderUpdateContract{
+        OpenidConnectProviderUpdateContractProperties: &apimanagement.OpenidConnectProviderUpdateContractProperties{
             ClientID: utils.String(clientId),
             ClientSecret: utils.String(clientSecret),
             Description: utils.String(description),
@@ -166,12 +163,12 @@ func resourceArmOpenIdConnectProviderRead(d *schema.ResourceData, meta interface
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if openidConnectProviderContractProperties := resp.OpenidConnectProviderContractProperties; openidConnectProviderContractProperties != nil {
-        d.Set("client_id", openidConnectProviderContractProperties.ClientID)
-        d.Set("client_secret", openidConnectProviderContractProperties.ClientSecret)
-        d.Set("description", openidConnectProviderContractProperties.Description)
-        d.Set("display_name", openidConnectProviderContractProperties.DisplayName)
-        d.Set("metadata_endpoint", openidConnectProviderContractProperties.MetadataEndpoint)
+    if openidConnectProviderUpdateContractProperties := resp.OpenidConnectProviderUpdateContractProperties; openidConnectProviderUpdateContractProperties != nil {
+        d.Set("client_id", openidConnectProviderUpdateContractProperties.ClientID)
+        d.Set("client_secret", openidConnectProviderUpdateContractProperties.ClientSecret)
+        d.Set("description", openidConnectProviderUpdateContractProperties.Description)
+        d.Set("display_name", openidConnectProviderUpdateContractProperties.DisplayName)
+        d.Set("metadata_endpoint", openidConnectProviderUpdateContractProperties.MetadataEndpoint)
     }
     d.Set("opid", opid)
     d.Set("type", resp.Type)
@@ -192,8 +189,8 @@ func resourceArmOpenIdConnectProviderUpdate(d *schema.ResourceData, meta interfa
     metadataEndpoint := d.Get("metadata_endpoint").(string)
     opid := d.Get("opid").(string)
 
-    parameters := apimanagement.OpenidConnectProviderContract{
-        OpenidConnectProviderContractProperties: &apimanagement.OpenidConnectProviderContractProperties{
+    parameters := apimanagement.OpenidConnectProviderUpdateContract{
+        OpenidConnectProviderUpdateContractProperties: &apimanagement.OpenidConnectProviderUpdateContractProperties{
             ClientID: utils.String(clientId),
             ClientSecret: utils.String(clientSecret),
             Description: utils.String(description),

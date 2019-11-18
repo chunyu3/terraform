@@ -250,6 +250,11 @@ objects:
             go_variable_name: databaseName
             python_parameter_name: database_name
             python_variable_name: database_name
+          'includeDisabledRecommendations': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: includeDisabledRecommendations
+            python_parameter_name: include_disabled_recommendations
+            python_variable_name: include_disabled_recommendations
 
     description: |
       Manage Azure SensitivityLabel instance.
@@ -316,6 +321,12 @@ objects:
         description: 'The information type ID.'
         required: false
         azure_sdk_references: ['/informationTypeId', '/properties/informationTypeId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'includeDisabledRecommendations'
+        description: 'Specifies whether to include disabled recommendations or not.'
+        required: false
+        input: true
+        azure_sdk_references: ['includeDisabledRecommendations']
       # read only values included only in response
       - !ruby/object:Api::Type::Boolean
         name: 'isDisabled'

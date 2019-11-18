@@ -36,25 +36,25 @@ The following arguments are supported:
 
 * `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 
-* `description` - (Optional) The description of the details or intents of the Experiment
+* `description` - (Optional) The description of the intent or details of the Experiment
 
 * `enabled_state` - (Optional) The state of the Experiment Defaults to `Enabled`.
-
-* `endpoint_a_endpoint` - (Optional) The endpoint URL
-
-* `endpoint_a_name` - (Optional) The name of the endpoint
-
-* `endpoint_b_endpoint` - (Optional) The endpoint URL
-
-* `endpoint_b_name` - (Optional) The name of the endpoint
-
-* `resource_state` - (Optional) Resource status. Defaults to `Creating`.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `endpoint_a_name` - The name of the endpoint
+
+* `endpoint_a_endpoint` - The endpoint URL
+
+* `endpoint_b_name` - The name of the endpoint
+
+* `endpoint_b_endpoint` - The endpoint URL
+
+* `resource_state` - Resource status.
 
 * `status` - The description of Experiment status from the server side
 

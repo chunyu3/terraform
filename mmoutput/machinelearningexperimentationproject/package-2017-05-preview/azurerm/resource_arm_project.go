@@ -52,12 +52,6 @@ func resourceArmProject() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "friendly_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "workspace_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -66,6 +60,11 @@ func resourceArmProject() *schema.Resource {
             },
 
             "description": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "friendly_name": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -137,9 +136,9 @@ func resourceArmProjectCreate(d *schema.ResourceData, meta interface{}) error {
     gitrepo := d.Get("gitrepo").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearningexperimentation.Project{
+    parameters := machinelearningexperimentation.ProjectUpdateParameters{
         Location: utils.String(location),
-        ProjectProperties: &machinelearningexperimentation.ProjectProperties{
+        ProjectPropertiesUpdateParameters: &machinelearningexperimentation.ProjectPropertiesUpdateParameters{
             Description: utils.String(description),
             FriendlyName: utils.String(friendlyName),
             Gitrepo: utils.String(gitrepo),
@@ -195,15 +194,15 @@ func resourceArmProjectRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if projectProperties := resp.ProjectProperties; projectProperties != nil {
-        d.Set("account_id", projectProperties.AccountID)
-        d.Set("creation_date", (projectProperties.CreationDate).String())
-        d.Set("description", projectProperties.Description)
-        d.Set("friendly_name", projectProperties.FriendlyName)
-        d.Set("gitrepo", projectProperties.Gitrepo)
-        d.Set("project_id", projectProperties.ProjectID)
-        d.Set("provisioning_state", string(projectProperties.ProvisioningState))
-        d.Set("workspace_id", projectProperties.WorkspaceID)
+    if projectPropertiesUpdateParameters := resp.ProjectPropertiesUpdateParameters; projectPropertiesUpdateParameters != nil {
+        d.Set("account_id", projectPropertiesUpdateParameters.AccountID)
+        d.Set("creation_date", (projectPropertiesUpdateParameters.CreationDate).String())
+        d.Set("description", projectPropertiesUpdateParameters.Description)
+        d.Set("friendly_name", projectPropertiesUpdateParameters.FriendlyName)
+        d.Set("gitrepo", projectPropertiesUpdateParameters.Gitrepo)
+        d.Set("project_id", projectPropertiesUpdateParameters.ProjectID)
+        d.Set("provisioning_state", string(projectPropertiesUpdateParameters.ProvisioningState))
+        d.Set("workspace_id", projectPropertiesUpdateParameters.WorkspaceID)
     }
     d.Set("account_name", accountName)
     d.Set("type", resp.Type)
@@ -225,9 +224,9 @@ func resourceArmProjectUpdate(d *schema.ResourceData, meta interface{}) error {
     workspaceName := d.Get("workspace_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := machinelearningexperimentation.Project{
+    parameters := machinelearningexperimentation.ProjectUpdateParameters{
         Location: utils.String(location),
-        ProjectProperties: &machinelearningexperimentation.ProjectProperties{
+        ProjectPropertiesUpdateParameters: &machinelearningexperimentation.ProjectPropertiesUpdateParameters{
             Description: utils.String(description),
             FriendlyName: utils.String(friendlyName),
             Gitrepo: utils.String(gitrepo),

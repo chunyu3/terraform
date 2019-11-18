@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: snapshot
-            go_type_name: Snapshot
+            go_type_name: SnapshotUpdate
             python_parameter_name: snapshot
             python_variable_name: snapshot
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,8 +46,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DiskProperties
-            go_type_name: DiskProperties
+            go_field_name: DiskUpdateProperties
+            go_type_name: DiskUpdateProperties
           '/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: account_type
@@ -201,7 +201,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: snapshot
-            go_type_name: Snapshot
+            go_type_name: SnapshotUpdate
             python_parameter_name: snapshot
             python_variable_name: snapshot
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -212,8 +212,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DiskProperties
-            go_type_name: DiskProperties
+            go_field_name: DiskUpdateProperties
+            go_type_name: DiskUpdateProperties
           '/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: account_type
@@ -388,8 +388,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: DiskProperties
-            go_type_name: DiskProperties
+            go_field_name: DiskUpdateProperties
+            go_type_name: DiskUpdateProperties
           '/properties/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: AccountType
@@ -605,7 +605,7 @@ objects:
         default_value: :Standard_LRS
       - !ruby/object:Api::Type::Enum
         name: 'osType'
-        description: 'The Operating System type.'
+        description: 'the Operating System type.'
         required: false
         azure_sdk_references: ['/osType', '/properties/osType']
         values:
@@ -614,8 +614,8 @@ objects:
         default_value: :Windows
       - !ruby/object:Api::Type::NestedObject
         name: 'creationData'
-        description: 'Disk source information. CreationData information cannot be changed after the disk has been created.'
-        required: true
+        description: 'disk source information. CreationData information cannot be changed after the disk has been created.'
+        required: false
         azure_sdk_references: ['/creationData', '/properties/creationData']
         properties:
           - !ruby/object:Api::Type::Enum

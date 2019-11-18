@@ -118,7 +118,7 @@ func resourceArmBatchAccountCreate(d *schema.ResourceData, meta interface{}) err
     autoStorage := d.Get("auto_storage").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := batch.AccountCreateParameters{
+    parameters := batch.AccountUpdateParameters{
         Location: utils.String(location),
         AccountBaseProperties: &batch.AccountBaseProperties{
             AutoStorage: expandArmBatchAccountAutoStorageBaseProperties(autoStorage),
@@ -200,7 +200,7 @@ func resourceArmBatchAccountUpdate(d *schema.ResourceData, meta interface{}) err
     autoStorage := d.Get("auto_storage").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := batch.AccountCreateParameters{
+    parameters := batch.AccountUpdateParameters{
         Location: utils.String(location),
         AccountBaseProperties: &batch.AccountBaseProperties{
             AutoStorage: expandArmBatchAccountAutoStorageBaseProperties(autoStorage),

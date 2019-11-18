@@ -30,6 +30,16 @@ objects:
         go_func_name: ListGeoRegions
         python_func_name: list_geo_regions
         request:
+          'sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: sku
+            python_parameter_name: sku
+            python_variable_name: sku
+          'linuxWorkersEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: linuxWorkersEnabled
+            python_parameter_name: linux_workers_enabled
+            python_variable_name: linux_workers_enabled
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListPremierAddOnOffers
         python_func_name: list_premier_add_on_offers
@@ -38,6 +48,24 @@ objects:
     description: |
       Manage Azure  instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'sourceControlType'
+        description: 'Type of source control'
+        required: true
+        input: true
+        azure_sdk_references: ['sourceControlType']
+      - !ruby/object:Api::Type::String
+        name: 'sku'
+        description: 'Name of SKU used to filter the regions.'
+        required: false
+        input: true
+        azure_sdk_references: ['sku']
+      - !ruby/object:Api::Type::Boolean
+        name: 'linuxWorkersEnabled'
+        description: 'Specify <code>true</code> if you want to filter to only regions that support Linux workers.'
+        required: false
+        input: true
+        azure_sdk_references: ['linuxWorkersEnabled']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

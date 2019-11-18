@@ -22,6 +22,11 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'ascLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: ascLocation
+            python_parameter_name: asc_location
+            python_variable_name: asc_location
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -43,6 +48,12 @@ objects:
     description: |
       Manage Azure Location instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'ascLocation'
+        description: 'The location where ASC stores the data of the subscription. can be retrieved from Get locations'
+        required: true
+        input: true
+        azure_sdk_references: ['ascLocation']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

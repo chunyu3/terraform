@@ -38,16 +38,6 @@ The following arguments are supported:
 
 * `publisher_name` - (Required) Publisher name.
 
-* `sku` - (Required) One `sku` block defined below.
-
----
-
-The `sku` block supports the following:
-
-* `name` - (Required) Name of the Sku.
-
-* `capacity` - (Optional) Capacity of the SKU (number of deployed units of the SKU). The default value is 1.
-
 * `name` - (Optional) Resource name. Changing this forces a new resource to be created.
 
 * `additional_locations` - (Optional) One or more `additional_location` block defined below.
@@ -57,6 +47,8 @@ The `sku` block supports the following:
 * `custom_properties` - (Optional) Custom properties of the API Management service, like disabling TLS 1.0.
 
 * `hostname_configurations` - (Optional) One or more `hostname_configuration` block defined below.
+
+* `sku` - (Optional) One `sku` block defined below.
 
 * `vpn_type` - (Optional) The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only. Defaults to `None`.
 
@@ -105,6 +97,14 @@ The `certificate` block supports the following:
 * `thumbprint` - (Required) Thumbprint of the certificate.
 
 * `subject` - (Required) Subject of the certificate.
+
+---
+
+The `sku` block supports the following:
+
+* `name` - (Required) Name of the Sku.
+
+* `capacity` - (Optional) Capacity of the SKU (number of deployed units of the SKU). The default value is 1.
 
 ---
 

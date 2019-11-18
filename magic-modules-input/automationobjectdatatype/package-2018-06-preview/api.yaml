@@ -34,9 +34,9 @@ objects:
             python_variable_name: automation_account_name
           'typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: objectDataTypes
-            go_variable_name: name
+            go_variable_name: typeName
             python_parameter_name: type_name
-            python_variable_name: name
+            python_variable_name: type_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListFieldsByModuleAndType
         python_func_name: list_fields_by_module_and_type
@@ -51,11 +51,16 @@ objects:
             go_variable_name: automationAccountName
             python_parameter_name: automation_account_name
             python_variable_name: automation_account_name
+          'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: modules
+            go_variable_name: name
+            python_parameter_name: module_name
+            python_variable_name: name
           'typeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: objectDataTypes
-            go_variable_name: name
+            go_variable_name: typeName
             python_parameter_name: type_name
-            python_variable_name: name
+            python_variable_name: type_name
 
     description: |
       Manage Azure ObjectDataType instance.
@@ -73,11 +78,17 @@ objects:
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'typeName'
         description: 'The name of type.'
         required: true
         input: true
         azure_sdk_references: ['typeName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of module.'
+        required: true
+        input: true
+        azure_sdk_references: ['moduleName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `ssl_status` - (Required) Signifies whether SSL needs to be enabled or not.
 
-* `storage_account_credential_name` - (Required) The storage account credential name. Changing this forces a new resource to be created.
+* `storage_account_credential_name` - (Required) The name of storage account credential to be fetched. Changing this forces a new resource to be created.
 
 * `access_key` - (Optional) One `access_key` block defined below.
 

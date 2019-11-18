@@ -60,6 +60,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'keyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: APIKeys
+            go_variable_name: keyID
+            python_parameter_name: key_id
+            python_variable_name: key_id
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -74,6 +79,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'keyId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: APIKeys
+            go_variable_name: keyID
+            python_parameter_name: key_id
+            python_variable_name: key_id
         response:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
@@ -143,6 +153,12 @@ objects:
         input: true
         azure_sdk_references: ['/linkedWriteProperties']
         item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'keyId'
+        description: 'The API Key ID. This is unique within a Application Insights component.'
+        required: true
+        input: true
+        azure_sdk_references: ['keyId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

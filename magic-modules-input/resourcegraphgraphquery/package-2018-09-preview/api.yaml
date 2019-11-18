@@ -34,8 +34,8 @@ objects:
             python_variable_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: GraphQueryProperties
-            go_type_name: GraphQueryProperties
+            go_field_name: GraphQueryPropertiesUpdateParameters
+            go_type_name: GraphQueryPropertiesUpdateParameters
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -50,6 +50,37 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: GraphQueryUpdateParameters
+            python_parameter_name: body
+            python_variable_name: body
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GraphQueryPropertiesUpdateParameters
+            go_type_name: GraphQueryPropertiesUpdateParameters
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: query
+          '/properties/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Query
+          '/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: result_kind
+          '/properties/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResultKind
+            go_enum_type_name: ResultKind
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -81,8 +112,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: GraphQueryProperties
-            go_type_name: GraphQueryProperties
+            go_field_name: GraphQueryPropertiesUpdateParameters
+            go_type_name: GraphQueryPropertiesUpdateParameters
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -95,12 +126,6 @@ objects:
           '/query': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: query
-          '/properties/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: TimeModified
-          '/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: time_modified
           '/properties/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ResultKind
@@ -108,6 +133,12 @@ objects:
           '/resultKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: result_kind
+          '/properties/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: TimeModified
+          '/timeModified': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: time_modified
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -156,8 +187,16 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'query'
         description: 'KQL query that will be graph.'
-        required: true
+        required: false
         azure_sdk_references: ['/query', '/properties/query']
+      - !ruby/object:Api::Type::Enum
+        name: 'resultKind'
+        description: 'Enum indicating a type of graph query.'
+        required: false
+        azure_sdk_references: ['/resultKind', '/properties/resultKind']
+        values:
+          - :basic
+        default_value: :basic
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'
@@ -170,13 +209,6 @@ objects:
         description: 'Date and time in UTC of the last modification that was made to this graph query definition.'
         output: true
         azure_sdk_references: ['/timeModified', '/properties/timeModified']
-      - !ruby/object:Api::Type::Enum
-        name: 'resultKind'
-        description: 'Enum indicating a type of graph query.'
-        output: true
-        azure_sdk_references: ['/resultKind', '/properties/resultKind']
-        values:
-          - :basic
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource Id'

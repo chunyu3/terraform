@@ -44,8 +44,13 @@ objects:
             python_variable_name: action_name
           'repetitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: repetitions
-            go_variable_name: name
+            go_variable_name: repetitionName
             python_parameter_name: repetition_name
+            python_variable_name: repetition_name
+          'requestHistoryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: requestHistories
+            go_variable_name: name
+            python_parameter_name: request_history_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -199,9 +204,9 @@ objects:
             python_variable_name: action_name
           'repetitionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: repetitions
-            go_variable_name: name
+            go_variable_name: repetitionName
             python_parameter_name: repetition_name
-            python_variable_name: name
+            python_variable_name: repetition_name
 
     description: |
       Manage Azure WorkflowRunActionRepetitionsRequestHistory instance.
@@ -231,11 +236,17 @@ objects:
         input: true
         azure_sdk_references: ['actionName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'repetitionName'
         description: 'The workflow repetition.'
         required: true
         input: true
         azure_sdk_references: ['repetitionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The request history name.'
+        required: true
+        input: true
+        azure_sdk_references: ['requestHistoryName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -34,21 +34,21 @@ The following arguments are supported:
 
 * `location` - (Required) The location of the resource. This cannot be changed after the resource is created. Changing this forces a new resource to be created.
 
-* `owner_email` - (Required) The email id of the owner for this workspace.
-
-* `user_storage_account_id` - (Required) The fully qualified arm id of the storage account associated with this workspace.
-
 * `key_vault_identifier_id` - (Optional) The key vault identifier used for encrypted workspaces.
 
-* `tags` - (Optional) The tags of the resource. Changing this forces a new resource to be created.
+* `workspace_state` - (Optional) The current state of workspace resource. Defaults to `Deleted`.
+
+* `tags` - (Optional) The resource tags for the machine learning workspace. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `workspace_type` - The type of this workspace.
+* `user_storage_account_id` - The fully qualified arm id of the storage account associated with this workspace.
 
-* `workspace_state` - The current state of workspace resource.
+* `owner_email` - The email id of the owner for this workspace.
+
+* `workspace_type` - The type of this workspace.
 
 * `workspace_id` - The immutable id associated with this workspace.
 

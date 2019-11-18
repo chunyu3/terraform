@@ -104,9 +104,9 @@ func resourceArmSecretCreate(d *schema.ResourceData, meta interface{}) error {
     value := d.Get("value").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    secret := devtestlab.Secret{
+    secret := devtestlab.SecretFragment{
         Location: utils.String(location),
-        SecretProperties: &devtestlab.SecretProperties{
+        SecretPropertiesFragment: &devtestlab.SecretPropertiesFragment{
             Value: utils.String(value),
         },
         Tags: tags.Expand(t),
@@ -165,10 +165,10 @@ func resourceArmSecretRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("lab_name", labName)
-    if secretProperties := resp.SecretProperties; secretProperties != nil {
-        d.Set("provisioning_state", secretProperties.ProvisioningState)
-        d.Set("unique_identifier", secretProperties.UniqueIdentifier)
-        d.Set("value", secretProperties.Value)
+    if secretPropertiesFragment := resp.SecretPropertiesFragment; secretPropertiesFragment != nil {
+        d.Set("provisioning_state", secretPropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", secretPropertiesFragment.UniqueIdentifier)
+        d.Set("value", secretPropertiesFragment.Value)
     }
     d.Set("type", resp.Type)
 
@@ -186,9 +186,9 @@ func resourceArmSecretUpdate(d *schema.ResourceData, meta interface{}) error {
     value := d.Get("value").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    secret := devtestlab.Secret{
+    secret := devtestlab.SecretFragment{
         Location: utils.String(location),
-        SecretProperties: &devtestlab.SecretProperties{
+        SecretPropertiesFragment: &devtestlab.SecretPropertiesFragment{
             Value: utils.String(value),
         },
         Tags: tags.Expand(t),

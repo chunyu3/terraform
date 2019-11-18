@@ -39,13 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateVirtualNetworkRuleParameters
+            go_type_name: UpdateVirtualNetworkRuleParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateVirtualNetworkRuleProperties
-            go_type_name: CreateOrUpdateVirtualNetworkRuleProperties
+            go_field_name: UpdateVirtualNetworkRuleProperties
+            go_type_name: UpdateVirtualNetworkRuleProperties
           '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: subnet_id
@@ -73,13 +73,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateVirtualNetworkRuleParameters
+            go_type_name: UpdateVirtualNetworkRuleParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateVirtualNetworkRuleProperties
-            go_type_name: CreateOrUpdateVirtualNetworkRuleProperties
+            go_field_name: UpdateVirtualNetworkRuleProperties
+            go_type_name: UpdateVirtualNetworkRuleProperties
           '/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: subnet_id
@@ -127,8 +127,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateVirtualNetworkRuleProperties
-            go_type_name: CreateOrUpdateVirtualNetworkRuleProperties
+            go_field_name: UpdateVirtualNetworkRuleProperties
+            go_type_name: UpdateVirtualNetworkRuleProperties
           '/properties/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: SubnetID
@@ -176,14 +176,14 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the virtual network rule to create or update.'
+        description: 'The name of the virtual network rule to retrieve.'
         required: true
         input: true
         azure_sdk_references: ['virtualNetworkRuleName']
       - !ruby/object:Api::Type::String
         name: 'subnetId'
         description: 'The resource identifier for the subnet.'
-        required: true
+        required: false
         azure_sdk_references: ['/subnetId', '/properties/subnetId']
       # read only values included only in response
       - !ruby/object:Api::Type::String

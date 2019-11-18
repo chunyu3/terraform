@@ -57,8 +57,8 @@ objects:
             python_field_name: capacity
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EnvironmentCreationProperties
-            go_type_name: EnvironmentCreationProperties
+            go_field_name: EnvironmentMutableProperties
+            go_type_name: EnvironmentMutableProperties
           '/dataRetentionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
             applicable_to: [python]
             python_field_name: data_retention_time
@@ -155,8 +155,8 @@ objects:
             python_field_name: capacity
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EnvironmentCreationProperties
-            go_type_name: EnvironmentCreationProperties
+            go_field_name: EnvironmentMutableProperties
+            go_type_name: EnvironmentMutableProperties
           '/properties/dataRetentionTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
             applicable_to: [go]
             go_field_name: DataRetentionTime
@@ -289,7 +289,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the environment'
+        description: 'The name of the Time Series Insights environment associated with the specified resource group.'
         required: true
         input: true
         azure_sdk_references: ['environmentName']
@@ -301,14 +301,14 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Key-value pairs of additional properties for the resource.'
+        description: 'Key-value pairs of additional properties for the environment.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
-        description: 'The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate.'
-        required: true
+        description: 'The sku of the environment.'
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum
@@ -327,7 +327,7 @@ objects:
       - !ruby/object:Api::Azure::Type::ISO8601Duration
         name: 'dataRetentionTime'
         description: 'ISO8601 timespan specifying the minimum number of days the environment''s events will be available for query.'
-        required: true
+        required: false
         azure_sdk_references: ['/dataRetentionTime', '/properties/dataRetentionTime']
       - !ruby/object:Api::Type::Enum
         name: 'storageLimitExceededBehavior'
@@ -340,7 +340,7 @@ objects:
         default_value: :PurgeOldData
       - !ruby/object:Api::Type::Array
         name: 'partitionKeyProperties'
-        description: 'The list of partition keys according to which the data in the environment will be ordered.'
+        description: 'The list of event properties which will be used to partition data in the environment.'
         required: false
         azure_sdk_references: ['/partitionKeyProperties', '/properties/partitionKeyProperties']
         item_type: !ruby/object:Api::Type::NestedObject

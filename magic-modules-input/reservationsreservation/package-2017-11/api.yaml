@@ -27,6 +27,11 @@ objects:
             go_variable_name: reservationOrderID
             python_parameter_name: reservation_order_id
             python_variable_name: reservation_order_id
+          'reservationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reservations
+            go_variable_name: reservationID
+            python_parameter_name: reservation_id
+            python_variable_name: reservation_id
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             go_field_name: Location
@@ -185,6 +190,11 @@ objects:
             go_variable_name: reservationOrderID
             python_parameter_name: reservation_order_id
             python_variable_name: reservation_order_id
+          'reservationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reservations
+            go_variable_name: reservationID
+            python_parameter_name: reservation_id
+            python_variable_name: reservation_id
 
     description: |
       Manage Azure Reservation instance.
@@ -195,6 +205,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['reservationOrderId']
+      - !ruby/object:Api::Type::String
+        name: 'reservationId'
+        description: 'Id of the Reservation Item'
+        required: true
+        input: true
+        azure_sdk_references: ['reservationId']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'location'

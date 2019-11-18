@@ -99,7 +99,7 @@ func resourceArmDedicatedCloudServiceCreate(d *schema.ResourceData, meta interfa
     gatewaySubnet := d.Get("gateway_subnet").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    dedicatedCloudServiceRequest := vmwarecloudsimple.DedicatedCloudService{
+    dedicatedCloudServiceRequest := vmwarecloudsimple.PatchPayload{
         Location: utils.String(location),
         DedicatedCloudServiceProperties: &vmwarecloudsimple.DedicatedCloudServiceProperties{
             GatewaySubnet: utils.String(gatewaySubnet),
@@ -173,7 +173,7 @@ func resourceArmDedicatedCloudServiceUpdate(d *schema.ResourceData, meta interfa
     gatewaySubnet := d.Get("gateway_subnet").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    dedicatedCloudServiceRequest := vmwarecloudsimple.DedicatedCloudService{
+    dedicatedCloudServiceRequest := vmwarecloudsimple.PatchPayload{
         Location: utils.String(location),
         DedicatedCloudServiceProperties: &vmwarecloudsimple.DedicatedCloudServiceProperties{
             GatewaySubnet: utils.String(gatewaySubnet),

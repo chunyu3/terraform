@@ -28,19 +28,19 @@ Manage Azure ComputePolicy instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The name of the compute policy to create or update. Changing this forces a new resource to be created.
+* `name` - (Required) The name of the compute policy to retrieve. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the Azure resource group. Changing this forces a new resource to be created.
 
 * `account_name` - (Required) The name of the Data Lake Analytics account. Changing this forces a new resource to be created.
 
-* `object_id` - (Required) The AAD object identifier for the entity to create a policy for.
-
-* `object_type` - (Required) The type of AAD object the object identifier refers to.
-
 * `max_degree_of_parallelism_per_job` - (Optional) The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.
 
 * `min_priority_per_job` - (Optional) The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed.
+
+* `object_id` - (Optional) The AAD object identifier for the entity to create a policy for.
+
+* `object_type` - (Optional) The type of AAD object the object identifier refers to. Defaults to `User`.
 
 ## Attributes Reference
 

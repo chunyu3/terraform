@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: metricAlerts
-            go_variable_name: name
+            go_variable_name: ruleName
             python_parameter_name: rule_name
-            python_variable_name: name
+            python_variable_name: rule_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByName
         python_func_name: list_by_name
@@ -43,8 +43,13 @@ objects:
             python_variable_name: resource_group
           'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: metricAlerts
-            go_variable_name: name
+            go_variable_name: ruleName
             python_parameter_name: rule_name
+            python_variable_name: rule_name
+          'statusName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: status
+            go_variable_name: name
+            python_parameter_name: status_name
             python_variable_name: name
 
     description: |
@@ -57,11 +62,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'ruleName'
         description: 'The name of the rule.'
         required: true
         input: true
         azure_sdk_references: ['ruleName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the status.'
+        required: true
+        input: true
+        azure_sdk_references: ['statusName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

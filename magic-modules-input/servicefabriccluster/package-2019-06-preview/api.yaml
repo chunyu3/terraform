@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Cluster
+            go_type_name: ClusterUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,39 +46,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ClusterProperties
-            go_type_name: ClusterProperties
+            go_field_name: ClusterPropertiesUpdateParameters
+            go_type_name: ClusterPropertiesUpdateParameters
           '/addOnFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: add_on_features
           '/properties/addOnFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: AddOnFeatures
-          '/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: azure_active_directory
-          '/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: tenant_id
-          '/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cluster_application
-          '/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: client_application
-          '/properties/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AzureActiveDirectory
-            go_type_name: AzureActiveDirectory
-          '/properties/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TenantID
-          '/properties/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClusterApplication
-          '/properties/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClientApplication
           '/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: certificate
@@ -188,49 +163,6 @@ objects:
           '/properties/clusterCodeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ClusterCodeVersion
-          '/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: diagnostics_storage_account_config
-          '/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_name
-          '/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protected_account_key_name
-          '/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protected_account_key_name2
-          '/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: blob_endpoint
-          '/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: queue_endpoint
-          '/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: table_endpoint
-          '/properties/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiagnosticsStorageAccountConfig
-            go_type_name: DiagnosticsStorageAccountConfig
-          '/properties/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountName
-          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProtectedAccountKeyName
-          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProtectedAccountKeyName2
-          '/properties/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: BlobEndpoint
-          '/properties/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: QueueEndpoint
-          '/properties/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TableEndpoint
           '/eventStoreServiceEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: event_store_service_enabled
@@ -269,12 +201,6 @@ objects:
           '/properties/fabricSettings/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Value
-          '/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_endpoint
-          '/properties/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManagementEndpoint
           '/nodeTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: node_types
@@ -408,39 +334,6 @@ objects:
             applicable_to: [go]
             go_field_name: X509storeName
             go_enum_type_name: 
-          '/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: reverse_proxy_certificate_common_names
-          '/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: common_names
-          '/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: certificate_common_name
-          '/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: certificate_issuer_thumbprint
-          '/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: x509store_name
-          '/properties/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReverseProxyCertificateCommonNames
-            go_type_name: ServerCertificateCommonNames
-          '/properties/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: CommonNames
-            go_type_name: ServerCertificateCommonName
-          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CertificateCommonName
-          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CertificateIssuerThumbprint
-          '/properties/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: X509storeName
-            go_enum_type_name: 
           '/upgradeDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: upgrade_description
@@ -553,12 +446,6 @@ objects:
             applicable_to: [go]
             go_field_name: UpgradeMode
             go_enum_type_name: 
-          '/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vm_image
-          '/properties/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VmImage
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -576,7 +463,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Cluster
+            go_type_name: ClusterUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -587,39 +474,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ClusterProperties
-            go_type_name: ClusterProperties
+            go_field_name: ClusterPropertiesUpdateParameters
+            go_type_name: ClusterPropertiesUpdateParameters
           '/addOnFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: add_on_features
           '/properties/addOnFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: AddOnFeatures
-          '/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: azure_active_directory
-          '/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: tenant_id
-          '/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cluster_application
-          '/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: client_application
-          '/properties/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AzureActiveDirectory
-            go_type_name: AzureActiveDirectory
-          '/properties/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TenantID
-          '/properties/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClusterApplication
-          '/properties/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClientApplication
           '/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: certificate
@@ -729,49 +591,6 @@ objects:
           '/properties/clusterCodeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ClusterCodeVersion
-          '/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: diagnostics_storage_account_config
-          '/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_name
-          '/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protected_account_key_name
-          '/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protected_account_key_name2
-          '/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: blob_endpoint
-          '/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: queue_endpoint
-          '/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: table_endpoint
-          '/properties/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiagnosticsStorageAccountConfig
-            go_type_name: DiagnosticsStorageAccountConfig
-          '/properties/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountName
-          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProtectedAccountKeyName
-          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProtectedAccountKeyName2
-          '/properties/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: BlobEndpoint
-          '/properties/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: QueueEndpoint
-          '/properties/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TableEndpoint
           '/eventStoreServiceEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: event_store_service_enabled
@@ -810,12 +629,6 @@ objects:
           '/properties/fabricSettings/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Value
-          '/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_endpoint
-          '/properties/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManagementEndpoint
           '/nodeTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: node_types
@@ -949,39 +762,6 @@ objects:
             applicable_to: [go]
             go_field_name: X509storeName
             go_enum_type_name: 
-          '/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: reverse_proxy_certificate_common_names
-          '/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: common_names
-          '/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: certificate_common_name
-          '/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: certificate_issuer_thumbprint
-          '/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: x509store_name
-          '/properties/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReverseProxyCertificateCommonNames
-            go_type_name: ServerCertificateCommonNames
-          '/properties/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: CommonNames
-            go_type_name: ServerCertificateCommonName
-          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CertificateCommonName
-          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CertificateIssuerThumbprint
-          '/properties/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: X509storeName
-            go_enum_type_name: 
           '/upgradeDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: upgrade_description
@@ -1094,12 +874,6 @@ objects:
             applicable_to: [go]
             go_field_name: UpgradeMode
             go_enum_type_name: 
-          '/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vm_image
-          '/properties/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VmImage
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -1137,39 +911,14 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ClusterProperties
-            go_type_name: ClusterProperties
+            go_field_name: ClusterPropertiesUpdateParameters
+            go_type_name: ClusterPropertiesUpdateParameters
           '/properties/addOnFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [go]
             go_field_name: AddOnFeatures
           '/addOnFeatures': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: add_on_features
-          '/properties/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: AzureActiveDirectory
-            go_type_name: AzureActiveDirectory
-          '/properties/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TenantID
-          '/properties/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClusterApplication
-          '/properties/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ClientApplication
-          '/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: azure_active_directory
-          '/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: tenant_id
-          '/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: cluster_application
-          '/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: client_application
           '/properties/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Certificate
@@ -1279,49 +1028,6 @@ objects:
           '/clusterCodeVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: cluster_code_version
-          '/properties/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DiagnosticsStorageAccountConfig
-            go_type_name: DiagnosticsStorageAccountConfig
-          '/properties/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StorageAccountName
-          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProtectedAccountKeyName
-          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProtectedAccountKeyName2
-          '/properties/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: BlobEndpoint
-          '/properties/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: QueueEndpoint
-          '/properties/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: TableEndpoint
-          '/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: diagnostics_storage_account_config
-          '/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: storage_account_name
-          '/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protected_account_key_name
-          '/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: protected_account_key_name2
-          '/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: blob_endpoint
-          '/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: queue_endpoint
-          '/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: table_endpoint
           '/properties/eventStoreServiceEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: EventStoreServiceEnabled
@@ -1360,12 +1066,6 @@ objects:
           '/fabricSettings/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: value
-          '/properties/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ManagementEndpoint
-          '/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: management_endpoint
           '/properties/nodeTypes': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: NodeTypes
@@ -1499,39 +1199,6 @@ objects:
           '/reverseProxyCertificate/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: x509store_name
-          '/properties/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ReverseProxyCertificateCommonNames
-            go_type_name: ServerCertificateCommonNames
-          '/properties/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: CommonNames
-            go_type_name: ServerCertificateCommonName
-          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CertificateCommonName
-          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: CertificateIssuerThumbprint
-          '/properties/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: X509storeName
-            go_enum_type_name: 
-          '/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: reverse_proxy_certificate_common_names
-          '/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: common_names
-          '/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: certificate_common_name
-          '/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: certificate_issuer_thumbprint
-          '/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: x509store_name
           '/properties/upgradeDescription': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: UpgradeDescription
@@ -1644,12 +1311,6 @@ objects:
           '/upgradeMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: upgrade_mode
-          '/properties/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: VmImage
-          '/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: vm_image
           '/properties/availableClusterVersions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: AvailableClusterVersions
@@ -1676,6 +1337,31 @@ objects:
           '/availableClusterVersions/environment': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: environment
+          '/properties/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AzureActiveDirectory
+            go_type_name: AzureActiveDirectory
+          '/properties/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TenantID
+          '/properties/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClusterApplication
+          '/properties/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClientApplication
+          '/azureActiveDirectory': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: azure_active_directory
+          '/azureActiveDirectory/tenantId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tenant_id
+          '/azureActiveDirectory/clusterApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cluster_application
+          '/azureActiveDirectory/clientApplication': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: client_application
           '/properties/clusterEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ClusterEndpoint
@@ -1695,6 +1381,55 @@ objects:
           '/clusterState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: cluster_state
+          '/properties/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiagnosticsStorageAccountConfig
+            go_type_name: DiagnosticsStorageAccountConfig
+          '/properties/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageAccountName
+          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProtectedAccountKeyName
+          '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ProtectedAccountKeyName2
+          '/properties/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: BlobEndpoint
+          '/properties/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: QueueEndpoint
+          '/properties/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TableEndpoint
+          '/diagnosticsStorageAccountConfig': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: diagnostics_storage_account_config
+          '/diagnosticsStorageAccountConfig/storageAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_account_name
+          '/diagnosticsStorageAccountConfig/protectedAccountKeyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: protected_account_key_name
+          '/diagnosticsStorageAccountConfig/protectedAccountKeyName2': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: protected_account_key_name2
+          '/diagnosticsStorageAccountConfig/blobEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: blob_endpoint
+          '/diagnosticsStorageAccountConfig/queueEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: queue_endpoint
+          '/diagnosticsStorageAccountConfig/tableEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: table_endpoint
+          '/properties/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagementEndpoint
+          '/managementEndpoint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: management_endpoint
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -1702,6 +1437,45 @@ objects:
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ReverseProxyCertificateCommonNames
+            go_type_name: ServerCertificateCommonNames
+          '/properties/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: CommonNames
+            go_type_name: ServerCertificateCommonName
+          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateCommonName
+          '/properties/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CertificateIssuerThumbprint
+          '/properties/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: X509storeName
+            go_enum_type_name: 
+          '/reverseProxyCertificateCommonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: reverse_proxy_certificate_common_names
+          '/reverseProxyCertificateCommonNames/commonNames': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: common_names
+          '/reverseProxyCertificateCommonNames/commonNames/certificateCommonName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_common_name
+          '/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: certificate_issuer_thumbprint
+          '/reverseProxyCertificateCommonNames/x509StoreName': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: x509store_name
+          '/properties/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VmImage
+          '/vmImage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_image
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -1751,7 +1525,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Azure resource tags.'
+        description: 'Cluster update parameters'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -1770,29 +1544,8 @@ objects:
             - :ResourceMonitorService
           default_value: :RepairManager
       - !ruby/object:Api::Type::NestedObject
-        name: 'azureActiveDirectory'
-        description: 'The AAD authentication settings of the cluster.'
-        required: false
-        azure_sdk_references: ['/azureActiveDirectory', '/properties/azureActiveDirectory']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'tenantId'
-            description: 'Azure active directory tenant id.'
-            required: false
-            azure_sdk_references: ['/azureActiveDirectory/tenantId', '/properties/azureActiveDirectory/tenantId']
-          - !ruby/object:Api::Type::String
-            name: 'clusterApplication'
-            description: 'Azure active directory cluster application id.'
-            required: false
-            azure_sdk_references: ['/azureActiveDirectory/clusterApplication', '/properties/azureActiveDirectory/clusterApplication']
-          - !ruby/object:Api::Type::String
-            name: 'clientApplication'
-            description: 'Azure active directory client application id.'
-            required: false
-            azure_sdk_references: ['/azureActiveDirectory/clientApplication', '/properties/azureActiveDirectory/clientApplication']
-      - !ruby/object:Api::Type::NestedObject
         name: 'certificate'
-        description: 'The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client.'
+        description: 'The certificate to use for securing the cluster. The certificate provided will be used for  node to node security within the cluster, SSL certificate for cluster management endpoint and default  admin client.'
         required: false
         azure_sdk_references: ['/certificate', '/properties/certificate']
         properties:
@@ -1861,7 +1614,7 @@ objects:
             default_value: :AddressBook
       - !ruby/object:Api::Type::Array
         name: 'clientCertificateCommonNames'
-        description: 'The list of client certificates referenced by common name that are allowed to manage the cluster.'
+        description: 'The list of client certificates referenced by common name that are allowed to manage the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/clientCertificateCommonNames', '/properties/clientCertificateCommonNames']
         item_type: !ruby/object:Api::Type::NestedObject
@@ -1883,7 +1636,7 @@ objects:
               azure_sdk_references: ['/clientCertificateCommonNames/certificateIssuerThumbprint', '/properties/clientCertificateCommonNames/certificateIssuerThumbprint']
       - !ruby/object:Api::Type::Array
         name: 'clientCertificateThumbprints'
-        description: 'The list of client certificates referenced by thumbprint that are allowed to manage the cluster.'
+        description: 'The list of client certificates referenced by thumbprint that are allowed to manage the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/clientCertificateThumbprints', '/properties/clientCertificateThumbprints']
         item_type: !ruby/object:Api::Type::NestedObject
@@ -1903,42 +1656,6 @@ objects:
         description: 'The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to ''Manual''. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**.'
         required: false
         azure_sdk_references: ['/clusterCodeVersion', '/properties/clusterCodeVersion']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'diagnosticsStorageAccountConfig'
-        description: 'The storage account information for storing Service Fabric diagnostic logs.'
-        required: false
-        azure_sdk_references: ['/diagnosticsStorageAccountConfig', '/properties/diagnosticsStorageAccountConfig']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'storageAccountName'
-            description: 'The Azure storage account name.'
-            required: true
-            azure_sdk_references: ['/diagnosticsStorageAccountConfig/storageAccountName', '/properties/diagnosticsStorageAccountConfig/storageAccountName']
-          - !ruby/object:Api::Type::String
-            name: 'protectedAccountKeyName'
-            description: 'The protected diagnostics storage key name.'
-            required: true
-            azure_sdk_references: ['/diagnosticsStorageAccountConfig/protectedAccountKeyName', '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName']
-          - !ruby/object:Api::Type::String
-            name: 'protectedAccountKeyName2'
-            description: 'The secondary protected diagnostics storage key name.'
-            required: false
-            azure_sdk_references: ['/diagnosticsStorageAccountConfig/protectedAccountKeyName2', '/properties/diagnosticsStorageAccountConfig/protectedAccountKeyName2']
-          - !ruby/object:Api::Type::String
-            name: 'blobEndpoint'
-            description: 'The blob endpoint of the azure storage account.'
-            required: true
-            azure_sdk_references: ['/diagnosticsStorageAccountConfig/blobEndpoint', '/properties/diagnosticsStorageAccountConfig/blobEndpoint']
-          - !ruby/object:Api::Type::String
-            name: 'queueEndpoint'
-            description: 'The queue endpoint of the azure storage account.'
-            required: true
-            azure_sdk_references: ['/diagnosticsStorageAccountConfig/queueEndpoint', '/properties/diagnosticsStorageAccountConfig/queueEndpoint']
-          - !ruby/object:Api::Type::String
-            name: 'tableEndpoint'
-            description: 'The table endpoint of the azure storage account.'
-            required: true
-            azure_sdk_references: ['/diagnosticsStorageAccountConfig/tableEndpoint', '/properties/diagnosticsStorageAccountConfig/tableEndpoint']
       - !ruby/object:Api::Type::Boolean
         name: 'eventStoreServiceEnabled'
         description: 'Indicates if the event store service is enabled.'
@@ -1946,7 +1663,7 @@ objects:
         azure_sdk_references: ['/eventStoreServiceEnabled', '/properties/eventStoreServiceEnabled']
       - !ruby/object:Api::Type::Array
         name: 'fabricSettings'
-        description: 'The list of custom fabric settings to configure the cluster.'
+        description: 'The list of custom fabric settings to configure the cluster. This will overwrite the existing list.'
         required: false
         azure_sdk_references: ['/fabricSettings', '/properties/fabricSettings']
         item_type: !ruby/object:Api::Type::NestedObject
@@ -1973,15 +1690,10 @@ objects:
                     description: 'The parameter value of fabric setting.'
                     required: true
                     azure_sdk_references: ['/fabricSettings/parameters/value', '/properties/fabricSettings/parameters/value']
-      - !ruby/object:Api::Type::String
-        name: 'managementEndpoint'
-        description: 'The http management endpoint of the cluster.'
-        required: true
-        azure_sdk_references: ['/managementEndpoint', '/properties/managementEndpoint']
       - !ruby/object:Api::Type::Array
         name: 'nodeTypes'
-        description: 'The list of node types in the cluster.'
-        required: true
+        description: 'The list of node types in the cluster. This will overwrite the existing list.'
+        required: false
         azure_sdk_references: ['/nodeTypes', '/properties/nodeTypes']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
@@ -2111,44 +1823,6 @@ objects:
               - :TrustedPublisher
             default_value: :AddressBook
       - !ruby/object:Api::Type::NestedObject
-        name: 'reverseProxyCertificateCommonNames'
-        description: 'Describes a list of server certificates referenced by common name that are used to secure the cluster.'
-        required: false
-        azure_sdk_references: ['/reverseProxyCertificateCommonNames', '/properties/reverseProxyCertificateCommonNames']
-        properties:
-          - !ruby/object:Api::Type::Array
-            name: 'commonNames'
-            description: 'The list of server certificates referenced by common name that are used to secure the cluster.'
-            required: false
-            azure_sdk_references: ['/reverseProxyCertificateCommonNames/commonNames', '/properties/reverseProxyCertificateCommonNames/commonNames']
-            item_type: !ruby/object:Api::Type::NestedObject
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'certificateCommonName'
-                  description: 'The common name of the server certificate.'
-                  required: true
-                  azure_sdk_references: ['/reverseProxyCertificateCommonNames/commonNames/certificateCommonName', '/properties/reverseProxyCertificateCommonNames/commonNames/certificateCommonName']
-                - !ruby/object:Api::Type::String
-                  name: 'certificateIssuerThumbprint'
-                  description: 'The issuer thumbprint of the server certificate.'
-                  required: true
-                  azure_sdk_references: ['/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint', '/properties/reverseProxyCertificateCommonNames/commonNames/certificateIssuerThumbprint']
-          - !ruby/object:Api::Type::Enum
-            name: 'x509storeName'
-            description: 'The local certificate store location.'
-            required: false
-            azure_sdk_references: ['/reverseProxyCertificateCommonNames/x509StoreName', '/properties/reverseProxyCertificateCommonNames/x509StoreName']
-            values:
-              - :AddressBook
-              - :AuthRoot
-              - :CertificateAuthority
-              - :Disallowed
-              - :My
-              - :Root
-              - :TrustedPeople
-              - :TrustedPublisher
-            default_value: :AddressBook
-      - !ruby/object:Api::Type::NestedObject
         name: 'upgradeDescription'
         description: 'The policy to use when upgrading the cluster.'
         required: false
@@ -2245,11 +1919,6 @@ objects:
           - :Automatic
           - :Manual
         default_value: :Automatic
-      - !ruby/object:Api::Type::String
-        name: 'vmImage'
-        description: 'The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.'
-        required: false
-        azure_sdk_references: ['/vmImage', '/properties/vmImage']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'availableClusterVersions'
@@ -2258,6 +1927,12 @@ objects:
         azure_sdk_references: ['/availableClusterVersions', '/properties/availableClusterVersions']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
+      - !ruby/object:Api::Type::NestedObject
+        name: 'azureActiveDirectory'
+        description: 'The AAD authentication settings of the cluster.'
+        output: true
+        azure_sdk_references: ['/azureActiveDirectory', '/properties/azureActiveDirectory']
+        properties:
       - !ruby/object:Api::Type::String
         name: 'clusterEndpoint'
         description: 'The Azure Resource Provider endpoint. A system service in the cluster connects to this  endpoint.'
@@ -2284,6 +1959,17 @@ objects:
           - :UpgradeServiceUnreachable
           - :AutoScale
           - :Ready
+      - !ruby/object:Api::Type::NestedObject
+        name: 'diagnosticsStorageAccountConfig'
+        description: 'The storage account information for storing Service Fabric diagnostic logs.'
+        output: true
+        azure_sdk_references: ['/diagnosticsStorageAccountConfig', '/properties/diagnosticsStorageAccountConfig']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'managementEndpoint'
+        description: 'The http management endpoint of the cluster.'
+        output: true
+        azure_sdk_references: ['/managementEndpoint', '/properties/managementEndpoint']
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'The provisioning state of the cluster resource.'
@@ -2294,6 +1980,17 @@ objects:
           - :Succeeded
           - :Failed
           - :Canceled
+      - !ruby/object:Api::Type::NestedObject
+        name: 'reverseProxyCertificateCommonNames'
+        description: 'Describes a list of server certificates referenced by common name that are used to secure the cluster.'
+        output: true
+        azure_sdk_references: ['/reverseProxyCertificateCommonNames', '/properties/reverseProxyCertificateCommonNames']
+        properties:
+      - !ruby/object:Api::Type::String
+        name: 'vmImage'
+        description: 'The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used.'
+        output: true
+        azure_sdk_references: ['/vmImage', '/properties/vmImage']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Azure resource identifier.'

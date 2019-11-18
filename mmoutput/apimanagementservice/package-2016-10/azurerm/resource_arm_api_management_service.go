@@ -58,29 +58,6 @@ func resourceArmApiManagementService() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "sku": {
-                Type: schema.TypeList,
-                Required: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(apimanagement.Developer),
-                                string(apimanagement.Standard),
-                                string(apimanagement.Premium),
-                            }, false),
-                        },
-                        "capacity": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
             "additional_locations": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -173,6 +150,29 @@ func resourceArmApiManagementService() *schema.Resource {
                                 string(apimanagement.Management),
                                 string(apimanagement.Scm),
                             }, false),
+                        },
+                    },
+                },
+            },
+
+            "sku": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "name": {
+                            Type: schema.TypeString,
+                            Required: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(apimanagement.Developer),
+                                string(apimanagement.Standard),
+                                string(apimanagement.Premium),
+                            }, false),
+                        },
+                        "capacity": {
+                            Type: schema.TypeInt,
+                            Optional: true,
                         },
                     },
                 },
@@ -294,7 +294,7 @@ func resourceArmApiManagementServiceCreate(d *schema.ResourceData, meta interfac
     vpnconfiguration := d.Get("vpnconfiguration").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := apimanagement.ServiceResource{
+    parameters := apimanagement.ServiceUpdateParameters{
         Location: utils.String(location),
         Name: utils.String(name),
         ServiceProperties: &apimanagement.ServiceProperties{
@@ -408,7 +408,7 @@ func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interfac
     vpnconfiguration := d.Get("vpnconfiguration").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := apimanagement.ServiceResource{
+    parameters := apimanagement.ServiceUpdateParameters{
         Location: utils.String(location),
         Name: utils.String(name),
         ServiceProperties: &apimanagement.ServiceProperties{

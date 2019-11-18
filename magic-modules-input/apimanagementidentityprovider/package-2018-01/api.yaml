@@ -39,13 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: IdentityProviderContract
+            go_type_name: IdentityProviderUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IdentityProviderContractProperties
-            go_type_name: IdentityProviderContractProperties
+            go_field_name: IdentityProviderUpdateProperties
+            go_type_name: IdentityProviderUpdateProperties
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: type
@@ -116,13 +116,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: IdentityProviderContract
+            go_type_name: IdentityProviderUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IdentityProviderContractProperties
-            go_type_name: IdentityProviderContractProperties
+            go_field_name: IdentityProviderUpdateProperties
+            go_type_name: IdentityProviderUpdateProperties
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: type
@@ -213,8 +213,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IdentityProviderContractProperties
-            go_type_name: IdentityProviderContractProperties
+            go_field_name: IdentityProviderUpdateProperties
+            go_type_name: IdentityProviderUpdateProperties
           '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Type
@@ -351,12 +351,12 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'clientId'
         description: 'Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft.'
-        required: true
+        required: false
         azure_sdk_references: ['/clientId', '/properties/clientId']
       - !ruby/object:Api::Type::String
         name: 'clientSecret'
         description: 'Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft.'
-        required: true
+        required: false
         azure_sdk_references: ['/clientSecret', '/properties/clientSecret']
       # read only values included only in response
       - !ruby/object:Api::Type::String

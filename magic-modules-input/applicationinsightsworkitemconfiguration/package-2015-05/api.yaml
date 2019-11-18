@@ -63,6 +63,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'workItemConfigId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: WorkItemConfigs
+            go_variable_name: workItemConfigID
+            python_parameter_name: work_item_config_id
+            python_variable_name: work_item_config_id
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -117,6 +122,12 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/WorkItemProperties']
+      - !ruby/object:Api::Type::String
+        name: 'workItemConfigId'
+        description: 'The unique work item configuration Id. This can be either friendly name of connector as defined in connector configuration'
+        required: true
+        input: true
+        azure_sdk_references: ['workItemConfigId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'configDisplayName'

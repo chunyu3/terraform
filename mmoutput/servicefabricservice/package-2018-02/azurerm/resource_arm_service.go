@@ -137,12 +137,12 @@ func resourceArmService() *schema.Resource {
                 },
             },
 
-            "service_type_name": {
+            "provisioning_state": {
                 Type: schema.TypeString,
-                Optional: true,
+                Computed: true,
             },
 
-            "provisioning_state": {
+            "service_type_name": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -181,16 +181,14 @@ func resourceArmServiceCreate(d *schema.ResourceData, meta interface{}) error {
     defaultMoveCost := d.Get("default_move_cost").(string)
     placementConstraints := d.Get("placement_constraints").(string)
     serviceLoadMetrics := d.Get("service_load_metrics").([]interface{})
-    serviceTypeName := d.Get("service_type_name").(string)
 
-    parameters := servicefabric.ServiceResource{
+    parameters := servicefabric.ServiceResourceUpdate{
         Location: utils.String(location),
-        ServiceResourceProperties: &servicefabric.ServiceResourceProperties{
+        ServiceResourceUpdateProperties: &servicefabric.ServiceResourceUpdateProperties{
             CorrelationScheme: expandArmServiceServiceCorrelationDescription(correlationScheme),
             DefaultMoveCost: servicefabric.MoveCost(defaultMoveCost),
             PlacementConstraints: utils.String(placementConstraints),
             ServiceLoadMetrics: expandArmServiceServiceLoadMetricDescription(serviceLoadMetrics),
-            ServiceTypeName: utils.String(serviceTypeName),
         },
     }
 
@@ -248,17 +246,17 @@ func resourceArmServiceRead(d *schema.ResourceData, meta interface{}) error {
     }
     d.Set("application_name", applicationName)
     d.Set("cluster_name", clusterName)
-    if serviceResourceProperties := resp.ServiceResourceProperties; serviceResourceProperties != nil {
-        if err := d.Set("correlation_scheme", flattenArmServiceServiceCorrelationDescription(serviceResourceProperties.CorrelationScheme)); err != nil {
+    if serviceResourceUpdateProperties := resp.ServiceResourceUpdateProperties; serviceResourceUpdateProperties != nil {
+        if err := d.Set("correlation_scheme", flattenArmServiceServiceCorrelationDescription(serviceResourceUpdateProperties.CorrelationScheme)); err != nil {
             return fmt.Errorf("Error setting `correlation_scheme`: %+v", err)
         }
-        d.Set("default_move_cost", string(serviceResourceProperties.DefaultMoveCost))
-        d.Set("placement_constraints", serviceResourceProperties.PlacementConstraints)
-        d.Set("provisioning_state", serviceResourceProperties.ProvisioningState)
-        if err := d.Set("service_load_metrics", flattenArmServiceServiceLoadMetricDescription(serviceResourceProperties.ServiceLoadMetrics)); err != nil {
+        d.Set("default_move_cost", string(serviceResourceUpdateProperties.DefaultMoveCost))
+        d.Set("placement_constraints", serviceResourceUpdateProperties.PlacementConstraints)
+        d.Set("provisioning_state", serviceResourceUpdateProperties.ProvisioningState)
+        if err := d.Set("service_load_metrics", flattenArmServiceServiceLoadMetricDescription(serviceResourceUpdateProperties.ServiceLoadMetrics)); err != nil {
             return fmt.Errorf("Error setting `service_load_metrics`: %+v", err)
         }
-        d.Set("service_type_name", serviceResourceProperties.ServiceTypeName)
+        d.Set("service_type_name", serviceResourceUpdateProperties.ServiceTypeName)
     }
     d.Set("type", resp.Type)
 
@@ -277,16 +275,14 @@ func resourceArmServiceUpdate(d *schema.ResourceData, meta interface{}) error {
     defaultMoveCost := d.Get("default_move_cost").(string)
     placementConstraints := d.Get("placement_constraints").(string)
     serviceLoadMetrics := d.Get("service_load_metrics").([]interface{})
-    serviceTypeName := d.Get("service_type_name").(string)
 
-    parameters := servicefabric.ServiceResource{
+    parameters := servicefabric.ServiceResourceUpdate{
         Location: utils.String(location),
-        ServiceResourceProperties: &servicefabric.ServiceResourceProperties{
+        ServiceResourceUpdateProperties: &servicefabric.ServiceResourceUpdateProperties{
             CorrelationScheme: expandArmServiceServiceCorrelationDescription(correlationScheme),
             DefaultMoveCost: servicefabric.MoveCost(defaultMoveCost),
             PlacementConstraints: utils.String(placementConstraints),
             ServiceLoadMetrics: expandArmServiceServiceLoadMetricDescription(serviceLoadMetrics),
-            ServiceTypeName: utils.String(serviceTypeName),
         },
     }
 

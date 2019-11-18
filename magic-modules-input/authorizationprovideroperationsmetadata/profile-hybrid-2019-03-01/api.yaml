@@ -22,6 +22,11 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'resourceProviderNamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providerOperations
+            go_variable_name: resourceProviderNamespace
+            python_parameter_name: resource_provider_namespace
+            python_variable_name: resource_provider_namespace
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -91,6 +96,12 @@ objects:
     description: |
       Manage Azure ProviderOperationsMetadata instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'resourceProviderNamespace'
+        description: 'The namespace of the resource provider.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceProviderNamespace']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

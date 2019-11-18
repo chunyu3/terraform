@@ -45,42 +45,6 @@ func resourceArmApiManagementService() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "publisher_email": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "publisher_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "sku": {
-                Type: schema.TypeList,
-                Required: true,
-                MaxItems: 1,
-                Elem: &schema.Resource{
-                    Schema: map[string]*schema.Schema{
-                        "name": {
-                            Type: schema.TypeString,
-                            Required: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(apimanagement.Developer),
-                                string(apimanagement.Standard),
-                                string(apimanagement.Premium),
-                                string(apimanagement.Basic),
-                            }, false),
-                        },
-                        "capacity": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                    },
-                },
-            },
-
             "additional_locations": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -222,6 +186,40 @@ func resourceArmApiManagementService() *schema.Resource {
                 Optional: true,
             },
 
+            "publisher_email": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "publisher_name": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "sku": {
+                Type: schema.TypeList,
+                Optional: true,
+                MaxItems: 1,
+                Elem: &schema.Resource{
+                    Schema: map[string]*schema.Schema{
+                        "name": {
+                            Type: schema.TypeString,
+                            Required: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(apimanagement.Developer),
+                                string(apimanagement.Standard),
+                                string(apimanagement.Premium),
+                                string(apimanagement.Basic),
+                            }, false),
+                        },
+                        "capacity": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                    },
+                },
+            },
+
             "virtual_network_configuration": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -343,10 +341,10 @@ func resourceArmApiManagementServiceCreate(d *schema.ResourceData, meta interfac
     virtualNetworkType := d.Get("virtual_network_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := apimanagement.ServiceResource{
+    parameters := apimanagement.ServiceUpdateParameters{
         Identity: expandArmApiManagementServiceServiceIdentity(identity),
         Location: utils.String(location),
-        ServiceProperties: &apimanagement.ServiceProperties{
+        ServiceUpdateProperties: &apimanagement.ServiceUpdateProperties{
             AdditionalLocations: expandArmApiManagementServiceAdditionalLocation(additionalLocations),
             Certificates: expandArmApiManagementServiceCertificateConfiguration(certificates),
             CustomProperties: utils.ExpandKeyValuePairs(customProperties),
@@ -411,33 +409,33 @@ func resourceArmApiManagementServiceRead(d *schema.ResourceData, meta interface{
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if serviceProperties := resp.ServiceProperties; serviceProperties != nil {
-        if err := d.Set("additional_locations", flattenArmApiManagementServiceAdditionalLocation(serviceProperties.AdditionalLocations)); err != nil {
+    if serviceUpdateProperties := resp.ServiceUpdateProperties; serviceUpdateProperties != nil {
+        if err := d.Set("additional_locations", flattenArmApiManagementServiceAdditionalLocation(serviceUpdateProperties.AdditionalLocations)); err != nil {
             return fmt.Errorf("Error setting `additional_locations`: %+v", err)
         }
-        if err := d.Set("certificates", flattenArmApiManagementServiceCertificateConfiguration(serviceProperties.Certificates)); err != nil {
+        if err := d.Set("certificates", flattenArmApiManagementServiceCertificateConfiguration(serviceUpdateProperties.Certificates)); err != nil {
             return fmt.Errorf("Error setting `certificates`: %+v", err)
         }
-        d.Set("created_at_utc", (serviceProperties.CreatedAtUtc).String())
-        d.Set("custom_properties", utils.FlattenKeyValuePairs(serviceProperties.CustomProperties))
-        d.Set("gateway_regional_url", serviceProperties.GatewayRegionalURL)
-        d.Set("gateway_url", serviceProperties.GatewayURL)
-        if err := d.Set("hostname_configurations", flattenArmApiManagementServiceHostnameConfiguration(serviceProperties.HostnameConfigurations)); err != nil {
+        d.Set("created_at_utc", (serviceUpdateProperties.CreatedAtUtc).String())
+        d.Set("custom_properties", utils.FlattenKeyValuePairs(serviceUpdateProperties.CustomProperties))
+        d.Set("gateway_regional_url", serviceUpdateProperties.GatewayRegionalURL)
+        d.Set("gateway_url", serviceUpdateProperties.GatewayURL)
+        if err := d.Set("hostname_configurations", flattenArmApiManagementServiceHostnameConfiguration(serviceUpdateProperties.HostnameConfigurations)); err != nil {
             return fmt.Errorf("Error setting `hostname_configurations`: %+v", err)
         }
-        d.Set("management_api_url", serviceProperties.ManagementApiURL)
-        d.Set("notification_sender_email", serviceProperties.NotificationSenderEmail)
-        d.Set("portal_url", serviceProperties.PortalURL)
-        d.Set("provisioning_state", serviceProperties.ProvisioningState)
-        d.Set("publisher_email", serviceProperties.PublisherEmail)
-        d.Set("publisher_name", serviceProperties.PublisherName)
-        d.Set("scm_url", serviceProperties.ScmURL)
-        d.Set("static_ips", utils.FlattenStringSlice(serviceProperties.StaticIps))
-        d.Set("target_provisioning_state", serviceProperties.TargetProvisioningState)
-        if err := d.Set("virtual_network_configuration", flattenArmApiManagementServiceVirtualNetworkConfiguration(serviceProperties.VirtualNetworkConfiguration)); err != nil {
+        d.Set("management_api_url", serviceUpdateProperties.ManagementApiURL)
+        d.Set("notification_sender_email", serviceUpdateProperties.NotificationSenderEmail)
+        d.Set("portal_url", serviceUpdateProperties.PortalURL)
+        d.Set("provisioning_state", serviceUpdateProperties.ProvisioningState)
+        d.Set("publisher_email", serviceUpdateProperties.PublisherEmail)
+        d.Set("publisher_name", serviceUpdateProperties.PublisherName)
+        d.Set("scm_url", serviceUpdateProperties.ScmURL)
+        d.Set("static_ips", utils.FlattenStringSlice(serviceUpdateProperties.StaticIps))
+        d.Set("target_provisioning_state", serviceUpdateProperties.TargetProvisioningState)
+        if err := d.Set("virtual_network_configuration", flattenArmApiManagementServiceVirtualNetworkConfiguration(serviceUpdateProperties.VirtualNetworkConfiguration)); err != nil {
             return fmt.Errorf("Error setting `virtual_network_configuration`: %+v", err)
         }
-        d.Set("virtual_network_type", string(serviceProperties.VirtualNetworkType))
+        d.Set("virtual_network_type", string(serviceUpdateProperties.VirtualNetworkType))
     }
     d.Set("etag", resp.Etag)
     if err := d.Set("identity", flattenArmApiManagementServiceServiceIdentity(resp.Identity)); err != nil {
@@ -470,10 +468,10 @@ func resourceArmApiManagementServiceUpdate(d *schema.ResourceData, meta interfac
     virtualNetworkType := d.Get("virtual_network_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := apimanagement.ServiceResource{
+    parameters := apimanagement.ServiceUpdateParameters{
         Identity: expandArmApiManagementServiceServiceIdentity(identity),
         Location: utils.String(location),
-        ServiceProperties: &apimanagement.ServiceProperties{
+        ServiceUpdateProperties: &apimanagement.ServiceUpdateProperties{
             AdditionalLocations: expandArmApiManagementServiceAdditionalLocation(additionalLocations),
             Certificates: expandArmApiManagementServiceCertificateConfiguration(certificates),
             CustomProperties: utils.ExpandKeyValuePairs(customProperties),

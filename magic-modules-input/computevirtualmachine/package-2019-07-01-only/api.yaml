@@ -35,12 +35,9 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VirtualMachine
+            go_type_name: VirtualMachineUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -814,12 +811,9 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: VirtualMachine
+            go_type_name: VirtualMachineUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -1606,9 +1600,11 @@ objects:
             python_parameter_name: vm_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -3100,13 +3096,20 @@ objects:
         go_func_name: ListAll
         python_func_name: list_all
         request:
+          'statusOnly': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: statusOnly
+            python_parameter_name: status_only
+            python_variable_name: status_only
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByLocation
         python_func_name: list_by_location
         request:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -3148,10 +3151,10 @@ objects:
         azure_sdk_references: ['vmName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'Resource location'
+        description: 'The location for which virtual machines under the subscription are queried.'
         required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'
@@ -4038,6 +4041,12 @@ objects:
         input: true
         azure_sdk_references: ['/zones']
         item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'statusOnly'
+        description: 'statusOnly=true enables fetching run time status of all Virtual Machines in the subscription.'
+        required: false
+        input: true
+        azure_sdk_references: ['statusOnly']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'

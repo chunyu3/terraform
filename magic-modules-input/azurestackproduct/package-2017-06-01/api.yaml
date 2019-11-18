@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: registrations
-            go_variable_name: name
+            go_variable_name: registrationName
             python_parameter_name: registration_name
+            python_variable_name: registration_name
+          'productName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: products
+            go_variable_name: name
+            python_parameter_name: product_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -213,9 +218,9 @@ objects:
             python_variable_name: resource_group
           'registrationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: registrations
-            go_variable_name: name
+            go_variable_name: registrationName
             python_parameter_name: registration_name
-            python_variable_name: name
+            python_variable_name: registration_name
 
     description: |
       Manage Azure Product instance.
@@ -227,11 +232,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroup']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'registrationName'
         description: 'Name of the Azure Stack registration.'
         required: true
         input: true
         azure_sdk_references: ['registrationName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the product.'
+        required: true
+        input: true
+        azure_sdk_references: ['productName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

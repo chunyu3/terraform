@@ -38,6 +38,8 @@ The following arguments are supported:
 
 * `msa_app_id` - (Required) Microsoft App Id for the bot
 
+* `name` - (Optional) the name of the bot for which availability needs to be checked. Changing this forces a new resource to be created.
+
 * `location` - (Optional) Specifies the location of the resource. Changing this forces a new resource to be created.
 
 * `description` - (Optional) The description of the bot
@@ -60,6 +62,8 @@ The following arguments are supported:
 
 * `sku` - (Optional) One `sku` block defined below.
 
+* `type` - (Optional) the type of the bot for which availability needs to be checked Changing this forces a new resource to be created.
+
 * `tags` - (Optional) Contains resource tags defined as key/value pairs. Changing this forces a new resource to be created.
 
 ---
@@ -79,7 +83,3 @@ The following attributes are exported:
 * `enabled_channels` - Collection of channels for which the bot is enabled
 
 * `id` - Specifies the resource ID.
-
-* `name` - Specifies the name of the resource.
-
-* `type` - Specifies the type of the resource.

@@ -26,34 +26,108 @@ objects:
         go_func_name: ListByDepartment
         python_func_name: list_by_department
         request:
+          'departmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: departments
+            go_variable_name: departmentID
+            python_parameter_name: department_id
+            python_variable_name: department_id
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByBillingAccount
         python_func_name: list_by_billing_account
         request:
+          'billingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountID
+            python_parameter_name: billing_account_id
+            python_variable_name: billing_account_id
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByEnrollmentAccount
         python_func_name: list_by_enrollment_account
         request:
+          'enrollmentAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: enrollmentAccounts
+            go_variable_name: enrollmentAccountID
+            python_parameter_name: enrollment_account_id
+            python_variable_name: enrollment_account_id
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByBillingPeriod
         python_func_name: list_by_billing_period
         request:
+          'billingPeriodName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingPeriods
+            go_variable_name: name
+            python_parameter_name: billing_period_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListForBillingPeriodByDepartment
         python_func_name: list_for_billing_period_by_department
         request:
+          'departmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: departments
+            go_variable_name: departmentID
+            python_parameter_name: department_id
+            python_variable_name: department_id
+          'billingPeriodName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingPeriods
+            go_variable_name: name
+            python_parameter_name: billing_period_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListForBillingPeriodByBillingAccount
         python_func_name: list_for_billing_period_by_billing_account
         request:
+          'billingAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingAccounts
+            go_variable_name: billingAccountID
+            python_parameter_name: billing_account_id
+            python_variable_name: billing_account_id
+          'billingPeriodName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingPeriods
+            go_variable_name: name
+            python_parameter_name: billing_period_name
+            python_variable_name: name
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListForBillingPeriodByEnrollmentAccount
         python_func_name: list_for_billing_period_by_enrollment_account
         request:
+          'enrollmentAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: enrollmentAccounts
+            go_variable_name: enrollmentAccountID
+            python_parameter_name: enrollment_account_id
+            python_variable_name: enrollment_account_id
+          'billingPeriodName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingPeriods
+            go_variable_name: name
+            python_parameter_name: billing_period_name
+            python_variable_name: name
 
     description: |
       Manage Azure UsageDetail instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'departmentId'
+        description: 'Department ID'
+        required: true
+        input: true
+        azure_sdk_references: ['departmentId']
+      - !ruby/object:Api::Type::String
+        name: 'billingAccountId'
+        description: 'BillingAccount ID'
+        required: true
+        input: true
+        azure_sdk_references: ['billingAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'enrollmentAccountId'
+        description: 'EnrollmentAccount ID'
+        required: true
+        input: true
+        azure_sdk_references: ['enrollmentAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Billing Period Name.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingPeriodName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

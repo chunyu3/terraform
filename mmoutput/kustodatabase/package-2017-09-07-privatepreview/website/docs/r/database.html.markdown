@@ -32,11 +32,11 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group containing the Kusto cluster. Changing this forces a new resource to be created.
 
-* `location` - (Required) The geo-location where the resource lives Changing this forces a new resource to be created.
-
 * `cluster_name` - (Required) The name of the Kusto cluster. Changing this forces a new resource to be created.
 
 * `soft_delete_period_in_days` - (Required) The number of days data should be kept before it stops being accessible to queries.
+
+* `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 
 * `hot_cache_period_in_days` - (Optional) The number of days of data that should be kept in cache for fast queries.
 

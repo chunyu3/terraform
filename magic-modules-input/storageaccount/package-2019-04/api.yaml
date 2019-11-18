@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AccountCreateParameters
+            go_type_name: AccountUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -73,8 +73,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountPropertiesCreateParameters
-            go_type_name: AccountPropertiesCreateParameters
+            go_field_name: AccountPropertiesUpdateParameters
+            go_type_name: AccountPropertiesUpdateParameters
           '/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: custom_domain
@@ -166,74 +166,6 @@ objects:
           '/properties/encryption/keyvaultproperties/keyvaulturi': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Keyvaulturi
-          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: network_acls
-          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: bypass
-          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: virtual_network_rules
-          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: action
-          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ip_rules
-          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: action
-          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: default_action
-          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: NetworkAcls
-            go_type_name: NetworkRuleSet
-          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Bypass
-            go_enum_type_name: Bypass
-          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkRules
-            go_type_name: VirtualNetworkRule
-          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Action
-            go_enum_type_name: Action
-          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: State
-          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: IpRules
-            go_type_name: IPRule
-          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Action
-            go_enum_type_name: Action
-          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DefaultAction
-            go_enum_type_name: DefaultAction
           '/accessTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: access_tier
@@ -304,12 +236,74 @@ objects:
           '/properties/supportsHttpsTrafficOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: SupportsHttpsTrafficOnly
-          '/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: is_hns_enabled
-          '/properties/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IsHnsEnabled
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: Bypass
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: State
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: DefaultAction
           '/largeFileSharesState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: large_file_shares_state
@@ -333,7 +327,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AccountCreateParameters
+            go_type_name: AccountUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
@@ -371,8 +365,8 @@ objects:
             python_field_name: type
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountPropertiesCreateParameters
-            go_type_name: AccountPropertiesCreateParameters
+            go_field_name: AccountPropertiesUpdateParameters
+            go_type_name: AccountPropertiesUpdateParameters
           '/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: custom_domain
@@ -464,74 +458,6 @@ objects:
           '/properties/encryption/keyvaultproperties/keyvaulturi': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Keyvaulturi
-          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: network_acls
-          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: bypass
-          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: virtual_network_rules
-          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: action
-          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: ip_rules
-          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: action
-          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: default_action
-          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: NetworkAcls
-            go_type_name: NetworkRuleSet
-          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Bypass
-            go_enum_type_name: Bypass
-          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: VirtualNetworkRules
-            go_type_name: VirtualNetworkRule
-          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Action
-            go_enum_type_name: Action
-          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: State
-          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: IpRules
-            go_type_name: IPRule
-          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Action
-            go_enum_type_name: Action
-          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: DefaultAction
-            go_enum_type_name: DefaultAction
           '/accessTier': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: access_tier
@@ -602,12 +528,74 @@ objects:
           '/properties/supportsHttpsTrafficOnly': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: SupportsHttpsTrafficOnly
-          '/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+          '/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
-            python_field_name: is_hns_enabled
-          '/properties/isHnsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            python_field_name: network_acls
+          '/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: bypass
+          '/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_network_rules
+          '/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ip_rules
+          '/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: action
+          '/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: default_action
+          '/properties/networkAcls': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: IsHnsEnabled
+            go_field_name: NetworkAcls
+            go_type_name: NetworkRuleSet
+          '/properties/networkAcls/bypass': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Bypass
+            go_enum_type_name: Bypass
+          '/properties/networkAcls/virtualNetworkRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkRules
+            go_type_name: VirtualNetworkRule
+          '/properties/networkAcls/virtualNetworkRules/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/networkAcls/virtualNetworkRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/virtualNetworkRules/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: State
+          '/properties/networkAcls/ipRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: IpRules
+            go_type_name: IPRule
+          '/properties/networkAcls/ipRules/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/networkAcls/ipRules/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Action
+            go_enum_type_name: Action
+          '/properties/networkAcls/defaultAction': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DefaultAction
+            go_enum_type_name: DefaultAction
           '/largeFileSharesState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: large_file_shares_state
@@ -660,8 +648,8 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
-        description: 'Required. Gets or sets the SKU name.'
-        required: true
+        description: 'Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS, Premium_LRS or Premium_ZRS, nor can accounts of those SKU names be updated to any other value.'
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum
@@ -696,8 +684,8 @@ objects:
                   default_value: :QuotaId
       - !ruby/object:Api::Type::Enum
         name: 'kind'
-        description: 'Required. Indicates the type of storage account.'
-        required: true
+        description: 'Optional. Indicates the type of storage account. Currently only StorageV2 value supported by server.'
+        required: false
         input: true
         azure_sdk_references: ['/kind']
         values:
@@ -706,6 +694,7 @@ objects:
           - :BlobStorage
           - :FileStorage
           - :BlockBlobStorage
+        default_value: :Storage
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
         description: 'Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is created, but if an identical geo region is specified on update, the request will succeed.'
@@ -714,7 +703,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters.'
+        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -731,7 +720,7 @@ objects:
             azure_sdk_references: ['/identity/type']
       - !ruby/object:Api::Type::NestedObject
         name: 'customDomain'
-        description: 'User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.'
+        description: 'Custom domain assigned to the storage account by the user. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.'
         required: false
         azure_sdk_references: ['/customDomain', '/properties/customDomain']
         properties:
@@ -747,7 +736,7 @@ objects:
             azure_sdk_references: ['/customDomain/useSubDomainName', '/properties/customDomain/useSubDomainName']
       - !ruby/object:Api::Type::NestedObject
         name: 'encryption'
-        description: 'Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled.'
+        description: 'Provides the encryption settings on the account. The default setting is unencrypted.'
         required: false
         azure_sdk_references: ['/encryption', '/properties/encryption']
         properties:
@@ -808,6 +797,71 @@ objects:
                 description: 'The Uri of KeyVault.'
                 required: false
                 azure_sdk_references: ['/encryption/keyvaultproperties/keyvaulturi', '/properties/encryption/keyvaultproperties/keyvaulturi']
+      - !ruby/object:Api::Type::Enum
+        name: 'accessTier'
+        description: 'Required for storage accounts where kind = BlobStorage. The access tier used for billing.'
+        required: false
+        azure_sdk_references: ['/accessTier', '/properties/accessTier']
+        values:
+          - :Hot
+          - :Cool
+        default_value: :Hot
+      - !ruby/object:Api::Type::NestedObject
+        name: 'azureFilesIdentityBasedAuthentication'
+        description: 'Provides the identity based authentication settings for Azure Files.'
+        required: false
+        azure_sdk_references: ['/azureFilesIdentityBasedAuthentication', '/properties/azureFilesIdentityBasedAuthentication']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'directoryServiceOptions'
+            description: 'Indicates the directory service used.'
+            required: true
+            azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/directoryServiceOptions', '/properties/azureFilesIdentityBasedAuthentication/directoryServiceOptions']
+            values:
+              - :None
+              - :AADDS
+              - :AD
+          - !ruby/object:Api::Type::NestedObject
+            name: 'activeDirectoryProperties'
+            description: 'Required if choose AD.'
+            required: false
+            azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'domainName'
+                description: 'Specifies the primary domain that the AD DNS server is authoritative for.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName']
+              - !ruby/object:Api::Type::String
+                name: 'netBiosDomainName'
+                description: 'Specifies the NetBIOS domain name.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName']
+              - !ruby/object:Api::Type::String
+                name: 'forestName'
+                description: 'Specifies the Active Directory forest to get.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName']
+              - !ruby/object:Api::Type::String
+                name: 'domainGuid'
+                description: 'Specifies the domain GUID.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid']
+              - !ruby/object:Api::Type::String
+                name: 'domainSid'
+                description: 'Specifies the security identifier (SID).'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid']
+              - !ruby/object:Api::Type::String
+                name: 'azureStorageSid'
+                description: 'Specifies the security identifier (SID) for Azure Storage.'
+                required: true
+                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid']
+      - !ruby/object:Api::Type::Boolean
+        name: 'supportsHttpsTrafficOnly'
+        description: 'Allows https traffic only to storage service if sets to true.'
+        required: false
+        azure_sdk_references: ['/supportsHttpsTrafficOnly', '/properties/supportsHttpsTrafficOnly']
       - !ruby/object:Api::Type::NestedObject
         name: 'networkAcls'
         description: 'Network rule set'
@@ -886,76 +940,6 @@ objects:
               - :Allow
               - :Deny
       - !ruby/object:Api::Type::Enum
-        name: 'accessTier'
-        description: 'Required for storage accounts where kind = BlobStorage. The access tier used for billing.'
-        required: false
-        azure_sdk_references: ['/accessTier', '/properties/accessTier']
-        values:
-          - :Hot
-          - :Cool
-        default_value: :Hot
-      - !ruby/object:Api::Type::NestedObject
-        name: 'azureFilesIdentityBasedAuthentication'
-        description: 'Provides the identity based authentication settings for Azure Files.'
-        required: false
-        azure_sdk_references: ['/azureFilesIdentityBasedAuthentication', '/properties/azureFilesIdentityBasedAuthentication']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'directoryServiceOptions'
-            description: 'Indicates the directory service used.'
-            required: true
-            azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/directoryServiceOptions', '/properties/azureFilesIdentityBasedAuthentication/directoryServiceOptions']
-            values:
-              - :None
-              - :AADDS
-              - :AD
-          - !ruby/object:Api::Type::NestedObject
-            name: 'activeDirectoryProperties'
-            description: 'Required if choose AD.'
-            required: false
-            azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'domainName'
-                description: 'Specifies the primary domain that the AD DNS server is authoritative for.'
-                required: true
-                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainName']
-              - !ruby/object:Api::Type::String
-                name: 'netBiosDomainName'
-                description: 'Specifies the NetBIOS domain name.'
-                required: true
-                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/netBiosDomainName']
-              - !ruby/object:Api::Type::String
-                name: 'forestName'
-                description: 'Specifies the Active Directory forest to get.'
-                required: true
-                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/forestName']
-              - !ruby/object:Api::Type::String
-                name: 'domainGuid'
-                description: 'Specifies the domain GUID.'
-                required: true
-                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainGuid']
-              - !ruby/object:Api::Type::String
-                name: 'domainSid'
-                description: 'Specifies the security identifier (SID).'
-                required: true
-                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/domainSid']
-              - !ruby/object:Api::Type::String
-                name: 'azureStorageSid'
-                description: 'Specifies the security identifier (SID) for Azure Storage.'
-                required: true
-                azure_sdk_references: ['/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid', '/properties/azureFilesIdentityBasedAuthentication/activeDirectoryProperties/azureStorageSid']
-      - !ruby/object:Api::Type::Boolean
-        name: 'supportsHttpsTrafficOnly'
-        description: 'Allows https traffic only to storage service if sets to true. The default value is true since API version 2019-04-01.'
-        required: false
-        azure_sdk_references: ['/supportsHttpsTrafficOnly', '/properties/supportsHttpsTrafficOnly']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isHnsEnabled'
-        description: 'Account HierarchicalNamespace enabled if sets to true.'
-        required: false
-        azure_sdk_references: ['/isHnsEnabled', '/properties/isHnsEnabled']
-      - !ruby/object:Api::Type::Enum
         name: 'largeFileSharesState'
         description: 'Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.'
         required: false
@@ -1022,6 +1006,11 @@ objects:
         output: true
         azure_sdk_references: ['/secondaryEndpoints', '/properties/secondaryEndpoints']
         properties:
+      - !ruby/object:Api::Type::Boolean
+        name: 'isHnsEnabled'
+        description: 'Account HierarchicalNamespace enabled if sets to true.'
+        output: true
+        azure_sdk_references: ['/isHnsEnabled', '/properties/isHnsEnabled']
       - !ruby/object:Api::Type::NestedObject
         name: 'geoReplicationStats'
         description: 'Geo Replication Stats'

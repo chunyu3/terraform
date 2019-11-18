@@ -102,7 +102,7 @@ func resourceArmZoneCreate(d *schema.ResourceData, meta interface{}) error {
     etag := d.Get("etag").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := dns.Zone{
+    parameters := dns.ZoneUpdate{
         Etag: utils.String(etag),
         Location: utils.String(location),
         Tags: tags.Expand(t),
@@ -174,7 +174,7 @@ func resourceArmZoneUpdate(d *schema.ResourceData, meta interface{}) error {
     etag := d.Get("etag").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := dns.Zone{
+    parameters := dns.ZoneUpdate{
         Etag: utils.String(etag),
         Location: utils.String(location),
         Tags: tags.Expand(t),

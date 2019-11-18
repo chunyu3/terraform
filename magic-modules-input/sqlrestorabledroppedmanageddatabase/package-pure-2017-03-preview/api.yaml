@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: managed_instance_name
             python_variable_name: name
+          'restorableDroppedDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: restorableDroppedDatabases
+            go_variable_name: restorableDroppedDatabaseID
+            python_parameter_name: restorable_dropped_database_id
+            python_variable_name: restorable_dropped_database_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -106,6 +111,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['managedInstanceName']
+      - !ruby/object:Api::Type::String
+        name: 'restorableDroppedDatabaseId'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['restorableDroppedDatabaseId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -154,9 +154,9 @@ func resourceArmArtifactSourceCreate(d *schema.ResourceData, meta interface{}) e
     uri := d.Get("uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    artifactSource := devtestlab.ArtifactSource{
+    artifactSource := devtestlab.ArtifactSourceFragment{
         Location: utils.String(location),
-        ArtifactSourceProperties: &devtestlab.ArtifactSourceProperties{
+        ArtifactSourcePropertiesFragment: &devtestlab.ArtifactSourcePropertiesFragment{
             ArmTemplateFolderPath: utils.String(armTemplateFolderPath),
             BranchRef: utils.String(branchRef),
             DisplayName: utils.String(displayName),
@@ -217,18 +217,18 @@ func resourceArmArtifactSourceRead(d *schema.ResourceData, meta interface{}) err
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if artifactSourceProperties := resp.ArtifactSourceProperties; artifactSourceProperties != nil {
-        d.Set("arm_template_folder_path", artifactSourceProperties.ArmTemplateFolderPath)
-        d.Set("branch_ref", artifactSourceProperties.BranchRef)
-        d.Set("created_date", (artifactSourceProperties.CreatedDate).String())
-        d.Set("display_name", artifactSourceProperties.DisplayName)
-        d.Set("folder_path", artifactSourceProperties.FolderPath)
-        d.Set("provisioning_state", artifactSourceProperties.ProvisioningState)
-        d.Set("security_token", artifactSourceProperties.SecurityToken)
-        d.Set("source_type", string(artifactSourceProperties.SourceType))
-        d.Set("status", string(artifactSourceProperties.Status))
-        d.Set("unique_identifier", artifactSourceProperties.UniqueIdentifier)
-        d.Set("uri", artifactSourceProperties.Uri)
+    if artifactSourcePropertiesFragment := resp.ArtifactSourcePropertiesFragment; artifactSourcePropertiesFragment != nil {
+        d.Set("arm_template_folder_path", artifactSourcePropertiesFragment.ArmTemplateFolderPath)
+        d.Set("branch_ref", artifactSourcePropertiesFragment.BranchRef)
+        d.Set("created_date", (artifactSourcePropertiesFragment.CreatedDate).String())
+        d.Set("display_name", artifactSourcePropertiesFragment.DisplayName)
+        d.Set("folder_path", artifactSourcePropertiesFragment.FolderPath)
+        d.Set("provisioning_state", artifactSourcePropertiesFragment.ProvisioningState)
+        d.Set("security_token", artifactSourcePropertiesFragment.SecurityToken)
+        d.Set("source_type", string(artifactSourcePropertiesFragment.SourceType))
+        d.Set("status", string(artifactSourcePropertiesFragment.Status))
+        d.Set("unique_identifier", artifactSourcePropertiesFragment.UniqueIdentifier)
+        d.Set("uri", artifactSourcePropertiesFragment.Uri)
     }
     d.Set("type", resp.Type)
 
@@ -253,9 +253,9 @@ func resourceArmArtifactSourceUpdate(d *schema.ResourceData, meta interface{}) e
     uri := d.Get("uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    artifactSource := devtestlab.ArtifactSource{
+    artifactSource := devtestlab.ArtifactSourceFragment{
         Location: utils.String(location),
-        ArtifactSourceProperties: &devtestlab.ArtifactSourceProperties{
+        ArtifactSourcePropertiesFragment: &devtestlab.ArtifactSourcePropertiesFragment{
             ArmTemplateFolderPath: utils.String(armTemplateFolderPath),
             BranchRef: utils.String(branchRef),
             DisplayName: utils.String(displayName),

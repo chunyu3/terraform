@@ -214,6 +214,11 @@ objects:
             go_variable_name: name
             python_parameter_name: app_name
             python_variable_name: name
+          'syncStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: syncStatus
+            python_parameter_name: sync_status
+            python_variable_name: sync_status
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -381,6 +386,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['appName']
+      - !ruby/object:Api::Type::String
+        name: 'syncStatus'
+        description: 'Indicates whether sync status'
+        required: false
+        input: true
+        azure_sdk_references: ['syncStatus']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'url'

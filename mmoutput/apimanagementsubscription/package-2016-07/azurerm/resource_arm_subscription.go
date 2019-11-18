@@ -38,19 +38,11 @@ func resourceArmSubscription() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
-
-            "product_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
 
             "sid": {
                 Type: schema.TypeString,
@@ -59,14 +51,20 @@ func resourceArmSubscription() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "user_id": {
+            "expiration_date": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                ValidateFunc: validateRFC3339Date,
             },
 
             "primary_key": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "product_id": {
                 Type: schema.TypeString,
                 Optional: true,
                 ForceNew: true,
@@ -93,6 +91,18 @@ func resourceArmSubscription() *schema.Resource {
                 Default: string(apimanagement.Suspended),
             },
 
+            "state_comment": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "user_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
             "created_date": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -103,22 +113,12 @@ func resourceArmSubscription() *schema.Resource {
                 Computed: true,
             },
 
-            "expiration_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "notification_date": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
             "start_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state_comment": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -147,18 +147,22 @@ func resourceArmSubscriptionCreate(d *schema.ResourceData, meta interface{}) err
     }
 
     name := d.Get("name").(string)
+    expirationDate := d.Get("expiration_date").(string)
     primaryKey := d.Get("primary_key").(string)
     productId := d.Get("product_id").(string)
     secondaryKey := d.Get("secondary_key").(string)
     state := d.Get("state").(string)
+    stateComment := d.Get("state_comment").(string)
     userId := d.Get("user_id").(string)
 
-    parameters := apimanagement.SubscriptionCreateParameters{
+    parameters := apimanagement.SubscriptionUpdateParameters{
+        ExpirationDate: convertStringToDate(expirationDate),
         Name: utils.String(name),
         PrimaryKey: utils.String(primaryKey),
         ProductID: utils.String(productId),
         SecondaryKey: utils.String(secondaryKey),
         State: apimanagement.SubscriptionStateContract(state),
+        StateComment: utils.String(stateComment),
         UserID: utils.String(userId),
     }
 
@@ -229,19 +233,23 @@ func resourceArmSubscriptionUpdate(d *schema.ResourceData, meta interface{}) err
     name := d.Get("name").(string)
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    expirationDate := d.Get("expiration_date").(string)
     primaryKey := d.Get("primary_key").(string)
     productId := d.Get("product_id").(string)
     secondaryKey := d.Get("secondary_key").(string)
     sid := d.Get("sid").(string)
     state := d.Get("state").(string)
+    stateComment := d.Get("state_comment").(string)
     userId := d.Get("user_id").(string)
 
-    parameters := apimanagement.SubscriptionCreateParameters{
+    parameters := apimanagement.SubscriptionUpdateParameters{
+        ExpirationDate: convertStringToDate(expirationDate),
         Name: utils.String(name),
         PrimaryKey: utils.String(primaryKey),
         ProductID: utils.String(productId),
         SecondaryKey: utils.String(secondaryKey),
         State: apimanagement.SubscriptionStateContract(state),
+        StateComment: utils.String(stateComment),
         UserID: utils.String(userId),
     }
 
@@ -271,4 +279,19 @@ func resourceArmSubscriptionDelete(d *schema.ResourceData, meta interface{}) err
     }
 
     return nil
+}
+
+func convertStringToDate(input interface{}) *date.Time {
+  v := input.(string)
+
+  dateTime, err := date.ParseTime(time.RFC3339, v)
+  if err != nil {
+      log.Printf("[ERROR] Cannot convert an invalid string to RFC3339 date %q: %+v", v, err)
+      return nil
+  }
+
+  result := date.Time{
+      Time: dateTime,
+  }
+  return &result
 }

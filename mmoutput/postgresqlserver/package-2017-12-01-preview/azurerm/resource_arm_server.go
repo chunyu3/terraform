@@ -45,6 +45,16 @@ func resourceArmServer() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "administrator_login_password": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "replication_role": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
             "sku": {
                 Type: schema.TypeList,
                 Optional: true,
@@ -166,11 +176,6 @@ func resourceArmServer() *schema.Resource {
                 Computed: true,
             },
 
-            "replication_role": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -206,15 +211,19 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
     }
 
     location := azure.NormalizeLocation(d.Get("location").(string))
+    administratorLoginPassword := d.Get("administrator_login_password").(string)
+    replicationRole := d.Get("replication_role").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
     storageProfile := d.Get("storage_profile").([]interface{})
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := postgresql.ServerForCreate{
+    parameters := postgresql.ServerUpdateParameters{
         Location: utils.String(location),
-        ServerPropertiesForCreate: &postgresql.ServerPropertiesForCreate{
+        ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
+            AdministratorLoginPassword: utils.String(administratorLoginPassword),
+            ReplicationRole: utils.String(replicationRole),
             SslEnforcement: postgresql.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
             Version: postgresql.ServerVersion(version),
@@ -273,19 +282,19 @@ func resourceArmServerRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if serverPropertiesForCreate := resp.ServerPropertiesForCreate; serverPropertiesForCreate != nil {
-        d.Set("administrator_login", serverPropertiesForCreate.AdministratorLogin)
-        d.Set("earliest_restore_date", (serverPropertiesForCreate.EarliestRestoreDate).String())
-        d.Set("fully_qualified_domain_name", serverPropertiesForCreate.FullyQualifiedDomainName)
-        d.Set("master_server_id", serverPropertiesForCreate.MasterServerID)
-        d.Set("replica_capacity", int(*serverPropertiesForCreate.ReplicaCapacity))
-        d.Set("replication_role", serverPropertiesForCreate.ReplicationRole)
-        d.Set("ssl_enforcement", string(serverPropertiesForCreate.SslEnforcement))
-        if err := d.Set("storage_profile", flattenArmServerStorageProfile(serverPropertiesForCreate.StorageProfile)); err != nil {
+    if serverUpdateParametersProperties := resp.ServerUpdateParameters_properties; serverUpdateParametersProperties != nil {
+        d.Set("administrator_login", serverUpdateParametersProperties.AdministratorLogin)
+        d.Set("earliest_restore_date", (serverUpdateParametersProperties.EarliestRestoreDate).String())
+        d.Set("fully_qualified_domain_name", serverUpdateParametersProperties.FullyQualifiedDomainName)
+        d.Set("master_server_id", serverUpdateParametersProperties.MasterServerID)
+        d.Set("replica_capacity", int(*serverUpdateParametersProperties.ReplicaCapacity))
+        d.Set("replication_role", serverUpdateParametersProperties.ReplicationRole)
+        d.Set("ssl_enforcement", string(serverUpdateParametersProperties.SslEnforcement))
+        if err := d.Set("storage_profile", flattenArmServerStorageProfile(serverUpdateParametersProperties.StorageProfile)); err != nil {
             return fmt.Errorf("Error setting `storage_profile`: %+v", err)
         }
-        d.Set("user_visible_state", string(serverPropertiesForCreate.UserVisibleState))
-        d.Set("version", string(serverPropertiesForCreate.Version))
+        d.Set("user_visible_state", string(serverUpdateParametersProperties.UserVisibleState))
+        d.Set("version", string(serverUpdateParametersProperties.Version))
     }
     if err := d.Set("sku", flattenArmServerSku(resp.Sku)); err != nil {
         return fmt.Errorf("Error setting `sku`: %+v", err)
@@ -301,15 +310,19 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
 
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
+    administratorLoginPassword := d.Get("administrator_login_password").(string)
+    replicationRole := d.Get("replication_role").(string)
     sku := d.Get("sku").([]interface{})
     sslEnforcement := d.Get("ssl_enforcement").(string)
     storageProfile := d.Get("storage_profile").([]interface{})
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := postgresql.ServerForCreate{
+    parameters := postgresql.ServerUpdateParameters{
         Location: utils.String(location),
-        ServerPropertiesForCreate: &postgresql.ServerPropertiesForCreate{
+        ServerUpdateParameters_properties: &postgresql.ServerUpdateParameters_properties{
+            AdministratorLoginPassword: utils.String(administratorLoginPassword),
+            ReplicationRole: utils.String(replicationRole),
             SslEnforcement: postgresql.SslEnforcementEnum(sslEnforcement),
             StorageProfile: expandArmServerStorageProfile(storageProfile),
             Version: postgresql.ServerVersion(version),

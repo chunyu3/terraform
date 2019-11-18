@@ -44,7 +44,7 @@ objects:
             python_variable_name: operation_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationContract
+            go_type_name: PatchParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -162,6 +162,9 @@ objects:
           '/responses/representations/sample': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Sample
             python_field_name: sample
+          '/RawJson': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_field_name: RawJson
+            python_field_name: raw_json
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -188,7 +191,7 @@ objects:
             python_variable_name: operation_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationContract
+            go_type_name: PatchParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -306,6 +309,9 @@ objects:
           '/responses/representations/sample': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Sample
             python_field_name: sample
+          '/RawJson': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            go_field_name: RawJson
+            python_field_name: raw_json
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -720,6 +726,12 @@ objects:
                     description: 'An example of the representation.'
                     required: false
                     azure_sdk_references: ['/responses/representations/sample']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'rawJson'
+        description: 'json value.'
+        required: true
+        input: true
+        azure_sdk_references: ['/RawJson']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

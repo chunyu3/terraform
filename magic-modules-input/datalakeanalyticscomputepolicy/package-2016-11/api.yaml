@@ -39,13 +39,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateComputePolicyParameters
+            go_type_name: UpdateComputePolicyParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateComputePolicyProperties
-            go_type_name: CreateOrUpdateComputePolicyProperties
+            go_field_name: UpdateComputePolicyProperties
+            go_type_name: UpdateComputePolicyProperties
           '/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: object_id
@@ -92,13 +92,13 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CreateOrUpdateComputePolicyParameters
+            go_type_name: UpdateComputePolicyParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateComputePolicyProperties
-            go_type_name: CreateOrUpdateComputePolicyProperties
+            go_field_name: UpdateComputePolicyProperties
+            go_type_name: UpdateComputePolicyProperties
           '/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: object_id
@@ -165,8 +165,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CreateOrUpdateComputePolicyProperties
-            go_type_name: CreateOrUpdateComputePolicyProperties
+            go_field_name: UpdateComputePolicyProperties
+            go_type_name: UpdateComputePolicyProperties
           '/properties/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ObjectID
@@ -233,24 +233,25 @@ objects:
         azure_sdk_references: ['accountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the compute policy to create or update.'
+        description: 'The name of the compute policy to retrieve.'
         required: true
         input: true
         azure_sdk_references: ['computePolicyName']
       - !ruby/object:Api::Type::String
         name: 'objectId'
         description: 'The AAD object identifier for the entity to create a policy for.'
-        required: true
+        required: false
         azure_sdk_references: ['/objectId', '/properties/objectId']
       - !ruby/object:Api::Type::Enum
         name: 'objectType'
         description: 'The type of AAD object the object identifier refers to.'
-        required: true
+        required: false
         azure_sdk_references: ['/objectType', '/properties/objectType']
         values:
           - :User
           - :Group
           - :ServicePrincipal
+        default_value: :User
       - !ruby/object:Api::Type::Integer
         name: 'maxDegreeOfParallelismPerJob'
         description: 'The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed.'

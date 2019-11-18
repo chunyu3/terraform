@@ -250,7 +250,7 @@ func resourceArmManagedInstanceCreate(d *schema.ResourceData, meta interface{}) 
     vCores := d.Get("v_cores").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ManagedInstance{
+    parameters := sql.ManagedInstanceUpdate{
         Identity: expandArmManagedInstanceResourceIdentity(identity),
         Location: utils.String(location),
         ManagedInstanceProperties: &sql.ManagedInstanceProperties{
@@ -380,7 +380,7 @@ func resourceArmManagedInstanceUpdate(d *schema.ResourceData, meta interface{}) 
     vCores := d.Get("v_cores").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.ManagedInstance{
+    parameters := sql.ManagedInstanceUpdate{
         Identity: expandArmManagedInstanceResourceIdentity(identity),
         Location: utils.String(location),
         ManagedInstanceProperties: &sql.ManagedInstanceProperties{

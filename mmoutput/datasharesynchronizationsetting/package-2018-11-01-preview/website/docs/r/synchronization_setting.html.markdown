@@ -34,7 +34,7 @@ The following arguments are supported:
 
 * `account_name` - (Required) The name of the share account. Changing this forces a new resource to be created.
 
-* `share_name` - (Required) The name of the share to add the synchronization setting to. Changing this forces a new resource to be created.
+* `share_name` - (Required) The name of the share. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

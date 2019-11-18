@@ -43,12 +43,6 @@ func resourceArmProperty() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "display_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "prop_id": {
                 Type: schema.TypeString,
                 Required: true,
@@ -56,14 +50,18 @@ func resourceArmProperty() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "value": {
+            "display_name": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "secret": {
                 Type: schema.TypeBool,
+                Optional: true,
+            },
+
+            "value": {
+                Type: schema.TypeString,
                 Optional: true,
             },
 
@@ -108,8 +106,8 @@ func resourceArmPropertyCreate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
-    parameters := apimanagement.PropertyContract{
-        PropertyContractProperties: &apimanagement.PropertyContractProperties{
+    parameters := apimanagement.PropertyUpdateParameters{
+        PropertyUpdateParameterProperties: &apimanagement.PropertyUpdateParameterProperties{
             DisplayName: utils.String(displayName),
             Secret: utils.Bool(secret),
             Tags: utils.ExpandStringSlice(tags),
@@ -161,11 +159,11 @@ func resourceArmPropertyRead(d *schema.ResourceData, meta interface{}) error {
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if propertyContractProperties := resp.PropertyContractProperties; propertyContractProperties != nil {
-        d.Set("display_name", propertyContractProperties.DisplayName)
-        d.Set("secret", propertyContractProperties.Secret)
-        d.Set("tags", utils.FlattenStringSlice(propertyContractProperties.Tags))
-        d.Set("value", propertyContractProperties.Value)
+    if propertyUpdateParameterProperties := resp.PropertyUpdateParameterProperties; propertyUpdateParameterProperties != nil {
+        d.Set("display_name", propertyUpdateParameterProperties.DisplayName)
+        d.Set("secret", propertyUpdateParameterProperties.Secret)
+        d.Set("tags", utils.FlattenStringSlice(propertyUpdateParameterProperties.Tags))
+        d.Set("value", propertyUpdateParameterProperties.Value)
     }
     d.Set("prop_id", propID)
     d.Set("type", resp.Type)
@@ -185,8 +183,8 @@ func resourceArmPropertyUpdate(d *schema.ResourceData, meta interface{}) error {
     t := d.Get("tags").([]interface{})
     value := d.Get("value").(string)
 
-    parameters := apimanagement.PropertyContract{
-        PropertyContractProperties: &apimanagement.PropertyContractProperties{
+    parameters := apimanagement.PropertyUpdateParameters{
+        PropertyUpdateParameterProperties: &apimanagement.PropertyUpdateParameterProperties{
             DisplayName: utils.String(displayName),
             Secret: utils.Bool(secret),
             Tags: utils.ExpandStringSlice(tags),

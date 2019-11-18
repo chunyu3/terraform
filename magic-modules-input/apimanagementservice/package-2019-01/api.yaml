@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServiceResource
+            go_type_name: ServiceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -43,8 +43,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServiceProperties
-            go_type_name: ServiceProperties
+            go_field_name: ServiceUpdateProperties
+            go_type_name: ServiceUpdateProperties
           '/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: notification_sender_email
@@ -305,7 +305,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServiceResource
+            go_type_name: ServiceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
@@ -313,8 +313,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServiceProperties
-            go_type_name: ServiceProperties
+            go_field_name: ServiceUpdateProperties
+            go_type_name: ServiceUpdateProperties
           '/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: notification_sender_email
@@ -593,8 +593,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ServiceProperties
-            go_type_name: ServiceProperties
+            go_field_name: ServiceUpdateProperties
+            go_type_name: ServiceUpdateProperties
           '/properties/notificationSenderEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: NotificationSenderEmail
@@ -1193,17 +1193,17 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'publisherEmail'
         description: 'Publisher email.'
-        required: true
+        required: false
         azure_sdk_references: ['/publisherEmail', '/properties/publisherEmail']
       - !ruby/object:Api::Type::String
         name: 'publisherName'
         description: 'Publisher name.'
-        required: true
+        required: false
         azure_sdk_references: ['/publisherName', '/properties/publisherName']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'SKU properties of the API Management service.'
-        required: true
+        required: false
         azure_sdk_references: ['/sku']
         properties:
           - !ruby/object:Api::Type::Enum

@@ -43,18 +43,6 @@ func resourceArmSubscription() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "display_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "product_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "sid": {
                 Type: schema.TypeString,
                 Required: true,
@@ -62,10 +50,15 @@ func resourceArmSubscription() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "user_id": {
+            "display_name": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
+            },
+
+            "expiration_date": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validateRFC3339Date,
             },
 
             "notify": {
@@ -75,6 +68,11 @@ func resourceArmSubscription() *schema.Resource {
             },
 
             "primary_key": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "product_id": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -98,6 +96,16 @@ func resourceArmSubscription() *schema.Resource {
                 Default: string(apimanagement.suspended),
             },
 
+            "state_comment": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "user_id": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
             "created_date": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -108,22 +116,12 @@ func resourceArmSubscription() *schema.Resource {
                 Computed: true,
             },
 
-            "expiration_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
             "notification_date": {
                 Type: schema.TypeString,
                 Computed: true,
             },
 
             "start_date": {
-                Type: schema.TypeString,
-                Computed: true,
-            },
-
-            "state_comment": {
                 Type: schema.TypeString,
                 Computed: true,
             },
@@ -158,19 +156,23 @@ func resourceArmSubscriptionCreate(d *schema.ResourceData, meta interface{}) err
     }
 
     displayName := d.Get("display_name").(string)
+    expirationDate := d.Get("expiration_date").(string)
     primaryKey := d.Get("primary_key").(string)
     productId := d.Get("product_id").(string)
     secondaryKey := d.Get("secondary_key").(string)
     state := d.Get("state").(string)
+    stateComment := d.Get("state_comment").(string)
     userId := d.Get("user_id").(string)
 
-    parameters := apimanagement.SubscriptionCreateParameters{
-        SubscriptionCreateParameterProperties: &apimanagement.SubscriptionCreateParameterProperties{
+    parameters := apimanagement.SubscriptionUpdateParameters{
+        SubscriptionUpdateParameterProperties: &apimanagement.SubscriptionUpdateParameterProperties{
             DisplayName: utils.String(displayName),
+            ExpirationDate: convertStringToDate(expirationDate),
             PrimaryKey: utils.String(primaryKey),
             ProductID: utils.String(productId),
             SecondaryKey: utils.String(secondaryKey),
             State: apimanagement.SubscriptionState(state),
+            StateComment: utils.String(stateComment),
             UserID: utils.String(userId),
         },
     }
@@ -219,19 +221,19 @@ func resourceArmSubscriptionRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", name)
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
-    if subscriptionCreateParameterProperties := resp.SubscriptionCreateParameterProperties; subscriptionCreateParameterProperties != nil {
-        d.Set("created_date", (subscriptionCreateParameterProperties.CreatedDate).String())
-        d.Set("display_name", subscriptionCreateParameterProperties.DisplayName)
-        d.Set("end_date", (subscriptionCreateParameterProperties.EndDate).String())
-        d.Set("expiration_date", (subscriptionCreateParameterProperties.ExpirationDate).String())
-        d.Set("notification_date", (subscriptionCreateParameterProperties.NotificationDate).String())
-        d.Set("primary_key", subscriptionCreateParameterProperties.PrimaryKey)
-        d.Set("product_id", subscriptionCreateParameterProperties.ProductID)
-        d.Set("secondary_key", subscriptionCreateParameterProperties.SecondaryKey)
-        d.Set("start_date", (subscriptionCreateParameterProperties.StartDate).String())
-        d.Set("state", string(subscriptionCreateParameterProperties.State))
-        d.Set("state_comment", subscriptionCreateParameterProperties.StateComment)
-        d.Set("user_id", subscriptionCreateParameterProperties.UserID)
+    if subscriptionUpdateParameterProperties := resp.SubscriptionUpdateParameterProperties; subscriptionUpdateParameterProperties != nil {
+        d.Set("created_date", (subscriptionUpdateParameterProperties.CreatedDate).String())
+        d.Set("display_name", subscriptionUpdateParameterProperties.DisplayName)
+        d.Set("end_date", (subscriptionUpdateParameterProperties.EndDate).String())
+        d.Set("expiration_date", (subscriptionUpdateParameterProperties.ExpirationDate).String())
+        d.Set("notification_date", (subscriptionUpdateParameterProperties.NotificationDate).String())
+        d.Set("primary_key", subscriptionUpdateParameterProperties.PrimaryKey)
+        d.Set("product_id", subscriptionUpdateParameterProperties.ProductID)
+        d.Set("secondary_key", subscriptionUpdateParameterProperties.SecondaryKey)
+        d.Set("start_date", (subscriptionUpdateParameterProperties.StartDate).String())
+        d.Set("state", string(subscriptionUpdateParameterProperties.State))
+        d.Set("state_comment", subscriptionUpdateParameterProperties.StateComment)
+        d.Set("user_id", subscriptionUpdateParameterProperties.UserID)
     }
     d.Set("sid", sid)
     d.Set("type", resp.Type)
@@ -246,21 +248,25 @@ func resourceArmSubscriptionUpdate(d *schema.ResourceData, meta interface{}) err
     name := d.Get("name").(string)
     resourceGroup := d.Get("resource_group").(string)
     displayName := d.Get("display_name").(string)
+    expirationDate := d.Get("expiration_date").(string)
     notify := d.Get("notify").(bool)
     primaryKey := d.Get("primary_key").(string)
     productId := d.Get("product_id").(string)
     secondaryKey := d.Get("secondary_key").(string)
     sid := d.Get("sid").(string)
     state := d.Get("state").(string)
+    stateComment := d.Get("state_comment").(string)
     userId := d.Get("user_id").(string)
 
-    parameters := apimanagement.SubscriptionCreateParameters{
-        SubscriptionCreateParameterProperties: &apimanagement.SubscriptionCreateParameterProperties{
+    parameters := apimanagement.SubscriptionUpdateParameters{
+        SubscriptionUpdateParameterProperties: &apimanagement.SubscriptionUpdateParameterProperties{
             DisplayName: utils.String(displayName),
+            ExpirationDate: convertStringToDate(expirationDate),
             PrimaryKey: utils.String(primaryKey),
             ProductID: utils.String(productId),
             SecondaryKey: utils.String(secondaryKey),
             State: apimanagement.SubscriptionState(state),
+            StateComment: utils.String(stateComment),
             UserID: utils.String(userId),
         },
     }
@@ -291,4 +297,19 @@ func resourceArmSubscriptionDelete(d *schema.ResourceData, meta interface{}) err
     }
 
     return nil
+}
+
+func convertStringToDate(input interface{}) *date.Time {
+  v := input.(string)
+
+  dateTime, err := date.ParseTime(time.RFC3339, v)
+  if err != nil {
+      log.Printf("[ERROR] Cannot convert an invalid string to RFC3339 date %q: %+v", v, err)
+      return nil
+  }
+
+  result := date.Time{
+      Time: dateTime,
+  }
+  return &result
 }

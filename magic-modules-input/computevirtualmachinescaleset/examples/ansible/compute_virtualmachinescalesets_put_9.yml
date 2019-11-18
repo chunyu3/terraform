@@ -24,9 +24,7 @@ task: !ruby/object:Provider::Ansible::Task
           sku: 2016-Datacenter
           version: latest
         os_disk:
-          name: osDisk
           caching: ReadWrite
-          create_option: FromImage
           vhd_containers:
             - >-
               http://{existing-storage-account-name-0}.blob.core.windows.net/vhdContainer
@@ -38,6 +36,8 @@ task: !ruby/object:Provider::Ansible::Task
               http://{existing-storage-account-name-3}.blob.core.windows.net/vhdContainer
             - >-
               http://{existing-storage-account-name-4}.blob.core.windows.net/vhdContainer
+          name: osDisk
+          create_option: FromImage
       network_profile:
         network_interface_configurations:
           - name: '{vmss-name}'

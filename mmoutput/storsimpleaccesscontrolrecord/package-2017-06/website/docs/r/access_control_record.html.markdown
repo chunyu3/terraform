@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The resource group name Changing this forces a new resource to be created.
 
-* `access_control_record_name` - (Required) The name of the access control record. Changing this forces a new resource to be created.
+* `access_control_record_name` - (Required) Name of access control record to be fetched. Changing this forces a new resource to be created.
 
 * `initiator_name` - (Required) The iSCSI initiator name (IQN).
 

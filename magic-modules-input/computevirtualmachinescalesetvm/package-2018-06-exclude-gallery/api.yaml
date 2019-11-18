@@ -27,7 +27,22 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'vmScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachineScaleSets
+            go_variable_name: name
+            python_parameter_name: vm_scale_set_name
+            python_variable_name: name
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
         response:
+          'instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualmachines
+            go_variable_name: instanceID
+            python_parameter_name: instance_id
+            python_variable_name: instance_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -43,9 +58,6 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/instanceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: InstanceID
-            python_field_name: instance_id
           '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_field_name: Sku
             go_type_name: Sku
@@ -1444,9 +1456,9 @@ objects:
             python_variable_name: resource_group
           'virtualMachineScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: virtualMachineScaleSets
-            go_variable_name: name
+            go_variable_name: virtualMachineScaleSetName
             python_parameter_name: virtual_machine_scale_set_name
-            python_variable_name: name
+            python_variable_name: virtual_machine_scale_set_name
 
     description: |
       Manage Azure VirtualMachineScaleSetVM instance.
@@ -1458,11 +1470,23 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'virtualMachineScaleSetName'
         description: 'The name of the VM scale set.'
         required: true
         input: true
         azure_sdk_references: ['virtualMachineScaleSetName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the VM scale set.'
+        required: true
+        input: true
+        azure_sdk_references: ['vmScaleSetName']
+      - !ruby/object:Api::Type::String
+        name: 'instanceId'
+        description: 'The instance ID of the virtual machine.'
+        required: true
+        input: true
+        azure_sdk_references: ['instanceId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -1489,11 +1513,6 @@ objects:
         description: 'Resource tags'
         output: true
         azure_sdk_references: ['tags', '/tags']
-      - !ruby/object:Api::Type::String
-        name: 'instanceId'
-        description: 'The virtual machine instance ID.'
-        output: true
-        azure_sdk_references: ['/instanceId']
       - !ruby/object:Api::Type::NestedObject
         name: 'sku'
         description: 'The virtual machine SKU.'

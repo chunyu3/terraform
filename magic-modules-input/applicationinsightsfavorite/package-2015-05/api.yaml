@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: resource_name
             python_variable_name: name
+          'favoriteId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: favorites
+            go_variable_name: favoriteID
+            python_parameter_name: favorite_id
+            python_variable_name: favorite_id
         response:
           '/Name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
@@ -142,6 +147,12 @@ objects:
         input: true
         azure_sdk_references: ['tags']
         item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'favoriteId'
+        description: 'The Id of a specific favorite defined in the Application Insights component'
+        required: true
+        input: true
+        azure_sdk_references: ['favoriteId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'name'

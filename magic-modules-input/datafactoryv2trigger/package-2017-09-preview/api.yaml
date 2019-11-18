@@ -165,6 +165,16 @@ objects:
             go_variable_name: name
             python_parameter_name: trigger_name
             python_variable_name: name
+          'startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: startTime
+            python_parameter_name: start_time
+            python_variable_name: start_time
+          'endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            id_portion: null
+            go_variable_name: endTime
+            python_parameter_name: end_time
+            python_variable_name: end_time
 
     description: |
       Manage Azure Trigger instance.
@@ -197,6 +207,18 @@ objects:
         description: 'Trigger description.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'Start time for trigger runs.'
+        required: true
+        input: true
+        azure_sdk_references: ['startTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'End time for trigger runs.'
+        required: true
+        input: true
+        azure_sdk_references: ['endTime']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'runtimeState'

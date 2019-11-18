@@ -39,13 +39,13 @@ objects:
             python_variable_name: sid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: SubscriptionCreateParameters
+            go_type_name: SubscriptionUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SubscriptionCreateParameterProperties
-            go_type_name: SubscriptionCreateParameterProperties
+            go_field_name: SubscriptionUpdateParameterProperties
+            go_type_name: SubscriptionUpdateParameterProperties
           '/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: user_id
@@ -58,6 +58,12 @@ objects:
           '/properties/productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProductID
+          '/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/properties/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: display_name
@@ -83,6 +89,12 @@ objects:
             applicable_to: [go]
             go_field_name: State
             go_enum_type_name: SubscriptionState
+          '/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state_comment
+          '/properties/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StateComment
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -104,13 +116,13 @@ objects:
             python_variable_name: sid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: SubscriptionCreateParameters
+            go_type_name: SubscriptionUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SubscriptionCreateParameterProperties
-            go_type_name: SubscriptionCreateParameterProperties
+            go_field_name: SubscriptionUpdateParameterProperties
+            go_type_name: SubscriptionUpdateParameterProperties
           '/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: user_id
@@ -123,6 +135,12 @@ objects:
           '/properties/productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ProductID
+          '/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/properties/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: display_name
@@ -148,6 +166,12 @@ objects:
             applicable_to: [go]
             go_field_name: State
             go_enum_type_name: SubscriptionState
+          '/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state_comment
+          '/properties/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StateComment
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -189,8 +213,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: SubscriptionCreateParameterProperties
-            go_type_name: SubscriptionCreateParameterProperties
+            go_field_name: SubscriptionUpdateParameterProperties
+            go_type_name: SubscriptionUpdateParameterProperties
           '/properties/userId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UserID
@@ -203,6 +227,12 @@ objects:
           '/productId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: product_id
+          '/properties/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
+          '/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
           '/properties/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DisplayName
@@ -228,6 +258,12 @@ objects:
           '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: state
+          '/properties/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StateComment
+          '/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: state_comment
           '/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreatedDate
@@ -240,12 +276,6 @@ objects:
           '/startDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: start_date
-          '/properties/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: ExpirationDate
-          '/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: expiration_date
           '/properties/endDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: EndDate
@@ -258,12 +288,6 @@ objects:
           '/notificationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: notification_date
-          '/properties/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: StateComment
-          '/stateComment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: state_comment
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -311,32 +335,37 @@ objects:
         azure_sdk_references: ['sid']
       - !ruby/object:Api::Type::String
         name: 'userId'
-        description: 'User (user id path) for whom subscription is being created in form /users/{uid}'
-        required: true
+        description: 'User identifier path: /users/{uid}'
+        required: false
         azure_sdk_references: ['/userId', '/properties/userId']
       - !ruby/object:Api::Type::String
         name: 'productId'
-        description: 'Product (product id path) for which subscription is being created in form /products/{productId}'
-        required: true
+        description: 'Product identifier path: /products/{productId}'
+        required: false
         azure_sdk_references: ['/productId', '/properties/productId']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'expirationDate'
+        description: 'Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
+        required: false
+        azure_sdk_references: ['/expirationDate', '/properties/expirationDate']
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'Subscription name.'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
         name: 'primaryKey'
-        description: 'Primary subscription key. If not specified during request key will be generated automatically.'
+        description: 'Primary subscription key.'
         required: false
         azure_sdk_references: ['/primaryKey', '/properties/primaryKey']
       - !ruby/object:Api::Type::String
         name: 'secondaryKey'
-        description: 'Secondary subscription key. If not specified during request key will be generated automatically.'
+        description: 'Secondary subscription key.'
         required: false
         azure_sdk_references: ['/secondaryKey', '/properties/secondaryKey']
       - !ruby/object:Api::Type::Enum
         name: 'state'
-        description: 'Initial subscription state. If no value is specified, subscription is created with Submitted state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.'
+        description: 'Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated.'
         required: false
         azure_sdk_references: ['/state', '/properties/state']
         values:
@@ -347,6 +376,11 @@ objects:
           - :rejected
           - :cancelled
         default_value: :suspended
+      - !ruby/object:Api::Type::String
+        name: 'stateComment'
+        description: 'Comments describing subscription state change by the administrator.'
+        required: false
+        azure_sdk_references: ['/stateComment', '/properties/stateComment']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdDate'
@@ -359,11 +393,6 @@ objects:
         output: true
         azure_sdk_references: ['/startDate', '/properties/startDate']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'expirationDate'
-        description: 'Subscription expiration date. The setting is for audit purposes only and the subscription is not automatically expired. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
-        output: true
-        azure_sdk_references: ['/expirationDate', '/properties/expirationDate']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'endDate'
         description: 'Date when subscription was cancelled or expired. The setting is for audit purposes only and the subscription is not automatically cancelled. The subscription lifecycle can be managed by using the `state` property. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
         output: true
@@ -373,11 +402,6 @@ objects:
         description: 'Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.<br>'
         output: true
         azure_sdk_references: ['/notificationDate', '/properties/notificationDate']
-      - !ruby/object:Api::Type::String
-        name: 'stateComment'
-        description: 'Optional subscription comment added by an administrator.'
-        output: true
-        azure_sdk_references: ['/stateComment', '/properties/stateComment']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

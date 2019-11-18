@@ -34,8 +34,13 @@ objects:
             python_variable_name: automation_account_name
           'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: modules
-            go_variable_name: name
+            go_variable_name: moduleName
             python_parameter_name: module_name
+            python_variable_name: module_name
+          'activityName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: activities
+            go_variable_name: name
+            python_parameter_name: activity_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -194,9 +199,9 @@ objects:
             python_variable_name: automation_account_name
           'moduleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: modules
-            go_variable_name: name
+            go_variable_name: moduleName
             python_parameter_name: module_name
-            python_variable_name: name
+            python_variable_name: module_name
 
     description: |
       Manage Azure Activity instance.
@@ -214,11 +219,17 @@ objects:
         input: true
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'moduleName'
         description: 'The name of module.'
         required: true
         input: true
         azure_sdk_references: ['moduleName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of activity.'
+        required: true
+        input: true
+        azure_sdk_references: ['activityName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

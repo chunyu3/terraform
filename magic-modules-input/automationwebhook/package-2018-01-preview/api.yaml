@@ -112,14 +112,32 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: WebhookCreateOrUpdateProperties
-            go_type_name: WebhookCreateOrUpdateProperties
+            go_field_name: WebhookUpdateProperties
+            go_type_name: WebhookUpdateProperties
           '/properties/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: IsEnabled
           '/isEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: is_enabled
+          '/properties/runOn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RunOn
+          '/runOn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: run_on
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
           '/properties/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Uri
@@ -132,12 +150,12 @@ objects:
           '/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: expiry_time
-          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+          '/properties/lastInvokedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
-            go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: LastInvokedTime
+          '/lastInvokedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
-            python_field_name: parameters
+            python_field_name: last_invoked_time
           '/properties/runbook': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Runbook
@@ -151,18 +169,6 @@ objects:
           '/runbook/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: name
-          '/properties/runOn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RunOn
-          '/runOn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: run_on
-          '/properties/lastInvokedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [go]
-            go_field_name: LastInvokedTime
-          '/lastInvokedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
-            applicable_to: [python]
-            python_field_name: last_invoked_time
           '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreationTime
@@ -181,12 +187,6 @@ objects:
           '/lastModifiedBy': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: last_modified_by
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -232,7 +232,7 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Gets or sets the name of the webhook.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::Boolean
@@ -241,42 +241,42 @@ objects:
         required: false
         azure_sdk_references: ['/isEnabled', '/properties/isEnabled']
       - !ruby/object:Api::Type::String
-        name: 'uri'
-        description: 'Gets or sets the uri.'
+        name: 'runOn'
+        description: 'Gets or sets the name of the hybrid worker group the webhook job will run on.'
         required: false
-        azure_sdk_references: ['/uri', '/properties/uri']
-      - !ruby/object:Api::Azure::Type::ISO8601DateTime
-        name: 'expiryTime'
-        description: 'Gets or sets the expiry time.'
-        required: false
-        azure_sdk_references: ['/expiryTime', '/properties/expiryTime']
+        azure_sdk_references: ['/runOn', '/properties/runOn']
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'parameters'
         description: 'Gets or sets the parameters of the job.'
         required: false
         azure_sdk_references: ['/parameters', '/properties/parameters']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'runbook'
-        description: 'Gets or sets the runbook.'
-        required: false
-        azure_sdk_references: ['/runbook', '/properties/runbook']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Gets or sets the name of the runbook.'
-            required: false
-            azure_sdk_references: ['/runbook/name', '/properties/runbook/name']
       - !ruby/object:Api::Type::String
-        name: 'runOn'
-        description: 'Gets or sets the name of the hybrid worker group the webhook job will run on.'
+        name: 'description'
+        description: 'Gets or sets the description of the webhook.'
         required: false
-        azure_sdk_references: ['/runOn', '/properties/runOn']
+        azure_sdk_references: ['/description', '/properties/description']
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'uri'
+        description: 'Gets or sets the webhook uri.'
+        output: true
+        azure_sdk_references: ['/uri', '/properties/uri']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'expiryTime'
+        description: 'Gets or sets the expiry time.'
+        output: true
+        azure_sdk_references: ['/expiryTime', '/properties/expiryTime']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'lastInvokedTime'
         description: 'Gets or sets the last invoked time.'
         output: true
         azure_sdk_references: ['/lastInvokedTime', '/properties/lastInvokedTime']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'runbook'
+        description: 'Gets or sets the runbook the webhook is associated with.'
+        output: true
+        azure_sdk_references: ['/runbook', '/properties/runbook']
+        properties:
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'Gets or sets the creation time.'
@@ -292,11 +292,6 @@ objects:
         description: 'Details of the user who last modified the Webhook'
         output: true
         azure_sdk_references: ['/lastModifiedBy', '/properties/lastModifiedBy']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Gets or sets the description.'
-        output: true
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource'

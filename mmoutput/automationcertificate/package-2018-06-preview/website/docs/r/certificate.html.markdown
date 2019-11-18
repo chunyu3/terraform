@@ -28,27 +28,25 @@ Manage Azure Certificate instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The parameters supplied to the create or update certificate operation. Changing this forces a new resource to be created.
-
-* `name` - (Required) Gets or sets the name of the certificate. Changing this forces a new resource to be created.
+* `name` - (Required) The name of certificate. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) Name of an Azure Resource group. Changing this forces a new resource to be created.
 
 * `automation_account_name` - (Required) The name of the automation account. Changing this forces a new resource to be created.
 
-* `base64value` - (Required) Gets or sets the base64 encoded value of the certificate.
+* `name` - (Optional) Gets or sets the name of the certificate. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Gets or sets the description of the certificate.
-
-* `is_exportable` - (Optional) Gets or sets the is exportable flag of the certificate.
-
-* `thumbprint` - (Optional) Gets or sets the thumbprint of the certificate.
 
 ## Attributes Reference
 
 The following attributes are exported:
 
+* `thumbprint` - Gets the thumbprint of the certificate.
+
 * `expiry_time` - Gets the expiry time of the certificate.
+
+* `is_exportable` - Gets the is exportable flag of the certificate.
 
 * `creation_time` - Gets the creation time.
 

@@ -44,14 +44,8 @@ objects:
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccessPolicyResourceProperties
-            go_type_name: AccessPolicyResourceProperties
-          '/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: principal_object_id
-          '/properties/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrincipalObjectID
+            go_field_name: AccessPolicyMutableProperties
+            go_type_name: AccessPolicyMutableProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -124,14 +118,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccessPolicyResourceProperties
-            go_type_name: AccessPolicyResourceProperties
-          '/properties/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: PrincipalObjectID
-          '/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: principal_object_id
+            go_field_name: AccessPolicyMutableProperties
+            go_type_name: AccessPolicyMutableProperties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -144,6 +132,12 @@ objects:
           '/roles': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
             applicable_to: [python]
             python_field_name: roles
+          '/properties/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalObjectID
+          '/principalObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_object_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -185,15 +179,10 @@ objects:
         azure_sdk_references: ['environmentName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'Name of the access policy.'
+        description: 'The name of the Time Series Insights access policy associated with the specified environment.'
         required: true
         input: true
         azure_sdk_references: ['accessPolicyName']
-      - !ruby/object:Api::Type::String
-        name: 'principalObjectId'
-        description: 'The objectId of the principal in Azure Active Directory.'
-        required: false
-        azure_sdk_references: ['/principalObjectId', '/properties/principalObjectId']
       - !ruby/object:Api::Type::String
         name: 'description'
         description: 'An description of the access policy.'
@@ -212,6 +201,11 @@ objects:
             - :Contributor
           default_value: :Reader
       # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'principalObjectId'
+        description: 'The objectId of the principal in Azure Active Directory.'
+        output: true
+        azure_sdk_references: ['/principalObjectId', '/properties/principalObjectId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource Id'

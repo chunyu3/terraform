@@ -22,6 +22,11 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'pricingName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: pricings
+            go_variable_name: name
+            python_parameter_name: pricing_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -57,6 +62,12 @@ objects:
     description: |
       Manage Azure Pricing instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'name of the pricing configuration'
+        required: true
+        input: true
+        azure_sdk_references: ['pricingName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -27,6 +27,11 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'clusterVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: clusterVersions
+            go_variable_name: clusterVersion
+            python_parameter_name: cluster_version
+            python_variable_name: cluster_version
         response:
           '/value': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             go_field_name: Value
@@ -85,6 +90,11 @@ objects:
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'environment': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: environments
+            go_variable_name: environment
+            python_parameter_name: environment
+            python_variable_name: environment
 
     description: |
       Manage Azure ClusterVersion instance.
@@ -95,6 +105,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['location']
+      - !ruby/object:Api::Type::String
+        name: 'clusterVersion'
+        description: 'The cluster code version'
+        required: true
+        input: true
+        azure_sdk_references: ['clusterVersion']
+      - !ruby/object:Api::Type::String
+        name: 'environment'
+        description: 'Cluster operating system, the default means all'
+        required: true
+        input: true
+        azure_sdk_references: ['environment']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

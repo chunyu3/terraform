@@ -84,18 +84,96 @@ func resourceArmManagedCluster() *schema.Resource {
                 Optional: true,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
-                        "count": {
-                            Type: schema.TypeInt,
-                            Required: true,
-                        },
                         "name": {
                             Type: schema.TypeString,
                             Required: true,
                             ValidateFunc: validate.NoEmptyStrings,
                         },
+                        "availability_zones": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                        "count": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "enable_auto_scaling": {
+                            Type: schema.TypeBool,
+                            Optional: true,
+                        },
+                        "enable_node_public_ip": {
+                            Type: schema.TypeBool,
+                            Optional: true,
+                        },
+                        "max_count": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "max_pods": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "min_count": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "node_taints": {
+                            Type: schema.TypeList,
+                            Optional: true,
+                            Elem: &schema.Schema{
+                                Type: schema.TypeString,
+                            },
+                        },
+                        "orchestrator_version": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                        },
+                        "os_disk_size_gb": {
+                            Type: schema.TypeInt,
+                            Optional: true,
+                        },
+                        "os_type": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(containerservices.Linux),
+                                string(containerservices.Windows),
+                            }, false),
+                            Default: string(containerservices.Linux),
+                        },
+                        "scale_set_eviction_policy": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(containerservices.Delete),
+                                string(containerservices.Deallocate),
+                            }, false),
+                            Default: string(containerservices.Delete),
+                        },
+                        "scale_set_priority": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(containerservices.Low),
+                                string(containerservices.Regular),
+                            }, false),
+                            Default: string(containerservices.Low),
+                        },
+                        "type": {
+                            Type: schema.TypeString,
+                            Optional: true,
+                            ValidateFunc: validation.StringInSlice([]string{
+                                string(containerservices.VirtualMachineScaleSets),
+                                string(containerservices.AvailabilitySet),
+                            }, false),
+                            Default: string(containerservices.VirtualMachineScaleSets),
+                        },
                         "vm_size": {
                             Type: schema.TypeString,
-                            Required: true,
+                            Optional: true,
                             ValidateFunc: validation.StringInSlice([]string{
                                 string(containerservices.Standard_A1),
                                 string(containerservices.Standard_A10),
@@ -272,84 +350,7 @@ func resourceArmManagedCluster() *schema.Resource {
                                 string(containerservices.Standard_NV24),
                                 string(containerservices.Standard_NV6),
                             }, false),
-                        },
-                        "availability_zones": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            Elem: &schema.Schema{
-                                Type: schema.TypeString,
-                            },
-                        },
-                        "enable_auto_scaling": {
-                            Type: schema.TypeBool,
-                            Optional: true,
-                        },
-                        "enable_node_public_ip": {
-                            Type: schema.TypeBool,
-                            Optional: true,
-                        },
-                        "max_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "max_pods": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "min_count": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "node_taints": {
-                            Type: schema.TypeList,
-                            Optional: true,
-                            Elem: &schema.Schema{
-                                Type: schema.TypeString,
-                            },
-                        },
-                        "orchestrator_version": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                        },
-                        "os_disk_size_gb": {
-                            Type: schema.TypeInt,
-                            Optional: true,
-                        },
-                        "os_type": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(containerservices.Linux),
-                                string(containerservices.Windows),
-                            }, false),
-                            Default: string(containerservices.Linux),
-                        },
-                        "scale_set_eviction_policy": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(containerservices.Delete),
-                                string(containerservices.Deallocate),
-                            }, false),
-                            Default: string(containerservices.Delete),
-                        },
-                        "scale_set_priority": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(containerservices.Low),
-                                string(containerservices.Regular),
-                            }, false),
-                            Default: string(containerservices.Low),
-                        },
-                        "type": {
-                            Type: schema.TypeString,
-                            Optional: true,
-                            ValidateFunc: validation.StringInSlice([]string{
-                                string(containerservices.VirtualMachineScaleSets),
-                                string(containerservices.AvailabilitySet),
-                            }, false),
-                            Default: string(containerservices.VirtualMachineScaleSets),
+                            Default: string(containerservices.Standard_A1),
                         },
                         "vnet_subnet_id": {
                             Type: schema.TypeString,

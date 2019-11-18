@@ -22,8 +22,13 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
-          'denyAssignmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'denyAssignmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: denyAssignments
             go_variable_name: denyAssignmentID
             python_parameter_name: deny_assignment_id
             python_variable_name: deny_assignment_id
@@ -144,6 +149,11 @@ objects:
         go_func_name: ListForScope
         python_func_name: list_for_scope
         request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -152,20 +162,86 @@ objects:
         go_func_name: ListForResourceGroup
         python_func_name: list_for_resource_group
         request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListForResource
         python_func_name: list_for_resource
         request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceProviderNamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: resourceProviderNamespace
+            python_parameter_name: resource_provider_namespace
+            python_variable_name: resource_provider_namespace
+          'parentResourcePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceProviderNamespace}
+            go_variable_name: parentResourcePath
+            python_parameter_name: parent_resource_path
+            python_variable_name: parent_resource_path
+          'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {parentResourcePath}
+            go_variable_name: resourceType
+            python_parameter_name: resource_type
+            python_variable_name: resource_type
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceType}
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
 
     description: |
       Manage Azure DenyAssignment instance.
     properties:
       - !ruby/object:Api::Type::String
         name: 'denyAssignmentId'
-        description: 'The fully qualified deny assignment ID. For example, use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId} for subscription level deny assignments, or /providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId} for tenant level deny assignments.'
+        description: 'The ID of the deny assignment to get.'
         required: true
         input: true
         azure_sdk_references: ['denyAssignmentId']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of the deny assignment.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceProviderNamespace'
+        description: 'The namespace of the resource provider.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceProviderNamespace']
+      - !ruby/object:Api::Type::String
+        name: 'parentResourcePath'
+        description: 'The parent resource identity.'
+        required: true
+        input: true
+        azure_sdk_references: ['parentResourcePath']
+      - !ruby/object:Api::Type::String
+        name: 'resourceType'
+        description: 'The resource type of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceType']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource to get deny assignments for.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

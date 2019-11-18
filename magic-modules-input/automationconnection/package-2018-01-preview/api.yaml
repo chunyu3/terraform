@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ConnectionCreateOrUpdateParameters
+            go_type_name: ConnectionUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -47,27 +47,14 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ConnectionCreateOrUpdateProperties
-            go_type_name: ConnectionCreateOrUpdateProperties
+            go_field_name: ConnectionUpdateProperties
+            go_type_name: ConnectionUpdateProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: connection_type
-          '/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/properties/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ConnectionType
-            go_type_name: ConnectionTypeAssociationProperty
-          '/properties/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
           '/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: field_definition_values
@@ -95,7 +82,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ConnectionCreateOrUpdateParameters
+            go_type_name: ConnectionUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -103,27 +90,14 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ConnectionCreateOrUpdateProperties
-            go_type_name: ConnectionCreateOrUpdateProperties
+            go_field_name: ConnectionUpdateProperties
+            go_type_name: ConnectionUpdateProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: connection_type
-          '/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/properties/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ConnectionType
-            go_type_name: ConnectionTypeAssociationProperty
-          '/properties/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
           '/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             applicable_to: [python]
             python_field_name: field_definition_values
@@ -174,14 +148,20 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ConnectionCreateOrUpdateProperties
-            go_type_name: ConnectionCreateOrUpdateProperties
+            go_field_name: ConnectionUpdateProperties
+            go_type_name: ConnectionUpdateProperties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
+          '/properties/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: FieldDefinitionValues
+          '/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: field_definition_values
           '/properties/connectionType': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ConnectionType
@@ -195,12 +175,6 @@ objects:
           '/connectionType/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: name
-          '/properties/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: FieldDefinitionValues
-          '/fieldDefinitionValues': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: field_definition_values
           '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreationTime
@@ -251,14 +225,14 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The parameters supplied to the create or update connection operation.'
+        description: 'The name of connection.'
         required: true
         input: true
         azure_sdk_references: ['connectionName']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Gets or sets the name of the connection.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
       - !ruby/object:Api::Type::String
@@ -266,23 +240,18 @@ objects:
         description: 'Gets or sets the description of the connection.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'connectionType'
-        description: 'Gets or sets the connectionType of the connection.'
-        required: true
-        azure_sdk_references: ['/connectionType', '/properties/connectionType']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'name'
-            description: 'Gets or sets the name of the connection type.'
-            required: false
-            azure_sdk_references: ['/connectionType/name', '/properties/connectionType/name']
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'fieldDefinitionValues'
-        description: 'Gets or sets the field definition properties of the connection.'
+        description: 'Gets or sets the field definition values of the connection.'
         required: false
         azure_sdk_references: ['/fieldDefinitionValues', '/properties/fieldDefinitionValues']
       # read only values included only in response
+      - !ruby/object:Api::Type::NestedObject
+        name: 'connectionType'
+        description: 'Gets or sets the connectionType of the connection.'
+        output: true
+        azure_sdk_references: ['/connectionType', '/properties/connectionType']
+        properties:
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'Gets the creation time.'

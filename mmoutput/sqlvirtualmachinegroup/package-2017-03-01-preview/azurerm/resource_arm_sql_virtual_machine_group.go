@@ -157,7 +157,7 @@ func resourceArmSqlVirtualMachineGroupCreate(d *schema.ResourceData, meta interf
     wsfcDomainProfile := d.Get("wsfc_domain_profile").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sqlvirtualmachine.Group{
+    parameters := sqlvirtualmachine.GroupUpdate{
         Location: utils.String(location),
         GroupProperties: &sqlvirtualmachine.GroupProperties{
             SqlImageOffer: utils.String(sqlImageOffer),
@@ -244,7 +244,7 @@ func resourceArmSqlVirtualMachineGroupUpdate(d *schema.ResourceData, meta interf
     wsfcDomainProfile := d.Get("wsfc_domain_profile").([]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sqlvirtualmachine.Group{
+    parameters := sqlvirtualmachine.GroupUpdate{
         Location: utils.String(location),
         GroupProperties: &sqlvirtualmachine.GroupProperties{
             SqlImageOffer: utils.String(sqlImageOffer),

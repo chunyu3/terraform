@@ -28,13 +28,13 @@ Manage Azure LinkedService instance.
 
 The following arguments are supported:
 
-* `name` - (Required) Name of the linkedServices resource Changing this forces a new resource to be created.
+* `name` - (Required) Name of the linked service. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group to get. The name is case insensitive. Changing this forces a new resource to be created.
 
 * `resource_id` - (Required) The resource id of the resource that will be linked to the workspace.
 
-* `workspace_name` - (Required) Name of the Log Analytics Workspace that will contain the linkedServices resource Changing this forces a new resource to be created.
+* `workspace_name` - (Required) Name of the Log Analytics Workspace that contains the linkedServices resource Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Resource tags Changing this forces a new resource to be created.
 

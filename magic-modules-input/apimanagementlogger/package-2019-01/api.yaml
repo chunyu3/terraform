@@ -39,13 +39,13 @@ objects:
             python_variable_name: logger_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: LoggerContract
+            go_type_name: LoggerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LoggerContractProperties
-            go_type_name: LoggerContractProperties
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
           '/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: logger_type
@@ -71,12 +71,6 @@ objects:
           '/properties/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: IsBuffered
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_id
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceID
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -98,13 +92,13 @@ objects:
             python_variable_name: logger_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: LoggerContract
+            go_type_name: LoggerUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LoggerContractProperties
-            go_type_name: LoggerContractProperties
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
           '/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: logger_type
@@ -130,12 +124,6 @@ objects:
           '/properties/isBuffered': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: IsBuffered
-          '/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: resource_id
-          '/properties/resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ResourceID
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -155,6 +143,11 @@ objects:
             go_variable_name: loggerID
             python_parameter_name: logger_id
             python_variable_name: logger_id
+          'force': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: force
+            python_parameter_name: force
+            python_variable_name: force
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -177,8 +170,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LoggerContractProperties
-            go_type_name: LoggerContractProperties
+            go_field_name: LoggerUpdateParameters
+            go_type_name: LoggerUpdateParameters
           '/properties/loggerType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: LoggerType
@@ -258,11 +251,12 @@ objects:
       - !ruby/object:Api::Type::Enum
         name: 'loggerType'
         description: 'Logger type.'
-        required: true
+        required: false
         azure_sdk_references: ['/loggerType', '/properties/loggerType']
         values:
           - :azureEventHub
           - :applicationInsights
+        default_value: :azureEventHub
       - !ruby/object:Api::Type::String
         name: 'description'
         description: 'Logger description.'
@@ -270,20 +264,26 @@ objects:
         azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::KeyValuePairs
         name: 'credentials'
-        description: 'The name and SendRule connection string of the event hub for azureEventHub logger.<br>Instrumentation key for applicationInsights logger.'
-        required: true
+        description: 'Logger credentials.'
+        required: false
         azure_sdk_references: ['/credentials', '/properties/credentials']
       - !ruby/object:Api::Type::Boolean
         name: 'isBuffered'
         description: 'Whether records are buffered in the logger before publishing. Default is assumed to be true.'
         required: false
         azure_sdk_references: ['/isBuffered', '/properties/isBuffered']
+      - !ruby/object:Api::Type::Boolean
+        name: 'force'
+        description: 'Force deletion even if diagnostic is attached.'
+        required: false
+        input: true
+        azure_sdk_references: ['force']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'resourceId'
         description: 'Azure Resource Id of a log target (either Azure Event Hub resource or Azure Application Insights resource).'
-        required: false
+        output: true
         azure_sdk_references: ['/resourceId', '/properties/resourceId']
-      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

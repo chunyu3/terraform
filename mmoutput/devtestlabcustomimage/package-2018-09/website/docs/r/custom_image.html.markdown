@@ -82,7 +82,7 @@ The `vhd` block supports the following:
 
 * `sys_prep` - (Optional) Indicates whether sysprep has been run on the VHD.
 
-* `os_type` - (Required) The OS type of the custom image (i.e. Windows, Linux)
+* `os_type` - (Optional) The OS type of the custom image (i.e. Windows, Linux) Defaults to `Windows`.
 
 ---
 

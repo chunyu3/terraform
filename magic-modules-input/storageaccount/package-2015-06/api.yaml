@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AccountCreateParameters
+            go_type_name: AccountUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,8 +46,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountPropertiesCreateParameters
-            go_type_name: AccountPropertiesCreateParameters
+            go_field_name: AccountPropertiesUpdateParameters
+            go_type_name: AccountPropertiesUpdateParameters
           '/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: account_type
@@ -55,6 +55,25 @@ objects:
             applicable_to: [go]
             go_field_name: AccountType
             go_enum_type_name: AccountType
+          '/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_domain
+          '/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: use_sub_domain_name
+          '/properties/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomDomain
+            go_type_name: CustomDomain
+          '/properties/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: UseSubDomainName
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -71,7 +90,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AccountCreateParameters
+            go_type_name: AccountUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -82,8 +101,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: AccountPropertiesCreateParameters
-            go_type_name: AccountPropertiesCreateParameters
+            go_field_name: AccountPropertiesUpdateParameters
+            go_type_name: AccountPropertiesUpdateParameters
           '/accountType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: account_type
@@ -91,6 +110,25 @@ objects:
             applicable_to: [go]
             go_field_name: AccountType
             go_enum_type_name: AccountType
+          '/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: custom_domain
+          '/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: use_sub_domain_name
+          '/properties/customDomain': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CustomDomain
+            go_type_name: CustomDomain
+          '/properties/customDomain/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/customDomain/useSubDomainName': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: UseSubDomainName
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -130,7 +168,7 @@ objects:
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.'
+        description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.  '
         required: true
         input: true
         azure_sdk_references: ['accountName']
@@ -142,14 +180,14 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'A list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters.'
+        description: 'Resource tags'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Enum
         name: 'accountType'
-        description: 'The sku name. Required for account creation; optional for update. Note that in older versions, sku name was called accountType.'
-        required: true
+        description: 'The account type. Note that StandardZRS and PremiumLRS accounts cannot be changed to other account types, and other account types cannot be changed to StandardZRS or PremiumLRS.'
+        required: false
         azure_sdk_references: ['/accountType', '/properties/accountType']
         values:
           - :Standard_LRS
@@ -157,6 +195,23 @@ objects:
           - :Standard_GRS
           - :Standard_RAGRS
           - :Premium_LRS
+        default_value: :Standard_LRS
+      - !ruby/object:Api::Type::NestedObject
+        name: 'customDomain'
+        description: 'User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.'
+        required: false
+        azure_sdk_references: ['/customDomain', '/properties/customDomain']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The custom domain name. Name is the CNAME source.'
+            required: true
+            azure_sdk_references: ['/customDomain/name', '/properties/customDomain/name']
+          - !ruby/object:Api::Type::Boolean
+            name: 'useSubDomainName'
+            description: 'Indicates whether indirect CName validation is enabled. Default value is false. This should only be set on updates'
+            required: false
+            azure_sdk_references: ['/customDomain/useSubDomainName', '/properties/customDomain/useSubDomainName']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
@@ -209,12 +264,6 @@ objects:
         description: 'The creation date and time of the storage account in UTC.'
         output: true
         azure_sdk_references: ['/creationTime', '/properties/creationTime']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'customDomain'
-        description: 'The custom domain the user assigned to this storage account.'
-        output: true
-        azure_sdk_references: ['/customDomain', '/properties/customDomain']
-        properties:
       - !ruby/object:Api::Type::NestedObject
         name: 'secondaryEndpoints'
         description: 'The URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.'

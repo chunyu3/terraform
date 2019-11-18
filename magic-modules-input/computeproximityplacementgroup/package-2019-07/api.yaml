@@ -34,7 +34,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ProximityPlacementGroup
+            go_type_name: ProximityPlacementGroupUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -70,7 +70,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ProximityPlacementGroup
+            go_type_name: ProximityPlacementGroupUpdate
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -118,6 +118,11 @@ objects:
             go_variable_name: name
             python_parameter_name: proximity_placement_group_name
             python_variable_name: name
+          'includeColocationStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: includeColocationStatus
+            python_parameter_name: include_colocation_status
+            python_variable_name: include_colocation_status
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -234,6 +239,12 @@ objects:
           - :Standard
           - :Ultra
         default_value: :Standard
+      - !ruby/object:Api::Type::String
+        name: 'includeColocationStatus'
+        description: 'includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group.'
+        required: false
+        input: true
+        azure_sdk_references: ['includeColocationStatus']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'virtualMachines'

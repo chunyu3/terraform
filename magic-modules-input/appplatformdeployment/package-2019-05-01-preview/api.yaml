@@ -433,6 +433,11 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'version': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            id_portion: null
+            go_variable_name: version
+            python_parameter_name: version
+            python_variable_name: version
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -447,6 +452,11 @@ objects:
             go_variable_name: serviceName
             python_parameter_name: service_name
             python_variable_name: service_name
+          'version': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            id_portion: null
+            go_variable_name: version
+            python_parameter_name: version
+            python_variable_name: version
 
     description: |
       Manage Azure Deployment instance.
@@ -545,6 +555,13 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['deploymentName']
+      - !ruby/object:Api::Type::Array
+        name: 'version'
+        description: 'Version of the deployments to be listed'
+        required: false
+        input: true
+        azure_sdk_references: ['version']
+        item_type: Api::Type::String
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'appName'

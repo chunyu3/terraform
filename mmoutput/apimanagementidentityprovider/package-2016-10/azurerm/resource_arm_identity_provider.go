@@ -38,20 +38,6 @@ func resourceArmIdentityProvider() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
-            "client_id": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "client_secret": {
-                Type: schema.TypeString,
-                Required: true,
-                ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "service_name": {
                 Type: schema.TypeString,
                 Required: true,
@@ -66,6 +52,18 @@ func resourceArmIdentityProvider() *schema.Resource {
                 Elem: &schema.Schema{
                     Type: schema.TypeString,
                 },
+            },
+
+            "client_id": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
+            },
+
+            "client_secret": {
+                Type: schema.TypeString,
+                Optional: true,
+                ForceNew: true,
             },
 
             "type": {
@@ -111,7 +109,7 @@ func resourceArmIdentityProviderCreate(d *schema.ResourceData, meta interface{})
     clientSecret := d.Get("client_secret").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.IdentityProviderContract{
+    parameters := apimanagement.IdentityProviderUpdateParameters{
         AllowedTenants: utils.ExpandStringSlice(allowedTenants),
         ClientID: utils.String(clientId),
         ClientSecret: utils.String(clientSecret),
@@ -182,7 +180,7 @@ func resourceArmIdentityProviderUpdate(d *schema.ResourceData, meta interface{})
     serviceName := d.Get("service_name").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.IdentityProviderContract{
+    parameters := apimanagement.IdentityProviderUpdateParameters{
         AllowedTenants: utils.ExpandStringSlice(allowedTenants),
         ClientID: utils.String(clientId),
         ClientSecret: utils.String(clientSecret),

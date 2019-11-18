@@ -32,9 +32,9 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `location` - (Required) Resource location Changing this forces a new resource to be created.
-
 * `account_name` - (Required) The name of the NetApp account Changing this forces a new resource to be created.
+
+* `location` - (Optional) Resource location Changing this forces a new resource to be created.
 
 * `service_level` - (Optional) The service level of the file system Defaults to `Standard`.
 

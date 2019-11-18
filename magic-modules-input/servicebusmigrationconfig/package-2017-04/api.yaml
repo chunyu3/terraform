@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'configName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: migrationConfigurations
+            go_variable_name: name
+            python_parameter_name: config_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -87,9 +92,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
 
     description: |
       Manage Azure MigrationConfig instance.
@@ -101,11 +106,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'namespaceName'
         description: 'The namespace name'
         required: true
         input: true
         azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The configuration name. Should always be "$default".'
+        required: true
+        input: true
+        azure_sdk_references: ['configName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

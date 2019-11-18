@@ -29,11 +29,11 @@ task: !ruby/object:Provider::Ansible::Task
           version: latest
         os_disk:
           caching: ReadOnly
+          managed_disk:
+            storage_account_type: Standard_LRS
           create_option: FromImage
           diff_disk_settings:
             option: Local
-          managed_disk:
-            storage_account_type: Standard_LRS
       network_profile:
         network_interface_configurations:
           - name: '{vmss-name}'

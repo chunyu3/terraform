@@ -97,8 +97,14 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: RunbookCreateOrUpdateProperties
-            go_type_name: RunbookCreateOrUpdateProperties
+            go_field_name: RunbookUpdateProperties
+            go_type_name: RunbookUpdateProperties
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
           '/properties/logVerbose': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [go]
             go_field_name: LogVerbose
@@ -111,6 +117,12 @@ objects:
           '/logProgress': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
             applicable_to: [python]
             python_field_name: log_progress
+          '/properties/logActivityTrace': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: LogActivityTrace
+          '/logActivityTrace': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: log_activity_trace
           '/properties/runbookType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: RunbookType
@@ -118,6 +130,69 @@ objects:
           '/runbookType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: runbook_type
+          '/properties/publishContentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PublishContentLink
+            go_type_name: ContentLink
+          '/properties/publishContentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Uri
+          '/properties/publishContentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentHash
+            go_type_name: ContentHash
+          '/properties/publishContentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/properties/publishContentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/publishContentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/publishContentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: publish_content_link
+          '/publishContentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: uri
+          '/publishContentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_hash
+          '/publishContentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/publishContentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/publishContentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: RunbookState
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/jobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: JobCount
+          '/jobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: job_count
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/outputTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: OutputTypes
+          '/outputTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: output_types
           '/properties/draft': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Draft
@@ -191,81 +266,6 @@ objects:
             applicable_to: [python]
             python_field_name: parameters
           '/draft/outputTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [python]
-            python_field_name: output_types
-          '/properties/publishContentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: PublishContentLink
-            go_type_name: ContentLink
-          '/properties/publishContentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Uri
-          '/properties/publishContentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ContentHash
-            go_type_name: ContentHash
-          '/properties/publishContentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Algorithm
-          '/properties/publishContentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Value
-          '/properties/publishContentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Version
-          '/publishContentLink': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: publish_content_link
-          '/publishContentLink/uri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: uri
-          '/publishContentLink/contentHash': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: content_hash
-          '/publishContentLink/contentHash/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: algorithm
-          '/publishContentLink/contentHash/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: value
-          '/publishContentLink/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: version
-          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Description
-          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: description
-          '/properties/logActivityTrace': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: LogActivityTrace
-          '/logActivityTrace': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: log_activity_trace
-          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: State
-            go_enum_type_name: RunbookState
-          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: state
-          '/properties/jobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: JobCount
-          '/jobCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: job_count
-          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [go]
-            go_field_name: Parameters
-          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
-            applicable_to: [python]
-            python_field_name: parameters
-          '/properties/outputTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
-            applicable_to: [go]
-            go_field_name: OutputTypes
-          '/outputTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [python]
             python_field_name: output_types
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
@@ -347,6 +347,11 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['runbookName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Gets or sets the description of the runbook.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Boolean
         name: 'logVerbose'
         description: 'Gets or sets verbose log option.'
@@ -357,119 +362,6 @@ objects:
         description: 'Gets or sets progress log option.'
         required: false
         azure_sdk_references: ['/logProgress', '/properties/logProgress']
-      - !ruby/object:Api::Type::Enum
-        name: 'runbookType'
-        description: 'Gets or sets the type of the runbook.'
-        required: true
-        azure_sdk_references: ['/runbookType', '/properties/runbookType']
-        values:
-          - :Script
-          - :Graph
-          - :PowerShellWorkflow
-          - :PowerShell
-          - :GraphPowerShellWorkflow
-          - :GraphPowerShell
-      - !ruby/object:Api::Type::NestedObject
-        name: 'draft'
-        description: 'Gets or sets the draft runbook properties.'
-        required: false
-        azure_sdk_references: ['/draft', '/properties/draft']
-        properties:
-          - !ruby/object:Api::Type::Boolean
-            name: 'inEdit'
-            description: 'Gets or sets whether runbook is in edit mode.'
-            required: false
-            azure_sdk_references: ['/draft/inEdit', '/properties/draft/inEdit']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'draftContentLink'
-            description: 'Gets or sets the draft runbook content link.'
-            required: false
-            azure_sdk_references: ['/draft/draftContentLink', '/properties/draft/draftContentLink']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'uri'
-                description: 'Gets or sets the uri of the runbook content.'
-                required: false
-                azure_sdk_references: ['/draft/draftContentLink/uri', '/properties/draft/draftContentLink/uri']
-              - !ruby/object:Api::Type::NestedObject
-                name: 'contentHash'
-                description: 'Gets or sets the hash.'
-                required: false
-                azure_sdk_references: ['/draft/draftContentLink/contentHash', '/properties/draft/draftContentLink/contentHash']
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'algorithm'
-                    description: 'Gets or sets the content hash algorithm used to hash the content.'
-                    required: true
-                    azure_sdk_references: ['/draft/draftContentLink/contentHash/algorithm', '/properties/draft/draftContentLink/contentHash/algorithm']
-                  - !ruby/object:Api::Type::String
-                    name: 'value'
-                    description: 'Gets or sets expected hash value of the content.'
-                    required: true
-                    azure_sdk_references: ['/draft/draftContentLink/contentHash/value', '/properties/draft/draftContentLink/contentHash/value']
-              - !ruby/object:Api::Type::String
-                name: 'version'
-                description: 'Gets or sets the version of the content.'
-                required: false
-                azure_sdk_references: ['/draft/draftContentLink/version', '/properties/draft/draftContentLink/version']
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'creationTime'
-            description: 'Gets or sets the creation time of the runbook draft.'
-            required: false
-            azure_sdk_references: ['/draft/creationTime', '/properties/draft/creationTime']
-          - !ruby/object:Api::Azure::Type::ISO8601DateTime
-            name: 'lastModifiedTime'
-            description: 'Gets or sets the last modified time of the runbook draft.'
-            required: false
-            azure_sdk_references: ['/draft/lastModifiedTime', '/properties/draft/lastModifiedTime']
-          - !ruby/object:Api::Type::KeyValuePairs
-            name: 'parameters'
-            description: 'Gets or sets the runbook draft parameters.'
-            required: false
-            azure_sdk_references: ['/draft/parameters', '/properties/draft/parameters']
-          - !ruby/object:Api::Type::Array
-            name: 'outputTypes'
-            description: 'Gets or sets the runbook output types.'
-            required: false
-            azure_sdk_references: ['/draft/outputTypes', '/properties/draft/outputTypes']
-            item_type: Api::Type::String
-      - !ruby/object:Api::Type::NestedObject
-        name: 'publishContentLink'
-        description: 'Gets or sets the published runbook content link.'
-        required: false
-        azure_sdk_references: ['/publishContentLink', '/properties/publishContentLink']
-        properties:
-          - !ruby/object:Api::Type::String
-            name: 'uri'
-            description: 'Gets or sets the uri of the runbook content.'
-            required: false
-            azure_sdk_references: ['/publishContentLink/uri', '/properties/publishContentLink/uri']
-          - !ruby/object:Api::Type::NestedObject
-            name: 'contentHash'
-            description: 'Gets or sets the hash.'
-            required: false
-            azure_sdk_references: ['/publishContentLink/contentHash', '/properties/publishContentLink/contentHash']
-            properties:
-              - !ruby/object:Api::Type::String
-                name: 'algorithm'
-                description: 'Gets or sets the content hash algorithm used to hash the content.'
-                required: true
-                azure_sdk_references: ['/publishContentLink/contentHash/algorithm', '/properties/publishContentLink/contentHash/algorithm']
-              - !ruby/object:Api::Type::String
-                name: 'value'
-                description: 'Gets or sets expected hash value of the content.'
-                required: true
-                azure_sdk_references: ['/publishContentLink/contentHash/value', '/properties/publishContentLink/contentHash/value']
-          - !ruby/object:Api::Type::String
-            name: 'version'
-            description: 'Gets or sets the version of the content.'
-            required: false
-            azure_sdk_references: ['/publishContentLink/version', '/properties/publishContentLink/version']
-      - !ruby/object:Api::Type::String
-        name: 'description'
-        description: 'Gets or sets the description of the runbook.'
-        required: false
-        azure_sdk_references: ['/description', '/properties/description']
       - !ruby/object:Api::Type::Integer
         name: 'logActivityTrace'
         description: 'Gets or sets the activity-level tracing options of the runbook.'
@@ -495,6 +387,24 @@ objects:
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
+        name: 'runbookType'
+        description: 'Gets or sets the type of the runbook.'
+        output: true
+        azure_sdk_references: ['/runbookType', '/properties/runbookType']
+        values:
+          - :Script
+          - :Graph
+          - :PowerShellWorkflow
+          - :PowerShell
+          - :GraphPowerShellWorkflow
+          - :GraphPowerShell
+      - !ruby/object:Api::Type::NestedObject
+        name: 'publishContentLink'
+        description: 'Gets or sets the published runbook content link.'
+        output: true
+        azure_sdk_references: ['/publishContentLink', '/properties/publishContentLink']
+        properties:
+      - !ruby/object:Api::Type::Enum
         name: 'state'
         description: 'Gets or sets the state of the runbook.'
         output: true
@@ -519,6 +429,12 @@ objects:
         output: true
         azure_sdk_references: ['/outputTypes', '/properties/outputTypes']
         item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'draft'
+        description: 'Gets or sets the draft runbook properties.'
+        output: true
+        azure_sdk_references: ['/draft', '/properties/draft']
+        properties:
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'
         description: 'Gets or sets the provisioning state of the runbook.'

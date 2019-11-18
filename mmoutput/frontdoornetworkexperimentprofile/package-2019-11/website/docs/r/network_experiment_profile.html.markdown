@@ -34,17 +34,17 @@ The following arguments are supported:
 
 * `location` - (Optional) Resource location. Changing this forces a new resource to be created.
 
-* `enabled_state` - (Optional) The state of the Experiment Defaults to `Enabled`.
+* `enabled_state` - (Optional) The enabled state of the Profile Defaults to `Enabled`.
 
 * `etag` - (Optional) Gets a unique read-only string that changes whenever the resource is updated. Changing this forces a new resource to be created.
-
-* `resource_state` - (Optional) Resource status. Defaults to `Creating`.
 
 * `tags` - (Optional) Resource tags. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 
 The following attributes are exported:
+
+* `resource_state` - Resource status.
 
 * `id` - Resource ID.
 

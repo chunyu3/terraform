@@ -346,13 +346,13 @@ objects:
         azure_sdk_references: ['agentPoolName']
       - !ruby/object:Api::Type::Integer
         name: 'count'
-        description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
-        required: true
+        description: 'Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.'
+        required: false
         azure_sdk_references: ['/count', '/properties/count']
       - !ruby/object:Api::Type::Enum
         name: 'vmSize'
         description: 'Size of agent VMs.'
-        required: true
+        required: false
         azure_sdk_references: ['/vmSize', '/properties/vmSize']
         values:
           - :Standard_A1
@@ -529,6 +529,7 @@ objects:
           - :Standard_NV12
           - :Standard_NV24
           - :Standard_NV6
+        default_value: :Standard_A1
       - !ruby/object:Api::Type::Integer
         name: 'osDiskSizeGb'
         description: 'OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.'

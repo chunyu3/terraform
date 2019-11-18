@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointProperties
-            go_type_name: EndpointProperties
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/originPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: origin_path
@@ -194,173 +194,6 @@ objects:
             applicable_to: [go]
             go_field_name: Actions
             go_type_name: DeliveryRuleAction
-          '/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origins
-          '/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/origins/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
-          '/origins/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: http_port
-          '/origins/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: https_port
-          '/origins/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: origin_host_header
-          '/origins/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: priority
-          '/origins/weight': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: weight
-          '/origins/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: enabled
-          '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Origins
-            go_type_name: DeepCreatedOrigin
-          '/properties/origins/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/origins/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeepCreatedOriginProperties
-            go_type_name: DeepCreatedOriginProperties
-          '/properties/origins/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/properties/origins/properties/httpPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpPort
-          '/properties/origins/properties/httpsPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: HttpsPort
-          '/properties/origins/properties/originHostHeader': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: OriginHostHeader
-          '/properties/origins/properties/priority': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Priority
-          '/properties/origins/properties/weight': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Weight
-          '/properties/origins/properties/enabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: Enabled
-          '/originGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origin_groups
-          '/originGroups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: name
-          '/originGroups/healthProbeSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: health_probe_settings
-          '/originGroups/healthProbeSettings/probePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: probe_path
-          '/originGroups/healthProbeSettings/probeRequestType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: probe_request_type
-          '/originGroups/healthProbeSettings/probeProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: probe_protocol
-          '/originGroups/healthProbeSettings/probeIntervalInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: probe_interval_in_seconds
-          '/originGroups/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: origins
-          '/originGroups/origins/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: id
-          '/originGroups/trafficRestorationTimeToHealedOrNewEndpointsInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: traffic_restoration_time_to_healed_or_new_endpoints_in_minutes
-          '/originGroups/responseBasedOriginErrorDetectionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: response_based_origin_error_detection_settings
-          '/originGroups/responseBasedOriginErrorDetectionSettings/responseBasedDetectedErrorTypes': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: response_based_detected_error_types
-          '/originGroups/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: response_based_failover_threshold_percentage
-          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [python]
-            python_field_name: http_error_ranges
-          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: begin
-          '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [python]
-            python_field_name: end
-          '/properties/originGroups': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: OriginGroups
-            go_type_name: DeepCreatedOriginGroup
-          '/properties/originGroups/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Name
-          '/properties/originGroups/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: DeepCreatedOriginGroupProperties
-            go_type_name: DeepCreatedOriginGroupProperties
-          '/properties/originGroups/properties/healthProbeSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: HealthProbeSettings
-            go_type_name: HealthProbeParameters
-          '/properties/originGroups/properties/healthProbeSettings/probePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ProbePath
-          '/properties/originGroups/properties/healthProbeSettings/probeRequestType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProbeRequestType
-            go_enum_type_name: HealthProbeRequestType
-          '/properties/originGroups/properties/healthProbeSettings/probeProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ProbeProtocol
-            go_enum_type_name: ProbeProtocol
-          '/properties/originGroups/properties/healthProbeSettings/probeIntervalInSeconds': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: ProbeIntervalInSeconds
-          '/properties/originGroups/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: Origins
-            go_type_name: ResourceReference
-          '/properties/originGroups/properties/origins/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: ID
-          '/properties/originGroups/properties/trafficRestorationTimeToHealedOrNewEndpointsInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: ResponseBasedOriginErrorDetectionSettings
-            go_type_name: ResponseBasedOriginErrorDetectionParameters
-          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/responseBasedDetectedErrorTypes': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResponseBasedDetectedErrorTypes
-            go_enum_type_name: ResponseBasedDetectedErrorTypes
-          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: ResponseBasedFailoverThresholdPercentage
-          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
-            applicable_to: [go]
-            go_field_name: HttpErrorRanges
-            go_type_name: HttpErrorRangeParameters
-          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: Begin
-          '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
-            applicable_to: [go]
-            go_field_name: End
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -429,8 +262,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EndpointProperties
-            go_type_name: EndpointProperties
+            go_field_name: EndpointPropertiesUpdateParameters
+            go_type_name: EndpointPropertiesUpdateParameters
           '/properties/originPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: OriginPath
@@ -572,6 +405,12 @@ objects:
           '/deliveryPolicy/rules/actions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: actions
+          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostName
+          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_name
           '/properties/origins': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Origins
@@ -739,12 +578,6 @@ objects:
           '/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [python]
             python_field_name: end
-          '/properties/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: HostName
-          '/hostName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: host_name
           '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ResourceState
@@ -811,7 +644,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Resource tags.'
+        description: 'Endpoint tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -939,162 +772,26 @@ objects:
                   description: 'The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not require any condition and actions listed in it will always be applied.'
                   required: true
                   azure_sdk_references: ['/deliveryPolicy/rules/order', '/properties/deliveryPolicy/rules/order']
-      - !ruby/object:Api::Type::Array
-        name: 'origins'
-        description: 'The source of the content being delivered via CDN.'
-        required: true
-        azure_sdk_references: ['/origins', '/properties/origins']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Origin name which must be unique within the endpoint. '
-              required: true
-              azure_sdk_references: ['/origins/name', '/properties/origins/name']
-            - !ruby/object:Api::Type::String
-              name: 'hostName'
-              description: 'The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique across all origins in an endpoint.'
-              required: true
-              azure_sdk_references: ['/origins/hostName', '/properties/origins/properties/hostName']
-            - !ruby/object:Api::Type::Integer
-              name: 'httpPort'
-              description: 'The value of the HTTP port. Must be between 1 and 65535.'
-              required: false
-              azure_sdk_references: ['/origins/httpPort', '/properties/origins/properties/httpPort']
-            - !ruby/object:Api::Type::Integer
-              name: 'httpsPort'
-              description: 'The value of the HTTPS port. Must be between 1 and 65535.'
-              required: false
-              azure_sdk_references: ['/origins/httpsPort', '/properties/origins/properties/httpsPort']
-            - !ruby/object:Api::Type::String
-              name: 'originHostHeader'
-              description: 'The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.'
-              required: false
-              azure_sdk_references: ['/origins/originHostHeader', '/properties/origins/properties/originHostHeader']
-            - !ruby/object:Api::Type::Integer
-              name: 'priority'
-              description: 'Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5.'
-              required: false
-              azure_sdk_references: ['/origins/priority', '/properties/origins/properties/priority']
-            - !ruby/object:Api::Type::Integer
-              name: 'weight'
-              description: 'Weight of the origin in given origin group for load balancing. Must be between 1 and 1000'
-              required: false
-              azure_sdk_references: ['/origins/weight', '/properties/origins/properties/weight']
-            - !ruby/object:Api::Type::Boolean
-              name: 'enabled'
-              description: 'Origin is enabled for load balancing or not. By default, origin is always enabled.'
-              required: false
-              azure_sdk_references: ['/origins/enabled', '/properties/origins/properties/enabled']
-      - !ruby/object:Api::Type::Array
-        name: 'originGroups'
-        description: 'The origin groups comprising of origins that are used for load balancing the traffic based on availability.'
-        required: false
-        azure_sdk_references: ['/originGroups', '/properties/originGroups']
-        item_type: !ruby/object:Api::Type::NestedObject
-          properties:
-            - !ruby/object:Api::Type::String
-              name: 'name'
-              description: 'Origin group name which must be unique within the endpoint.'
-              required: true
-              azure_sdk_references: ['/originGroups/name', '/properties/originGroups/name']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'healthProbeSettings'
-              description: 'Health probe settings to the origin that is used to determine the health of the origin.'
-              required: false
-              azure_sdk_references: ['/originGroups/healthProbeSettings', '/properties/originGroups/properties/healthProbeSettings']
-              properties:
-                - !ruby/object:Api::Type::String
-                  name: 'probePath'
-                  description: 'The path relative to the origin that is used to determine the health of the origin.'
-                  required: false
-                  azure_sdk_references: ['/originGroups/healthProbeSettings/probePath', '/properties/originGroups/properties/healthProbeSettings/probePath']
-                - !ruby/object:Api::Type::Enum
-                  name: 'probeRequestType'
-                  description: 'The type of health probe request that is made.'
-                  required: false
-                  azure_sdk_references: ['/originGroups/healthProbeSettings/probeRequestType', '/properties/originGroups/properties/healthProbeSettings/probeRequestType']
-                  values:
-                    - :NotSet
-                    - :GET
-                    - :HEAD
-                  default_value: :NotSet
-                - !ruby/object:Api::Type::Enum
-                  name: 'probeProtocol'
-                  description: 'Protocol to use for health probe.'
-                  required: false
-                  azure_sdk_references: ['/originGroups/healthProbeSettings/probeProtocol', '/properties/originGroups/properties/healthProbeSettings/probeProtocol']
-                  values:
-                    - :NotSet
-                    - :Http
-                    - :Https
-                  default_value: :NotSet
-                - !ruby/object:Api::Type::Integer
-                  name: 'probeIntervalInSeconds'
-                  description: 'The number of seconds between health probes.Default is 240sec.'
-                  required: false
-                  azure_sdk_references: ['/originGroups/healthProbeSettings/probeIntervalInSeconds', '/properties/originGroups/properties/healthProbeSettings/probeIntervalInSeconds']
-            - !ruby/object:Api::Type::Array
-              name: 'origins'
-              description: 'The source of the content being delivered via CDN within given origin group.'
-              required: true
-              azure_sdk_references: ['/originGroups/origins', '/properties/originGroups/properties/origins']
-              item_type: !ruby/object:Api::Type::NestedObject
-                properties:
-                  - !ruby/object:Api::Type::String
-                    name: 'id'
-                    description: 'Resource ID.'
-                    required: false
-                    azure_sdk_references: ['/originGroups/origins/id', '/properties/originGroups/properties/origins/id']
-            - !ruby/object:Api::Type::Integer
-              name: 'trafficRestorationTimeToHealedOrNewEndpointsInMinutes'
-              description: 'Time in minutes to shift the traffic to the endpoint gradually when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not supported.'
-              required: false
-              azure_sdk_references: ['/originGroups/trafficRestorationTimeToHealedOrNewEndpointsInMinutes', '/properties/originGroups/properties/trafficRestorationTimeToHealedOrNewEndpointsInMinutes']
-            - !ruby/object:Api::Type::NestedObject
-              name: 'responseBasedOriginErrorDetectionSettings'
-              description: 'The JSON object that contains the properties to determine origin health using real requests/responses.This property is currently not supported.'
-              required: false
-              azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings']
-              properties:
-                - !ruby/object:Api::Type::Enum
-                  name: 'responseBasedDetectedErrorTypes'
-                  description: 'Type of response errors for real user requests for which origin will be deemed unhealthy'
-                  required: false
-                  azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/responseBasedDetectedErrorTypes', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/responseBasedDetectedErrorTypes']
-                  values:
-                    - :None
-                    - :TcpErrorsOnly
-                    - :TcpAndHttpErrors
-                  default_value: :None
-                - !ruby/object:Api::Type::Integer
-                  name: 'responseBasedFailoverThresholdPercentage'
-                  description: 'The percentage of failed requests in the sample where failover should trigger.'
-                  required: false
-                  azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/responseBasedFailoverThresholdPercentage']
-                - !ruby/object:Api::Type::Array
-                  name: 'httpErrorRanges'
-                  description: 'The list of Http status code ranges that are considered as server errors for origin and it is marked as unhealthy.'
-                  required: false
-                  azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges']
-                  item_type: !ruby/object:Api::Type::NestedObject
-                    properties:
-                      - !ruby/object:Api::Type::Integer
-                        name: 'begin'
-                        description: 'The inclusive start of the http status code range.'
-                        required: false
-                        azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/begin']
-                      - !ruby/object:Api::Type::Integer
-                        name: 'end'
-                        description: 'The inclusive end of the http status code range.'
-                        required: false
-                        azure_sdk_references: ['/originGroups/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end', '/properties/originGroups/properties/responseBasedOriginErrorDetectionSettings/httpErrorRanges/end']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'hostName'
         description: 'The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net'
         output: true
         azure_sdk_references: ['/hostName', '/properties/hostName']
+      - !ruby/object:Api::Type::Array
+        name: 'origins'
+        description: 'The source of the content being delivered via CDN.'
+        output: true
+        azure_sdk_references: ['/origins', '/properties/origins']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+      - !ruby/object:Api::Type::Array
+        name: 'originGroups'
+        description: 'The origin groups comprising of origins that are used for load balancing the traffic based on availability.'
+        output: true
+        azure_sdk_references: ['/originGroups', '/properties/originGroups']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
       - !ruby/object:Api::Type::Enum
         name: 'resourceState'
         description: 'Resource status of the endpoint.'

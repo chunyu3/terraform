@@ -24,8 +24,13 @@ objects:
         request:
           'regulatoryComplianceStandardName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: regulatoryComplianceStandards
-            go_variable_name: name
+            go_variable_name: regulatoryComplianceStandardName
             python_parameter_name: regulatory_compliance_standard_name
+            python_variable_name: regulatory_compliance_standard_name
+          'regulatoryComplianceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: regulatoryComplianceControls
+            go_variable_name: name
+            python_parameter_name: regulatory_compliance_control_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -78,19 +83,25 @@ objects:
         request:
           'regulatoryComplianceStandardName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: regulatoryComplianceStandards
-            go_variable_name: name
+            go_variable_name: regulatoryComplianceStandardName
             python_parameter_name: regulatory_compliance_standard_name
-            python_variable_name: name
+            python_variable_name: regulatory_compliance_standard_name
 
     description: |
       Manage Azure RegulatoryComplianceControl instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'regulatoryComplianceStandardName'
         description: 'Name of the regulatory compliance standard object'
         required: true
         input: true
         azure_sdk_references: ['regulatoryComplianceStandardName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the regulatory compliance control object'
+        required: true
+        input: true
+        azure_sdk_references: ['regulatoryComplianceControlName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

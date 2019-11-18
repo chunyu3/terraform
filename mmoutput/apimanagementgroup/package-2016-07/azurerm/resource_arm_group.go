@@ -38,9 +38,8 @@ func resourceArmGroup() *schema.Resource {
 
             "name": {
                 Type: schema.TypeString,
-                Required: true,
+                Optional: true,
                 ForceNew: true,
-                ValidateFunc: validate.NoEmptyStrings,
             },
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
@@ -109,7 +108,7 @@ func resourceArmGroupCreate(d *schema.ResourceData, meta interface{}) error {
     externalId := d.Get("external_id").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.GroupCreateParameters{
+    parameters := apimanagement.GroupUpdateParameters{
         Description: utils.String(description),
         ExternalID: utils.String(externalId),
         Name: utils.String(name),
@@ -181,7 +180,7 @@ func resourceArmGroupUpdate(d *schema.ResourceData, meta interface{}) error {
     groupID := d.Get("group_id").(string)
     type := d.Get("type").(string)
 
-    parameters := apimanagement.GroupCreateParameters{
+    parameters := apimanagement.GroupUpdateParameters{
         Description: utils.String(description),
         ExternalID: utils.String(externalId),
         Name: utils.String(name),

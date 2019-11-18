@@ -32,17 +32,17 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `display_name` - (Required) Name of API Version Set
-
 * `version_set_id` - (Required) Api Version Set identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `versioning_scheme` - (Required) An value that determines where the API Version identifer will be located in a HTTP request.
-
 * `description` - (Optional) Description of API Version Set.
+
+* `display_name` - (Optional) Name of API Version Set
 
 * `version_header_name` - (Optional) Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
 
 * `version_query_name` - (Optional) Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
+
+* `versioning_scheme` - (Optional) An value that determines where the API Version identifer will be located in a HTTP request. Defaults to `Segment`.
 
 ## Attributes Reference
 

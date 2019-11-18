@@ -34,11 +34,11 @@ The following arguments are supported:
 
 * `backup_schedule_group_id` - (Required) The backup policy id.
 
-* `device_name` - (Required) The device name. Changing this forces a new resource to be created.
+* `device_name` - (Required) The name of the device. Changing this forces a new resource to be created.
 
 * `domain_name` - (Required) Domain of the file server
 
-* `file_server_name` - (Required) The file server name. Changing this forces a new resource to be created.
+* `file_server_name` - (Required) The name of the file server. Changing this forces a new resource to be created.
 
 * `storage_domain_id` - (Required) The storage domain id.
 

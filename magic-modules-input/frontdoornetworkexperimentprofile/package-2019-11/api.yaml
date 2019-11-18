@@ -35,7 +35,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Profile
+            go_type_name: ProfileUpdateModel
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -46,15 +46,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProfileProperties
-            go_type_name: ProfileProperties
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: NetworkExperimentResourceState
+            go_field_name: ProfileUpdateProperties
+            go_type_name: ProfileUpdateProperties
           '/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: enabled_state
@@ -82,7 +75,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: Profile
+            go_type_name: ProfileUpdateModel
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -93,15 +86,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProfileProperties
-            go_type_name: ProfileProperties
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: NetworkExperimentResourceState
+            go_field_name: ProfileUpdateProperties
+            go_type_name: ProfileUpdateProperties
           '/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: enabled_state
@@ -150,15 +136,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ProfileProperties
-            go_type_name: ProfileProperties
-          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: ResourceState
-            go_enum_type_name: NetworkExperimentResourceState
-          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: resource_state
+            go_field_name: ProfileUpdateProperties
+            go_type_name: ProfileUpdateProperties
           '/properties/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: EnabledState
@@ -166,6 +145,13 @@ objects:
           '/enabledState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: enabled_state
+          '/properties/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ResourceState
+            go_enum_type_name: NetworkExperimentResourceState
+          '/resourceState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: resource_state
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Etag
             python_field_name: etag
@@ -220,21 +206,8 @@ objects:
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::Enum
-        name: 'resourceState'
-        description: 'Resource status.'
-        required: false
-        azure_sdk_references: ['/resourceState', '/properties/resourceState']
-        values:
-          - :Creating
-          - :Enabling
-          - :Enabled
-          - :Disabling
-          - :Disabled
-          - :Deleting
-        default_value: :Creating
-      - !ruby/object:Api::Type::Enum
         name: 'enabledState'
-        description: 'The state of the Experiment'
+        description: 'The enabled state of the Profile'
         required: false
         azure_sdk_references: ['/enabledState', '/properties/enabledState']
         values:
@@ -248,6 +221,18 @@ objects:
         input: true
         azure_sdk_references: ['/etag']
       # read only values included only in response
+      - !ruby/object:Api::Type::Enum
+        name: 'resourceState'
+        description: 'Resource status.'
+        output: true
+        azure_sdk_references: ['/resourceState', '/properties/resourceState']
+        values:
+          - :Creating
+          - :Enabling
+          - :Enabled
+          - :Disabling
+          - :Disabled
+          - :Deleting
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Resource ID.'

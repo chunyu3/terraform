@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: NamespaceCreateOrUpdateParameters
@@ -140,9 +140,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -154,9 +154,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -288,9 +288,9 @@ objects:
             python_variable_name: resource_group
           'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: namespaces
-            go_variable_name: name
+            go_variable_name: namespaceName
             python_parameter_name: namespace_name
-            python_variable_name: name
+            python_variable_name: namespace_name
 
     description: |
       Manage Azure Namespace instance.
@@ -302,8 +302,8 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
-        description: 'The namespace name.'
+        name: 'namespaceName'
+        description: 'The namespace name'
         required: true
         input: true
         azure_sdk_references: ['namespaceName']
@@ -408,6 +408,12 @@ objects:
           - :Messaging
           - :NotificationHub
         default_value: :Messaging
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Authorization rule name.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'

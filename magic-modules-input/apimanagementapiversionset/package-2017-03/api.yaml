@@ -39,13 +39,13 @@ objects:
             python_variable_name: version_set_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ApiVersionSetContract
+            go_type_name: ApiVersionSetUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ApiVersionSetContractProperties
-            go_type_name: ApiVersionSetContractProperties
+            go_field_name: ApiVersionSetUpdateParametersProperties
+            go_type_name: ApiVersionSetUpdateParametersProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -98,13 +98,13 @@ objects:
             python_variable_name: version_set_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ApiVersionSetContract
+            go_type_name: ApiVersionSetUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ApiVersionSetContractProperties
-            go_type_name: ApiVersionSetContractProperties
+            go_field_name: ApiVersionSetUpdateParametersProperties
+            go_type_name: ApiVersionSetUpdateParametersProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -177,8 +177,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ApiVersionSetContractProperties
-            go_type_name: ApiVersionSetContractProperties
+            go_field_name: ApiVersionSetUpdateParametersProperties
+            go_type_name: ApiVersionSetUpdateParametersProperties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -255,17 +255,18 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'Name of API Version Set'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::Enum
         name: 'versioningScheme'
         description: 'An value that determines where the API Version identifer will be located in a HTTP request.'
-        required: true
+        required: false
         azure_sdk_references: ['/versioningScheme', '/properties/versioningScheme']
         values:
           - :Segment
           - :Query
           - :Header
+        default_value: :Segment
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
         description: 'The name of the resource group.'

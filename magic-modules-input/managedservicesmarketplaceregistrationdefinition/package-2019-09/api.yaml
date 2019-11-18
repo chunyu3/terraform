@@ -27,6 +27,11 @@ objects:
             go_variable_name: scope
             python_parameter_name: scope
             python_variable_name: scope
+          'marketplaceIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: marketplaceRegistrationDefinitions
+            go_variable_name: marketplaceIdentifier
+            python_parameter_name: marketplace_identifier
+            python_variable_name: marketplace_identifier
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -126,6 +131,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'marketplaceIdentifier'
+        description: 'Market place identifer. Expected Formats - {publisher}.{product[-preview]}.{planName}.{version} or {publisher}.{product[-preview]}.{planName} or {publisher}.{product[-preview]} or {publisher}).'
+        required: true
+        input: true
+        azure_sdk_references: ['marketplaceIdentifier']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'description'

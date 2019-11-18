@@ -26,6 +26,30 @@ objects:
     description: |
       Manage Azure Global instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'sku'
+        description: 'Filter only to regions that support this sku'
+        required: false
+        input: true
+        azure_sdk_references: ['sku']
+      - !ruby/object:Api::Type::Boolean
+        name: 'linuxWorkersEnabled'
+        description: 'Filter only to regions that support linux workers'
+        required: false
+        input: true
+        azure_sdk_references: ['linuxWorkersEnabled']
+      - !ruby/object:Api::Type::Boolean
+        name: 'detailed'
+        description: 'False to return a subset of App Service Plan properties, true to return all of the properties.<br>            Retrieval of all properties may increase the API latency.'
+        required: false
+        input: true
+        azure_sdk_references: ['detailed']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Hosting environment name'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

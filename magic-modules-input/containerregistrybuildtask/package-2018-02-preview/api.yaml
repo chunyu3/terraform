@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BuildTaskProperties
-            go_type_name: BuildTaskProperties
+            go_field_name: BuildTaskPropertiesUpdateParameters
+            go_type_name: BuildTaskPropertiesUpdateParameters
           '/alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: alias
@@ -66,70 +66,6 @@ objects:
             applicable_to: [go]
             go_field_name: Status
             go_enum_type_name: BuildTaskStatus
-          '/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source_repository
-          '/sourceRepository/sourceControlType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: source_control_type
-          '/sourceRepository/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repository_url
-          '/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_commit_trigger_enabled
-          '/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source_control_auth_properties
-          '/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: token_type
-          '/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: token
-          '/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: refresh_token
-          '/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: scope
-          '/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: expires_in
-          '/properties/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SourceRepository
-            go_type_name: SourceRepositoryProperties
-          '/properties/sourceRepository/sourceControlType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: SourceControlType
-            go_enum_type_name: SourceControlType
-          '/properties/sourceRepository/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RepositoryURL
-          '/properties/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsCommitTriggerEnabled
-          '/properties/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SourceControlAuthProperties
-            go_type_name: SourceControlAuthInfo
-          '/properties/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: TokenType
-            go_enum_type_name: TokenType
-          '/properties/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Token
-          '/properties/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RefreshToken
-          '/properties/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Scope
-          '/properties/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: ExpiresIn
           '/platform': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: platform
@@ -156,6 +92,57 @@ objects:
           '/properties/timeout': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Timeout
+          '/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_repository
+          '/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_control_auth_properties
+          '/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: token_type
+          '/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: token
+          '/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: refresh_token
+          '/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: expires_in
+          '/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_commit_trigger_enabled
+          '/properties/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceRepository
+            go_type_name: SourceRepositoryUpdateParameters
+          '/properties/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceControlAuthProperties
+            go_type_name: SourceControlAuthInfo
+          '/properties/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TokenType
+            go_enum_type_name: TokenType
+          '/properties/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Token
+          '/properties/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RefreshToken
+          '/properties/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/properties/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ExpiresIn
+          '/properties/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsCommitTriggerEnabled
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -224,8 +211,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: BuildTaskProperties
-            go_type_name: BuildTaskProperties
+            go_field_name: BuildTaskPropertiesUpdateParameters
+            go_type_name: BuildTaskPropertiesUpdateParameters
           '/properties/alias': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Alias
@@ -239,70 +226,6 @@ objects:
           '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: status
-          '/properties/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SourceRepository
-            go_type_name: SourceRepositoryProperties
-          '/properties/sourceRepository/sourceControlType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: SourceControlType
-            go_enum_type_name: SourceControlType
-          '/properties/sourceRepository/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RepositoryURL
-          '/properties/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsCommitTriggerEnabled
-          '/properties/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [go]
-            go_field_name: SourceControlAuthProperties
-            go_type_name: SourceControlAuthInfo
-          '/properties/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: TokenType
-            go_enum_type_name: TokenType
-          '/properties/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Token
-          '/properties/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: RefreshToken
-          '/properties/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Scope
-          '/properties/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [go]
-            go_field_name: ExpiresIn
-          '/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source_repository
-          '/sourceRepository/sourceControlType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: source_control_type
-          '/sourceRepository/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: repository_url
-          '/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_commit_trigger_enabled
-          '/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
-            applicable_to: [python]
-            python_field_name: source_control_auth_properties
-          '/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: token_type
-          '/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: token
-          '/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: refresh_token
-          '/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: scope
-          '/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
-            applicable_to: [python]
-            python_field_name: expires_in
           '/properties/platform': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Platform
@@ -329,6 +252,70 @@ objects:
           '/timeout': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [python]
             python_field_name: timeout
+          '/properties/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceRepository
+            go_type_name: SourceRepositoryUpdateParameters
+          '/properties/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceControlAuthProperties
+            go_type_name: SourceControlAuthInfo
+          '/properties/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TokenType
+            go_enum_type_name: TokenType
+          '/properties/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Token
+          '/properties/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RefreshToken
+          '/properties/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Scope
+          '/properties/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ExpiresIn
+          '/properties/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsCommitTriggerEnabled
+          '/properties/sourceRepository/sourceControlType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SourceControlType
+            go_enum_type_name: SourceControlType
+          '/properties/sourceRepository/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RepositoryURL
+          '/sourceRepository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_repository
+          '/sourceRepository/sourceControlAuthProperties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_control_auth_properties
+          '/sourceRepository/sourceControlAuthProperties/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: token_type
+          '/sourceRepository/sourceControlAuthProperties/token': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: token
+          '/sourceRepository/sourceControlAuthProperties/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: refresh_token
+          '/sourceRepository/sourceControlAuthProperties/scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: scope
+          '/sourceRepository/sourceControlAuthProperties/expiresIn': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: expires_in
+          '/sourceRepository/isCommitTriggerEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_commit_trigger_enabled
+          '/sourceRepository/sourceControlType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: source_control_type
+          '/sourceRepository/repositoryUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: repository_url
           '/properties/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ProvisioningState
@@ -395,14 +382,14 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'The tags of the resource.'
+        description: 'The ARM resource tags.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       - !ruby/object:Api::Type::String
         name: 'alias'
         description: 'The alternative updatable name for a build task.'
-        required: true
+        required: false
         azure_sdk_references: ['/alias', '/properties/alias']
       - !ruby/object:Api::Type::Enum
         name: 'status'
@@ -414,29 +401,35 @@ objects:
           - :Enabled
         default_value: :Disabled
       - !ruby/object:Api::Type::NestedObject
-        name: 'sourceRepository'
-        description: 'The properties that describes the source(code) for the build task.'
-        required: true
-        azure_sdk_references: ['/sourceRepository', '/properties/sourceRepository']
+        name: 'platform'
+        description: 'The platform properties against which the build has to happen.'
+        required: false
+        azure_sdk_references: ['/platform', '/properties/platform']
         properties:
           - !ruby/object:Api::Type::Enum
-            name: 'sourceControlType'
-            description: 'The type of source control service.'
+            name: 'osType'
+            description: 'The operating system type required for the build.'
             required: true
-            azure_sdk_references: ['/sourceRepository/sourceControlType', '/properties/sourceRepository/sourceControlType']
+            azure_sdk_references: ['/platform/osType', '/properties/platform/osType']
             values:
-              - :Github
-              - :VisualStudioTeamService
-          - !ruby/object:Api::Type::String
-            name: 'repositoryUrl'
-            description: 'The full URL to the source code repository'
-            required: true
-            azure_sdk_references: ['/sourceRepository/repositoryUrl', '/properties/sourceRepository/repositoryUrl']
-          - !ruby/object:Api::Type::Boolean
-            name: 'isCommitTriggerEnabled'
-            description: 'The value of this property indicates whether the source control commit trigger is enabled or not.'
+              - :Windows
+              - :Linux
+          - !ruby/object:Api::Type::Integer
+            name: 'cpu'
+            description: 'The CPU configuration in terms of number of cores required for the build.'
             required: false
-            azure_sdk_references: ['/sourceRepository/isCommitTriggerEnabled', '/properties/sourceRepository/isCommitTriggerEnabled']
+            azure_sdk_references: ['/platform/cpu', '/properties/platform/cpu']
+      - !ruby/object:Api::Type::Integer
+        name: 'timeout'
+        description: 'Build timeout in seconds.'
+        required: false
+        azure_sdk_references: ['/timeout', '/properties/timeout']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sourceRepository'
+        description: 'The properties that describes the source(code) for the build task.'
+        required: false
+        azure_sdk_references: ['/sourceRepository', '/properties/sourceRepository']
+        properties:
           - !ruby/object:Api::Type::NestedObject
             name: 'sourceControlAuthProperties'
             description: 'The authorization properties for accessing the source code repository.'
@@ -472,30 +465,11 @@ objects:
                 description: 'Time in seconds that the token remains valid'
                 required: false
                 azure_sdk_references: ['/sourceRepository/sourceControlAuthProperties/expiresIn', '/properties/sourceRepository/sourceControlAuthProperties/expiresIn']
-      - !ruby/object:Api::Type::NestedObject
-        name: 'platform'
-        description: 'The platform properties against which the build has to happen.'
-        required: true
-        azure_sdk_references: ['/platform', '/properties/platform']
-        properties:
-          - !ruby/object:Api::Type::Enum
-            name: 'osType'
-            description: 'The operating system type required for the build.'
-            required: true
-            azure_sdk_references: ['/platform/osType', '/properties/platform/osType']
-            values:
-              - :Windows
-              - :Linux
-          - !ruby/object:Api::Type::Integer
-            name: 'cpu'
-            description: 'The CPU configuration in terms of number of cores required for the build.'
+          - !ruby/object:Api::Type::Boolean
+            name: 'isCommitTriggerEnabled'
+            description: 'The value of this property indicates whether the source control commit trigger is enabled or not.'
             required: false
-            azure_sdk_references: ['/platform/cpu', '/properties/platform/cpu']
-      - !ruby/object:Api::Type::Integer
-        name: 'timeout'
-        description: 'Build timeout in seconds.'
-        required: false
-        azure_sdk_references: ['/timeout', '/properties/timeout']
+            azure_sdk_references: ['/sourceRepository/isCommitTriggerEnabled', '/properties/sourceRepository/isCommitTriggerEnabled']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

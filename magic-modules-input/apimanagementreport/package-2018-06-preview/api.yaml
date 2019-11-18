@@ -74,6 +74,11 @@ objects:
             go_variable_name: name
             python_parameter_name: service_name
             python_variable_name: name
+          'interval': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            id_portion: null
+            go_variable_name: interval
+            python_parameter_name: interval
+            python_variable_name: interval
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListByProduct
         python_func_name: list_by_product
@@ -146,6 +151,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'interval'
+        description: 'By time interval. Interval must be multiple of 15 minutes and may not be zero. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
+        required: true
+        input: true
+        azure_sdk_references: ['interval']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

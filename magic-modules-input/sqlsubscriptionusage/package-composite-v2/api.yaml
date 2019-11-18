@@ -24,8 +24,13 @@ objects:
         request:
           'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: locations
-            go_variable_name: name
+            go_variable_name: locationName
             python_parameter_name: location_name
+            python_variable_name: location_name
+          'usageName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: usages
+            go_variable_name: name
+            python_parameter_name: usage_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -71,19 +76,25 @@ objects:
         request:
           'locationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: locations
-            go_variable_name: name
+            go_variable_name: locationName
             python_parameter_name: location_name
-            python_variable_name: name
+            python_variable_name: location_name
 
     description: |
       Manage Azure SubscriptionUsage instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'locationName'
         description: 'The name of the region where the resource is located.'
         required: true
         input: true
         azure_sdk_references: ['locationName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of usage metric to return.'
+        required: true
+        input: true
+        azure_sdk_references: ['usageName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

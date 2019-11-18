@@ -52,8 +52,7 @@ func resourceArmVirtualNetworkRule() *schema.Resource {
 
             "subnet_id": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
             "type": {
@@ -86,8 +85,8 @@ func resourceArmVirtualNetworkRuleCreate(d *schema.ResourceData, meta interface{
 
     subnetId := d.Get("subnet_id").(string)
 
-    parameters := datalakestore.CreateOrUpdateVirtualNetworkRuleParameters{
-        CreateOrUpdateVirtualNetworkRuleProperties: &datalakestore.CreateOrUpdateVirtualNetworkRuleProperties{
+    parameters := datalakestore.UpdateVirtualNetworkRuleParameters{
+        UpdateVirtualNetworkRuleProperties: &datalakestore.UpdateVirtualNetworkRuleProperties{
             SubnetID: utils.String(subnetId),
         },
     }
@@ -137,8 +136,8 @@ func resourceArmVirtualNetworkRuleRead(d *schema.ResourceData, meta interface{})
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("account_name", accountName)
-    if createOrUpdateVirtualNetworkRuleProperties := resp.CreateOrUpdateVirtualNetworkRuleProperties; createOrUpdateVirtualNetworkRuleProperties != nil {
-        d.Set("subnet_id", createOrUpdateVirtualNetworkRuleProperties.SubnetID)
+    if updateVirtualNetworkRuleProperties := resp.UpdateVirtualNetworkRuleProperties; updateVirtualNetworkRuleProperties != nil {
+        d.Set("subnet_id", updateVirtualNetworkRuleProperties.SubnetID)
     }
     d.Set("type", resp.Type)
 
@@ -154,8 +153,8 @@ func resourceArmVirtualNetworkRuleUpdate(d *schema.ResourceData, meta interface{
     accountName := d.Get("account_name").(string)
     subnetId := d.Get("subnet_id").(string)
 
-    parameters := datalakestore.CreateOrUpdateVirtualNetworkRuleParameters{
-        CreateOrUpdateVirtualNetworkRuleProperties: &datalakestore.CreateOrUpdateVirtualNetworkRuleProperties{
+    parameters := datalakestore.UpdateVirtualNetworkRuleParameters{
+        UpdateVirtualNetworkRuleProperties: &datalakestore.UpdateVirtualNetworkRuleProperties{
             SubnetID: utils.String(subnetId),
         },
     }

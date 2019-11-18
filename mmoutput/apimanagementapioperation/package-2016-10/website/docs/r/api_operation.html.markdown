@@ -30,25 +30,25 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
-* `name` - (Required) Operation Name. Changing this forces a new resource to be created.
-
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `api_id` - (Required) API identifier. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `method` - (Required) A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. Changing this forces a new resource to be created.
-
 * `operation_id` - (Required) Operation identifier within an API. Must be unique in the current API Management service instance. Changing this forces a new resource to be created.
 
-* `url_template` - (Required) Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date} Changing this forces a new resource to be created.
+* `name` - (Optional) Operation Name. Changing this forces a new resource to be created.
 
 * `description` - (Optional) Description of the operation. May include HTML formatting tags. Changing this forces a new resource to be created.
+
+* `method` - (Optional) A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. Changing this forces a new resource to be created.
 
 * `request` - (Optional) One `request` block defined below.
 
 * `responses` - (Optional) One or more `response` block defined below.
 
 * `template_parameters` - (Optional) One or more `template_parameter` block defined below.
+
+* `url_template` - (Optional) Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date} Changing this forces a new resource to be created.
 
 ---
 

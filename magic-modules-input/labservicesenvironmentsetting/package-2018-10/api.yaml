@@ -45,7 +45,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: environmentSetting
-            go_type_name: EnvironmentSetting
+            go_type_name: EnvironmentSettingFragment
             python_parameter_name: environment_setting
             python_variable_name: environment_setting
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -56,8 +56,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EnvironmentSettingProperties
-            go_type_name: EnvironmentSettingProperties
+            go_field_name: EnvironmentSettingPropertiesFragment
+            go_type_name: EnvironmentSettingPropertiesFragment
           '/configurationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: configuration_state
@@ -98,7 +98,7 @@ objects:
           '/properties/resourceSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ResourceSettings
-            go_type_name: ResourceSettings
+            go_type_name: ResourceSettingsFragment
           '/properties/resourceSettings/galleryImageResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: GalleryImageResourceID
@@ -109,7 +109,7 @@ objects:
           '/properties/resourceSettings/referenceVm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ReferenceVm
-            go_type_name: ReferenceVm
+            go_type_name: ReferenceVmFragment
           '/properties/resourceSettings/referenceVm/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UserName
@@ -148,7 +148,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: environmentSetting
-            go_type_name: EnvironmentSetting
+            go_type_name: EnvironmentSettingFragment
             python_parameter_name: environment_setting
             python_variable_name: environment_setting
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -159,8 +159,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EnvironmentSettingProperties
-            go_type_name: EnvironmentSettingProperties
+            go_field_name: EnvironmentSettingPropertiesFragment
+            go_type_name: EnvironmentSettingPropertiesFragment
           '/configurationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: configuration_state
@@ -201,7 +201,7 @@ objects:
           '/properties/resourceSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ResourceSettings
-            go_type_name: ResourceSettings
+            go_type_name: ResourceSettingsFragment
           '/properties/resourceSettings/galleryImageResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: GalleryImageResourceID
@@ -212,7 +212,7 @@ objects:
           '/properties/resourceSettings/referenceVm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ReferenceVm
-            go_type_name: ReferenceVm
+            go_type_name: ReferenceVmFragment
           '/properties/resourceSettings/referenceVm/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UserName
@@ -283,8 +283,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: EnvironmentSettingProperties
-            go_type_name: EnvironmentSettingProperties
+            go_field_name: EnvironmentSettingPropertiesFragment
+            go_type_name: EnvironmentSettingPropertiesFragment
           '/properties/configurationState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: ConfigurationState
@@ -307,7 +307,7 @@ objects:
           '/properties/resourceSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ResourceSettings
-            go_type_name: ResourceSettings
+            go_type_name: ResourceSettingsFragment
           '/properties/resourceSettings/galleryImageResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: GalleryImageResourceID
@@ -318,7 +318,7 @@ objects:
           '/properties/resourceSettings/referenceVm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ReferenceVm
-            go_type_name: ReferenceVm
+            go_type_name: ReferenceVmFragment
           '/properties/resourceSettings/referenceVm/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: UserName
@@ -562,7 +562,7 @@ objects:
       - !ruby/object:Api::Type::NestedObject
         name: 'resourceSettings'
         description: 'The resource specific settings'
-        required: true
+        required: false
         azure_sdk_references: ['/resourceSettings', '/properties/resourceSettings']
         properties:
           - !ruby/object:Api::Type::String
@@ -583,13 +583,13 @@ objects:
           - !ruby/object:Api::Type::NestedObject
             name: 'referenceVm'
             description: 'Details specific to Reference Vm'
-            required: true
+            required: false
             azure_sdk_references: ['/resourceSettings/referenceVm', '/properties/resourceSettings/referenceVm']
             properties:
               - !ruby/object:Api::Type::String
                 name: 'userName'
                 description: 'The username of the virtual machine'
-                required: true
+                required: false
                 azure_sdk_references: ['/resourceSettings/referenceVm/userName', '/properties/resourceSettings/referenceVm/userName']
               - !ruby/object:Api::Type::String
                 name: 'password'

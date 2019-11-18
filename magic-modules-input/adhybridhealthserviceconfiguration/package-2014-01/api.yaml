@@ -22,6 +22,18 @@ objects:
     description: |
       Manage Azure Configuration instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the service.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'grouping'
+        description: 'The grouping for configurations.'
+        required: false
+        input: true
+        azure_sdk_references: ['grouping']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'tenantId'

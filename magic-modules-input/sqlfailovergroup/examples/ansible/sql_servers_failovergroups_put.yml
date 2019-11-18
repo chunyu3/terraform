@@ -11,13 +11,13 @@ task: !ruby/object:Provider::Ansible::Task
       failover_with_data_loss_grace_period_minutes: '480'
     read_only_endpoint:
       failover_policy: Disabled
-    partner_servers:
-      - id: >-
-          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
-          }}/providers/Microsoft.Sql/servers/{{ server_name }}
     databases:
       - >-
         /subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-1
       - >-
         /subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/failover-group-primary-server/databases/testdb-2
+    partner_servers:
+      - id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Sql/servers/{{ server_name }}
   

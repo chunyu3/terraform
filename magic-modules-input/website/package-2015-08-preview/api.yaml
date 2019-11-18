@@ -27,6 +27,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sites
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSitePremierAddOns
         python_func_name: list_site_premier_add_ons
@@ -36,6 +41,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sites
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteRelayServiceConnections
         python_func_name: list_site_relay_service_connections
@@ -45,6 +55,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sites
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteBackupsSlot
         python_func_name: list_site_backups_slot
@@ -54,6 +69,16 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sites
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSitePremierAddOnsSlot
         python_func_name: list_site_premier_add_ons_slot
@@ -63,6 +88,16 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sites
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListSiteRelayServiceConnectionsSlot
         python_func_name: list_site_relay_service_connections_slot
@@ -72,13 +107,23 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sites
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'slot': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: slots
+            go_variable_name: slot
+            python_parameter_name: slot
+            python_variable_name: slot
 
     description: |
       Manage Azure Site instance.
     properties:
       - !ruby/object:Api::Azure::Type::ResourceGroupName
         name: 'resourceGroup'
-        description: 'Name of resource group'
+        description: 'The resource group name'
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
@@ -100,6 +145,84 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['includeSlots']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the web app'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Type::Boolean
+        name: 'details'
+        description: 'If true, metric details are included in response'
+        required: false
+        input: true
+        azure_sdk_references: ['details']
+      - !ruby/object:Api::Type::String
+        name: 'slot'
+        description: 'The name of the slot for this web app.'
+        required: true
+        input: true
+        azure_sdk_references: ['slot']
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Id of the deployment'
+        required: true
+        input: true
+        azure_sdk_references: ['id']
+      - !ruby/object:Api::Type::String
+        name: 'backupId'
+        description: 'Id of backup'
+        required: true
+        input: true
+        azure_sdk_references: ['backupId']
+      - !ruby/object:Api::Type::String
+        name: 'view'
+        description: 'The type of view. This can either be "summary" or "detailed".'
+        required: true
+        input: true
+        azure_sdk_references: ['view']
+      - !ruby/object:Api::Type::String
+        name: 'hostName'
+        description: 'Name of host'
+        required: true
+        input: true
+        azure_sdk_references: ['hostName']
+      - !ruby/object:Api::Type::String
+        name: 'entityName'
+        description: 'The name by which the Hybrid Connection is identified'
+        required: true
+        input: true
+        azure_sdk_references: ['entityName']
+      - !ruby/object:Api::Type::String
+        name: 'operationId'
+        description: 'Id of an operation'
+        required: true
+        input: true
+        azure_sdk_references: ['operationId']
+      - !ruby/object:Api::Type::String
+        name: 'premierAddOnName'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['premierAddOnName']
+      - !ruby/object:Api::Type::String
+        name: 'instanceId'
+        description: 'Id of web app instance'
+        required: true
+        input: true
+        azure_sdk_references: ['instanceId']
+      - !ruby/object:Api::Type::String
+        name: 'vnetName'
+        description: 'The name of the Virtual Network'
+        required: true
+        input: true
+        azure_sdk_references: ['vnetName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the gateway. The only gateway that exists presently is "primary"'
+        required: true
+        input: true
+        azure_sdk_references: ['gatewayName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

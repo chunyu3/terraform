@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: name
+            go_variable_name: solutionName
             python_parameter_name: solution_name
+            python_variable_name: solution_name
+          'aggregatedAlertName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: aggregatedAlerts
+            go_variable_name: name
+            python_parameter_name: aggregated_alert_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -158,9 +163,9 @@ objects:
             python_variable_name: resource_group
           'solutionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: iotSecuritySolutions
-            go_variable_name: name
+            go_variable_name: solutionName
             python_parameter_name: solution_name
-            python_variable_name: name
+            python_variable_name: solution_name
 
     description: |
       Manage Azure IotSecuritySolutionsAnalyticsAggregatedAlert instance.
@@ -172,11 +177,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'solutionName'
         description: 'The name of the IoT Security solution.'
         required: true
         input: true
         azure_sdk_references: ['solutionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Identifier of the aggregated alert.'
+        required: true
+        input: true
+        azure_sdk_references: ['aggregatedAlertName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

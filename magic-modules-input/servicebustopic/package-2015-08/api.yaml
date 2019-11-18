@@ -34,9 +34,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: name
+            go_variable_name: topicName
             python_parameter_name: topic_name
-            python_variable_name: name
+            python_variable_name: topic_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: TopicCreateOrUpdateParameters
@@ -154,9 +154,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: name
+            go_variable_name: topicName
             python_parameter_name: topic_name
-            python_variable_name: name
+            python_variable_name: topic_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -173,9 +173,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: name
+            go_variable_name: topicName
             python_parameter_name: topic_name
-            python_variable_name: name
+            python_variable_name: topic_name
         response:
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
@@ -376,9 +376,9 @@ objects:
             python_variable_name: namespace_name
           'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: topics
-            go_variable_name: name
+            go_variable_name: topicName
             python_parameter_name: topic_name
-            python_variable_name: name
+            python_variable_name: topic_name
 
     description: |
       Manage Azure Topic instance.
@@ -396,7 +396,7 @@ objects:
         input: true
         azure_sdk_references: ['namespaceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'topicName'
         description: 'The topic name.'
         required: true
         input: true
@@ -501,6 +501,12 @@ objects:
         description: 'Value that indicates whether the topic supports ordering.'
         required: false
         azure_sdk_references: ['/supportOrdering', '/properties/supportOrdering']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The authorization rule name.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'accessedAt'

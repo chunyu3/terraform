@@ -22,6 +22,16 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'resourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: resourceID
+            python_parameter_name: resource_id
+            python_variable_name: resource_id
+          'complianceResultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: complianceResults
+            go_variable_name: name
+            python_parameter_name: compliance_result_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -62,6 +72,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'resourceId'
+        description: 'The identifier of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'name of the desired assessment compliance result'
+        required: true
+        input: true
+        azure_sdk_references: ['complianceResultName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

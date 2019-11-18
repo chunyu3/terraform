@@ -123,7 +123,7 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     fileSystemId := d.Get("file_system_id").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.Snapshot{
+    body := azurenetappfiles.SnapshotPatch{
         Location: utils.String(location),
         SnapshotProperties: &azurenetappfiles.SnapshotProperties{
             FileSystemID: utils.String(fileSystemId),
@@ -210,7 +210,7 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     volumeName := d.Get("volume_name").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.Snapshot{
+    body := azurenetappfiles.SnapshotPatch{
         Location: utils.String(location),
         SnapshotProperties: &azurenetappfiles.SnapshotProperties{
             FileSystemID: utils.String(fileSystemId),

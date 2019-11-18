@@ -30,12 +30,12 @@ objects:
             python_variable_name: resource_group
           'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sqlVirtualMachines
-            go_variable_name: name
+            go_variable_name: sqlVirtualMachineName
             python_parameter_name: sql_virtual_machine_name
-            python_variable_name: name
+            python_variable_name: sql_virtual_machine_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: 
+            go_type_name: Update
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -452,12 +452,12 @@ objects:
             python_variable_name: resource_group
           'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sqlVirtualMachines
-            go_variable_name: name
+            go_variable_name: sqlVirtualMachineName
             python_parameter_name: sql_virtual_machine_name
-            python_variable_name: name
+            python_variable_name: sql_virtual_machine_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: 
+            go_type_name: Update
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -874,9 +874,9 @@ objects:
             python_variable_name: resource_group
           'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sqlVirtualMachines
-            go_variable_name: name
+            go_variable_name: sqlVirtualMachineName
             python_parameter_name: sql_virtual_machine_name
-            python_variable_name: name
+            python_variable_name: sql_virtual_machine_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -888,9 +888,9 @@ objects:
             python_variable_name: resource_group
           'sqlVirtualMachineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: sqlVirtualMachines
-            go_variable_name: name
+            go_variable_name: sqlVirtualMachineName
             python_parameter_name: sql_virtual_machine_name
-            python_variable_name: name
+            python_variable_name: sql_virtual_machine_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -1337,6 +1337,11 @@ objects:
             go_variable_name: resourceGroup
             python_parameter_name: resource_group_name
             python_variable_name: resource_group
+          'sqlVirtualMachineGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sqlVirtualMachineGroups
+            go_variable_name: name
+            python_parameter_name: sql_virtual_machine_group_name
+            python_variable_name: name
 
     description: |
       Manage Azure SqlVirtualMachine instance.
@@ -1348,7 +1353,7 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'sqlVirtualMachineName'
         description: 'Name of the SQL virtual machine.'
         required: true
         input: true
@@ -1753,6 +1758,12 @@ objects:
               - :OLTP
               - :DW
             default_value: :GENERAL
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the SQL virtual machine group.'
+        required: true
+        input: true
+        azure_sdk_references: ['sqlVirtualMachineGroupName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'provisioningState'

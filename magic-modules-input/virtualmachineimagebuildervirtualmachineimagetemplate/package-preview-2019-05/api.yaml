@@ -30,12 +30,12 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: name
+            go_variable_name: imageTemplateName
             python_parameter_name: image_template_name
-            python_variable_name: name
+            python_variable_name: image_template_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ImageTemplate
+            go_type_name: ImageTemplateUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -129,12 +129,12 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: name
+            go_variable_name: imageTemplateName
             python_parameter_name: image_template_name
-            python_variable_name: name
+            python_variable_name: image_template_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ImageTemplate
+            go_type_name: ImageTemplateUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -228,9 +228,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: name
+            go_variable_name: imageTemplateName
             python_parameter_name: image_template_name
-            python_variable_name: name
+            python_variable_name: image_template_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -242,9 +242,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: name
+            go_variable_name: imageTemplateName
             python_parameter_name: image_template_name
-            python_variable_name: name
+            python_variable_name: image_template_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -424,9 +424,9 @@ objects:
             python_variable_name: resource_group
           'imageTemplateName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: imageTemplates
-            go_variable_name: name
+            go_variable_name: imageTemplateName
             python_parameter_name: image_template_name
-            python_variable_name: name
+            python_variable_name: image_template_name
 
     description: |
       Manage Azure VirtualMachineImageTemplate instance.
@@ -439,7 +439,7 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Resource tags'
+        description: 'The user-specified tags associated with the image template.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
@@ -515,11 +515,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'imageTemplateName'
         description: 'The name of the image Template'
         required: true
         input: true
         azure_sdk_references: ['imageTemplateName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the run output'
+        required: true
+        input: true
+        azure_sdk_references: ['runOutputName']
       # read only values included only in response
       - !ruby/object:Api::Type::Enum
         name: 'provisioningState'

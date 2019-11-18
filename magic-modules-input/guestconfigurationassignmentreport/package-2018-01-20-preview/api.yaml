@@ -37,13 +37,20 @@ objects:
             go_variable_name: guestConfigurationAssignmentName
             python_parameter_name: guest_configuration_assignment_name
             python_variable_name: guest_configuration_assignment_name
+          'reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportID
+            python_parameter_name: report_id
+            python_variable_name: report_id
         response:
+          'reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reports
+            go_variable_name: reportID
+            python_parameter_name: report_id
+            python_variable_name: report_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
-          '/reportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ReportID
-            python_field_name: report_id
           '/type': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             go_field_name: Type
             go_enum_type_name: Type
@@ -116,17 +123,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['vmName']
+      - !ruby/object:Api::Type::String
+        name: 'reportId'
+        description: 'The GUID for the guest configuration assignment report.'
+        required: true
+        input: true
+        azure_sdk_references: ['reportId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'ARM resource id of the report for the guest configuration assignment.'
         output: true
         azure_sdk_references: ['/id']
-      - !ruby/object:Api::Type::String
-        name: 'reportId'
-        description: 'GUID of the report for the guest configuration assignment.'
-        output: true
-        azure_sdk_references: ['/reportId']
       - !ruby/object:Api::Type::Enum
         name: 'type'
         description: 'Type of report, Consistency or Initial'

@@ -32,21 +32,33 @@ objects:
             go_variable_name: name
             python_parameter_name: publisher_name
             python_variable_name: name
+          'type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: types
+            go_variable_name: type
+            python_parameter_name: type
+            python_variable_name: type
+          'version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: versions
+            go_variable_name: version
+            python_parameter_name: version
+            python_variable_name: version
         response:
           'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: locations
             go_variable_name: location
             python_parameter_name: location
             python_variable_name: location
+          'type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: types
+            go_variable_name: type
+            python_parameter_name: type
+            python_variable_name: type
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Name
             python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -112,6 +124,11 @@ objects:
             go_variable_name: name
             python_parameter_name: publisher_name
             python_variable_name: name
+          'type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: types
+            go_variable_name: type
+            python_parameter_name: type
+            python_variable_name: type
 
     description: |
       Manage Azure VirtualMachineExtensionImage instance.
@@ -128,6 +145,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['publisherName']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['type']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: ''
+        required: true
+        input: true
+        azure_sdk_references: ['version']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -139,11 +168,6 @@ objects:
         description: 'Resource name'
         output: true
         azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'type'
-        description: 'Resource type'
-        output: true
-        azure_sdk_references: ['/type']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'

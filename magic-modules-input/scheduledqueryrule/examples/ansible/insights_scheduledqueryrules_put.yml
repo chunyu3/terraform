@@ -7,8 +7,10 @@ task: !ruby/object:Provider::Ansible::Task
     name: myScheduledQueryRule
     location: eastus
     tags: {}
-    description: log alert description
     enabled: 'true'
+    description: log alert description
+    last_updated_time: '2017-06-23T21:23:52.0221265Z'
+    provisioning_state: Succeeded
     source:
       query: 'Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)'
       data_source_id: >-
@@ -34,6 +36,4 @@ task: !ruby/object:Provider::Ansible::Task
           threshold: '5'
           metricTriggerType: Consecutive
           metricColumn: Computer
-    last_updated_time: '2017-06-23T21:23:52.0221265Z'
-    provisioning_state: Succeeded
   

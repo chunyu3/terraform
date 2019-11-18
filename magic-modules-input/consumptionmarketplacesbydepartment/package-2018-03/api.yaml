@@ -36,6 +36,11 @@ objects:
             go_variable_name: departmentID
             python_parameter_name: department_id
             python_variable_name: department_id
+          'billingPeriodName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: billingPeriods
+            go_variable_name: name
+            python_parameter_name: billing_period_name
+            python_variable_name: name
 
     description: |
       Manage Azure MarketplacesByDepartment instance.
@@ -46,6 +51,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['departmentId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Billing Period Name.'
+        required: true
+        input: true
+        azure_sdk_references: ['billingPeriodName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

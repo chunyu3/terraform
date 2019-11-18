@@ -29,9 +29,9 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListCassandraTables
         python_func_name: list_cassandra_tables
@@ -43,9 +43,14 @@ objects:
             python_variable_name: resource_group
           'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: databaseAccounts
-            go_variable_name: name
+            go_variable_name: accountName
             python_parameter_name: account_name
-            python_variable_name: name
+            python_variable_name: account_name
+          'keyspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: cassandraKeyspaces
+            go_variable_name: keyspaceName
+            python_parameter_name: keyspace_name
+            python_variable_name: keyspace_name
 
     description: |
       Manage Azure CassandraResource instance.
@@ -57,11 +62,23 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'accountName'
         description: 'Cosmos DB database account name.'
         required: true
         input: true
         azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'keyspaceName'
+        description: 'Cosmos DB keyspace name.'
+        required: true
+        input: true
+        azure_sdk_references: ['keyspaceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Cosmos DB table name.'
+        required: true
+        input: true
+        azure_sdk_references: ['tableName']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

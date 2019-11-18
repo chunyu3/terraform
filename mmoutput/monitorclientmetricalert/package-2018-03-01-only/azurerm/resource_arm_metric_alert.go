@@ -179,7 +179,7 @@ func resourceArmMetricAlertCreate(d *schema.ResourceData, meta interface{}) erro
     windowSize := d.Get("window_size").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := monitorclient.MetricAlertResource{
+    parameters := monitorclient.MetricAlertResourcePatch{
         Location: utils.String(location),
         MetricAlertProperties: &monitorclient.MetricAlertProperties{
             Actions: expandArmMetricAlertMetricAlertAction(actions),
@@ -285,7 +285,7 @@ func resourceArmMetricAlertUpdate(d *schema.ResourceData, meta interface{}) erro
     windowSize := d.Get("window_size").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := monitorclient.MetricAlertResource{
+    parameters := monitorclient.MetricAlertResourcePatch{
         Location: utils.String(location),
         MetricAlertProperties: &monitorclient.MetricAlertProperties{
             Actions: expandArmMetricAlertMetricAlertAction(actions),

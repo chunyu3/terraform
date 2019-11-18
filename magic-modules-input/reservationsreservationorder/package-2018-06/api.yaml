@@ -22,6 +22,11 @@ objects:
         go_func_name: Get
         python_func_name: get
         request:
+          'reservationOrderId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: reservationOrders
+            go_variable_name: reservationOrderID
+            python_parameter_name: reservation_order_id
+            python_variable_name: reservation_order_id
         response:
           '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             go_field_name: Etag
@@ -271,6 +276,12 @@ objects:
     description: |
       Manage Azure ReservationOrder instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'reservationOrderId'
+        description: 'Order Id of the reservation<br>'
+        required: true
+        input: true
+        azure_sdk_references: ['reservationOrderId']
       # read only values included only in response
       - !ruby/object:Api::Type::Integer
         name: 'etag'

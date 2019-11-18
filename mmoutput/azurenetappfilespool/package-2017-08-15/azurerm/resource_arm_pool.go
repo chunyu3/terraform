@@ -113,9 +113,9 @@ func resourceArmPoolCreate(d *schema.ResourceData, meta interface{}) error {
     size := d.Get("size").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.CapacityPool{
+    body := azurenetappfiles.CapacityPoolPatch{
         Location: utils.String(location),
-        PoolProperties: &azurenetappfiles.PoolProperties{
+        PoolPatchProperties: &azurenetappfiles.PoolPatchProperties{
             ServiceLevel: azurenetappfiles.ServiceLevel(serviceLevel),
             Size: utils.Int64(int64(size)),
         },
@@ -174,11 +174,11 @@ func resourceArmPoolRead(d *schema.ResourceData, meta interface{}) error {
         d.Set("location", azure.NormalizeLocation(*location))
     }
     d.Set("account_name", accountName)
-    if poolProperties := resp.PoolProperties; poolProperties != nil {
-        d.Set("pool_id", poolProperties.PoolID)
-        d.Set("provisioning_state", poolProperties.ProvisioningState)
-        d.Set("service_level", string(poolProperties.ServiceLevel))
-        d.Set("size", int(*poolProperties.Size))
+    if poolPatchProperties := resp.PoolPatchProperties; poolPatchProperties != nil {
+        d.Set("pool_id", poolPatchProperties.PoolID)
+        d.Set("provisioning_state", poolPatchProperties.ProvisioningState)
+        d.Set("service_level", string(poolPatchProperties.ServiceLevel))
+        d.Set("size", int(*poolPatchProperties.Size))
     }
     d.Set("type", resp.Type)
 
@@ -196,9 +196,9 @@ func resourceArmPoolUpdate(d *schema.ResourceData, meta interface{}) error {
     size := d.Get("size").(int)
     t := d.Get("tags").(map[string]interface{})
 
-    body := azurenetappfiles.CapacityPool{
+    body := azurenetappfiles.CapacityPoolPatch{
         Location: utils.String(location),
-        PoolProperties: &azurenetappfiles.PoolProperties{
+        PoolPatchProperties: &azurenetappfiles.PoolPatchProperties{
             ServiceLevel: azurenetappfiles.ServiceLevel(serviceLevel),
             Size: utils.Int64(int64(size)),
         },

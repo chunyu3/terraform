@@ -28,7 +28,7 @@ Manage Azure ConnectionType instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The parameters supplied to the create or update connection type operation. Changing this forces a new resource to be created.
+* `name` - (Required) The name of connection type. Changing this forces a new resource to be created.
 
 * `name` - (Required) Gets or sets the name of the connection type. Changing this forces a new resource to be created.
 

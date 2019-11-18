@@ -29,14 +29,19 @@ objects:
             python_variable_name: scope
           'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprints
-            go_variable_name: name
+            go_variable_name: blueprintName
             python_parameter_name: blueprint_name
-            python_variable_name: name
+            python_variable_name: blueprint_name
           'versionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
             go_variable_name: versionID
             python_parameter_name: version_id
             python_variable_name: version_id
+          'artifactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: artifacts
+            go_variable_name: name
+            python_parameter_name: artifact_name
+            python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -58,9 +63,9 @@ objects:
             python_variable_name: scope
           'blueprintName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: blueprints
-            go_variable_name: name
+            go_variable_name: blueprintName
             python_parameter_name: blueprint_name
-            python_variable_name: name
+            python_variable_name: blueprint_name
           'versionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: versions
             go_variable_name: versionID
@@ -77,7 +82,7 @@ objects:
         input: true
         azure_sdk_references: ['scope']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'blueprintName'
         description: 'Name of the blueprint definition.'
         required: true
         input: true
@@ -88,6 +93,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['versionId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the blueprint artifact.'
+        required: true
+        input: true
+        azure_sdk_references: ['artifactName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

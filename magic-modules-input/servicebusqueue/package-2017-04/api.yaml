@@ -34,9 +34,9 @@ objects:
             python_variable_name: namespace_name
           'queueName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: queues
-            go_variable_name: name
+            go_variable_name: queueName
             python_parameter_name: queue_name
-            python_variable_name: name
+            python_variable_name: queue_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
             go_type_name: SBQueue
@@ -153,9 +153,9 @@ objects:
             python_variable_name: namespace_name
           'queueName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: queues
-            go_variable_name: name
+            go_variable_name: queueName
             python_parameter_name: queue_name
-            python_variable_name: name
+            python_variable_name: queue_name
       read: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Get
         python_func_name: get
@@ -172,9 +172,9 @@ objects:
             python_variable_name: namespace_name
           'queueName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: queues
-            go_variable_name: name
+            go_variable_name: queueName
             python_parameter_name: queue_name
-            python_variable_name: name
+            python_variable_name: queue_name
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
@@ -377,9 +377,9 @@ objects:
             python_variable_name: namespace_name
           'queueName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: queues
-            go_variable_name: name
+            go_variable_name: queueName
             python_parameter_name: queue_name
-            python_variable_name: name
+            python_variable_name: queue_name
 
     description: |
       Manage Azure Queue instance.
@@ -397,7 +397,7 @@ objects:
         input: true
         azure_sdk_references: ['namespaceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'queueName'
         description: 'The queue name.'
         required: true
         input: true
@@ -488,6 +488,12 @@ objects:
         description: 'Queue/Topic name to forward the Dead Letter message'
         required: false
         azure_sdk_references: ['/forwardDeadLetteredMessagesTo', '/properties/forwardDeadLetteredMessagesTo']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The authorization rule name.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
       # read only values included only in response
       - !ruby/object:Api::Type::NestedObject
         name: 'countDetails'

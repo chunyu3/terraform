@@ -34,9 +34,9 @@ objects:
             python_variable_name: operational_insights_resource_provider
           'workspaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: workspaces
-            go_variable_name: name
+            go_variable_name: workspaceName
             python_parameter_name: workspace_name
-            python_variable_name: name
+            python_variable_name: workspace_name
           'caseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: cases
             go_variable_name: caseID
@@ -59,7 +59,7 @@ objects:
         input: true
         azure_sdk_references: ['operationalInsightsResourceProvider']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'workspaceName'
         description: 'The name of the workspace.'
         required: true
         input: true
@@ -70,6 +70,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['caseId']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Relation Name'
+        required: true
+        input: true
+        azure_sdk_references: ['relationName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'nextLink'

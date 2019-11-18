@@ -45,9 +45,19 @@ func resourceArmSnapshot() *schema.Resource {
 
             "resource_group": azure.SchemaResourceGroupNameDiffSuppress(),
 
+            "account_type": {
+                Type: schema.TypeString,
+                Optional: true,
+                ValidateFunc: validation.StringInSlice([]string{
+                    string(compute.Standard_LRS),
+                    string(compute.Premium_LRS),
+                }, false),
+                Default: string(compute.Standard_LRS),
+            },
+
             "creation_data": {
                 Type: schema.TypeList,
-                Required: true,
+                Optional: true,
                 MaxItems: 1,
                 Elem: &schema.Resource{
                     Schema: map[string]*schema.Schema{
@@ -95,16 +105,6 @@ func resourceArmSnapshot() *schema.Resource {
                         },
                     },
                 },
-            },
-
-            "account_type": {
-                Type: schema.TypeString,
-                Optional: true,
-                ValidateFunc: validation.StringInSlice([]string{
-                    string(compute.Standard_LRS),
-                    string(compute.Premium_LRS),
-                }, false),
-                Default: string(compute.Standard_LRS),
             },
 
             "disk_size_gb": {
@@ -242,9 +242,9 @@ func resourceArmSnapshotCreate(d *schema.ResourceData, meta interface{}) error {
     osType := d.Get("os_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    snapshot := compute.Snapshot{
+    snapshot := compute.SnapshotUpdate{
         Location: utils.String(location),
-        DiskProperties: &compute.DiskProperties{
+        DiskUpdateProperties: &compute.DiskUpdateProperties{
             AccountType: compute.StorageAccountTypes(accountType),
             CreationData: expandArmSnapshotCreationData(creationData),
             DiskSizeGb: utils.Int32(int32(diskSizeGb)),
@@ -304,19 +304,19 @@ func resourceArmSnapshotRead(d *schema.ResourceData, meta interface{}) error {
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if diskProperties := resp.DiskProperties; diskProperties != nil {
-        d.Set("account_type", string(diskProperties.AccountType))
-        if err := d.Set("creation_data", flattenArmSnapshotCreationData(diskProperties.CreationData)); err != nil {
+    if diskUpdateProperties := resp.DiskUpdateProperties; diskUpdateProperties != nil {
+        d.Set("account_type", string(diskUpdateProperties.AccountType))
+        if err := d.Set("creation_data", flattenArmSnapshotCreationData(diskUpdateProperties.CreationData)); err != nil {
             return fmt.Errorf("Error setting `creation_data`: %+v", err)
         }
-        d.Set("disk_size_gb", int(*diskProperties.DiskSizeGb))
-        if err := d.Set("encryption_settings", flattenArmSnapshotEncryptionSettings(diskProperties.EncryptionSettings)); err != nil {
+        d.Set("disk_size_gb", int(*diskUpdateProperties.DiskSizeGb))
+        if err := d.Set("encryption_settings", flattenArmSnapshotEncryptionSettings(diskUpdateProperties.EncryptionSettings)); err != nil {
             return fmt.Errorf("Error setting `encryption_settings`: %+v", err)
         }
-        d.Set("os_type", string(diskProperties.OsType))
-        d.Set("owner_id", diskProperties.OwnerID)
-        d.Set("provisioning_state", diskProperties.ProvisioningState)
-        d.Set("time_created", (diskProperties.TimeCreated).String())
+        d.Set("os_type", string(diskUpdateProperties.OsType))
+        d.Set("owner_id", diskUpdateProperties.OwnerID)
+        d.Set("provisioning_state", diskUpdateProperties.ProvisioningState)
+        d.Set("time_created", (diskUpdateProperties.TimeCreated).String())
     }
     d.Set("type", resp.Type)
 
@@ -336,9 +336,9 @@ func resourceArmSnapshotUpdate(d *schema.ResourceData, meta interface{}) error {
     osType := d.Get("os_type").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    snapshot := compute.Snapshot{
+    snapshot := compute.SnapshotUpdate{
         Location: utils.String(location),
-        DiskProperties: &compute.DiskProperties{
+        DiskUpdateProperties: &compute.DiskUpdateProperties{
             AccountType: compute.StorageAccountTypes(accountType),
             CreationData: expandArmSnapshotCreationData(creationData),
             DiskSizeGb: utils.Int32(int32(diskSizeGb)),

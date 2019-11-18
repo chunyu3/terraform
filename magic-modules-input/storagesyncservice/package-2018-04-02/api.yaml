@@ -34,7 +34,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServiceCreateParameters
+            go_type_name: ServiceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -43,6 +43,9 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Object
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -59,7 +62,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: ServiceCreateParameters
+            go_type_name: ServiceUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -68,6 +71,9 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Object
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -103,19 +109,9 @@ objects:
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
-          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: ID
-            python_field_name: id
-          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Name
-            python_field_name: name
-          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Type
-            python_field_name: type
-          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
             applicable_to: [go]
-            go_field_name: ServiceProperties
-            go_type_name: ServiceProperties
+            go_field_name: Object
           '/properties/storageSyncServiceStatus': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
             applicable_to: [go]
             go_field_name: StorageSyncServiceStatus
@@ -128,6 +124,15 @@ objects:
           '/storageSyncServiceUid': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: storage_sync_service_uid
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBySubscription
         python_func_name: list_by_subscription
@@ -165,11 +170,21 @@ objects:
         azure_sdk_references: ['/location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
-        description: 'Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key with a length no greater than 128 characters and a value with a length no greater than 256 characters.'
+        description: 'The user-specified tags associated with the storage sync service.'
         required: false
         input: true
         azure_sdk_references: ['tags', '/tags']
       # read only values included only in response
+      - !ruby/object:Api::Type::Integer
+        name: 'storageSyncServiceStatus'
+        description: 'Storage Sync service status.'
+        output: true
+        azure_sdk_references: ['/storageSyncServiceStatus', '/properties/storageSyncServiceStatus']
+      - !ruby/object:Api::Type::String
+        name: 'storageSyncServiceUid'
+        description: 'Storage Sync service Uid'
+        output: true
+        azure_sdk_references: ['/storageSyncServiceUid', '/properties/storageSyncServiceUid']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
@@ -185,13 +200,3 @@ objects:
         description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
         output: true
         azure_sdk_references: ['/type']
-      - !ruby/object:Api::Type::Integer
-        name: 'storageSyncServiceStatus'
-        description: 'Storage Sync service status.'
-        output: true
-        azure_sdk_references: ['/storageSyncServiceStatus', '/properties/storageSyncServiceStatus']
-      - !ruby/object:Api::Type::String
-        name: 'storageSyncServiceUid'
-        description: 'Storage Sync service Uid'
-        output: true
-        azure_sdk_references: ['/storageSyncServiceUid', '/properties/storageSyncServiceUid']

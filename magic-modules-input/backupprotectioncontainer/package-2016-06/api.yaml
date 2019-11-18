@@ -29,8 +29,18 @@ objects:
             python_variable_name: resource_group
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: vaults
-            go_variable_name: name
+            go_variable_name: vaultName
             python_parameter_name: vault_name
+            python_variable_name: vault_name
+          'fabricName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: backupFabrics
+            go_variable_name: fabricName
+            python_parameter_name: fabric_name
+            python_variable_name: fabric_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: protectionContainers
+            go_variable_name: name
+            python_parameter_name: container_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -97,15 +107,15 @@ objects:
             python_variable_name: resource_group
           'vaultName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: vaults
-            go_variable_name: name
+            go_variable_name: vaultName
             python_parameter_name: vault_name
-            python_variable_name: name
+            python_variable_name: vault_name
 
     description: |
       Manage Azure ProtectionContainer instance.
     properties:
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'vaultName'
         description: 'The name of the Recovery Services vault.'
         required: true
         input: true
@@ -116,6 +126,18 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'fabricName'
+        description: 'The fabric name associated with the container.'
+        required: true
+        input: true
+        azure_sdk_references: ['fabricName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The container name used for this GET operation.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

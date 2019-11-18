@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: server_name
             python_variable_name: name
+          'restorableDroppededDatabaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: restorableDroppedDatabases
+            go_variable_name: restorableDroppededDatabaseID
+            python_parameter_name: restorable_droppeded_database_id
+            python_variable_name: restorable_droppeded_database_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -127,6 +132,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'restorableDroppededDatabaseId'
+        description: 'The id of the deleted database in the form of databaseName,deletionTimeInFileTimeFormat'
+        required: true
+        input: true
+        azure_sdk_references: ['restorableDroppededDatabaseId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

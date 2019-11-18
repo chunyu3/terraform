@@ -129,7 +129,7 @@ func resourceArmServerCreate(d *schema.ResourceData, meta interface{}) error {
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.Server{
+    parameters := sql.ServerUpdate{
         Identity: expandArmServerResourceIdentity(identity),
         Location: utils.String(location),
         ServerProperties: &sql.ServerProperties{
@@ -218,7 +218,7 @@ func resourceArmServerUpdate(d *schema.ResourceData, meta interface{}) error {
     version := d.Get("version").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    parameters := sql.Server{
+    parameters := sql.ServerUpdate{
         Identity: expandArmServerResourceIdentity(identity),
         Location: utils.String(location),
         ServerProperties: &sql.ServerProperties{

@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'commitmentPlanName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: commitmentPlans
-            go_variable_name: name
+            go_variable_name: commitmentPlanName
             python_parameter_name: commitment_plan_name
+            python_variable_name: commitment_plan_name
+          'commitmentAssociationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: commitmentAssociations
+            go_variable_name: name
+            python_parameter_name: commitment_association_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -84,9 +89,9 @@ objects:
             python_variable_name: resource_group
           'commitmentPlanName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: commitmentPlans
-            go_variable_name: name
+            go_variable_name: commitmentPlanName
             python_parameter_name: commitment_plan_name
-            python_variable_name: name
+            python_variable_name: commitment_plan_name
 
     description: |
       Manage Azure CommitmentAssociation instance.
@@ -98,11 +103,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'commitmentPlanName'
         description: 'The Azure ML commitment plan name.'
         required: true
         input: true
         azure_sdk_references: ['commitmentPlanName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The commitment association name.'
+        required: true
+        input: true
+        azure_sdk_references: ['commitmentAssociationName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

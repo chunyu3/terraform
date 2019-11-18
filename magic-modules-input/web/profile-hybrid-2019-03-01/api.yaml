@@ -30,10 +30,40 @@ objects:
         go_func_name: ListGeoRegions
         python_func_name: list_geo_regions
         request:
+          'sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: sku
+            python_parameter_name: sku
+            python_variable_name: sku
+          'linuxWorkersEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: linuxWorkersEnabled
+            python_parameter_name: linux_workers_enabled
+            python_variable_name: linux_workers_enabled
+          'xenonWorkersEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: xenonWorkersEnabled
+            python_parameter_name: xenon_workers_enabled
+            python_variable_name: xenon_workers_enabled
+          'linuxDynamicWorkersEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: linuxDynamicWorkersEnabled
+            python_parameter_name: linux_dynamic_workers_enabled
+            python_variable_name: linux_dynamic_workers_enabled
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListBillingMeters
         python_func_name: list_billing_meters
         request:
+          'billingLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: billingLocation
+            python_parameter_name: billing_location
+            python_variable_name: billing_location
+          'osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: osType
+            python_parameter_name: os_type
+            python_variable_name: os_type
       list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListPremierAddOnOffers
         python_func_name: list_premier_add_on_offers
@@ -42,6 +72,48 @@ objects:
     description: |
       Manage Azure  instance.
     properties:
+      - !ruby/object:Api::Type::String
+        name: 'sourceControlType'
+        description: 'Type of source control'
+        required: true
+        input: true
+        azure_sdk_references: ['sourceControlType']
+      - !ruby/object:Api::Type::String
+        name: 'sku'
+        description: 'Name of SKU used to filter the regions.'
+        required: false
+        input: true
+        azure_sdk_references: ['sku']
+      - !ruby/object:Api::Type::Boolean
+        name: 'linuxWorkersEnabled'
+        description: 'Specify <code>true</code> if you want to filter to only regions that support Linux workers.'
+        required: false
+        input: true
+        azure_sdk_references: ['linuxWorkersEnabled']
+      - !ruby/object:Api::Type::Boolean
+        name: 'xenonWorkersEnabled'
+        description: 'Specify <code>true</code> if you want to filter to only regions that support Xenon workers.'
+        required: false
+        input: true
+        azure_sdk_references: ['xenonWorkersEnabled']
+      - !ruby/object:Api::Type::Boolean
+        name: 'linuxDynamicWorkersEnabled'
+        description: 'Specify <code>true</code> if you want to filter to only regions that support Linux Consumption Workers.'
+        required: false
+        input: true
+        azure_sdk_references: ['linuxDynamicWorkersEnabled']
+      - !ruby/object:Api::Type::String
+        name: 'billingLocation'
+        description: 'Azure Location of billable resource'
+        required: false
+        input: true
+        azure_sdk_references: ['billingLocation']
+      - !ruby/object:Api::Type::String
+        name: 'osType'
+        description: 'App Service OS type meters used for'
+        required: false
+        input: true
+        azure_sdk_references: ['osType']
       # read only values included only in response
       - !ruby/object:Api::Type::Array
         name: 'value'

@@ -32,6 +32,11 @@ objects:
             go_variable_name: name
             python_parameter_name: storage_sync_service_name
             python_variable_name: name
+          'workflowId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: workflows
+            go_variable_name: workflowID
+            python_parameter_name: workflow_id
+            python_variable_name: workflow_id
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
@@ -108,6 +113,12 @@ objects:
         required: true
         input: true
         azure_sdk_references: ['storageSyncServiceName']
+      - !ruby/object:Api::Type::String
+        name: 'workflowId'
+        description: 'workflow Id'
+        required: true
+        input: true
+        azure_sdk_references: ['workflowId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

@@ -295,6 +295,11 @@ objects:
             go_variable_name: name
             python_parameter_name: web_service_name
             python_variable_name: name
+          'region': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: region
+            python_parameter_name: region
+            python_variable_name: region
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -822,6 +827,12 @@ objects:
             description: 'Access credentials for the blob, if applicable (e.g. blob specified by storage account connection string + blob URI)'
             required: false
             azure_sdk_references: ['/payloadsLocation/credentials', '/properties/payloadsLocation/credentials']
+      - !ruby/object:Api::Type::String
+        name: 'region'
+        description: 'The region for which encrypted credential parameters are valid.'
+        required: false
+        input: true
+        azure_sdk_references: ['region']
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'createdOn'

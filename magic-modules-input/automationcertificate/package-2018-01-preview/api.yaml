@@ -39,7 +39,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CertificateCreateOrUpdateParameters
+            go_type_name: CertificateUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -47,32 +47,14 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CertificateCreateOrUpdateProperties
-            go_type_name: CertificateCreateOrUpdateProperties
-          '/base64Value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: base64value
-          '/properties/base64Value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Base64value
+            go_field_name: CertificateUpdateProperties
+            go_type_name: CertificateUpdateProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: thumbprint
-          '/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Thumbprint
-          '/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_exportable
-          '/properties/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsExportable
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -94,7 +76,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: CertificateCreateOrUpdateParameters
+            go_type_name: CertificateUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -102,32 +84,14 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CertificateCreateOrUpdateProperties
-            go_type_name: CertificateCreateOrUpdateProperties
-          '/base64Value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: base64value
-          '/properties/base64Value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Base64value
+            go_field_name: CertificateUpdateProperties
+            go_type_name: CertificateUpdateProperties
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
-          '/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [python]
-            python_field_name: thumbprint
-          '/properties/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            applicable_to: [go]
-            go_field_name: Thumbprint
-          '/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_exportable
-          '/properties/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsExportable
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -172,8 +136,8 @@ objects:
             python_field_name: name
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: CertificateCreateOrUpdateProperties
-            go_type_name: CertificateCreateOrUpdateProperties
+            go_field_name: CertificateUpdateProperties
+            go_type_name: CertificateUpdateProperties
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -186,18 +150,18 @@ objects:
           '/thumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: thumbprint
-          '/properties/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [go]
-            go_field_name: IsExportable
-          '/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
-            applicable_to: [python]
-            python_field_name: is_exportable
           '/properties/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: ExpiryTime
           '/expiryTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [python]
             python_field_name: expiry_time
+          '/properties/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsExportable
+          '/isExportable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_exportable
           '/properties/creationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreationTime
@@ -248,42 +212,37 @@ objects:
         azure_sdk_references: ['automationAccountName']
       - !ruby/object:Api::Type::String
         name: 'name'
-        description: 'The parameters supplied to the create or update certificate operation.'
+        description: 'The name of certificate.'
         required: true
         input: true
         azure_sdk_references: ['certificateName']
       - !ruby/object:Api::Type::String
         name: 'name'
         description: 'Gets or sets the name of the certificate.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/name']
-      - !ruby/object:Api::Type::String
-        name: 'base64value'
-        description: 'Gets or sets the base64 encoded value of the certificate.'
-        required: true
-        azure_sdk_references: ['/base64Value', '/properties/base64Value']
       - !ruby/object:Api::Type::String
         name: 'description'
         description: 'Gets or sets the description of the certificate.'
         required: false
         azure_sdk_references: ['/description', '/properties/description']
+      # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'thumbprint'
-        description: 'Gets or sets the thumbprint of the certificate.'
-        required: false
+        description: 'Gets the thumbprint of the certificate.'
+        output: true
         azure_sdk_references: ['/thumbprint', '/properties/thumbprint']
-      - !ruby/object:Api::Type::Boolean
-        name: 'isExportable'
-        description: 'Gets or sets the is exportable flag of the certificate.'
-        required: false
-        azure_sdk_references: ['/isExportable', '/properties/isExportable']
-      # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'expiryTime'
         description: 'Gets the expiry time of the certificate.'
         output: true
         azure_sdk_references: ['/expiryTime', '/properties/expiryTime']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isExportable'
+        description: 'Gets the is exportable flag of the certificate.'
+        output: true
+        azure_sdk_references: ['/isExportable', '/properties/isExportable']
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationTime'
         description: 'Gets the creation time.'

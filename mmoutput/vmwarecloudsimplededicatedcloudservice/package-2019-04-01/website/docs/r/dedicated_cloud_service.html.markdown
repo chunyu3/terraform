@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `gateway_subnet` - (Required) gateway Subnet for the account. It will collect the subnet address and always treat it as /28
 
-* `tags` - (Optional) The list of tags Changing this forces a new resource to be created.
+* `tags` - (Optional) The tags key:value pairs Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

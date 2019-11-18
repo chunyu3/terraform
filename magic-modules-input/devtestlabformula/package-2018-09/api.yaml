@@ -40,7 +40,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: formula
-            go_type_name: Formula
+            go_type_name: FormulaFragment
             python_parameter_name: formula
             python_variable_name: formula
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -51,8 +51,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FormulaProperties
-            go_type_name: FormulaProperties
+            go_field_name: FormulaPropertiesFragment
+            go_type_name: FormulaPropertiesFragment
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -353,15 +353,15 @@ objects:
           '/properties/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: FormulaContent
-            go_type_name: LabVirtualMachineCreationParameter
+            go_type_name: LabVirtualMachineCreationParameterFragment
           '/properties/formulaContent/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LabVirtualMachineCreationParameterProperties
-            go_type_name: LabVirtualMachineCreationParameterProperties
+            go_field_name: LabVirtualMachineCreationParameterPropertiesFragment
+            go_type_name: LabVirtualMachineCreationParameterPropertiesFragment
           '/properties/formulaContent/properties/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: BulkCreationParameters
-            go_type_name: BulkCreationParameters
+            go_type_name: BulkCreationParametersFragment
           '/properties/formulaContent/properties/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: InstanceCount
@@ -422,7 +422,7 @@ objects:
           '/properties/formulaContent/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Artifacts
-            go_type_name: ArtifactInstallProperties
+            go_type_name: ArtifactInstallPropertiesFragment
           '/properties/formulaContent/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ArtifactID
@@ -432,7 +432,7 @@ objects:
           '/properties/formulaContent/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Parameters
-            go_type_name: ArtifactParameterProperties
+            go_type_name: ArtifactParameterPropertiesFragment
           '/properties/formulaContent/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -454,7 +454,7 @@ objects:
           '/properties/formulaContent/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ArtifactDeploymentStatus
-            go_type_name: ArtifactDeploymentStatusProperties
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
           '/properties/formulaContent/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DeploymentStatus
@@ -467,7 +467,7 @@ objects:
           '/properties/formulaContent/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GalleryImageReference
-            go_type_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
           '/properties/formulaContent/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Offer
@@ -489,7 +489,7 @@ objects:
           '/properties/formulaContent/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkInterface
-            go_type_name: NetworkInterfaceProperties
+            go_type_name: NetworkInterfacePropertiesFragment
           '/properties/formulaContent/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VirtualNetworkID
@@ -517,11 +517,11 @@ objects:
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SharedPublicIpAddressConfiguration
-            go_type_name: SharedPublicIpAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
+            go_type_name: InboundNatRuleFragment
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: TransportProtocol
@@ -551,11 +551,11 @@ objects:
           '/properties/formulaContent/properties/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDiskParameters
-            go_type_name: DataDiskProperties
+            go_type_name: DataDiskPropertiesFragment
           '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: AttachNewDataDiskOptions
-            go_type_name: AttachNewDataDiskOptions
+            go_type_name: AttachNewDataDiskOptionsFragment
           '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: DiskSizeGiB
@@ -576,11 +576,11 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ScheduleParameters
-            go_type_name: ScheduleCreationParameter
+            go_type_name: ScheduleCreationParameterFragment
           '/properties/formulaContent/properties/scheduleParameters/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleCreationParameterProperties
-            go_type_name: ScheduleCreationParameterProperties
+            go_field_name: ScheduleCreationParameterPropertiesFragment
+            go_type_name: ScheduleCreationParameterPropertiesFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -591,7 +591,7 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -601,14 +601,14 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -618,7 +618,7 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -668,7 +668,7 @@ objects:
           '/properties/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Vm
-            go_type_name: FormulaPropertiesFromVm
+            go_type_name: FormulaPropertiesFromVmFragment
           '/properties/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LabVmID
@@ -693,7 +693,7 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: formula
-            go_type_name: Formula
+            go_type_name: FormulaFragment
             python_parameter_name: formula
             python_variable_name: formula
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -704,8 +704,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FormulaProperties
-            go_type_name: FormulaProperties
+            go_field_name: FormulaPropertiesFragment
+            go_type_name: FormulaPropertiesFragment
           '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: description
@@ -1006,15 +1006,15 @@ objects:
           '/properties/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: FormulaContent
-            go_type_name: LabVirtualMachineCreationParameter
+            go_type_name: LabVirtualMachineCreationParameterFragment
           '/properties/formulaContent/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LabVirtualMachineCreationParameterProperties
-            go_type_name: LabVirtualMachineCreationParameterProperties
+            go_field_name: LabVirtualMachineCreationParameterPropertiesFragment
+            go_type_name: LabVirtualMachineCreationParameterPropertiesFragment
           '/properties/formulaContent/properties/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: BulkCreationParameters
-            go_type_name: BulkCreationParameters
+            go_type_name: BulkCreationParametersFragment
           '/properties/formulaContent/properties/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: InstanceCount
@@ -1075,7 +1075,7 @@ objects:
           '/properties/formulaContent/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Artifacts
-            go_type_name: ArtifactInstallProperties
+            go_type_name: ArtifactInstallPropertiesFragment
           '/properties/formulaContent/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ArtifactID
@@ -1085,7 +1085,7 @@ objects:
           '/properties/formulaContent/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Parameters
-            go_type_name: ArtifactParameterProperties
+            go_type_name: ArtifactParameterPropertiesFragment
           '/properties/formulaContent/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -1107,7 +1107,7 @@ objects:
           '/properties/formulaContent/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ArtifactDeploymentStatus
-            go_type_name: ArtifactDeploymentStatusProperties
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
           '/properties/formulaContent/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DeploymentStatus
@@ -1120,7 +1120,7 @@ objects:
           '/properties/formulaContent/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GalleryImageReference
-            go_type_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
           '/properties/formulaContent/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Offer
@@ -1142,7 +1142,7 @@ objects:
           '/properties/formulaContent/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkInterface
-            go_type_name: NetworkInterfaceProperties
+            go_type_name: NetworkInterfacePropertiesFragment
           '/properties/formulaContent/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VirtualNetworkID
@@ -1170,11 +1170,11 @@ objects:
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SharedPublicIpAddressConfiguration
-            go_type_name: SharedPublicIpAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
+            go_type_name: InboundNatRuleFragment
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: TransportProtocol
@@ -1204,11 +1204,11 @@ objects:
           '/properties/formulaContent/properties/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDiskParameters
-            go_type_name: DataDiskProperties
+            go_type_name: DataDiskPropertiesFragment
           '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: AttachNewDataDiskOptions
-            go_type_name: AttachNewDataDiskOptions
+            go_type_name: AttachNewDataDiskOptionsFragment
           '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: DiskSizeGiB
@@ -1229,11 +1229,11 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ScheduleParameters
-            go_type_name: ScheduleCreationParameter
+            go_type_name: ScheduleCreationParameterFragment
           '/properties/formulaContent/properties/scheduleParameters/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleCreationParameterProperties
-            go_type_name: ScheduleCreationParameterProperties
+            go_field_name: ScheduleCreationParameterPropertiesFragment
+            go_type_name: ScheduleCreationParameterPropertiesFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1244,7 +1244,7 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -1254,14 +1254,14 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -1271,7 +1271,7 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1321,7 +1321,7 @@ objects:
           '/properties/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Vm
-            go_type_name: FormulaPropertiesFromVm
+            go_type_name: FormulaPropertiesFromVmFragment
           '/properties/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LabVmID
@@ -1377,8 +1377,8 @@ objects:
             python_field_name: tags
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: FormulaProperties
-            go_type_name: FormulaProperties
+            go_field_name: FormulaPropertiesFragment
+            go_type_name: FormulaPropertiesFragment
           '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Description
@@ -1400,15 +1400,15 @@ objects:
           '/properties/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: FormulaContent
-            go_type_name: LabVirtualMachineCreationParameter
+            go_type_name: LabVirtualMachineCreationParameterFragment
           '/properties/formulaContent/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: LabVirtualMachineCreationParameterProperties
-            go_type_name: LabVirtualMachineCreationParameterProperties
+            go_field_name: LabVirtualMachineCreationParameterPropertiesFragment
+            go_type_name: LabVirtualMachineCreationParameterPropertiesFragment
           '/properties/formulaContent/properties/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: BulkCreationParameters
-            go_type_name: BulkCreationParameters
+            go_type_name: BulkCreationParametersFragment
           '/properties/formulaContent/properties/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: InstanceCount
@@ -1469,7 +1469,7 @@ objects:
           '/properties/formulaContent/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Artifacts
-            go_type_name: ArtifactInstallProperties
+            go_type_name: ArtifactInstallPropertiesFragment
           '/properties/formulaContent/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ArtifactID
@@ -1479,7 +1479,7 @@ objects:
           '/properties/formulaContent/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: Parameters
-            go_type_name: ArtifactParameterProperties
+            go_type_name: ArtifactParameterPropertiesFragment
           '/properties/formulaContent/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Name
@@ -1501,7 +1501,7 @@ objects:
           '/properties/formulaContent/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: ArtifactDeploymentStatus
-            go_type_name: ArtifactDeploymentStatusProperties
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
           '/properties/formulaContent/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: DeploymentStatus
@@ -1514,7 +1514,7 @@ objects:
           '/properties/formulaContent/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: GalleryImageReference
-            go_type_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
           '/properties/formulaContent/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Offer
@@ -1536,7 +1536,7 @@ objects:
           '/properties/formulaContent/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NetworkInterface
-            go_type_name: NetworkInterfaceProperties
+            go_type_name: NetworkInterfacePropertiesFragment
           '/properties/formulaContent/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: VirtualNetworkID
@@ -1564,11 +1564,11 @@ objects:
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: SharedPublicIpAddressConfiguration
-            go_type_name: SharedPublicIpAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: InboundNatRules
-            go_type_name: InboundNatRule
+            go_type_name: InboundNatRuleFragment
           '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: TransportProtocol
@@ -1598,11 +1598,11 @@ objects:
           '/properties/formulaContent/properties/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: DataDiskParameters
-            go_type_name: DataDiskProperties
+            go_type_name: DataDiskPropertiesFragment
           '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: AttachNewDataDiskOptions
-            go_type_name: AttachNewDataDiskOptions
+            go_type_name: AttachNewDataDiskOptionsFragment
           '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: DiskSizeGiB
@@ -1623,11 +1623,11 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: ScheduleParameters
-            go_type_name: ScheduleCreationParameter
+            go_type_name: ScheduleCreationParameterFragment
           '/properties/formulaContent/properties/scheduleParameters/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: ScheduleCreationParameterProperties
-            go_type_name: ScheduleCreationParameterProperties
+            go_field_name: ScheduleCreationParameterPropertiesFragment
+            go_type_name: ScheduleCreationParameterPropertiesFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1638,7 +1638,7 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: WeeklyRecurrence
-            go_type_name: WeekDetails
+            go_type_name: WeekDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
             applicable_to: [go]
             go_field_name: Weekdays
@@ -1648,14 +1648,14 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: DailyRecurrence
-            go_type_name: DayDetails
+            go_type_name: DayDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: Time
           '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: HourlyRecurrence
-            go_type_name: HourDetails
+            go_type_name: HourDetailsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
             applicable_to: [go]
             go_field_name: Minute
@@ -1665,7 +1665,7 @@ objects:
           '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: NotificationSettings
-            go_type_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
           '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
             go_field_name: Status
@@ -1988,7 +1988,7 @@ objects:
           '/properties/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Vm
-            go_type_name: FormulaPropertiesFromVm
+            go_type_name: FormulaPropertiesFromVmFragment
           '/properties/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: LabVmID

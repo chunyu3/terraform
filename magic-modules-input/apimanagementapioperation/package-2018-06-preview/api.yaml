@@ -44,13 +44,13 @@ objects:
             python_variable_name: operation_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationContract
+            go_type_name: OperationUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: OperationContractProperties
-            go_type_name: OperationContractProperties
+            go_field_name: OperationUpdateContractProperties
+            go_type_name: OperationUpdateContractProperties
           '/templateParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: template_parameters
@@ -459,13 +459,13 @@ objects:
             python_variable_name: operation_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: OperationContract
+            go_type_name: OperationUpdateContract
             python_parameter_name: parameters
             python_variable_name: parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: OperationContractProperties
-            go_type_name: OperationContractProperties
+            go_field_name: OperationUpdateContractProperties
+            go_type_name: OperationUpdateContractProperties
           '/templateParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [python]
             python_field_name: template_parameters
@@ -899,8 +899,8 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: OperationContractProperties
-            go_type_name: OperationContractProperties
+            go_field_name: OperationUpdateContractProperties
+            go_type_name: OperationUpdateContractProperties
           '/properties/templateParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
             applicable_to: [go]
             go_field_name: TemplateParameters
@@ -1311,6 +1311,11 @@ objects:
             go_variable_name: apiID
             python_parameter_name: api_id
             python_variable_name: api_id
+          'tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: tags
+            python_parameter_name: tags
+            python_variable_name: tags
 
     description: |
       Manage Azure ApiOperation instance.
@@ -1662,18 +1667,24 @@ objects:
       - !ruby/object:Api::Type::String
         name: 'displayName'
         description: 'Operation Name.'
-        required: true
+        required: false
         azure_sdk_references: ['/displayName', '/properties/displayName']
       - !ruby/object:Api::Type::String
         name: 'method'
         description: 'A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them.'
-        required: true
+        required: false
         azure_sdk_references: ['/method', '/properties/method']
       - !ruby/object:Api::Type::String
         name: 'urlTemplate'
         description: 'Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date}'
-        required: true
+        required: false
         azure_sdk_references: ['/urlTemplate', '/properties/urlTemplate']
+      - !ruby/object:Api::Type::String
+        name: 'tags'
+        description: ''
+        required: false
+        input: true
+        azure_sdk_references: ['tags']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

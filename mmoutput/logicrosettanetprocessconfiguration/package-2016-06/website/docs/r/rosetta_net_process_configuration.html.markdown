@@ -28,7 +28,7 @@ Manage Azure RosettaNetProcessConfiguration instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The integration account RosettaNet ProcessConfiguration name. Changing this forces a new resource to be created.
+* `name` - (Required) The integration account RosettaNetProcessConfiguration name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The resource group name. Changing this forces a new resource to be created.
 

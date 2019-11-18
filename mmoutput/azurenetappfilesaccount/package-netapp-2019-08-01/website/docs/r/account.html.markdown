@@ -32,7 +32,7 @@ The following arguments are supported:
 
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
-* `location` - (Required) Resource location Changing this forces a new resource to be created.
+* `location` - (Optional) Resource location Changing this forces a new resource to be created.
 
 * `active_directories` - (Optional) One or more `active_directory` block defined below.
 

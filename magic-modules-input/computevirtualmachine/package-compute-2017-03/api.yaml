@@ -38,9 +38,6 @@ objects:
             go_type_name: VirtualMachine
             python_parameter_name: parameters
             python_variable_name: parameters
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -669,9 +666,11 @@ objects:
             python_parameter_name: vm_name
             python_variable_name: name
         response:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
           '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
             go_field_name: Tags
             python_field_name: tags
@@ -1934,9 +1933,11 @@ objects:
         go_func_name: ListByLocation
         python_func_name: list_by_location
         request:
-          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: Location
-            python_field_name: location
+          'location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: location
+            python_parameter_name: location
+            python_variable_name: location
       list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -1978,10 +1979,10 @@ objects:
         azure_sdk_references: ['vmName']
       - !ruby/object:Api::Azure::Type::Location
         name: 'location'
-        description: 'Resource location'
+        description: 'The location for which virtual machines under the subscription are queried.'
         required: true
         input: true
-        azure_sdk_references: ['/location']
+        azure_sdk_references: ['location']
       - !ruby/object:Api::Azure::Type::Tags
         name: 'tags'
         description: 'Resource tags'

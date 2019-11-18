@@ -39,7 +39,7 @@ objects:
             python_variable_name: backendid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BackendContract
+            go_type_name: BackendUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
@@ -110,7 +110,7 @@ objects:
             python_variable_name: backendid
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: BackendContract
+            go_type_name: BackendUpdateParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/certificate': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
@@ -353,12 +353,13 @@ objects:
       - !ruby/object:Api::Type::Enum
         name: 'protocol'
         description: 'Backend communication protocol.'
-        required: true
+        required: false
         input: true
         azure_sdk_references: ['/protocol']
         values:
           - :http
           - :soap
+        default_value: :http
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

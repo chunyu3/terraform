@@ -28,7 +28,7 @@ Manage Azure ManagedInstanceAdministrator instance.
 
 The following arguments are supported:
 
-* `name` - (Required) The requested administrator name. Changing this forces a new resource to be created.
+* `name` - (Required) The administrator name. Changing this forces a new resource to be created.
 
 * `resource_group` - (Required) The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. Changing this forces a new resource to be created.
 

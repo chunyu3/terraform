@@ -30,17 +30,17 @@ The following arguments are supported:
 
 * `name` - (Required) The name of the API Management service. Changing this forces a new resource to be created.
 
-* `name` - (Required) Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters. Changing this forces a new resource to be created.
-
 * `resource_group` - (Required) The name of the resource group. Changing this forces a new resource to be created.
 
 * `prop_id` - (Required) Identifier of the property. Changing this forces a new resource to be created.
 
-* `value` - (Required) Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace. Changing this forces a new resource to be created.
+* `name` - (Optional) Unique name of Property. It may contain only letters, digits, period, dash, and underscore characters. Changing this forces a new resource to be created.
 
 * `secret` - (Optional) Determines whether the value is a secret and should be encrypted or not. Default value is false. Changing this forces a new resource to be created.
 
 * `tags` - (Optional) Optional tags that when provided can be used to filter the property list. Changing this forces a new resource to be created.
+
+* `value` - (Optional) Value of the property. Can contain policy expressions. It may not be empty or consist only of whitespace. Changing this forces a new resource to be created.
 
 ## Attributes Reference
 

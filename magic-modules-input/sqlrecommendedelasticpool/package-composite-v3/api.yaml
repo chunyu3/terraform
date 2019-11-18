@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
+            python_variable_name: server_name
+          'recommendedElasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recommendedElasticPools
+            go_variable_name: name
+            python_parameter_name: recommended_elastic_pool_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -174,9 +179,9 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
-            python_variable_name: name
+            python_variable_name: server_name
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: ListMetrics
         python_func_name: list_metrics
@@ -188,8 +193,13 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
+            python_variable_name: server_name
+          'recommendedElasticPoolName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: recommendedElasticPools
+            go_variable_name: name
+            python_parameter_name: recommended_elastic_pool_name
             python_variable_name: name
 
     description: |
@@ -202,11 +212,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'serverName'
         description: 'The name of the server.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the recommended elastic pool to be retrieved.'
+        required: true
+        input: true
+        azure_sdk_references: ['recommendedElasticPoolName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

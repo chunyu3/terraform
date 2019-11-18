@@ -91,7 +91,7 @@ func resourceArmDashboardCreate(d *schema.ResourceData, meta interface{}) error 
     metadata := d.Get("metadata").(map[string]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    dashboard := portal.Dashboard{
+    dashboard := portal.PatchableDashboard{
         Location: utils.String(location),
         DashboardProperties: &portal.DashboardProperties{
             Lenses: utils.ExpandKeyValuePairs(lenses),
@@ -165,7 +165,7 @@ func resourceArmDashboardUpdate(d *schema.ResourceData, meta interface{}) error 
     metadata := d.Get("metadata").(map[string]interface{})
     t := d.Get("tags").(map[string]interface{})
 
-    dashboard := portal.Dashboard{
+    dashboard := portal.PatchableDashboard{
         Location: utils.String(location),
         DashboardProperties: &portal.DashboardProperties{
             Lenses: utils.ExpandKeyValuePairs(lenses),

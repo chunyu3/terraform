@@ -45,20 +45,21 @@ objects:
             python_variable_name: token_create_parameters
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: TokenProperties
-            go_type_name: TokenProperties
+            go_field_name: TokenUpdateProperties
+            go_type_name: TokenUpdateProperties
           '/scopeMapId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: scope_map_id
           '/properties/scopeMapId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ScopeMapID
-          '/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: object_id
-          '/properties/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            python_field_name: status
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: ObjectID
+            go_field_name: Status
+            go_enum_type_name: TokenStatus
           '/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [python]
             python_field_name: credentials
@@ -124,13 +125,6 @@ objects:
             applicable_to: [go]
             go_field_name: Name
             go_enum_type_name: TokenPasswordName
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: status
-          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Status
-            go_enum_type_name: TokenStatus
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         async: true
         go_func_name: Update
@@ -193,20 +187,21 @@ objects:
         response:
           '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
-            go_field_name: TokenProperties
-            go_type_name: TokenProperties
+            go_field_name: TokenUpdateProperties
+            go_type_name: TokenUpdateProperties
           '/properties/scopeMapId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [go]
             go_field_name: ScopeMapID
           '/scopeMapId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: scope_map_id
-          '/properties/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [go]
-            go_field_name: ObjectID
-          '/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            go_enum_type_name: TokenStatus
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
-            python_field_name: object_id
+            python_field_name: status
           '/properties/credentials': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             applicable_to: [go]
             go_field_name: Credentials
@@ -278,13 +273,6 @@ objects:
           '/credentials/passwords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             applicable_to: [python]
             python_field_name: value
-          '/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [go]
-            go_field_name: Status
-            go_enum_type_name: TokenStatus
-          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
-            applicable_to: [python]
-            python_field_name: status
           '/properties/creationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             applicable_to: [go]
             go_field_name: CreationDate
@@ -298,6 +286,12 @@ objects:
           '/provisioningState': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
             applicable_to: [python]
             python_field_name: provisioning_state
+          '/properties/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ObjectID
+          '/objectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: object_id
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -348,11 +342,15 @@ objects:
         description: 'The resource ID of the scope map to which the token will be associated with.'
         required: false
         azure_sdk_references: ['/scopeMapId', '/properties/scopeMapId']
-      - !ruby/object:Api::Type::String
-        name: 'objectId'
-        description: 'The user/group/application object ID for which the token has to be created.'
+      - !ruby/object:Api::Type::Enum
+        name: 'status'
+        description: 'The status of the token example enabled or disabled.'
         required: false
-        azure_sdk_references: ['/objectId', '/properties/objectId']
+        azure_sdk_references: ['/status', '/properties/status']
+        values:
+          - :enabled
+          - :disabled
+        default_value: :enabled
       - !ruby/object:Api::Type::NestedObject
         name: 'credentials'
         description: 'The credentials that can be used for authenticating the token.'
@@ -416,15 +414,6 @@ objects:
                     - :password1
                     - :password2
                   default_value: :password1
-      - !ruby/object:Api::Type::Enum
-        name: 'status'
-        description: 'The status of the token example enabled or disabled.'
-        required: false
-        azure_sdk_references: ['/status', '/properties/status']
-        values:
-          - :enabled
-          - :disabled
-        default_value: :enabled
       # read only values included only in response
       - !ruby/object:Api::Azure::Type::ISO8601DateTime
         name: 'creationDate'
@@ -443,6 +432,11 @@ objects:
           - :Succeeded
           - :Failed
           - :Canceled
+      - !ruby/object:Api::Type::String
+        name: 'objectId'
+        description: 'The user/group/application object ID for which the token has to be created.'
+        output: true
+        azure_sdk_references: ['/objectId', '/properties/objectId']
       - !ruby/object:Api::Type::String
         name: 'id'
         description: 'The resource ID.'

@@ -6,4 +6,19 @@ task: !ruby/object:Provider::Ansible::Task
     resource_group: myResourceGroup
     registry_name: myRegistry
     name: myBuildTask
+    build_task_update_parameters:
+      properties:
+        alias: myalias
+        status: Disabled
+        base_image_trigger: Runtime
+        sourceRepository:
+          sourceControlAuthProperties:
+            token: xxxxx
+            scope: repo
+          isCommitTriggerEnabled: false
+        platform:
+          osType: Linux
+          cpu: '2'
+      tags:
+        key: value
   

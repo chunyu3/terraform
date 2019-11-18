@@ -29,8 +29,13 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
+            python_variable_name: server_name
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: privateLinkResources
+            go_variable_name: name
+            python_parameter_name: group_name
             python_variable_name: name
         response:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -69,9 +74,9 @@ objects:
             python_variable_name: resource_group
           'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: servers
-            go_variable_name: name
+            go_variable_name: serverName
             python_parameter_name: server_name
-            python_variable_name: name
+            python_variable_name: server_name
 
     description: |
       Manage Azure PrivateLinkResource instance.
@@ -83,11 +88,17 @@ objects:
         input: true
         azure_sdk_references: ['resourceGroupName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'serverName'
         description: 'The name of the server.'
         required: true
         input: true
         azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the private link resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

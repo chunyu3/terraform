@@ -39,7 +39,7 @@ objects:
             python_variable_name: application_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AddApplicationParameters
+            go_type_name: UpdateApplicationParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
@@ -48,6 +48,9 @@ objects:
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: DisplayName
             python_field_name: display_name
+          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DefaultVersion
+            python_field_name: default_version
       update: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Update
         python_func_name: update
@@ -69,7 +72,7 @@ objects:
             python_variable_name: application_id
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: parameters
-            go_type_name: AddApplicationParameters
+            go_type_name: UpdateApplicationParameters
             python_parameter_name: parameters
             python_variable_name: parameters
           '/allowUpdates': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
@@ -78,6 +81,9 @@ objects:
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: DisplayName
             python_field_name: display_name
+          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DefaultVersion
+            python_field_name: default_version
       delete: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: Delete
         python_func_name: delete
@@ -123,6 +129,9 @@ objects:
           '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: DisplayName
             python_field_name: display_name
+          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DefaultVersion
+            python_field_name: default_version
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
@@ -152,9 +161,6 @@ objects:
           '/packages/lastActivationTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
             go_field_name: LastActivationTime
             python_field_name: last_activation_time
-          '/defaultVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
-            go_field_name: DefaultVersion
-            python_field_name: default_version
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -169,6 +175,11 @@ objects:
             go_variable_name: name
             python_parameter_name: account_name
             python_variable_name: name
+          'maxresults': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            id_portion: null
+            go_variable_name: maxresults
+            python_parameter_name: maxresults
+            python_variable_name: maxresults
 
     description: |
       Manage Azure Application instance.
@@ -203,6 +214,18 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'defaultVersion'
+        description: 'The package to use if a client requests the application but does not specify a version.'
+        required: false
+        input: true
+        azure_sdk_references: ['/defaultVersion']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxresults'
+        description: 'The maximum number of items to return in the response.'
+        required: false
+        input: true
+        azure_sdk_references: ['maxresults']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'
@@ -216,8 +239,3 @@ objects:
         azure_sdk_references: ['/packages']
         item_type: !ruby/object:Api::Type::NestedObject
           properties:
-      - !ruby/object:Api::Type::String
-        name: 'defaultVersion'
-        description: 'The package to use if a client requests the application but does not specify a version.'
-        output: true
-        azure_sdk_references: ['/defaultVersion']

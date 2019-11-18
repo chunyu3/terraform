@@ -127,11 +127,11 @@ func resourceArmNotificationChannelCreate(d *schema.ResourceData, meta interface
     webHookUrl := d.Get("web_hook_url").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    notificationChannel := devtestlab.NotificationChannel{
+    notificationChannel := devtestlab.NotificationChannelFragment{
         Location: utils.String(location),
-        NotificationChannelProperties: &devtestlab.NotificationChannelProperties{
+        NotificationChannelPropertiesFragment: &devtestlab.NotificationChannelPropertiesFragment{
             Description: utils.String(description),
-            Events: expandArmNotificationChannelEvent(events),
+            Events: expandArmNotificationChannelEventFragment(events),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WebHookURL: utils.String(webHookUrl),
         },
@@ -185,15 +185,15 @@ func resourceArmNotificationChannelRead(d *schema.ResourceData, meta interface{}
     if location := resp.Location; location != nil {
         d.Set("location", azure.NormalizeLocation(*location))
     }
-    if notificationChannelProperties := resp.NotificationChannelProperties; notificationChannelProperties != nil {
-        d.Set("created_date", (notificationChannelProperties.CreatedDate).String())
-        d.Set("description", notificationChannelProperties.Description)
-        if err := d.Set("events", flattenArmNotificationChannelEvent(notificationChannelProperties.Events)); err != nil {
+    if notificationChannelPropertiesFragment := resp.NotificationChannelPropertiesFragment; notificationChannelPropertiesFragment != nil {
+        d.Set("created_date", (notificationChannelPropertiesFragment.CreatedDate).String())
+        d.Set("description", notificationChannelPropertiesFragment.Description)
+        if err := d.Set("events", flattenArmNotificationChannelEventFragment(notificationChannelPropertiesFragment.Events)); err != nil {
             return fmt.Errorf("Error setting `events`: %+v", err)
         }
-        d.Set("provisioning_state", notificationChannelProperties.ProvisioningState)
-        d.Set("unique_identifier", notificationChannelProperties.UniqueIdentifier)
-        d.Set("web_hook_url", notificationChannelProperties.WebHookURL)
+        d.Set("provisioning_state", notificationChannelPropertiesFragment.ProvisioningState)
+        d.Set("unique_identifier", notificationChannelPropertiesFragment.UniqueIdentifier)
+        d.Set("web_hook_url", notificationChannelPropertiesFragment.WebHookURL)
     }
     d.Set("type", resp.Type)
 
@@ -213,11 +213,11 @@ func resourceArmNotificationChannelUpdate(d *schema.ResourceData, meta interface
     webHookUrl := d.Get("web_hook_url").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    notificationChannel := devtestlab.NotificationChannel{
+    notificationChannel := devtestlab.NotificationChannelFragment{
         Location: utils.String(location),
-        NotificationChannelProperties: &devtestlab.NotificationChannelProperties{
+        NotificationChannelPropertiesFragment: &devtestlab.NotificationChannelPropertiesFragment{
             Description: utils.String(description),
-            Events: expandArmNotificationChannelEvent(events),
+            Events: expandArmNotificationChannelEventFragment(events),
             UniqueIdentifier: utils.String(uniqueIdentifier),
             WebHookURL: utils.String(webHookUrl),
         },
@@ -252,13 +252,13 @@ func resourceArmNotificationChannelDelete(d *schema.ResourceData, meta interface
     return nil
 }
 
-func expandArmNotificationChannelEvent(input []interface{}) *[]devtestlab.Event {
-    results := make([]devtestlab.Event, 0)
+func expandArmNotificationChannelEventFragment(input []interface{}) *[]devtestlab.EventFragment {
+    results := make([]devtestlab.EventFragment, 0)
     for _, item := range input {
         v := item.(map[string]interface{})
         eventName := v["event_name"].(string)
 
-        result := devtestlab.Event{
+        result := devtestlab.EventFragment{
             EventName: devtestlab.NotificationChannelEventType(eventName),
         }
 
@@ -268,7 +268,7 @@ func expandArmNotificationChannelEvent(input []interface{}) *[]devtestlab.Event 
 }
 
 
-func flattenArmNotificationChannelEvent(input *[]devtestlab.Event) []interface{} {
+func flattenArmNotificationChannelEventFragment(input *[]devtestlab.EventFragment) []interface{} {
     results := make([]interface{}, 0)
     if input == nil {
         return results

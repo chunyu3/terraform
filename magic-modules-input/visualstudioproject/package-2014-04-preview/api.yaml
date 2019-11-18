@@ -35,9 +35,9 @@ objects:
             python_variable_name: root_resource_name
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: project
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
           'validating': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: null
             go_variable_name: validating
@@ -73,9 +73,9 @@ objects:
             python_variable_name: root_resource_name
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: project
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: body
             go_type_name: ProjectResource
@@ -106,9 +106,9 @@ objects:
             python_variable_name: root_resource_name
           'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             id_portion: project
-            go_variable_name: name
+            go_variable_name: resourceName
             python_parameter_name: resource_name
-            python_variable_name: name
+            python_variable_name: resource_name
         response:
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: Location
@@ -171,7 +171,7 @@ objects:
         input: true
         azure_sdk_references: ['rootResourceName']
       - !ruby/object:Api::Type::String
-        name: 'name'
+        name: 'resourceName'
         description: 'Name of the Team Services project.'
         required: true
         input: true
@@ -182,6 +182,24 @@ objects:
         required: false
         input: true
         azure_sdk_references: ['validating']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'This parameter should be set to the resourceName.'
+        required: true
+        input: true
+        azure_sdk_references: ['subContainerName']
+      - !ruby/object:Api::Type::String
+        name: 'operation'
+        description: 'The operation type. The only supported value is ''put''.'
+        required: true
+        input: true
+        azure_sdk_references: ['operation']
+      - !ruby/object:Api::Type::String
+        name: 'jobId'
+        description: 'The job identifier.'
+        required: false
+        input: true
+        azure_sdk_references: ['jobId']
       # read only values included only in response
       - !ruby/object:Api::Type::String
         name: 'id'

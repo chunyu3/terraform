@@ -50,18 +50,6 @@ func resourceArmApiOperation() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "display_name": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
-            "method": {
-                Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
-            },
-
             "operation_id": {
                 Type: schema.TypeString,
                 Required: true,
@@ -69,13 +57,17 @@ func resourceArmApiOperation() *schema.Resource {
                 ValidateFunc: validate.NoEmptyStrings,
             },
 
-            "url_template": {
+            "description": {
                 Type: schema.TypeString,
-                Required: true,
-                ValidateFunc: validate.NoEmptyStrings,
+                Optional: true,
             },
 
-            "description": {
+            "display_name": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
+            "method": {
                 Type: schema.TypeString,
                 Optional: true,
             },
@@ -389,6 +381,11 @@ func resourceArmApiOperation() *schema.Resource {
                 },
             },
 
+            "url_template": {
+                Type: schema.TypeString,
+                Optional: true,
+            },
+
             "type": {
                 Type: schema.TypeString,
                 Computed: true,
@@ -427,8 +424,8 @@ func resourceArmApiOperationCreate(d *schema.ResourceData, meta interface{}) err
     templateParameters := d.Get("template_parameters").([]interface{})
     urlTemplate := d.Get("url_template").(string)
 
-    parameters := apimanagement.OperationContract{
-        OperationContractProperties: &apimanagement.OperationContractProperties{
+    parameters := apimanagement.OperationUpdateContract{
+        OperationUpdateContractProperties: &apimanagement.OperationUpdateContractProperties{
             Description: utils.String(description),
             DisplayName: utils.String(displayName),
             Method: utils.String(method),
@@ -486,21 +483,21 @@ func resourceArmApiOperationRead(d *schema.ResourceData, meta interface{}) error
     d.Set("name", resp.Name)
     d.Set("resource_group", resourceGroup)
     d.Set("api_id", apiID)
-    if operationContractProperties := resp.OperationContractProperties; operationContractProperties != nil {
-        d.Set("description", operationContractProperties.Description)
-        d.Set("display_name", operationContractProperties.DisplayName)
-        d.Set("method", operationContractProperties.Method)
-        d.Set("policies", operationContractProperties.Policies)
-        if err := d.Set("request", flattenArmApiOperationRequestContract(operationContractProperties.Request)); err != nil {
+    if operationUpdateContractProperties := resp.OperationUpdateContractProperties; operationUpdateContractProperties != nil {
+        d.Set("description", operationUpdateContractProperties.Description)
+        d.Set("display_name", operationUpdateContractProperties.DisplayName)
+        d.Set("method", operationUpdateContractProperties.Method)
+        d.Set("policies", operationUpdateContractProperties.Policies)
+        if err := d.Set("request", flattenArmApiOperationRequestContract(operationUpdateContractProperties.Request)); err != nil {
             return fmt.Errorf("Error setting `request`: %+v", err)
         }
-        if err := d.Set("responses", flattenArmApiOperationResponseContract(operationContractProperties.Responses)); err != nil {
+        if err := d.Set("responses", flattenArmApiOperationResponseContract(operationUpdateContractProperties.Responses)); err != nil {
             return fmt.Errorf("Error setting `responses`: %+v", err)
         }
-        if err := d.Set("template_parameters", flattenArmApiOperationParameterContract(operationContractProperties.TemplateParameters)); err != nil {
+        if err := d.Set("template_parameters", flattenArmApiOperationParameterContract(operationUpdateContractProperties.TemplateParameters)); err != nil {
             return fmt.Errorf("Error setting `template_parameters`: %+v", err)
         }
-        d.Set("url_template", operationContractProperties.URLTemplate)
+        d.Set("url_template", operationUpdateContractProperties.URLTemplate)
     }
     d.Set("operation_id", operationID)
     d.Set("type", resp.Type)
@@ -525,8 +522,8 @@ func resourceArmApiOperationUpdate(d *schema.ResourceData, meta interface{}) err
     templateParameters := d.Get("template_parameters").([]interface{})
     urlTemplate := d.Get("url_template").(string)
 
-    parameters := apimanagement.OperationContract{
-        OperationContractProperties: &apimanagement.OperationContractProperties{
+    parameters := apimanagement.OperationUpdateContract{
+        OperationUpdateContractProperties: &apimanagement.OperationUpdateContractProperties{
             Description: utils.String(description),
             DisplayName: utils.String(displayName),
             Method: utils.String(method),
