@@ -18,9 +18,9 @@ package azurerm
 
 func resourceArmGalleryApplication() *schema.Resource {
     return &schema.Resource{
-        Create: resourceArmGalleryApplicationCreateUpdate,
+        Create: resourceArmGalleryApplicationCreate,
         Read: resourceArmGalleryApplicationRead,
-        Update: resourceArmGalleryApplicationCreateUpdate,
+        Update: resourceArmGalleryApplicationUpdate,
         Delete: resourceArmGalleryApplicationDelete,
 
         Importer: &schema.ResourceImporter{
@@ -97,7 +97,7 @@ func resourceArmGalleryApplication() *schema.Resource {
     }
 }
 
-func resourceArmGalleryApplicationCreateUpdate(d *schema.ResourceData, meta interface{}) error {
+func resourceArmGalleryApplicationCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).galleryApplicationsClient
     ctx := meta.(*ArmClient).StopContext
 
@@ -126,7 +126,7 @@ func resourceArmGalleryApplicationCreateUpdate(d *schema.ResourceData, meta inte
     supportedOstype := d.Get("supported_ostype").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    galleryApplication := compute.GalleryApplication{
+    galleryApplication := compute.GalleryApplicationUpdate{
         Location: utils.String(location),
         GalleryApplicationProperties: &compute.GalleryApplicationProperties{
             Description: utils.String(description),
@@ -204,6 +204,45 @@ func resourceArmGalleryApplicationRead(d *schema.ResourceData, meta interface{})
     return tags.FlattenAndSet(d, resp.Tags)
 }
 
+func resourceArmGalleryApplicationUpdate(d *schema.ResourceData, meta interface{}) error {
+    client := meta.(*ArmClient).galleryApplicationsClient
+    ctx := meta.(*ArmClient).StopContext
+
+    name := d.Get("name").(string)
+    resourceGroup := d.Get("resource_group").(string)
+    description := d.Get("description").(string)
+    endOfLifeDate := d.Get("end_of_life_date").(string)
+    eula := d.Get("eula").(string)
+    galleryName := d.Get("gallery_name").(string)
+    privacyStatementUri := d.Get("privacy_statement_uri").(string)
+    releaseNoteUri := d.Get("release_note_uri").(string)
+    supportedOstype := d.Get("supported_ostype").(string)
+    t := d.Get("tags").(map[string]interface{})
+
+    galleryApplication := compute.GalleryApplicationUpdate{
+        Location: utils.String(location),
+        GalleryApplicationProperties: &compute.GalleryApplicationProperties{
+            Description: utils.String(description),
+            EndOfLifeDate: convertStringToDate(endOfLifeDate),
+            Eula: utils.String(eula),
+            PrivacyStatementUri: utils.String(privacyStatementUri),
+            ReleaseNoteUri: utils.String(releaseNoteUri),
+            SupportedOstype: compute.OperatingSystemTypes(supportedOstype),
+        },
+        Tags: tags.Expand(t),
+    }
+
+
+    future, err := client.Update(ctx, resourceGroup, galleryName, name, galleryApplication)
+    if err != nil {
+        return fmt.Errorf("Error updating Gallery Application %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
+    }
+    if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
+        return fmt.Errorf("Error waiting for update of Gallery Application %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
+    }
+
+    return resourceArmGalleryApplicationRead(d, meta)
+}
 
 func resourceArmGalleryApplicationDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).galleryApplicationsClient

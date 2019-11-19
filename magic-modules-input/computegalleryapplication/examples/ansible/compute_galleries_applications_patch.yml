@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computegalleryapplication
+  description: Update a simple gallery Application.
+  code:
+    resource_group: myResourceGroup
+    gallery_name: myGallery
+    name: myApplication
+    gallery_application:
+      properties:
+        description: This is the gallery application description.
+        eula: This is the gallery application EULA.
+        privacyStatementUri: 'myPrivacyStatementUri}'
+        releaseNoteUri: myReleaseNoteUri
+        supportedOSType: Windows
+  

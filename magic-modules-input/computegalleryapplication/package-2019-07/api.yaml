@@ -40,7 +40,79 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: galleryApplication
-            go_type_name: GalleryApplication
+            go_type_name: GalleryApplicationUpdate
+            python_parameter_name: gallery_application
+            python_variable_name: gallery_application
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GalleryApplicationProperties
+            go_type_name: GalleryApplicationProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/eula': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: eula
+          '/properties/eula': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Eula
+          '/privacyStatementUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: privacy_statement_uri
+          '/properties/privacyStatementUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivacyStatementUri
+          '/releaseNoteUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: release_note_uri
+          '/properties/releaseNoteUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ReleaseNoteUri
+          '/endOfLifeDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_of_life_date
+          '/properties/endOfLifeDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndOfLifeDate
+          '/supportedOSType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: supported_ostype
+          '/properties/supportedOSType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SupportedOstype
+            go_enum_type_name: OperatingSystemTypes
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'galleryName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: galleries
+            go_variable_name: galleryName
+            python_parameter_name: gallery_name
+            python_variable_name: gallery_name
+          'galleryApplicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: applications
+            go_variable_name: name
+            python_parameter_name: gallery_application_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: galleryApplication
+            go_type_name: GalleryApplicationUpdate
             python_parameter_name: gallery_application
             python_variable_name: gallery_application
           '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject

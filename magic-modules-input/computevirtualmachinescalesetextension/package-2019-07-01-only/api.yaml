@@ -40,7 +40,87 @@ objects:
             python_variable_name: name
           '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
             go_variable_name: extensionParameters
-            go_type_name: VirtualMachineScaleSetExtension
+            go_type_name: VirtualMachineScaleSetExtensionUpdate
+            python_parameter_name: extension_parameters
+            python_variable_name: extension_parameters
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineScaleSetExtensionProperties
+            go_type_name: VirtualMachineScaleSetExtensionProperties
+          '/forceUpdateTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: force_update_tag
+          '/properties/forceUpdateTag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ForceUpdateTag
+          '/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/properties/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type
+          '/properties/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Type
+          '/typeHandlerVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: type_handler_version
+          '/properties/typeHandlerVersion': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TypeHandlerVersion
+          '/autoUpgradeMinorVersion': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_upgrade_minor_version
+          '/properties/autoUpgradeMinorVersion': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoUpgradeMinorVersion
+          '/settings': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: settings
+          '/properties/settings': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Settings
+          '/protectedSettings': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: protected_settings
+          '/properties/protectedSettings': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: ProtectedSettings
+          '/provisionAfterExtensions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: provision_after_extensions
+          '/properties/provisionAfterExtensions': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: ProvisionAfterExtensions
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'vmScaleSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: virtualMachineScaleSets
+            go_variable_name: vmScaleSetName
+            python_parameter_name: vm_scale_set_name
+            python_variable_name: vm_scale_set_name
+          'vmssExtensionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: extensions
+            go_variable_name: name
+            python_parameter_name: vmss_extension_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: extensionParameters
+            go_type_name: VirtualMachineScaleSetExtensionUpdate
             python_parameter_name: extension_parameters
             python_variable_name: extension_parameters
           '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
@@ -202,6 +282,9 @@ objects:
           '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
             go_field_name: ID
             python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
       list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
         go_func_name: List
         python_func_name: list
@@ -296,3 +379,8 @@ objects:
         description: 'Resource Id'
         output: true
         azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

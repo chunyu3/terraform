@@ -18,9 +18,9 @@ package azurerm
 
 func resourceArmGalleryImage() *schema.Resource {
     return &schema.Resource{
-        Create: resourceArmGalleryImageCreateUpdate,
+        Create: resourceArmGalleryImageCreate,
         Read: resourceArmGalleryImageRead,
-        Update: resourceArmGalleryImageCreateUpdate,
+        Update: resourceArmGalleryImageUpdate,
         Delete: resourceArmGalleryImageDelete,
 
         Importer: &schema.ResourceImporter{
@@ -229,7 +229,7 @@ func resourceArmGalleryImage() *schema.Resource {
     }
 }
 
-func resourceArmGalleryImageCreateUpdate(d *schema.ResourceData, meta interface{}) error {
+func resourceArmGalleryImageCreate(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).galleryImagesClient
     ctx := meta.(*ArmClient).StopContext
 
@@ -264,7 +264,7 @@ func resourceArmGalleryImageCreateUpdate(d *schema.ResourceData, meta interface{
     releaseNoteUri := d.Get("release_note_uri").(string)
     t := d.Get("tags").(map[string]interface{})
 
-    galleryImage := compute.GalleryImage{
+    galleryImage := compute.GalleryImageUpdate{
         Location: utils.String(location),
         GalleryImageProperties: &compute.GalleryImageProperties{
             Description: utils.String(description),
@@ -363,6 +363,57 @@ func resourceArmGalleryImageRead(d *schema.ResourceData, meta interface{}) error
     return tags.FlattenAndSet(d, resp.Tags)
 }
 
+func resourceArmGalleryImageUpdate(d *schema.ResourceData, meta interface{}) error {
+    client := meta.(*ArmClient).galleryImagesClient
+    ctx := meta.(*ArmClient).StopContext
+
+    name := d.Get("name").(string)
+    resourceGroup := d.Get("resource_group").(string)
+    description := d.Get("description").(string)
+    disallowed := d.Get("disallowed").([]interface{})
+    endOfLifeDate := d.Get("end_of_life_date").(string)
+    eula := d.Get("eula").(string)
+    galleryName := d.Get("gallery_name").(string)
+    hyperVgeneration := d.Get("hyper_vgeneration").(string)
+    identifier := d.Get("identifier").([]interface{})
+    osState := d.Get("os_state").(string)
+    osType := d.Get("os_type").(string)
+    privacyStatementUri := d.Get("privacy_statement_uri").(string)
+    purchasePlan := d.Get("purchase_plan").([]interface{})
+    recommended := d.Get("recommended").([]interface{})
+    releaseNoteUri := d.Get("release_note_uri").(string)
+    t := d.Get("tags").(map[string]interface{})
+
+    galleryImage := compute.GalleryImageUpdate{
+        Location: utils.String(location),
+        GalleryImageProperties: &compute.GalleryImageProperties{
+            Description: utils.String(description),
+            Disallowed: expandArmGalleryImageDisallowed(disallowed),
+            EndOfLifeDate: convertStringToDate(endOfLifeDate),
+            Eula: utils.String(eula),
+            HyperVgeneration: compute.HyperVGeneration(hyperVgeneration),
+            Identifier: expandArmGalleryImageGalleryImageIdentifier(identifier),
+            OsState: compute.OperatingSystemStateTypes(osState),
+            OsType: compute.OperatingSystemTypes(osType),
+            PrivacyStatementUri: utils.String(privacyStatementUri),
+            PurchasePlan: expandArmGalleryImageImagePurchasePlan(purchasePlan),
+            Recommended: expandArmGalleryImageRecommendedMachineConfiguration(recommended),
+            ReleaseNoteUri: utils.String(releaseNoteUri),
+        },
+        Tags: tags.Expand(t),
+    }
+
+
+    future, err := client.Update(ctx, resourceGroup, galleryName, name, galleryImage)
+    if err != nil {
+        return fmt.Errorf("Error updating Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
+    }
+    if err = future.WaitForCompletionRef(ctx, client.Client); err != nil {
+        return fmt.Errorf("Error waiting for update of Gallery Image %q (Gallery Name %q / Resource Group %q): %+v", name, galleryName, resourceGroup, err)
+    }
+
+    return resourceArmGalleryImageRead(d, meta)
+}
 
 func resourceArmGalleryImageDelete(d *schema.ResourceData, meta interface{}) error {
     client := meta.(*ArmClient).galleryImagesClient
