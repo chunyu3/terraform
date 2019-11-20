@@ -1,0 +1,172 @@
+--- !ruby/object:Api::Product
+name: Azure Deployment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Deployment
+    api_name: Resources
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Resources
+      go_client_namespace: resource
+      go_client: deploymentsClient
+      python_client_namespace: azure.mgmt.resource
+      python_client: ResourceManagementClient.deployments
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+          '/properties/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::[unknown-primary[object]]
+            applicable_to: [python]
+            python_field_name: parameters
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'deploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: deployments
+            go_variable_name: name
+            python_parameter_name: deployment_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourcegroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure Deployment instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group with the deployments to get. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the deployment from which to get the template.'
+        required: true
+        input: true
+        azure_sdk_references: ['deploymentName']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'template'
+        description: 'The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both.'
+        required: false
+        azure_sdk_references: ['/template', '/properties/template']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'templateLink'
+        description: 'The URI of the template. Use either the templateLink property or the template property, but not both.'
+        required: false
+        azure_sdk_references: ['/templateLink', '/properties/templateLink']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'uri'
+            description: 'The URI of the template to deploy.'
+            required: true
+            azure_sdk_references: ['/templateLink/uri', '/properties/templateLink/uri']
+          - !ruby/object:Api::Type::String
+            name: 'contentVersion'
+            description: 'If included, must match the ContentVersion in the template.'
+            required: false
+            azure_sdk_references: ['/templateLink/contentVersion', '/properties/templateLink/contentVersion']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'parameters'
+        description: 'Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string.'
+        required: false
+        azure_sdk_references: ['/parameters', '/properties/parameters']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'parametersLink'
+        description: 'The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.'
+        required: false
+        azure_sdk_references: ['/parametersLink', '/properties/parametersLink']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'uri'
+            description: 'The URI of the parameters file.'
+            required: true
+            azure_sdk_references: ['/parametersLink/uri', '/properties/parametersLink/uri']
+          - !ruby/object:Api::Type::String
+            name: 'contentVersion'
+            description: 'If included, must match the ContentVersion in the template.'
+            required: false
+            azure_sdk_references: ['/parametersLink/contentVersion', '/properties/parametersLink/contentVersion']
+      - !ruby/object:Api::Type::Enum
+        name: 'mode'
+        description: 'The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources.'
+        required: true
+        azure_sdk_references: ['/mode', '/properties/mode']
+        values:
+          - :Incremental
+          - :Complete
+      - !ruby/object:Api::Type::NestedObject
+        name: 'debugSetting'
+        description: 'The debug setting of the deployment.'
+        required: false
+        azure_sdk_references: ['/debugSetting', '/properties/debugSetting']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'detailLevel'
+            description: 'Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations.'
+            required: false
+            azure_sdk_references: ['/debugSetting/detailLevel', '/properties/debugSetting/detailLevel']
+      - !ruby/object:Api::Azure::Type::[unknown-primary[object]]
+        name: 'template'
+        description: 'The template provided to calculate hash.'
+        required: true
+        input: true
+        azure_sdk_references: ['template']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The ID of the deployment.'
+        output: true
+        azure_sdk_references: ['/id']

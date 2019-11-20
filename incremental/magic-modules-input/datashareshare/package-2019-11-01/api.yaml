@@ -1,0 +1,306 @@
+--- !ruby/object:Api::Product
+name: Azure Share Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Share
+    api_name: DataShare
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataShare
+      go_client_namespace: datashare
+      go_client: sharesClient
+      python_client_namespace: azure.mgmt.datashare
+      python_client: DataShareManagementClient.shares
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: share_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: share
+            go_type_name: Share
+            python_parameter_name: share
+            python_variable_name: share
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ShareProperties
+            go_type_name: ShareProperties
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/shareKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: share_kind
+          '/properties/shareKind': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ShareKind
+            go_enum_type_name: ShareKind
+          '/terms': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: terms
+          '/properties/terms': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Terms
+          '/consumerEmail': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ConsumerEmail
+            python_field_name: consumer_email
+          '/consumerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ConsumerName
+            python_field_name: consumer_name
+          '/consumerTenantName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ConsumerTenantName
+            python_field_name: consumer_tenant_name
+          '/durationMs': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            go_field_name: DurationMs
+            python_field_name: duration_ms
+          '/endTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EndTime
+            python_field_name: end_time
+          '/message': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Message
+            python_field_name: message
+          '/startTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: StartTime
+            python_field_name: start_time
+          '/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Status
+            python_field_name: status
+          '/synchronizationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SynchronizationID
+            python_field_name: synchronization_id
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: share_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: share_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAccount
+        python_func_name: list_by_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSynchronizations
+        python_func_name: list_synchronizations
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: share_name
+            python_variable_name: name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSynchronizationDetails
+        python_func_name: list_synchronization_details
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'shareName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: shares
+            go_variable_name: name
+            python_parameter_name: share_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Share instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of the share account.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the share.'
+        required: true
+        input: true
+        azure_sdk_references: ['shareName']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'Share description.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::Enum
+        name: 'shareKind'
+        description: 'Share kind.'
+        required: false
+        azure_sdk_references: ['/shareKind', '/properties/shareKind']
+        values:
+          - :CopyBased
+          - :InPlace
+        default_value: :CopyBased
+      - !ruby/object:Api::Type::String
+        name: 'terms'
+        description: 'Share terms.'
+        required: false
+        azure_sdk_references: ['/terms', '/properties/terms']
+      - !ruby/object:Api::Type::String
+        name: 'consumerEmail'
+        description: 'Email of the user who created the synchronization'
+        required: false
+        input: true
+        azure_sdk_references: ['/consumerEmail']
+      - !ruby/object:Api::Type::String
+        name: 'consumerName'
+        description: 'Name of the user who created the synchronization'
+        required: false
+        input: true
+        azure_sdk_references: ['/consumerName']
+      - !ruby/object:Api::Type::String
+        name: 'consumerTenantName'
+        description: 'Tenant name of the consumer who created the synchronization'
+        required: false
+        input: true
+        azure_sdk_references: ['/consumerTenantName']
+      - !ruby/object:Api::Type::Integer
+        name: 'durationMs'
+        description: 'synchronization duration'
+        required: false
+        input: true
+        azure_sdk_references: ['/durationMs']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'endTime'
+        description: 'End time of synchronization'
+        required: false
+        input: true
+        azure_sdk_references: ['/endTime']
+      - !ruby/object:Api::Type::String
+        name: 'message'
+        description: 'message of synchronization'
+        required: false
+        input: true
+        azure_sdk_references: ['/message']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'startTime'
+        description: 'start time of synchronization'
+        required: false
+        input: true
+        azure_sdk_references: ['/startTime']
+      - !ruby/object:Api::Type::String
+        name: 'status'
+        description: 'Raw Status'
+        required: false
+        input: true
+        azure_sdk_references: ['/status']
+      - !ruby/object:Api::Type::String
+        name: 'synchronizationId'
+        description: 'Synchronization id'
+        required: false
+        input: true
+        azure_sdk_references: ['/synchronizationId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The resource id of the azure resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the azure resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the azure resource'
+        output: true
+        azure_sdk_references: ['/type']

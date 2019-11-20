@@ -1,0 +1,1295 @@
+--- !ruby/object:Api::Product
+name: Azure StreamingPolicy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: StreamingPolicy
+    api_name: Media
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Media
+      go_client_namespace: mediaservices
+      go_client: streamingPoliciesClient
+      python_client_namespace: azure.mgmt.mediaservices
+      python_client: AzureMediaServicesClient.streaming_policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'streamingPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: streamingPolicies
+            go_variable_name: name
+            python_parameter_name: streaming_policy_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: StreamingPolicy
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: StreamingPolicyProperties
+            go_type_name: StreamingPolicyProperties
+          '/defaultContentKeyPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_content_key_policy_name
+          '/properties/defaultContentKeyPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultContentKeyPolicyName
+          '/envelopeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: envelope_encryption
+          '/envelopeEncryption/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enabled_protocols
+          '/envelopeEncryption/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: download
+          '/envelopeEncryption/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dash
+          '/envelopeEncryption/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: hls
+          '/envelopeEncryption/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: smooth_streaming
+          '/envelopeEncryption/clearTracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: clear_tracks
+          '/envelopeEncryption/clearTracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/envelopeEncryption/clearTracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/envelopeEncryption/clearTracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/envelopeEncryption/clearTracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/envelopeEncryption/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_keys
+          '/envelopeEncryption/contentKeys/defaultKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: default_key
+          '/envelopeEncryption/contentKeys/defaultKey/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/envelopeEncryption/contentKeys/defaultKey/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_name
+          '/envelopeEncryption/contentKeys/keyToTrackMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: key_to_track_mappings
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_name
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tracks
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/envelopeEncryption/customKeyAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_key_acquisition_url_template
+          '/properties/envelopeEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnvelopeEncryption
+            go_type_name: EnvelopeEncryption
+          '/properties/envelopeEncryption/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnabledProtocols
+            go_type_name: EnabledProtocols
+          '/properties/envelopeEncryption/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Download
+          '/properties/envelopeEncryption/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Dash
+          '/properties/envelopeEncryption/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Hls
+          '/properties/envelopeEncryption/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SmoothStreaming
+          '/properties/envelopeEncryption/clearTracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ClearTracks
+            go_type_name: TrackSelection
+          '/properties/envelopeEncryption/clearTracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/envelopeEncryption/clearTracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/envelopeEncryption/clearTracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/envelopeEncryption/clearTracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/envelopeEncryption/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentKeys
+            go_type_name: StreamingPolicyContentKeys
+          '/properties/envelopeEncryption/contentKeys/defaultKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DefaultKey
+            go_type_name: DefaultKey
+          '/properties/envelopeEncryption/contentKeys/defaultKey/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/properties/envelopeEncryption/contentKeys/defaultKey/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyName
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: KeyToTrackMappings
+            go_type_name: StreamingPolicyContentKey
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyName
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tracks
+            go_type_name: TrackSelection
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/envelopeEncryption/customKeyAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomKeyAcquisitionURLTemplate
+          '/commonEncryptionCenc': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: common_encryption_cenc
+          '/commonEncryptionCenc/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enabled_protocols
+          '/commonEncryptionCenc/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: download
+          '/commonEncryptionCenc/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dash
+          '/commonEncryptionCenc/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: hls
+          '/commonEncryptionCenc/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: smooth_streaming
+          '/commonEncryptionCenc/clearTracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: clear_tracks
+          '/commonEncryptionCenc/clearTracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/commonEncryptionCenc/clearTracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/commonEncryptionCenc/clearTracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/commonEncryptionCenc/clearTracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/commonEncryptionCenc/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_keys
+          '/commonEncryptionCenc/contentKeys/defaultKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: default_key
+          '/commonEncryptionCenc/contentKeys/defaultKey/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/commonEncryptionCenc/contentKeys/defaultKey/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_name
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: key_to_track_mappings
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_name
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tracks
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/commonEncryptionCenc/drm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: drm
+          '/commonEncryptionCenc/drm/playReady': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: play_ready
+          '/commonEncryptionCenc/drm/playReady/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_license_acquisition_url_template
+          '/commonEncryptionCenc/drm/playReady/playReadyCustomAttributes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: play_ready_custom_attributes
+          '/commonEncryptionCenc/drm/widevine': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: widevine
+          '/commonEncryptionCenc/drm/widevine/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_license_acquisition_url_template
+          '/properties/commonEncryptionCenc': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CommonEncryptionCenc
+            go_type_name: CommonEncryptionCenc
+          '/properties/commonEncryptionCenc/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnabledProtocols
+            go_type_name: EnabledProtocols
+          '/properties/commonEncryptionCenc/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Download
+          '/properties/commonEncryptionCenc/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Dash
+          '/properties/commonEncryptionCenc/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Hls
+          '/properties/commonEncryptionCenc/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SmoothStreaming
+          '/properties/commonEncryptionCenc/clearTracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ClearTracks
+            go_type_name: TrackSelection
+          '/properties/commonEncryptionCenc/clearTracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/commonEncryptionCenc/clearTracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/commonEncryptionCenc/clearTracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/commonEncryptionCenc/clearTracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/commonEncryptionCenc/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentKeys
+            go_type_name: StreamingPolicyContentKeys
+          '/properties/commonEncryptionCenc/contentKeys/defaultKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DefaultKey
+            go_type_name: DefaultKey
+          '/properties/commonEncryptionCenc/contentKeys/defaultKey/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/properties/commonEncryptionCenc/contentKeys/defaultKey/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyName
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: KeyToTrackMappings
+            go_type_name: StreamingPolicyContentKey
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyName
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tracks
+            go_type_name: TrackSelection
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/commonEncryptionCenc/drm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Drm
+            go_type_name: CencDrmConfiguration
+          '/properties/commonEncryptionCenc/drm/playReady': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PlayReady
+            go_type_name: StreamingPolicyPlayReadyConfiguration
+          '/properties/commonEncryptionCenc/drm/playReady/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomLicenseAcquisitionURLTemplate
+          '/properties/commonEncryptionCenc/drm/playReady/playReadyCustomAttributes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PlayReadyCustomAttributes
+          '/properties/commonEncryptionCenc/drm/widevine': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Widevine
+            go_type_name: StreamingPolicyWidevineConfiguration
+          '/properties/commonEncryptionCenc/drm/widevine/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomLicenseAcquisitionURLTemplate
+          '/commonEncryptionCbcs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: common_encryption_cbcs
+          '/commonEncryptionCbcs/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enabled_protocols
+          '/commonEncryptionCbcs/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: download
+          '/commonEncryptionCbcs/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dash
+          '/commonEncryptionCbcs/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: hls
+          '/commonEncryptionCbcs/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: smooth_streaming
+          '/commonEncryptionCbcs/clearTracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: clear_tracks
+          '/commonEncryptionCbcs/clearTracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/commonEncryptionCbcs/clearTracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/commonEncryptionCbcs/clearTracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/commonEncryptionCbcs/clearTracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/commonEncryptionCbcs/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: content_keys
+          '/commonEncryptionCbcs/contentKeys/defaultKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: default_key
+          '/commonEncryptionCbcs/contentKeys/defaultKey/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/commonEncryptionCbcs/contentKeys/defaultKey/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_name
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: key_to_track_mappings
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: label
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: policy_name
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tracks
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/commonEncryptionCbcs/drm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: drm
+          '/commonEncryptionCbcs/drm/fairPlay': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: fair_play
+          '/commonEncryptionCbcs/drm/fairPlay/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_license_acquisition_url_template
+          '/commonEncryptionCbcs/drm/fairPlay/allowPersistentLicense': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_persistent_license
+          '/commonEncryptionCbcs/drm/playReady': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: play_ready
+          '/commonEncryptionCbcs/drm/playReady/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_license_acquisition_url_template
+          '/commonEncryptionCbcs/drm/playReady/playReadyCustomAttributes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: play_ready_custom_attributes
+          '/commonEncryptionCbcs/drm/widevine': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: widevine
+          '/commonEncryptionCbcs/drm/widevine/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_license_acquisition_url_template
+          '/properties/commonEncryptionCbcs': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CommonEncryptionCbcs
+            go_type_name: CommonEncryptionCbcs
+          '/properties/commonEncryptionCbcs/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnabledProtocols
+            go_type_name: EnabledProtocols
+          '/properties/commonEncryptionCbcs/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Download
+          '/properties/commonEncryptionCbcs/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Dash
+          '/properties/commonEncryptionCbcs/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Hls
+          '/properties/commonEncryptionCbcs/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SmoothStreaming
+          '/properties/commonEncryptionCbcs/clearTracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ClearTracks
+            go_type_name: TrackSelection
+          '/properties/commonEncryptionCbcs/clearTracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/commonEncryptionCbcs/clearTracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/commonEncryptionCbcs/clearTracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/commonEncryptionCbcs/clearTracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/commonEncryptionCbcs/contentKeys': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ContentKeys
+            go_type_name: StreamingPolicyContentKeys
+          '/properties/commonEncryptionCbcs/contentKeys/defaultKey': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DefaultKey
+            go_type_name: DefaultKey
+          '/properties/commonEncryptionCbcs/contentKeys/defaultKey/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/properties/commonEncryptionCbcs/contentKeys/defaultKey/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyName
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: KeyToTrackMappings
+            go_type_name: StreamingPolicyContentKey
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/label': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Label
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/policyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PolicyName
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tracks
+            go_type_name: TrackSelection
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: TrackPropertyCondition
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: TrackPropertyType
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: TrackPropertyCompareOperation
+          '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/commonEncryptionCbcs/drm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Drm
+            go_type_name: CbcsDrmConfiguration
+          '/properties/commonEncryptionCbcs/drm/fairPlay': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FairPlay
+            go_type_name: StreamingPolicyFairPlayConfiguration
+          '/properties/commonEncryptionCbcs/drm/fairPlay/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomLicenseAcquisitionURLTemplate
+          '/properties/commonEncryptionCbcs/drm/fairPlay/allowPersistentLicense': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowPersistentLicense
+          '/properties/commonEncryptionCbcs/drm/playReady': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PlayReady
+            go_type_name: StreamingPolicyPlayReadyConfiguration
+          '/properties/commonEncryptionCbcs/drm/playReady/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomLicenseAcquisitionURLTemplate
+          '/properties/commonEncryptionCbcs/drm/playReady/playReadyCustomAttributes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PlayReadyCustomAttributes
+          '/properties/commonEncryptionCbcs/drm/widevine': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Widevine
+            go_type_name: StreamingPolicyWidevineConfiguration
+          '/properties/commonEncryptionCbcs/drm/widevine/customLicenseAcquisitionUrlTemplate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomLicenseAcquisitionURLTemplate
+          '/noEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: no_encryption
+          '/noEncryption/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: enabled_protocols
+          '/noEncryption/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: download
+          '/noEncryption/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: dash
+          '/noEncryption/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: hls
+          '/noEncryption/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: smooth_streaming
+          '/properties/noEncryption': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NoEncryption
+            go_type_name: NoEncryption
+          '/properties/noEncryption/enabledProtocols': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: EnabledProtocols
+            go_type_name: EnabledProtocols
+          '/properties/noEncryption/enabledProtocols/download': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Download
+          '/properties/noEncryption/enabledProtocols/dash': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Dash
+          '/properties/noEncryption/enabledProtocols/hls': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Hls
+          '/properties/noEncryption/enabledProtocols/smoothStreaming': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: SmoothStreaming
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'streamingPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: streamingPolicies
+            go_variable_name: name
+            python_parameter_name: streaming_policy_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'streamingPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: streamingPolicies
+            go_variable_name: name
+            python_parameter_name: streaming_policy_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+
+    description: |
+      Manage Azure StreamingPolicy instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The Media Services account name.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The Streaming Policy name.'
+        required: true
+        input: true
+        azure_sdk_references: ['streamingPolicyName']
+      - !ruby/object:Api::Type::String
+        name: 'defaultContentKeyPolicyName'
+        description: 'Default ContentKey used by current Streaming Policy'
+        required: false
+        azure_sdk_references: ['/defaultContentKeyPolicyName', '/properties/defaultContentKeyPolicyName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'envelopeEncryption'
+        description: 'Configuration of EnvelopeEncryption'
+        required: false
+        azure_sdk_references: ['/envelopeEncryption', '/properties/envelopeEncryption']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'enabledProtocols'
+            description: 'Representing supported protocols'
+            required: false
+            azure_sdk_references: ['/envelopeEncryption/enabledProtocols', '/properties/envelopeEncryption/enabledProtocols']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'download'
+                description: 'Enable Download protocol or not'
+                required: true
+                azure_sdk_references: ['/envelopeEncryption/enabledProtocols/download', '/properties/envelopeEncryption/enabledProtocols/download']
+              - !ruby/object:Api::Type::Boolean
+                name: 'dash'
+                description: 'Enable DASH protocol or not'
+                required: true
+                azure_sdk_references: ['/envelopeEncryption/enabledProtocols/dash', '/properties/envelopeEncryption/enabledProtocols/dash']
+              - !ruby/object:Api::Type::Boolean
+                name: 'hls'
+                description: 'Enable HLS protocol or not'
+                required: true
+                azure_sdk_references: ['/envelopeEncryption/enabledProtocols/hls', '/properties/envelopeEncryption/enabledProtocols/hls']
+              - !ruby/object:Api::Type::Boolean
+                name: 'smoothStreaming'
+                description: 'Enable SmoothStreaming protocol or not'
+                required: true
+                azure_sdk_references: ['/envelopeEncryption/enabledProtocols/smoothStreaming', '/properties/envelopeEncryption/enabledProtocols/smoothStreaming']
+          - !ruby/object:Api::Type::Array
+            name: 'clearTracks'
+            description: 'Representing which tracks should not be encrypted'
+            required: false
+            azure_sdk_references: ['/envelopeEncryption/clearTracks', '/properties/envelopeEncryption/clearTracks']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'trackSelections'
+                  description: 'TrackSelections is a track property condition list which can specify track(s)'
+                  required: false
+                  azure_sdk_references: ['/envelopeEncryption/clearTracks/trackSelections', '/properties/envelopeEncryption/clearTracks/trackSelections']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'property'
+                        description: 'Track property type'
+                        required: true
+                        azure_sdk_references: ['/envelopeEncryption/clearTracks/trackSelections/property', '/properties/envelopeEncryption/clearTracks/trackSelections/property']
+                        values:
+                          - :Unknown
+                          - :FourCC
+                      - !ruby/object:Api::Type::Enum
+                        name: 'operation'
+                        description: 'Track property condition operation'
+                        required: true
+                        azure_sdk_references: ['/envelopeEncryption/clearTracks/trackSelections/operation', '/properties/envelopeEncryption/clearTracks/trackSelections/operation']
+                        values:
+                          - :Unknown
+                          - :Equal
+                      - !ruby/object:Api::Type::String
+                        name: 'value'
+                        description: 'Track property value'
+                        required: false
+                        azure_sdk_references: ['/envelopeEncryption/clearTracks/trackSelections/value', '/properties/envelopeEncryption/clearTracks/trackSelections/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'contentKeys'
+            description: 'Representing default content key for each encryption scheme and separate content keys for specific tracks'
+            required: false
+            azure_sdk_references: ['/envelopeEncryption/contentKeys', '/properties/envelopeEncryption/contentKeys']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'defaultKey'
+                description: 'Default content key for an encryption scheme'
+                required: false
+                azure_sdk_references: ['/envelopeEncryption/contentKeys/defaultKey', '/properties/envelopeEncryption/contentKeys/defaultKey']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'label'
+                    description: 'Label can be used to specify Content Key when creating a Streaming Locator'
+                    required: false
+                    azure_sdk_references: ['/envelopeEncryption/contentKeys/defaultKey/label', '/properties/envelopeEncryption/contentKeys/defaultKey/label']
+                  - !ruby/object:Api::Type::String
+                    name: 'policyName'
+                    description: 'Policy used by Default Key'
+                    required: false
+                    azure_sdk_references: ['/envelopeEncryption/contentKeys/defaultKey/policyName', '/properties/envelopeEncryption/contentKeys/defaultKey/policyName']
+              - !ruby/object:Api::Type::Array
+                name: 'keyToTrackMappings'
+                description: 'Representing tracks needs separate content key'
+                required: false
+                azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'label'
+                      description: 'Label can be used to specify Content Key when creating a Streaming Locator'
+                      required: false
+                      azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/label', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/label']
+                    - !ruby/object:Api::Type::String
+                      name: 'policyName'
+                      description: 'Policy used by Content Key'
+                      required: false
+                      azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/policyName', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/policyName']
+                    - !ruby/object:Api::Type::Array
+                      name: 'tracks'
+                      description: 'Tracks which use this content key'
+                      required: false
+                      azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/tracks', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks']
+                      item_type: !ruby/object:Api::Type::NestedObject
+                        properties:
+                          - !ruby/object:Api::Type::Array
+                            name: 'trackSelections'
+                            description: 'TrackSelections is a track property condition list which can specify track(s)'
+                            required: false
+                            azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections']
+                            item_type: !ruby/object:Api::Type::NestedObject
+                              properties:
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'property'
+                                  description: 'Track property type'
+                                  required: true
+                                  azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/property', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/property']
+                                  values:
+                                    - :Unknown
+                                    - :FourCC
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'operation'
+                                  description: 'Track property condition operation'
+                                  required: true
+                                  azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/operation', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/operation']
+                                  values:
+                                    - :Unknown
+                                    - :Equal
+                                - !ruby/object:Api::Type::String
+                                  name: 'value'
+                                  description: 'Track property value'
+                                  required: false
+                                  azure_sdk_references: ['/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/value', '/properties/envelopeEncryption/contentKeys/keyToTrackMappings/tracks/trackSelections/value']
+          - !ruby/object:Api::Type::String
+            name: 'customKeyAcquisitionUrlTemplate'
+            description: 'KeyAcquisitionUrlTemplate is used to point to user specified service to delivery content keys'
+            required: false
+            azure_sdk_references: ['/envelopeEncryption/customKeyAcquisitionUrlTemplate', '/properties/envelopeEncryption/customKeyAcquisitionUrlTemplate']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'commonEncryptionCenc'
+        description: 'Configuration of CommonEncryptionCenc'
+        required: false
+        azure_sdk_references: ['/commonEncryptionCenc', '/properties/commonEncryptionCenc']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'enabledProtocols'
+            description: 'Representing supported protocols'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCenc/enabledProtocols', '/properties/commonEncryptionCenc/enabledProtocols']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'download'
+                description: 'Enable Download protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCenc/enabledProtocols/download', '/properties/commonEncryptionCenc/enabledProtocols/download']
+              - !ruby/object:Api::Type::Boolean
+                name: 'dash'
+                description: 'Enable DASH protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCenc/enabledProtocols/dash', '/properties/commonEncryptionCenc/enabledProtocols/dash']
+              - !ruby/object:Api::Type::Boolean
+                name: 'hls'
+                description: 'Enable HLS protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCenc/enabledProtocols/hls', '/properties/commonEncryptionCenc/enabledProtocols/hls']
+              - !ruby/object:Api::Type::Boolean
+                name: 'smoothStreaming'
+                description: 'Enable SmoothStreaming protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCenc/enabledProtocols/smoothStreaming', '/properties/commonEncryptionCenc/enabledProtocols/smoothStreaming']
+          - !ruby/object:Api::Type::Array
+            name: 'clearTracks'
+            description: 'Representing which tracks should not be encrypted'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCenc/clearTracks', '/properties/commonEncryptionCenc/clearTracks']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'trackSelections'
+                  description: 'TrackSelections is a track property condition list which can specify track(s)'
+                  required: false
+                  azure_sdk_references: ['/commonEncryptionCenc/clearTracks/trackSelections', '/properties/commonEncryptionCenc/clearTracks/trackSelections']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'property'
+                        description: 'Track property type'
+                        required: true
+                        azure_sdk_references: ['/commonEncryptionCenc/clearTracks/trackSelections/property', '/properties/commonEncryptionCenc/clearTracks/trackSelections/property']
+                        values:
+                          - :Unknown
+                          - :FourCC
+                      - !ruby/object:Api::Type::Enum
+                        name: 'operation'
+                        description: 'Track property condition operation'
+                        required: true
+                        azure_sdk_references: ['/commonEncryptionCenc/clearTracks/trackSelections/operation', '/properties/commonEncryptionCenc/clearTracks/trackSelections/operation']
+                        values:
+                          - :Unknown
+                          - :Equal
+                      - !ruby/object:Api::Type::String
+                        name: 'value'
+                        description: 'Track property value'
+                        required: false
+                        azure_sdk_references: ['/commonEncryptionCenc/clearTracks/trackSelections/value', '/properties/commonEncryptionCenc/clearTracks/trackSelections/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'contentKeys'
+            description: 'Representing default content key for each encryption scheme and separate content keys for specific tracks'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCenc/contentKeys', '/properties/commonEncryptionCenc/contentKeys']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'defaultKey'
+                description: 'Default content key for an encryption scheme'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCenc/contentKeys/defaultKey', '/properties/commonEncryptionCenc/contentKeys/defaultKey']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'label'
+                    description: 'Label can be used to specify Content Key when creating a Streaming Locator'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCenc/contentKeys/defaultKey/label', '/properties/commonEncryptionCenc/contentKeys/defaultKey/label']
+                  - !ruby/object:Api::Type::String
+                    name: 'policyName'
+                    description: 'Policy used by Default Key'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCenc/contentKeys/defaultKey/policyName', '/properties/commonEncryptionCenc/contentKeys/defaultKey/policyName']
+              - !ruby/object:Api::Type::Array
+                name: 'keyToTrackMappings'
+                description: 'Representing tracks needs separate content key'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'label'
+                      description: 'Label can be used to specify Content Key when creating a Streaming Locator'
+                      required: false
+                      azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/label', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/label']
+                    - !ruby/object:Api::Type::String
+                      name: 'policyName'
+                      description: 'Policy used by Content Key'
+                      required: false
+                      azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/policyName', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/policyName']
+                    - !ruby/object:Api::Type::Array
+                      name: 'tracks'
+                      description: 'Tracks which use this content key'
+                      required: false
+                      azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks']
+                      item_type: !ruby/object:Api::Type::NestedObject
+                        properties:
+                          - !ruby/object:Api::Type::Array
+                            name: 'trackSelections'
+                            description: 'TrackSelections is a track property condition list which can specify track(s)'
+                            required: false
+                            azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections']
+                            item_type: !ruby/object:Api::Type::NestedObject
+                              properties:
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'property'
+                                  description: 'Track property type'
+                                  required: true
+                                  azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/property', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/property']
+                                  values:
+                                    - :Unknown
+                                    - :FourCC
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'operation'
+                                  description: 'Track property condition operation'
+                                  required: true
+                                  azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/operation', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/operation']
+                                  values:
+                                    - :Unknown
+                                    - :Equal
+                                - !ruby/object:Api::Type::String
+                                  name: 'value'
+                                  description: 'Track property value'
+                                  required: false
+                                  azure_sdk_references: ['/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/value', '/properties/commonEncryptionCenc/contentKeys/keyToTrackMappings/tracks/trackSelections/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'drm'
+            description: 'Configuration of DRMs for CommonEncryptionCenc encryption scheme'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCenc/drm', '/properties/commonEncryptionCenc/drm']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'playReady'
+                description: 'PlayReady configurations'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCenc/drm/playReady', '/properties/commonEncryptionCenc/drm/playReady']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'customLicenseAcquisitionUrlTemplate'
+                    description: 'The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCenc/drm/playReady/customLicenseAcquisitionUrlTemplate', '/properties/commonEncryptionCenc/drm/playReady/customLicenseAcquisitionUrlTemplate']
+                  - !ruby/object:Api::Type::String
+                    name: 'playReadyCustomAttributes'
+                    description: 'Custom attributes for PlayReady'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCenc/drm/playReady/playReadyCustomAttributes', '/properties/commonEncryptionCenc/drm/playReady/playReadyCustomAttributes']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'widevine'
+                description: 'Widevine configurations'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCenc/drm/widevine', '/properties/commonEncryptionCenc/drm/widevine']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'customLicenseAcquisitionUrlTemplate'
+                    description: 'The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCenc/drm/widevine/customLicenseAcquisitionUrlTemplate', '/properties/commonEncryptionCenc/drm/widevine/customLicenseAcquisitionUrlTemplate']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'commonEncryptionCbcs'
+        description: 'Configuration of CommonEncryptionCbcs'
+        required: false
+        azure_sdk_references: ['/commonEncryptionCbcs', '/properties/commonEncryptionCbcs']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'enabledProtocols'
+            description: 'Representing supported protocols'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCbcs/enabledProtocols', '/properties/commonEncryptionCbcs/enabledProtocols']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'download'
+                description: 'Enable Download protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCbcs/enabledProtocols/download', '/properties/commonEncryptionCbcs/enabledProtocols/download']
+              - !ruby/object:Api::Type::Boolean
+                name: 'dash'
+                description: 'Enable DASH protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCbcs/enabledProtocols/dash', '/properties/commonEncryptionCbcs/enabledProtocols/dash']
+              - !ruby/object:Api::Type::Boolean
+                name: 'hls'
+                description: 'Enable HLS protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCbcs/enabledProtocols/hls', '/properties/commonEncryptionCbcs/enabledProtocols/hls']
+              - !ruby/object:Api::Type::Boolean
+                name: 'smoothStreaming'
+                description: 'Enable SmoothStreaming protocol or not'
+                required: true
+                azure_sdk_references: ['/commonEncryptionCbcs/enabledProtocols/smoothStreaming', '/properties/commonEncryptionCbcs/enabledProtocols/smoothStreaming']
+          - !ruby/object:Api::Type::Array
+            name: 'clearTracks'
+            description: 'Representing which tracks should not be encrypted'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCbcs/clearTracks', '/properties/commonEncryptionCbcs/clearTracks']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Array
+                  name: 'trackSelections'
+                  description: 'TrackSelections is a track property condition list which can specify track(s)'
+                  required: false
+                  azure_sdk_references: ['/commonEncryptionCbcs/clearTracks/trackSelections', '/properties/commonEncryptionCbcs/clearTracks/trackSelections']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::Enum
+                        name: 'property'
+                        description: 'Track property type'
+                        required: true
+                        azure_sdk_references: ['/commonEncryptionCbcs/clearTracks/trackSelections/property', '/properties/commonEncryptionCbcs/clearTracks/trackSelections/property']
+                        values:
+                          - :Unknown
+                          - :FourCC
+                      - !ruby/object:Api::Type::Enum
+                        name: 'operation'
+                        description: 'Track property condition operation'
+                        required: true
+                        azure_sdk_references: ['/commonEncryptionCbcs/clearTracks/trackSelections/operation', '/properties/commonEncryptionCbcs/clearTracks/trackSelections/operation']
+                        values:
+                          - :Unknown
+                          - :Equal
+                      - !ruby/object:Api::Type::String
+                        name: 'value'
+                        description: 'Track property value'
+                        required: false
+                        azure_sdk_references: ['/commonEncryptionCbcs/clearTracks/trackSelections/value', '/properties/commonEncryptionCbcs/clearTracks/trackSelections/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'contentKeys'
+            description: 'Representing default content key for each encryption scheme and separate content keys for specific tracks'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCbcs/contentKeys', '/properties/commonEncryptionCbcs/contentKeys']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'defaultKey'
+                description: 'Default content key for an encryption scheme'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/defaultKey', '/properties/commonEncryptionCbcs/contentKeys/defaultKey']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'label'
+                    description: 'Label can be used to specify Content Key when creating a Streaming Locator'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/defaultKey/label', '/properties/commonEncryptionCbcs/contentKeys/defaultKey/label']
+                  - !ruby/object:Api::Type::String
+                    name: 'policyName'
+                    description: 'Policy used by Default Key'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/defaultKey/policyName', '/properties/commonEncryptionCbcs/contentKeys/defaultKey/policyName']
+              - !ruby/object:Api::Type::Array
+                name: 'keyToTrackMappings'
+                description: 'Representing tracks needs separate content key'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings']
+                item_type: !ruby/object:Api::Type::NestedObject
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'label'
+                      description: 'Label can be used to specify Content Key when creating a Streaming Locator'
+                      required: false
+                      azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/label', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/label']
+                    - !ruby/object:Api::Type::String
+                      name: 'policyName'
+                      description: 'Policy used by Content Key'
+                      required: false
+                      azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/policyName', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/policyName']
+                    - !ruby/object:Api::Type::Array
+                      name: 'tracks'
+                      description: 'Tracks which use this content key'
+                      required: false
+                      azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks']
+                      item_type: !ruby/object:Api::Type::NestedObject
+                        properties:
+                          - !ruby/object:Api::Type::Array
+                            name: 'trackSelections'
+                            description: 'TrackSelections is a track property condition list which can specify track(s)'
+                            required: false
+                            azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections']
+                            item_type: !ruby/object:Api::Type::NestedObject
+                              properties:
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'property'
+                                  description: 'Track property type'
+                                  required: true
+                                  azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/property', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/property']
+                                  values:
+                                    - :Unknown
+                                    - :FourCC
+                                - !ruby/object:Api::Type::Enum
+                                  name: 'operation'
+                                  description: 'Track property condition operation'
+                                  required: true
+                                  azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/operation', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/operation']
+                                  values:
+                                    - :Unknown
+                                    - :Equal
+                                - !ruby/object:Api::Type::String
+                                  name: 'value'
+                                  description: 'Track property value'
+                                  required: false
+                                  azure_sdk_references: ['/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/value', '/properties/commonEncryptionCbcs/contentKeys/keyToTrackMappings/tracks/trackSelections/value']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'drm'
+            description: 'Configuration of DRMs for current encryption scheme'
+            required: false
+            azure_sdk_references: ['/commonEncryptionCbcs/drm', '/properties/commonEncryptionCbcs/drm']
+            properties:
+              - !ruby/object:Api::Type::NestedObject
+                name: 'fairPlay'
+                description: 'FairPlay configurations'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCbcs/drm/fairPlay', '/properties/commonEncryptionCbcs/drm/fairPlay']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'customLicenseAcquisitionUrlTemplate'
+                    description: 'The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCbcs/drm/fairPlay/customLicenseAcquisitionUrlTemplate', '/properties/commonEncryptionCbcs/drm/fairPlay/customLicenseAcquisitionUrlTemplate']
+                  - !ruby/object:Api::Type::Boolean
+                    name: 'allowPersistentLicense'
+                    description: 'All license to be persistent or not'
+                    required: true
+                    azure_sdk_references: ['/commonEncryptionCbcs/drm/fairPlay/allowPersistentLicense', '/properties/commonEncryptionCbcs/drm/fairPlay/allowPersistentLicense']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'playReady'
+                description: 'PlayReady configurations'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCbcs/drm/playReady', '/properties/commonEncryptionCbcs/drm/playReady']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'customLicenseAcquisitionUrlTemplate'
+                    description: 'The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCbcs/drm/playReady/customLicenseAcquisitionUrlTemplate', '/properties/commonEncryptionCbcs/drm/playReady/customLicenseAcquisitionUrlTemplate']
+                  - !ruby/object:Api::Type::String
+                    name: 'playReadyCustomAttributes'
+                    description: 'Custom attributes for PlayReady'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCbcs/drm/playReady/playReadyCustomAttributes', '/properties/commonEncryptionCbcs/drm/playReady/playReadyCustomAttributes']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'widevine'
+                description: 'Widevine configurations'
+                required: false
+                azure_sdk_references: ['/commonEncryptionCbcs/drm/widevine', '/properties/commonEncryptionCbcs/drm/widevine']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'customLicenseAcquisitionUrlTemplate'
+                    description: 'The template for a customer service to deliver keys to end users.  Not needed when using Azure Media Services for issuing keys.'
+                    required: false
+                    azure_sdk_references: ['/commonEncryptionCbcs/drm/widevine/customLicenseAcquisitionUrlTemplate', '/properties/commonEncryptionCbcs/drm/widevine/customLicenseAcquisitionUrlTemplate']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'noEncryption'
+        description: 'Configurations of NoEncryption'
+        required: false
+        azure_sdk_references: ['/noEncryption', '/properties/noEncryption']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'enabledProtocols'
+            description: 'Representing supported protocols'
+            required: false
+            azure_sdk_references: ['/noEncryption/enabledProtocols', '/properties/noEncryption/enabledProtocols']
+            properties:
+              - !ruby/object:Api::Type::Boolean
+                name: 'download'
+                description: 'Enable Download protocol or not'
+                required: true
+                azure_sdk_references: ['/noEncryption/enabledProtocols/download', '/properties/noEncryption/enabledProtocols/download']
+              - !ruby/object:Api::Type::Boolean
+                name: 'dash'
+                description: 'Enable DASH protocol or not'
+                required: true
+                azure_sdk_references: ['/noEncryption/enabledProtocols/dash', '/properties/noEncryption/enabledProtocols/dash']
+              - !ruby/object:Api::Type::Boolean
+                name: 'hls'
+                description: 'Enable HLS protocol or not'
+                required: true
+                azure_sdk_references: ['/noEncryption/enabledProtocols/hls', '/properties/noEncryption/enabledProtocols/hls']
+              - !ruby/object:Api::Type::Boolean
+                name: 'smoothStreaming'
+                description: 'Enable SmoothStreaming protocol or not'
+                required: true
+                azure_sdk_references: ['/noEncryption/enabledProtocols/smoothStreaming', '/properties/noEncryption/enabledProtocols/smoothStreaming']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource ID for the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

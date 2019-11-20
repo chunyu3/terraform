@@ -1,0 +1,27 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_servicefabriccluster
+  description: Put a cluster with minimum parameters
+  code:
+    resource_group: myResourceGroup
+    name: myCluster
+    location: eastus
+    tags: {}
+    fabric_settings:
+      - name: UpgradeService
+    node_types:
+      - name: nt1vm
+        client_connection_endpoint_port: '19000'
+        http_gateway_endpoint_port: '19007'
+        durability_level: Bronze
+        application_ports:
+          start_port: '20000'
+          end_port: '30000'
+        ephemeral_ports:
+          start_port: '49000'
+          end_port: '64000'
+        is_primary: true
+        vm_instance_count: '5'
+    reliability_level: Silver
+    upgrade_mode: Automatic
+  

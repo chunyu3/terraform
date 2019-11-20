@@ -1,0 +1,33 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_apimanagementservice
+  description: ApiManagementServiceUpdateHostName
+  code:
+    resource_group: myResourceGroup
+    name: myService
+    update:
+      - type: Proxy
+        hostname: internalproxy2.contoso.com
+        certificate:
+          expiry: '2018-03-17T21:55:07+00:00'
+          thumbprint: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          subject: CN=*.contoso.com
+      - type: Portal
+        hostname: internalportal2.contoso.com
+        certificate:
+          expiry: '2018-03-17T21:55:07+00:00'
+          thumbprint: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          subject: CN=*.contoso.com
+      - type: Management
+        hostname: internalmgmt2.contoso.com
+        certificate:
+          expiry: '2018-03-17T21:55:07+00:00'
+          thumbprint: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          subject: CN=*.contoso.com
+      - type: Scm
+        hostname: internalscm2.contoso.com
+        certificate:
+          expiry: '2018-03-17T21:55:07+00:00'
+          thumbprint: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          subject: CN=*.contoso.com
+  

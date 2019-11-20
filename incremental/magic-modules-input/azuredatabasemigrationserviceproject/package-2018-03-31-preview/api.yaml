@@ -1,0 +1,402 @@
+--- !ruby/object:Api::Product
+name: Azure Project Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Project
+    api_name: DataMigration
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataMigration
+      go_client_namespace: azuredatabasemigrationservice
+      go_client: projectsClient
+      python_client_namespace: azure.mgmt.azuredatabasemigrationservice
+      python_client: DataMigrationManagementClient.projects
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: name
+            python_parameter_name: project_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Project
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProjectProperties
+            go_type_name: ProjectProperties
+          '/sourcePlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: source_platform
+          '/properties/sourcePlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SourcePlatform
+            go_enum_type_name: ProjectSourcePlatform
+          '/targetPlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: target_platform
+          '/properties/targetPlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TargetPlatform
+            go_enum_type_name: ProjectTargetPlatform
+          '/sourceConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_connection_info
+          '/sourceConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/sourceConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/sourceConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceConnectionInfo
+            go_type_name: ConnectionInfo
+          '/properties/sourceConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/properties/sourceConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/targetConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: target_connection_info
+          '/targetConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/targetConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/targetConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TargetConnectionInfo
+            go_type_name: ConnectionInfo
+          '/properties/targetConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/properties/targetConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/databasesInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: databases_info
+          '/databasesInfo/sourceDatabaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_database_name
+          '/properties/databasesInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DatabasesInfo
+            go_type_name: DatabaseInfo
+          '/properties/databasesInfo/sourceDatabaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseName
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: name
+            python_parameter_name: project_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: Project
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ProjectProperties
+            go_type_name: ProjectProperties
+          '/sourcePlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: source_platform
+          '/properties/sourcePlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: SourcePlatform
+            go_enum_type_name: ProjectSourcePlatform
+          '/targetPlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: target_platform
+          '/properties/targetPlatform': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TargetPlatform
+            go_enum_type_name: ProjectTargetPlatform
+          '/sourceConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: source_connection_info
+          '/sourceConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/sourceConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/sourceConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceConnectionInfo
+            go_type_name: ConnectionInfo
+          '/properties/sourceConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/properties/sourceConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/targetConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: target_connection_info
+          '/targetConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/targetConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/targetConnectionInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TargetConnectionInfo
+            go_type_name: ConnectionInfo
+          '/properties/targetConnectionInfo/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/properties/targetConnectionInfo/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/databasesInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: databases_info
+          '/databasesInfo/sourceDatabaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: source_database_name
+          '/properties/databasesInfo': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DatabasesInfo
+            go_type_name: DatabaseInfo
+          '/properties/databasesInfo/sourceDatabaseName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SourceDatabaseName
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: name
+            python_parameter_name: project_name
+            python_variable_name: name
+          'deleteRunningTasks': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteRunningTasks
+            python_parameter_name: delete_running_tasks
+            python_variable_name: delete_running_tasks
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'projectName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: projects
+            go_variable_name: name
+            python_parameter_name: project_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+
+    description: |
+      Manage Azure Project instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'groupName'
+        description: 'Name of the resource group'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'Name of the service'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location.'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::Enum
+        name: 'sourcePlatform'
+        description: 'Source platform for the project'
+        required: true
+        azure_sdk_references: ['/sourcePlatform', '/properties/sourcePlatform']
+        values:
+          - :SQL
+          - :Unknown
+      - !ruby/object:Api::Type::Enum
+        name: 'targetPlatform'
+        description: 'Target platform for the project'
+        required: true
+        azure_sdk_references: ['/targetPlatform', '/properties/targetPlatform']
+        values:
+          - :SQLDB
+          - :SQLMI
+          - :Unknown
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sourceConnectionInfo'
+        description: 'Information for connecting to source'
+        required: false
+        azure_sdk_references: ['/sourceConnectionInfo', '/properties/sourceConnectionInfo']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'userName'
+            description: 'User name'
+            required: false
+            azure_sdk_references: ['/sourceConnectionInfo/userName', '/properties/sourceConnectionInfo/userName']
+          - !ruby/object:Api::Type::String
+            name: 'password'
+            description: 'Password credential.'
+            required: false
+            azure_sdk_references: ['/sourceConnectionInfo/password', '/properties/sourceConnectionInfo/password']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'targetConnectionInfo'
+        description: 'Information for connecting to target'
+        required: false
+        azure_sdk_references: ['/targetConnectionInfo', '/properties/targetConnectionInfo']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'userName'
+            description: 'User name'
+            required: false
+            azure_sdk_references: ['/targetConnectionInfo/userName', '/properties/targetConnectionInfo/userName']
+          - !ruby/object:Api::Type::String
+            name: 'password'
+            description: 'Password credential.'
+            required: false
+            azure_sdk_references: ['/targetConnectionInfo/password', '/properties/targetConnectionInfo/password']
+      - !ruby/object:Api::Type::Array
+        name: 'databasesInfo'
+        description: 'List of DatabaseInfo'
+        required: false
+        azure_sdk_references: ['/databasesInfo', '/properties/databasesInfo']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'sourceDatabaseName'
+              description: 'Name of the database'
+              required: true
+              azure_sdk_references: ['/databasesInfo/sourceDatabaseName', '/properties/databasesInfo/sourceDatabaseName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the project'
+        required: true
+        input: true
+        azure_sdk_references: ['projectName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteRunningTasks'
+        description: 'Delete the resource even if it contains running tasks'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteRunningTasks']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,336 @@
+--- !ruby/object:Api::Product
+name: Azure Service Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Service
+    api_name: DataMigration
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DataMigration
+      go_client_namespace: azuredatabasemigrationservice
+      go_client: servicesClient
+      python_client_namespace: azure.mgmt.azuredatabasemigrationservice
+      python_client: DataMigrationManagementClient.services
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: NameAvailabilityRequest
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DataMigrationServiceProperties
+            go_type_name: DataMigrationServiceProperties
+          '/publicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_key
+          '/properties/publicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicKey
+          '/virtualSubnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_subnet_id
+          '/properties/virtualSubnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualSubnetID
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ServiceSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: NameAvailabilityRequest
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DataMigrationServiceProperties
+            go_type_name: DataMigrationServiceProperties
+          '/publicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_key
+          '/properties/publicKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicKey
+          '/virtualSubnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_subnet_id
+          '/properties/virtualSubnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualSubnetID
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_field_name: Sku
+            go_type_name: ServiceSku
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/sku/tier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Tier
+            python_field_name: tier
+          '/sku/family': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Family
+            python_field_name: family
+          '/sku/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Size
+            python_field_name: size
+          '/sku/capacity': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Capacity
+            python_field_name: capacity
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+          'deleteRunningTasks': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            id_portion: null
+            go_variable_name: deleteRunningTasks
+            python_parameter_name: delete_running_tasks
+            python_variable_name: delete_running_tasks
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+        response:
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSkus
+        python_func_name: list_skus
+        request:
+          'groupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: groupName
+            python_parameter_name: group_name
+            python_variable_name: group_name
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: services
+            go_variable_name: name
+            python_parameter_name: service_name
+            python_variable_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure Service instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Resource tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The Azure region of the operation'
+        required: true
+        input: true
+        azure_sdk_references: ['location']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'HTTP strong entity tag value. Ignored if submitted'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'The resource kind. Only ''vm'' (the default) is supported.'
+        required: false
+        input: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Type::String
+        name: 'publicKey'
+        description: 'The public key of the service, used to encrypt secrets sent to the service'
+        required: false
+        azure_sdk_references: ['/publicKey', '/properties/publicKey']
+      - !ruby/object:Api::Type::String
+        name: 'virtualSubnetId'
+        description: 'The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined'
+        required: true
+        azure_sdk_references: ['/virtualSubnetId', '/properties/virtualSubnetId']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'Service SKU'
+        required: false
+        azure_sdk_references: ['/sku']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The unique name of the SKU, such as ''P3'''
+            required: false
+            azure_sdk_references: ['/sku/name']
+          - !ruby/object:Api::Type::String
+            name: 'tier'
+            description: 'The tier of the SKU, such as ''Basic'', ''General Purpose'', or ''Business Critical'''
+            required: false
+            azure_sdk_references: ['/sku/tier']
+          - !ruby/object:Api::Type::String
+            name: 'family'
+            description: 'The SKU family, used when the service has multiple performance classes within a tier, such as ''A'', ''D'', etc. for virtual machines'
+            required: false
+            azure_sdk_references: ['/sku/family']
+          - !ruby/object:Api::Type::String
+            name: 'size'
+            description: 'The size of the SKU, used when the name alone does not denote a service size or when a SKU has multiple performance classes within a family, e.g. ''A1'' for virtual machines'
+            required: false
+            azure_sdk_references: ['/sku/size']
+          - !ruby/object:Api::Type::Integer
+            name: 'capacity'
+            description: 'The capacity of the SKU, if it supports scaling'
+            required: false
+            azure_sdk_references: ['/sku/capacity']
+      - !ruby/object:Api::Type::String
+        name: 'groupName'
+        description: 'Name of the resource group'
+        required: true
+        input: true
+        azure_sdk_references: ['groupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the service'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'deleteRunningTasks'
+        description: 'Delete the resource even if it contains running tasks'
+        required: false
+        input: true
+        azure_sdk_references: ['deleteRunningTasks']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The proposed resource name'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The resource type chain (e.g. virtualMachines/extensions)'
+        required: false
+        input: true
+        azure_sdk_references: ['/type']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']

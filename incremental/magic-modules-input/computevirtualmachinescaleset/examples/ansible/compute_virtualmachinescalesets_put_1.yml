@@ -1,0 +1,49 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computevirtualmachinescaleset
+  description: Create a scale set with ssh authentication.
+  code:
+    resource_group: myResourceGroup
+    name: myVirtualMachineScaleSet
+    location: westus
+    sku:
+      name: Standard_D1_v2
+      tier: Standard
+      capacity: '3'
+    upgrade_policy:
+      mode: Manual
+    virtual_machine_profile:
+      os_profile:
+        linux_configuration:
+          disable_password_authentication: true
+          ssh:
+            public_keys:
+              - path: '/home/{your-username}/.ssh/authorized_keys'
+                key_data: >-
+                  ssh-rsa
+                  AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1
+      storage_profile:
+        image_reference:
+          publisher: MicrosoftWindowsServer
+          offer: WindowsServer
+          sku: 2016-Datacenter
+          version: latest
+        os_disk:
+          caching: ReadWrite
+          managed_disk:
+            storage_account_type: Standard_LRS
+      network_profile:
+        network_interface_configurations:
+          - name: '{vmss-name}'
+            primary: true
+            ip_configurations:
+              - name: '{vmss-name}'
+                subnet:
+                  id: >-
+                    /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                    resource_group
+                    }}/providers/Microsoft.Network/virtualNetworks/{{
+                    virtual_network_name }}/subnets/{{ subnet_name }}
+            enable_ipforwarding: true
+    overprovision: true
+  

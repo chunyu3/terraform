@@ -1,0 +1,183 @@
+--- !ruby/object:Api::Product
+name: Azure RedisLinkedServer Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RedisLinkedServer
+    api_name: Cache
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Cache
+      go_client_namespace: redis
+      go_client: redisLinkedServerClient
+      python_client_namespace: azure.mgmt.redis
+      python_client: RedisManagementClient.redis_linked_server
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'linkedServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: linkedServers
+            go_variable_name: name
+            python_parameter_name: linked_server_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: LinkedServerCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LinkedServerCreateProperties
+            go_type_name: LinkedServerCreateProperties
+          '/linkedRedisCacheId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: linked_redis_cache_id
+          '/properties/linkedRedisCacheId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LinkedRedisCacheID
+          '/linkedRedisCacheLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: linked_redis_cache_location
+          '/properties/linkedRedisCacheLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LinkedRedisCacheLocation
+          '/serverRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: server_role
+          '/properties/serverRole': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: ServerRole
+            go_enum_type_name: ReplicationRole
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'linkedServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: linkedServers
+            go_variable_name: name
+            python_parameter_name: linked_server_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          'linkedServerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: linkedServers
+            go_variable_name: name
+            python_parameter_name: linked_server_name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+
+    description: |
+      Manage Azure RedisLinkedServer instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the redis cache.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the linked server.'
+        required: true
+        input: true
+        azure_sdk_references: ['linkedServerName']
+      - !ruby/object:Api::Type::String
+        name: 'linkedRedisCacheId'
+        description: 'Fully qualified resourceId of the linked redis cache.'
+        required: true
+        azure_sdk_references: ['/linkedRedisCacheId', '/properties/linkedRedisCacheId']
+      - !ruby/object:Api::Type::String
+        name: 'linkedRedisCacheLocation'
+        description: 'Location of the linked redis cache.'
+        required: true
+        azure_sdk_references: ['/linkedRedisCacheLocation', '/properties/linkedRedisCacheLocation']
+      - !ruby/object:Api::Type::Enum
+        name: 'serverRole'
+        description: 'Role of the linked server.'
+        required: true
+        azure_sdk_references: ['/serverRole', '/properties/serverRole']
+        values:
+          - :Primary
+          - :Secondary
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

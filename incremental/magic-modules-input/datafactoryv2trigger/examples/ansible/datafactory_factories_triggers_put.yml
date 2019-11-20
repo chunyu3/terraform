@@ -1,0 +1,26 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_datafactoryv2trigger
+  description: Triggers_Create
+  code:
+    resource_group: myResourceGroup
+    factory_name: myFactory
+    name: myTrigger
+    trigger:
+      properties:
+        type: ScheduleTrigger
+        typeProperties:
+          recurrence:
+            frequency: Minute
+            interval: '4'
+            startTime: '2017-09-13T17:57:20.7835924Z'
+            endTime: '2017-09-13T18:13:20.7835924Z'
+            timeZone: UTC
+        pipelines:
+          - pipelineReference:
+              referenceName: examplePipeline
+              type: PipelineReference
+            parameters:
+              OutputBlobNameList:
+                - exampleoutput.csv
+  

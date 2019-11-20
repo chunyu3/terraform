@@ -1,0 +1,267 @@
+--- !ruby/object:Api::Product
+name: Azure Manager Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Manager
+    api_name: StorSimple
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.StorSimple
+      go_client_namespace: storsimple
+      go_client: managersClient
+      python_client_namespace: azure.mgmt.storsimple
+      python_client: StorSimpleManagementClient.managers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: managerName
+            python_parameter_name: manager_name
+            python_variable_name: manager_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: manager
+            go_type_name: Manager
+            python_parameter_name: manager
+            python_variable_name: manager
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ManagerExtendedInfoProperties
+            go_type_name: ManagerExtendedInfoProperties
+          '/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/properties/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/integrityKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: integrity_key
+          '/properties/integrityKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: IntegrityKey
+          '/encryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_key
+          '/properties/encryptionKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKey
+          '/encryptionKeyThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: encryption_key_thumbprint
+          '/properties/encryptionKeyThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EncryptionKeyThumbprint
+          '/portalCertificateThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: portal_certificate_thumbprint
+          '/properties/portalCertificateThumbprint': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PortalCertificateThumbprint
+          '/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: algorithm
+          '/properties/algorithm': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Algorithm
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: managerName
+            python_parameter_name: manager_name
+            python_variable_name: manager_name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: managerName
+            python_parameter_name: manager_name
+            python_variable_name: manager_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: managerName
+            python_parameter_name: manager_name
+            python_variable_name: manager_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListMetricDefinition
+        python_func_name: list_metric_definition
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: managerName
+            python_parameter_name: manager_name
+            python_variable_name: manager_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListMetrics
+        python_func_name: list_metrics
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'managerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managers
+            go_variable_name: managerName
+            python_parameter_name: manager_name
+            python_variable_name: manager_name
+
+    description: |
+      Manage Azure Manager instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'managerName'
+        description: 'The manager name'
+        required: true
+        input: true
+        azure_sdk_references: ['managerName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The Geo location of the Manager'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags attached to the StorSimple Manager.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'version'
+        description: 'Represents the version of the ExtendedInfo object being persisted'
+        required: false
+        azure_sdk_references: ['/version', '/properties/version']
+      - !ruby/object:Api::Type::String
+        name: 'integrityKey'
+        description: 'Represents the CIK of the resource'
+        required: true
+        azure_sdk_references: ['/integrityKey', '/properties/integrityKey']
+      - !ruby/object:Api::Type::String
+        name: 'encryptionKey'
+        description: 'Represents the CEK of the resource'
+        required: false
+        azure_sdk_references: ['/encryptionKey', '/properties/encryptionKey']
+      - !ruby/object:Api::Type::String
+        name: 'encryptionKeyThumbprint'
+        description: 'Represents the Cert thumbprint that was used to encrypt the CEK'
+        required: false
+        azure_sdk_references: ['/encryptionKeyThumbprint', '/properties/encryptionKeyThumbprint']
+      - !ruby/object:Api::Type::String
+        name: 'portalCertificateThumbprint'
+        description: 'Represents the portal thumbprint which can be used optionally to encrypt the entire data before storing it.'
+        required: false
+        azure_sdk_references: ['/portalCertificateThumbprint', '/properties/portalCertificateThumbprint']
+      - !ruby/object:Api::Type::String
+        name: 'algorithm'
+        description: 'Represents the encryption algorithm used to encrypt the other keys. None - if EncryptionKey is saved in plain text format. AlgorithmName - if encryption is used'
+        required: true
+        azure_sdk_references: ['/algorithm', '/properties/algorithm']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'ETag of the Resource'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Certificate Name'
+        required: true
+        input: true
+        azure_sdk_references: ['certificateName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The Resource Name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The Resource type'
+        output: true
+        azure_sdk_references: ['/type']

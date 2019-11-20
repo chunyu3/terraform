@@ -1,0 +1,28 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimpleiscsidisk
+  description: IscsiDisksCreateOrUpdate
+  code:
+    device_name: myDevice
+    resource_group: myResourceGroup
+    manager_name: myManager
+    iscsi_server_name: myIscsiserver
+    name: myDisk
+    iscsi_disk:
+      Client:
+        BaseUri: 'https://management.azure.com/'
+        SubscriptionId: 9eb689cd-7243-43b4-b6f6-5c65cb296641
+        AcceptLanguage: en-US
+        LongRunningOperationRetryTimeout: '30'
+        GenerateClientRequestId: true
+      ResourceGroupName: ResourceGroupForSDKTest
+      ManagerName: hAzureSDKOperations
+      properties:
+        description: Demo IscsiDisk for SDK Test Tiered
+        diskStatus: Online
+        accessControlRecords: []
+        dataPolicy: Tiered
+        provisionedCapacityInBytes: '536870912000'
+        monitoringStatus: Enabled
+      name: Auto-TestIscsiDisk1
+  

@@ -1,0 +1,22 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mysqlserver
+  description: Create a new server
+  code:
+    resource_group: myResourceGroup
+    name: myServer
+    sku:
+      name: GP_Gen5_2
+      tier: GeneralPurpose
+      capacity: '2'
+      family: Gen5
+    storage_profile:
+      backup_retention_days: '7'
+      geo_redundant_backup: Enabled
+      storage_mb: '128000'
+    administrator_login_password: pass$w0rd
+    ssl_enforcement: Enabled
+    location: westus
+    tags:
+      ElasticServer: '1'
+  

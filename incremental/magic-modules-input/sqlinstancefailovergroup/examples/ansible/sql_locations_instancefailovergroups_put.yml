@@ -1,0 +1,23 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqlinstancefailovergroup
+  description: Create failover group
+  code:
+    resource_group: myResourceGroup
+    location_name: myLocation
+    name: myInstanceFailoverGroup
+    read_write_endpoint:
+      failover_policy: Automatic
+      failover_with_data_loss_grace_period_minutes: '480'
+    read_only_endpoint:
+      failover_policy: Disabled
+    partner_regions:
+      - location: Japan West
+    managed_instance_pairs:
+      - primary_managed_instance_id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Sql/managedInstances/{{ managed_instance_name }}
+        partner_managed_instance_id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.Sql/managedInstances/{{ managed_instance_name }}
+  

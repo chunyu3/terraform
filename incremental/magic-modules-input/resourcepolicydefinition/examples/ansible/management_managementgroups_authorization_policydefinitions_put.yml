@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourcepolicydefinition
+  description: Create or update a policy definition at management group level
+  code:
+    name: myPolicyDefinition
+    display_name: Enforce resource naming convention
+    description: >-
+      Force resource names to begin with given 'prefix' and/or end with given
+      'suffix'
+    policy_rule:
+      if:
+        not:
+          field: name
+          like: '[concat(parameters(''prefix''), ''*'', parameters(''suffix''))]'
+      then:
+        effect: deny
+    metadata:
+      category: Naming
+    management_group_id: myManagementgroup
+  

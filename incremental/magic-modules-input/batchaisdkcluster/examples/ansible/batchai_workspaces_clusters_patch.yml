@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_batchaisdkcluster
+  description: Resize a cluster
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    name: myCluster
+    scale_settings:
+      auto_scale:
+        minimum_node_count: '0'
+        maximum_node_count: '10'
+  

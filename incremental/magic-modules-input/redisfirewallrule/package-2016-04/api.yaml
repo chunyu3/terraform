@@ -1,0 +1,156 @@
+--- !ruby/object:Api::Product
+name: Azure RedisFirewallRule Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RedisFirewallRule
+    api_name: Cache
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Cache
+      go_client_namespace: redis
+      go_client: redisFirewallRuleClient
+      python_client_namespace: azure.mgmt.redis
+      python_client: RedisManagementClient.redis_firewall_rule
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: firewallRules
+            go_variable_name: name
+            python_parameter_name: rule_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: FirewallRule
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FirewallRuleProperties
+            go_type_name: FirewallRuleProperties
+          '/startIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: start_ip
+          '/properties/startIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StartIP
+          '/endIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: end_ip
+          '/properties/endIP': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EndIP
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: firewallRules
+            go_variable_name: name
+            python_parameter_name: rule_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'cacheName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Redis
+            go_variable_name: cacheName
+            python_parameter_name: cache_name
+            python_variable_name: cache_name
+          'ruleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: firewallRules
+            go_variable_name: name
+            python_parameter_name: rule_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+
+    description: |
+      Manage Azure RedisFirewallRule instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'cacheName'
+        description: 'The name of the Redis cache.'
+        required: true
+        input: true
+        azure_sdk_references: ['cacheName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the firewall rule.'
+        required: true
+        input: true
+        azure_sdk_references: ['ruleName']
+      - !ruby/object:Api::Type::String
+        name: 'startIp'
+        description: 'lowest IP address included in the range'
+        required: true
+        azure_sdk_references: ['/startIP', '/properties/startIP']
+      - !ruby/object:Api::Type::String
+        name: 'endIp'
+        description: 'highest IP address included in the range'
+        required: true
+        azure_sdk_references: ['/endIP', '/properties/endIP']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'resource ID (of the firewall rule)'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'name of the firewall rule'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'type (of the firewall rule resource = ''Microsoft.Cache/redis/firewallRule'')'
+        output: true
+        azure_sdk_references: ['/type']

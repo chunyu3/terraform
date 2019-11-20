@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securitycenterpricing
+  description: Update pricings on subscription
+  code:
+    name: myPricing
+    pricing:
+      id: >-
+        /subscriptions/{{ subscription_id
+        }}/providers/Microsoft.Security/pricings/{{ pricing_name }}
+      name: default
+      type: Microsoft.Security/pricings
+      properties:
+        pricingTier: Standard
+  

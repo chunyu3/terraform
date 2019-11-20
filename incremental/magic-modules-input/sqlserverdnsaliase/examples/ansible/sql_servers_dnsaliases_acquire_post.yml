@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqlserverdnsaliase
+  description: Acquire server DNS alias
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    name: myDnsAliase
+    old_server_dns_alias_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Sql/servers/{{ server_name }}/dnsAliases/{{
+      dns_aliase_name }}
+  

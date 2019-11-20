@@ -1,0 +1,92 @@
+--- !ruby/object:Api::Product
+name: Azure Partner Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Partner
+    api_name: ManagementPartner
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.ManagementPartner
+      go_client_namespace: managementpartner
+      go_client: partnerClient
+      python_client_namespace: azure.mgmt.managementpartner
+      python_client: ACEProvisioningManagementPartnerAPIClient.partner
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'partnerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: partners
+            go_variable_name: partnerID
+            python_parameter_name: partner_id
+            python_variable_name: partner_id
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'partnerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: partners
+            go_variable_name: partnerID
+            python_parameter_name: partner_id
+            python_variable_name: partner_id
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'partnerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: partners
+            go_variable_name: partnerID
+            python_parameter_name: partner_id
+            python_variable_name: partner_id
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'partnerId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: partners
+            go_variable_name: partnerID
+            python_parameter_name: partner_id
+            python_variable_name: partner_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+
+    description: |
+      Manage Azure Partner instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'partnerId'
+        description: 'Id of the Partner'
+        required: true
+        input: true
+        azure_sdk_references: ['partnerId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Identifier of the partner'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the partner'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of resource. "Microsoft.ManagementPartner/partners"'
+        output: true
+        azure_sdk_references: ['/type']

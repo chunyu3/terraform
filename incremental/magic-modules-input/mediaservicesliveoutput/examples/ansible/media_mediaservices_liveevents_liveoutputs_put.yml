@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mediaservicesliveoutput
+  description: Create a LiveOutput
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaservice
+    live_event_name: myLiveEvent
+    name: myLiveOutput
+    description: test live output 1
+    asset_name: 6f3264f5-a189-48b4-a29a-a40f22575212
+    archive_window_length: PT5M
+    manifest_name: testmanifest
+    hls:
+      fragments_per_ts_segment: '5'
+  

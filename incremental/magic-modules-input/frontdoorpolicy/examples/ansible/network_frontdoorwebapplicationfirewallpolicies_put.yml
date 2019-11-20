@@ -1,0 +1,38 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_frontdoorpolicy
+  description: Creates specific policy
+  code:
+    resource_group: myResourceGroup
+    name: myFrontDoorWebApplicationFirewallPolicy
+    custom_rules:
+      rules:
+        - name: Rule1
+          priority: '1'
+          rule_type: RateLimitRule
+          rate_limit_threshold: '1000'
+          match_conditions:
+            - match_variable: RemoteAddr
+              operator: IPMatch
+              match_value:
+                - 192.168.1.0/24
+                - 10.0.0.0/24
+          action: Block
+        - name: Rule2
+          priority: '2'
+          rule_type: MatchRule
+          match_conditions:
+            - match_variable: RemoteAddr
+              operator: GeoMatch
+              match_value:
+                - CH
+            - match_variable: RequestHeader
+              selector: UserAgent
+              operator: Contains
+              match_value:
+                - Windows
+          action: Block
+    managed_rules:
+      rule_sets:
+        - priority: '1'
+  

@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_operationalinsightsworkspace
+  description: WorkspacePurge
+  code:
+    resource_group: myResourceGroup
+    name: myWorkspace
+    body:
+      table: Heartbeat
+      filters:
+        - column: TimeGenerated
+          operator: '>'
+          value: '2017-09-01T00:00:00'
+  

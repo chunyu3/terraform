@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_analysisservicesserver
+  description: Update a server.
+  code:
+    resource_group: myResourceGroup
+    name: myServer
+    server_update_parameters:
+      sku:
+        capacity: '1'
+        name: S1
+        tier: Standard
+      tags:
+        testKey: testValue
+      properties:
+        asAdministrators:
+          members:
+            - azsdktest@microsoft.com
+            - azsdktest2@microsoft.com
+  

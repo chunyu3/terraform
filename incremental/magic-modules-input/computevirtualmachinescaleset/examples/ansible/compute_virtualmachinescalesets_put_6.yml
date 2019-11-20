@@ -1,0 +1,45 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computevirtualmachinescaleset
+  description: Create a scale set with boot diagnostics.
+  code:
+    resource_group: myResourceGroup
+    name: myVirtualMachineScaleSet
+    location: westus
+    sku:
+      name: Standard_D1_v2
+      tier: Standard
+      capacity: '3'
+    upgrade_policy:
+      mode: Manual
+    virtual_machine_profile:
+      os_profile: {}
+      storage_profile:
+        image_reference:
+          publisher: MicrosoftWindowsServer
+          offer: WindowsServer
+          sku: 2016-Datacenter
+          version: latest
+        os_disk:
+          caching: ReadWrite
+          managed_disk:
+            storage_account_type: Standard_LRS
+      network_profile:
+        network_interface_configurations:
+          - name: '{vmss-name}'
+            primary: true
+            ip_configurations:
+              - name: '{vmss-name}'
+                subnet:
+                  id: >-
+                    /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                    resource_group
+                    }}/providers/Microsoft.Network/virtualNetworks/{{
+                    virtual_network_name }}/subnets/{{ subnet_name }}
+            enable_ipforwarding: true
+      diagnostics_profile:
+        boot_diagnostics:
+          enabled: true
+          storage_uri: 'http://{existing-storage-account-name}.blob.core.windows.net'
+    overprovision: true
+  

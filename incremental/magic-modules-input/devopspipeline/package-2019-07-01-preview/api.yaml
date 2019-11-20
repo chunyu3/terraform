@@ -1,0 +1,343 @@
+--- !ruby/object:Api::Product
+name: Azure Pipeline Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Pipeline
+    api_name: DevOps
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevOps
+      go_client_namespace: devops
+      go_client: pipelinesClient
+      python_client_namespace: azure.mgmt.devops
+      python_client: AzureDevOpsClient.pipelines
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: pipelines
+            go_variable_name: name
+            python_parameter_name: pipeline_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: createOperationParameters
+            go_type_name: Pipeline
+            python_parameter_name: create_operation_parameters
+            python_variable_name: create_operation_parameters
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PipelineProperties
+            go_type_name: PipelineProperties
+          '/organization': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: organization
+          '/organization/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/organization': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Organization
+            go_type_name: OrganizationReference
+          '/properties/organization/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/project': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: project
+          '/project/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/project': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Project
+            go_type_name: ProjectReference
+          '/properties/project/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/bootstrapConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bootstrap_configuration
+          '/bootstrapConfiguration/repository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: repository
+          '/bootstrapConfiguration/repository/repositoryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: repository_type
+          '/bootstrapConfiguration/repository/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/bootstrapConfiguration/repository/defaultBranch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: default_branch
+          '/bootstrapConfiguration/repository/authorization': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: authorization
+          '/bootstrapConfiguration/repository/authorization/authorizationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: authorization_type
+          '/bootstrapConfiguration/repository/authorization/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/bootstrapConfiguration/template': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: template
+          '/bootstrapConfiguration/template/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/bootstrapConfiguration/template/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/properties/bootstrapConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BootstrapConfiguration
+            go_type_name: BootstrapConfiguration
+          '/properties/bootstrapConfiguration/repository': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Repository
+            go_type_name: CodeRepository
+          '/properties/bootstrapConfiguration/repository/repositoryType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: RepositoryType
+            go_enum_type_name: CodeRepositoryType
+          '/properties/bootstrapConfiguration/repository/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/bootstrapConfiguration/repository/defaultBranch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DefaultBranch
+          '/properties/bootstrapConfiguration/repository/authorization': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Authorization
+            go_type_name: Authorization
+          '/properties/bootstrapConfiguration/repository/authorization/authorizationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AuthorizationType
+          '/properties/bootstrapConfiguration/repository/authorization/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+          '/properties/bootstrapConfiguration/repository/properties': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: {"$id":"248","$type":"DictionaryType","valueType":{"$id":"249","$type":"PrimaryType","knownPrimaryType":"string","name":{"$id":"250","fixed":false,"raw":"String"},"deprecated":false},"supportsAdditionalProperties":false,"name":{"$id":"251","fixed":false},"deprecated":false}
+          '/properties/bootstrapConfiguration/template': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Template
+            go_type_name: PipelineTemplate
+          '/properties/bootstrapConfiguration/template/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/bootstrapConfiguration/template/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Parameters
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: pipelines
+            go_variable_name: name
+            python_parameter_name: pipeline_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: pipelines
+            go_variable_name: name
+            python_parameter_name: pipeline_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'pipelineName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: pipelines
+            go_variable_name: name
+            python_parameter_name: pipeline_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+
+    description: |
+      Manage Azure Pipeline instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Azure Pipeline resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['pipelineName']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Dictionary of key-value pairs to be set as tags on the Azure Pipeline. This will overwrite any existing tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource Location'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'organization'
+        description: 'Reference to the Azure DevOps Organization containing the Pipeline.'
+        required: true
+        azure_sdk_references: ['/organization', '/properties/organization']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the Azure DevOps Organization.'
+            required: true
+            azure_sdk_references: ['/organization/name', '/properties/organization/name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'project'
+        description: 'Reference to the Azure DevOps Project containing the Pipeline.'
+        required: true
+        azure_sdk_references: ['/project', '/properties/project']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'Name of the Azure DevOps Project.'
+            required: true
+            azure_sdk_references: ['/project/name', '/properties/project/name']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'bootstrapConfiguration'
+        description: 'Configuration used to bootstrap the Pipeline.'
+        required: true
+        azure_sdk_references: ['/bootstrapConfiguration', '/properties/bootstrapConfiguration']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'repository'
+            description: 'Repository containing the source code for the pipeline.'
+            required: false
+            azure_sdk_references: ['/bootstrapConfiguration/repository', '/properties/bootstrapConfiguration/repository']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'repositoryType'
+                description: 'Type of code repository.'
+                required: true
+                azure_sdk_references: ['/bootstrapConfiguration/repository/repositoryType', '/properties/bootstrapConfiguration/repository/repositoryType']
+                values:
+                  - :gitHub
+                  - :vstsGit
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Unique immutable identifier of the code repository.'
+                required: true
+                azure_sdk_references: ['/bootstrapConfiguration/repository/id', '/properties/bootstrapConfiguration/repository/id']
+              - !ruby/object:Api::Type::String
+                name: 'defaultBranch'
+                description: 'Default branch used to configure Continuous Integration (CI) in the pipeline.'
+                required: true
+                azure_sdk_references: ['/bootstrapConfiguration/repository/defaultBranch', '/properties/bootstrapConfiguration/repository/defaultBranch']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'authorization'
+                description: 'Authorization info to access the code repository.'
+                required: false
+                azure_sdk_references: ['/bootstrapConfiguration/repository/authorization', '/properties/bootstrapConfiguration/repository/authorization']
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'authorizationType'
+                    description: 'Type of authorization.'
+                    required: true
+                    azure_sdk_references: ['/bootstrapConfiguration/repository/authorization/authorizationType', '/properties/bootstrapConfiguration/repository/authorization/authorizationType']
+                  - !ruby/object:Api::Type::KeyValuePairs
+                    name: 'parameters'
+                    description: 'Authorization parameters corresponding to the authorization type.'
+                    required: false
+                    azure_sdk_references: ['/bootstrapConfiguration/repository/authorization/parameters', '/properties/bootstrapConfiguration/repository/authorization/parameters']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'template'
+            description: 'Template used to bootstrap the pipeline.'
+            required: true
+            azure_sdk_references: ['/bootstrapConfiguration/template', '/properties/bootstrapConfiguration/template']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'id'
+                description: 'Unique identifier of the pipeline template.'
+                required: true
+                azure_sdk_references: ['/bootstrapConfiguration/template/id', '/properties/bootstrapConfiguration/template/id']
+              - !ruby/object:Api::Type::KeyValuePairs
+                name: 'parameters'
+                description: 'Dictionary of input parameters used in the pipeline template.'
+                required: false
+                azure_sdk_references: ['/bootstrapConfiguration/template/parameters', '/properties/bootstrapConfiguration/template/parameters']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource Type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource Name'
+        output: true
+        azure_sdk_references: ['/name']

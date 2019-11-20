@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computeloganalytic
+  description: >-
+    Export logs which contain all Api requests made to Compute Resource Provider
+    within the given time period broken down by intervals.
+  code:
+    blob_container_sas_uri: 'https://somesasuri'
+    from_time: '2018-01-21T01:54:06.862601Z'
+    to_time: '2018-01-23T01:54:06.862601Z'
+    group_by_resource_name: true
+    interval_length: FiveMins
+    location: myLocation
+  

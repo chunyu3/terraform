@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_kustocluster
+  description: KustoClusterDetachFollowerDatabases
+  code:
+    resource_group: myResourceGroup
+    name: myCluster
+    follower_database_to_remove:
+      clusterResourceId: >-
+        /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+        }}/providers/Microsoft.Kusto/clusters/{{ cluster_name }}
+      attachedDatabaseConfigurationName: myAttachedDatabaseConfiguration
+  

@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_backupprotectionintent
+  description: Validate Enable Protection on Azure Vm
+  code:
+    azure_region: myLocation
+    resource_type: VM
+    resource_id: >-
+      /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+      }}/providers/Microsoft.Compute/VirtualMachines/{{ virtual_machine_name }}
+    vault_id: >-
+      /Subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.RecoveryServices/Vaults/myVault
+  

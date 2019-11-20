@@ -1,0 +1,192 @@
+--- !ruby/object:Api::Product
+name: Azure SecurityContact Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SecurityContact
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: securityContactsClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.security_contacts
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'securityContactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: securityContacts
+            go_variable_name: name
+            python_parameter_name: security_contact_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: securityContact
+            go_type_name: SecurityContact
+            python_parameter_name: security_contact
+            python_variable_name: security_contact
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecurityContactProperties
+            go_type_name: SecurityContactProperties
+          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email
+          '/properties/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Email
+          '/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone
+          '/properties/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Phone
+          '/alertNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: alert_notifications
+          '/properties/alertNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AlertNotifications
+            go_enum_type_name: AlertNotifications
+          '/alertsToAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: alerts_to_admins
+          '/properties/alertsToAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AlertsToAdmins
+            go_enum_type_name: AlertsToAdmins
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'securityContactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: securityContacts
+            go_variable_name: name
+            python_parameter_name: security_contact_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: securityContact
+            go_type_name: SecurityContact
+            python_parameter_name: security_contact
+            python_variable_name: security_contact
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecurityContactProperties
+            go_type_name: SecurityContactProperties
+          '/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email
+          '/properties/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Email
+          '/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: phone
+          '/properties/phone': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Phone
+          '/alertNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: alert_notifications
+          '/properties/alertNotifications': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AlertNotifications
+            go_enum_type_name: AlertNotifications
+          '/alertsToAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: alerts_to_admins
+          '/properties/alertsToAdmins': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: AlertsToAdmins
+            go_enum_type_name: AlertsToAdmins
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'securityContactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: securityContacts
+            go_variable_name: name
+            python_parameter_name: security_contact_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'securityContactName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: securityContacts
+            go_variable_name: name
+            python_parameter_name: security_contact_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure SecurityContact instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the security contact object'
+        required: true
+        input: true
+        azure_sdk_references: ['securityContactName']
+      - !ruby/object:Api::Type::String
+        name: 'email'
+        description: 'The email of this security contact'
+        required: true
+        azure_sdk_references: ['/email', '/properties/email']
+      - !ruby/object:Api::Type::String
+        name: 'phone'
+        description: 'The phone number of this security contact'
+        required: false
+        azure_sdk_references: ['/phone', '/properties/phone']
+      - !ruby/object:Api::Type::Enum
+        name: 'alertNotifications'
+        description: 'Whether to send security alerts notifications to the security contact'
+        required: true
+        azure_sdk_references: ['/alertNotifications', '/properties/alertNotifications']
+        values:
+          - :On
+          - :Off
+      - !ruby/object:Api::Type::Enum
+        name: 'alertsToAdmins'
+        description: 'Whether to send security alerts notifications to subscription admins'
+        required: true
+        azure_sdk_references: ['/alertsToAdmins', '/properties/alertsToAdmins']
+        values:
+          - :On
+          - :Off
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

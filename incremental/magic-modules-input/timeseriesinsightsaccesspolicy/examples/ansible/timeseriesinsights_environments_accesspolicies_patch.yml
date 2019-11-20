@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_timeseriesinsightsaccesspolicy
+  description: AccessPoliciesUpdate
+  code:
+    resource_group: myResourceGroup
+    environment_name: myEnvironment
+    name: myAccessPolicy
+    access_policy_update_parameters:
+      properties:
+        roles:
+          - Reader
+          - Contributor
+  

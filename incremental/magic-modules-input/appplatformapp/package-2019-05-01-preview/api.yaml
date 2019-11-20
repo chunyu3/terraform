@@ -1,0 +1,331 @@
+--- !ruby/object:Api::Product
+name: Azure App Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: App
+    api_name: AppPlatform
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.AppPlatform
+      go_client_namespace: appplatform
+      go_client: appsClient
+      python_client_namespace: azure.mgmt.appplatform
+      python_client: AppPlatformManagementClient.apps
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: name
+            python_parameter_name: app_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: appResource
+            go_type_name: AppResource
+            python_parameter_name: app_resource
+            python_variable_name: app_resource
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AppResourceProperties
+            go_type_name: AppResourceProperties
+          '/public': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: public
+          '/properties/public': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Public
+          '/activeDeploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: active_deployment_name
+          '/properties/activeDeploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ActiveDeploymentName
+          '/temporaryDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: temporary_disk
+          '/temporaryDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: size_in_gb
+          '/temporaryDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_path
+          '/properties/temporaryDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TemporaryDisk
+            go_type_name: TemporaryDisk
+          '/properties/temporaryDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SizeInGB
+          '/properties/temporaryDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPath
+          '/persistentDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: persistent_disk
+          '/persistentDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: size_in_gb
+          '/persistentDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_path
+          '/properties/persistentDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PersistentDisk
+            go_type_name: PersistentDisk
+          '/properties/persistentDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SizeInGB
+          '/properties/persistentDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPath
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: name
+            python_parameter_name: app_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: appResource
+            go_type_name: AppResource
+            python_parameter_name: app_resource
+            python_variable_name: app_resource
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AppResourceProperties
+            go_type_name: AppResourceProperties
+          '/public': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: public
+          '/properties/public': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: Public
+          '/activeDeploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: active_deployment_name
+          '/properties/activeDeploymentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ActiveDeploymentName
+          '/temporaryDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: temporary_disk
+          '/temporaryDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: size_in_gb
+          '/temporaryDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_path
+          '/properties/temporaryDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TemporaryDisk
+            go_type_name: TemporaryDisk
+          '/properties/temporaryDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SizeInGB
+          '/properties/temporaryDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPath
+          '/persistentDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: persistent_disk
+          '/persistentDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: size_in_gb
+          '/persistentDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: mount_path
+          '/properties/persistentDisk': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PersistentDisk
+            go_type_name: PersistentDisk
+          '/properties/persistentDisk/sizeInGB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: SizeInGB
+          '/properties/persistentDisk/mountPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MountPath
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: name
+            python_parameter_name: app_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+          'appName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: apps
+            go_variable_name: name
+            python_parameter_name: app_name
+            python_variable_name: name
+          'syncStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: null
+            go_variable_name: syncStatus
+            python_parameter_name: sync_status
+            python_variable_name: sync_status
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serviceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: Spring
+            go_variable_name: serviceName
+            python_parameter_name: service_name
+            python_variable_name: service_name
+
+    description: |
+      Manage Azure App instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'syncStatus'
+        description: 'Indicates whether sync status'
+        required: false
+        input: true
+        azure_sdk_references: ['syncStatus']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serviceName'
+        description: 'The name of the Service resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['serviceName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the App resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['appName']
+      - !ruby/object:Api::Type::Boolean
+        name: 'public'
+        description: 'Indicates whether the App exposes public endpoint'
+        required: false
+        azure_sdk_references: ['/public', '/properties/public']
+      - !ruby/object:Api::Type::String
+        name: 'activeDeploymentName'
+        description: 'Name of the active deployment of the App'
+        required: false
+        azure_sdk_references: ['/activeDeploymentName', '/properties/activeDeploymentName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'temporaryDisk'
+        description: 'Temporary disk settings'
+        required: false
+        azure_sdk_references: ['/temporaryDisk', '/properties/temporaryDisk']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'sizeInGb'
+            description: 'Size of the temporary disk in GB'
+            required: false
+            azure_sdk_references: ['/temporaryDisk/sizeInGB', '/properties/temporaryDisk/sizeInGB']
+          - !ruby/object:Api::Type::String
+            name: 'mountPath'
+            description: 'Mount path of the temporary disk'
+            required: false
+            azure_sdk_references: ['/temporaryDisk/mountPath', '/properties/temporaryDisk/mountPath']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'persistentDisk'
+        description: 'Persistent disk settings'
+        required: false
+        azure_sdk_references: ['/persistentDisk', '/properties/persistentDisk']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'sizeInGb'
+            description: 'Size of the persistent disk in GB'
+            required: false
+            azure_sdk_references: ['/persistentDisk/sizeInGB', '/properties/persistentDisk/sizeInGB']
+          - !ruby/object:Api::Type::String
+            name: 'mountPath'
+            description: 'Mount path of the persistent disk'
+            required: false
+            azure_sdk_references: ['/persistentDisk/mountPath', '/properties/persistentDisk/mountPath']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

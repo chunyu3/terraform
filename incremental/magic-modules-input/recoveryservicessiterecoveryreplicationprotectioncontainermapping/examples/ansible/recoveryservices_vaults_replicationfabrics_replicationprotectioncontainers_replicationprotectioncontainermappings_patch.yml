@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationprotectioncontainermapping
+  description: Update protection container mapping.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    fabric_name: myReplicationFabric
+    protection_container_name: myReplicationProtectionContainer
+    name: myReplicationProtectionContainerMapping
+    update_input:
+      properties:
+        providerSpecificInput:
+          instanceType: A2A
+          agentAutoUpdateStatus: Enabled
+          automationAccountArmId: >-
+            /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+            }}/providers/Microsoft.Automation/automationAccounts/{{
+            automation_account_name }}
+  

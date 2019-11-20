@@ -1,0 +1,38 @@
+--- !ruby/object:Api::Product
+name: Azure TrafficManagerUserMetricsKey Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: TrafficManagerUserMetricsKey
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: trafficmanager
+      go_client: trafficManagerUserMetricsKeysClient
+      python_client_namespace: azure.mgmt.trafficmanager
+      python_client: TrafficManagerManagementClient.traffic_manager_user_metrics_keys
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+        response:
+
+    description: |
+      Manage Azure TrafficManagerUserMetricsKey instance.
+    properties:
+      # read only values included only in response

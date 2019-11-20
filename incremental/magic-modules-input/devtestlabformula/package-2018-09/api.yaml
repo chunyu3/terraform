@@ -1,0 +1,1978 @@
+--- !ruby/object:Api::Product
+name: Azure Formula Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Formula
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: devtestlab
+      go_client: formulasClient
+      python_client_namespace: azure.mgmt.devtestlab
+      python_client: DevTestLabsClient.formulas
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: formulas
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: formula
+            go_type_name: FormulaFragment
+            python_parameter_name: formula
+            python_variable_name: formula
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FormulaPropertiesFragment
+            go_type_name: FormulaPropertiesFragment
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/author': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: author
+          '/properties/author': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Author
+          '/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/properties/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: formula_content
+          '/formulaContent/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bulk_creation_parameters
+          '/formulaContent/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: instance_count
+          '/formulaContent/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notes
+          '/formulaContent/ownerObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: owner_object_id
+          '/formulaContent/ownerUserPrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: owner_user_principal_name
+          '/formulaContent/createdByUserId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: created_by_user_id
+          '/formulaContent/createdByUser': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: created_by_user
+          '/formulaContent/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
+          '/formulaContent/computeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: compute_id
+          '/formulaContent/customImageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_image_id
+          '/formulaContent/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/formulaContent/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: size
+          '/formulaContent/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/formulaContent/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/formulaContent/sshKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ssh_key
+          '/formulaContent/isAuthenticationWithSshKey': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_authentication_with_ssh_key
+          '/formulaContent/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: fqdn
+          '/formulaContent/labSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lab_subnet_name
+          '/formulaContent/labVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lab_virtual_network_id
+          '/formulaContent/disallowPublicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disallow_public_ip_address
+          '/formulaContent/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: artifacts
+          '/formulaContent/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: artifact_id
+          '/formulaContent/artifacts/artifactTitle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: artifact_title
+          '/formulaContent/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/formulaContent/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/formulaContent/artifacts/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/formulaContent/artifacts/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/formulaContent/artifacts/deploymentStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: deployment_status_message
+          '/formulaContent/artifacts/vmExtensionStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_extension_status_message
+          '/formulaContent/artifacts/installTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: install_time
+          '/formulaContent/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: artifact_deployment_status
+          '/formulaContent/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: deployment_status
+          '/formulaContent/artifactDeploymentStatus/artifactsApplied': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: artifacts_applied
+          '/formulaContent/artifactDeploymentStatus/totalArtifacts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: total_artifacts
+          '/formulaContent/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: gallery_image_reference
+          '/formulaContent/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer
+          '/formulaContent/galleryImageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/formulaContent/galleryImageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/formulaContent/galleryImageReference/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/formulaContent/galleryImageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/formulaContent/planId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: plan_id
+          '/formulaContent/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_interface
+          '/formulaContent/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_network_id
+          '/formulaContent/networkInterface/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_id
+          '/formulaContent/networkInterface/publicIpAddressId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address_id
+          '/formulaContent/networkInterface/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/formulaContent/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/formulaContent/networkInterface/dnsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: dns_name
+          '/formulaContent/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rdp_authority
+          '/formulaContent/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ssh_authority
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: shared_public_ip_address_configuration
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: inbound_nat_rules
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: transport_protocol
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: frontend_port
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: backend_port
+          '/formulaContent/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/formulaContent/allowClaim': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_claim
+          '/formulaContent/storageType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_type
+          '/formulaContent/virtualMachineCreationSource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: virtual_machine_creation_source
+          '/formulaContent/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: environment_id
+          '/formulaContent/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: data_disk_parameters
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: attach_new_data_disk_options
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gi_b
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disk_name
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_type
+          '/formulaContent/dataDiskParameters/existingLabDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: existing_lab_disk_id
+          '/formulaContent/dataDiskParameters/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: host_caching
+          '/formulaContent/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: schedule_parameters
+          '/formulaContent/scheduleParameters/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/formulaContent/scheduleParameters/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: task_type
+          '/formulaContent/scheduleParameters/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: weekly_recurrence
+          '/formulaContent/scheduleParameters/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: weekdays
+          '/formulaContent/scheduleParameters/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/formulaContent/scheduleParameters/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: daily_recurrence
+          '/formulaContent/scheduleParameters/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/formulaContent/scheduleParameters/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hourly_recurrence
+          '/formulaContent/scheduleParameters/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/formulaContent/scheduleParameters/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone_id
+          '/formulaContent/scheduleParameters/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: notification_settings
+          '/formulaContent/scheduleParameters/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/formulaContent/scheduleParameters/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: time_in_minutes
+          '/formulaContent/scheduleParameters/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_url
+          '/formulaContent/scheduleParameters/notificationSettings/emailRecipient': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_recipient
+          '/formulaContent/scheduleParameters/notificationSettings/notificationLocale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notification_locale
+          '/formulaContent/scheduleParameters/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_resource_id
+          '/formulaContent/scheduleParameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/formulaContent/scheduleParameters/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/formulaContent/scheduleParameters/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/formulaContent/lastKnownPowerState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_known_power_state
+          '/formulaContent/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/formulaContent/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/formulaContent/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/properties/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FormulaContent
+            go_type_name: LabVirtualMachineCreationParameterFragment
+          '/properties/formulaContent/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabVirtualMachineCreationParameterPropertiesFragment
+            go_type_name: LabVirtualMachineCreationParameterPropertiesFragment
+          '/properties/formulaContent/properties/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BulkCreationParameters
+            go_type_name: BulkCreationParametersFragment
+          '/properties/formulaContent/properties/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InstanceCount
+          '/properties/formulaContent/properties/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Notes
+          '/properties/formulaContent/properties/ownerObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OwnerObjectID
+          '/properties/formulaContent/properties/ownerUserPrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OwnerUserPrincipalName
+          '/properties/formulaContent/properties/createdByUserId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreatedByUserID
+          '/properties/formulaContent/properties/createdByUser': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreatedByUser
+          '/properties/formulaContent/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/properties/formulaContent/properties/computeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ComputeID
+          '/properties/formulaContent/properties/customImageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomImageID
+          '/properties/formulaContent/properties/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/properties/formulaContent/properties/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Size
+          '/properties/formulaContent/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/properties/formulaContent/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/formulaContent/properties/sshKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SSHKey
+          '/properties/formulaContent/properties/isAuthenticationWithSshKey': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsAuthenticationWithSSHKey
+          '/properties/formulaContent/properties/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Fqdn
+          '/properties/formulaContent/properties/labSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabSubnetName
+          '/properties/formulaContent/properties/labVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabVirtualNetworkID
+          '/properties/formulaContent/properties/disallowPublicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisallowPublicIPAddress
+          '/properties/formulaContent/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Artifacts
+            go_type_name: ArtifactInstallPropertiesFragment
+          '/properties/formulaContent/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArtifactID
+          '/properties/formulaContent/properties/artifacts/artifactTitle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArtifactTitle
+          '/properties/formulaContent/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Parameters
+            go_type_name: ArtifactParameterPropertiesFragment
+          '/properties/formulaContent/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/formulaContent/properties/artifacts/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/formulaContent/properties/artifacts/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/formulaContent/properties/artifacts/deploymentStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeploymentStatusMessage
+          '/properties/formulaContent/properties/artifacts/vmExtensionStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VMExtensionStatusMessage
+          '/properties/formulaContent/properties/artifacts/installTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: InstallTime
+          '/properties/formulaContent/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ArtifactDeploymentStatus
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
+          '/properties/formulaContent/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeploymentStatus
+          '/properties/formulaContent/properties/artifactDeploymentStatus/artifactsApplied': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ArtifactsApplied
+          '/properties/formulaContent/properties/artifactDeploymentStatus/totalArtifacts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TotalArtifacts
+          '/properties/formulaContent/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
+          '/properties/formulaContent/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Offer
+          '/properties/formulaContent/properties/galleryImageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/properties/formulaContent/properties/galleryImageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sku
+          '/properties/formulaContent/properties/galleryImageReference/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/properties/formulaContent/properties/galleryImageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/formulaContent/properties/planId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PlanID
+          '/properties/formulaContent/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkInterface
+            go_type_name: NetworkInterfacePropertiesFragment
+          '/properties/formulaContent/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkID
+          '/properties/formulaContent/properties/networkInterface/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetID
+          '/properties/formulaContent/properties/networkInterface/publicIpAddressId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddressID
+          '/properties/formulaContent/properties/networkInterface/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddress
+          '/properties/formulaContent/properties/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIPAddress
+          '/properties/formulaContent/properties/networkInterface/dnsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DNSName
+          '/properties/formulaContent/properties/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RdpAuthority
+          '/properties/formulaContent/properties/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SSHAuthority
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SharedPublicIPAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: InboundNatRules
+            go_type_name: InboundNatRuleFragment
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TransportProtocol
+            go_enum_type_name: TransportProtocol
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FrontendPort
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: BackendPort
+          '/properties/formulaContent/properties/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
+          '/properties/formulaContent/properties/allowClaim': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowClaim
+          '/properties/formulaContent/properties/storageType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageType
+          '/properties/formulaContent/properties/virtualMachineCreationSource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineCreationSource
+            go_enum_type_name: VirtualMachineCreationSource
+          '/properties/formulaContent/properties/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EnvironmentID
+          '/properties/formulaContent/properties/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DataDiskParameters
+            go_type_name: DataDiskPropertiesFragment
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AttachNewDataDiskOptions
+            go_type_name: AttachNewDataDiskOptionsFragment
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGiB
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiskName
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskType
+            go_enum_type_name: StorageType
+          '/properties/formulaContent/properties/dataDiskParameters/existingLabDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExistingLabDiskID
+          '/properties/formulaContent/properties/dataDiskParameters/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HostCaching
+            go_enum_type_name: HostCachingOptions
+          '/properties/formulaContent/properties/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ScheduleParameters
+            go_type_name: ScheduleCreationParameterFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ScheduleCreationParameterPropertiesFragment
+            go_type_name: ScheduleCreationParameterPropertiesFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/properties/formulaContent/properties/scheduleParameters/properties/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TaskType
+          '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WeeklyRecurrence
+            go_type_name: WeekDetailsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Weekdays
+          '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DailyRecurrence
+            go_type_name: DayDetailsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HourlyRecurrence
+            go_type_name: HourDetailsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+          '/properties/formulaContent/properties/scheduleParameters/properties/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZoneID
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeInMinutes
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookURL
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/emailRecipient': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailRecipient
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/notificationLocale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NotificationLocale
+          '/properties/formulaContent/properties/scheduleParameters/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetResourceID
+          '/properties/formulaContent/properties/scheduleParameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/formulaContent/properties/scheduleParameters/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/formulaContent/properties/scheduleParameters/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/formulaContent/properties/lastKnownPowerState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastKnownPowerState
+          '/properties/formulaContent/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/formulaContent/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/formulaContent/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vm
+          '/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lab_vm_id
+          '/properties/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VM
+            go_type_name: FormulaPropertiesFromVmFragment
+          '/properties/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabVMID
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: formulas
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: formula
+            go_type_name: FormulaFragment
+            python_parameter_name: formula
+            python_variable_name: formula
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FormulaPropertiesFragment
+            go_type_name: FormulaPropertiesFragment
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+          '/author': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: author
+          '/properties/author': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Author
+          '/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/properties/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: formula_content
+          '/formulaContent/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: bulk_creation_parameters
+          '/formulaContent/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: instance_count
+          '/formulaContent/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notes
+          '/formulaContent/ownerObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: owner_object_id
+          '/formulaContent/ownerUserPrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: owner_user_principal_name
+          '/formulaContent/createdByUserId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: created_by_user_id
+          '/formulaContent/createdByUser': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: created_by_user
+          '/formulaContent/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_date
+          '/formulaContent/computeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: compute_id
+          '/formulaContent/customImageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: custom_image_id
+          '/formulaContent/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/formulaContent/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: size
+          '/formulaContent/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: user_name
+          '/formulaContent/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/formulaContent/sshKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ssh_key
+          '/formulaContent/isAuthenticationWithSshKey': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: is_authentication_with_ssh_key
+          '/formulaContent/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: fqdn
+          '/formulaContent/labSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lab_subnet_name
+          '/formulaContent/labVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lab_virtual_network_id
+          '/formulaContent/disallowPublicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: disallow_public_ip_address
+          '/formulaContent/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: artifacts
+          '/formulaContent/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: artifact_id
+          '/formulaContent/artifacts/artifactTitle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: artifact_title
+          '/formulaContent/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: parameters
+          '/formulaContent/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/formulaContent/artifacts/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/formulaContent/artifacts/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: status
+          '/formulaContent/artifacts/deploymentStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: deployment_status_message
+          '/formulaContent/artifacts/vmExtensionStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: vm_extension_status_message
+          '/formulaContent/artifacts/installTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: install_time
+          '/formulaContent/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: artifact_deployment_status
+          '/formulaContent/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: deployment_status
+          '/formulaContent/artifactDeploymentStatus/artifactsApplied': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: artifacts_applied
+          '/formulaContent/artifactDeploymentStatus/totalArtifacts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: total_artifacts
+          '/formulaContent/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: gallery_image_reference
+          '/formulaContent/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: offer
+          '/formulaContent/galleryImageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: publisher
+          '/formulaContent/galleryImageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/formulaContent/galleryImageReference/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: os_type
+          '/formulaContent/galleryImageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: version
+          '/formulaContent/planId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: plan_id
+          '/formulaContent/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: network_interface
+          '/formulaContent/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: virtual_network_id
+          '/formulaContent/networkInterface/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: subnet_id
+          '/formulaContent/networkInterface/publicIpAddressId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address_id
+          '/formulaContent/networkInterface/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/formulaContent/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: private_ip_address
+          '/formulaContent/networkInterface/dnsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: dns_name
+          '/formulaContent/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: rdp_authority
+          '/formulaContent/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ssh_authority
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: shared_public_ip_address_configuration
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: inbound_nat_rules
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: transport_protocol
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: frontend_port
+          '/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: backend_port
+          '/formulaContent/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: expiration_date
+          '/formulaContent/allowClaim': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: allow_claim
+          '/formulaContent/storageType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: storage_type
+          '/formulaContent/virtualMachineCreationSource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: virtual_machine_creation_source
+          '/formulaContent/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: environment_id
+          '/formulaContent/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: data_disk_parameters
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: attach_new_data_disk_options
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gi_b
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disk_name
+          '/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_type
+          '/formulaContent/dataDiskParameters/existingLabDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: existing_lab_disk_id
+          '/formulaContent/dataDiskParameters/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: host_caching
+          '/formulaContent/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: schedule_parameters
+          '/formulaContent/scheduleParameters/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/formulaContent/scheduleParameters/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: task_type
+          '/formulaContent/scheduleParameters/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: weekly_recurrence
+          '/formulaContent/scheduleParameters/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: weekdays
+          '/formulaContent/scheduleParameters/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/formulaContent/scheduleParameters/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: daily_recurrence
+          '/formulaContent/scheduleParameters/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time
+          '/formulaContent/scheduleParameters/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: hourly_recurrence
+          '/formulaContent/scheduleParameters/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: minute
+          '/formulaContent/scheduleParameters/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: time_zone_id
+          '/formulaContent/scheduleParameters/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: notification_settings
+          '/formulaContent/scheduleParameters/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/formulaContent/scheduleParameters/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: time_in_minutes
+          '/formulaContent/scheduleParameters/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: webhook_url
+          '/formulaContent/scheduleParameters/notificationSettings/emailRecipient': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email_recipient
+          '/formulaContent/scheduleParameters/notificationSettings/notificationLocale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: notification_locale
+          '/formulaContent/scheduleParameters/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target_resource_id
+          '/formulaContent/scheduleParameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/formulaContent/scheduleParameters/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/formulaContent/scheduleParameters/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/formulaContent/lastKnownPowerState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: last_known_power_state
+          '/formulaContent/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: name
+          '/formulaContent/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: location
+          '/formulaContent/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: tags
+          '/properties/formulaContent': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FormulaContent
+            go_type_name: LabVirtualMachineCreationParameterFragment
+          '/properties/formulaContent/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabVirtualMachineCreationParameterPropertiesFragment
+            go_type_name: LabVirtualMachineCreationParameterPropertiesFragment
+          '/properties/formulaContent/properties/bulkCreationParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: BulkCreationParameters
+            go_type_name: BulkCreationParametersFragment
+          '/properties/formulaContent/properties/bulkCreationParameters/instanceCount': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: InstanceCount
+          '/properties/formulaContent/properties/notes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Notes
+          '/properties/formulaContent/properties/ownerObjectId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OwnerObjectID
+          '/properties/formulaContent/properties/ownerUserPrincipalName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OwnerUserPrincipalName
+          '/properties/formulaContent/properties/createdByUserId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreatedByUserID
+          '/properties/formulaContent/properties/createdByUser': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CreatedByUser
+          '/properties/formulaContent/properties/createdDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedDate
+          '/properties/formulaContent/properties/computeId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ComputeID
+          '/properties/formulaContent/properties/customImageId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: CustomImageID
+          '/properties/formulaContent/properties/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/properties/formulaContent/properties/size': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Size
+          '/properties/formulaContent/properties/userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UserName
+          '/properties/formulaContent/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+          '/properties/formulaContent/properties/sshKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SSHKey
+          '/properties/formulaContent/properties/isAuthenticationWithSshKey': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: IsAuthenticationWithSSHKey
+          '/properties/formulaContent/properties/fqdn': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Fqdn
+          '/properties/formulaContent/properties/labSubnetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabSubnetName
+          '/properties/formulaContent/properties/labVirtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabVirtualNetworkID
+          '/properties/formulaContent/properties/disallowPublicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: DisallowPublicIPAddress
+          '/properties/formulaContent/properties/artifacts': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Artifacts
+            go_type_name: ArtifactInstallPropertiesFragment
+          '/properties/formulaContent/properties/artifacts/artifactId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArtifactID
+          '/properties/formulaContent/properties/artifacts/artifactTitle': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ArtifactTitle
+          '/properties/formulaContent/properties/artifacts/parameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Parameters
+            go_type_name: ArtifactParameterPropertiesFragment
+          '/properties/formulaContent/properties/artifacts/parameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/formulaContent/properties/artifacts/parameters/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/formulaContent/properties/artifacts/status': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Status
+          '/properties/formulaContent/properties/artifacts/deploymentStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeploymentStatusMessage
+          '/properties/formulaContent/properties/artifacts/vmExtensionStatusMessage': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VMExtensionStatusMessage
+          '/properties/formulaContent/properties/artifacts/installTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: InstallTime
+          '/properties/formulaContent/properties/artifactDeploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ArtifactDeploymentStatus
+            go_type_name: ArtifactDeploymentStatusPropertiesFragment
+          '/properties/formulaContent/properties/artifactDeploymentStatus/deploymentStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DeploymentStatus
+          '/properties/formulaContent/properties/artifactDeploymentStatus/artifactsApplied': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: ArtifactsApplied
+          '/properties/formulaContent/properties/artifactDeploymentStatus/totalArtifacts': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TotalArtifacts
+          '/properties/formulaContent/properties/galleryImageReference': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: GalleryImageReference
+            go_type_name: GalleryImageReferenceFragment
+          '/properties/formulaContent/properties/galleryImageReference/offer': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Offer
+          '/properties/formulaContent/properties/galleryImageReference/publisher': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Publisher
+          '/properties/formulaContent/properties/galleryImageReference/sku': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Sku
+          '/properties/formulaContent/properties/galleryImageReference/osType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: OsType
+          '/properties/formulaContent/properties/galleryImageReference/version': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Version
+          '/properties/formulaContent/properties/planId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PlanID
+          '/properties/formulaContent/properties/networkInterface': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NetworkInterface
+            go_type_name: NetworkInterfacePropertiesFragment
+          '/properties/formulaContent/properties/networkInterface/virtualNetworkId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: VirtualNetworkID
+          '/properties/formulaContent/properties/networkInterface/subnetId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SubnetID
+          '/properties/formulaContent/properties/networkInterface/publicIpAddressId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddressID
+          '/properties/formulaContent/properties/networkInterface/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddress
+          '/properties/formulaContent/properties/networkInterface/privateIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrivateIPAddress
+          '/properties/formulaContent/properties/networkInterface/dnsName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DNSName
+          '/properties/formulaContent/properties/networkInterface/rdpAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RdpAuthority
+          '/properties/formulaContent/properties/networkInterface/sshAuthority': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SSHAuthority
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SharedPublicIPAddressConfiguration
+            go_type_name: SharedPublicIpAddressConfigurationFragment
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: InboundNatRules
+            go_type_name: InboundNatRuleFragment
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TransportProtocol
+            go_enum_type_name: TransportProtocol
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/frontendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: FrontendPort
+          '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/backendPort': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: BackendPort
+          '/properties/formulaContent/properties/expirationDate': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ExpirationDate
+          '/properties/formulaContent/properties/allowClaim': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AllowClaim
+          '/properties/formulaContent/properties/storageType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: StorageType
+          '/properties/formulaContent/properties/virtualMachineCreationSource': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: VirtualMachineCreationSource
+            go_enum_type_name: VirtualMachineCreationSource
+          '/properties/formulaContent/properties/environmentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EnvironmentID
+          '/properties/formulaContent/properties/dataDiskParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: DataDiskParameters
+            go_type_name: DataDiskPropertiesFragment
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: AttachNewDataDiskOptions
+            go_type_name: AttachNewDataDiskOptionsFragment
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGiB
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiskName
+          '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskType
+            go_enum_type_name: StorageType
+          '/properties/formulaContent/properties/dataDiskParameters/existingLabDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ExistingLabDiskID
+          '/properties/formulaContent/properties/dataDiskParameters/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: HostCaching
+            go_enum_type_name: HostCachingOptions
+          '/properties/formulaContent/properties/scheduleParameters': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ScheduleParameters
+            go_type_name: ScheduleCreationParameterFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ScheduleCreationParameterPropertiesFragment
+            go_type_name: ScheduleCreationParameterPropertiesFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/properties/formulaContent/properties/scheduleParameters/properties/taskType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TaskType
+          '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: WeeklyRecurrence
+            go_type_name: WeekDetailsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/weekdays': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Weekdays
+          '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DailyRecurrence
+            go_type_name: DayDetailsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence/time': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Time
+          '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: HourlyRecurrence
+            go_type_name: HourDetailsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence/minute': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Minute
+          '/properties/formulaContent/properties/scheduleParameters/properties/timeZoneId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TimeZoneID
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: NotificationSettings
+            go_type_name: NotificationSettingsFragment
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: EnableStatus
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/timeInMinutes': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: TimeInMinutes
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/webhookUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: WebhookURL
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/emailRecipient': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: EmailRecipient
+          '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/notificationLocale': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: NotificationLocale
+          '/properties/formulaContent/properties/scheduleParameters/properties/targetResourceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: TargetResourceID
+          '/properties/formulaContent/properties/scheduleParameters/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/formulaContent/properties/scheduleParameters/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/formulaContent/properties/scheduleParameters/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/properties/formulaContent/properties/lastKnownPowerState': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LastKnownPowerState
+          '/properties/formulaContent/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Name
+          '/properties/formulaContent/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Location
+          '/properties/formulaContent/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Tags
+          '/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: vm
+          '/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: lab_vm_id
+          '/properties/vm': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: VM
+            go_type_name: FormulaPropertiesFromVmFragment
+          '/properties/vm/labVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LabVMID
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: formulas
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: formulas
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: formulas
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Formula instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the formula.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The description of the formula.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      - !ruby/object:Api::Type::String
+        name: 'author'
+        description: 'The author of the formula.'
+        required: false
+        azure_sdk_references: ['/author', '/properties/author']
+      - !ruby/object:Api::Type::String
+        name: 'osType'
+        description: 'The OS type of the formula.'
+        required: false
+        azure_sdk_references: ['/osType', '/properties/osType']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'formulaContent'
+        description: 'The content of the formula.'
+        required: false
+        azure_sdk_references: ['/formulaContent', '/properties/formulaContent']
+        properties:
+          - !ruby/object:Api::Type::NestedObject
+            name: 'bulkCreationParameters'
+            description: 'The number of virtual machine instances to create.'
+            required: false
+            azure_sdk_references: ['/formulaContent/bulkCreationParameters', '/properties/formulaContent/properties/bulkCreationParameters']
+            properties:
+              - !ruby/object:Api::Type::Integer
+                name: 'instanceCount'
+                description: 'The number of virtual machine instances to create.'
+                required: false
+                azure_sdk_references: ['/formulaContent/bulkCreationParameters/instanceCount', '/properties/formulaContent/properties/bulkCreationParameters/instanceCount']
+          - !ruby/object:Api::Type::String
+            name: 'notes'
+            description: 'The notes of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/notes', '/properties/formulaContent/properties/notes']
+          - !ruby/object:Api::Type::String
+            name: 'ownerObjectId'
+            description: 'The object identifier of the owner of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/ownerObjectId', '/properties/formulaContent/properties/ownerObjectId']
+          - !ruby/object:Api::Type::String
+            name: 'ownerUserPrincipalName'
+            description: 'The user principal name of the virtual machine owner.'
+            required: false
+            azure_sdk_references: ['/formulaContent/ownerUserPrincipalName', '/properties/formulaContent/properties/ownerUserPrincipalName']
+          - !ruby/object:Api::Type::String
+            name: 'createdByUserId'
+            description: 'The object identifier of the creator of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/createdByUserId', '/properties/formulaContent/properties/createdByUserId']
+          - !ruby/object:Api::Type::String
+            name: 'createdByUser'
+            description: 'The email address of creator of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/createdByUser', '/properties/formulaContent/properties/createdByUser']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'createdDate'
+            description: 'The creation date of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/createdDate', '/properties/formulaContent/properties/createdDate']
+          - !ruby/object:Api::Type::String
+            name: 'computeId'
+            description: 'The resource identifier (Microsoft.Compute) of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/computeId', '/properties/formulaContent/properties/computeId']
+          - !ruby/object:Api::Type::String
+            name: 'customImageId'
+            description: 'The custom image identifier of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/customImageId', '/properties/formulaContent/properties/customImageId']
+          - !ruby/object:Api::Type::String
+            name: 'osType'
+            description: 'The OS type of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/osType', '/properties/formulaContent/properties/osType']
+          - !ruby/object:Api::Type::String
+            name: 'size'
+            description: 'The size of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/size', '/properties/formulaContent/properties/size']
+          - !ruby/object:Api::Type::String
+            name: 'userName'
+            description: 'The user name of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/userName', '/properties/formulaContent/properties/userName']
+          - !ruby/object:Api::Type::String
+            name: 'password'
+            description: 'The password of the virtual machine administrator.'
+            required: false
+            azure_sdk_references: ['/formulaContent/password', '/properties/formulaContent/properties/password']
+          - !ruby/object:Api::Type::String
+            name: 'sshKey'
+            description: 'The SSH key of the virtual machine administrator.'
+            required: false
+            azure_sdk_references: ['/formulaContent/sshKey', '/properties/formulaContent/properties/sshKey']
+          - !ruby/object:Api::Type::Boolean
+            name: 'isAuthenticationWithSshKey'
+            description: 'Indicates whether this virtual machine uses an SSH key for authentication.'
+            required: false
+            azure_sdk_references: ['/formulaContent/isAuthenticationWithSshKey', '/properties/formulaContent/properties/isAuthenticationWithSshKey']
+          - !ruby/object:Api::Type::String
+            name: 'fqdn'
+            description: 'The fully-qualified domain name of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/fqdn', '/properties/formulaContent/properties/fqdn']
+          - !ruby/object:Api::Type::String
+            name: 'labSubnetName'
+            description: 'The lab subnet name of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/labSubnetName', '/properties/formulaContent/properties/labSubnetName']
+          - !ruby/object:Api::Type::String
+            name: 'labVirtualNetworkId'
+            description: 'The lab virtual network identifier of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/labVirtualNetworkId', '/properties/formulaContent/properties/labVirtualNetworkId']
+          - !ruby/object:Api::Type::Boolean
+            name: 'disallowPublicIpAddress'
+            description: 'Indicates whether the virtual machine is to be created without a public IP address.'
+            required: false
+            azure_sdk_references: ['/formulaContent/disallowPublicIpAddress', '/properties/formulaContent/properties/disallowPublicIpAddress']
+          - !ruby/object:Api::Type::Array
+            name: 'artifacts'
+            description: 'The artifacts to be installed on the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/artifacts', '/properties/formulaContent/properties/artifacts']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::String
+                  name: 'artifactId'
+                  description: 'The artifact''s identifier.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/artifactId', '/properties/formulaContent/properties/artifacts/artifactId']
+                - !ruby/object:Api::Type::String
+                  name: 'artifactTitle'
+                  description: 'The artifact''s title.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/artifactTitle', '/properties/formulaContent/properties/artifacts/artifactTitle']
+                - !ruby/object:Api::Type::Array
+                  name: 'parameters'
+                  description: 'The parameters of the artifact.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/parameters', '/properties/formulaContent/properties/artifacts/parameters']
+                  item_type: !ruby/object:Api::Type::NestedObject
+                    properties:
+                      - !ruby/object:Api::Type::String
+                        name: 'name'
+                        description: 'The name of the artifact parameter.'
+                        required: false
+                        azure_sdk_references: ['/formulaContent/artifacts/parameters/name', '/properties/formulaContent/properties/artifacts/parameters/name']
+                      - !ruby/object:Api::Type::String
+                        name: 'value'
+                        description: 'The value of the artifact parameter.'
+                        required: false
+                        azure_sdk_references: ['/formulaContent/artifacts/parameters/value', '/properties/formulaContent/properties/artifacts/parameters/value']
+                - !ruby/object:Api::Type::String
+                  name: 'status'
+                  description: 'The status of the artifact.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/status', '/properties/formulaContent/properties/artifacts/status']
+                - !ruby/object:Api::Type::String
+                  name: 'deploymentStatusMessage'
+                  description: 'The status message from the deployment.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/deploymentStatusMessage', '/properties/formulaContent/properties/artifacts/deploymentStatusMessage']
+                - !ruby/object:Api::Type::String
+                  name: 'vmExtensionStatusMessage'
+                  description: 'The status message from the virtual machine extension.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/vmExtensionStatusMessage', '/properties/formulaContent/properties/artifacts/vmExtensionStatusMessage']
+                - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                  name: 'installTime'
+                  description: 'The time that the artifact starts to install on the virtual machine.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/artifacts/installTime', '/properties/formulaContent/properties/artifacts/installTime']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'artifactDeploymentStatus'
+            description: 'The artifact deployment status for the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/artifactDeploymentStatus', '/properties/formulaContent/properties/artifactDeploymentStatus']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'deploymentStatus'
+                description: 'The deployment status of the artifact.'
+                required: false
+                azure_sdk_references: ['/formulaContent/artifactDeploymentStatus/deploymentStatus', '/properties/formulaContent/properties/artifactDeploymentStatus/deploymentStatus']
+              - !ruby/object:Api::Type::Integer
+                name: 'artifactsApplied'
+                description: 'The total count of the artifacts that were successfully applied.'
+                required: false
+                azure_sdk_references: ['/formulaContent/artifactDeploymentStatus/artifactsApplied', '/properties/formulaContent/properties/artifactDeploymentStatus/artifactsApplied']
+              - !ruby/object:Api::Type::Integer
+                name: 'totalArtifacts'
+                description: 'The total count of the artifacts that were tentatively applied.'
+                required: false
+                azure_sdk_references: ['/formulaContent/artifactDeploymentStatus/totalArtifacts', '/properties/formulaContent/properties/artifactDeploymentStatus/totalArtifacts']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'galleryImageReference'
+            description: 'The Microsoft Azure Marketplace image reference of the virtual machine.'
+            required: false
+            azure_sdk_references: ['/formulaContent/galleryImageReference', '/properties/formulaContent/properties/galleryImageReference']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'offer'
+                description: 'The offer of the gallery image.'
+                required: false
+                azure_sdk_references: ['/formulaContent/galleryImageReference/offer', '/properties/formulaContent/properties/galleryImageReference/offer']
+              - !ruby/object:Api::Type::String
+                name: 'publisher'
+                description: 'The publisher of the gallery image.'
+                required: false
+                azure_sdk_references: ['/formulaContent/galleryImageReference/publisher', '/properties/formulaContent/properties/galleryImageReference/publisher']
+              - !ruby/object:Api::Type::String
+                name: 'sku'
+                description: 'The SKU of the gallery image.'
+                required: false
+                azure_sdk_references: ['/formulaContent/galleryImageReference/sku', '/properties/formulaContent/properties/galleryImageReference/sku']
+              - !ruby/object:Api::Type::String
+                name: 'osType'
+                description: 'The OS type of the gallery image.'
+                required: false
+                azure_sdk_references: ['/formulaContent/galleryImageReference/osType', '/properties/formulaContent/properties/galleryImageReference/osType']
+              - !ruby/object:Api::Type::String
+                name: 'version'
+                description: 'The version of the gallery image.'
+                required: false
+                azure_sdk_references: ['/formulaContent/galleryImageReference/version', '/properties/formulaContent/properties/galleryImageReference/version']
+          - !ruby/object:Api::Type::String
+            name: 'planId'
+            description: 'The id of the plan associated with the virtual machine image'
+            required: false
+            azure_sdk_references: ['/formulaContent/planId', '/properties/formulaContent/properties/planId']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'networkInterface'
+            description: 'The network interface properties.'
+            required: false
+            azure_sdk_references: ['/formulaContent/networkInterface', '/properties/formulaContent/properties/networkInterface']
+            properties:
+              - !ruby/object:Api::Type::String
+                name: 'virtualNetworkId'
+                description: 'The resource ID of the virtual network.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/virtualNetworkId', '/properties/formulaContent/properties/networkInterface/virtualNetworkId']
+              - !ruby/object:Api::Type::String
+                name: 'subnetId'
+                description: 'The resource ID of the sub net.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/subnetId', '/properties/formulaContent/properties/networkInterface/subnetId']
+              - !ruby/object:Api::Type::String
+                name: 'publicIpAddressId'
+                description: 'The resource ID of the public IP address.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/publicIpAddressId', '/properties/formulaContent/properties/networkInterface/publicIpAddressId']
+              - !ruby/object:Api::Type::String
+                name: 'publicIpAddress'
+                description: 'The public IP address.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/publicIpAddress', '/properties/formulaContent/properties/networkInterface/publicIpAddress']
+              - !ruby/object:Api::Type::String
+                name: 'privateIpAddress'
+                description: 'The private IP address.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/privateIpAddress', '/properties/formulaContent/properties/networkInterface/privateIpAddress']
+              - !ruby/object:Api::Type::String
+                name: 'dnsName'
+                description: 'The DNS name.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/dnsName', '/properties/formulaContent/properties/networkInterface/dnsName']
+              - !ruby/object:Api::Type::String
+                name: 'rdpAuthority'
+                description: 'The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol).'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/rdpAuthority', '/properties/formulaContent/properties/networkInterface/rdpAuthority']
+              - !ruby/object:Api::Type::String
+                name: 'sshAuthority'
+                description: 'The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/sshAuthority', '/properties/formulaContent/properties/networkInterface/sshAuthority']
+              - !ruby/object:Api::Type::NestedObject
+                name: 'sharedPublicIpAddressConfiguration'
+                description: 'The configuration for sharing a public IP address across multiple virtual machines.'
+                required: false
+                azure_sdk_references: ['/formulaContent/networkInterface/sharedPublicIpAddressConfiguration', '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration']
+                properties:
+                  - !ruby/object:Api::Type::Array
+                    name: 'inboundNatRules'
+                    description: 'The incoming NAT rules'
+                    required: false
+                    azure_sdk_references: ['/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules', '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::Enum
+                          name: 'transportProtocol'
+                          description: 'The transport protocol for the endpoint.'
+                          required: false
+                          azure_sdk_references: ['/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol', '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/transportProtocol']
+                          values:
+                            - :Tcp
+                            - :Udp
+                          default_value: :Tcp
+                        - !ruby/object:Api::Type::Integer
+                          name: 'frontendPort'
+                          description: 'The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically.'
+                          required: false
+                          azure_sdk_references: ['/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/frontendPort', '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/frontendPort']
+                        - !ruby/object:Api::Type::Integer
+                          name: 'backendPort'
+                          description: 'The port to which the external traffic will be redirected.'
+                          required: false
+                          azure_sdk_references: ['/formulaContent/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/backendPort', '/properties/formulaContent/properties/networkInterface/sharedPublicIpAddressConfiguration/inboundNatRules/backendPort']
+          - !ruby/object:Api::Azure::Type::ISO8601DateTime
+            name: 'expirationDate'
+            description: 'The expiration date for VM.'
+            required: false
+            azure_sdk_references: ['/formulaContent/expirationDate', '/properties/formulaContent/properties/expirationDate']
+          - !ruby/object:Api::Type::Boolean
+            name: 'allowClaim'
+            description: 'Indicates whether another user can take ownership of the virtual machine'
+            required: false
+            azure_sdk_references: ['/formulaContent/allowClaim', '/properties/formulaContent/properties/allowClaim']
+          - !ruby/object:Api::Type::String
+            name: 'storageType'
+            description: 'Storage type to use for virtual machine (i.e. Standard, Premium).'
+            required: false
+            azure_sdk_references: ['/formulaContent/storageType', '/properties/formulaContent/properties/storageType']
+          - !ruby/object:Api::Type::Enum
+            name: 'virtualMachineCreationSource'
+            description: 'Tells source of creation of lab virtual machine. Output property only.'
+            required: false
+            azure_sdk_references: ['/formulaContent/virtualMachineCreationSource', '/properties/formulaContent/properties/virtualMachineCreationSource']
+            values:
+              - :FromCustomImage
+              - :FromGalleryImage
+              - :FromSharedGalleryImage
+            default_value: :FromCustomImage
+          - !ruby/object:Api::Type::String
+            name: 'environmentId'
+            description: 'The resource ID of the environment that contains this virtual machine, if any.'
+            required: false
+            azure_sdk_references: ['/formulaContent/environmentId', '/properties/formulaContent/properties/environmentId']
+          - !ruby/object:Api::Type::Array
+            name: 'dataDiskParameters'
+            description: 'New or existing data disks to attach to the virtual machine after creation'
+            required: false
+            azure_sdk_references: ['/formulaContent/dataDiskParameters', '/properties/formulaContent/properties/dataDiskParameters']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'attachNewDataDiskOptions'
+                  description: 'Specifies options to attach a new disk to the virtual machine.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/dataDiskParameters/attachNewDataDiskOptions', '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions']
+                  properties:
+                    - !ruby/object:Api::Type::Integer
+                      name: 'diskSizeGiB'
+                      description: 'Size of the disk to be attached in GibiBytes.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB', '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskSizeGiB']
+                    - !ruby/object:Api::Type::String
+                      name: 'diskName'
+                      description: 'The name of the disk to be attached.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskName', '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskName']
+                    - !ruby/object:Api::Type::Enum
+                      name: 'diskType'
+                      description: 'The storage type for the disk (i.e. Standard, Premium).'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/dataDiskParameters/attachNewDataDiskOptions/diskType', '/properties/formulaContent/properties/dataDiskParameters/attachNewDataDiskOptions/diskType']
+                      values:
+                        - :Standard
+                        - :Premium
+                        - :StandardSSD
+                      default_value: :Standard
+                - !ruby/object:Api::Type::String
+                  name: 'existingLabDiskId'
+                  description: 'Specifies the existing lab disk id to attach to virtual machine.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/dataDiskParameters/existingLabDiskId', '/properties/formulaContent/properties/dataDiskParameters/existingLabDiskId']
+                - !ruby/object:Api::Type::Enum
+                  name: 'hostCaching'
+                  description: 'Caching option for a data disk (i.e. None, ReadOnly, ReadWrite).'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/dataDiskParameters/hostCaching', '/properties/formulaContent/properties/dataDiskParameters/hostCaching']
+                  values:
+                    - :None
+                    - :ReadOnly
+                    - :ReadWrite
+                  default_value: :None
+          - !ruby/object:Api::Type::Array
+            name: 'scheduleParameters'
+            description: 'Virtual Machine schedules to be created'
+            required: false
+            azure_sdk_references: ['/formulaContent/scheduleParameters', '/properties/formulaContent/properties/scheduleParameters']
+            item_type: !ruby/object:Api::Type::NestedObject
+              properties:
+                - !ruby/object:Api::Type::Enum
+                  name: 'status'
+                  description: 'The status of the schedule (i.e. Enabled, Disabled)'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/status', '/properties/formulaContent/properties/scheduleParameters/properties/status']
+                  values:
+                    - :Enabled
+                    - :Disabled
+                  default_value: :Enabled
+                - !ruby/object:Api::Type::String
+                  name: 'taskType'
+                  description: 'The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/taskType', '/properties/formulaContent/properties/scheduleParameters/properties/taskType']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'weeklyRecurrence'
+                  description: 'If the schedule will occur only some days of the week, specify the weekly recurrence.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/weeklyRecurrence', '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence']
+                  properties:
+                    - !ruby/object:Api::Type::Array
+                      name: 'weekdays'
+                      description: 'The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.).'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/weeklyRecurrence/weekdays', '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/weekdays']
+                      item_type: Api::Type::String
+                    - !ruby/object:Api::Type::String
+                      name: 'time'
+                      description: 'The time of the day the schedule will occur.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/weeklyRecurrence/time', '/properties/formulaContent/properties/scheduleParameters/properties/weeklyRecurrence/time']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'dailyRecurrence'
+                  description: 'If the schedule will occur once each day of the week, specify the daily recurrence.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/dailyRecurrence', '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence']
+                  properties:
+                    - !ruby/object:Api::Type::String
+                      name: 'time'
+                      description: 'The time of day the schedule will occur.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/dailyRecurrence/time', '/properties/formulaContent/properties/scheduleParameters/properties/dailyRecurrence/time']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'hourlyRecurrence'
+                  description: 'If the schedule will occur multiple times a day, specify the hourly recurrence.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/hourlyRecurrence', '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence']
+                  properties:
+                    - !ruby/object:Api::Type::Integer
+                      name: 'minute'
+                      description: 'Minutes of the hour the schedule will run.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/hourlyRecurrence/minute', '/properties/formulaContent/properties/scheduleParameters/properties/hourlyRecurrence/minute']
+                - !ruby/object:Api::Type::String
+                  name: 'timeZoneId'
+                  description: 'The time zone ID (e.g. Pacific Standard time).'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/timeZoneId', '/properties/formulaContent/properties/scheduleParameters/properties/timeZoneId']
+                - !ruby/object:Api::Type::NestedObject
+                  name: 'notificationSettings'
+                  description: 'Notification settings.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/notificationSettings', '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings']
+                  properties:
+                    - !ruby/object:Api::Type::Enum
+                      name: 'status'
+                      description: 'If notifications are enabled for this schedule (i.e. Enabled, Disabled).'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/notificationSettings/status', '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/status']
+                      values:
+                        - :Enabled
+                        - :Disabled
+                      default_value: :Enabled
+                    - !ruby/object:Api::Type::Integer
+                      name: 'timeInMinutes'
+                      description: 'Time in minutes before event at which notification will be sent.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/notificationSettings/timeInMinutes', '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/timeInMinutes']
+                    - !ruby/object:Api::Type::String
+                      name: 'webhookUrl'
+                      description: 'The webhook URL to which the notification will be sent.'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/notificationSettings/webhookUrl', '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/webhookUrl']
+                    - !ruby/object:Api::Type::String
+                      name: 'emailRecipient'
+                      description: 'The email recipient to send notifications to (can be a list of semi-colon separated email addresses).'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/notificationSettings/emailRecipient', '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/emailRecipient']
+                    - !ruby/object:Api::Type::String
+                      name: 'notificationLocale'
+                      description: 'The locale to use when sending a notification (fallback for unsupported languages is EN).'
+                      required: false
+                      azure_sdk_references: ['/formulaContent/scheduleParameters/notificationSettings/notificationLocale', '/properties/formulaContent/properties/scheduleParameters/properties/notificationSettings/notificationLocale']
+                - !ruby/object:Api::Type::String
+                  name: 'targetResourceId'
+                  description: 'The resource ID to which the schedule belongs'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/targetResourceId', '/properties/formulaContent/properties/scheduleParameters/properties/targetResourceId']
+                - !ruby/object:Api::Type::String
+                  name: 'name'
+                  description: 'The name of the virtual machine or environment'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/name', '/properties/formulaContent/properties/scheduleParameters/name']
+                - !ruby/object:Api::Azure::Type::Location
+                  name: 'location'
+                  description: 'The location of the new virtual machine or environment'
+                  required: false
+                  input: true
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/location', '/properties/formulaContent/properties/scheduleParameters/location']
+                - !ruby/object:Api::Azure::Type::Tags
+                  name: 'tags'
+                  description: 'The tags of the resource.'
+                  required: false
+                  azure_sdk_references: ['/formulaContent/scheduleParameters/tags', '/properties/formulaContent/properties/scheduleParameters/tags']
+          - !ruby/object:Api::Type::String
+            name: 'lastKnownPowerState'
+            description: 'Last known compute power state captured in DTL'
+            required: false
+            azure_sdk_references: ['/formulaContent/lastKnownPowerState', '/properties/formulaContent/properties/lastKnownPowerState']
+          - !ruby/object:Api::Type::String
+            name: 'name'
+            description: 'The name of the virtual machine or environment'
+            required: false
+            azure_sdk_references: ['/formulaContent/name', '/properties/formulaContent/name']
+          - !ruby/object:Api::Azure::Type::Location
+            name: 'location'
+            description: 'The location of the new virtual machine or environment'
+            required: false
+            input: true
+            azure_sdk_references: ['/formulaContent/location', '/properties/formulaContent/location']
+          - !ruby/object:Api::Azure::Type::Tags
+            name: 'tags'
+            description: 'The tags of the resource.'
+            required: false
+            azure_sdk_references: ['/formulaContent/tags', '/properties/formulaContent/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'vm'
+        description: 'Information about a VM from which a formula is to be created.'
+        required: false
+        azure_sdk_references: ['/vm', '/properties/vm']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'labVmId'
+            description: 'The identifier of the VM from which a formula is to be created.'
+            required: false
+            azure_sdk_references: ['/vm/labVmId', '/properties/vm/labVmId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

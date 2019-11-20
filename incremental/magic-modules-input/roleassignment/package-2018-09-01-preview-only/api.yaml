@@ -1,0 +1,257 @@
+--- !ruby/object:Api::Product
+name: Azure RoleAssignment Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RoleAssignment
+    api_name: undefined
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: {resourceProviderNamespace}
+      go_client_namespace: authorization
+      go_client: roleAssignmentsClient
+      python_client_namespace: azure.mgmt.authorization
+      python_client: AuthorizationManagementClient.role_assignments
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'roleAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: roleAssignments
+            go_variable_name: name
+            python_parameter_name: role_assignment_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: RoleAssignmentCreateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RoleAssignmentProperties
+            go_type_name: RoleAssignmentProperties
+          '/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: role_definition_id
+          '/properties/roleDefinitionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RoleDefinitionID
+          '/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: principal_id
+          '/properties/principalId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrincipalID
+          '/principalType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: principal_type
+          '/properties/principalType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: PrincipalType
+            go_enum_type_name: PrincipalType
+          '/canDelegate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: can_delegate
+          '/properties/canDelegate': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: CanDelegate
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'roleAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: roleAssignments
+            go_variable_name: name
+            python_parameter_name: role_assignment_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+          'roleAssignmentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: roleAssignments
+            go_variable_name: name
+            python_parameter_name: role_assignment_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListForScope
+        python_func_name: list_for_scope
+        request:
+          'scope': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: 
+            go_variable_name: scope
+            python_parameter_name: scope
+            python_variable_name: scope
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListForResource
+        python_func_name: list_for_resource
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceProviderNamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: resourceProviderNamespace
+            python_parameter_name: resource_provider_namespace
+            python_variable_name: resource_provider_namespace
+          'parentResourcePath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceProviderNamespace}
+            go_variable_name: parentResourcePath
+            python_parameter_name: parent_resource_path
+            python_variable_name: parent_resource_path
+          'resourceType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {parentResourcePath}
+            go_variable_name: resourceType
+            python_parameter_name: resource_type
+            python_variable_name: resource_type
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceType}
+            go_variable_name: resourceName
+            python_parameter_name: resource_name
+            python_variable_name: resource_name
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListForResourceGroup
+        python_func_name: list_for_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure RoleAssignment instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'resourceProviderNamespace'
+        description: 'The namespace of the resource provider.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceProviderNamespace']
+      - !ruby/object:Api::Type::String
+        name: 'parentResourcePath'
+        description: 'The parent resource identity.'
+        required: true
+        input: true
+        azure_sdk_references: ['parentResourcePath']
+      - !ruby/object:Api::Type::String
+        name: 'resourceType'
+        description: 'The resource type of the resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceType']
+      - !ruby/object:Api::Type::String
+        name: 'resourceName'
+        description: 'The name of the resource to get role assignments for.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'scope'
+        description: 'The scope of the role assignments.'
+        required: true
+        input: true
+        azure_sdk_references: ['scope']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the role assignment to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['roleAssignmentName']
+      - !ruby/object:Api::Type::String
+        name: 'roleDefinitionId'
+        description: 'The role definition ID used in the role assignment.'
+        required: true
+        azure_sdk_references: ['/roleDefinitionId', '/properties/roleDefinitionId']
+      - !ruby/object:Api::Type::String
+        name: 'principalId'
+        description: 'The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.'
+        required: true
+        azure_sdk_references: ['/principalId', '/properties/principalId']
+      - !ruby/object:Api::Type::Enum
+        name: 'principalType'
+        description: 'The principal type of the assigned principal ID.'
+        required: false
+        azure_sdk_references: ['/principalType', '/properties/principalType']
+        values:
+          - :User
+          - :Group
+          - :ServicePrincipal
+          - :Unknown
+          - :DirectoryRoleTemplate
+          - :ForeignGroup
+          - :Application
+          - :MSI
+          - :DirectoryObjectOrGroup
+          - :Everyone
+        default_value: :User
+      - !ruby/object:Api::Type::Boolean
+        name: 'canDelegate'
+        description: 'The delegation flag used for creating a role assignment'
+        required: false
+        azure_sdk_references: ['/canDelegate', '/properties/canDelegate']
+      - !ruby/object:Api::Type::String
+        name: 'roleId'
+        description: 'The ID of the role assignment to get.'
+        required: true
+        input: true
+        azure_sdk_references: ['roleId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The role assignment ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The role assignment name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The role assignment type.'
+        output: true
+        azure_sdk_references: ['/type']

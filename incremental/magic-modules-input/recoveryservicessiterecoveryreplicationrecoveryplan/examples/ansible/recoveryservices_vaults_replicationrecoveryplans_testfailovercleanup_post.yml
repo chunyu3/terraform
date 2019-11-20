@@ -1,0 +1,12 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_recoveryservicessiterecoveryreplicationrecoveryplan
+  description: Execute test failover cleanup of the recovery plan.
+  code:
+    resource_name: myVault
+    resource_group: myResourceGroup
+    name: myReplicationRecoveryPlan
+    input:
+      properties:
+        comments: Test Failover Cleanup
+  

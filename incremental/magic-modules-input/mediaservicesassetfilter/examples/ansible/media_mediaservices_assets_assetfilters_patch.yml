@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_mediaservicesassetfilter
+  description: Update an Asset Filter
+  code:
+    resource_group: myResourceGroup
+    account_name: myMediaService
+    asset_name: myAsset
+    name: myAssetFilter
+    presentation_time_range:
+      start_timestamp: '10'
+      end_timestamp: '170000000'
+      presentation_window_duration: '9223372036854776000'
+      live_backoff_duration: '0'
+      timescale: '10000000'
+      force_end_timestamp: false
+    first_quality:
+      bitrate: '128000'
+  

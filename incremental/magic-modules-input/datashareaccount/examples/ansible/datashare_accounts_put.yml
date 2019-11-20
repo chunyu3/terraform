@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_datashareaccount
+  description: Accounts_Create
+  code:
+    resource_group: myResourceGroup
+    name: myAccount
+    account:
+      location: West US 2
+      tags:
+        tag1: Red
+        tag2: White
+      identity:
+        type: SystemAssigned
+  

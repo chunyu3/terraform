@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_hybridcomputemachineextension
+  description: Create or Update a Machine Extension
+  code:
+    resource_group: myResourceGroup
+    name: myExtension
+    extension_parameters:
+      properties:
+        forceUpdateTag: 'false'
+        publisher: Publisher1
+        type: string
+        typeHandlerVersion: '1.0'
+        autoUpgradeMinorVersion: true
+        settings: {}
+        protectedSettings: {}
+  

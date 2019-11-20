@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securityinsightcasecomment
+  description: Creates or updates a case comment.
+  code:
+    resource_group: myResourceGroup
+    operational_insights_resource_provider: Microsoft.OperationalInsights
+    name: myWorkspace
+    case_id: myCase
+    case_comment_id: myComment
+    case_comment:
+      properties:
+        message: Some message
+  

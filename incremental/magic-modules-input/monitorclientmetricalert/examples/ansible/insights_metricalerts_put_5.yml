@@ -1,0 +1,32 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_monitorclientmetricalert
+  description: Create or update a dynamic alert rule for Multiple Resources
+  code:
+    resource_group: myResourceGroup
+    name: myMetricAlert
+    location: global
+    tags: {}
+    description: This is the description of the rule1
+    severity: '3'
+    enabled: true
+    scopes:
+      - >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme1
+      - >-
+        /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme2
+    evaluation_frequency: PT1M
+    window_size: PT15M
+    target_resource_type: Microsoft.Compute/virtualMachines
+    target_resource_region: southcentralus
+    criteria: {}
+    auto_mitigate: false
+    actions:
+      - action_group_id: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/microsoft.insights/notificationgroups/{{
+          notificationgroup_name }}
+        webhook_properties:
+          key11: value11
+          key12: value12
+  

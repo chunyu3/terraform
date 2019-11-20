@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_keyvaultvault
+  description: 'Add an access policy, or update an access policy with new permissions'
+  code:
+    resource_group: myResourceGroup
+    vault_name: myVault
+    access_policies:
+      - tenant_id: 00000000-0000-0000-0000-000000000000
+        object_id: 00000000-0000-0000-0000-000000000000
+        permissions:
+          keys:
+            - encrypt
+          secrets:
+            - get
+          certificates:
+            - get
+    operation_kind: myAccessPolicy
+  

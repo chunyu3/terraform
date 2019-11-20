@@ -1,0 +1,45 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_computevirtualmachinescaleset
+  description: Create a scale set with ephemeral os disks.
+  code:
+    resource_group: myResourceGroup
+    name: myVirtualMachineScaleSet
+    location: westus
+    sku:
+      name: Standard_DS1_v2
+      tier: Standard
+      capacity: '3'
+    plan:
+      name: windows2016
+      publisher: microsoft-ads
+      product: windows-data-science-vm
+    upgrade_policy:
+      mode: Manual
+    virtual_machine_profile:
+      os_profile: {}
+      storage_profile:
+        image_reference:
+          publisher: microsoft-ads
+          offer: windows-data-science-vm
+          sku: windows2016
+          version: latest
+        os_disk:
+          caching: ReadOnly
+          managed_disk:
+            storage_account_type: Standard_LRS
+      network_profile:
+        network_interface_configurations:
+          - name: '{vmss-name}'
+            primary: true
+            ip_configurations:
+              - name: '{vmss-name}'
+                subnet:
+                  id: >-
+                    /subscriptions/{{ subscription_id }}/resourceGroups/{{
+                    resource_group
+                    }}/providers/Microsoft.Network/virtualNetworks/{{
+                    virtual_network_name }}/subnets/{{ subnet_name }}
+            enable_ipforwarding: true
+    overprovision: true
+  

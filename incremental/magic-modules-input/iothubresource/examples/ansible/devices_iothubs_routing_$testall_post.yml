@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_iothubresource
+  description: IotHubResource_TestAllRoutes
+  code:
+    resource_group: myResourceGroup
+    iot_hub_name: myIotHub
+    input:
+      routingSource: DeviceMessages
+      message:
+        body: Body of message
+        appProperties: App Properties
+        systemProperties: System Properties
+  

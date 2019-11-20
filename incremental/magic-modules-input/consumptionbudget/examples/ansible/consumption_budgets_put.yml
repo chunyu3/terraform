@@ -1,0 +1,25 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_consumptionbudget
+  description: CreateOrUpdateBudget
+  code:
+    name: myBudget
+    e_tag: '"1d34d016a593709"'
+    category: Cost
+    amount: '100.65'
+    time_grain: Monthly
+    time_period:
+      start_date: '2017-10-01T00:00:00Z'
+      end_date: '2018-10-31T00:00:00Z'
+    notifications:
+      Actual_GreaterThan_80_Percent:
+        enabled: true
+        operator: GreaterThan
+        threshold: '80'
+        contactEmails:
+          - johndoe@contoso.com
+          - janesmith@contoso.com
+        contactRoles:
+          - Contributor
+          - Reader
+  

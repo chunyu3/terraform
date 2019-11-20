@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_timeseriesinsightsenvironment
+  description: EnvironmentsCreate
+  code:
+    resource_group: myResourceGroup
+    name: myEnvironment
+    location: West US
+    sku:
+      name: S1
+      capacity: '1'
+    data_retention_time: P31D
+    partition_key_properties:
+      - name: DeviceId1
+        type: String
+  

@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimpledevice
+  description: DevicesCreateOrUpdateAlertSettings
+  code:
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myDevice
+    alert_settings:
+      properties:
+        emailNotification: Enabled
+        notificationToServiceOwners: Disabled
+        alertNotificationCulture: en-US
+        additionalRecipientEmailList:
+          - testuser@abc.com
+      name: default
+  

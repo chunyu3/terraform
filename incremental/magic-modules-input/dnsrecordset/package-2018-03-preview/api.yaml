@@ -1,0 +1,864 @@
+--- !ruby/object:Api::Product
+name: Azure RecordSet Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: RecordSet
+    api_name: Network
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Network
+      go_client_namespace: dns
+      go_client: recordSetsClient
+      python_client_namespace: azure.mgmt.dns
+      python_client: DnsManagementClient.record_sets
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+          'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {zoneName}
+            go_variable_name: recordType
+            python_parameter_name: record_type
+            python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: RecordSet
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RecordSetProperties
+            go_type_name: RecordSetProperties
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/TTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: ttl
+          '/properties/TTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TTL
+          '/ARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: arecords
+          '/ARecords/ipv4Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ipv4address
+          '/properties/ARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ARecords
+            go_type_name: ARecord
+          '/properties/ARecords/ipv4Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ipv4Address
+          '/AAAARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: aaaarecords
+          '/AAAARecords/ipv6Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ipv6address
+          '/properties/AAAARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AAAARecords
+            go_type_name: AaaaRecord
+          '/properties/AAAARecords/ipv6Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ipv6Address
+          '/MXRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: mxrecords
+          '/MXRecords/preference': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: preference
+          '/MXRecords/exchange': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: exchange
+          '/properties/MXRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MXRecords
+            go_type_name: MxRecord
+          '/properties/MXRecords/preference': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Preference
+          '/properties/MXRecords/exchange': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Exchange
+          '/NSRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: nsrecords
+          '/NSRecords/nsdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: nsdname
+          '/properties/NSRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NSRecords
+            go_type_name: NsRecord
+          '/properties/NSRecords/nsdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Nsdname
+          '/PTRRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ptrrecords
+          '/PTRRecords/ptrdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ptrdname
+          '/properties/PTRRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PTRRecords
+            go_type_name: PtrRecord
+          '/properties/PTRRecords/ptrdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ptrdname
+          '/SRVRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: srvrecords
+          '/SRVRecords/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: priority
+          '/SRVRecords/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: weight
+          '/SRVRecords/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/SRVRecords/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target
+          '/properties/SRVRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SRVRecords
+            go_type_name: SrvRecord
+          '/properties/SRVRecords/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/SRVRecords/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Weight
+          '/properties/SRVRecords/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/SRVRecords/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Target
+          '/TXTRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: txtrecords
+          '/TXTRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/TXTRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TXTRecords
+            go_type_name: TxtRecord
+          '/properties/TXTRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/CNAMERecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cnamerecord
+          '/CNAMERecord/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cname
+          '/properties/CNAMERecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CNAMERecord
+            go_type_name: CnameRecord
+          '/properties/CNAMERecord/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cname
+          '/SOARecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: soarecord
+          '/SOARecord/host': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host
+          '/SOARecord/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email
+          '/SOARecord/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/SOARecord/refreshTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: refresh_time
+          '/SOARecord/retryTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: retry_time
+          '/SOARecord/expireTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: expire_time
+          '/SOARecord/minimumTTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: minimum_ttl
+          '/properties/SOARecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SOARecord
+            go_type_name: SoaRecord
+          '/properties/SOARecord/host': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Host
+          '/properties/SOARecord/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Email
+          '/properties/SOARecord/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/SOARecord/refreshTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: RefreshTime
+          '/properties/SOARecord/retryTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: RetryTime
+          '/properties/SOARecord/expireTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ExpireTime
+          '/properties/SOARecord/minimumTTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MinimumTTL
+          '/caaRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: caa_records
+          '/caaRecords/flags': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: flags
+          '/caaRecords/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/caaRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/caaRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: CaaRecords
+            go_type_name: CaaRecord
+          '/properties/caaRecords/flags': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Flags
+          '/properties/caaRecords/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Tag
+          '/properties/caaRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+          'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {zoneName}
+            go_variable_name: recordType
+            python_parameter_name: record_type
+            python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: RecordSet
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: RecordSetProperties
+            go_type_name: RecordSetProperties
+          '/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [python]
+            python_field_name: metadata
+          '/properties/metadata': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            applicable_to: [go]
+            go_field_name: Metadata
+          '/TTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: ttl
+          '/properties/TTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: TTL
+          '/ARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: arecords
+          '/ARecords/ipv4Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ipv4address
+          '/properties/ARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: ARecords
+            go_type_name: ARecord
+          '/properties/ARecords/ipv4Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ipv4Address
+          '/AAAARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: aaaarecords
+          '/AAAARecords/ipv6Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ipv6address
+          '/properties/AAAARecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: AAAARecords
+            go_type_name: AaaaRecord
+          '/properties/AAAARecords/ipv6Address': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ipv6Address
+          '/MXRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: mxrecords
+          '/MXRecords/preference': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: preference
+          '/MXRecords/exchange': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: exchange
+          '/properties/MXRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: MXRecords
+            go_type_name: MxRecord
+          '/properties/MXRecords/preference': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Preference
+          '/properties/MXRecords/exchange': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Exchange
+          '/NSRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: nsrecords
+          '/NSRecords/nsdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: nsdname
+          '/properties/NSRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: NSRecords
+            go_type_name: NsRecord
+          '/properties/NSRecords/nsdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Nsdname
+          '/PTRRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ptrrecords
+          '/PTRRecords/ptrdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: ptrdname
+          '/properties/PTRRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: PTRRecords
+            go_type_name: PtrRecord
+          '/properties/PTRRecords/ptrdname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Ptrdname
+          '/SRVRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: srvrecords
+          '/SRVRecords/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: priority
+          '/SRVRecords/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: weight
+          '/SRVRecords/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: port
+          '/SRVRecords/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: target
+          '/properties/SRVRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: SRVRecords
+            go_type_name: SrvRecord
+          '/properties/SRVRecords/priority': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Priority
+          '/properties/SRVRecords/weight': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Weight
+          '/properties/SRVRecords/port': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Port
+          '/properties/SRVRecords/target': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Target
+          '/TXTRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: txtrecords
+          '/TXTRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/TXTRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TXTRecords
+            go_type_name: TxtRecord
+          '/properties/TXTRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/CNAMERecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: cnamerecord
+          '/CNAMERecord/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: cname
+          '/properties/CNAMERecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: CNAMERecord
+            go_type_name: CnameRecord
+          '/properties/CNAMERecord/cname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Cname
+          '/SOARecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: soarecord
+          '/SOARecord/host': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host
+          '/SOARecord/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: email
+          '/SOARecord/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: serial_number
+          '/SOARecord/refreshTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: refresh_time
+          '/SOARecord/retryTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: retry_time
+          '/SOARecord/expireTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: expire_time
+          '/SOARecord/minimumTTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: minimum_ttl
+          '/properties/SOARecord': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SOARecord
+            go_type_name: SoaRecord
+          '/properties/SOARecord/host': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Host
+          '/properties/SOARecord/email': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Email
+          '/properties/SOARecord/serialNumber': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: SerialNumber
+          '/properties/SOARecord/refreshTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: RefreshTime
+          '/properties/SOARecord/retryTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: RetryTime
+          '/properties/SOARecord/expireTime': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: ExpireTime
+          '/properties/SOARecord/minimumTTL': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: MinimumTTL
+          '/caaRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: caa_records
+          '/caaRecords/flags': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: flags
+          '/caaRecords/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: tag
+          '/caaRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/properties/caaRecords': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: CaaRecords
+            go_type_name: CaaRecord
+          '/properties/caaRecords/flags': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Flags
+          '/properties/caaRecords/tag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Tag
+          '/properties/caaRecords/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+          'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {zoneName}
+            go_variable_name: recordType
+            python_parameter_name: record_type
+            python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+          'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {zoneName}
+            go_variable_name: recordType
+            python_parameter_name: record_type
+            python_variable_name: record_type
+          'relativeRecordSetName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {recordType}
+            go_variable_name: name
+            python_parameter_name: relative_record_set_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByType
+        python_func_name: list_by_type
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+          'recordType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {zoneName}
+            go_variable_name: recordType
+            python_parameter_name: record_type
+            python_variable_name: record_type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByDnsZone
+        python_func_name: list_by_dns_zone
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAllByDnsZone
+        python_func_name: list_all_by_dns_zone
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'zoneName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: dnsZones
+            go_variable_name: zoneName
+            python_parameter_name: zone_name
+            python_variable_name: zone_name
+
+    description: |
+      Manage Azure RecordSet instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'zoneName'
+        description: 'The name of the DNS zone (without a terminating dot).'
+        required: true
+        input: true
+        azure_sdk_references: ['zoneName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the record set, relative to the name of the zone.'
+        required: true
+        input: true
+        azure_sdk_references: ['relativeRecordSetName']
+      - !ruby/object:Api::Type::String
+        name: 'recordType'
+        description: 'The type of record sets to enumerate.'
+        required: true
+        input: true
+        azure_sdk_references: ['recordType']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'The etag of the record set.'
+        required: false
+        input: true
+        azure_sdk_references: ['/etag']
+      - !ruby/object:Api::Type::KeyValuePairs
+        name: 'metadata'
+        description: 'The metadata attached to the record set.'
+        required: false
+        azure_sdk_references: ['/metadata', '/properties/metadata']
+      - !ruby/object:Api::Type::Integer
+        name: 'ttl'
+        description: 'The TTL (time-to-live) of the records in the record set.'
+        required: false
+        azure_sdk_references: ['/TTL', '/properties/TTL']
+      - !ruby/object:Api::Type::Array
+        name: 'arecords'
+        description: 'The list of A records in the record set.'
+        required: false
+        azure_sdk_references: ['/ARecords', '/properties/ARecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'ipv4address'
+              description: 'The IPv4 address of this A record.'
+              required: false
+              azure_sdk_references: ['/ARecords/ipv4Address', '/properties/ARecords/ipv4Address']
+      - !ruby/object:Api::Type::Array
+        name: 'aaaarecords'
+        description: 'The list of AAAA records in the record set.'
+        required: false
+        azure_sdk_references: ['/AAAARecords', '/properties/AAAARecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'ipv6address'
+              description: 'The IPv6 address of this AAAA record.'
+              required: false
+              azure_sdk_references: ['/AAAARecords/ipv6Address', '/properties/AAAARecords/ipv6Address']
+      - !ruby/object:Api::Type::Array
+        name: 'mxrecords'
+        description: 'The list of MX records in the record set.'
+        required: false
+        azure_sdk_references: ['/MXRecords', '/properties/MXRecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Integer
+              name: 'preference'
+              description: 'The preference value for this MX record.'
+              required: false
+              azure_sdk_references: ['/MXRecords/preference', '/properties/MXRecords/preference']
+            - !ruby/object:Api::Type::String
+              name: 'exchange'
+              description: 'The domain name of the mail host for this MX record.'
+              required: false
+              azure_sdk_references: ['/MXRecords/exchange', '/properties/MXRecords/exchange']
+      - !ruby/object:Api::Type::Array
+        name: 'nsrecords'
+        description: 'The list of NS records in the record set.'
+        required: false
+        azure_sdk_references: ['/NSRecords', '/properties/NSRecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'nsdname'
+              description: 'The name server name for this NS record.'
+              required: false
+              azure_sdk_references: ['/NSRecords/nsdname', '/properties/NSRecords/nsdname']
+      - !ruby/object:Api::Type::Array
+        name: 'ptrrecords'
+        description: 'The list of PTR records in the record set.'
+        required: false
+        azure_sdk_references: ['/PTRRecords', '/properties/PTRRecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'ptrdname'
+              description: 'The PTR target domain name for this PTR record.'
+              required: false
+              azure_sdk_references: ['/PTRRecords/ptrdname', '/properties/PTRRecords/ptrdname']
+      - !ruby/object:Api::Type::Array
+        name: 'srvrecords'
+        description: 'The list of SRV records in the record set.'
+        required: false
+        azure_sdk_references: ['/SRVRecords', '/properties/SRVRecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Integer
+              name: 'priority'
+              description: 'The priority value for this SRV record.'
+              required: false
+              azure_sdk_references: ['/SRVRecords/priority', '/properties/SRVRecords/priority']
+            - !ruby/object:Api::Type::Integer
+              name: 'weight'
+              description: 'The weight value for this SRV record.'
+              required: false
+              azure_sdk_references: ['/SRVRecords/weight', '/properties/SRVRecords/weight']
+            - !ruby/object:Api::Type::Integer
+              name: 'port'
+              description: 'The port value for this SRV record.'
+              required: false
+              azure_sdk_references: ['/SRVRecords/port', '/properties/SRVRecords/port']
+            - !ruby/object:Api::Type::String
+              name: 'target'
+              description: 'The target domain name for this SRV record.'
+              required: false
+              azure_sdk_references: ['/SRVRecords/target', '/properties/SRVRecords/target']
+      - !ruby/object:Api::Type::Array
+        name: 'txtrecords'
+        description: 'The list of TXT records in the record set.'
+        required: false
+        azure_sdk_references: ['/TXTRecords', '/properties/TXTRecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Array
+              name: 'value'
+              description: 'The text value of this TXT record.'
+              required: false
+              azure_sdk_references: ['/TXTRecords/value', '/properties/TXTRecords/value']
+              item_type: Api::Type::String
+      - !ruby/object:Api::Type::NestedObject
+        name: 'cnamerecord'
+        description: 'The CNAME record in the  record set.'
+        required: false
+        azure_sdk_references: ['/CNAMERecord', '/properties/CNAMERecord']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'cname'
+            description: 'The canonical name for this CNAME record.'
+            required: false
+            azure_sdk_references: ['/CNAMERecord/cname', '/properties/CNAMERecord/cname']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'soarecord'
+        description: 'The SOA record in the record set.'
+        required: false
+        azure_sdk_references: ['/SOARecord', '/properties/SOARecord']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'host'
+            description: 'The domain name of the authoritative name server for this SOA record.'
+            required: false
+            azure_sdk_references: ['/SOARecord/host', '/properties/SOARecord/host']
+          - !ruby/object:Api::Type::String
+            name: 'email'
+            description: 'The email contact for this SOA record.'
+            required: false
+            azure_sdk_references: ['/SOARecord/email', '/properties/SOARecord/email']
+          - !ruby/object:Api::Type::Integer
+            name: 'serialNumber'
+            description: 'The serial number for this SOA record.'
+            required: false
+            azure_sdk_references: ['/SOARecord/serialNumber', '/properties/SOARecord/serialNumber']
+          - !ruby/object:Api::Type::Integer
+            name: 'refreshTime'
+            description: 'The refresh value for this SOA record.'
+            required: false
+            azure_sdk_references: ['/SOARecord/refreshTime', '/properties/SOARecord/refreshTime']
+          - !ruby/object:Api::Type::Integer
+            name: 'retryTime'
+            description: 'The retry time for this SOA record.'
+            required: false
+            azure_sdk_references: ['/SOARecord/retryTime', '/properties/SOARecord/retryTime']
+          - !ruby/object:Api::Type::Integer
+            name: 'expireTime'
+            description: 'The expire time for this SOA record.'
+            required: false
+            azure_sdk_references: ['/SOARecord/expireTime', '/properties/SOARecord/expireTime']
+          - !ruby/object:Api::Type::Integer
+            name: 'minimumTtl'
+            description: 'The minimum value for this SOA record. By convention this is used to determine the negative caching duration.'
+            required: false
+            azure_sdk_references: ['/SOARecord/minimumTTL', '/properties/SOARecord/minimumTTL']
+      - !ruby/object:Api::Type::Array
+        name: 'caaRecords'
+        description: 'The list of CAA records in the record set.'
+        required: false
+        azure_sdk_references: ['/caaRecords', '/properties/caaRecords']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Integer
+              name: 'flags'
+              description: 'The flags for this CAA record as an integer between 0 and 255.'
+              required: false
+              azure_sdk_references: ['/caaRecords/flags', '/properties/caaRecords/flags']
+            - !ruby/object:Api::Type::String
+              name: 'tag'
+              description: 'The tag for this CAA record.'
+              required: false
+              azure_sdk_references: ['/caaRecords/tag', '/properties/caaRecords/tag']
+            - !ruby/object:Api::Type::String
+              name: 'value'
+              description: 'The value for this CAA record.'
+              required: false
+              azure_sdk_references: ['/caaRecords/value', '/properties/caaRecords/value']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The ID of the record set.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the record set.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the record set.'
+        output: true
+        azure_sdk_references: ['/type']

@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_postgresqlserver
+  description: Create a database as a point in time restore
+  code:
+    resource_group: myResourceGroup
+    name: myServer
+    sku:
+      name: B_Gen5_2
+      tier: Basic
+      capacity: '2'
+      family: Gen5
+    location: brazilsouth
+    tags:
+      ElasticServer: '1'
+  

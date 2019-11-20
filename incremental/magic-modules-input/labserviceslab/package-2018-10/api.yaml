@@ -1,0 +1,288 @@
+--- !ruby/object:Api::Product
+name: Azure Lab Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Lab
+    api_name: LabServices
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.LabServices
+      go_client_namespace: labservices
+      go_client: labsClient
+      python_client_namespace: azure.mgmt.labservices
+      python_client: ManagedLabsClient.labs
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labaccounts
+            go_variable_name: labAccountName
+            python_parameter_name: lab_account_name
+            python_variable_name: lab_account_name
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: lab
+            go_type_name: LabFragment
+            python_parameter_name: lab
+            python_variable_name: lab
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabPropertiesFragment
+            go_type_name: LabPropertiesFragment
+          '/maxUsersInLab': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_users_in_lab
+          '/properties/maxUsersInLab': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxUsersInLab
+          '/usageQuota': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: usage_quota
+          '/properties/usageQuota': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: UsageQuota
+          '/userAccessMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: user_access_mode
+          '/properties/userAccessMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UserAccessMode
+            go_enum_type_name: LabUserAccessMode
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/emailAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: EmailAddresses
+            python_field_name: email_addresses
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labaccounts
+            go_variable_name: labAccountName
+            python_parameter_name: lab_account_name
+            python_variable_name: lab_account_name
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: lab
+            go_type_name: LabFragment
+            python_parameter_name: lab
+            python_variable_name: lab
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: LabPropertiesFragment
+            go_type_name: LabPropertiesFragment
+          '/maxUsersInLab': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: max_users_in_lab
+          '/properties/maxUsersInLab': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: MaxUsersInLab
+          '/usageQuota': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [python]
+            python_field_name: usage_quota
+          '/properties/usageQuota': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DurationObject
+            applicable_to: [go]
+            go_field_name: UsageQuota
+          '/userAccessMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: user_access_mode
+          '/properties/userAccessMode': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: UserAccessMode
+            go_enum_type_name: LabUserAccessMode
+          '/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: unique_identifier
+          '/properties/uniqueIdentifier': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: UniqueIdentifier
+          '/emailAddresses': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: EmailAddresses
+            python_field_name: email_addresses
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labaccounts
+            go_variable_name: labAccountName
+            python_parameter_name: lab_account_name
+            python_variable_name: lab_account_name
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labaccounts
+            go_variable_name: labAccountName
+            python_parameter_name: lab_account_name
+            python_variable_name: lab_account_name
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: name
+            python_parameter_name: lab_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labaccounts
+            go_variable_name: labAccountName
+            python_parameter_name: lab_account_name
+            python_variable_name: lab_account_name
+
+    description: |
+      Manage Azure Lab instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'labAccountName'
+        description: 'The name of the lab Account.'
+        required: true
+        input: true
+        azure_sdk_references: ['labAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Integer
+        name: 'maxUsersInLab'
+        description: 'Maximum number of users allowed in the lab.'
+        required: false
+        azure_sdk_references: ['/maxUsersInLab', '/properties/maxUsersInLab']
+      - !ruby/object:Api::Azure::Type::ISO8601Duration
+        name: 'usageQuota'
+        description: 'Maximum duration a user can use an environment for in the lab.'
+        required: false
+        azure_sdk_references: ['/usageQuota', '/properties/usageQuota']
+      - !ruby/object:Api::Type::Enum
+        name: 'userAccessMode'
+        description: 'Lab user access mode (open to all vs. restricted to those listed on the lab).'
+        required: false
+        azure_sdk_references: ['/userAccessMode', '/properties/userAccessMode']
+        values:
+          - :Restricted
+          - :Open
+        default_value: :Restricted
+      - !ruby/object:Api::Type::String
+        name: 'uniqueIdentifier'
+        description: 'The unique immutable identifier of a resource (Guid).'
+        required: false
+        azure_sdk_references: ['/uniqueIdentifier', '/properties/uniqueIdentifier']
+      - !ruby/object:Api::Type::Array
+        name: 'emailAddresses'
+        description: 'List of user emails addresses to add to the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['/emailAddresses']
+        item_type: Api::Type::String
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

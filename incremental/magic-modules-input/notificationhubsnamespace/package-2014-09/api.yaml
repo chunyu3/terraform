@@ -1,0 +1,291 @@
+--- !ruby/object:Api::Product
+name: Azure Namespace Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Namespace
+    api_name: NotificationHubs
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.NotificationHubs
+      go_client_namespace: notificationhubs
+      go_client: namespacesClient
+      python_client_namespace: azure.mgmt.notificationhubs
+      python_client: NotificationHubsManagementClient.namespaces
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SharedAccessAuthorizationRuleCreateOrUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/isAvailiable': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            go_field_name: IsAvailiable
+            python_field_name: is_availiable
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SharedAccessAuthorizationRuleProperties
+            go_type_name: SharedAccessAuthorizationRuleProperties
+          '/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: primary_key
+          '/properties/primaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PrimaryKey
+          '/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: secondary_key
+          '/properties/secondaryKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: SecondaryKey
+          '/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_name
+          '/properties/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyName
+          '/claimType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: claim_type
+          '/properties/claimType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClaimType
+          '/claimValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: claim_value
+          '/properties/claimValue': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ClaimValue
+          '/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [python]
+            python_field_name: rights
+          '/properties/rights': !ruby/object:Api::Azure::SDKTypeDefinition::EnumArrayObject
+            applicable_to: [go]
+            go_field_name: Rights
+          '/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: created_time
+          '/properties/createdTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: CreatedTime
+          '/modifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: modified_time
+          '/properties/modifiedTime': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: ModifiedTime
+          '/revision': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: revision
+          '/properties/revision': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Revision
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+        response:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAll
+        python_func_name: list_all
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListAuthorizationRules
+        python_func_name: list_authorization_rules
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListKeys
+        python_func_name: list_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'namespaceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: namespaces
+            go_variable_name: namespaceName
+            python_parameter_name: namespace_name
+            python_variable_name: namespace_name
+          'authorizationRuleName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: AuthorizationRules
+            go_variable_name: name
+            python_parameter_name: authorization_rule_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Namespace instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets Name of the Namespace AuthorizationRule.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Gets or sets Namespace data center location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Gets or sets Namespace tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Boolean
+        name: 'isAvailiable'
+        description: 'Gets or sets true if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false.'
+        required: false
+        input: true
+        azure_sdk_references: ['/isAvailiable']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'namespaceName'
+        description: 'The namespace name.'
+        required: true
+        input: true
+        azure_sdk_references: ['namespaceName']
+      - !ruby/object:Api::Type::String
+        name: 'primaryKey'
+        description: 'The primary key that was used.'
+        required: false
+        azure_sdk_references: ['/primaryKey', '/properties/primaryKey']
+      - !ruby/object:Api::Type::String
+        name: 'secondaryKey'
+        description: 'The secondary key that was used.'
+        required: false
+        azure_sdk_references: ['/secondaryKey', '/properties/secondaryKey']
+      - !ruby/object:Api::Type::String
+        name: 'keyName'
+        description: 'The name of the key that was used.'
+        required: false
+        azure_sdk_references: ['/keyName', '/properties/keyName']
+      - !ruby/object:Api::Type::String
+        name: 'claimType'
+        description: 'The type of the claim.'
+        required: false
+        azure_sdk_references: ['/claimType', '/properties/claimType']
+      - !ruby/object:Api::Type::String
+        name: 'claimValue'
+        description: 'The value of the claim.'
+        required: false
+        azure_sdk_references: ['/claimValue', '/properties/claimValue']
+      - !ruby/object:Api::Type::Array
+        name: 'rights'
+        description: 'The rights associated with the rule.'
+        required: false
+        azure_sdk_references: ['/rights', '/properties/rights']
+        item_type: !ruby/object:Api::Type::Enum
+          name: 'TBD'
+          description: 'TBD'
+          values:
+            - :Manage
+            - :Send
+            - :Listen
+          default_value: :Manage
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'createdTime'
+        description: 'The time at which the authorization rule was created.'
+        required: false
+        azure_sdk_references: ['/createdTime', '/properties/createdTime']
+      - !ruby/object:Api::Azure::Type::ISO8601DateTime
+        name: 'modifiedTime'
+        description: 'The most recent time the rule was updated.'
+        required: false
+        azure_sdk_references: ['/modifiedTime', '/properties/modifiedTime']
+      - !ruby/object:Api::Type::Integer
+        name: 'revision'
+        description: 'The revision number for the rule.'
+        required: false
+        azure_sdk_references: ['/revision', '/properties/revision']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The connection string of the namespace for the specified authorizationRule.'
+        required: true
+        input: true
+        azure_sdk_references: ['authorizationRuleName']
+      - !ruby/object:Api::Type::String
+        name: 'operationStatusLink'
+        description: 'Location value returned by the Begin operation.'
+        required: true
+        input: true
+        azure_sdk_references: ['operationStatusLink']
+      # read only values included only in response

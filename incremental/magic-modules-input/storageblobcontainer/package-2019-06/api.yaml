@@ -1,0 +1,288 @@
+--- !ruby/object:Api::Product
+name: Azure BlobContainer Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: BlobContainer
+    api_name: Storage
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Storage
+      go_client_namespace: storage
+      go_client: blobContainersClient
+      python_client_namespace: azure.mgmt.storage
+      python_client: StorageManagementClient.blob_containers
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: blobContainer
+            go_type_name: BlobContainer
+            python_parameter_name: blob_container
+            python_variable_name: blob_container
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImmutabilityPolicyProperty
+            go_type_name: ImmutabilityPolicyProperty
+          '/immutabilityPeriodSinceCreationInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: immutability_period_since_creation_in_days
+          '/properties/immutabilityPeriodSinceCreationInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ImmutabilityPeriodSinceCreationInDays
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Action
+            go_enum_type_name: 
+            python_field_name: action
+          '/leaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LeaseID
+            python_field_name: lease_id
+          '/breakPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: BreakPeriod
+            python_field_name: break_period
+          '/leaseDuration': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: LeaseDuration
+            python_field_name: lease_duration
+          '/proposedLeaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ProposedLeaseID
+            python_field_name: proposed_lease_id
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: blobContainer
+            go_type_name: BlobContainer
+            python_parameter_name: blob_container
+            python_variable_name: blob_container
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: ImmutabilityPolicyProperty
+            go_type_name: ImmutabilityPolicyProperty
+          '/immutabilityPeriodSinceCreationInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: immutability_period_since_creation_in_days
+          '/properties/immutabilityPeriodSinceCreationInDays': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: ImmutabilityPeriodSinceCreationInDays
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/action': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            go_field_name: Action
+            go_enum_type_name: 
+            python_field_name: action
+          '/leaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LeaseID
+            python_field_name: lease_id
+          '/breakPeriod': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: BreakPeriod
+            python_field_name: break_period
+          '/leaseDuration': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: LeaseDuration
+            python_field_name: lease_duration
+          '/proposedLeaseId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ProposedLeaseID
+            python_field_name: proposed_lease_id
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'containerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: containers
+            go_variable_name: containerName
+            python_parameter_name: container_name
+            python_variable_name: container_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/etag': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Etag
+            python_field_name: etag
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: storageAccounts
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+
+    description: |
+      Manage Azure BlobContainer instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'containerName'
+        description: 'The name of the blob container within the specified storage account. Blob container names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number.'
+        required: true
+        input: true
+        azure_sdk_references: ['containerName']
+      - !ruby/object:Api::Type::Integer
+        name: 'immutabilityPeriodSinceCreationInDays'
+        description: 'The immutability period for the blobs in the container since the policy creation, in days.'
+        required: true
+        azure_sdk_references: ['/immutabilityPeriodSinceCreationInDays', '/properties/immutabilityPeriodSinceCreationInDays']
+      - !ruby/object:Api::Type::Array
+        name: 'tags'
+        description: 'Each tag should be 3 to 23 alphanumeric characters and is normalized to lower case at SRP.'
+        required: true
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+        item_type: Api::Type::String
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the blob container immutabilityPolicy within the specified storage account. ImmutabilityPolicy Name must be ''default'''
+        required: true
+        input: true
+        azure_sdk_references: ['immutabilityPolicyName']
+      - !ruby/object:Api::Type::Enum
+        name: 'action'
+        description: 'Specifies the lease action. Can be one of the available actions.'
+        required: true
+        input: true
+        azure_sdk_references: ['/action']
+        values:
+          - :Acquire
+          - :Renew
+          - :Change
+          - :Release
+          - :Break
+      - !ruby/object:Api::Type::String
+        name: 'leaseId'
+        description: 'Identifies the lease. Can be specified in any valid GUID string format.'
+        required: false
+        input: true
+        azure_sdk_references: ['/leaseId']
+      - !ruby/object:Api::Type::Integer
+        name: 'breakPeriod'
+        description: 'Optional. For a break action, proposed duration the lease should continue before it is broken, in seconds, between 0 and 60.'
+        required: false
+        input: true
+        azure_sdk_references: ['/breakPeriod']
+      - !ruby/object:Api::Type::Integer
+        name: 'leaseDuration'
+        description: 'Required for acquire. Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires.'
+        required: false
+        input: true
+        azure_sdk_references: ['/leaseDuration']
+      - !ruby/object:Api::Type::String
+        name: 'proposedLeaseId'
+        description: 'Optional for acquire, required for change. Proposed lease ID, in a GUID string format.'
+        required: false
+        input: true
+        azure_sdk_references: ['/proposedLeaseId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'etag'
+        description: 'Resource Etag.'
+        output: true
+        azure_sdk_references: ['/etag']

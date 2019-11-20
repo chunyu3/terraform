@@ -1,0 +1,20 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_devspacescontroller
+  description: ControllersCreate
+  code:
+    resource_group: myResourceGroup
+    name: myController
+    controller:
+      location: eastus
+      tags: {}
+      sku:
+        name: S1
+        tier: Standard
+      properties:
+        targetContainerHostCredentialsBase64: QmFzZTY0IEVuY29kZWQgVmFsdWUK
+        targetContainerHostResourceId: >-
+          /subscriptions/{{ subscription_id }}/resourceGroups/{{ resource_group
+          }}/providers/Microsoft.ContainerService/managedClusters/{{
+          managed_cluster_name }}
+  

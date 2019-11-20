@@ -1,0 +1,540 @@
+--- !ruby/object:Api::Product
+name: Azure JitNetworkAccessPolicy Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: JitNetworkAccessPolicy
+    api_name: Security
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Security
+      go_client_namespace: securitycenter
+      go_client: jitNetworkAccessPoliciesClient
+      python_client_namespace: azure.mgmt.securitycenter
+      python_client: SecurityCenterClient.jit_network_access_policies
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'ascLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: ascLocation
+            python_parameter_name: asc_location
+            python_variable_name: asc_location
+          'jitNetworkAccessPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jitNetworkAccessPolicies
+            go_variable_name: name
+            python_parameter_name: jit_network_access_policy_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: body
+            go_type_name: JitNetworkAccessPolicyInitiateRequest
+            python_parameter_name: body
+            python_variable_name: body
+          '/kind': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Kind
+            python_field_name: kind
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JitNetworkAccessPolicyProperties
+            go_type_name: JitNetworkAccessPolicyProperties
+          '/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_machines
+          '/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/virtualMachines/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ports
+          '/virtualMachines/ports/number': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: number
+          '/virtualMachines/ports/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: protocol
+          '/virtualMachines/ports/allowedSourceAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: allowed_source_address_prefix
+          '/virtualMachines/ports/allowedSourceAddressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: allowed_source_address_prefixes
+          '/virtualMachines/ports/maxRequestAccessDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: max_request_access_duration
+          '/virtualMachines/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: public_ip_address
+          '/properties/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualMachines
+            go_type_name: JitNetworkAccessPolicyVirtualMachine
+          '/properties/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/virtualMachines/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Ports
+            go_type_name: JitNetworkAccessPortRule
+          '/properties/virtualMachines/ports/number': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Number
+          '/properties/virtualMachines/ports/protocol': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Protocol
+            go_enum_type_name: Protocol
+          '/properties/virtualMachines/ports/allowedSourceAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AllowedSourceAddressPrefix
+          '/properties/virtualMachines/ports/allowedSourceAddressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AllowedSourceAddressPrefixes
+          '/properties/virtualMachines/ports/maxRequestAccessDuration': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: MaxRequestAccessDuration
+          '/properties/virtualMachines/publicIpAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: PublicIPAddress
+          '/requests': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: requests
+          '/requests/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: virtual_machines
+          '/requests/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: id
+          '/requests/virtualMachines/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: ports
+          '/requests/virtualMachines/ports/number': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: number
+          '/requests/virtualMachines/ports/allowedSourceAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: allowed_source_address_prefix
+          '/requests/virtualMachines/ports/allowedSourceAddressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [python]
+            python_field_name: allowed_source_address_prefixes
+          '/requests/virtualMachines/ports/endTimeUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: end_time_utc
+          '/requests/virtualMachines/ports/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status
+          '/requests/virtualMachines/ports/statusReason': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: status_reason
+          '/requests/virtualMachines/ports/mappedPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: mapped_port
+          '/requests/startTimeUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [python]
+            python_field_name: start_time_utc
+          '/requests/requestor': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: requestor
+          '/requests/justification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: justification
+          '/properties/requests': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Requests
+            go_type_name: JitNetworkAccessRequest
+          '/properties/requests/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: VirtualMachines
+            go_type_name: JitNetworkAccessRequestVirtualMachine
+          '/properties/requests/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ID
+          '/properties/requests/virtualMachines/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Ports
+            go_type_name: JitNetworkAccessRequestPort
+          '/properties/requests/virtualMachines/ports/number': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Number
+          '/properties/requests/virtualMachines/ports/allowedSourceAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AllowedSourceAddressPrefix
+          '/properties/requests/virtualMachines/ports/allowedSourceAddressPrefixes': !ruby/object:Api::Azure::SDKTypeDefinition::StringArrayObject
+            applicable_to: [go]
+            go_field_name: AllowedSourceAddressPrefixes
+          '/properties/requests/virtualMachines/ports/endTimeUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: EndTimeUtc
+          '/properties/requests/virtualMachines/ports/status': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Status
+            go_enum_type_name: Status
+          '/properties/requests/virtualMachines/ports/statusReason': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: StatusReason
+            go_enum_type_name: StatusReason
+          '/properties/requests/virtualMachines/ports/mappedPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MappedPort
+          '/properties/requests/startTimeUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            applicable_to: [go]
+            go_field_name: StartTimeUtc
+          '/properties/requests/requestor': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Requestor
+          '/properties/requests/justification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Justification
+          '/virtualMachines': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: VirtualMachines
+            go_type_name: JitNetworkAccessPolicyInitiateVirtualMachine
+            python_field_name: virtual_machines
+          '/virtualMachines/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/virtualMachines/ports': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            go_field_name: Ports
+            go_type_name: JitNetworkAccessPolicyInitiatePort
+            python_field_name: ports
+          '/virtualMachines/ports/number': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            go_field_name: Number
+            python_field_name: number
+          '/virtualMachines/ports/allowedSourceAddressPrefix': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: AllowedSourceAddressPrefix
+            python_field_name: allowed_source_address_prefix
+          '/virtualMachines/ports/endTimeUtc': !ruby/object:Api::Azure::SDKTypeDefinition::ISO8601DateTimeObject
+            go_field_name: EndTimeUtc
+            python_field_name: end_time_utc
+          '/justification': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Justification
+            python_field_name: justification
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'ascLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: ascLocation
+            python_parameter_name: asc_location
+            python_variable_name: asc_location
+          'jitNetworkAccessPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jitNetworkAccessPolicies
+            go_variable_name: name
+            python_parameter_name: jit_network_access_policy_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'ascLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: ascLocation
+            python_parameter_name: asc_location
+            python_variable_name: asc_location
+          'jitNetworkAccessPolicyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jitNetworkAccessPolicies
+            go_variable_name: name
+            python_parameter_name: jit_network_access_policy_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroupAndRegion
+        python_func_name: list_by_resource_group_and_region
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'ascLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: ascLocation
+            python_parameter_name: asc_location
+            python_variable_name: asc_location
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByRegion
+        python_func_name: list_by_region
+        request:
+          'ascLocation': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: locations
+            go_variable_name: ascLocation
+            python_parameter_name: asc_location
+            python_variable_name: asc_location
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+
+    description: |
+      Manage Azure JitNetworkAccessPolicy instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'ascLocation'
+        description: 'The location where ASC stores the data of the subscription. can be retrieved from Get locations'
+        required: true
+        input: true
+        azure_sdk_references: ['ascLocation']
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of a Just-in-Time access configuration policy.'
+        required: true
+        input: true
+        azure_sdk_references: ['jitNetworkAccessPolicyName']
+      - !ruby/object:Api::Type::String
+        name: 'kind'
+        description: 'Kind of the resource'
+        required: false
+        input: true
+        azure_sdk_references: ['/kind']
+      - !ruby/object:Api::Type::Array
+        name: 'virtualMachines'
+        description: 'Configurations for Microsoft.Compute/virtualMachines resource type.'
+        required: true
+        azure_sdk_references: ['/virtualMachines', '/properties/virtualMachines']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID of the virtual machine that is linked to this policy'
+              required: true
+              azure_sdk_references: ['/virtualMachines/id', '/properties/virtualMachines/id']
+            - !ruby/object:Api::Type::Array
+              name: 'ports'
+              description: 'Port configurations for the virtual machine'
+              required: true
+              azure_sdk_references: ['/virtualMachines/ports', '/properties/virtualMachines/ports']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Integer
+                    name: 'number'
+                    description: ''
+                    required: true
+                    azure_sdk_references: ['/virtualMachines/ports/number', '/properties/virtualMachines/ports/number']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'protocol'
+                    description: ''
+                    required: true
+                    azure_sdk_references: ['/virtualMachines/ports/protocol', '/properties/virtualMachines/ports/protocol']
+                    values:
+                      - :TCP
+                      - :UDP
+                      - :All
+                  - !ruby/object:Api::Type::String
+                    name: 'allowedSourceAddressPrefix'
+                    description: 'Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16".'
+                    required: false
+                    azure_sdk_references: ['/virtualMachines/ports/allowedSourceAddressPrefix', '/properties/virtualMachines/ports/allowedSourceAddressPrefix']
+                  - !ruby/object:Api::Type::Array
+                    name: 'allowedSourceAddressPrefixes'
+                    description: 'Mutually exclusive with the "allowedSourceAddressPrefix" parameter.'
+                    required: false
+                    azure_sdk_references: ['/virtualMachines/ports/allowedSourceAddressPrefixes', '/properties/virtualMachines/ports/allowedSourceAddressPrefixes']
+                    item_type: Api::Type::String
+                  - !ruby/object:Api::Type::String
+                    name: 'maxRequestAccessDuration'
+                    description: 'Maximum duration requests can be made for. In ISO 8601 duration format. Minimum 5 minutes, maximum 1 day'
+                    required: true
+                    azure_sdk_references: ['/virtualMachines/ports/maxRequestAccessDuration', '/properties/virtualMachines/ports/maxRequestAccessDuration']
+            - !ruby/object:Api::Type::String
+              name: 'publicIpAddress'
+              description: 'Public IP address of the Azure Firewall that is linked to this policy, if applicable'
+              required: false
+              azure_sdk_references: ['/virtualMachines/publicIpAddress', '/properties/virtualMachines/publicIpAddress']
+      - !ruby/object:Api::Type::Array
+        name: 'requests'
+        description: ''
+        required: false
+        azure_sdk_references: ['/requests', '/properties/requests']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Array
+              name: 'virtualMachines'
+              description: ''
+              required: true
+              azure_sdk_references: ['/requests/virtualMachines', '/properties/requests/virtualMachines']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::String
+                    name: 'id'
+                    description: 'Resource ID of the virtual machine that is linked to this policy'
+                    required: true
+                    azure_sdk_references: ['/requests/virtualMachines/id', '/properties/requests/virtualMachines/id']
+                  - !ruby/object:Api::Type::Array
+                    name: 'ports'
+                    description: 'The ports that were opened for the virtual machine'
+                    required: true
+                    azure_sdk_references: ['/requests/virtualMachines/ports', '/properties/requests/virtualMachines/ports']
+                    item_type: !ruby/object:Api::Type::NestedObject
+                      properties:
+                        - !ruby/object:Api::Type::Integer
+                          name: 'number'
+                          description: ''
+                          required: true
+                          azure_sdk_references: ['/requests/virtualMachines/ports/number', '/properties/requests/virtualMachines/ports/number']
+                        - !ruby/object:Api::Type::String
+                          name: 'allowedSourceAddressPrefix'
+                          description: 'Mutually exclusive with the "allowedSourceAddressPrefixes" parameter. Should be an IP address or CIDR, for example "192.168.0.3" or "192.168.0.0/16".'
+                          required: false
+                          azure_sdk_references: ['/requests/virtualMachines/ports/allowedSourceAddressPrefix', '/properties/requests/virtualMachines/ports/allowedSourceAddressPrefix']
+                        - !ruby/object:Api::Type::Array
+                          name: 'allowedSourceAddressPrefixes'
+                          description: 'Mutually exclusive with the "allowedSourceAddressPrefix" parameter.'
+                          required: false
+                          azure_sdk_references: ['/requests/virtualMachines/ports/allowedSourceAddressPrefixes', '/properties/requests/virtualMachines/ports/allowedSourceAddressPrefixes']
+                          item_type: Api::Type::String
+                        - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                          name: 'endTimeUtc'
+                          description: 'The date & time at which the request ends in UTC'
+                          required: true
+                          azure_sdk_references: ['/requests/virtualMachines/ports/endTimeUtc', '/properties/requests/virtualMachines/ports/endTimeUtc']
+                        - !ruby/object:Api::Type::Enum
+                          name: 'status'
+                          description: 'The status of the port'
+                          required: true
+                          azure_sdk_references: ['/requests/virtualMachines/ports/status', '/properties/requests/virtualMachines/ports/status']
+                          values:
+                            - :Revoked
+                            - :Initiated
+                        - !ruby/object:Api::Type::Enum
+                          name: 'statusReason'
+                          description: 'A description of why the `status` has its value'
+                          required: true
+                          azure_sdk_references: ['/requests/virtualMachines/ports/statusReason', '/properties/requests/virtualMachines/ports/statusReason']
+                          values:
+                            - :Expired
+                            - :UserRequested
+                            - :NewerRequestInitiated
+                        - !ruby/object:Api::Type::Integer
+                          name: 'mappedPort'
+                          description: 'The port which is mapped to this port''s `number` in the Azure Firewall, if applicable'
+                          required: false
+                          azure_sdk_references: ['/requests/virtualMachines/ports/mappedPort', '/properties/requests/virtualMachines/ports/mappedPort']
+            - !ruby/object:Api::Azure::Type::ISO8601DateTime
+              name: 'startTimeUtc'
+              description: 'The start time of the request in UTC'
+              required: true
+              azure_sdk_references: ['/requests/startTimeUtc', '/properties/requests/startTimeUtc']
+            - !ruby/object:Api::Type::String
+              name: 'requestor'
+              description: 'The identity of the person who made the request'
+              required: true
+              azure_sdk_references: ['/requests/requestor', '/properties/requests/requestor']
+            - !ruby/object:Api::Type::String
+              name: 'justification'
+              description: 'The justification for making the initiate request'
+              required: false
+              azure_sdk_references: ['/requests/justification', '/properties/requests/justification']
+      - !ruby/object:Api::Type::String
+        name: 'jitNetworkAccessPolicyInitiateType'
+        description: 'Type of the action to do on the Just-in-Time access policy.'
+        required: true
+        input: true
+        azure_sdk_references: ['jitNetworkAccessPolicyInitiateType']
+      - !ruby/object:Api::Type::Array
+        name: 'virtualMachines'
+        description: 'A list of virtual machines & ports to open access for'
+        required: true
+        azure_sdk_references: ['/virtualMachines']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::String
+              name: 'id'
+              description: 'Resource ID of the virtual machine that is linked to this policy'
+              required: true
+              azure_sdk_references: ['/virtualMachines/id']
+            - !ruby/object:Api::Type::Array
+              name: 'ports'
+              description: 'The ports to open for the resource with the `id`'
+              required: true
+              azure_sdk_references: ['/virtualMachines/ports']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Integer
+                    name: 'number'
+                    description: ''
+                    required: true
+                    azure_sdk_references: ['/virtualMachines/ports/number']
+                  - !ruby/object:Api::Type::String
+                    name: 'allowedSourceAddressPrefix'
+                    description: 'Source of the allowed traffic. If omitted, the request will be for the source IP address of the initiate request.'
+                    required: false
+                    azure_sdk_references: ['/virtualMachines/ports/allowedSourceAddressPrefix']
+                  - !ruby/object:Api::Azure::Type::ISO8601DateTime
+                    name: 'endTimeUtc'
+                    description: 'The time to close the request in UTC'
+                    required: true
+                    azure_sdk_references: ['/virtualMachines/ports/endTimeUtc']
+      - !ruby/object:Api::Type::String
+        name: 'justification'
+        description: 'The justification for making the initiate request'
+        required: false
+        input: true
+        azure_sdk_references: ['/justification']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource Id'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Location where the resource is stored'
+        output: true
+        azure_sdk_references: ['/location']

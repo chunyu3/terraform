@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_storsimpleaccesscontrolrecord
+  description: AccessControlRecordsCreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    manager_name: myManager
+    name: myAccessControlRecord
+    access_control_record:
+      Client:
+        BaseUri: 'https://management.azure.com/'
+        SubscriptionId: 9eb689cd-7243-43b4-b6f6-5c65cb296641
+        AcceptLanguage: en-US
+        LongRunningOperationRetryTimeout: '30'
+        GenerateClientRequestId: true
+      ResourceGroupName: ResourceGroupForSDKTest
+      ManagerName: hAzureSDKOperations
+      properties:
+        initiatorName: 'iqn.2017-06.com.contoso:ForTest'
+      name: AcrForSDKTest
+  

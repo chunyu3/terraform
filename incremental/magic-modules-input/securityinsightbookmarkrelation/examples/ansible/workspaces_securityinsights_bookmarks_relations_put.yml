@@ -1,0 +1,19 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_securityinsightbookmarkrelation
+  description: Creates or updates a bookmark relation.
+  code:
+    resource_group: myResourceGroup
+    operational_insights_resource_provider: Microsoft.OperationalInsights
+    workspace_name: myWorkspace
+    bookmark_id: myBookmark
+    name: myRelation
+    relation_input_model:
+      properties:
+        sourceRelationNode:
+          relationNodeId: afbd324f-6c48-459c-8710-8d1e1cd03812
+          relationNodeKind: Case
+        targetRelationNode:
+          relationNodeId: 2216d0e1-91e3-4902-89fd-d2df8c535096
+          relationNodeKind: Bookmark
+  

@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_azuredeploymentmanagerservicetopology
+  description: Create a topology with Artifact Source
+  code:
+    service_topology_info:
+      type: Microsoft.DeploymentManager/serviceTopologies
+      location: centralus
+      tags: {}
+      properties:
+        artifactSourceId: Microsoft.DeploymentManager/artifactSources/myArtifactSource
+    resource_group: myResourceGroup
+    name: myServiceTopology
+  

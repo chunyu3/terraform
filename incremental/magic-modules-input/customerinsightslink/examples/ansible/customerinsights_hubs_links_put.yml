@@ -1,0 +1,23 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_customerinsightslink
+  description: Links_CreateOrUpdate
+  code:
+    resource_group: myResourceGroup
+    hub_name: myHub
+    name: myLink
+    source_interaction_type: testInteraction1949
+    target_profile_type: testProfile1446
+    display_name:
+      en-us: Link DisplayName
+    description:
+      en-us: Link Description
+    mappings:
+      - interaction_type_property_name: testInteraction1949
+        profile_type_property_name: testProfile1446
+        is_profile_type_id: true
+        link_type: UpdateAlways
+    participant_property_references:
+      - interaction_property_name: testInteraction1949
+        profile_property_name: ProfileId
+  

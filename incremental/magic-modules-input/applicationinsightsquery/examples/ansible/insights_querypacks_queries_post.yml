@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_applicationinsightsquery
+  description: QuerySearch
+  code:
+    resource_group: myResourceGroup
+    name: myQueryPack
+    include_body: true
+    query_search_properties:
+      categories:
+        - other
+        - analytics
+      labels:
+        - my-label
+  

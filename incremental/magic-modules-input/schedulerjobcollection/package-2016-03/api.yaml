@@ -1,0 +1,273 @@
+--- !ruby/object:Api::Product
+name: Azure JobCollection Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: JobCollection
+    api_name: Scheduler
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Scheduler
+      go_client_namespace: scheduler
+      go_client: jobCollectionsClient
+      python_client_namespace: azure.mgmt.scheduler
+      python_client: SchedulerManagementClient.job_collections
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobCollections
+            go_variable_name: name
+            python_parameter_name: job_collection_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: jobCollection
+            go_type_name: JobCollectionDefinition
+            python_parameter_name: job_collection
+            python_variable_name: job_collection
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobCollectionProperties
+            go_type_name: JobCollectionProperties
+          '/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: sku
+          '/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: name
+          '/properties/sku': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Sku
+            go_type_name: Sku
+          '/properties/sku/name': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Name
+            go_enum_type_name: SkuDefinition
+          '/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: state
+          '/properties/state': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: State
+            go_enum_type_name: JobCollectionState
+          '/quota': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: quota
+          '/quota/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_job_count
+          '/quota/maxJobOccurrence': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: max_job_occurrence
+          '/quota/maxRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: max_recurrence
+          '/quota/maxRecurrence/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: frequency
+          '/quota/maxRecurrence/interval': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: interval
+          '/properties/quota': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: Quota
+            go_type_name: JobCollectionQuota
+          '/properties/quota/maxJobCount': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxJobCount
+          '/properties/quota/maxJobOccurrence': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: MaxJobOccurrence
+          '/properties/quota/maxRecurrence': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MaxRecurrence
+            go_type_name: JobMaxRecurrence
+          '/properties/quota/maxRecurrence/frequency': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Frequency
+            go_enum_type_name: RecurrenceFrequency
+          '/properties/quota/maxRecurrence/interval': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: Interval
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobCollections
+            go_variable_name: name
+            python_parameter_name: job_collection_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'jobCollectionName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobCollections
+            go_variable_name: name
+            python_parameter_name: job_collection_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+
+    description: |
+      Manage Azure JobCollection instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The resource group name.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The job collection name.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobCollectionName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Gets or sets the job collection resource name.'
+        required: false
+        input: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Gets or sets the storage account location.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Gets or sets the tags.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'sku'
+        description: 'Gets or sets the SKU.'
+        required: false
+        azure_sdk_references: ['/sku', '/properties/sku']
+        properties:
+          - !ruby/object:Api::Type::Enum
+            name: 'name'
+            description: 'Gets or set the SKU.'
+            required: false
+            azure_sdk_references: ['/sku/name', '/properties/sku/name']
+            values:
+              - :Standard
+              - :Free
+              - :P10Premium
+              - :P20Premium
+            default_value: :Standard
+      - !ruby/object:Api::Type::Enum
+        name: 'state'
+        description: 'Gets or sets the state.'
+        required: false
+        azure_sdk_references: ['/state', '/properties/state']
+        values:
+          - :Enabled
+          - :Disabled
+          - :Suspended
+          - :Deleted
+        default_value: :Enabled
+      - !ruby/object:Api::Type::NestedObject
+        name: 'quota'
+        description: 'Gets or sets the job collection quota.'
+        required: false
+        azure_sdk_references: ['/quota', '/properties/quota']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'maxJobCount'
+            description: 'Gets or set the maximum job count.'
+            required: false
+            azure_sdk_references: ['/quota/maxJobCount', '/properties/quota/maxJobCount']
+          - !ruby/object:Api::Type::Integer
+            name: 'maxJobOccurrence'
+            description: 'Gets or sets the maximum job occurrence.'
+            required: false
+            azure_sdk_references: ['/quota/maxJobOccurrence', '/properties/quota/maxJobOccurrence']
+          - !ruby/object:Api::Type::NestedObject
+            name: 'maxRecurrence'
+            description: 'Gets or set the maximum recurrence.'
+            required: false
+            azure_sdk_references: ['/quota/maxRecurrence', '/properties/quota/maxRecurrence']
+            properties:
+              - !ruby/object:Api::Type::Enum
+                name: 'frequency'
+                description: 'Gets or sets the frequency of recurrence (second, minute, hour, day, week, month).'
+                required: false
+                azure_sdk_references: ['/quota/maxRecurrence/frequency', '/properties/quota/maxRecurrence/frequency']
+                values:
+                  - :Minute
+                  - :Hour
+                  - :Day
+                  - :Week
+                  - :Month
+                default_value: :Minute
+              - !ruby/object:Api::Type::Integer
+                name: 'interval'
+                description: 'Gets or sets the interval between retries.'
+                required: false
+                azure_sdk_references: ['/quota/maxRecurrence/interval', '/properties/quota/maxRecurrence/interval']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Gets the job collection resource identifier.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Gets the job collection resource type.'
+        output: true
+        azure_sdk_references: ['/type']

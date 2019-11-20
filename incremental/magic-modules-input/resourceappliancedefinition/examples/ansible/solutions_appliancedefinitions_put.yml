@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourceappliancedefinition
+  description: Create or update appliance definition
+  code:
+    resource_group: myResourceGroup
+    name: myApplianceDefinition
+    location: East US 2
+    lock_level: None
+    display_name: myApplianceDef
+    authorizations:
+      - principal_id: validprincipalguid
+        role_definition_id: validroleguid
+    description: myApplianceDef description
+    package_file_uri: 'https://path/to/packagezipfile'
+  

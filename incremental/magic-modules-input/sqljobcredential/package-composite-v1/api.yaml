@@ -1,0 +1,196 @@
+--- !ruby/object:Api::Product
+name: Azure JobCredential Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: JobCredential
+    api_name: Sql
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Sql
+      go_client_namespace: sql
+      go_client: jobCredentialsClient
+      python_client_namespace: azure.mgmt.sql
+      python_client: SqlManagementClient.job_credentials
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: credentials
+            go_variable_name: name
+            python_parameter_name: credential_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: JobCredential
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: JobCredentialProperties
+            go_type_name: JobCredentialProperties
+          '/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: username
+          '/properties/username': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Username
+          '/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: password
+          '/properties/password': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Password
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: credentials
+            go_variable_name: name
+            python_parameter_name: credential_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+          'credentialName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: credentials
+            go_variable_name: name
+            python_parameter_name: credential_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAgent
+        python_func_name: list_by_agent
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'serverName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: servers
+            go_variable_name: serverName
+            python_parameter_name: server_name
+            python_variable_name: server_name
+          'jobAgentName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: jobAgents
+            go_variable_name: jobAgentName
+            python_parameter_name: job_agent_name
+            python_variable_name: job_agent_name
+
+    description: |
+      Manage Azure JobCredential instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'serverName'
+        description: 'The name of the server.'
+        required: true
+        input: true
+        azure_sdk_references: ['serverName']
+      - !ruby/object:Api::Type::String
+        name: 'jobAgentName'
+        description: 'The name of the job agent.'
+        required: true
+        input: true
+        azure_sdk_references: ['jobAgentName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the credential.'
+        required: true
+        input: true
+        azure_sdk_references: ['credentialName']
+      - !ruby/object:Api::Type::String
+        name: 'username'
+        description: 'The credential user name.'
+        required: true
+        azure_sdk_references: ['/username', '/properties/username']
+      - !ruby/object:Api::Type::String
+        name: 'password'
+        description: 'The credential password.'
+        required: true
+        azure_sdk_references: ['/password', '/properties/password']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type.'
+        output: true
+        azure_sdk_references: ['/type']

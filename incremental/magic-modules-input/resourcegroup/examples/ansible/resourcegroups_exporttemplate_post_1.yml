@@ -1,0 +1,11 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_resourcegroup
+  description: Export a resource group with filtering
+  code:
+    resource_group: myResourceGroup
+    resources:
+      - >-
+        /subscriptions/eaee6a92-e973-4922-9471-3a0a6abf81cd/resourceGroups/myResourceGroup/providers/My.RP/myResourceType/myFirstResource
+    options: SkipResourceNameParameterization
+  

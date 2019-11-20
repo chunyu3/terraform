@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_batchaisdkfileserver
+  description: Create a file server
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    name: myFileServer
+    vm_size: STANDARD_NC6
+    ssh_configuration:
+      user_account_settings:
+        admin_user_name: admin_user_name
+        admin_user_password: admin_user_password
+    data_disks:
+      disk_size_in_gb: '10'
+      disk_count: '2'
+      storage_account_type: Standard_LRS
+  

@@ -1,0 +1,21 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_reservationsreservationorder
+  description: Purchase
+  code:
+    body:
+      sku:
+        name: standard_D1
+      location: westus
+      properties:
+        reservedResourceType: VirtualMachines
+        billingScopeId: '/subscriptions/{{ subscription_id }}'
+        term: P1Y
+        billingPlan: Monthly
+        quantity: '1'
+        displayName: TestReservationOrder
+        appliedScopes: null
+        appliedScopeType: Shared
+        reservedResourceProperties:
+          instanceFlexibility: 'On'
+  

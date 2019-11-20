@@ -1,0 +1,338 @@
+--- !ruby/object:Api::Product
+name: Azure SourceControl Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SourceControl
+    api_name: Automation
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Automation
+      go_client_namespace: automation
+      go_client: sourceControlClient
+      python_client_namespace: azure.mgmt.automation
+      python_client: AutomationClient.source_control
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: name
+            python_parameter_name: source_control_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SourceControlUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceControlUpdateProperties
+            go_type_name: SourceControlUpdateProperties
+          '/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: branch
+          '/properties/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Branch
+          '/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: folder_path
+          '/properties/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FolderPath
+          '/autoSync': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_sync
+          '/properties/autoSync': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoSync
+          '/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: publish_runbook
+          '/properties/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: PublishRunbook
+          '/securityToken': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: security_token
+          '/securityToken/accessToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: access_token
+          '/securityToken/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: refresh_token
+          '/securityToken/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: token_type
+          '/properties/securityToken': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecurityToken
+            go_type_name: SourceControlSecurityTokenProperties
+          '/properties/securityToken/accessToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccessToken
+          '/properties/securityToken/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RefreshToken
+          '/properties/securityToken/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TokenType
+            go_enum_type_name: TokenType
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: name
+            python_parameter_name: source_control_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: SourceControlUpdateParameters
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SourceControlUpdateProperties
+            go_type_name: SourceControlUpdateProperties
+          '/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: branch
+          '/properties/branch': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Branch
+          '/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: folder_path
+          '/properties/folderPath': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: FolderPath
+          '/autoSync': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: auto_sync
+          '/properties/autoSync': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: AutoSync
+          '/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: publish_runbook
+          '/properties/publishRunbook': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: PublishRunbook
+          '/securityToken': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: security_token
+          '/securityToken/accessToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: access_token
+          '/securityToken/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: refresh_token
+          '/securityToken/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: token_type
+          '/properties/securityToken': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SecurityToken
+            go_type_name: SourceControlSecurityTokenProperties
+          '/properties/securityToken/accessToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: AccessToken
+          '/properties/securityToken/refreshToken': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: RefreshToken
+          '/properties/securityToken/tokenType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: TokenType
+            go_enum_type_name: TokenType
+          '/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: description
+          '/properties/description': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Description
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: name
+            python_parameter_name: source_control_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+          'sourceControlName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sourceControls
+            go_variable_name: name
+            python_parameter_name: source_control_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByAutomationAccount
+        python_func_name: list_by_automation_account
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'automationAccountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: automationAccounts
+            go_variable_name: automationAccountName
+            python_parameter_name: automation_account_name
+            python_variable_name: automation_account_name
+
+    description: |
+      Manage Azure SourceControl instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of an Azure Resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'automationAccountName'
+        description: 'The name of the automation account.'
+        required: true
+        input: true
+        azure_sdk_references: ['automationAccountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of source control.'
+        required: true
+        input: true
+        azure_sdk_references: ['sourceControlName']
+      - !ruby/object:Api::Type::String
+        name: 'branch'
+        description: 'The repo branch of the source control.'
+        required: false
+        azure_sdk_references: ['/branch', '/properties/branch']
+      - !ruby/object:Api::Type::String
+        name: 'folderPath'
+        description: 'The folder path of the source control. Path must be relative.'
+        required: false
+        azure_sdk_references: ['/folderPath', '/properties/folderPath']
+      - !ruby/object:Api::Type::Boolean
+        name: 'autoSync'
+        description: 'The auto sync of the source control. Default is false.'
+        required: false
+        azure_sdk_references: ['/autoSync', '/properties/autoSync']
+      - !ruby/object:Api::Type::Boolean
+        name: 'publishRunbook'
+        description: 'The auto publish of the source control. Default is true.'
+        required: false
+        azure_sdk_references: ['/publishRunbook', '/properties/publishRunbook']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'securityToken'
+        description: 'The authorization token for the repo of the source control.'
+        required: false
+        azure_sdk_references: ['/securityToken', '/properties/securityToken']
+        properties:
+          - !ruby/object:Api::Type::String
+            name: 'accessToken'
+            description: 'The access token.'
+            required: false
+            azure_sdk_references: ['/securityToken/accessToken', '/properties/securityToken/accessToken']
+          - !ruby/object:Api::Type::String
+            name: 'refreshToken'
+            description: 'The refresh token.'
+            required: false
+            azure_sdk_references: ['/securityToken/refreshToken', '/properties/securityToken/refreshToken']
+          - !ruby/object:Api::Type::Enum
+            name: 'tokenType'
+            description: 'The token type. Must be either PersonalAccessToken or Oauth.'
+            required: false
+            azure_sdk_references: ['/securityToken/tokenType', '/properties/securityToken/tokenType']
+            values:
+              - :PersonalAccessToken
+              - :Oauth
+            default_value: :PersonalAccessToken
+      - !ruby/object:Api::Type::String
+        name: 'description'
+        description: 'The user description of the source control.'
+        required: false
+        azure_sdk_references: ['/description', '/properties/description']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource Id for the resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

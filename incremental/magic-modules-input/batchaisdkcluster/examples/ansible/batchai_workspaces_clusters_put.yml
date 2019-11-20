@@ -1,0 +1,13 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_batchaisdkcluster
+  description: Create a cluster
+  code:
+    resource_group: myResourceGroup
+    workspace_name: myWorkspace
+    name: myCluster
+    scale_settings:
+      manual:
+        target_node_count: '1'
+        node_deallocation_option: requeue
+  

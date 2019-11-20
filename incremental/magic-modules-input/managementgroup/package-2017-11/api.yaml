@@ -1,0 +1,130 @@
+--- !ruby/object:Api::Product
+name: Azure ManagementGroup Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ManagementGroup
+    api_name: Management
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Management
+      go_client_namespace: managementgroups
+      go_client: managementGroupsClient
+      python_client_namespace: azure.mgmt.managementgroups
+      python_client: ManagementGroupsAPIClient.management_groups
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managementGroups
+            go_variable_name: groupID
+            python_parameter_name: group_id
+            python_variable_name: group_id
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: createManagementGroupRequest
+            go_type_name: CreateManagementGroupRequest
+            python_parameter_name: create_management_group_request
+            python_variable_name: create_management_group_request
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DisplayName
+            python_field_name: display_name
+          '/parentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ParentID
+            python_field_name: parent_id
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managementGroups
+            go_variable_name: groupID
+            python_parameter_name: group_id
+            python_variable_name: group_id
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: createManagementGroupRequest
+            go_type_name: CreateManagementGroupRequest
+            python_parameter_name: create_management_group_request
+            python_variable_name: create_management_group_request
+          '/displayName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DisplayName
+            python_field_name: display_name
+          '/parentId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ParentID
+            python_field_name: parent_id
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managementGroups
+            go_variable_name: groupID
+            python_parameter_name: group_id
+            python_variable_name: group_id
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'groupId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: managementGroups
+            go_variable_name: groupID
+            python_parameter_name: group_id
+            python_variable_name: group_id
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure ManagementGroup instance.
+    properties:
+      - !ruby/object:Api::Type::String
+        name: 'groupId'
+        description: 'Management Group ID.'
+        required: true
+        input: true
+        azure_sdk_references: ['groupId']
+      - !ruby/object:Api::Type::String
+        name: 'displayName'
+        description: 'The friendly name of the management group.'
+        required: false
+        input: true
+        azure_sdk_references: ['/displayName']
+      - !ruby/object:Api::Type::String
+        name: 'parentId'
+        description: '(Optional) The fully qualified ID for the parent management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000'
+        required: false
+        input: true
+        azure_sdk_references: ['/parentId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The fully qualified ID for the management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.  For example, /providers/Microsoft.Management/managementGroups'
+        output: true
+        azure_sdk_references: ['/type']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the management group. For example, 00000000-0000-0000-0000-000000000000'
+        output: true
+        azure_sdk_references: ['/name']

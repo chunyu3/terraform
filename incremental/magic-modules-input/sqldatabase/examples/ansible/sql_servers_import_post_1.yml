@@ -1,0 +1,18 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_sqldatabase
+  description: Import bacpac into new database Min with storage key
+  code:
+    resource_group: myResourceGroup
+    server_name: myServer
+    storage_key_type: StorageAccessKey
+    storage_key: >-
+      sdlfkjdsf+sdlfkjsdlkfsjdfLDKFJSDLKFDFKLjsdfksjdflsdkfD2342309432849328479324/3RSD==
+    storage_uri: 'https://test.blob.core.windows.net/bacpacs/testbacpac.bacpac'
+    administrator_login: dummyLogin
+    administrator_login_password: Un53cuRE!
+    database_name: TestDbImport
+    edition: Basic
+    service_objective_name: Basic
+    max_size_bytes: '2147483648'
+  

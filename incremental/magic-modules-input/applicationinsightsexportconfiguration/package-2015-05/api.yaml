@@ -1,0 +1,363 @@
+--- !ruby/object:Api::Product
+name: Azure ExportConfiguration Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: ExportConfiguration
+    api_name: Insights
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Insights
+      go_client_namespace: applicationinsights
+      go_client: exportConfigurationsClient
+      python_client_namespace: azure.mgmt.applicationinsights
+      python_client: ApplicationInsightsManagementClient.export_configurations
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          'exportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: exportconfiguration
+            go_variable_name: exportID
+            python_parameter_name: export_id
+            python_variable_name: export_id
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: exportProperties
+            go_type_name: ComponentExportRequest
+            python_parameter_name: export_properties
+            python_variable_name: export_properties
+          '/RecordTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: RecordTypes
+            python_field_name: record_types
+          '/DestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationType
+            python_field_name: destination_type
+          '/DestinationAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationAddress
+            python_field_name: destination_address
+          '/IsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: IsEnabled
+            python_field_name: is_enabled
+          '/NotificationQueueEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: NotificationQueueEnabled
+            python_field_name: notification_queue_enabled
+          '/NotificationQueueUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: NotificationQueueURI
+            python_field_name: notification_queue_uri
+          '/DestinationStorageSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationStorageSubscriptionID
+            python_field_name: destination_storage_subscription_id
+          '/DestinationStorageLocationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationStorageLocationID
+            python_field_name: destination_storage_location_id
+          '/DestinationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationAccountID
+            python_field_name: destination_account_id
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          'exportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: exportconfiguration
+            go_variable_name: exportID
+            python_parameter_name: export_id
+            python_variable_name: export_id
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          'exportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: exportconfiguration
+            go_variable_name: exportID
+            python_parameter_name: export_id
+            python_variable_name: export_id
+        response:
+          '/DestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationType
+            python_field_name: destination_type
+          '/DestinationStorageSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationStorageSubscriptionID
+            python_field_name: destination_storage_subscription_id
+          '/DestinationStorageLocationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationStorageLocationID
+            python_field_name: destination_storage_location_id
+          '/DestinationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationAccountID
+            python_field_name: destination_account_id
+          '/ExportId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ExportID
+            python_field_name: export_id
+          '/InstrumentationKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: InstrumentationKey
+            python_field_name: instrumentation_key
+          '/ApplicationName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ApplicationName
+            python_field_name: application_name
+          '/SubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: SubscriptionID
+            python_field_name: subscription_id
+          '/ResourceGroup': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ResourceGroup
+            python_field_name: resource_group
+          '/IsUserEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: IsUserEnabled
+            python_field_name: is_user_enabled
+          '/LastUserUpdate': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastUserUpdate
+            python_field_name: last_user_update
+          '/ExportStatus': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ExportStatus
+            python_field_name: export_status
+          '/LastSuccessTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastSuccessTime
+            python_field_name: last_success_time
+          '/LastGapTime': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LastGapTime
+            python_field_name: last_gap_time
+          '/PermanentErrorReason': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: PermanentErrorReason
+            python_field_name: permanent_error_reason
+          '/StorageName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: StorageName
+            python_field_name: storage_name
+          '/ContainerName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ContainerName
+            python_field_name: container_name
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: exportProperties
+            go_type_name: ComponentExportRequest
+            python_parameter_name: export_properties
+            python_variable_name: export_properties
+          '/RecordTypes': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: RecordTypes
+            python_field_name: record_types
+          '/DestinationType': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationType
+            python_field_name: destination_type
+          '/DestinationAddress': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationAddress
+            python_field_name: destination_address
+          '/IsEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: IsEnabled
+            python_field_name: is_enabled
+          '/NotificationQueueEnabled': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: NotificationQueueEnabled
+            python_field_name: notification_queue_enabled
+          '/NotificationQueueUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: NotificationQueueURI
+            python_field_name: notification_queue_uri
+          '/DestinationStorageSubscriptionId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationStorageSubscriptionID
+            python_field_name: destination_storage_subscription_id
+          '/DestinationStorageLocationId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationStorageLocationID
+            python_field_name: destination_storage_location_id
+          '/DestinationAccountId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: DestinationAccountID
+            python_field_name: destination_account_id
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: components
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure ExportConfiguration instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group. The name is case insensitive.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the Application Insights component resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      - !ruby/object:Api::Type::String
+        name: 'recordTypes'
+        description: 'The document types to be exported, as comma separated values. Allowed values include ''Requests'', ''Event'', ''Exceptions'', ''Metrics'', ''PageViews'', ''PageViewPerformance'', ''Rdd'', ''PerformanceCounters'', ''Availability'', ''Messages''.'
+        required: false
+        input: true
+        azure_sdk_references: ['/RecordTypes']
+      - !ruby/object:Api::Type::String
+        name: 'destinationType'
+        description: 'The Continuous Export destination type. This has to be ''Blob''.'
+        required: false
+        input: true
+        azure_sdk_references: ['/DestinationType']
+      - !ruby/object:Api::Type::String
+        name: 'destinationAddress'
+        description: 'The SAS URL for the destination storage container. It must grant write permission.'
+        required: false
+        input: true
+        azure_sdk_references: ['/DestinationAddress']
+      - !ruby/object:Api::Type::String
+        name: 'isEnabled'
+        description: 'Set to ''true'' to create a Continuous Export configuration as enabled, otherwise set it to ''false''.'
+        required: false
+        input: true
+        azure_sdk_references: ['/IsEnabled']
+      - !ruby/object:Api::Type::String
+        name: 'notificationQueueEnabled'
+        description: 'Deprecated'
+        required: false
+        input: true
+        azure_sdk_references: ['/NotificationQueueEnabled']
+      - !ruby/object:Api::Type::String
+        name: 'notificationQueueUri'
+        description: 'Deprecated'
+        required: false
+        input: true
+        azure_sdk_references: ['/NotificationQueueUri']
+      - !ruby/object:Api::Type::String
+        name: 'destinationStorageSubscriptionId'
+        description: 'The subscription ID of the destination storage container.'
+        required: false
+        input: true
+        azure_sdk_references: ['/DestinationStorageSubscriptionId']
+      - !ruby/object:Api::Type::String
+        name: 'destinationStorageLocationId'
+        description: 'The location ID of the destination storage container.'
+        required: false
+        input: true
+        azure_sdk_references: ['/DestinationStorageLocationId']
+      - !ruby/object:Api::Type::String
+        name: 'destinationAccountId'
+        description: 'The name of destination storage account.'
+        required: false
+        input: true
+        azure_sdk_references: ['/DestinationAccountId']
+      - !ruby/object:Api::Type::String
+        name: 'exportId'
+        description: 'The Continuous Export configuration ID. This is unique within a Application Insights component.'
+        required: true
+        input: true
+        azure_sdk_references: ['exportId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'exportId'
+        description: 'The unique ID of the export configuration inside an Application Insights component. It is auto generated when the Continuous Export configuration is created.'
+        output: true
+        azure_sdk_references: ['/ExportId']
+      - !ruby/object:Api::Type::String
+        name: 'instrumentationKey'
+        description: 'The instrumentation key of the Application Insights component.'
+        output: true
+        azure_sdk_references: ['/InstrumentationKey']
+      - !ruby/object:Api::Type::String
+        name: 'applicationName'
+        description: 'The name of the Application Insights component.'
+        output: true
+        azure_sdk_references: ['/ApplicationName']
+      - !ruby/object:Api::Type::String
+        name: 'subscriptionId'
+        description: 'The subscription of the Application Insights component.'
+        output: true
+        azure_sdk_references: ['/SubscriptionId']
+      - !ruby/object:Api::Type::String
+        name: 'resourceGroup'
+        description: 'The resource group of the Application Insights component.'
+        output: true
+        azure_sdk_references: ['/ResourceGroup']
+      - !ruby/object:Api::Type::String
+        name: 'isUserEnabled'
+        description: 'This will be ''true'' if the Continuous Export configuration is enabled, otherwise it will be ''false''.'
+        output: true
+        azure_sdk_references: ['/IsUserEnabled']
+      - !ruby/object:Api::Type::String
+        name: 'lastUserUpdate'
+        description: 'Last time the Continuous Export configuration was updated.'
+        output: true
+        azure_sdk_references: ['/LastUserUpdate']
+      - !ruby/object:Api::Type::String
+        name: 'exportStatus'
+        description: 'This indicates current Continuous Export configuration status. The possible values are ''Preparing'', ''Success'', ''Failure''.'
+        output: true
+        azure_sdk_references: ['/ExportStatus']
+      - !ruby/object:Api::Type::String
+        name: 'lastSuccessTime'
+        description: 'The last time data was successfully delivered to the destination storage container for this Continuous Export configuration.'
+        output: true
+        azure_sdk_references: ['/LastSuccessTime']
+      - !ruby/object:Api::Type::String
+        name: 'lastGapTime'
+        description: 'The last time the Continuous Export configuration started failing.'
+        output: true
+        azure_sdk_references: ['/LastGapTime']
+      - !ruby/object:Api::Type::String
+        name: 'permanentErrorReason'
+        description: 'This is the reason the Continuous Export configuration started failing. It can be ''AzureStorageNotFound'' or ''AzureStorageAccessDenied''.'
+        output: true
+        azure_sdk_references: ['/PermanentErrorReason']
+      - !ruby/object:Api::Type::String
+        name: 'storageName'
+        description: 'The name of the destination storage account.'
+        output: true
+        azure_sdk_references: ['/StorageName']
+      - !ruby/object:Api::Type::String
+        name: 'containerName'
+        description: 'The name of the destination storage container.'
+        output: true
+        azure_sdk_references: ['/ContainerName']

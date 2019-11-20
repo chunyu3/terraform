@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_healthcareapisservice
+  description: Create or Update a service with minimum parameters
+  code:
+    resource_group: myResourceGroup
+    name: myService
+    service_description:
+      location: westus2
+      tags: {}
+      kind: fhir-R4
+      properties:
+        accessPolicies:
+          - objectId: c487e7d1-3210-41a3-8ccc-e9372b78da47
+  

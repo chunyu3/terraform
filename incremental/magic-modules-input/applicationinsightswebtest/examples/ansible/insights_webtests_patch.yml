@@ -1,0 +1,15 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_applicationinsightswebtest
+  description: webTestUpdateTags
+  code:
+    resource_group: myResourceGroup
+    web_test_name: myWebtest
+    web_test_tags:
+      tags:
+        'hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component': Resource
+        'hidden-link:/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Web/sites/mytestwebapp': Resource
+        CustomField-01: This is a random value
+        SystemType: A08
+        Color: AzureBlue
+  

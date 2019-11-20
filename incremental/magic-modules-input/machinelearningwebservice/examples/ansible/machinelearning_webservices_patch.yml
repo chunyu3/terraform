@@ -1,0 +1,14 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_machinelearningwebservice
+  description: Patch WebService
+  code:
+    resource_group: myResourceGroup
+    name: myWebService
+    patch_payload:
+      location: West US
+      properties:
+        title: New Web Service Title
+        description: New Web Service Description
+        packageType: Graph
+  

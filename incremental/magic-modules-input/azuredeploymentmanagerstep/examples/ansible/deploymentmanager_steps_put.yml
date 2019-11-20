@@ -1,0 +1,16 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_azuredeploymentmanagerstep
+  description: Create deployment step
+  code:
+    resource_group: myResourceGroup
+    name: myStep
+    step_info:
+      type: Microsoft.DeploymentManager/steps
+      location: centralus
+      tags: {}
+      properties:
+        stepType: Wait
+        attributes:
+          duration: PT20M
+  

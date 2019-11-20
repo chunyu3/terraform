@@ -1,0 +1,297 @@
+--- !ruby/object:Api::Product
+name: Azure SapMonitor Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: SapMonitor
+    api_name: HanaOnAzure
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.HanaOnAzure
+      go_client_namespace: hanaonazure
+      go_client: sapMonitorsClient
+      python_client_namespace: azure.mgmt.hanaonazure
+      python_client: HanaManagementClient.sap_monitors
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Create
+        python_func_name: create
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sapMonitors
+            go_variable_name: name
+            python_parameter_name: sap_monitor_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: sapMonitorParameter
+            go_type_name: SapMonitor
+            python_parameter_name: sap_monitor_parameter
+            python_variable_name: sap_monitor_parameter
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: SapMonitorProperties
+            go_type_name: SapMonitorProperties
+          '/hanaSubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_subnet
+          '/properties/hanaSubnet': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaSubnet
+          '/hanaHostname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_hostname
+          '/properties/hanaHostname': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaHostname
+          '/hanaDbName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_db_name
+          '/properties/hanaDbName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaDbName
+          '/hanaDbSqlPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [python]
+            python_field_name: hana_db_sql_port
+          '/properties/hanaDbSqlPort': !ruby/object:Api::Azure::SDKTypeDefinition::IntegerObject
+            applicable_to: [go]
+            go_field_name: HanaDbSQLPort
+          '/hanaDbUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_db_username
+          '/properties/hanaDbUsername': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaDbUsername
+          '/hanaDbPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_db_password
+          '/properties/hanaDbPassword': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaDbPassword
+          '/hanaDbPasswordKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_db_password_key_vault_url
+          '/properties/hanaDbPasswordKeyVaultUrl': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaDbPasswordKeyVaultURL
+          '/hanaDbCredentialsMsiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: hana_db_credentials_msi_id
+          '/properties/hanaDbCredentialsMsiId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HanaDbCredentialsMsiID
+          '/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: key_vault_id
+          '/properties/keyVaultId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: KeyVaultID
+          '/logAnalyticsWorkspaceArmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: log_analytics_workspace_arm_id
+          '/properties/logAnalyticsWorkspaceArmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsWorkspaceArmID
+          '/enableCustomerAnalytics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: enable_customer_analytics
+          '/properties/enableCustomerAnalytics': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: EnableCustomerAnalytics
+          '/logAnalyticsWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: log_analytics_workspace_id
+          '/properties/logAnalyticsWorkspaceId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsWorkspaceID
+          '/logAnalyticsWorkspaceSharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: log_analytics_workspace_shared_key
+          '/properties/logAnalyticsWorkspaceSharedKey': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LogAnalyticsWorkspaceSharedKey
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sapMonitors
+            go_variable_name: name
+            python_parameter_name: sap_monitor_name
+            python_variable_name: name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sapMonitors
+            go_variable_name: name
+            python_parameter_name: sap_monitor_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'sapMonitorName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: sapMonitors
+            go_variable_name: name
+            python_parameter_name: sap_monitor_name
+            python_variable_name: name
+        response:
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+
+    description: |
+      Manage Azure SapMonitor instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'Name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the SAP monitor resource.'
+        required: true
+        input: true
+        azure_sdk_references: ['sapMonitorName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Resource location'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Type::String
+        name: 'hanaSubnet'
+        description: 'Specifies the SAP monitor unique ID.'
+        required: false
+        azure_sdk_references: ['/hanaSubnet', '/properties/hanaSubnet']
+      - !ruby/object:Api::Type::String
+        name: 'hanaHostname'
+        description: 'Hostname of the HANA instance.'
+        required: false
+        azure_sdk_references: ['/hanaHostname', '/properties/hanaHostname']
+      - !ruby/object:Api::Type::String
+        name: 'hanaDbName'
+        description: 'Database name of the HANA instance.'
+        required: false
+        azure_sdk_references: ['/hanaDbName', '/properties/hanaDbName']
+      - !ruby/object:Api::Type::Integer
+        name: 'hanaDbSqlPort'
+        description: 'Database port of the HANA instance.'
+        required: false
+        azure_sdk_references: ['/hanaDbSqlPort', '/properties/hanaDbSqlPort']
+      - !ruby/object:Api::Type::String
+        name: 'hanaDbUsername'
+        description: 'Database username of the HANA instance.'
+        required: false
+        azure_sdk_references: ['/hanaDbUsername', '/properties/hanaDbUsername']
+      - !ruby/object:Api::Type::String
+        name: 'hanaDbPassword'
+        description: 'Database password of the HANA instance.'
+        required: false
+        azure_sdk_references: ['/hanaDbPassword', '/properties/hanaDbPassword']
+      - !ruby/object:Api::Type::String
+        name: 'hanaDbPasswordKeyVaultUrl'
+        description: 'KeyVault URL link to the password for the HANA database.'
+        required: false
+        azure_sdk_references: ['/hanaDbPasswordKeyVaultUrl', '/properties/hanaDbPasswordKeyVaultUrl']
+      - !ruby/object:Api::Type::String
+        name: 'hanaDbCredentialsMsiId'
+        description: 'MSI ID passed by customer which has access to customer''s KeyVault and to be assigned to the Collector VM.'
+        required: false
+        azure_sdk_references: ['/hanaDbCredentialsMsiId', '/properties/hanaDbCredentialsMsiId']
+      - !ruby/object:Api::Type::String
+        name: 'keyVaultId'
+        description: 'Key Vault ID containing customer''s HANA credentials.'
+        required: false
+        azure_sdk_references: ['/keyVaultId', '/properties/keyVaultId']
+      - !ruby/object:Api::Type::String
+        name: 'logAnalyticsWorkspaceArmId'
+        description: 'The ARM ID of the Log Analytics Workspace that is used for monitoring'
+        required: false
+        azure_sdk_references: ['/logAnalyticsWorkspaceArmId', '/properties/logAnalyticsWorkspaceArmId']
+      - !ruby/object:Api::Type::Boolean
+        name: 'enableCustomerAnalytics'
+        description: 'The value indicating whether to send analytics to Microsoft'
+        required: false
+        azure_sdk_references: ['/enableCustomerAnalytics', '/properties/enableCustomerAnalytics']
+      - !ruby/object:Api::Type::String
+        name: 'logAnalyticsWorkspaceId'
+        description: 'The workspace ID of the log analytics workspace to be used for monitoring'
+        required: false
+        azure_sdk_references: ['/logAnalyticsWorkspaceId', '/properties/logAnalyticsWorkspaceId']
+      - !ruby/object:Api::Type::String
+        name: 'logAnalyticsWorkspaceSharedKey'
+        description: 'The shared key of the log analytics workspace that is used for monitoring'
+        required: false
+        azure_sdk_references: ['/logAnalyticsWorkspaceSharedKey', '/properties/logAnalyticsWorkspaceSharedKey']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Tags field of the HANA instance.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Resource ID'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Resource name'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Resource type'
+        output: true
+        azure_sdk_references: ['/type']

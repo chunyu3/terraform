@@ -1,0 +1,368 @@
+--- !ruby/object:Api::Product
+name: Azure Disk Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Disk
+    api_name: DevTestLab
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.DevTestLab
+      go_client_namespace: devtestlab
+      go_client: disksClient
+      python_client_namespace: azure.mgmt.devtestlab
+      python_client: DevTestLabsClient.disks
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: user_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: disks
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: disk
+            go_type_name: DiskFragment
+            python_parameter_name: disk
+            python_variable_name: disk
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiskPropertiesFragment
+            go_type_name: DiskPropertiesFragment
+          '/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_type
+          '/properties/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskType
+            go_enum_type_name: StorageType
+          '/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gi_b
+          '/properties/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGiB
+          '/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: leased_by_lab_vm_id
+          '/properties/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LeasedByLabVMID
+          '/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disk_blob_name
+          '/properties/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiskBlobName
+          '/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disk_uri
+          '/properties/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiskURI
+          '/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_caching
+          '/properties/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostCaching
+          '/managedDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: managed_disk_id
+          '/properties/managedDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagedDiskID
+          '/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LeasedByLabVMID
+            python_field_name: leased_by_lab_vm_id
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: user_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: disks
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: disk
+            go_type_name: DiskFragment
+            python_parameter_name: disk
+            python_variable_name: disk
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: DiskPropertiesFragment
+            go_type_name: DiskPropertiesFragment
+          '/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: disk_type
+          '/properties/diskType': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: DiskType
+            go_enum_type_name: StorageType
+          '/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: disk_size_gi_b
+          '/properties/diskSizeGiB': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: DiskSizeGiB
+          '/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: leased_by_lab_vm_id
+          '/properties/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: LeasedByLabVMID
+          '/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disk_blob_name
+          '/properties/diskBlobName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiskBlobName
+          '/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: disk_uri
+          '/properties/diskUri': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: DiskURI
+          '/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: host_caching
+          '/properties/hostCaching': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: HostCaching
+          '/managedDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: managed_disk_id
+          '/properties/managedDiskId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: ManagedDiskID
+          '/leasedByLabVmId': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: LeasedByLabVMID
+            python_field_name: leased_by_lab_vm_id
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: user_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: disks
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: user_name
+            python_variable_name: name
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: disks
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+        response:
+          'name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: disks
+            go_variable_name: name
+            python_parameter_name: name
+            python_variable_name: name
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'labName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: labs
+            go_variable_name: labName
+            python_parameter_name: lab_name
+            python_variable_name: lab_name
+          'userName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: users
+            go_variable_name: name
+            python_parameter_name: user_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Disk instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'labName'
+        description: 'The name of the lab.'
+        required: true
+        input: true
+        azure_sdk_references: ['labName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the user profile.'
+        required: true
+        input: true
+        azure_sdk_references: ['userName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the disk.'
+        required: true
+        input: true
+        azure_sdk_references: ['name']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'The location of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'The tags of the resource.'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::Enum
+        name: 'diskType'
+        description: 'The storage type for the disk (i.e. Standard, Premium).'
+        required: false
+        azure_sdk_references: ['/diskType', '/properties/diskType']
+        values:
+          - :Standard
+          - :Premium
+          - :StandardSSD
+        default_value: :Standard
+      - !ruby/object:Api::Type::Integer
+        name: 'diskSizeGiB'
+        description: 'The size of the disk in GibiBytes.'
+        required: false
+        azure_sdk_references: ['/diskSizeGiB', '/properties/diskSizeGiB']
+      - !ruby/object:Api::Type::String
+        name: 'leasedByLabVmId'
+        description: 'The resource ID of the VM to which this disk is leased.'
+        required: false
+        azure_sdk_references: ['/leasedByLabVmId', '/properties/leasedByLabVmId']
+      - !ruby/object:Api::Type::String
+        name: 'diskBlobName'
+        description: 'When backed by a blob, the name of the VHD blob without extension.'
+        required: false
+        azure_sdk_references: ['/diskBlobName', '/properties/diskBlobName']
+      - !ruby/object:Api::Type::String
+        name: 'diskUri'
+        description: 'When backed by a blob, the URI of underlying blob.'
+        required: false
+        azure_sdk_references: ['/diskUri', '/properties/diskUri']
+      - !ruby/object:Api::Type::String
+        name: 'hostCaching'
+        description: 'The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite).'
+        required: false
+        azure_sdk_references: ['/hostCaching', '/properties/hostCaching']
+      - !ruby/object:Api::Type::String
+        name: 'managedDiskId'
+        description: 'When backed by managed disk, this is the ID of the compute disk resource.'
+        required: false
+        azure_sdk_references: ['/managedDiskId', '/properties/managedDiskId']
+      - !ruby/object:Api::Type::String
+        name: 'leasedByLabVmId'
+        description: 'The resource ID of the Lab VM to which the disk is attached.'
+        required: false
+        input: true
+        azure_sdk_references: ['/leasedByLabVmId']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'The identifier of the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']

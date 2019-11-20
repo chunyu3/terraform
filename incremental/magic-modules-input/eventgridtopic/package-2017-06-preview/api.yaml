@@ -1,0 +1,211 @@
+--- !ruby/object:Api::Product
+name: Azure Topic Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: Topic
+    api_name: EventGrid
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.EventGrid
+      go_client_namespace: eventgrid
+      go_client: topicsClient
+      python_client_namespace: azure.mgmt.eventgrid
+      python_client: EventGridManagementClient.topics
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: topicInfo
+            go_type_name: Topic
+            python_parameter_name: topic_info
+            python_variable_name: topic_info
+          '/location': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Location
+            python_field_name: location
+          '/tags': !ruby/object:Api::Azure::SDKTypeDefinition::StringMapObject
+            go_field_name: Tags
+            python_field_name: tags
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: TopicProperties
+            go_type_name: TopicProperties
+          '/keyName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: KeyName
+            python_field_name: key_name
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        async: true
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_resource_group: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListByResourceGroup
+        python_func_name: list_by_resource_group
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+      list_by_subscription: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListBySubscription
+        python_func_name: list_by_subscription
+        request:
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListSharedAccessKeys
+        python_func_name: list_shared_access_keys
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'topicName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: topics
+            go_variable_name: topicName
+            python_parameter_name: topic_name
+            python_variable_name: topic_name
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: ListEventTypes
+        python_func_name: list_event_types
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'providerNamespace': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: providers
+            go_variable_name: providerNamespace
+            python_parameter_name: provider_namespace
+            python_variable_name: provider_namespace
+          'resourceTypeName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {providerNamespace}
+            go_variable_name: resourceTypeName
+            python_parameter_name: resource_type_name
+            python_variable_name: resource_type_name
+          'resourceName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: {resourceTypeName}
+            go_variable_name: name
+            python_parameter_name: resource_name
+            python_variable_name: name
+
+    description: |
+      Manage Azure Topic instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the user''s subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'topicName'
+        description: 'Name of the topic'
+        required: true
+        input: true
+        azure_sdk_references: ['topicName']
+      - !ruby/object:Api::Azure::Type::Location
+        name: 'location'
+        description: 'Location of the resource'
+        required: true
+        input: true
+        azure_sdk_references: ['/location']
+      - !ruby/object:Api::Azure::Type::Tags
+        name: 'tags'
+        description: 'Tags of the resource'
+        required: false
+        input: true
+        azure_sdk_references: ['tags', '/tags']
+      - !ruby/object:Api::Type::String
+        name: 'keyName'
+        description: 'Key name to regenerate key1 or key2'
+        required: true
+        input: true
+        azure_sdk_references: ['/keyName']
+      - !ruby/object:Api::Type::String
+        name: 'providerNamespace'
+        description: 'Namespace of the provider of the topic'
+        required: true
+        input: true
+        azure_sdk_references: ['providerNamespace']
+      - !ruby/object:Api::Type::String
+        name: 'resourceTypeName'
+        description: 'Name of the topic type'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceTypeName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the topic'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceName']
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified identifier of the resource'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'Name of the resource'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'Type of the resource'
+        output: true
+        azure_sdk_references: ['/type']

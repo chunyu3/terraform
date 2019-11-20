@@ -1,0 +1,17 @@
+--- !ruby/object:Provider::Ansible::Example
+task: !ruby/object:Provider::Ansible::Task
+  name: azure_rm_servicefabricapplication
+  description: Patch an application
+  code:
+    resource_group: myResourceGroup
+    cluster_name: myCluster
+    name: myApplication
+    location: eastus
+    type_version: '1.0'
+    remove_application_capacity: false
+    metrics:
+      - name: metric1
+        maximum_capacity: '3'
+        reservation_capacity: '1'
+        total_application_capacity: '5'
+  

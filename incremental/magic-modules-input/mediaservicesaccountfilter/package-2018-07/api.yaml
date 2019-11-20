@@ -1,0 +1,442 @@
+--- !ruby/object:Api::Product
+name: Azure AccountFilter Management
+versions:
+  - !ruby/object:Api::Product::Version
+    name: ga
+    base_url: NotUsedInAzure
+scopes:
+  - NotUsedInAzure
+objects:
+  - !ruby/object:Api::Resource
+    name: AccountFilter
+    api_name: Media
+    base_url: NotUsedInAzure
+
+    azure_sdk_definition: !ruby/object:Api::Azure::SDKDefinition
+      provider_name: Microsoft.Media
+      go_client_namespace: mediaservices
+      go_client: accountFiltersClient
+      python_client_namespace: azure.mgmt.mediaservices
+      python_client: AzureMediaServicesClient.account_filters
+      create: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: CreateOrUpdate
+        python_func_name: create_or_update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accountFilters
+            go_variable_name: name
+            python_parameter_name: filter_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: AccountFilter
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MediaFilterProperties
+            go_type_name: MediaFilterProperties
+          '/presentationTimeRange': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: presentation_time_range
+          '/presentationTimeRange/startTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: start_timestamp
+          '/presentationTimeRange/endTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: end_timestamp
+          '/presentationTimeRange/presentationWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: presentation_window_duration
+          '/presentationTimeRange/liveBackoffDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: live_backoff_duration
+          '/presentationTimeRange/timescale': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: timescale
+          '/presentationTimeRange/forceEndTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: force_end_timestamp
+          '/properties/presentationTimeRange': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PresentationTimeRange
+            go_type_name: PresentationTimeRange
+          '/properties/presentationTimeRange/startTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: StartTimestamp
+          '/properties/presentationTimeRange/endTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: EndTimestamp
+          '/properties/presentationTimeRange/presentationWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: PresentationWindowDuration
+          '/properties/presentationTimeRange/liveBackoffDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: LiveBackoffDuration
+          '/properties/presentationTimeRange/timescale': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: Timescale
+          '/properties/presentationTimeRange/forceEndTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ForceEndTimestamp
+          '/firstQuality': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: first_quality
+          '/firstQuality/bitrate': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: bitrate
+          '/properties/firstQuality': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FirstQuality
+            go_type_name: FirstQuality
+          '/properties/firstQuality/bitrate': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Bitrate
+          '/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tracks
+          '/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/properties/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tracks
+            go_type_name: FilterTrackSelection
+          '/properties/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: FilterTrackPropertyCondition
+          '/properties/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: FilterTrackPropertyType
+          '/properties/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: FilterTrackPropertyCompareOperation
+      update: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Update
+        python_func_name: update
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accountFilters
+            go_variable_name: name
+            python_parameter_name: filter_name
+            python_variable_name: name
+          '/': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            go_variable_name: parameters
+            go_type_name: AccountFilter
+            python_parameter_name: parameters
+            python_variable_name: parameters
+          '/properties': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: MediaFilterProperties
+            go_type_name: MediaFilterProperties
+          '/presentationTimeRange': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: presentation_time_range
+          '/presentationTimeRange/startTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: start_timestamp
+          '/presentationTimeRange/endTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: end_timestamp
+          '/presentationTimeRange/presentationWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: presentation_window_duration
+          '/presentationTimeRange/liveBackoffDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: live_backoff_duration
+          '/presentationTimeRange/timescale': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [python]
+            python_field_name: timescale
+          '/presentationTimeRange/forceEndTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [python]
+            python_field_name: force_end_timestamp
+          '/properties/presentationTimeRange': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: PresentationTimeRange
+            go_type_name: PresentationTimeRange
+          '/properties/presentationTimeRange/startTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: StartTimestamp
+          '/properties/presentationTimeRange/endTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: EndTimestamp
+          '/properties/presentationTimeRange/presentationWindowDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: PresentationWindowDuration
+          '/properties/presentationTimeRange/liveBackoffDuration': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: LiveBackoffDuration
+          '/properties/presentationTimeRange/timescale': !ruby/object:Api::Azure::SDKTypeDefinition::Integer64Object
+            applicable_to: [go]
+            go_field_name: Timescale
+          '/properties/presentationTimeRange/forceEndTimestamp': !ruby/object:Api::Azure::SDKTypeDefinition::BooleanObject
+            applicable_to: [go]
+            go_field_name: ForceEndTimestamp
+          '/firstQuality': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [python]
+            python_field_name: first_quality
+          '/firstQuality/bitrate': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [python]
+            python_field_name: bitrate
+          '/properties/firstQuality': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexObject
+            applicable_to: [go]
+            go_field_name: FirstQuality
+            go_type_name: FirstQuality
+          '/properties/firstQuality/bitrate': !ruby/object:Api::Azure::SDKTypeDefinition::Integer32Object
+            applicable_to: [go]
+            go_field_name: Bitrate
+          '/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: tracks
+          '/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [python]
+            python_field_name: track_selections
+          '/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: property
+          '/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [python]
+            python_field_name: value
+          '/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [python]
+            python_field_name: operation
+          '/properties/tracks': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: Tracks
+            go_type_name: FilterTrackSelection
+          '/properties/tracks/trackSelections': !ruby/object:Api::Azure::SDKTypeDefinition::ComplexArrayObject
+            applicable_to: [go]
+            go_field_name: TrackSelections
+            go_type_name: FilterTrackPropertyCondition
+          '/properties/tracks/trackSelections/property': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Property
+            go_enum_type_name: FilterTrackPropertyType
+          '/properties/tracks/trackSelections/value': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            applicable_to: [go]
+            go_field_name: Value
+          '/properties/tracks/trackSelections/operation': !ruby/object:Api::Azure::SDKTypeDefinition::EnumObject
+            applicable_to: [go]
+            go_field_name: Operation
+            go_enum_type_name: FilterTrackPropertyCompareOperation
+      delete: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Delete
+        python_func_name: delete
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accountFilters
+            go_variable_name: name
+            python_parameter_name: filter_name
+            python_variable_name: name
+      read: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: Get
+        python_func_name: get
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+          'filterName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: accountFilters
+            go_variable_name: name
+            python_parameter_name: filter_name
+            python_variable_name: name
+        response:
+          '/id': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: ID
+            python_field_name: id
+          '/name': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Name
+            python_field_name: name
+          '/type': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            go_field_name: Type
+            python_field_name: type
+      list_by_parent: !ruby/object:Api::Azure::SDKOperationDefinition
+        go_func_name: List
+        python_func_name: list
+        request:
+          'resourceGroupName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: resourceGroups
+            go_variable_name: resourceGroup
+            python_parameter_name: resource_group_name
+            python_variable_name: resource_group
+          'accountName': !ruby/object:Api::Azure::SDKTypeDefinition::StringObject
+            id_portion: mediaServices
+            go_variable_name: accountName
+            python_parameter_name: account_name
+            python_variable_name: account_name
+
+    description: |
+      Manage Azure AccountFilter instance.
+    properties:
+      - !ruby/object:Api::Azure::Type::ResourceGroupName
+        name: 'resourceGroup'
+        description: 'The name of the resource group within the Azure subscription.'
+        required: true
+        input: true
+        azure_sdk_references: ['resourceGroupName']
+      - !ruby/object:Api::Type::String
+        name: 'accountName'
+        description: 'The Media Services account name.'
+        required: true
+        input: true
+        azure_sdk_references: ['accountName']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The Account Filter name'
+        required: true
+        input: true
+        azure_sdk_references: ['filterName']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'presentationTimeRange'
+        description: 'The presentation time range.'
+        required: false
+        azure_sdk_references: ['/presentationTimeRange', '/properties/presentationTimeRange']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'startTimestamp'
+            description: 'The absolute start time boundary.'
+            required: false
+            azure_sdk_references: ['/presentationTimeRange/startTimestamp', '/properties/presentationTimeRange/startTimestamp']
+          - !ruby/object:Api::Type::Integer
+            name: 'endTimestamp'
+            description: 'The absolute end time boundary.'
+            required: false
+            azure_sdk_references: ['/presentationTimeRange/endTimestamp', '/properties/presentationTimeRange/endTimestamp']
+          - !ruby/object:Api::Type::Integer
+            name: 'presentationWindowDuration'
+            description: 'The relative to end sliding window.'
+            required: false
+            azure_sdk_references: ['/presentationTimeRange/presentationWindowDuration', '/properties/presentationTimeRange/presentationWindowDuration']
+          - !ruby/object:Api::Type::Integer
+            name: 'liveBackoffDuration'
+            description: 'The relative to end right edge.'
+            required: false
+            azure_sdk_references: ['/presentationTimeRange/liveBackoffDuration', '/properties/presentationTimeRange/liveBackoffDuration']
+          - !ruby/object:Api::Type::Integer
+            name: 'timescale'
+            description: 'The time scale of time stamps.'
+            required: false
+            azure_sdk_references: ['/presentationTimeRange/timescale', '/properties/presentationTimeRange/timescale']
+          - !ruby/object:Api::Type::Boolean
+            name: 'forceEndTimestamp'
+            description: 'The indicator of forcing existing of end time stamp.'
+            required: false
+            azure_sdk_references: ['/presentationTimeRange/forceEndTimestamp', '/properties/presentationTimeRange/forceEndTimestamp']
+      - !ruby/object:Api::Type::NestedObject
+        name: 'firstQuality'
+        description: 'The first quality.'
+        required: false
+        azure_sdk_references: ['/firstQuality', '/properties/firstQuality']
+        properties:
+          - !ruby/object:Api::Type::Integer
+            name: 'bitrate'
+            description: 'The first quality bitrate.'
+            required: true
+            azure_sdk_references: ['/firstQuality/bitrate', '/properties/firstQuality/bitrate']
+      - !ruby/object:Api::Type::Array
+        name: 'tracks'
+        description: 'The tracks selection conditions.'
+        required: false
+        azure_sdk_references: ['/tracks', '/properties/tracks']
+        item_type: !ruby/object:Api::Type::NestedObject
+          properties:
+            - !ruby/object:Api::Type::Array
+              name: 'trackSelections'
+              description: 'The track selections.'
+              required: true
+              azure_sdk_references: ['/tracks/trackSelections', '/properties/tracks/trackSelections']
+              item_type: !ruby/object:Api::Type::NestedObject
+                properties:
+                  - !ruby/object:Api::Type::Enum
+                    name: 'property'
+                    description: 'The track property type.'
+                    required: true
+                    azure_sdk_references: ['/tracks/trackSelections/property', '/properties/tracks/trackSelections/property']
+                    values:
+                      - :Unknown
+                      - :Type
+                      - :Name
+                      - :Language
+                      - :FourCC
+                      - :Bitrate
+                  - !ruby/object:Api::Type::String
+                    name: 'value'
+                    description: 'The track property value.'
+                    required: true
+                    azure_sdk_references: ['/tracks/trackSelections/value', '/properties/tracks/trackSelections/value']
+                  - !ruby/object:Api::Type::Enum
+                    name: 'operation'
+                    description: 'The track property condition operation.'
+                    required: true
+                    azure_sdk_references: ['/tracks/trackSelections/operation', '/properties/tracks/trackSelections/operation']
+                    values:
+                      - :Equal
+                      - :NotEqual
+      # read only values included only in response
+      - !ruby/object:Api::Type::String
+        name: 'id'
+        description: 'Fully qualified resource ID for the resource.'
+        output: true
+        azure_sdk_references: ['/id']
+      - !ruby/object:Api::Type::String
+        name: 'name'
+        description: 'The name of the resource.'
+        output: true
+        azure_sdk_references: ['/name']
+      - !ruby/object:Api::Type::String
+        name: 'type'
+        description: 'The type of the resource.'
+        output: true
+        azure_sdk_references: ['/type']
